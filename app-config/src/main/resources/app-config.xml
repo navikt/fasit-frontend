@@ -2,18 +2,21 @@
 <application xmlns="http://appconfig.aura.nav.no"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://appconfig.aura.nav.no http://maven.adeo.no/xsd/appconfig.xsd ">
-    <name>sera</name>
+    <name>fasit-frontend</name>
 
     <artifacts/>
 
-    <!--<loadBalancer isAlive="/isalive" />-->
-
-    <exposed-services>
-        <exposedRest name="servers_v1" description="Tjeneste for å registrere og hente servere" path="/api/v1/servers"/>
-    </exposed-services>
-
     <resources>
-        <unmanagedDatasource alias="seraDb" mapToProperty="seraDb"/>
+        <rest alias="fasit:resources_v2" mapToProperty="fasit_resources"/>
+        <rest alias="fasit:environments_v2" mapToProperty="fasit_environments"/>
+        <rest alias="fasit:applications_v2" mapToProperty="fasit_applications"/>
+        <rest alias="fasit:applicationinstances_v2" mapToProperty="fasit_applicationinstances"/>
+        <rest alias="fasit:secrets_v2" mapToProperty="fasit_secrets"/>
+        <rest alias="fasit:nodes_v2" mapToProperty="fasit_nodes"/>
+        <baseUrl alias="fasit"/>
+        <baseUrl alias="grafana"/>
+        <rest alias="sera:servers_v1" mapToProperty="sera_servers"/>
+        <rest alias="sensu-api" mapToProperty="sensu_api"/>
     </resources>
 
     <monitoring>

@@ -1,4 +1,11 @@
-node_modules
+node_modules/
 .iml
 .idea/
 npm-debug*
+
+app-config/target/
+dist/
+
+*.crt
+*.pem
+*.key

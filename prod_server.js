@@ -22,6 +22,7 @@ app.use(express.static(__dirname + "/src/main/webapp"))
 // Alle rest-endepunkter vi kommuniserer med
 app.get('/config', (req, res) => {
     //res.status(500).send('internal error')
+    console.log("exxt", externalResources)
     res.json(externalResources)
 })
 app.get('/*', (req, res) => {

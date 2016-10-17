@@ -6,8 +6,8 @@ module.exports = {
     entry: [
         'babel-polyfill',
         'webpack-hot-middleware/client',
-        './src/main/frontend/stylesheets/index.less',
-        './src/main/frontend/index'
+        './src/stylesheets/index.less',
+        './src/index'
     ],
     output: {
         path: path.join(__dirname, 'dist'),
@@ -30,7 +30,7 @@ module.exports = {
             },
             {
                 test: /\.less$/,
-                include: [__dirname, "src/main/frontend/stylesheets"],
+                include: [__dirname, "src/stylesheets"],
                 loader: "style!css!less"
             },
             {
