@@ -1,0 +1,42 @@
+.node-type-image {
+  width: 60px;
+  display: inline-block;
+}
+.sera-data-tile {
+  height: 100px;
+}
+
+.sera-data-tile:not(:first-child)::before{
+  content:"";
+  position: absolute;
+  left:0;
+  height: 50px;
+  border-left: 2px solid @brand-primary;
+  margin-top: 5px;
+}
+.sera-data-tile-top {
+  padding-top: 5px;
+  float: inherit;
+  width: 100%;
+  text-align: center;
+}
+.sera-data-tile-middle {
+  font-size: 20px;
+  font-weight: 600;
+  width: 100%;
+  float: inherit;
+  padding-top: 5px;
+  text-align: center;
+}
+.powered-off{
+  color: @brand-danger
+}
+.powered-on{
+  color: @brand-success
+}
+.popover-size {
+  max-heigth: 400px !important;
+  max-width: 400px !important;
+  width:300px;
+  height: 200px;
+}

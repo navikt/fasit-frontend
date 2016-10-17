@@ -1,0 +1,149 @@
+.loading-spinner {
+  height: 100px;
+}
+
+.navbar-top-links {
+  display: inline-block !important;
+  margin-top: 5px;
+  margin-right: 20px;
+  background: none !important;
+}
+
+.navbar-top-links > li > a {
+  color: #fff;
+}
+.navbar-inverse {
+  border-bottom: 0px;
+}
+.navbar-top-links > li > a:hover {
+  color: @fasit-secondary;
+  background-color: transparent;
+}
+.navbar-breadcrumbs {
+  float: left;
+  background: transparent !important;
+
+}
+
+.sidebar-header {
+  color: #FFF;
+  height: 48px;
+  padding-top: 11px;
+  padding-left: 11px;
+}
+
+.sidebar-brand {
+  height: 25px;
+}
+
+
+
+.breadcrumb {
+  padding: 5px 25px 0px 15px;
+  margin-top: 6px;
+  background: none;
+  margin-bottom: 0px;
+
+}
+.breadcrumb > li {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width:150px;
+}
+
+.search-field {
+  border: 1px solid @nav-tabs-border-color;
+  border-radius: 4px;
+  margin-top: 3px;
+}
+
+.search-text {
+  border-radius: 4px !important;
+
+  padding: 0;
+  background-color: @body-bg;
+  border: none;
+  height: 30px;
+
+}
+
+.link {
+  border-radius: 4px 0px 0px 4px !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  background-color: rgba(196, 227, 243, 0.13);
+  height: 30px;
+  margin-top: -1px;
+}
+
+.search-result > div{
+  border-right: 1px solid @fasit-primary;
+  padding: 6px;
+  margin-left: -15px;
+  margin-top: -1px;
+  background: @fasit-secondary;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-result-active > div {
+  background: #fff;
+  border: 1px solid #0365b3;
+  margin-left: -16px;
+  margin-bottom: 1px;
+  border-right: 0;
+}
+
+.dropdown-menu {
+  z-index: 1;
+}
+
+.sidebar-menu-active > a {
+  background-color: #FFF;
+  color: @fasit-primary !important;
+}
+
+.navbar-static-top {
+  z-index: auto;
+}
+.sidebar-menu-letter > a{
+  color: #FFF;
+}
+.sidebar-menu-letter > a:hover .sidebar-menu-letter>a:active{
+  color: @fasit-primary !important;
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+.singInButton{
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+.password-message{
+  margin-top: 30px;
+  margin-bottom: 0px;
+  color: @brand-danger;
+  font-weight: 800;
+}
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}

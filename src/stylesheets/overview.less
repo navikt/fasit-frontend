@@ -1,0 +1,31 @@
+@keyframes example {
+  from {height: 0%;}
+  to {height: 100%;}
+}
+.overview-list{
+  font-size: smaller;
+  text-decoration: underline;
+  margin-bottom: 0px;
+  padding-bottom: 10px;
+  border-right: 1px solid @pagination-border;
+  border-bottom: 1px solid @pagination-border;
+  animation-name: example;
+  animation-duration: 4s;
+}
+
+.resource-list-header{
+  cursor: pointer;
+}
+
+.badge-primary{
+  background: @brand-primary;
+  font-weight: 200;
+}
+.event-separator{
+  margin: 10px;
+  border-color: @pagination-border;
+}
+.status-icon{
+  padding-right: 10px;
+  width: 25px;
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://appconfig.aura.nav.no"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://appconfig.aura.nav.no http://maven.adeo.no/xsd/appconfig.xsd ">
+    <name>sera</name>
+
+    <artifacts/>
+
+    <!--<loadBalancer isAlive="/isalive" />-->
+
+    <exposed-services>
+        <exposedRest name="servers_v1" description="Tjeneste for å registrere og hente servere" path="/api/v1/servers"/>
+    </exposed-services>
+
+    <resources>
+        <unmanagedDatasource alias="seraDb" mapToProperty="seraDb"/>
+    </resources>
+
+    <monitoring>
+        <metric path="/metrics"/>
+    </monitoring>
+
+</application>

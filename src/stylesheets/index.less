@@ -1,0 +1,28 @@
+@import "../../../../node_modules/font-awesome/less/font-awesome";
+@import "../../../../node_modules/bootstrap/less/bootstrap";
+@import "../../../../node_modules/bootswatch/cerulean/bootswatch";
+@import "../../../../node_modules/bootswatch/cerulean/variables";
+@import "../../../../node_modules/react-select/less/select";
+@import "wrapper";
+@import "navigation";
+@import "login";
+@import "overview";
+@import "contextmenu";
+@import "filters";
+@import "nodes";
+@import "home";
+@import "content-pages";
+
+// Må peke denne variablelen på en tom css for å overstyre bootswatch sin eksterne font-import
+@web-font-path: "/empty.css";
+
+@body-bg:               #fff;
+
+//
+//@fasit-primary: #0365b3;
+@fasit-primary: #033C73;
+@fasit-secondary: #f5f5f5;
+
+@wrapper-bg: @fasit-primary;
+@brand-info: @fasit-primary;
+

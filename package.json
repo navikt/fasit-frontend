@@ -1,0 +1,127 @@
+{
+  "name": "fasit-frontend",
+  "version": "0.0.1",
+  "description": "Fasit frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "clean": "better-npm-run clean",
+    "prebuild": "better-npm-run prebuild",
+    "dev": "better-npm-run dev",
+    "build-css": "node ./node_modules/less/bin/lessc ./src/stylesheets/index.less --clean-css=\"--s1 --advanced\" > ./dist/fasit.css && echo \"CSS bundle complete\"",
+    "build": "npm run build-css && better-npm-run build-js",
+    "test": "better-npm-run test",
+    "test:watch": "npm test -- --watch"
+  },
+  "betterScripts": {
+    "build-js": {
+      "command": "node ./node_modules/browserify/bin/cmd.js -d -t [ babelify --presets [es2015 react] ] -p [minifyify --compressPath . --map fasit.js.map --output ./dist/fasit.js.map] ./src/index.js > ./dist/fasit.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "dev": {
+      "command": "node ./server.js",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "development",
+        "PORT": 4242
+      }
+    },
+    "test": {
+      "command": "mocha --compilers js:babel-register --recursive ./src/test/**/*.js",
+      "env": {
+        "NODE_ENV": "production",
+        "NODE_PATH": "./src"
+      }
+    },
+    "clean": {
+      "command": "rimraf dist/*"
+    },
+    "mkdir": {
+      "command": "mkdirp dist"
+    },
+    "copy-html": {
+      "command": "ncp src/index.html dist/index.html"
+    },
+    "copy-images": {
+      "command": "ncp src/images dist/images/"
+    },
+    "copy-fonts": {
+      "command": "ncp node_modules/font-awesome/fonts/ dist/fonts/"
+    },
+    "prebuild": {
+      "command": "better-npm-run clean && better-npm-run mkdir && better-npm-run copy-html && better-npm-run copy-images && better-npm-run copy-fonts"
+    }
+  },
+  "keywords": [
+    "node",
+    "express",
+    "react",
+    "redux",
+    "fasit"
+  ],
+  "author": "Frode Sundby",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-register": "^6.14.0",
+    "better-npm-run": "0.0.11",
+    "bootstrap": "^3.3.6",
+    "bootswatch": "^3.3.6",
+    "browserify": "^13.1.0",
+    "chai": "^3.5.0",
+    "css-loader": "^0.25.0",
+    "eventsource-polyfill": "^0.9.6",
+    "express": "^4.14.0",
+    "fetch": "^1.1.0",
+    "file-loader": "^0.9.0",
+    "font-awesome": "^4.6.1",
+    "http-proxy-middleware": "^0.17.2",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "less-plugin-clean-css": "^1.5.1",
+    "minifyify": "^7.3.3",
+    "mkdirp": "^0.5.1",
+    "mocha": "^3.0.2",
+    "ncp": "^2.0.0",
+    "postcss-loader": "^0.13.0",
+    "proxy-middleware": "^0.15.0",
+    "redux-devtools": "^3.3.1",
+    "redux-devtools-chart-monitor": "^1.4.2",
+    "redux-devtools-diff-monitor": "^5.0.5",
+    "redux-devtools-dock-monitor": "^1.1.1",
+    "redux-devtools-inspector": "^0.8.0",
+    "redux-devtools-log-monitor": "^1.0.11",
+    "redux-logger": "^2.6.1",
+    "rimraf": "^2.5.4",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.2",
+    "webpack-dev-middleware": "^1.8.1",
+    "webpack-hot-middleware": "^2.12.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "es6-promise": "^3.2.1",
+    "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.14.1",
+    "react": "^15.3.2",
+    "react-bootstrap": "^0.30.3",
+    "react-classset": "0.0.2",
+    "react-dom": "^15.3.2",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.8.1",
+    "react-router-redux": "^4.0.5",
+    "react-select": "^1.0.0-rc.2",
+    "redux": "^3.6.0",
+    "redux-saga": "^0.11.1",
+    "redux-thunk": "^2.1.0",
+    "request": "^2.72.0"
+  }
+}
