@@ -13,14 +13,13 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 history.listen(location => store.dispatch({type: SET_SEARCH_CONTEXT, value: location.pathname.split("/")[1]}))
 
-
+// /config inneholder alle eksterne APIer, slik at vi slipper å bruke proxy.
 fetch('/config')
     .then(res => {
         if (res.status >= 400) {
             const errorMessage = `${res.status}:${res.statusText}`
             throw new Error(errorMessage)
         }
-        console.log("great success!")
         res.json()
             .then(value => {
                 store.dispatch({type: RECEIVE_CONFIGURATION, value})

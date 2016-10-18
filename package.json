@@ -15,11 +15,10 @@
     "test:watch": "npm test -- --watch"
   },
   "betterScripts": {
-    "build-js": {
-      "command": "node ./node_modules/browserify/bin/cmd.js -d -t [ babelify --presets [es2015 react] ] -p [minifyify --compressPath . --map fasit.js.map --output ./dist/fasit.js.map] ./src/index.js > ./dist/fasit.js",
-      "env": {
-        "NODE_ENV": "production"
-      }
+    "command": "node ./node_modules/browserify/bin/cmd.js -d -t [ babelify --presets [es2015 react] ] -p [minifyify --compressPath . --map fasit.js.map --output ./dist/fasit.js.map] ./src/index.js > ./dist/fasit.js",
+    "env": {
+      "NODE_ENV": "production",
+      "build-js": {}
     },
     "dev": {
       "command": "node ./server.js",
@@ -72,6 +71,7 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-register": "^6.14.0",
+    "babelify": "^7.3.0",
     "better-npm-run": "0.0.11",
     "bootstrap": "^3.3.6",
     "bootswatch": "^3.3.6",

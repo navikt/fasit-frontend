@@ -11,7 +11,7 @@ const serverHost = "http://e34jbsl01655.devillo.no:8080"
 
 
 const cors = function (req, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "devillo.no");
     return next();
 }
 
