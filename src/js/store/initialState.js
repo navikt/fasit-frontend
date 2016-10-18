@@ -2,10 +2,6 @@ export default {
     viewModes: {
         sidebarMinimized: false
     },
-    user: {
-        authenticated: false,
-        failedLogin: false
-    },
     applications: {
         isFetching: false,
         data: [],

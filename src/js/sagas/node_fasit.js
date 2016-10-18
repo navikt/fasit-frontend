@@ -1,6 +1,6 @@
-import { takeEvery } from 'redux-saga'
-import { select, put, fork, call } from 'redux-saga/effects'
-import { fetchUrl } from '../utils'
+import {takeEvery} from 'redux-saga'
+import {select, put, fork, call} from 'redux-saga/effects'
+import {fetchUrl} from '../utils'
 import {
     NODE_FASIT_REQUEST,
     NODE_FASIT_FETCHING,
@@ -12,15 +12,13 @@ import {
 } from '../actionTypes'
 
 // Selector som henter data fra store
-export const getFasitDataFromStore = state => state.node_fasit.data
 
 export function* fetchFasitPassword() {
-    const fasitData = yield select(getFasitDataFromStore)
-    const passwordUri = fasitData.password.ref.split('/api/v2/')[1]
+    const secret = yield select((state) => state.node_fasit.data.password.ref)
     try {
-        const value = yield fetchUrl(`/api/v2/${passwordUri}`)
+        const value = yield fetchUrl(secret)
         yield put({type: NODE_FASIT_PASSWORD_RECEIVED, value})
-    } catch( err ) {
+    } catch (err) {
         const value = err.message
         yield put({type: NODE_FASIT_PASSWORD_REQUEST_FAILED, value})
     }
@@ -31,7 +29,7 @@ export function* fetchFasit(action) {
     try {
         const value = yield call(fetchUrl, action.url)
         yield put({type: NODE_FASIT_RECEIVED, value})
-    } catch(error) {
+    } catch (error) {
         yield put({type: NODE_FASIT_REQUEST_FAILED, error})
 
     }

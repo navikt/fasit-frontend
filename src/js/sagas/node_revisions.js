@@ -12,16 +12,13 @@ import {
     NODE_REVISION_REQUEST_FAILED
 } from '../actionTypes'
 
-export const configurationSelector = state => state.configuration
 
 // Fetching all revisions for the node
 export function* fetchRevisions(action) {
     yield put({type: NODE_REVISIONS_FETCHING})
-
     try {
         const configuration = yield select((state) => state.configuration)
         const url = `${configuration.fasit_nodes}/${action.hostname}/revisions`
-
         const response = yield call(fetchUrl, url)
         const value = yield response.reverse()
         yield put({type: NODE_REVISIONS_RECEIVED, value})
@@ -35,7 +32,7 @@ export function* fetchRevisions(action) {
 export function* fetchRevision(action) {
     yield put({type: NODE_REVISION_FETCHING})
     try {
-        const configuration = yield select(configurationSelector)
+        const configuration = yield select((state) => state.configuration)
         const url = `${configuration.fasit_nodes}/${action.revision}`
         const value = yield call(fetchUrl, url)
         yield put({type: NODE_REVISION_RECEIVED, value})

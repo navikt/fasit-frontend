@@ -1,13 +1,22 @@
-export default (state = {}, action) => {
+import {
+    LOGIN_FAILED,
+    LOGIN_SUCCESS,
+    LOGOUT
+} from '../actionTypes'
+
+export default (state = {
+    authenticated: false,
+    failedLogin: false
+}, action) => {
     switch (action.type) {
-        case 'SET_USER':
-            return Object.assign({}, state, action.value, {
+        case 'LOGIN_SUCCESS':
+            return Object.assign({}, state, action.currentuser, {
                 failedLogin: false
             })
-        case 'FAILED_LOGIN':
+        case 'LOGIN_FAILED':
             return Object.assign({}, state, {
                 authenticated: false,
-                failedLogin: true
+                failedLogin: action.error
             })
         default:
             return state

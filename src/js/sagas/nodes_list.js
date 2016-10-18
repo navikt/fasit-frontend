@@ -8,9 +8,9 @@ import {
     NODES_LIST_FAILED,
 } from '../actionTypes'
 
+
 export function* fetchNodesList(action) {
     yield put({type: NODES_LIST_FETCHING})
-
 
     const configuration = yield select((state) => state.configuration)
     const url = `${configuration.fasit_nodes}${action.filterString}`

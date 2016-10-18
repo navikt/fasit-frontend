@@ -24,6 +24,12 @@ export const SET_SEARCH_STRING = 'SET_SEARCH_STRING'
 
 // Oppdaterte og fine actions
 
+// Authentication
+export const LOGIN = 'LOGIN'
+export const LOGIN_FAILED = 'LOGIN_FAILED'
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const LOGOUT = 'LOGOUT'
+
 // Configuration - Henter inn alle web-endepunkter som benyttes fra /config
 export const CONFIGURATION_REQUEST = 'CONFIGURATION_REQUEST'
 export const RECEIVE_CONFIGURATION = 'RECEIVE_CONFIGURATION'

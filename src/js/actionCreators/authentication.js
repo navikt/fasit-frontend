@@ -2,28 +2,30 @@ import fetch from 'isomorphic-fetch'
 import {browserHistory} from 'react-router'
 
 import {
+    LOGIN,
     FAILED_LOGIN,
     SET_USER
 } from '../actionTypes/'
 
-export const login = (auth) => {
-    let authstring = ""
+export const login = (auth) => (dispatch) => {
+    let form = ""
     for (let key in auth) {
-        authstring += key + "=" + auth[key] + "&"
+        form += key + "=" + auth[key] + "&"
     }
-    return (dispatch) => {
-        return fetch('/api/login', {
-            headers: {"Content-Type": "application/x-www-form-urlencoded"},
-            credentials: 'same-origin',
-            method: 'POST',
-            body: authstring
-        })
-            .then(response => handleLoginErrors(response, dispatch))
-            .then(response => browserHistory.goBack())
-            .then(() => dispatch(fetchUserData()))
-            .catch(error => console.log(error))
+    dispatch({type: LOGIN, form})
+    /*    return (dispatch) => {
+     return fetch('/api/login', {
+     headers: {"Content-Type": "application/x-www-form-urlencoded"},
+     credentials: 'same-origin',
+     method: 'POST',
+     body: authstring
+     })
+     .then(response => handleLoginErrors(response, dispatch))
+     .then(response => browserHistory.goBack())
+     .then(() => dispatch(fetchUserData()))
+     .catch(error => console.log(error))
 
-    }
+     }*/
 }
 
 export const logOut = () => {
@@ -45,8 +47,8 @@ export const logOut = () => {
 
 export const fetchUserData = () => {
     return (dispatch) => {
-        return fetch('/api/v2/currentuser', {
-            credentials: 'same-origin'
+        return fetch('http://e34jbsl01655.devillo.no:8080/api/v2/currentuser', {
+            credentials: 'include'
         })
             .then(response => handleErrors(response))
             .then(response => dispatch(setUser(JSON.parse(response))))

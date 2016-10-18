@@ -13,13 +13,13 @@ if (process.env['NODE_ENV'] === 'production') {
     }
 } else {
     module.exports = {
-        fasit_resources: "http://e34jbsl01617.devillo.no:8080/api/v2/resources",
-        fasit_environments: "http://e34jbsl01617.devillo.no:8080/api/v2/environments",
-        fasit_applications: "http://e34jbsl01617.devillo.no:8080/api/v2/applications",
-        fasit_applicationinstances: "http://e34jbsl01617.devillo.no:8080/api/v2/applicationinstances",
-        fasit_secrets: "http://e34jbsl01617.devillo.no:8080/api/v2/secrets",
-        fasit_nodes: "http://e34jbsl01617.devillo.no:8080/api/v2/nodes",
-        fasit_baseurl: "http://e34jbsl01617.devillo.no:8080",
+        fasit_resources: "http://e34jbsl01655.devillo.no:8080/api/v2/resources",
+        fasit_environments: "http://e34jbsl01655.devillo.no:8080/api/v2/environments",
+        fasit_applications: "http://e34jbsl01655.devillo.no:8080/api/v2/applications",
+        fasit_applicationinstances: "http://e34jbsl01655.devillo.no:8080/api/v2/applicationinstances",
+        fasit_secrets: "http://e34jbsl01655.devillo.no:8080/api/v2/secrets",
+        fasit_nodes: "http://e34jbsl01655.devillo.no:8080/api/v2/nodes",
+        fasit_baseurl: "http://e34jbsl01655.devillo.no:8080",
         grafana: "http://grafana.adeo.no",
         sera_servers: "https://sera.adeo.no/api/v1/servers",
         sensu_api: "https://sensu-api.adeo.no"

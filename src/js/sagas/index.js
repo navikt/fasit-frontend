@@ -1,4 +1,5 @@
 import {call} from 'redux-saga/effects'
+import {watchAuthentication} from './authentication'
 import {watchNodeEvents} from './node_events'
 import {watchNodeEdit} from './node_edit'
 import {watchNodeFasit} from './node_fasit'
@@ -10,7 +11,8 @@ import {watchNodesList} from './nodes_list'
 
 
 export default function*() {
-        yield [
+    yield [
+        call(watchAuthentication),
         call(watchNodeEvents),
         call(watchNodeEdit),
         call(watchNodeFasit),
