@@ -1,5 +1,5 @@
 import { takeEvery } from 'redux-saga'
-import { call, put, fork } from 'redux-saga/effects'
+import { call, put, fork, select } from 'redux-saga/effects'
 import { fetchUrl } from '../utils'
 import {
     NODE_EVENTS_REQUEST,
@@ -12,8 +12,13 @@ import {
 
 export function* fetchEvents(action) {
     yield put({type: NODE_EVENTS_FETCHING})
+
+    const configuration = yield select((state) => state.configuration)
+
+    const url = `${configuration.sensu_api}/results/${action.client}`
+
     try {
-        const value = yield call(fetchUrl, action.url)
+        const value = yield call(fetchUrl, url)
         yield put({type: NODE_EVENTS_RECEIVED, value})
     } catch(error) {
         yield put({type: NODE_EVENTS_REQUEST_FAILED, error})

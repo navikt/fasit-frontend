@@ -1,5 +1,5 @@
 import {takeEvery} from 'redux-saga'
-import {put, fork} from 'redux-saga/effects'
+import {put, fork, select} from 'redux-saga/effects'
 import {fetchUrl} from '../utils'
 import {
     NODES_LIST_REQUEST,
@@ -10,8 +10,13 @@ import {
 
 export function* fetchNodesList(action) {
     yield put({type: NODES_LIST_FETCHING})
+
+
+    const configuration = yield select((state) => state.configuration)
+    const url = `${configuration.fasit_nodes}${action.filterString}`
+
     try {
-        const value = yield fetchUrl(action.url)
+        const value = yield fetchUrl(url)
         yield put({type: NODES_LIST_RECEIVED, value})
     } catch (err) {
         const value = err.message

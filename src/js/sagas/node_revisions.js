@@ -19,8 +19,9 @@ export function* fetchRevisions(action) {
     yield put({type: NODE_REVISIONS_FETCHING})
 
     try {
-        const configuration = yield select(configurationSelector)
+        const configuration = yield select((state) => state.configuration)
         const url = `${configuration.fasit_nodes}/${action.hostname}/revisions`
+
         const response = yield call(fetchUrl, url)
         const value = yield response.reverse()
         yield put({type: NODE_REVISIONS_RECEIVED, value})
