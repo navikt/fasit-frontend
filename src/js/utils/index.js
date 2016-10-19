@@ -41,13 +41,13 @@ export const putUrl = (url, content) => {
         })
 }
 
-export const postUrl = (url, body) => {
+export const postUrl = (url, form) => {
     return fetch(url, {
         headers: {"Content-Type": "application/json"},
         credentials: 'include',
         method: 'POST',
-        body
-        //body: JSON.stringify(form)
+        mode: 'cors',
+        body: JSON.stringify(form)
     })
         .then(res => {
             if (res.status >= 400) {

@@ -1,5 +1,5 @@
 import { takeEvery, delay} from 'redux-saga'
-import { call, put, fork } from 'redux-saga/effects'
+import { call, put, fork, select } from 'redux-saga/effects'
 import { postUrl } from '../utils'
 import {
     CLOSE_SUBMIT_NEW_NODE_FORM_STATUS,
@@ -12,10 +12,14 @@ import {
 } from '../actionTypes'
 
 export function* submitNewNodeForm(action) {
+    const configuration = yield select((state) => state.configuration)
+    const url = `${configuration.fasit_nodes}`
+
     yield put({type: SUBMITTING_NEW_NODE_FORM})
     yield put({type: SHOW_NEW_NODE_FORM, value: false})
+
     try {
-        yield postUrl(action.url, action.value)
+        yield postUrl(url, action.value)
         yield put({type: SUBMIT_NEW_NODE_FORM_SUCCESS })
         yield call(delay, 1000)
         yield put({type: CLOSE_SUBMIT_NEW_NODE_FORM_STATUS})

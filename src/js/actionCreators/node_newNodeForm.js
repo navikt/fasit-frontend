@@ -13,7 +13,7 @@ import {
 
 export const clearNewNodeForm = () => (dispatch) => dispatch({type: CLEAR_NEW_NODE_FORM})
 export const closeSubmitNewNodeFormStatus = () => (dispatch) => dispatch({type: CLOSE_SUBMIT_NEW_NODE_FORM_STATUS})
-export const submitNewNodeForm = (value) => (dispatch) => dispatch({type: SUBMIT_NEW_NODE_FORM, url:'/api/v2/nodes/', value})
+export const submitNewNodeForm = (value) => (dispatch) => dispatch({type: SUBMIT_NEW_NODE_FORM, value})
 
 // export const submitNewNodeForm = (form) => {
 //     return (dispatch) => {

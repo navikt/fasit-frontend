@@ -16,16 +16,14 @@ import {
 } from '../actionTypes'
 
 // Selectore som henter data fra store
-export const getFasitDataFromStore = state => state.node_fasit.data
 
 export function* fetchFasit() {
     yield put({type: REQUEST_EDIT_NODE_FORM_DATA})
-    const fasitData = yield select(getFasitDataFromStore)
-    const passwordUri = fasitData.password.ref.split('/api/v2/')[1]
+    const fasitData = yield select((state) => state.node_fasit.data)
 
     let password = ""
     try {
-        password = yield fetchUrl(`/api/v2/${passwordUri}`)
+        password = yield fetchUrl(`${fasitData.password.ref}`)
     } catch( err ) {
         const value = err.message
         yield put({type: REQUEST_EDIT_NODE_FORM_DATA_FAILED, value})

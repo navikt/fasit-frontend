@@ -12,8 +12,8 @@ import {
 export function* fetchNodesList(action) {
     yield put({type: NODES_LIST_FETCHING})
 
-    const configuration = yield select((state) => state.configuration)
-    const url = `${configuration.fasit_nodes}${action.filterString}`
+    const nodes = yield select((state) => state.configuration.fasit_nodes)
+    const url = `${nodes}${action.filterString}`
 
     try {
         const value = yield fetchUrl(url)

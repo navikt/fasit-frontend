@@ -25,9 +25,10 @@ export function* fetchFasitPassword() {
 }
 
 export function* fetchFasit(action) {
+    const nodes = yield select((state) => state.configuration.fasit_nodes)
     yield put({type: NODE_FASIT_FETCHING})
     try {
-        const value = yield call(fetchUrl, action.url)
+        const value = yield call(fetchUrl, `${nodes}/${action.hostname}`)
         yield put({type: NODE_FASIT_RECEIVED, value})
     } catch (error) {
         yield put({type: NODE_FASIT_REQUEST_FAILED, error})
