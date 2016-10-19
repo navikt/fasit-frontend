@@ -4,11 +4,13 @@ export const checkAuthentication = (user, accesscontrol) => {
     if (user.authenticated)
         return true
 }
-export const fetchUrl = (url) => {
-    return fetch(url, {
+export const fetchUrl = (url, noCredentials) => {
+    let headers = {}
+    if (!noCredentials) headers = {
         credentials: 'include',
         mode: 'cors'
-    })
+    }
+    return fetch(url, headers)
         .then(res => {
             const contentType = res.headers.get("content-type")
             if (res.status >= 400) {
@@ -26,7 +28,7 @@ export const fetchUrl = (url) => {
 export const putUrl = (url, content) => {
     return fetch(url, {
         headers: {"Content-Type": "application/json"},
-        credentials: 'same-origin',
+        credentials: 'include',
         method: 'PUT',
         body: JSON.stringify(content)
     })
@@ -42,7 +44,7 @@ export const putUrl = (url, content) => {
 export const postUrl = (url, body) => {
     return fetch(url, {
         headers: {"Content-Type": "application/json"},
-        credentials: 'same-origin',
+        credentials: 'include',
         method: 'POST',
         body
         //body: JSON.stringify(form)
@@ -59,8 +61,7 @@ export const postUrl = (url, body) => {
 export const postForm = (url, body) => {
     return fetch(url, {
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        //credentials: 'include',
-        //mode: 'cors',
+        credentials: 'include',
         method: 'POST',
         body
     })
@@ -75,7 +76,7 @@ export const postForm = (url, body) => {
 export const deleteUrl = (url) => {
     return fetch(url, {
         headers: {"Content-Type": "application/json"},
-        credentials: 'same-origin',
+        credentials: 'include',
         method: 'DELETE'
     })
         .then(res => {
@@ -85,15 +86,4 @@ export const deleteUrl = (url) => {
             }
             return res.text()
         })
-}
-export const oldSchool = (url, form) => {
-    console.log("form", form)
-    var req = new XMLHttpRequest();
-
-    req.onreadystatechange = function () {
-        console.log(this.responseText)
-    }
-    req.open("POST", url, true);
-    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-    req.send(form);
 }

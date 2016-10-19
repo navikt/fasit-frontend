@@ -15,7 +15,7 @@ export function* fetchSera(hostname) {
     const url = `${configuration.sera_servers}?hostname=${hostname}`
 
     try {
-        const value = yield call(fetchUrl, url)
+        const value = yield fetchUrl(url, true)
         yield put({type: NODE_SERA_RECEIVED, value})
     } catch (error) {
         yield put({type: NODE_SERA_REQUEST_FAILED, error})

@@ -27,6 +27,7 @@ export const SET_SEARCH_STRING = 'SET_SEARCH_STRING'
 // Authentication
 export const LOGIN = 'LOGIN'
 export const LOGIN_FAILED = 'LOGIN_FAILED'
+export const LOGIN_SUBMITTED = 'LOGIN_SUBMITTED'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGOUT = 'LOGOUT'
 

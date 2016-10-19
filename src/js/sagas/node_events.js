@@ -18,7 +18,7 @@ export function* fetchEvents(action) {
     const url = `${configuration.sensu_api}/results/${action.client}`
 
     try {
-        const value = yield call(fetchUrl, url)
+        const value = yield fetchUrl(url, true)
         yield put({type: NODE_EVENTS_RECEIVED, value})
     } catch(error) {
         yield put({type: NODE_EVENTS_REQUEST_FAILED, error})
