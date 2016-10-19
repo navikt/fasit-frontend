@@ -33,6 +33,8 @@ export default () => {
             <IndexRoute component={Home}/>
             <Route path="/login" component={Login}/>
             <Route path="/nodes(/:node)" component={Nodes}/>
+            <Route path="/environments(/:environment)" component={Environments}/>
+
             <Route path="/applications" component={Applications}/>
             <Route path="/applications/:application" component={Application}>
                 <IndexRoute component={ApplicationOverview}/>
@@ -47,18 +49,6 @@ export default () => {
             <Route path="/instances" component={Instances}/>
             <Route path="/instances/:instance" component={Instance}>
                 <IndexRoute component={ApplicationOverview}/>
-            </Route>
-            <Route path="/environments" component={Environments}/>
-            <Route path="/environments/:environment" component={Environment}>
-                <IndexRoute component={EnvironmentOverview}/>
-                <Route path="/environments/:environment" component={EnvironmentOverview}/>
-                <Route path="/environments/:environment/instances" component={EnvironmentInstances}/>
-                <Route path="/environments/:environment/nodes" component={EnvironmentNodes}/>
-                <Route path="/environments/:environment/clusters" component={EnvironmentClusters}/>
-                <Route path="/environments/:environment/selftests" component={EnvironmentSelftests}/>
-                <Route path="/environments/:environment/clusters/:cluster" component={Cluster}/>
-                <Route path="/environments/:environment/nodes/:node" component={Node}/>
-                <Route path="/environments/:environment/instances/:instance" component={Instance}/>
             </Route>
             <Route path="*" component={NotFound}/>
         </Route>

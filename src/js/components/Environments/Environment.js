@@ -1,101 +1,71 @@
 import React, {Component, PropTypes} from 'react'
-import {Link} from 'react-router'
 import {connect} from 'react-redux'
+//import {fetchEnvironmentData} from '../../actionCreators/environment_fasit'
 
-import NavLink from '../Navigation/NavLink'
-
-
-class Environment extends Component {
+class Node extends Component {
     constructor(props) {
         super(props)
     }
 
     componentDidMount() {
-
+        const {dispatch, name} = this.props
+        //dispatch(fetchEnvironmentData(name))
     }
 
     componentWillReceiveProps(nextProps) {
+        const {dispatch, environment} = this.props
+        if (name != nextProps.name) {
+           // dispatch(fetchEnvironmentData(nextProps.name))
+        }
+    }
 
-    }
-    fetchClusters(){
-        return [{"name": "app1-cluster", "applications": ["first", "second"], "nodes": ["n1", "n2"]},
-            {"name": "app2-cluster", "applications": ["first", "second"], "nodes": ["n1", "n2"]},
-            {"name": "app3-cluster", "applications": ["first", "second"], "nodes": ["n1", "n2"]},
-            {"name": "app4-clusterp", "applications": ["first", "second"], "nodes": ["n1", "n2"]}]
-    }
-    fetchApplications(){
-        return ({"name": "OpenAM", "gid": "no.nav.esso", "aid": "openam"})
-    }
-    fetchEnvironment(){
-        return {
-            "environmentName": "t1000",
-            "environmentClass": "t",
-            "nodes": ["b27wasl00388.preprod.local"],
-            "applicationinstances": ["pensjon"],
-            "clusters": ["pensjonscluster"],
-            "wasDmgr": "http://bs.was.com",
-            "bpmDmgr": "http://bs.bpm.com",
+    showFasitData() {
+        const {fasit, editMode}= this.props
+        if (fasit.isFetching || !fasit.data)
+            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
 
+        else if (fasit.requestFailed)
+            return (
+                <div>Retrieving Fasit-data failed:
+                    <br />
+                    <br />
+                    <pre><i>{fasit.requestFailed}</i></pre>
+                </div>
+            )
+
+        else if (editMode) {
+            return <NodeFasitViewEditMode />
+        } else {
+            return <NodeFasitViewPreviewMode />
         }
     }
 
     render() {
-        const {environments, activeIndex} = this.props
-        const environment = this.props.params ? this.props.params.environment : environments[activeIndex].name
         return (
             <div>
-                <div className="panel panel-primary">
-                    <div className="panel-heading">
-                        <h5 className="panel-title">Environment - {environment}</h5>
-                    </div>
-                    <div className="panel-body">
-                        <div className="col-md-9">
-                            <ul className="nav nav-tabs">
-                                <li role="presentation"><NavLink
-                                    to={"/environments/" + environment  }
-                                    onlyActiveOnIndex>Overview</NavLink>
-                                </li>
-                                <li role="presentation"><NavLink
-                                    to={"/environments/" + environment + "/instances"}>Instances</NavLink>
-                                </li>
-                                <li role="presentation"><NavLink
-                                    to={"/environments/" + environment + "/nodes"}>Nodes</NavLink>
-                                </li>
-                                <li role="presentation"><NavLink
-                                    to={"/environments/" + environment + "/clusters"}>Clusters</NavLink>
-                                </li>
-                                <li role="presentation"><NavLink
-                                    to={"/environments/" + environment + "/selftests"}>Selftests</NavLink>
-                                </li>
-                            </ul>
-                            {this.props.children && React.cloneElement(this.props.children, {
-                                environment: this.state.environment
-                            })}
+                <div className="col-md-6">
+                    {/*{this.showFasitData()}*/}
+                </div>
+                <div className="col-md-3">
+                    <div className=" panel panel-default">
+                        <div className=" panel-heading">
+                            Todo:
                         </div>
+                        <div className=" panel-body">
+                            <ul>
+                                <ul>
+                                    <li>Overview</li>
+                                    <li>Cluster</li>
+                                    <li>App</li>
+                                    <li>Nodes</li>
+                                </ul>
 
-
-                        <div className="col-md-3">
-                            <div className=" panel panel-default">
-                                <div className=" panel-heading">
-                                    Todo:
-                                </div>
-                                <div className=" panel-body">
-                                    <ul>
-                                        <ul>
-                                            <li>Overview</li>
-                                            <li>Cluster</li>
-                                            <li>App</li>
-                                            <li>Nodes</li>
-                                        </ul>
-
-                                        <li>liste over de applikasjonsinstansene som fins i miljøet</li>
-                                        <li>ressursbruk</li>
-                                        <li>avhengighetsgraf</li>
-                                        <li>feil/advarsler for miljøet</li>
-                                        <li>statistikker (antall applikasjoner, servere, lenke til rapporter?)</li>
-                                    </ul>
-                                </div>
-                            </div>
+                                <li>liste over de applikasjonsinstansene som fins i miljøet</li>
+                                <li>ressursbruk</li>
+                                <li>avhengighetsgraf</li>
+                                <li>feil/advarsler for miljøet</li>
+                                <li>statistikker (antall applikasjoner, servere, lenke til rapporter?)</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -103,17 +73,12 @@ class Environment extends Component {
         )
     }
 }
-
-
-Environment.propTypes = {
-    dispatch: PropTypes.func.isRequired
-}
-
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
-        environments: state.environments.data,
-        activeIndex: state.environments.active,
+        environments: state.environment_fasit,
+        user: state.user,
+        name: ownProps.name,
     }
 }
 
-export default connect(mapStateToProps)(Environment)
+export default connect(mapStateToProps)(Node)

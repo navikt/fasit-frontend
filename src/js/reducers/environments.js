@@ -1,25 +1,36 @@
 import {
-    SET_ACTIVE_ENVIRONMENT,
-    REQUEST_ENVIRONMENTS_LIST,
-    RECEIVE_ENVIRONMENTS_LIST
+    ENVIRONMENTS_LIST_FETCHING,
+    ENVIRONMENTS_LIST_RECEIVED,
+    ENVIRONMENTS_LIST_FAILED,
 } from '../actionTypes'
 
-export default (state = {}, action) => {
+export default (state = {
+    isFetching: false,
+    requestFailed: false,
+    data: []
+}, action) => {
     switch (action.type) {
-        case SET_ACTIVE_ENVIRONMENT:
-            return Object.assign({}, state, {
-                active: action.value
-            })
-        case REQUEST_ENVIRONMENTS_LIST:
+
+        case 'ENVIRONMENTS_LIST_FETCHING':
             return Object.assign({}, state, {
                 isFetching: true,
+                requestFailed: false,
                 data: []
             })
-        case RECEIVE_ENVIRONMENTS_LIST:
+
+        case 'ENVIRONMENTS_LIST_RECEIVED':
             return Object.assign({}, state, {
                 isFetching: false,
                 data: action.value
             })
+
+
+        case 'ENVIRONMENTS_LIST_FAILED':
+            return Object.assign({}, state, {
+                isFetching: false,
+                requestFailed: action.value
+            })
+
         default:
             return state
     }
