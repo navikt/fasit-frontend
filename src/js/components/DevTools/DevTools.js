@@ -12,6 +12,7 @@ const DevTools = createDevTools(
                  changePositionKey="ctrl-q"
                  changeMonitorKey="ctrl-m"
                  defaultIsVisible={false}
+                 defaultPosition="bottom"
     >
         <Inspector />
         <LogMonitor theme="tomorrow" />
