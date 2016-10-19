@@ -68,7 +68,7 @@ const mapStateToProps = (state) => {
     return {
         nodes: state.nodes.data,
         activeIndex: state.nodes.active,
-        fasit: state.nodeData.fasit,
+        fasit: state.nodes.fasit,
 
     }
 }

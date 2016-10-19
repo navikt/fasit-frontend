@@ -35,9 +35,7 @@ Node.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        fasit: state.nodeData.fasit,
         user: state.user,
-        secret: state.nodeData.currentNodeSecret,
     }
 }
 

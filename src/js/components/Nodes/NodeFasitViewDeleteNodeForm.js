@@ -55,7 +55,7 @@ NodeFasitViewNewNodeForm.propTypes = {
 const mapStateToProps = (state, ownProps) => {
     return {
         hostname: ownProps.hostname,
-        showDeleteFasitNodeForm: state.nodeData.showDeleteFasitNodeForm
+        showDeleteFasitNodeForm: state.nodes.showDeleteFasitNodeForm
     }
 }
 

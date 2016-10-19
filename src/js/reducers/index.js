@@ -11,7 +11,6 @@ import search from './search'
 import user from './user'
 import viewModes from './viewMode'
 import nodes from './nodes'
-import nodeData from './node'
 import node_deleteNode from './node_deleteNode'
 import node_editNodeForm from './node_editNodeForm'
 import node_events from './node_events'
@@ -31,7 +30,6 @@ var fasitReducer = combineReducers({
     user,
     viewModes,
     nodes,
-    nodeData,
     node_deleteNode,
     node_editNodeForm,
     node_events,

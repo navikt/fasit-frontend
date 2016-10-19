@@ -1,7 +1,6 @@
 import {
     RECEIVE_NODE_SECRET,
     SHOW_SUBMIT_EDIT_NODE_FORM,
-    DELETED_CURRENT_NODE,
     SHOW_NEW_NODE_FORM,
     SHOW_DELETE_NODE_FORM,
     SHOW_EDIT_NODE_FORM
@@ -41,15 +40,6 @@ export default (state = {
                     showNewNodeForm: action.value
                 }
             )
-
-        case DELETED_CURRENT_NODE:
-            return Object.assign({}, state, {
-                deleted: action.value
-                }
-            )
-
-
-
 
         default:
             return state

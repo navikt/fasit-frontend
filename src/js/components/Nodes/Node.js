@@ -92,7 +92,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         fasit: state.node_fasit,
         user: state.user,
-        editMode: state.nodeData.showEditNodeForm,
+        editMode: state.nodes.showEditNodeForm,
         hostname: ownProps.hostname,
     }
 }

@@ -148,9 +148,9 @@ const mapStateToProps = (state) => {
         user: state.user,
         fasitData: state.node_fasit.data,
         form: state.node_editNodeForm,
-        editMode: state.nodeData.showEditNodeForm,
-        showSubmitForm: state.nodeData.showSubmitEditFasitNodeForm,
-        currentPassword: state.nodeData.currentNodeSecret
+        editMode: state.nodes.showEditNodeForm,
+        showSubmitForm: state.nodes.showSubmitEditFasitNodeForm,
+        currentPassword: state.nodes.currentNodeSecret
 
     }
 }

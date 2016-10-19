@@ -223,7 +223,7 @@ NodeFasitViewNewNodeForm.propTypes = {
 const mapStateToProps = (state) => {
     return {
         fasitData: state.node_fasit.data,
-        showNewNodeForm: state.nodeData.showNewNodeForm,
+        showNewNodeForm: state.nodes.showNewNodeForm,
         form: state.node_newNodeForm,
         nodeTypes: state.search.nodeTypes,
         environmentClasses: state.environments.environmentClasses,
