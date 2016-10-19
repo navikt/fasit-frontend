@@ -5,7 +5,7 @@ import Select from 'react-select'
 
 import { fetchNodeTypes } from '../../actionCreators/fetchNodeTypes'
 import { fetchEnvironmentNames } from '../../actionCreators/fetchEnvironmentNames'
-import { showNewNodeForm } from '../../actionCreators/nodeFormActions'
+import { showNewNodeForm } from '../../actionCreators/node_formActions'
 import { submitNewNodeForm, setNewNodeFormValue, clearNewNodeForm } from '../../actionCreators/node_newNodeForm'
 
 class NodeFasitViewNewNodeForm extends Component {

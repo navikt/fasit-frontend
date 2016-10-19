@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import Select from 'react-select'
 import { fetchNodeTypes } from '../../actionCreators/fetchNodeTypes'
 
-import { showEditNodeForm, showSubmitEditNodeForm, showSubmitEditNodeFormStatus} from '../../actionCreators/nodeFormActions'
+import { showEditNodeForm, showSubmitEditNodeForm, showSubmitEditNodeFormStatus} from '../../actionCreators/node_formActions'
 import { setEditNodeFormValues, clearEditNodeForm } from '../../actionCreators/node_editNodeForm'
 
 

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { DropdownButton, MenuItem, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import { checkAuthentication } from '../../utils/'
-import { showEditNodeForm, showNewNodeForm, showDeleteNodeForm } from '../../actionCreators/nodeFormActions'
+import { showEditNodeForm, showNewNodeForm, showDeleteNodeForm } from '../../actionCreators/node_formActions'
 import { fetchNodePassword, clearNodePassword, showPassword } from '../../actionCreators/node_fasit'
 
 class NodeFasitViewPreviewMode extends Component {

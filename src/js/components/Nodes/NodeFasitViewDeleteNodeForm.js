@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import { showDeleteNodeForm } from '../../actionCreators/nodeFormActions'
+import { showDeleteNodeForm } from '../../actionCreators/node_formActions'
 import { deleteNode } from '../../actionCreators/node_delete'
 
 

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import { showSubmitEditNodeForm } from '../../actionCreators/nodeFormActions'
+import { showSubmitEditNodeForm } from '../../actionCreators/node_formActions'
 import { submitEditNodeForm } from '../../actionCreators/node_editNodeForm'
 
 
