@@ -4,7 +4,7 @@ import classString from 'react-classset'
 import {connect} from 'react-redux'
 import Search from './Search'
 import {toggleSidebar} from '../../actionCreators/navigation'
-import {logOut, fetchUserData} from '../../actionCreators/authentication'
+import {logOut, getUser} from '../../actionCreators/authentication'
 
 
 class TopNav extends Component {
@@ -13,7 +13,7 @@ class TopNav extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(fetchUserData())
+        this.props.dispatch(getUser())
     }
 
     handleSidebarToggle() {

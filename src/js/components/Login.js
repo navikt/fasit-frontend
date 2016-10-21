@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import classString from 'react-classset'
 
-import {login} from '../actionCreators/authentication'
+import {logIn} from '../actionCreators/authentication'
 
 class Login extends Component {
     constructor(props) {
@@ -16,7 +16,7 @@ class Login extends Component {
             password: this.state.password,
             username: this.state.username
         }
-        this.props.dispatch(login(auth))
+        this.props.dispatch(logIn(auth))
 
     }
 
