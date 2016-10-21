@@ -4,7 +4,11 @@ import {
     NODE_EVENTS_REQUEST_FAILED,
 } from '../actionTypes'
 
-export default (state = {}, action) => {
+export default (state = {
+    data: [],
+    isFetching: false,
+    requestFailed: false
+}, action) => {
     switch (action.type) {
         case NODE_EVENTS_RECEIVED:
             return Object.assign({}, state, {

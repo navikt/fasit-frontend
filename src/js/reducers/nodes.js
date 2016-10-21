@@ -2,9 +2,7 @@ import {
     NODES_LIST_FETCHING,
     NODES_LIST_RECEIVED,
     NODES_LIST_FAILED,
-    RECEIVE_NODE_SECRET,
     SHOW_SUBMIT_EDIT_NODE_FORM,
-    DELETED_CURRENT_NODE,
     SHOW_NEW_NODE_FORM,
     SHOW_DELETE_NODE_FORM,
     SHOW_EDIT_NODE_FORM,
@@ -13,11 +11,15 @@ import {
 export default (state = {
     isFetching: false,
     requestFailed: false,
-    data: []
+    data: [],
+    showSubmitEditNodeForm: false,
+    showEditNodeForm: false,
+    showNewNodeForm: false,
+    showDeleteNodeForm: false,
 }, action) => {
     switch (action.type) {
 
-        case 'NODES_LIST_FETCHING':
+        case NODES_LIST_FETCHING:
             return Object.assign({}, state, {
                 isFetching: true,
                 requestFailed: false,
@@ -28,22 +30,17 @@ export default (state = {
                 showDeleteNodeForm: false,
             })
 
-        case 'NODES_LIST_RECEIVED':
+        case NODES_LIST_RECEIVED:
             return Object.assign({}, state, {
                 isFetching: false,
                 data: action.value
             })
 
 
-        case 'NODES_LIST_FAILED':
+        case NODES_LIST_FAILED:
             return Object.assign({}, state, {
                 isFetching: false,
                 requestFailed: action.value
-            })
-
-        case RECEIVE_NODE_SECRET:
-            return Object.assign({}, state, {
-                currentNodeSecret: action.value
             })
 
         case SHOW_SUBMIT_EDIT_NODE_FORM:
@@ -67,11 +64,6 @@ export default (state = {
                 }
             )
 
-        case DELETED_CURRENT_NODE:
-            return Object.assign({}, state, {
-                    deleted: action.value
-                }
-            )
 
         default:
             return state
