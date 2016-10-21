@@ -1,7 +1,8 @@
 import {
+    RESOURCE_TYPES_RECEIVED,
     RESOURCES_LIST_FETCHING,
     RESOURCES_LIST_RECEIVED,
-    RESOURCES_LIST_FAILED,
+    RESOURCES_LIST_FAILED
 } from '../actionTypes'
 
 export default (state = {
@@ -12,21 +13,26 @@ export default (state = {
 }, action) => {
     switch (action.type) {
 
-        case 'RESOURCES_LIST_FETCHING':
+        case RESOURCE_TYPES_RECEIVED:
+            return Object.assign({}, state, {
+                resourceTypes: action.value
+            })
+
+        case RESOURCES_LIST_FETCHING:
             return Object.assign({}, state, {
                 isFetching: true,
                 requestFailed: false,
                 data: []
             })
 
-        case 'RESOURCES_LIST_RECEIVED':
+        case RESOURCES_LIST_RECEIVED:
             return Object.assign({}, state, {
                 isFetching: false,
                 data: action.value
             })
 
 
-        case 'RESOURCES_LIST_FAILED':
+        case RESOURCES_LIST_FAILED:
             return Object.assign({}, state, {
                 isFetching: false,
                 requestFailed: action.value

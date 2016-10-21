@@ -26,10 +26,6 @@ export default (state = {}, action) => {
             return Object.assign({}, state, {
                 environmentNames: action.value
             })
-        case 'RECEIVE_RESOURCE_TYPES':
-            return Object.assign({}, state, {
-                resourceTypes: action.value
-            })
 
         case 'SET_SEARCH_STRING':
             return Object.assign({}, state, {

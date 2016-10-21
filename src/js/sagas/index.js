@@ -24,6 +24,7 @@ import {watchNodesList} from './nodes_list'
 
 // Resources
 import {watchResourcesList} from './resources_list'
+import {watchResourceTypes} from './resource_types'
 
 
 export default function*() {
@@ -52,5 +53,6 @@ export default function*() {
 
         // Resources
         call(watchResourcesList),
+        call(watchResourceTypes),
     ]
 }

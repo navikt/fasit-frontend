@@ -3,7 +3,7 @@ import Select from 'react-select'
 import {connect} from 'react-redux'
 import { changeFilter } from '../../actionCreators/navigation'
 import { fetchEnvironmentNames } from '../../actionCreators/fetchEnvironmentNames'
-import { fetchResourceTypes } from '../../actionCreators/fetchResourceTypes'
+import { fetchResourceTypes } from '../../actionCreators/resource_types'
 import { fetchNodeTypes } from '../../actionCreators/node_types'
 
 class Filters extends Component {
@@ -106,7 +106,7 @@ class Filters extends Component {
                     placeholder="Type"
                     name="form-field-name"
                     value={this.props.filters.resourcetype}
-                    options={this.convertToSelectObject(this.resourceTypes)}
+                    options={this.convertToSelectObject(this.props.resourceTypes)}
                     onChange={this.handleChangeFilter.bind(this, "resourcetype")}
 
                 />
@@ -183,7 +183,8 @@ const mapStateToProps = (state) => {
         filters: state.search.filters,
         context: state.search.context,
         environmentNames: state.search.environmentNames,
-        nodeTypes: state.nodes.nodeTypes
+        nodeTypes: state.nodes.nodeTypes,
+        resourceTypes: state.resources.resourceTypes
     }
 }
 
