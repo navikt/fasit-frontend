@@ -87,3 +87,14 @@ export const deleteUrl = (url) => {
             return res.text()
         })
 }
+
+export const buildFilterString = (filters, filterList) => {
+    let filterString = '?page=0&pr_page=10&'
+    for (let filter in filters) {
+        if (filterList.indexOf(filter) !== -1) {
+            if (filters[filter])
+                filterString += filter + "=" + filters[filter] + "&"
+        }
+    }
+    return filterString
+}
