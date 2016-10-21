@@ -1,9 +1,6 @@
 export const FAILED_LOGIN = 'FAILED_LOGIN'
 export const SET_USER = 'SET_USER'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
-export const SET_ACTIVE_APPLICATION = 'SET_ACTIVE_APPLICATION'
-export const REQUEST_APPLICATIONS_LIST = 'REQUEST_APPLICATIONS_LIST'
-export const RECEIVE_APPLICATIONS_LIST = 'RECEIVE_APPLICATIONS_LIST'
 export const RECEIVE_ENVIRONMENT_NAMES = 'RECEIVE_ENVIRONMENT_NAMES'
 export const SET_ACTIVE_INSTANCE = 'SET_ACTIVE_INSTANCE'
 export const REQUEST_INSTANCES_LIST = 'REQUEST_INSTANCES_LIST'
@@ -20,26 +17,34 @@ export const SET_SEARCH_STRING = 'SET_SEARCH_STRING'
 
 // Oppdaterte og fine actions
 
-// Authentication
+// --------- APPLICATIONS ---------
+// Applications - list
+export const APPLICATIONS_LIST_REQUEST = 'APPLICATIONS_LIST_REQUEST'
+export const APPLICATIONS_LIST_FETCHING = 'APPLICATIONS_LIST_FETCHING'
+export const APPLICATIONS_LIST_RECEIVED = 'APPLICATIONS_LIST_RECEIVED'
+export const APPLICATIONS_LIST_FAILED = 'APPLICATIONS_LIST_FAILED'
+
+// --------- AUTHENTICATION ---------
 export const LOGIN = 'LOGIN'
 export const LOGIN_FAILED = 'LOGIN_FAILED'
 export const LOGIN_SUBMITTED = 'LOGIN_SUBMITTED'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGOUT = 'LOGOUT'
 
-// Configuration - Henter inn alle web-endepunkter som benyttes fra /config
+// --------- CONFIGURATION ---------
+// - Henter inn alle web-endepunkter som benyttes fra /config
 export const CONFIGURATION_REQUEST = 'CONFIGURATION_REQUEST'
 export const RECEIVE_CONFIGURATION = 'RECEIVE_CONFIGURATION'
 export const RECEIVE_CONFIGURATION_FAILED = 'RECEIVE_CONFIGURATION_FAILED'
 
-// --------- ENVIRONMENTS-spesifikke action-types
+// --------- ENVIRONMENTS ---------
 // Environments - list
 export const ENVIRONMENTS_LIST_REQUEST = 'ENVIRONMENTS_LIST_REQUEST'
 export const ENVIRONMENTS_LIST_FETCHING = 'ENVIRONMENTS_LIST_FETCHING'
 export const ENVIRONMENTS_LIST_RECEIVED = 'ENVIRONMENTS_LIST_RECEIVED'
 export const ENVIRONMENTS_LIST_FAILED = 'ENVIRONMENTS_LIST_FAILED'
 
-// --------- NODES-spesifikke action-types
+// --------- NODES ---------
 // Nodes - list
 export const REQUEST_NODE_LIST = 'REQUEST_NODE_LIST'
 export const RECEIVE_NODE_LIST = 'RECEIVE_NODE_LIST'

@@ -1,38 +1,51 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
+//import {fetchApplicationData} from '../../actionCreators/application_fasit'
 
-import NavLink from '../Navigation/NavLink'
-import {Link} from 'react-router'
-
-
-class Application extends Component {
+class Node extends Component {
     constructor(props) {
         super(props)
     }
 
+    componentDidMount() {
+        const {dispatch, name} = this.props
+        //dispatch(fetchApplicationData(name))
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, environment} = this.props
+        if (name != nextProps.name) {
+            // dispatch(fetchApplicationData(nextProps.name))
+        }
+    }
+
+    showFasitData() {
+        const {fasit, editMode}= this.props
+        if (fasit.isFetching || !fasit.data)
+            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
+
+        else if (fasit.requestFailed)
+            return (
+                <div>Retrieving Fasit-data failed:
+                    <br />
+                    <br />
+                    <pre><i>{fasit.requestFailed}</i></pre>
+                </div>
+            )
+
+        else if (editMode) {
+            return <NodeFasitViewEditMode />
+        } else {
+            return <NodeFasitViewPreviewMode />
+        }
+    }
+
     render() {
-        const {applications, activeApplication} = this.props
-        const application = this.props.params ? this.props.params.application : applications[activeApplication].name
         return (
             <div>
-                <h1><Link
-                    to={"/applications/" + application}>{application}</Link>
-                </h1>
-                <div className="col-md-9">
-                    <ul className="nav nav-tabs">
-                        <li role="presentation"><NavLink
-                            to={"/applications/" + application} onlyActiveOnIndex>Overview</NavLink></li>
-                        <li role="presentation"><NavLink
-                            to={"/applications/" + application + "/instances"}>Instances</NavLink>
-                        </li>
-                        <li role="presentation"><NavLink
-                            to={"/applications/" + application + "/clusters"}>Clusters</NavLink>
-                        </li>
-                    </ul>
-                    {this.props.children}
+                <div className="col-md-6">
+                    {/*{this.showFasitData()}*/}
                 </div>
-
-
                 <div className="col-md-3">
                     <div className=" panel panel-default">
                         <div className=" panel-heading">
@@ -42,7 +55,7 @@ class Application extends Component {
                             <ul>
                                 <ul>
                                     <li>Overview</li>
-                                    <li>Instances</li>
+                                    <li>Cluster</li>
                                     <li>App</li>
                                     <li>Nodes</li>
                                 </ul>
@@ -60,15 +73,11 @@ class Application extends Component {
         )
     }
 }
-Application.propTypes = {
-    dispatch: PropTypes.func.isRequired
-}
-
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
-        applications: state.applications.data,
-        activeApplication: state.applications.active,
+        application: state.application_fasit,
+        name: ownProps.name,
     }
 }
 
-export default connect(mapStateToProps)(Application)
+export default connect(mapStateToProps)(Node)

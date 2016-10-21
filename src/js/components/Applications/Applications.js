@@ -1,9 +1,11 @@
 import React, {Component, PropTypes} from 'react'
-import classString from 'react-classset'
+import { Link } from 'react-router'
+import {connect} from 'react-redux'
 
 import Application from './Application'
-import {connect} from 'react-redux'
-import { fetchApplicationsList, setActiveApplication } from '../../actionCreators/fetchApplicationsList'
+import ApplicationsStatistics from './ApplicationsStatistics'
+
+import { fetchApplicationsList } from '../../actionCreators/applications_list'
 
 class Applications extends Component {
     constructor(props){
@@ -14,64 +16,48 @@ class Applications extends Component {
         dispatch(fetchApplicationsList(filters))
     }
     componentWillReceiveProps(nextProps) {
-        const {dispatch, filters} = this.props
-        if (filters != nextProps.filters)
+        const { dispatch, filters } = this.props
+        if (filters != nextProps.filters) {
             dispatch(fetchApplicationsList(nextProps.filters))
-    }
-
-    fetchApplications(){
-        return [{"name": "OpenAM", "gid": "no.nav.esso", "aid": "openam"},
-            {"name": "a-inntekt", "gid": "no.nav", "aid": "a-inntekt"},
-            {"name": "aareg-core", "gid": "no.nav.aareg-core", "aid": "aareg-core-config"},
-            {"name": "aareg-splitter", "gid": "no.nav.aareg-splitter", "aid": "aareg-splitter-config"}]
-    }
-    getItemCardClass(selected){
-        return classString({
-            'search-result': true,
-            'active': selected
-        })
-    }
-    handleSelectApplication(index) {
-        this.props.dispatch(setActiveApplication(index))
+        }
     }
     generateApplicationsList(){
-        const { applications, activeIndex } = this.props
-        if (this.props.isFetching)
-            return <img src="images/loading_spinner.gif" className="loading-spinner"/>
-        else if (!applications || applications.length === 0)
-            return <p>Unable to find any nodes matching your query</p>
-        return applications.map((item, index)=> {
+        const { applications } = this.props
+        if (applications.isFetching)
+            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
+        else if (applications.requestFailed)
+            return <pre>{applications.requestFailed}</pre>
+        return applications.data.map((item, index)=> {
             return (
-                <div key={index} onClick={this.handleSelectApplication.bind(this, index)}
-                     className={this.getItemCardClass(index === activeIndex)}>
-                    <h4><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.name}</h4>
-                    <i className="fa fa-globe fa-fw"></i> {item.groupid}
-                </div>
+                <Link key={index} to={'/applications/'+item.name} className="search-result" activeClassName='search-result-active'>
+                    <div>
+                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.name}</h5>
+                        <i className="fa fa-globe fa-fw"></i> {item.groupid} <b> | </b>
+                    </div>
+                </Link>
             )
         })
     }
+
     render() {
-        const applications = this.props.applications
-        const activeIndex = Number.parseInt(this.props.activeIndex)
         return (
             <div>
-                <div className="col-md-2">
+                <div className="col-md-2 item-list">
                     {this.generateApplicationsList()}
                 </div>
                 <div className="col-md-10">
-                    {applications[activeIndex]?<Application/>:""}
-
+                    {this.props.params.application ? <Application name={this.props.params.application}/>: <ApplicationsStatistics />}
                 </div>
             </div>
         )
     }
 }
+
+
 const mapStateToProps = (state) => {
     return {
-        applications: state.applications.data,
-        activeIndex: state.applications.active,
+        applications: state.applications,
         filters: state.search.filters,
-        isFetching: state.applications.isFetching
     }
 }
 

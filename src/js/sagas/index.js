@@ -1,5 +1,9 @@
 import {call} from 'redux-saga/effects'
 import {watchAuthentication} from './authentication'
+
+// Application
+import {watchApplicationsList} from './applications_list'
+
 // Environments
 import {watchEnvironmentsList} from './environments_list'
 
@@ -18,6 +22,9 @@ export default function*() {
     yield [
         call(watchAuthentication),
 
+        // Applications
+        call(watchApplicationsList),
+        
         // Environments
         call(watchEnvironmentsList),
 

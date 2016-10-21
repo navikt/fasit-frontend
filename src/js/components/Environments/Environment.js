@@ -76,7 +76,6 @@ class Node extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         environments: state.environment_fasit,
-        user: state.user,
         name: ownProps.name,
     }
 }
