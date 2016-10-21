@@ -1,12 +1,6 @@
 export default {
-    viewModes: {
-        sidebarMinimized: false
-    },
-
-
     search: {
         environmentNames: [],
-        resourceTypes: [],
         context: '',
         searchString: '',
         filters: {

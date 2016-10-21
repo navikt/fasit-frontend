@@ -78,7 +78,7 @@ class TopNav extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        sidebarMinimized: state.viewModes.sidebarMinimized,
+        sidebarMinimized: state.configuration.sidebarMinimized,
         user: state.user
     }
 }

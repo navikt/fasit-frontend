@@ -44,7 +44,7 @@ class App extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    return {sidebarMinimized: state.viewModes.sidebarMinimized}
+    return {sidebarMinimized: state.configuration.sidebarMinimized}
 }
 export default connect(mapStateToProps)(App)
 

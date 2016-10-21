@@ -1,6 +1,5 @@
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 export const RECEIVE_ENVIRONMENT_NAMES = 'RECEIVE_ENVIRONMENT_NAMES'
-export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR'
 export const SET_SEARCH_CONTEXT = 'SET_SEARCH_CONTEXT'
 export const SET_SEARCH_STRING = 'SET_SEARCH_STRING'
 
@@ -25,6 +24,7 @@ export const LOGOUT = 'LOGOUT'
 // - Henter inn alle web-endepunkter som benyttes fra /config
 export const RECEIVE_CONFIGURATION = 'RECEIVE_CONFIGURATION'
 export const RECEIVE_CONFIGURATION_FAILED = 'RECEIVE_CONFIGURATION_FAILED'
+export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR'
 
 // --------- ENVIRONMENTS ---------
 // Environments - list
