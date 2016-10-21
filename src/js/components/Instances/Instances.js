@@ -1,8 +1,11 @@
-import classString from 'react-classset'
 import React, {Component, PropTypes} from 'react'
+import { Link } from 'react-router'
 import {connect} from 'react-redux'
+
 import Instance from './Instance'
-import { fetchInstancesList, setActiveInstance } from '../../actionCreators/fetchInstancesList'
+import InstancesStatistics from './InstancesStatistics'
+
+import { fetchInstancesList } from '../../actionCreators/instances_list'
 
 class Instances extends Component {
     constructor(props){
@@ -18,67 +21,33 @@ class Instances extends Component {
             dispatch(fetchInstancesList(nextProps.filters))
         }
     }
-    getItemCardClass(selected){
-        return classString({
-            'search-result': true,
-            'active': selected
-        })
-    }
-    handleSelect(index) {
-        this.props.dispatch(setActiveInstance(index))
-    }
     generateInstancesList(){
-        const { instances, activeIndex } = this.props
-        if (this.props.isFetching)
-            return <img src="images/loading_spinner.gif" className="loading-spinner"/>
-        else if (!instances || instances.length === 0)
-            return <p>Unable to find any instances matching your query</p>
-        return instances.map((item, index)=> {
+        const { instances } = this.props
+        if (instances.isFetching)
+            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
+        else if (instances.requestFailed)
+            return <pre>{instances.requestFailed}</pre>
+        return instances.data.map((item, index)=> {
             return (
-                <div key={index} onClick={this.handleSelect.bind(this, index)}
-                     className={this.getItemCardClass(index === activeIndex)}>
-                    <h4><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.application}</h4>
-                    <i className="fa fa-globe fa-fw"></i> {item.environment} <b> | </b>
-                    {item.cluster ? item.cluster.name : ""}
-                </div>
+                <Link key={index} to={'/instances/'+item.application} className="search-result" activeClassName='search-result-active'>
+                    <div>
+                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.application}</h5>
+                        <i className="fa fa-globe fa-fw"></i> {item.environment} <b> | </b>
+                        {item.cluster ? item.cluster.name : ""}
+                    </div>
+                </Link>
             )
         })
     }
 
     render() {
-        const instances = this.props.instances
-        const activeIndex = Number.parseInt(this.props.activeIndex)
         return (
             <div>
-                <div className="col-md-2">
+                <div className="col-md-2 item-list">
                     {this.generateInstancesList()}
-
                 </div>
-                <div className="col-md-7">
-                    {instances[activeIndex]?<Instance/>:""}
-                </div>
-                <div className="col-md-3">
-                    <div className="panel panel-default">
-                        <div className="panel-heading">
-                            Todo:
-                        </div>
-                        <div className="panel-body">
-                            <ul>
-                                <li>hvilken app</li>
-                                <li>hvilke noder kjører den på</li>
-                                <li>ressurser brukt</li>
-                                <li>ressurser eksponert</li>
-                                <li>hvem er konsumentene mine?</li>
-                                <li>miljø</li>
-                                <li>versjon</li>
-                                <li>grafana</li>
-                                <li>lenke til rapporter</li>
-                                <li>deployer?</li>
-                                <li>tidspunkt for deploy</li>
-                                <li>kostnader? ("hvor mye koster pesys i prod?")</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div className="col-md-10">
+                    {this.props.params.instance ? <Instance name={this.props.params.instance}/>: <InstancesStatistics />}
                 </div>
             </div>
         )
@@ -88,10 +57,8 @@ class Instances extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        instances: state.instances.data,
-        activeIndex: state.instances.active,
-        isFetching: state.instances.isFetching,
-        filters: state.search.filters
+        instances: state.instances,
+        filters: state.search.filters,
     }
 }
 

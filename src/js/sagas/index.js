@@ -7,6 +7,9 @@ import {watchApplicationsList} from './applications_list'
 // Environments
 import {watchEnvironmentsList} from './environments_list'
 
+// Environments
+import {watchInstancesList} from './instances_list'
+
 //Nodes
 import {watchNodeEvents} from './node_events'
 import {watchNodeEdit} from './node_edit'
@@ -27,6 +30,9 @@ export default function*() {
         
         // Environments
         call(watchEnvironmentsList),
+
+        // Instances
+        call(watchInstancesList),
 
         //Nodes
         call(watchNodeEvents),

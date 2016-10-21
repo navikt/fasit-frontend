@@ -13,7 +13,7 @@ class Node extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, environment} = this.props
+        const {dispatch, name} = this.props
         if (name != nextProps.name) {
             // dispatch(fetchApplicationData(nextProps.name))
         }

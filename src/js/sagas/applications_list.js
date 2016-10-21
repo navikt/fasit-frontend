@@ -12,8 +12,8 @@ import {
 export function* fetchApplicationsList(action) {
     yield put({type: APPLICATIONS_LIST_FETCHING})
 
-    const environments = yield select((state) => state.configuration.fasit_applications)
-    const url = `${environments}${action.filterString}`
+    const applications = yield select((state) => state.configuration.fasit_applications)
+    const url = `${applications}${action.filterString}`
 
     try {
         const value = yield fetchUrl(url)
