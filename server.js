@@ -4,37 +4,11 @@ const request = require('request');
 const proxy = require('proxy-middleware')
 
 const externalResources = require('./externalResources')
-
+console.log("ext", externalResources)
 const host = 'localhost'
 const port = 4242
-const serverHost = "http://e34jbsl01655.devillo.no:8080"
-
-
-const cors = function (req, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "devillo.no");
-    return next();
-}
 
 const app = new express();
-
-app.use(cors)
-
-app.use('/api/login', function(req, res) {
-    var url = `${serverHost}/api/login`;
-    console.log(url)
-    req.pipe(request(url)).pipe(res);
-});
-
-app.use('/api/logout', function(req, res) {
-    var url = `${serverHost}/api/logout`;
-    console.log(url)
-    req.pipe(request(url)).pipe(res);
-});
-
-app.use('/api/v2', function(req, res) {
-    var url = `${serverHost}/api/v2${req.url}`;
-    req.pipe(request(url)).pipe(res);
-});
 
 if (process.env['NODE_ENV'] !== 'production') {
     const webpack = require('webpack');

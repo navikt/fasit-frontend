@@ -16,7 +16,7 @@ history.listen(location => store.dispatch({type: SET_SEARCH_CONTEXT, value: loca
 // /config inneholder alle eksterne APIer, slik at vi slipper å bruke proxy.
 fetch('/config')
     .then(res => {
-        if (res.status >= 400) {
+        if (res.status !== 200) {
             const errorMessage = `${res.status}:${res.statusText}`
             throw new Error(errorMessage)
         }

@@ -4,21 +4,38 @@
   "description": "Fasit frontend",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "better-npm-run start",
     "clean": "better-npm-run clean",
     "prebuild": "better-npm-run prebuild",
     "predev": "better-npm-run prebuild",
     "dev": "better-npm-run dev",
-    "build-css": "node ./node_modules/less/bin/lessc ./src/stylesheets/index.less --clean-css=\"--s1 --advanced\" > ./dist/fasit.css && echo \"CSS bundle complete\"",
-    "build": "npm run build-css && better-npm-run build-js",
+    "build": "better-npm-run build",
     "test": "better-npm-run test",
     "test:watch": "npm test -- --watch"
   },
   "betterScripts": {
-    "command": "node ./node_modules/browserify/bin/cmd.js -d -t [ babelify --presets [es2015 react] ] -p [minifyify --compressPath . --map fasit.js.map --output ./dist/fasit.js.map] ./src/index.js > ./dist/fasit.js",
-    "env": {
-      "NODE_ENV": "production",
-      "build-js": {}
+    "start": {
+      "command": "node server.js",
+      "env": {
+        "NODE_ENV": "production",
+        "fasit_resources_url": "http://e34jbsl01655.devillo.no:8080/api/v2/resources",
+        "fasit_environments_url": "http://e34jbsl01655.devillo.no:8080/api/v2/environments",
+        "fasit_applications_url": "http://e34jbsl01655.devillo.no:8080/api/v2/applications",
+        "fasit_applicationinstances_url": "http://e34jbsl01655.devillo.no:8080/api/v2/applicationinstances",
+        "fasit_secrets_url": "http://e34jbsl01655.devillo.no:8080/api/v2/secrets",
+        "fasit_nodes_url": "http://e34jbsl01655.devillo.no:8080/api/v2/nodes",
+        "fasit_url": "http://e34jbsl01655.devillo.no:8080",
+        "grafana_url": "http://grafana.adeo.no",
+        "sera_servers_url": "https://sera.adeo.no/api/v1/servers",
+        "sensu_api_url": "https://sensu-api.adeo.no"
+      }
+    },
+
+    "build": {
+      "command": "webpack --verbose --colors --display-error-details --config webpack.config.prod.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
     },
     "dev": {
       "command": "node ./server.js",
@@ -47,11 +64,8 @@
     "copy-images": {
       "command": "ncp src/images dist/images/"
     },
-    "copy-fonts": {
-      "command": "ncp node_modules/font-awesome/fonts/ dist/fonts/"
-    },
     "prebuild": {
-      "command": "better-npm-run clean && better-npm-run mkdir && better-npm-run copy-html && better-npm-run copy-images && better-npm-run copy-fonts"
+      "command": "better-npm-run clean && better-npm-run mkdir && better-npm-run copy-images &&  better-npm-run copy-html"
     }
   },
   "keywords": [

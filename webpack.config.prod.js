@@ -4,12 +4,13 @@ const webpack = require('webpack');
 module.exports = {
     devtool: 'source-map',
     entry: [
-        '../src/js/index'
+        './src/index',
+        './src/stylesheets/index.less'
     ],
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'fasit.js',
-        publicPath: '../src/main/webapp/'
+        publicPath: '/'
     },
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
@@ -25,11 +26,23 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js$/,
-                exclude: [/node_modules/, /styles/],
+                test: /\.js?/,
+                exclude: [/node_modules/, /stylesheets/],
                 loaders: ['babel-loader'],
-                include: path.join(__dirname, '../src')
-            }
+            },
+            {
+                test: /\.less$/,
+                include: [__dirname, "src/stylesheets"],
+                loader: "style!css!less"
+            },
+            {
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "url-loader?limit=10000&mimetype=application/font-woff"
+            },
+            {
+                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "file-loader"}
+
         ]
     }
 };
