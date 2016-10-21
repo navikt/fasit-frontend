@@ -7,7 +7,7 @@ import {watchApplicationsList} from './applications_list'
 // Environments
 import {watchEnvironmentsList} from './environments_list'
 
-// Environments
+// Instances
 import {watchInstancesList} from './instances_list'
 
 //Nodes
@@ -19,6 +19,9 @@ import {watchNodeRevisions} from './node_revisions'
 import {watchNodeSera} from './node_sera'
 import {watchNodeDelete} from './node_delete'
 import {watchNodesList} from './nodes_list'
+
+// Resources
+import {watchResourcesList} from './resources_list'
 
 
 export default function*() {
@@ -42,6 +45,9 @@ export default function*() {
         call(watchNodeRevisions),
         call(watchNodeSera),
         call(watchNodeDelete),
-        call(watchNodesList)
+        call(watchNodesList),
+
+        // Resources
+        call(watchResourcesList),
     ]
 }

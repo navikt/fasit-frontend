@@ -1,8 +1,11 @@
-import classString from 'react-classset'
 import React, {Component, PropTypes} from 'react'
+import { Link } from 'react-router'
 import {connect} from 'react-redux'
+
 import Resource from './Resource'
-import { fetchResourcesList, setActiveResource } from '../../actionCreators/fetchResourcesList'
+import ResourcesStatistics from './ResourcesStatistics'
+
+import { fetchResourcesList } from '../../actionCreators/resources_list'
 
 class Resources extends Component {
     constructor(props){
@@ -18,44 +21,32 @@ class Resources extends Component {
             dispatch(fetchResourcesList(nextProps.filters))
         }
     }
-    getItemCardClass(selected){
-        return classString({
-            'search-result': true,
-            'active': selected
-        })
-    }
-    handleSelectResource(index) {
-        this.props.dispatch(setActiveResource(index))
-    }
     generateResourcesList(){
-        const { resources, activeIndex } = this.props
-        if (this.props.isFetching)
-            return <img src="images/loading_spinner.gif" className="loading-spinner"/>
-        else if (!resources || resources.length === 0)
-            return <p>Unable to find any nodes matching your query</p>
-        return resources.map((item, index)=> {
+        const { resources } = this.props
+        if (resources.isFetching)
+            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
+        else if (resources.requestFailed)
+            return <pre>{resources.requestFailed}</pre>
+        return resources.data.map((item, index)=> {
             return (
-                <div key={index} onClick={this.handleSelectResource.bind(this, index)}
-                     className={this.getItemCardClass(index === activeIndex)}>
-                    <h4><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.alias}</h4>
-                    <i className="fa fa-globe fa-fw"></i> {item.type} <b> | </b>
-                </div>
+                <Link key={index} to={'/resources/'+item.alias} className="search-result" activeClassName='search-result-active'>
+                    <div>
+                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.alias}</h5>
+                        <i className="fa fa-globe fa-fw"></i> {item.scope.environment} <b> | </b>
+                    </div>
+                </Link>
             )
         })
     }
 
     render() {
-        const resources = this.props.resources
-        const activeIndex = Number.parseInt(this.props.activeIndex)
-
         return (
             <div>
-                <div className="col-md-2">
+                <div className="col-md-2 item-list">
                     {this.generateResourcesList()}
-
                 </div>
                 <div className="col-md-10">
-                    {resources[activeIndex]?<Resource/>:""}
+                    {this.props.params.resource ? <Resource name={this.props.params.resource}/>: <ResourcesStatistics />}
                 </div>
             </div>
         )
@@ -65,10 +56,8 @@ class Resources extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        resources: state.resources.data,
-        activeIndex: state.resources.active,
-        isFetching: state.resources.isFetching,
-        filters: state.search.filters
+        resources: state.resources,
+        filters: state.search.filters,
     }
 }
 
