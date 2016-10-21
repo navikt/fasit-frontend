@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import Select from 'react-select'
-import { fetchNodeTypes } from '../../actionCreators/fetchNodeTypes'
+import { fetchNodeTypes } from '../../actionCreators/node_types'
 
-import { showEditNodeForm, showSubmitEditNodeForm, showSubmitEditNodeFormStatus} from '../../actionCreators/node_formActions'
+import { showEditNodeForm, showSubmitEditNodeForm } from '../../actionCreators/node_formActions'
 import { setEditNodeFormValues, clearEditNodeForm } from '../../actionCreators/node_editNodeForm'
 
 
@@ -150,7 +150,7 @@ NodeFasitViewEditMode.propTypes = {
 const mapStateToProps = (state) => {
     return {
         form: state.node_editNodeForm,
-        types: state.search.nodeTypes,
+        types: state.nodes.nodeTypes,
     }
 }
 

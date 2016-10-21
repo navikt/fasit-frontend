@@ -1,4 +1,5 @@
 import {
+    NODE_TYPES_RECEIVED,
     NODES_LIST_FETCHING,
     NODES_LIST_RECEIVED,
     NODES_LIST_FAILED,
@@ -12,12 +13,18 @@ export default (state = {
     isFetching: false,
     requestFailed: false,
     data: [],
+    nodeTypes: [],
     showSubmitEditNodeForm: false,
     showEditNodeForm: false,
     showNewNodeForm: false,
     showDeleteNodeForm: false,
 }, action) => {
     switch (action.type) {
+
+        case NODE_TYPES_RECEIVED:
+            return Object.assign({}, state, {
+                nodeTypes: action.value
+            })
 
         case NODES_LIST_FETCHING:
             return Object.assign({}, state, {

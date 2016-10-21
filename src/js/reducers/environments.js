@@ -7,7 +7,9 @@ import {
 export default (state = {
     isFetching: false,
     requestFailed: false,
-    data: []
+    data: [],
+    zones: ['fss', 'sbs'],
+    environmentClasses: ['u','t','q','p'],
 }, action) => {
     switch (action.type) {
 

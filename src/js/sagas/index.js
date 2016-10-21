@@ -11,14 +11,16 @@ import {watchEnvironmentsList} from './environments_list'
 import {watchInstancesList} from './instances_list'
 
 //Nodes
+import {watchNodeDelete} from './node_delete'
 import {watchNodeEvents} from './node_events'
 import {watchNodeEdit} from './node_edit'
 import {watchNodeFasit} from './node_fasit'
 import {watchNodeNew} from './node_new'
 import {watchNodeRevisions} from './node_revisions'
 import {watchNodeSera} from './node_sera'
-import {watchNodeDelete} from './node_delete'
+import {watchNodeTypes} from './node_types'
 import {watchNodesList} from './nodes_list'
+
 
 // Resources
 import {watchResourcesList} from './resources_list'
@@ -38,13 +40,14 @@ export default function*() {
         call(watchInstancesList),
 
         //Nodes
+        call(watchNodeDelete),
         call(watchNodeEvents),
         call(watchNodeEdit),
         call(watchNodeFasit),
         call(watchNodeNew),
         call(watchNodeRevisions),
         call(watchNodeSera),
-        call(watchNodeDelete),
+        call(watchNodeTypes),
         call(watchNodesList),
 
         // Resources

@@ -7,7 +7,8 @@ import {
 export default (state = {
     isFetching: false,
     requestFailed: false,
-    data: []
+    data: [],
+    resourceTypes: []
 }, action) => {
     switch (action.type) {
 

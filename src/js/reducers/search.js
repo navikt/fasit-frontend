@@ -30,10 +30,7 @@ export default (state = {}, action) => {
             return Object.assign({}, state, {
                 resourceTypes: action.value
             })
-        case 'RECEIVE_NODE_TYPES':
-            return Object.assign({}, state, {
-                nodeTypes: action.value
-            })
+
         case 'SET_SEARCH_STRING':
             return Object.assign({}, state, {
                 searchString: action.value

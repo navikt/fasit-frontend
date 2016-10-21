@@ -1,24 +1,30 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
 import classString from 'react-classset';
 import {connect}from 'react-redux'
 import TopNav from '../Navigation/TopNav'
 import ContextMenu from '../Navigation/ContextMenu'
 import SidebarNav from '../Navigation/SidebarNav'
 
-const app = React.createClass({
+class App extends Component {
+    constructor(props) {
+        super(props)
+    }
+
     pageWrapper(sidebarMinimized) {
         return classString({
             'wrapper': !sidebarMinimized,
             'wrapper-toggled': sidebarMinimized
 
         })
-    },
+    }
+
     sidebarWrapper(sidebarMinimized) {
         return classString({
             'sidebar-wrapper': !sidebarMinimized,
             'sidebar-wrapper-toggled': sidebarMinimized
         })
-    },
+    }
+
     render() {
         const sidebarMinimized = this.props.sidebarMinimized
         return (
@@ -36,9 +42,9 @@ const app = React.createClass({
             </div>
         )
     }
-});
+}
 const mapStateToProps = (state) => {
     return {sidebarMinimized: state.viewModes.sidebarMinimized}
 }
-export default connect(mapStateToProps)(app)
+export default connect(mapStateToProps)(App)
 

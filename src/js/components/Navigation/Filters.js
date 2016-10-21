@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import { changeFilter } from '../../actionCreators/navigation'
 import { fetchEnvironmentNames } from '../../actionCreators/fetchEnvironmentNames'
 import { fetchResourceTypes } from '../../actionCreators/fetchResourceTypes'
-import { fetchNodeTypes } from '../../actionCreators/fetchNodeTypes'
+import { fetchNodeTypes } from '../../actionCreators/node_types'
 
 class Filters extends Component {
     constructor(props){
@@ -183,7 +183,7 @@ const mapStateToProps = (state) => {
         filters: state.search.filters,
         context: state.search.context,
         environmentNames: state.search.environmentNames,
-        nodeTypes: state.search.nodeTypes
+        nodeTypes: state.nodes.nodeTypes
     }
 }
 
