@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import Select from 'react-select'
 
 import { fetchNodeTypes } from '../../actionCreators/node_types'
-import { fetchEnvironmentNames } from '../../actionCreators/fetchEnvironmentNames'
+import { fetchEnvironmentNames } from '../../actionCreators/environment_names'
 import { showNewNodeForm } from '../../actionCreators/node_formActions'
 import { submitNewNodeForm, setNewNodeFormValue, clearNewNodeForm } from '../../actionCreators/node_newNodeForm'
 
@@ -228,7 +228,7 @@ const mapStateToProps = (state) => {
         nodeTypes: state.nodes.nodeTypes,
         environmentClasses: state.environments.environmentClasses,
         zones: state.environments.zones,
-        environmentNames: state.search.environmentNames
+        environmentNames: state.environments.environmentNames
 
     }
 }

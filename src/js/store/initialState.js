@@ -1,6 +1,5 @@
 export default {
     search: {
-        environmentNames: [],
         context: '',
         searchString: '',
         filters: {

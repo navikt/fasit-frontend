@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import classString from 'react-classset'
 import {connect} from 'react-redux'
 import Search from './Search'
-import {toggleSidebar} from '../../actionCreators/navigation'
+import {toggleSidebar} from '../../actionCreators/filters'
 import {logOut, getUser} from '../../actionCreators/authentication'
 
 

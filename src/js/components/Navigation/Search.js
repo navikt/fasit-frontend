@@ -2,7 +2,7 @@ import React from 'react';
 import {DropdownButton, MenuItem} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {browserHistory} from 'react-router'
-import {setSearchLocation, setSearchString, changeFilter} from '../../actionCreators/navigation'
+import {setSearchLocation, setSearchString, changeFilter} from '../../actionCreators/filters'
 
 const Search = React.createClass({
     elementFilterMapping: [

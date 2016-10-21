@@ -5,15 +5,11 @@ import {
     SET_SEARCH_STRING
 } from '../actionTypes'
 
-export const toggleSidebar = () => {
-        return {
-        type: TOGGLE_SIDEBAR,
-    }
-}
+export const toggleSidebar = () => {return {type: TOGGLE_SIDEBAR}}
 export const changeFilter = (filtername, event) => {
     return {
         type: CHANGE_FILTER,
-        value: {filtername: filtername, filtervalue: event.value}
+        value: {filtername, filtervalue: event.value}
     }
 }
 export const setSearchLocation = (context) => {

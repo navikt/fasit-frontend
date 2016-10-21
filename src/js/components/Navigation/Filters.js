@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react'
 import Select from 'react-select'
 import {connect} from 'react-redux'
-import { changeFilter } from '../../actionCreators/navigation'
-import { fetchEnvironmentNames } from '../../actionCreators/fetchEnvironmentNames'
+import { changeFilter } from '../../actionCreators/filters'
+import { fetchEnvironmentNames } from '../../actionCreators/environment_names'
 import { fetchResourceTypes } from '../../actionCreators/resource_types'
 import { fetchNodeTypes } from '../../actionCreators/node_types'
 
@@ -182,7 +182,7 @@ const mapStateToProps = (state) => {
     return {
         filters: state.search.filters,
         context: state.search.context,
-        environmentNames: state.search.environmentNames,
+        environmentNames: state.environments.environmentNames,
         nodeTypes: state.nodes.nodeTypes,
         resourceTypes: state.resources.resourceTypes
     }

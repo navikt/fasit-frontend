@@ -1,18 +1,25 @@
+import {
+    SET_ENVIRONMENT_CLASS,
+    SET_ENVIRONMENT,
+    SET_SEARCH_CONTEXT,
+    CHANGE_FILTER,
+    SET_SEARCH_STRING
+} from '../actionTypes'
 export default (state = {}, action) => {
     switch (action.type) {
-        case 'SET_ENVIRONMENT_CLASS':
+        case SET_ENVIRONMENT_CLASS:
             return Object.assign({}, state, {
                 envClass: action.value
             })
-        case 'SET_ENVIRONMENT':
+        case SET_ENVIRONMENT:
             return Object.assign({}, state, {
                 environment: action.value
             })
-        case 'SET_SEARCH_CONTEXT':
+        case SET_SEARCH_CONTEXT:
             return Object.assign({}, state, {
                 context: action.value
             })
-        case 'CHANGE_FILTER':
+        case CHANGE_FILTER:
         {
             const filters = Object.assign({}, state.filters, {
                 [action.value.filtername]: action.value.filtervalue
@@ -22,12 +29,7 @@ export default (state = {}, action) => {
                 filters: filters
             })
         }
-        case 'RECEIVE_ENVIRONMENT_NAMES':
-            return Object.assign({}, state, {
-                environmentNames: action.value
-            })
-
-        case 'SET_SEARCH_STRING':
+        case SET_SEARCH_STRING:
             return Object.assign({}, state, {
                 searchString: action.value
             })
