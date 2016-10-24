@@ -51,8 +51,8 @@ class Node extends Component {
     }
 
     render() {
-        const {hostname} = this.props
-        const grafanaSrc = "http://grafana.adeo.no/dashboard-solo/db/fasit-data-template?var-hostname=" + hostname + "&panelId=1&from=1471918908430&to=1471940508430&theme=light"
+        const {hostname, config} = this.props
+        const grafanaSrc = `${config.grafana}/dashboard-solo/db/fasit-data-template?var-hostname=${hostname}&panelId=1&from=1471918908430&to=1471940508430&theme=light`
         return (
             <div>
                 <div className="col-md-12">
@@ -94,6 +94,7 @@ const mapStateToProps = (state, ownProps) => {
         user: state.user,
         editMode: state.nodes.showEditNodeForm,
         hostname: ownProps.hostname,
+        config: state.configuration
     }
 }
 

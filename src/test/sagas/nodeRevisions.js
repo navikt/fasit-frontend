@@ -1,12 +1,13 @@
+/*
 import 'babel-polyfill'
 import {expect} from 'chai'
 import {
     NODE_REVISIONS_FETCHING,
     NODE_REVISIONS_RECEIVED,
     NODE_REVISIONS_REQUEST_FAILED
-} from '../../main/frontend/js/actionTypes'
+} from '../../js/actionTypes'
 import {put, call} from 'redux-saga/effects'
-import {fetchRevisions, get} from '../../main/frontend/js/sagas/nodeRevisions'
+import {fetchRevisions, get} from '../../js/sagas/nodeRevisions'
 
 describe('fetchRevisions Saga tests', () => {
 
@@ -28,3 +29,4 @@ describe('fetchRevisions Saga tests', () => {
 
 })
 
+*/
