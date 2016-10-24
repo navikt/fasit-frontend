@@ -1,6 +1,6 @@
 {
   "name": "fasit-frontend",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "description": "Fasit frontend",
   "main": "server.js",
   "scripts": {
@@ -30,7 +30,6 @@
         "sensu_api_url": "https://sensu-api.adeo.no"
       }
     },
-
     "build": {
       "command": "webpack --verbose --colors --display-error-details --config webpack.config.prod.js",
       "env": {
