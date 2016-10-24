@@ -13,4 +13,4 @@ npm install && npm run build || exit 1
 # include frontend in dist
 cp -r dist ${DOCKERDIR}
 
-cp Dockerfile ${DOCKERDIR}
+cp Dockerfile server.js ${DOCKERDIR}
