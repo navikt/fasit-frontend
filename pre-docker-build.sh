@@ -8,7 +8,7 @@ rm -rf ${DOCKERDIR}
 mkdir -p ${DISTDIR}
 
 # Copy required files to the dist directory
-cp server.js config.js ${DISTDIR}
+cp production_server.js config.js ${DISTDIR}
 
 # install the application dependencies
 cd ${DISTDIR} && cp ../../package.json . && npm install --production && cd -

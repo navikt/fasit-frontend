@@ -30,7 +30,7 @@ if (process.env['NODE_ENV'] === 'production') {
 
 exports.server = {
     host: process.env['HOST'] || 'localhost',
-    port: process.env['PORT'] || 4242,
+    port: process.env['PORT'] || 8443,
     tlsPrivateKey: process.env['TLS_PRIVATE_KEY'] || "localhost.key",
     tlsCert: process.env['TLS_CERT'] || "localhost.crt"
 }

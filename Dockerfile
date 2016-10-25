@@ -6,4 +6,4 @@ ADD ./dist .
 
 EXPOSE 8443
 
-CMD ["node", "server.js"]
+CMD ["node", "production_server.js"]
