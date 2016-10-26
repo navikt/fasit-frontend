@@ -31,6 +31,7 @@ pipeline {
                         returnStdout: true
                 ).trim()
 
+
                 lastcommit = sh(
                         script: 'git log -1 --pretty=format:"%ae (%an) %h %s" --no-merges',
                         returnStdout: true
