@@ -57,7 +57,7 @@ pipeline {
 
         stage("build frontend bundle") {
             script {
-                dockerDir = ./docker
+                dockerDir = "./docker"
                 distDir = "${dockerDir}/dist"
                 sh "mkdir -p ${distDir}"
                 sh "cp production_server.js config.js ${distDir}"
