@@ -15,7 +15,7 @@
         <rest alias="fasit:nodes_v2" mapToProperty="fasit_nodes"/>
         <baseUrl alias="fasit"/>
         <baseUrl alias="grafana"/>
-        <rest alias="servers_v1" mapToProperty="sera_servers"/>
+        <rest alias="sera:servers_v1" mapToProperty="sera_servers"/>
         <rest alias="sensu-api" mapToProperty="sensu_api"/>
     </resources>
 
