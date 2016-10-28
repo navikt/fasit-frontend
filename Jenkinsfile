@@ -1,6 +1,8 @@
 def mvnHome, mvn, nodeHome, npm, node // tools
 def committer, lastcommit, releaseVersion // metadata
 def application = "fasit-frontend"
+def dockerDir = "./docker"
+def distDir = "${dockerDir}/dist"
 
 pipeline {
     agent label: ""
@@ -56,16 +58,16 @@ pipeline {
         }
 
         stage("build frontend bundle") {
-            script {
-                dockerDir = "./docker"
-                distDir = "${dockerDir}/dist"
-                sh "mkdir -p ${distDir}"
-                sh "cp production_server.js config.js ${distDir}"
-                sh "cd ${distDir} && cp ../../package.json . && npm install --production && cd -" // getting required node_modules for production
-                sh "npm install && npm run build || exit 1" // Creating frontend bundle
-                sh "cp -r dist ${distDir}" // Copying frontend bundle
-                sh "cp Dockerfile ${dockerDir}"
+            withEnv(['HTTP_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
+                script {
+                    sh "mkdir -p ${distDir}"
+                    sh "cp production_server.js config.js ${distDir}"
+                    sh "cd ${distDir} && cp ../../package.json . && npm install --production && cd -" // getting required node_modules for production
+                    sh "npm install && npm run build || exit 1" // Creating frontend bundle
+                    sh "cp -r dist ${distDir}" // Copying frontend bundle
+                    sh "cp Dockerfile ${dockerDir}"
                 }
+            }
         }
 
         stage("build and publish docker image") {
