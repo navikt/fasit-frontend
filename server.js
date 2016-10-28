@@ -57,6 +57,8 @@ if (process.env['NODE_ENV'] === 'production') {
         res.json(config.externalResources)
     })
 
+    //app.get('/selftest', selftestService)
+
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, './dist/index.html'));
     })
