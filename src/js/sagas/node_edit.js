@@ -38,10 +38,13 @@ export function* fetchFasit() {
 }
 
 export function* submitEditNodeForm(action) {
+    const configuration = yield select((state) => state.configuration)
+    const url = `${configuration.fasit_nodes}/${action.hostname}`
+
     yield put({type: SUBMITTING_EDIT_NODE_FORM})
     yield put({type: SHOW_SUBMIT_EDIT_NODE_FORM, value: false })
     try {
-        yield putUrl(action.url, action.value)
+        yield putUrl(url, action.value)
         yield put({type: SUBMIT_EDIT_NODE_FORM_SUCCESS })
         yield call(delay, 1000)
         yield put({type: CLOSE_SUBMIT_EDIT_NODE_FORM_STATUS})

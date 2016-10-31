@@ -30,6 +30,7 @@ export const putUrl = (url, content) => {
         headers: {"Content-Type": "application/json"},
         credentials: 'include',
         method: 'PUT',
+        mode: 'cors',
         body: JSON.stringify(content)
     })
         .then(res => {
