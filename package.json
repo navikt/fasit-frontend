@@ -15,7 +15,7 @@
   },
   "betterScripts": {
     "start": {
-      "command": "node server.js",
+      "command": "node production_server.js",
       "env": {
         "NODE_ENV": "production",
         "fasit_resources_url": "https://e34jbsl01655.devillo.no:8443/api/v2/resources",
