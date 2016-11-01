@@ -61,7 +61,7 @@ pipeline {
             withEnv(['HTTP_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
                 script {
                     sh "mkdir -p ${distDir}"
-                    sh "cp production_server.js config.js ${distDir}"
+                    sh "cp production_server.js config.js selftest.js ${distDir}"
                     sh "cd ${distDir} && cp ../../package.json . && npm install --production && cd -" // getting required node_modules for production
                     sh "npm install && npm run build || exit 1" // Creating frontend bundle
                     sh "cp -r dist ${distDir}" // Copying frontend bundle
