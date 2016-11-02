@@ -8,11 +8,11 @@ import {
     NODE_SERA_REQUEST_FAILED
 } from '../actionTypes'
 
-export function* fetchSera(hostname) {
+export function* fetchSera(action) {
     yield put({type: NODE_SERA_FETCHING})
 
     const configuration = yield select((state) => state.configuration)
-    const url = `${configuration.sera_servers}?hostname=${hostname}`
+    const url = `${configuration.sera_servers}?hostname=${action.hostname}`
 
     try {
         const value = yield fetchUrl(url, true)

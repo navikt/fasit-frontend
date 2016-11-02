@@ -52,7 +52,11 @@ exports.selftest = function (req, res, next) {
                 }
                 checkResult.responseTime = endTime - startTime + " ms"
                 checkResult.checkResult = 1
-                checkResult.errorMessage = err
+                if (err.message) {
+                    checkResult.errorMessage = err.message
+                } else {
+                    checkResult.errorMessage = err
+                }
                 selftestResult.aggregate_result = 1
                 selftestResult.checks.push(checkResult)
                 if (selftestResult.checks.length === totalResources) {
@@ -62,22 +66,4 @@ exports.selftest = function (req, res, next) {
             })
 
     }
-
-/*    fetch('http://e34jbsl01655.devillo.no:8080/api/v2/resources')
-        .then(res => {
-                let endTime = Date.now();
-                let checkResult = {
-                    "endpoint": 'http://e34jbsl01655.devillo.no:8080/api/v2/resources',
-                    "description": "Check fasit resources",
-                    "checkResult": 0,
-                    "responseTime": (endTime - startTime) + " ms"
-                }
-                if (res.status != 200) {
-                    checkResult.result = 1;
-                    checkResult.errorMessage = `${res.status}:${res.statusText}`
-                }
-                selftestResult.checks.push(checkResult)
-            }
-        )*/
-
 }
