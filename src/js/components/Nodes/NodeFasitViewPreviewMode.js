@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { DropdownButton, MenuItem, Tooltip, OverlayTrigger } from 'react-bootstrap'
-import { checkAuthentication } from '../../utils/'
 import { showEditNodeForm, showNewNodeForm, showDeleteNodeForm } from '../../actionCreators/node_formActions'
 import { fetchNodePassword, clearNodePassword, showPassword } from '../../actionCreators/node_fasit'
 
@@ -64,9 +63,9 @@ class NodeFasitViewPreviewMode extends Component {
     }
 
 
-    showRevealPasswordButton() {
-        const {user, fasit} = this.props
-        if (checkAuthentication(user)) {
+    showRevealPasswordButton(authenticated) {
+        const {fasit} = this.props
+        if (authenticated) {
             if (fasit.showPassword) {
                 return <span className="fa fa-eye-slash text-right information-box-header-clickable"
                              onClick={this.handleShowPassword.bind(this, false)}></span>
@@ -76,8 +75,8 @@ class NodeFasitViewPreviewMode extends Component {
         }
     }
 
-    showEditNodeButton() {
-        if (checkAuthentication(this.props.user)) {
+    showEditNodeButton(authenticated) {
+        if (authenticated) {
             return (
                 <div className="pull-right">
                     <DropdownButton bsStyle="default"
@@ -101,7 +100,7 @@ class NodeFasitViewPreviewMode extends Component {
 
 
     render() {
-        const {fasit} = this.props
+        const {fasit, authenticated} = this.props
         const fasitData = fasit.data
         const overlayProps = {
             placement: "right",
@@ -116,7 +115,7 @@ class NodeFasitViewPreviewMode extends Component {
                     <div className="information-main-header">
                         <div className="information-main-title">
                             <span><i className="fa fa-laptop fa-fw"></i>&nbsp;Node</span>
-                            {this.showEditNodeButton()}
+                            {this.showEditNodeButton(authenticated)}
                         </div>
                     </div>
                     <div className="information-main-body">
@@ -145,7 +144,7 @@ class NodeFasitViewPreviewMode extends Component {
                             </OverlayTrigger>
                         </div>
                         <div className="information-main-content">
-                            <b>Password:</b>{this.showRevealPasswordButton()}{this.displayPassword(overlayProps)}
+                            <b>Password:</b>{this.showRevealPasswordButton(authenticated)}{this.displayPassword(overlayProps)}
 
                         </div>
                         <div className="information-main-content">
@@ -172,10 +171,10 @@ Node.propTypes = {
     dispatch: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
         fasit: state.node_fasit,
-        user: state.user,
+        authenticated: ownProps.authenticated
     }
 }
 

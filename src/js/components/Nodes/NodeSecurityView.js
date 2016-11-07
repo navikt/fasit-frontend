@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {Link} from 'react-router'
 import {connect} from 'react-redux'
 
 
@@ -8,7 +7,9 @@ class NodeSecurityView extends Component {
         super(props)
     }
 
+
     render() {
+        const {authenticated} = this.props
         return (
             <div className="col-lg-4 col-lg-offset-4 col-md-6">
                 <div className="information-box">
@@ -18,11 +19,12 @@ class NodeSecurityView extends Component {
                         </div>
                     </div>
                     <div className="information-box-body text-center">
-                        <div className><i className="fa fa-check fa-3x event-ok"/></div>
+                        {authenticated ? <div className><i className="fa fa-check fa-3x event-ok"/></div> : <div className><i className="fa fa-exclamation-triangle fa-3x event-error"/></div>}
                     </div>
-                    <div className="information-box-footer">
-                        You have access based on the following rules
+                    <div className="information-box-footer text-center">
+                        {authenticated ? <div className>You have access to edit this element</div> : <div className>You do not have the required permissions to edit this element</div>}
                     </div>
+
                 </div>
             </div>
         )
@@ -33,9 +35,9 @@ Node.propTypes = {
     dispatch: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
-        user: state.user,
+        authenticated: ownProps.authenticated
     }
 }
 

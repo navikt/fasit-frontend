@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
+import {checkAuthentication} from '../../utils/'
 import {fetchFasitData} from '../../actionCreators/node_fasit'
 import NodeSeraView from './NodeSeraView'
 import NodeEventsView from './NodeEventsView'
@@ -29,7 +30,7 @@ class Node extends Component {
         }
     }
 
-    showFasitData() {
+    showFasitData(authenticated) {
         const {fasit, editMode}= this.props
         if (fasit.isFetching || !fasit.data)
             return <i className="fa fa-spinner fa-pulse fa-2x"></i>
@@ -44,14 +45,18 @@ class Node extends Component {
             )
 
         else if (editMode) {
-            return <NodeFasitViewEditMode />
+            return <NodeFasitViewEditMode authenticated={authenticated} />
         } else {
-            return <NodeFasitViewPreviewMode />
+            return <NodeFasitViewPreviewMode authenticated={authenticated}/>
         }
     }
 
     render() {
-        const {hostname, config} = this.props
+        const {hostname, config, user, fasit} = this.props
+        let authenticated = false
+        if (fasit.data) {
+            authenticated = checkAuthentication(user, fasit.data.accesscontrol)
+        }
         const grafanaSrc = `${config.grafana}/dashboard-solo/db/fasit-data-template?var-hostname=${hostname}&panelId=1&from=1471918908430&to=1471940508430&theme=light`
         return (
             <div>
@@ -60,7 +65,7 @@ class Node extends Component {
                 </div>
                 <div>
                     <div className="col-md-6">
-                        {this.showFasitData()}
+                        {this.showFasitData(authenticated)}
 
                     </div>
                     <div className="col-md-6">
@@ -68,7 +73,7 @@ class Node extends Component {
                             <NodeRevisionsView hostname={hostname}/>
                         </div>
                         <div className="row">
-                            <NodeSecurityView />
+                            <NodeSecurityView authenticated={authenticated}/>
                             <NodeEventsView />
                         </div>
                         <div className="row">
@@ -79,7 +84,7 @@ class Node extends Component {
                             </iframe>
                         </div>
                         <NodeFasitViewNewNodeForm />
-                        <NodeFasitViewDeleteNodeForm hostname={hostname} />
+                        <NodeFasitViewDeleteNodeForm hostname={hostname}/>
                         <NodeFasitViewSubmitNewNodeStatus />
                         <NodeFasitViewSubmitDeleteStatus />
                     </div>

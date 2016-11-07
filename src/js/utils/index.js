@@ -1,9 +1,28 @@
 import fetch from 'isomorphic-fetch'
 
 export const checkAuthentication = (user, accesscontrol) => {
-    if (user.authenticated)
-        return true
+    if (user.authenticated && accesscontrol) {
+        switch (accesscontrol.environmentclass) {
+            case "p":
+                return hasRole(user, ['ROLE_PROD_OPERATIONS', 'ROLE_SELFSERVICE_PROD'])
+            case "q":
+            case "t":
+                return hasRole(user, ['ROLE_PROD_OPERATIONS', 'ROLE_SELFSERVICE_PROD', 'ROLE_OPERATIONS', 'ROLE_SELFSERVICE'])
+            case "u":
+                return hasRole(user, ['ROLE_USER', 'ROLE_CI', 'ROLE_PROD_OPERATIONS', 'ROLE_SELFSERVICE_PROD', 'ROLE_OPERATIONS', 'ROLE_SELFSERVICE'])
+            default:
+                console.log("missing environmentclass")
+                return false
+        }
+    }
+    return false
 }
+const hasRole = (user, roles) => {
+    for (let i = 0; i < user.roles.length; i++ ) {
+        if (roles.indexOf(user.roles[i]) !== -1) return true
+    }
+}
+
 export const fetchUrl = (url, noCredentials) => {
     let headers = {}
     if (!noCredentials) headers = {

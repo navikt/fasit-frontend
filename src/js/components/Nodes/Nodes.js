@@ -41,7 +41,7 @@ class Nodes extends Component {
 
     render() {
         return (
-            <div>
+            <div className="main-page">
                 <div className="col-md-2 item-list">
                     {this.generateNodesList()}
                 </div>
