@@ -4,6 +4,7 @@ import {checkAuthentication} from '../../utils/'
 import {fetchFasitData} from '../../actionCreators/node_fasit'
 import NodeSeraView from './NodeSeraView'
 import NodeEventsView from './NodeEventsView'
+import NodeLifecycle from './NodeLifecycle'
 import NodeSecurityView from './NodeSecurityView'
 import NodeRevisionsView from './NodeRevisionsView'
 import NodeFasitViewPreviewMode from './NodeFasitViewPreviewMode'
@@ -45,7 +46,7 @@ class Node extends Component {
             )
 
         else if (editMode) {
-            return <NodeFasitViewEditMode authenticated={authenticated} />
+            return <NodeFasitViewEditMode />
         } else {
             return <NodeFasitViewPreviewMode authenticated={authenticated}/>
         }
@@ -54,8 +55,10 @@ class Node extends Component {
     render() {
         const {hostname, config, user, fasit} = this.props
         let authenticated = false
-        if (fasit.data) {
+        let lifecycle = {}
+        if (Object.keys(fasit.data).length > 0) {
             authenticated = checkAuthentication(user, fasit.data.accesscontrol)
+            lifecycle = fasit.data.lifecycle
         }
         const grafanaSrc = `${config.grafana}/dashboard-solo/db/fasit-data-template?var-hostname=${hostname}&panelId=1&from=1471918908430&to=1471940508430&theme=light`
         return (
@@ -72,6 +75,7 @@ class Node extends Component {
                         <div className="row">
                             <NodeRevisionsView hostname={hostname}/>
                         </div>
+                        {(Object.keys(lifecycle).length > 0) ? <div className="row"><NodeLifecycle lifecycle={lifecycle}/></div> : <div></div> }
                         <div className="row">
                             <NodeSecurityView authenticated={authenticated}/>
                             <NodeEventsView />

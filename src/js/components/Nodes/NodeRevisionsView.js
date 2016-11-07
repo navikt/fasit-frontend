@@ -27,7 +27,6 @@ class NodeRevisionsView extends Component {
 
     handleShowAllRevisions(value) {
         const { dispatch } = this.props
-        console.log("revisions", this.props)
         dispatch(showAllRevisions(value))
     }
 
