@@ -9,6 +9,7 @@ import {
     NODE_FASIT_PASSWORD_RECEIVED,
     NODE_FASIT_PASSWORD_REQUEST,
     NODE_FASIT_PASSWORD_REQUEST_FAILED,
+    RESCUE_NODE
 } from '../actionTypes'
 
 // Selector som henter data fra store
@@ -36,7 +37,12 @@ export function* fetchFasit(action) {
     }
 }
 
+export function* rescueNode(action){
+    console.log("I'm in the 'node_fasit'-saga with this action: ", action)
+}
+
 export function* watchNodeFasit() {
     yield fork(takeEvery, NODE_FASIT_REQUEST, fetchFasit)
     yield fork(takeEvery, NODE_FASIT_PASSWORD_REQUEST, fetchFasitPassword)
+    yield fork(takeEvery, RESCUE_NODE, rescueNode)
 }

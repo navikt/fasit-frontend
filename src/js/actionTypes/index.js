@@ -131,6 +131,8 @@ export const SUBMIT_DELETE_NODE_SUCCESS = 'SUBMIT_DELETE_NODE_SUCCESS'
 export const SUBMIT_DELETE_NODE_FAILED = 'SUBMIT_DELETE_NODE_FAILED'
 export const SUBMITTING_DELETE_NODE = 'SUBMITTING_DELETE_NODE'
 
+// Node - Lifecycle - rescue node
+export const RESCUE_NODE = 'RESCUE_NODE'
 
 // --------- RESOURCES ---------
 // Resources - list

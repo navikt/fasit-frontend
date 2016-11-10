@@ -26,6 +26,7 @@
         "fasit_nodes_url": "https://e34jbsl01655.devillo.no:8443/api/v2/nodes",
         "fasit_url": "https://e34jbsl01655.devillo.no:8443",
         "grafana_url": "https://grafana.adeo.no",
+        "jira_url": "http://jira-q1.adeo.no",
         "sera_servers_url": "https://sera.adeo.no/api/v1/servers",
         "sensu_api_url": "https://sensu-api.adeo.no"
       }

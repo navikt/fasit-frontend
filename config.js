@@ -8,6 +8,7 @@ if (process.env['NODE_ENV'] === 'production') {
         fasit_nodes: process.env['fasit_nodes_url'],
         fasit_baseurl: process.env['fasit_url'],
         grafana: process.env['grafana_url'],
+        jira: process.env['jira_url'],
         sera_servers: process.env['sera_servers_url'],
         sensu_api: process.env['sensu_api_url']
     }
@@ -21,6 +22,7 @@ if (process.env['NODE_ENV'] === 'production') {
         fasit_nodes: "http://e34jbsl01655.devillo.no:8080/api/v2/nodes",
         fasit_baseurl: "http://e34jbsl01655.devillo.no:8080",
         grafana: "https://grafana.adeo.no",
+        jira: 'http://jira-q1.adeo.no',
         sera_servers: "https://sera.adeo.no/api/v1/servers",
         sensu_api: "https://sensu-api.adeo.no"
     }

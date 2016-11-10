@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
-import {fetchFasitData} from '../../actionCreators/node_fasit'
+import {fetchFasitData, rescueNode} from '../../actionCreators/node_fasit'
 import NodeSeraView from './NodeSeraView'
 import NodeEventsView from './NodeEventsView'
 import NodeLifecycle from './NodeLifecycle'
@@ -53,7 +53,7 @@ class Node extends Component {
     }
 
     render() {
-        const {hostname, config, user, fasit} = this.props
+        const {hostname, config, user, fasit, dispatch} = this.props
         let authenticated = false
         let lifecycle = {}
         if (Object.keys(fasit.data).length > 0) {
@@ -75,7 +75,7 @@ class Node extends Component {
                         <div className="row">
                             <NodeRevisionsView hostname={hostname}/>
                         </div>
-                        {(Object.keys(lifecycle).length > 0) ? <div className="row"><NodeLifecycle lifecycle={lifecycle}/></div> : <div></div> }
+                        {(Object.keys(lifecycle).length > 0) ? <div className="row"><NodeLifecycle lifecycle={lifecycle} rescueAction={()=>dispatch(rescueNode(hostname))}/></div> : <div></div> }
                         <div className="row">
                             <NodeSecurityView authenticated={authenticated}/>
                             <NodeEventsView />
