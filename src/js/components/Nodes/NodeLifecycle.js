@@ -12,10 +12,20 @@ class NodeLifecycle extends Component {
         const {lifecycle} = this.props
         switch (lifecycle.status) {
             case "alerted":
-                return (
-                    <div>
-                        <i className="fa fa-exclamation-triangle fa-3x event-warning"/>
-                    </div>)
+                return (<div>
+                    <div className="col-md-3">
+                    <i className="fa fa-exclamation-triangle fa-3x event-warning "/><br />
+                        </div>
+
+                    This element is a candidate for deletion and will be
+                    deleted {moment(lifecycle.nextactiondate).format('ll, HH:mm')}
+                    <br />See <a href={`http://jira-q1.adeo.no/browse/${lifecycle.issue}`}
+                                 target="jira">Jira-issue</a> for more details<br />
+                    <button className="btn btn-warning btn-xs"><i
+                        className="fa fa-recycle"/>&nbsp;&nbsp;Rescue
+                    </button>
+
+                </div>)
             case "stopped":
                 return <i className="fa fa-ban fa-3x event-error"/>
             case "running":
@@ -23,18 +33,6 @@ class NodeLifecycle extends Component {
             case "rescued":
                 return <i className="fa fa-3x fa-recycle event-success"/>
 
-
-        }
-    }
-
-    showMessage() {
-        const {lifecycle} = this.props
-        switch (lifecycle.status) {
-            case "alerted":
-                return (<div>This element is a candidate for deletion and will be deleted
-                    <br />{moment(lifecycle.nextactiondate).format('ll, HH:mm')}&nbsp;&nbsp;&nbsp; <button className="btn btn-warning btn-xs"><i className="fa fa-recycle" />&nbsp;&nbsp;Rescue</button>
-                    <br />See <a href={`http://jira-q1.adeo.no/browse/${lifecycle.issue}`} target="jira">Jira-issue</a> for more details
-                </div>)
 
         }
     }
@@ -51,13 +49,9 @@ class NodeLifecycle extends Component {
                                 Lifecycle</span></span>
                         </div>
                     </div>
-                    <div className="information-box-body text-center">
+                    <div className="information-box-body">
                         {this.showStatus()}
                     </div>
-                    <div className="information-box-footer text-center">
-                        {this.showMessage()}
-                    </div>
-
                 </div>
             </div>
         )
