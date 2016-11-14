@@ -14,17 +14,16 @@ class NodeLifecycle extends Component {
             case "alerted":
                 return (<div>
                     <div className="col-md-3 text-center">
-                        <i className="fa fa-exclamation-triangle fa-3x event-warning "/>
-                        <br />
-                        <button className="btn btn-warning btn-xs" onClick={rescue}>
+                        <i className="fa fa-exclamation-triangle fa-2x event-warning" style={{verticalAlign: "middle"}}/>
+                        <button className="btn btn-default btn-xs text-right" onClick={rescue}>
                             <i className="fa fa-recycle"/>&nbsp;&nbsp;Rescue
                         </button>
                     </div>
                     <div className="col-md-9">
-                        This element is a candidate for deletion and will be
-                        <b>stopped</b> {moment(lifecycle.nextactiondate).format('ll, HH:mm')}
+                        This element is a candidate for deletion and will be <b>stopped</b> {moment(lifecycle.nextactiondate).format('ll, HH:mm')}
                         <br />See <a href={`${jira}/browse/${lifecycle.issue}`}
                                      target="jira">Jira-issue</a> for more details<br />
+
 
                     </div>
                 </div>)
@@ -32,13 +31,14 @@ class NodeLifecycle extends Component {
                 console.log("lifecycle", lifecycle)
                 return (<div>
                     <div className="col-md-3 text-center">
-                        <i className="fa fa-stop-circle-o fa-3x event-error"/>
-                        <button className="btn btn-danger btn-xs"  onClick={rescue}>
+                        <i className="fa fa-stop-circle-o fa-2x event-error"/>
+                        <button className="btn btn-default btn-xs"  onClick={rescue}>
                             <i className="fa fa-recycle"/>&nbsp;&nbsp;Rescue
                         </button>
                     </div>
                     <div className="col-md-9 ">
                         This element was stopped and will be <b>deleted</b> {moment(lifecycle.nextactiondate).format('ll, HH:mm')}
+
                     </div>
                 </div>)
             case "running":
