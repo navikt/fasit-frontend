@@ -18,7 +18,7 @@ export const checkAuthentication = (user, accesscontrol) => {
     return false
 }
 const hasRole = (user, roles) => {
-    for (let i = 0; i < user.roles.length; i++ ) {
+    for (let i = 0; i < user.roles.length; i++) {
         if (roles.indexOf(user.roles[i]) !== -1) return true
     }
 }
@@ -40,6 +40,29 @@ export const fetchUrl = (url, noCredentials) => {
                 return res.json()
             }
             return res.text()
+
+        })
+}
+
+export const fetchPage = (url) => {
+    return fetch(url)
+        .then(res => {
+            if (res.status >= 400) {
+                const errorMessage = `${res.status}:${res.statusText}`
+                throw new Error(errorMessage)
+            }
+            const headers = {}
+            for (let header of res.headers.entries()) {
+                headers[header[0]] = header[1]
+            }
+
+            return res.json().then((data)=>{
+                return ({
+                    data,
+                    headers
+                })
+
+            })
 
         })
 }

@@ -13,6 +13,7 @@ export default (state = {
     isFetching: false,
     requestFailed: false,
     data: [],
+    headers: {},
     nodeTypes: [],
     showSubmitEditNodeForm: false,
     showEditNodeForm: false,
@@ -31,6 +32,7 @@ export default (state = {
                 isFetching: true,
                 requestFailed: false,
                 data: [],
+                headers: {},
                 showSubmitEditNodeForm: false,
                 showEditNodeForm: false,
                 showNewNodeForm: false,
@@ -40,7 +42,8 @@ export default (state = {
         case NODES_LIST_RECEIVED:
             return Object.assign({}, state, {
                 isFetching: false,
-                data: action.value
+                data: action.page.data,
+                headers: action.page.headers
             })
 
 

@@ -1,6 +1,6 @@
 import {takeEvery} from 'redux-saga'
 import {put, fork, select} from 'redux-saga/effects'
-import {fetchUrl} from '../utils'
+import {fetchPage} from '../utils'
 import {
     NODES_LIST_REQUEST,
     NODES_LIST_FETCHING,
@@ -16,8 +16,9 @@ export function* fetchNodesList(action) {
     const url = `${nodes}${action.filterString}`
 
     try {
-        const value = yield fetchUrl(url)
-        yield put({type: NODES_LIST_RECEIVED, value})
+        const page = yield fetchPage(url)
+        console.log("page", page)
+        yield put({type: NODES_LIST_RECEIVED, page})
     } catch (err) {
         const value = err.message
         yield put({type: NODES_LIST_FAILED, value})
