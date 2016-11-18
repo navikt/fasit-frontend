@@ -28,16 +28,14 @@ class App extends Component {
     render() {
         const sidebarMinimized = this.props.sidebarMinimized
         return (
-            <div>
-                <div className={this.pageWrapper(sidebarMinimized)}>
-                    <div id={this.sidebarWrapper(sidebarMinimized)}>
-                        <SidebarNav/>
-                    </div>
-                    <div id="page-content-wrapper">
-                        <TopNav />
-                        <ContextMenu />
-                        {this.props.children}
-                    </div>
+            <div className={this.pageWrapper(sidebarMinimized)}>
+                <div id={this.sidebarWrapper(sidebarMinimized)}>
+                    <SidebarNav/>
+                </div>
+                <div id="page-content-wrapper">
+                    <TopNav />
+                    <ContextMenu />
+                    {this.props.children}
                 </div>
             </div>
         )

@@ -46,6 +46,7 @@ export const INSTANCES_LIST_FAILED = 'INSTANCES_LIST_FAILED'
 
 // --------- NODES ---------
 // Nodes - list
+export const CHANGE_PAGE = 'CHANGE_PAGE'
 export const NODES_LIST_REQUEST = 'NODES_LIST_REQUEST'
 export const NODES_LIST_FETCHING = 'NODES_LIST_FETCHING'
 export const NODES_LIST_RECEIVED = 'NODES_LIST_RECEIVED'

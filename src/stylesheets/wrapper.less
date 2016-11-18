@@ -11,8 +11,8 @@
     margin-left: -250px;
     overflow-y: auto;
     background: @wrapper-bg;
-
 }
+
 #sidebar-wrapper-toggled {
     z-index: 1000;
     position: fixed;
@@ -22,21 +22,11 @@
     margin-left: -50px;
     overflow-y: auto;
     background: @wrapper-bg;
-
-
 }
+
 #sidebar-wrapper {
     width: 200px;
 }
-
-#page-content-wrapper {
-    width: 100%;
-    position: absolute;
-    padding: 0px !important;
-    margin-right: -200px;
-}
-
-
 
 @media(min-width:768px) {
     .wrapper {
@@ -49,7 +39,6 @@
         -moz-transition: all 0.2s ease-in;
         -o-transition: all 0.2s ease-in;
         transition: all 0.2s ease-in;
-
     }
 
     #sidebar-wrapper {
@@ -62,13 +51,14 @@
         -moz-transition: all 0.2s ease-in;
         -o-transition: all 0.2s ease-in;
         transition: all 0.2s ease-in;
-
     }
 
 
     #page-content-wrapper {
-        padding: 20px;
+        padding: 0px;
+        height: 100%;
         position: relative;
+        width: 100%;
     }
 }
 
