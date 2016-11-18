@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import Node from './Node'
-import NodesStatistics from './NodesStatistics'
+
 import ElementList from '../common/ElementList'
 
 import {clearNodesList, fetchElementList, changePage} from '../../actionCreators/element_lists'
@@ -12,10 +11,11 @@ class Nodes extends Component {
         super(props)
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         const {dispatch} = this.props
         dispatch(clearNodesList())
     }
+
     componentDidMount() {
         const {dispatch, filters, currentPage} = this.props
         dispatch(changePage(0))
@@ -39,28 +39,21 @@ class Nodes extends Component {
         const toPrevPage = ()=>dispatch(changePage(currentPage - 1))
         return (
             <div>
-                <div className="col-md-2 nopadding side-menu-container">
-                    <Link to='/resources/' className="side-menu-item" activeClassName='side-menu-item-active'>
-                        <i className="fa fa-home fa-cutlery" /> Resources
-                    </Link>
-                        <ElementList
-                            type="nodes"
-                            data={nodes}
-                            toFirstPage={toFirstPage}
-                            toLastPage={toLastPage}
-                            toNextPage={toNextPage}
-                            toPrevPage={toPrevPage}
-                            current={currentPage +1}
-                            last = {lastPage}
-                            total = {total_count}
 
-                        />
-                    </div>
+                <ElementList
+                    type="nodes"
+                    data={nodes}
+                    toFirstPage={toFirstPage}
+                    toLastPage={toLastPage}
+                    toNextPage={toNextPage}
+                    toPrevPage={toPrevPage}
+                    current={currentPage + 1}
+                    last={lastPage}
+                    total={total_count}
 
-                <div className="col-md-10 main-content-container">
-                    {this.props.params.node ? <Node hostname={this.props.params.node}/> : <NodesStatistics />}
-                </div>
+                />
             </div>
+
         )
     }
 }
