@@ -6,9 +6,10 @@ import {
 } from '../actionTypes'
 
 export default (state = {
-    isFetching: false,
+    isFetching: true,
     requestFailed: false,
     data: [],
+    headers: {},
     resourceTypes: []
 }, action) => {
     switch (action.type) {
@@ -28,7 +29,8 @@ export default (state = {
         case RESOURCES_LIST_RECEIVED:
             return Object.assign({}, state, {
                 isFetching: false,
-                data: action.value
+                data: action.page.data,
+                headers: action.page.headers
             })
 
 

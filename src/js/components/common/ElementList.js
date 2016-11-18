@@ -5,7 +5,23 @@ export default class ElementList extends Component {
     constructor(props) {
         super(props)
     }
-
+    generateResourcesList(){
+        const { data } = this.props
+        if (data.isFetching)
+            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
+        else if (data.requestFailed)
+            return <pre>{data.requestFailed}</pre>
+        return data.data.map((item, index)=> {
+            return (
+                <Link key={index} to={'/resources/'+item.alias} className="element-list-item" activeClassName='element-list-item-active'>
+                    <div>
+                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.alias}</h5>
+                        <i className="fa fa-globe fa-fw"></i> {item.scope.environment} <b> | </b>
+                    </div>
+                </Link>
+            )
+        })
+    }
     generateNodesList() {
         const {data} = this.props
         if (data.isFetching)
@@ -31,6 +47,8 @@ export default class ElementList extends Component {
         switch (type) {
             case "nodes":
                 return this.generateNodesList()
+            case "resources":
+                return this.generateResourcesList()
         }
     }
 

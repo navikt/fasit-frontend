@@ -10,11 +10,10 @@ import {
 } from '../actionTypes'
 
 export default (state = {
-    isFetching: false,
+    isFetching: true,
     requestFailed: false,
     data: [],
     headers: {},
-    currentPage: 0,
     nodeTypes: [],
     showSubmitEditNodeForm: false,
     showEditNodeForm: false,
@@ -33,7 +32,6 @@ export default (state = {
                 isFetching: true,
                 requestFailed: false,
                 data: [],
-                headers: {},
                 showSubmitEditNodeForm: false,
                 showEditNodeForm: false,
                 showNewNodeForm: false,

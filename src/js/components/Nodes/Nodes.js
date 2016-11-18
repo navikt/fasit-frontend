@@ -1,27 +1,30 @@
 import React, {Component, PropTypes} from 'react'
-import {Link} from 'react-router'
 import {connect} from 'react-redux'
 import Node from './Node'
 import NodesStatistics from './NodesStatistics'
 import ElementList from '../common/ElementList'
 
-import {fetchNodeList, changePage} from '../../actionCreators/element_lists'
+import {clearNodesList, fetchElementList, changePage} from '../../actionCreators/element_lists'
 
 class Nodes extends Component {
     constructor(props) {
         super(props)
     }
 
+    componentWillUnmount(){
+        const {dispatch} = this.props
+        dispatch(clearNodesList())
+    }
     componentDidMount() {
         const {dispatch, filters, currentPage} = this.props
         dispatch(changePage(0))
-        dispatch(fetchNodeList(filters, currentPage))
+        dispatch(fetchElementList(filters, currentPage, "nodes"))
     }
 
     componentWillReceiveProps(nextProps) {
         const {dispatch, filters, currentPage} = this.props
         if (filters != nextProps.filters || currentPage !== nextProps.currentPage) {
-            dispatch(fetchNodeList(nextProps.filters, nextProps.currentPage))
+            dispatch(fetchElementList(nextProps.filters, nextProps.currentPage, "nodes"))
         }
     }
 
