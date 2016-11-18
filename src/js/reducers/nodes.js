@@ -1,5 +1,4 @@
 import {
-    CHANGE_PAGE,
     NODE_TYPES_RECEIVED,
     NODES_LIST_FETCHING,
     NODES_LIST_RECEIVED,
@@ -23,10 +22,6 @@ export default (state = {
     showDeleteNodeForm: false,
 }, action) => {
     switch (action.type) {
-        case CHANGE_PAGE:
-            return Object.assign({}, state, {
-                currentPage: action.value
-            })
 
         case NODE_TYPES_RECEIVED:
             return Object.assign({}, state, {

@@ -17,7 +17,6 @@ export function* fetchNodesList(action) {
 
     try {
         const page = yield fetchPage(url)
-        console.log("page", page)
         yield put({type: NODES_LIST_RECEIVED, page})
     } catch (err) {
         const value = err.message
@@ -26,6 +25,6 @@ export function* fetchNodesList(action) {
 }
 
 
-export function* watchNodesList() {
+export function* watchElementsList() {
     yield fork(takeEvery, NODES_LIST_REQUEST, fetchNodesList)
 }

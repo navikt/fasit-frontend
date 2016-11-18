@@ -1,5 +1,6 @@
 import {call} from 'redux-saga/effects'
 import {watchAuthentication} from './authentication'
+import {watchElementsList} from './elements_list'
 
 // Application
 import {watchApplicationsList} from './applications_list'
@@ -20,7 +21,6 @@ import {watchNodeNew} from './node_new'
 import {watchNodeRevisions} from './node_revisions'
 import {watchNodeSera} from './node_sera'
 import {watchNodeTypes} from './node_types'
-import {watchNodesList} from './nodes_list'
 
 
 // Resources
@@ -30,7 +30,9 @@ import {watchResourceTypes} from './resource_types'
 
 export default function*() {
     yield [
+        // Common
         call(watchAuthentication),
+        call(watchElementsList),
 
         // Applications
         call(watchApplicationsList),
@@ -51,7 +53,6 @@ export default function*() {
         call(watchNodeRevisions),
         call(watchNodeSera),
         call(watchNodeTypes),
-        call(watchNodesList),
 
         // Resources
         call(watchResourcesList),
