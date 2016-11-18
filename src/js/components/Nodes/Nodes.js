@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router'
 import Node from './Node'
 import NodesStatistics from './NodesStatistics'
 import ElementList from '../common/ElementList'
@@ -37,8 +38,11 @@ class Nodes extends Component {
         const toNextPage = ()=>dispatch(changePage(currentPage + 1, lastPage))
         const toPrevPage = ()=>dispatch(changePage(currentPage - 1))
         return (
-            <div className="main-page">
-                <div className="col-md-2 nopadding">
+            <div>
+                <div className="col-md-2 nopadding side-menu-container">
+                    <Link to='/resources/' className="side-menu-item" activeClassName='side-menu-item-active'>
+                        <i className="fa fa-home fa-cutlery" /> Resources
+                    </Link>
                         <ElementList
                             type="nodes"
                             data={nodes}
@@ -53,7 +57,7 @@ class Nodes extends Component {
                         />
                     </div>
 
-                <div className="col-md-10">
+                <div className="col-md-10 main-content-container">
                     {this.props.params.node ? <Node hostname={this.props.params.node}/> : <NodesStatistics />}
                 </div>
             </div>

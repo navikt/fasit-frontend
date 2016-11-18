@@ -76,11 +76,17 @@
   height: 30px;
   margin-top: -1px;
 }
-
+.main-content-container{
+  position:relative;
+}
+.side-menu-container{
+  position:relative;
+  height:100vh;
+  border-right: 1px solid @fasit-primary;
+  background-color: @fasit-secondary;
+}
 .element-list{
   height: 680px;
-  min-height: 100%;
-  border-right: 1px solid @fasit-primary;
   background-color: @fasit-secondary;
 }
 
@@ -88,9 +94,9 @@
   position: absolute;
   padding: 0px 2px 0px 2px;
   background-color: @fasit-secondary;
-  border-bottom: 1px solid @fasit-primary;
-  border-right: 1px solid @fasit-primary;
+
   width: 100%;
+  bottom:0;
 }
 
 .element-list-paging-number{

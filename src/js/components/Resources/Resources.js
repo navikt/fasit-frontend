@@ -37,7 +37,7 @@ class Resources extends Component {
         const toPrevPage = ()=>dispatch(changePage(currentPage - 1))
         return (
             <div className="main-page">
-                <div className="col-md-2 nopadding">
+                <div className="col-md-2 nopadding element-list-containe">
                     <ElementList
                         type="resources"
                         data={resources}
@@ -52,7 +52,7 @@ class Resources extends Component {
                     />
                 </div>
 
-                <div className="col-md-10">
+                <div className="col-md-10 main-content-container">
                     {this.props.params.resource ? <Resource hostname={this.props.params.resource}/> : <ResourcesStatistics />}
                 </div>
             </div>
