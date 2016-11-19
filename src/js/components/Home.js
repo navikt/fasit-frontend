@@ -7,8 +7,8 @@ class Home extends Component {
     constructor(props) {
         super(props)
     }
-    
-    submitSearchString(e){
+
+    submitSearchString(e) {
         const {searchString, dispatch} = this.props
         if (e.charCode == 13 || e.type === "click") {
             switch (this.props.searchContext) {
@@ -32,7 +32,7 @@ class Home extends Component {
     }
 
     render() {
-        const location = this.props.location.pathname.split('/')[1] ||"anything"
+        const location = this.props.location.pathname.split('/')[1] || "anything"
         const {searchString, dispatch} = this.props
 
         return (
@@ -47,18 +47,23 @@ class Home extends Component {
                 <br />
                 <div className="row">
                     <div className="col-md-6 col-md-offset-3">
+                        <span classNam>
                         <input
                             type="search"
-                            className="form-control"
+                            className="form-control search-field-text-input"
                             id="search"
                             placeholder={'Search for ' + location}
                             value={searchString}
                             onChange={(e) => dispatch(setSearchString(e.target.value))}
                             onKeyPress={this.submitSearchString.bind(this)}
                         />
+                        <button type="button" className="search-field-button"><i className="fa fa-arrow-right" /></button>
+                            </span>
                     </div>
 
                 </div>
+                <br />
+                <br />
                 <br />
                 <br />
                 <Filters />
