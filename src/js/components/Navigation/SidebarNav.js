@@ -1,62 +1,114 @@
-import React from 'react'
-import classString from 'react-classset'
+import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
-import {NavLink} from './NavLink'
 import {connect} from 'react-redux'
+import classString from 'react-classset'
+import Nodes from '../Nodes/Nodes'
+import Resources from '../Resources/Resources'
+import Instances from '../Instances/Instances'
+import Applications from '../Applications/Applications'
+import Environments from '../Environments/Environments'
+import ElementList from '../common/ElementList'
 
+class SidebarNav extends Component {
+    constructor(props) {
+        super(props)
+    }
 
-const SidebarNav = React.createClass({
-    hidden() {
+    selectPagingResource(location) {
+        switch (location) {
+            case "nodes":
+                return <Nodes />
+            case "resources":
+                return <Resources />
+            case "instances":
+                return <Instances />
+            case "applications":
+                return <Applications />
+            case "environments":
+                return <Environments />
+            default:
+                return <div />
+        }
+    }
+
+    elementListClasses(location, item) {
         return classString({
-            "hidden": this.props.sidebarMinimized,
+            'element-list-container': true,
+            'element-list-container-selected': (location === item)
         })
-    },
-    active(location){
-        return classString({
-            "sidebar-menu-letter": true,
-            "sidebar-menu-active": this.props.location.pathname.split("/")[1] === location
+    }
 
-        })
-    },
     render() {
+        const location = this.props.location.pathname.split('/')[1]
+        const {nodes, resources, environments, applications, instances} = this.props
         return (
-            <div className="navbar navbar-inverse sidebar">
-                <div className="sidebar-header"><img src="/images/fasit.png" className="sidebar-brand"/><span
-                    className={this.hidden()}>&nbsp;&nbsp;<b className="">Fasit</b></span></div>
-                <ul className="nav sidebar" id="side-menu">
-                    <li className={this.active("")}>
-                        <Link to="/" onlyActiveOnIndex><i className="fa fa-home"></i><span
-                            className={this.hidden()}>&nbsp;&nbsp; Home</span></Link>
+            <div className="col-md-2 nopadding side-menu-container">
+                <ul className="nav sidebar">
+                    <li>
+                        <Link to="/" onlyActiveOnIndex className="btn btn-default text-left sidebarNav-link"
+                              activeClassName="sidebarNav-link-active">
+                            <i className="fa fa-home"/>&nbsp;&nbsp;&nbsp;&nbsp;Home</Link>
                     </li>
-                    <li className={this.active("environments")}>
-                        <Link to="/environments"><i className="fa fa-sitemap"></i><span
-                            className={this.hidden()}>&nbsp;&nbsp; Environments</span></Link>
+                    <li >
+                        <Link to="/environments" className="btn btn-default text-left sidebarNav-link"
+                              activeClassName="sidebarNav-link-active">
+                            <i className="fa fa-sitemap"/>&nbsp;&nbsp;&nbsp;&nbsp;Environments</Link>
+                        <div className={this.elementListClasses(location, "environments")}>
+
+                            { location === "environments" ? <ElementList type="environments" data={environments}/> :
+                                <div />}
+                        </div>
                     </li>
-                    <li className={this.active("applications")}>
-                        <Link to="/applications"><i className="fa fa-home fa-cube"></i><span
-                            className={this.hidden()}>&nbsp;&nbsp; Applications</span></Link>
+                    <li >
+                        <Link to="/applications" className="btn btn-default text-left sidebarNav-link"
+                              activeClassName="sidebarNav-link-active">
+                            <i className="fa fa-home fa-cube"/>&nbsp;&nbsp;&nbsp;&nbsp;Applications</Link>
+                        <div className={this.elementListClasses(location, "applications")}>
+
+                            { location === "applications" ? <ElementList type="applications" data={applications}/> :
+                                <div />}
+                        </div>
                     </li>
-                    <li className={this.active("instances")}>
-                        <Link to="/instances"><i className="fa fa-home fa-cubes"></i><span
-                            className={this.hidden()}>&nbsp;&nbsp; Instances</span></Link>
+                    <li >
+                        <Link to="/instances" className="btn btn-default text-left sidebarNav-link"
+                              activeClassName="sidebarNav-link-active">
+                            <i className="fa fa-home fa-cubes"/>&nbsp;&nbsp;&nbsp;&nbsp;Instances</Link>
+                        <div className={this.elementListClasses(location, "instances")}>
+
+                            { location === "instances" ? <ElementList type="instances" data={instances}/> : <div />}
+                        </div>
                     </li>
-                    <li className={this.active("nodes")}>
-                        <Link to="/nodes"><i className="fa fa-home fa-laptop"></i><span
-                            className={this.hidden()}>&nbsp;&nbsp; Nodes</span></Link>
+                    <li >
+                        <Link to="/nodes" className="btn btn-default text-left sidebarNav-link"
+                              activeClassName="sidebarNav-link-active">
+                            <i className="fa fa-home fa-laptop"/>&nbsp;&nbsp;&nbsp;&nbsp;Nodes</Link>
+                        <div className={this.elementListClasses(location, "nodes")}>
+                            { location === "nodes" ? <ElementList type="nodes" data={nodes}/> : <div />}
+                        </div>
                     </li>
-                    <li className={this.active("resources")}>
-                        <Link to="/resources"><i className="fa fa-home fa-cutlery"></i><span
-                            className={this.hidden()}>&nbsp;&nbsp; Resources</span></Link>
+                    <li >
+                        <Link to="/resources" className="btn btn-default text-left sidebarNav-link"
+                              activeClassName="sidebarNav-link-active">
+                            <i className="fa fa-home fa-cutlery"/>&nbsp;&nbsp;&nbsp;&nbsp;Resources</Link>
+                        <div className={this.elementListClasses(location, "resources")}>
+
+                            { location === "resources" ? <ElementList type="resources" data={resources}/> : <div />}
+                        </div>
                     </li>
                 </ul>
+                {this.selectPagingResource(location)}
             </div>
         )
     }
-})
+}
 const mapStateToProps = (state) => {
     return {
-        sidebarMinimized: state.configuration.sidebarMinimized,
-        location: state.routing.locationBeforeTransitions
+        location: state.routing.locationBeforeTransitions,
+        nodes: state.nodes,
+        resources: state.resources,
+        instances: state.instances,
+        applications: state.applications,
+        environments: state.environments
     }
 
 }

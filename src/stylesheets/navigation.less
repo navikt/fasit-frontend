@@ -86,16 +86,25 @@
   border-right: 1px solid @fasit-primary;
   background-color: @fasit-secondary;
 }
-.element-list{
+
+.element-list-container{
+  height: 0
+}
+.element-list-container-selected{
   height: 680px;
+  transition: height 200ms ease-in
+}
+.element-list{
   background-color: @fasit-secondary;
+  border-bottom: 1px solid red;
 }
 
 .element-list-paging {
-  position: relative;
+  position: absolute;
   padding: 0px 2px 0px 2px;
   background-color: @fasit-secondary;
   width: 100%;
+  bottom: 120px;
 }
 
 .element-list-paging-number{
@@ -140,6 +149,15 @@ a.element-list-item {
   color: @fasit-primary !important;
 }
 
+.sidebarNav-link{
+  background-image: linear-gradient(@fasit-secondary, #ddd 60%, darken(@fasit-secondary, 10%));
+}
+.sidebarNav-link:hover{
+  background-image: linear-gradient(#ffffff, #ddd 60%, darken(@fasit-secondary, 37%));
+}
+.sidebarNav-link-active{
+  background-image: linear-gradient(#ffffff, #ddd 60%, darken(@fasit-secondary, 40%));
+}
 .navbar-static-top {
   z-index: auto;
 }

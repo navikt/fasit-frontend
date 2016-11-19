@@ -1,79 +1,46 @@
 import React, {Component, PropTypes} from 'react'
-import TopNav from '../Navigation/TopNav'
-import ContextMenu from '../Navigation/ContextMenu'
 import {Link} from 'react-router'
-import {connect} from 'react-redux'
 
+import TopNav from '../Navigation/TopNav'
+import SidebarNav from '../Navigation/SidebarNav'
+import ContextMenu from '../Navigation/ContextMenu'
 import Home from '../Home'
+import Login from '../Login'
 import Node from '../Nodes/Node'
-import Nodes from '../Nodes/Nodes'
-import Resources from '../Nodes/Nodes'
-import ElementList from '../common/ElementList'
+import Resource from '../Resources/Resource'
+import Instance from '../Instances/Instances'
+import Application from '../Applications/Application'
+import Environment from '../Environments/Environment'
 
-class App extends Component {
+
+export default class App extends Component {
     constructor(props) {
         super(props)
     }
 
-    selectPaging(){
-        const location = this.props.location.pathname
-        switch(location){
-            case "/nodes":
-                return <Nodes />
-            case "/resources":
-                return <Resources />
 
-        }
-
-
+    determineMainContent(){
+        const params = this.props.params
+        if (params.node) return <Node hostname={params.node}/>
+        if (params.resource) return <Resource hostname={params.resource}/>
+        if (params.instance) return <Instance hostname={params.node.instance}/>
+        if (params.application) return <Application hostname={params.application}/>
+        if (params.environment) return <Environment hostname={params.environment}/>
+        if (this.props.location.pathname === "/login") return <Login />
+        else return <Home />
     }
     render() {
-        console.log("app", this.props)
-        const location = this.props.location.pathname
-        const {nodes, resources} = this.props
+        console.log("main",this)
         return (
             <div>
                 <TopNav />
                 <ContextMenu />
-                <div className="col-md-2 nopadding side-menu-container">
-                    <ul className="nav sidebar" id="side-menu">
-                        <li>
-                            <Link to="/" onlyActiveOnIndex><i className="fa fa-home" />Home</Link>
-                        </li>
-                        <li >
-                            <Link to="/environments"><i className="fa fa-sitemap" />Environments</Link>
-                        </li>
-                        <li >
-                            <Link to="/applications"><i className="fa fa-home fa-cube" />Applications</Link>
-                        </li>
-                        <li >
-                            <Link to="/instances"><i className="fa fa-home fa-cubes" />Instances</Link>
-                        </li>
-                        <li >
-                            <Link to="/nodes"><i className="fa fa-home fa-laptop" />Nodes</Link>
-                            { location === "/nodes" ?<ElementList type="nodes" data={nodes} /> : <i />}
-                        </li>
-                        <li >
-                            <Link to="/resources"><i className="fa fa-home fa-cutlery" />Resources</Link>
-                            { location === "/resources" ?<ElementList type="resources" data={resources} /> : <i />}
+                <SidebarNav />
 
-                        </li>
-                    </ul>
-                    {this.selectPaging()}
-                </div>
                 <div className="col-md-10 main-content-container">
-                    {this.props.params.node ? <Node hostname={this.props.params.node}/> : <Home />}
+                    {this.determineMainContent()}
                 </div>
             </div>
         )
     }
 }
-const mapStateToProps = (state) => {
-    return {
-        location: state.routing.locationBeforeTransitions,
-        nodes: state.nodes,
-        resources: state.resources,
-    }
-
-}
-export default connect(mapStateToProps)(App)
