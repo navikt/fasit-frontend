@@ -1,17 +1,15 @@
 import {
-    TOGGLE_SIDEBAR,
     CHANGE_FILTER,
     SET_SEARCH_CONTEXT,
     SET_SEARCH_STRING
 } from '../actionTypes'
 
-export const toggleSidebar = () => {return {type: TOGGLE_SIDEBAR}}
-export const changeFilter = (filtername, event) => {
-    return {
+export const changeFilter = (filtername, searchString) => (dispatch) => dispatch({
         type: CHANGE_FILTER,
-        value: {filtername, filtervalue: event.value}
-    }
-}
+        filtername,
+        searchString
+    })
+
 export const setSearchLocation = (context) => {
     return {
         type: SET_SEARCH_CONTEXT,

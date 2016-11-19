@@ -30,7 +30,6 @@ export default class App extends Component {
         else return <Home />
     }
     render() {
-        console.log("main",this)
         return (
             <div>
                 <TopNav />

@@ -22,7 +22,7 @@ export default (state = {}, action) => {
         case CHANGE_FILTER:
         {
             const filters = Object.assign({}, state.filters, {
-                [action.value.filtername]: action.value.filtervalue
+                [action.filtername]: action.searchString
             })
 
             return Object.assign({}, state, {

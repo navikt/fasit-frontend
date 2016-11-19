@@ -19,8 +19,7 @@ const Search = React.createClass({
     },
     submitSearchString(e){
         if (e.charCode == 13 || e.type === "click") {
-            let s = {}
-            s.value = this.props.searchString
+            const s = this.props.searchString
             switch (this.props.searchContext) {
                 case 'nodes':
                     this.props.dispatch(changeFilter('hostname', s))
@@ -37,6 +36,10 @@ const Search = React.createClass({
                 case 'instances':
                     this.props.dispatch(changeFilter('instances', s))
                     browserHistory.push('/instances')
+                    return
+                case 'resources':
+                    this.props.dispatch(changeFilter('resources', s))
+                    browserHistory.push('/resources')
                     return
             }
         }

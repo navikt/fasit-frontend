@@ -1,31 +1,31 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
+
 
 import BreadCrumbs from './BreadCrumbs'
 import Filters from './Filters'
 
-const TopNav = React.createClass({
+class ContexMenu extends Component {
 
 
     render() {
+        const {location} = this.props
+        console.log("contextmenu", location.pathname.split('/').length)
         return (
             <nav className="navbar navbar-default navbar-static-top navbar-filter" role="navigation">
                 <BreadCrumbs />
-                <Filters />
+                {location.pathname.split('/').length > 2 ? <Filters />: <div />}
             </nav>
         )
     }
+}
+ContexMenu.propTypes = {
+    dispatch: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    location: state.routing.locationBeforeTransitions,
 })
-const mapStateToProps = (state) => {
-    return {
-        sidebarMinimized: state.configuration.sidebarMinimized,
-        user: state.user
-    }
-}
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onClick: () => dispatch({type: 'TOGGLE_SIDEBAR'})
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(TopNav)
+
+export default connect(mapStateToProps)(ContexMenu)
