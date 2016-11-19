@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import Resource from './Resource'
 import ResourcesStatistics from './ResourcesStatistics'
-import ElementList from '../common/ElementList'
+import ElementPaging from '../common/ElementPaging'
 
 import {clearResourcesList, fetchElementList, changePage} from '../../actionCreators/element_lists'
 
@@ -10,10 +10,12 @@ class Resources extends Component {
     constructor(props) {
         super(props)
     }
-    componentWillUnmount(){
+
+    componentWillUnmount() {
         const {dispatch} = this.props
         dispatch(clearResourcesList())
     }
+
     componentDidMount() {
         const {dispatch, filters, currentPage} = this.props
         dispatch(changePage(0))
@@ -36,25 +38,17 @@ class Resources extends Component {
         const toNextPage = ()=>dispatch(changePage(currentPage + 1, lastPage))
         const toPrevPage = ()=>dispatch(changePage(currentPage - 1))
         return (
-            <div className="main-page">
-                <div className="col-md-2 nopadding element-list-containe">
-                    <ElementList
-                        type="resources"
-                        data={resources}
-                        toFirstPage={toFirstPage}
-                        toLastPage={toLastPage}
-                        toNextPage={toNextPage}
-                        toPrevPage={toPrevPage}
-                        current={currentPage +1}
-                        last = {lastPage}
-                        total = {total_count}
+            <div>
+                <ElementPaging
+                    toFirstPage={toFirstPage}
+                    toLastPage={toLastPage}
+                    toNextPage={toNextPage}
+                    toPrevPage={toPrevPage}
+                    current={currentPage + 1}
+                    last={lastPage}
+                    total={total_count}
+                />
 
-                    />
-                </div>
-
-                <div className="col-md-10 main-content-container">
-                    {this.props.params.resource ? <Resource hostname={this.props.params.resource}/> : <ResourcesStatistics />}
-                </div>
             </div>
         )
     }

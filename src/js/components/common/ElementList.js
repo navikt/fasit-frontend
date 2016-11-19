@@ -42,45 +42,13 @@ export default class ElementList extends Component {
         })
     }
 
-    generateElementList() {
+    render() {
         const {type} = this.props
         switch (type) {
             case "nodes":
-                return this.generateNodesList()
+                return <div className="element-list">{this.generateNodesList()}</div>
             case "resources":
-                return this.generateResourcesList()
+                return <div className="element-list">{this.generateResourcesList()}</div>
         }
-    }
-
-    render() {
-        const {toFirstPage, toLastPage, toNextPage, toPrevPage, current, last, total} = this.props
-
-        return (
-            <div>
-                <div className="element-list">
-                    {this.generateElementList()}
-                </div>
-                <div className="element-list-paging">
-                    <hr style={{border: 1 + 'px  solid #ddd'}}/>
-
-                    <div className="btn-group btn-group-justified">
-                        <a className="btn btn-default" onClick={toFirstPage}>{"<<"}</a>
-                        <a className="btn btn-default"
-                           onClick={toPrevPage}>{"<"}</a>
-                        <div className="element-list-paging-number">
-                            {current} / {!isNaN(last) ? last + 1 : last}
-                        </div>
-                        <a className="btn btn-default"
-                           onClick={toNextPage}>{">"}</a>
-                        <a className="btn btn-default" onClick={toLastPage}>{">>"}</a>
-                    </div>
-                    <h4 className="text-center">{total} results</h4>
-
-                    <div className="element-list-paging-summary">
-                    </div>
-                </div>
-            </div>
-        )
-
     }
 }

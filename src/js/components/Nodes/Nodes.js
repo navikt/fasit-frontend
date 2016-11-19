@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
 
-import ElementList from '../common/ElementList'
+import ElementPaging from '../common/ElementPaging'
 
 import {clearNodesList, fetchElementList, changePage} from '../../actionCreators/element_lists'
 
@@ -40,9 +40,7 @@ class Nodes extends Component {
         return (
             <div>
 
-                <ElementList
-                    type="nodes"
-                    data={nodes}
+                <ElementPaging
                     toFirstPage={toFirstPage}
                     toLastPage={toLastPage}
                     toNextPage={toNextPage}
