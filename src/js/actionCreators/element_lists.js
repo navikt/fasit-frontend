@@ -24,9 +24,9 @@ export const fetchElementList = (filters, currentPage, type) => (dispatch) =>  {
     const filterString = `?page=${currentPage}&pr_page=10&${buildFilterString(filters, filterList[type])}`
     switch(type){
         case "nodes":
-            dispatch({type: NODES_LIST_REQUEST, filterString})
+            return dispatch({type: NODES_LIST_REQUEST, filterString})
         case "resources":
-            dispatch({type: RESOURCES_LIST_REQUEST, filterString})
+            return dispatch({type: RESOURCES_LIST_REQUEST, filterString})
 
 
     }

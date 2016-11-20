@@ -57,7 +57,7 @@ class Home extends Component {
                             onChange={(e) => dispatch(setSearchString(e.target.value))}
                             onKeyPress={this.submitSearchString.bind(this)}
                         />
-                        <button type="button" className="search-field-button btn-grey"><i className="fa fa-arrow-right" /></button>
+                        <button type="button" className="search-field-button btn-grey" onClick={this.submitSearchString.bind(this)}><i className="fa fa-arrow-right" /></button>
                             </span>
                     </div>
 
