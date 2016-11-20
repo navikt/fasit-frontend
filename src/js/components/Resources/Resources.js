@@ -1,7 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import Resource from './Resource'
-import ResourcesStatistics from './ResourcesStatistics'
 import ElementPaging from '../common/ElementPaging'
 
 import {clearResourcesList, fetchElementList, changePage} from '../../actionCreators/element_lists'

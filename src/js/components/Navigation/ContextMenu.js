@@ -11,7 +11,6 @@ class ContexMenu extends Component {
 
     render() {
         const {location} = this.props
-        console.log("contextmenu", location.pathname.split('/').length)
         return (
             <nav className="navbar navbar-default navbar-static-top navbar-filter" role="navigation">
                 <BreadCrumbs />

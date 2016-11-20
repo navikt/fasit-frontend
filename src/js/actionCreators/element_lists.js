@@ -5,7 +5,10 @@ import {
     RESOURCES_LIST_FETCHING,
     ENVIRONMENTS_LIST_FETCHING,
     APPLICATIONS_LIST_FETCHING,
+    APPLICATIONS_LIST_REQUEST,
     INSTANCES_LIST_FETCHING,
+    INSTANCES_LIST_REQUEST,
+    ENVIRONMENTS_LIST_REQUEST,
     CHANGE_PAGE
 } from '../actionTypes'
 import {buildFilterString} from '../utils'
@@ -19,7 +22,10 @@ export const clearInstancesList = () => (dispatch) => dispatch({type: INSTANCES_
 export const fetchElementList = (filters, currentPage, type) => (dispatch) =>  {
     const filterList = {
         nodes: ["environment", "environmentclass", "type", "hostname"],
-        resources: ["alias", "environment", "environmentclass", "zone", "application"]
+        resources: ["alias", "environment", "environmentclass", "zone", "application"],
+        environments: ['environmentclass'],
+        applications: ['application'],
+        instances: ["environment", "environmentclass", "application"]
     }
     const filterString = `?page=${currentPage}&pr_page=10&${buildFilterString(filters, filterList[type])}`
     switch(type){
@@ -27,6 +33,13 @@ export const fetchElementList = (filters, currentPage, type) => (dispatch) =>  {
             return dispatch({type: NODES_LIST_REQUEST, filterString})
         case "resources":
             return dispatch({type: RESOURCES_LIST_REQUEST, filterString})
+        case "environments":
+            return dispatch({type: ENVIRONMENTS_LIST_REQUEST, filterString})
+        case "applications":
+            return dispatch({type: APPLICATIONS_LIST_REQUEST, filterString})
+        case "instances":
+            return dispatch({type: INSTANCES_LIST_REQUEST, filterString})
+
 
 
     }

@@ -1,32 +1,47 @@
 import {
-    SET_ENVIRONMENT_CLASS,
-    SET_ENVIRONMENT,
     SET_SEARCH_CONTEXT,
     CHANGE_FILTER,
+    CHANGE_ALL_FILTERS,
     SET_SEARCH_STRING
 } from '../actionTypes'
-export default (state = {}, action) => {
+export default (state = {
+    context: '',
+    searchString: '',
+    filters: {
+        environment: '',
+        environmentclass: '',
+        type: '',
+        resourcetype: '',
+        hostname: '',
+        cluster: '',
+        unit: '',
+        application: '',
+        alias: '',
+        zone: ''
+    }
+}, action) => {
     switch (action.type) {
-        case SET_ENVIRONMENT_CLASS:
-            return Object.assign({}, state, {
-                envClass: action.value
-            })
-        case SET_ENVIRONMENT:
-            return Object.assign({}, state, {
-                environment: action.value
-            })
         case SET_SEARCH_CONTEXT:
             return Object.assign({}, state, {
                 context: action.value
             })
-        case CHANGE_FILTER:
-        {
+        case CHANGE_FILTER: {
             const filters = Object.assign({}, state.filters, {
                 [action.filtername]: action.searchString
             })
 
             return Object.assign({}, state, {
-                filters: filters
+                filters
+            })
+        }
+        case CHANGE_ALL_FILTERS: {
+            const filters = Object.assign({}, state.filters, {
+                environment: action.searchString,
+                hostname: action.searchString,
+                alias: action.searchString,
+            })
+            return Object.assign({}, state, {
+                filters
             })
         }
         case SET_SEARCH_STRING:

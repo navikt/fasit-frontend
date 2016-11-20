@@ -5,10 +5,9 @@ import {browserHistory} from 'react-router'
 import {syncHistoryWithStore} from 'react-router-redux'
 import {Root} from './js/components/Root/Root'
 import {configureStore} from './js/store/configureStore'
-import initialState from './js/store/initialState'
 import {SET_SEARCH_CONTEXT, RECEIVE_CONFIGURATION} from './js/actionTypes'
 
-const store = configureStore(initialState)
+const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)
 
 history.listen(location => store.dispatch({type: SET_SEARCH_CONTEXT, value: location.pathname.split("/")[1]}))

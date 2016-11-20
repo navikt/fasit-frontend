@@ -45,7 +45,8 @@ class TopNav extends Component {
                         <span className="icon-bar"></span>
                     </button>
                 </div>
-                <Search />
+                {location.pathname.split('/').length > 2 ? <Search />: <div />}
+
 
                 <ul className="nav navbar-top-links navbar-right">
                     {this.showLogin()}
@@ -56,8 +57,9 @@ class TopNav extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        sidebarMinimized: state.configuration.sidebarMinimized,
-        user: state.user
+        user: state.user,
+        location: state.routing.locationBeforeTransitions,
+
     }
 }
 

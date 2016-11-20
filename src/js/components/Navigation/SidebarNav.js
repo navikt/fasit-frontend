@@ -15,7 +15,7 @@ class SidebarNav extends Component {
     }
 
     selectPagingResource(location) {
-        switch (location) {
+        switch (location[1]) {
             case "nodes":
                 return <Nodes />
             case "resources":
@@ -34,12 +34,15 @@ class SidebarNav extends Component {
     elementListClasses(location, item) {
         return classString({
             'element-list-container': true,
-            'element-list-container-selected': (location === item)
+            'element-list-container-selected': (location[1] === item && location.length > 2)
         })
+    }
+    displayElementList(location, item){
+        return (location[1] === item && location.length > 2)
     }
 
     render() {
-        const location = this.props.location.pathname.split('/')[1]
+        const location = this.props.location.pathname.split('/')
         const {nodes, resources, environments, applications, instances} = this.props
         return (
             <div className="col-md-2 nopadding side-menu-container">
@@ -55,7 +58,7 @@ class SidebarNav extends Component {
                             <i className="fa fa-sitemap"/>&nbsp;&nbsp;&nbsp;&nbsp;Environments</Link>
                         <div className={this.elementListClasses(location, "environments")}>
 
-                            { location === "environments" ? <ElementList type="environments" data={environments}/> :
+                            { this.displayElementList(location, "environments") ? <ElementList type="environments" data={environments}/> :
                                 <div />}
                         </div>
                     </li>
@@ -65,7 +68,7 @@ class SidebarNav extends Component {
                             <i className="fa fa-home fa-cube"/>&nbsp;&nbsp;&nbsp;&nbsp;Applications</Link>
                         <div className={this.elementListClasses(location, "applications")}>
 
-                            { location === "applications" ? <ElementList type="applications" data={applications}/> :
+                            { this.displayElementList(location, "applications") ? <ElementList type="applications" data={applications}/> :
                                 <div />}
                         </div>
                     </li>
@@ -75,7 +78,7 @@ class SidebarNav extends Component {
                             <i className="fa fa-home fa-cubes"/>&nbsp;&nbsp;&nbsp;&nbsp;Instances</Link>
                         <div className={this.elementListClasses(location, "instances")}>
 
-                            { location === "instances" ? <ElementList type="instances" data={instances}/> : <div />}
+                            { this.displayElementList(location, "instances") ? <ElementList type="instances" data={instances}/> : <div />}
                         </div>
                     </li>
                     <li >
@@ -83,7 +86,7 @@ class SidebarNav extends Component {
                               activeClassName="sidebarNav-link-active">
                             <i className="fa fa-home fa-laptop"/>&nbsp;&nbsp;&nbsp;&nbsp;Nodes</Link>
                         <div className={this.elementListClasses(location, "nodes")}>
-                            { location === "nodes" ? <ElementList type="nodes" data={nodes}/> : <div />}
+                            { this.displayElementList(location, "nodes") ? <ElementList type="nodes" data={nodes}/> : <div />}
                         </div>
                     </li>
                     <li >
@@ -92,7 +95,7 @@ class SidebarNav extends Component {
                             <i className="fa fa-home fa-cutlery"/>&nbsp;&nbsp;&nbsp;&nbsp;Resources</Link>
                         <div className={this.elementListClasses(location, "resources")}>
 
-                            { location === "resources" ? <ElementList type="resources" data={resources}/> : <div />}
+                            { this.displayElementList(location, "resources") ? <ElementList type="resources" data={resources}/> : <div />}
                         </div>
                     </li>
                 </ul>
