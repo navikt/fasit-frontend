@@ -1,18 +1,26 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {setSearchString, changeFilter} from '../actionCreators/filters'
-import {fetchElementList} from '../actionCreators/element_lists'
-import Filters from './Navigation/Filters'
+import {setSearchString, changeFilter} from '../../actionCreators/filters'
+import {fetchElementList} from '../../actionCreators/element_lists'
+import Filters from '../Navigation/Filters'
+import SearchResults from './SearchResults'
 
 class Home extends Component {
     constructor(props) {
         super(props)
+        this.state = {showResults:false};
+    }
+    componentWillReceiveProps(nextProps){
+        console.log("searchResults",nextProps)
     }
 
     submitSearchString(e) {
         const {searchString, dispatch, filters} = this.props
         const elementTypes = ['nodes', 'environments', 'applications', 'instances', 'resources']
+
         if (e.charCode == 13 || e.type === "click") {
+            this.setState({showResults:true})
+
             switch (this.props.searchContext) {
                 case 'nodes':
                     dispatch(changeFilter('hostname', searchString))
@@ -42,13 +50,12 @@ class Home extends Component {
     render() {
         const location = this.props.location.pathname.split('/')[1] || "anything"
         const {searchString, dispatch} = this.props
-
         return (
             <div className="text-center">
 
                 <br />
                 <br />
-                <span><img src="images/fasit-stempel.png" alt="FASIT" className="home-brand-logo"/>
+                <span><img src="images/fasit-stempel.png" className="home-brand-logo"/>
                 <div className="home-brand-name"></div></span>
                 <br />
                 <br />
@@ -73,14 +80,8 @@ class Home extends Component {
                         <Filters />
                     </div>
                 </div>
-                {location === 'anything' ?
-                    <div><br /><br />
-                        <div className="col-md-4 col-md-offset-4 alert alert-dismissible alert-danger">
-                            <strong>Isjda!</strong><br />Generelt søk er ikke ferdig på backend ennå.<br /> Velg en
-                            kategori
-                            i sidemenyen
-                        </div>
-                    </div> : <div />}
+                {this.state.showResults ? <SearchResults /> : <div />}
+
 
             </div>
         )

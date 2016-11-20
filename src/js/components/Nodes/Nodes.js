@@ -13,7 +13,7 @@ class Nodes extends Component {
 
     componentWillUnmount() {
         const {dispatch} = this.props
-        dispatch(clearNodesList())
+        //dispatch(clearNodesList())
     }
 
     componentDidMount() {
