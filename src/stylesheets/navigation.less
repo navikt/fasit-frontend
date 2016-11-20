@@ -150,13 +150,22 @@ a.element-list-item {
 }
 
 .sidebarNav-link{
-  background-image: linear-gradient(@fasit-secondary, #ddd 60%, darken(@fasit-secondary, 10%));
+  border: 1px solid #ccc;
+  color: @fasit-tertiary;
 }
 .sidebarNav-link:hover{
-  background-image: linear-gradient(#ffffff, #ddd 60%, darken(@fasit-secondary, 37%));
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#f8f8f8),to(#f1f1f1));
+  background-image: -webkit-linear-gradient(top,#f8f8f8,#f1f1f1);
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  background-color: #f8f8f8;
+  background-image: linear-gradient(top,#f8f8f8,#f1f1f1);
+  background-image: -o-linear-gradient(top,#f8f8f8,#f1f1f1);
+  border: 1px solid #c6c6c6;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  color: #222;
 }
-.sidebarNav-link-active{
-  background-image: linear-gradient(#ffffff, #ddd 60%, darken(@fasit-secondary, 40%));
+.sidebarNav-link-active, .sidebarNav-link-active:hover, .sidebarNav-link-active:focus{
+  color: @brand-primary;
 }
 .navbar-static-top {
   z-index: auto;
@@ -198,4 +207,23 @@ a.element-list-item {
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+
+.btn-grey{
+  border-radius: 0px 4px 4px 0px;
+  border: 1px solid #ccc;
+  background-color: @fasit-secondary;
+  color: @fasit-tertiary;
+}
+.btn-grey:hover{
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#f8f8f8),to(#f1f1f1));
+  background-image: -webkit-linear-gradient(top,#f8f8f8,#f1f1f1);
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  background-color: #f8f8f8;
+  background-image: linear-gradient(top,#f8f8f8,#f1f1f1);
+  background-image: -o-linear-gradient(top,#f8f8f8,#f1f1f1);
+  border: 1px solid #c6c6c6;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  color: #222;
 }

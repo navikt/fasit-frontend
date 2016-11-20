@@ -57,7 +57,7 @@ class Home extends Component {
                             onChange={(e) => dispatch(setSearchString(e.target.value))}
                             onKeyPress={this.submitSearchString.bind(this)}
                         />
-                        <button type="button" className="search-field-button"><i className="fa fa-arrow-right" /></button>
+                        <button type="button" className="search-field-button btn-grey"><i className="fa fa-arrow-right" /></button>
                             </span>
                     </div>
 
@@ -67,6 +67,8 @@ class Home extends Component {
                 <br />
                 <br />
                 <Filters />
+                {location === 'anything' ? <div className="col-md-4 col-md-offset-4 alert alert-dismissible alert-danger">
+                    <strong>Isjda!</strong><br />Generelt søk er ikke ferdig på backend ennå.<br /> Velg en kategori i sidemenyen</div> : <div />}
 
             </div>
         )
