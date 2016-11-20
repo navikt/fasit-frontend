@@ -12,6 +12,7 @@ class Home extends Component {
     }
     componentWillReceiveProps(nextProps){
         console.log("searchResults",nextProps)
+        if (nextProps.location.pathname === "/") this.setState({showResults:false})
     }
 
     submitSearchString(e) {
