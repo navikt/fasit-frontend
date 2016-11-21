@@ -46,7 +46,7 @@ class SearchRestuls extends Component {
             case "nodes":
                 return (
                     <div className="col-md-4 col-md-offset-3">
-                        <h3 className="text-left">Nodes</h3>
+                        <h3 className="text-left">{nodes.headers.total_count} nodes</h3>
                         <ElementList type="nodes" data={nodes}/>
                     </div>
                 )
@@ -59,11 +59,12 @@ class SearchRestuls extends Component {
                 )
             default:
                 return (
-                    <div className="center-block">
+                    <div className="text-left">
+                        <div className="col-md-1" />
                         {environments.data.length > 0 ?
                             <div className="col-md-2">
                                 <div className={this.elementListClasses(environments)}>
-                                    <h3>Environments</h3>
+                                    <h4>{environments.headers.total_count} environments</h4>
                                     <ElementList type="environments" data={environments}/>
                                 </div>
                             </div> :
@@ -72,7 +73,7 @@ class SearchRestuls extends Component {
                         {applications.data.length > 0 ?
                             <div className="col-md-2">
                                 <div className={this.elementListClasses(applications)}>
-                                    <h3>Applications</h3>
+                                    <h4>{applications.headers.total_count} applications</h4>
                                     <ElementList type="applications" data={applications}/>
                                 </div>
                             </div> :
@@ -81,7 +82,7 @@ class SearchRestuls extends Component {
                         {instances.data.length > 0 ?
                             <div className="col-md-2">
                                 <div className={this.elementListClasses(instances)}>
-                                    <h3>Instances</h3>
+                                    <h4>{instances.headers.total_count} instances</h4>
                                     <ElementList type="instances" data={instances}/>
                                 </div>
                             </div> :
@@ -90,8 +91,7 @@ class SearchRestuls extends Component {
                         {nodes.data.length > 0 ?
                             <div className="col-md-2">
                                 <div className={this.elementListClasses(nodes)}>
-
-                                    <h3>Nodes</h3>
+                                    <h4>{nodes.headers.total_count} nodes</h4>
                                     <ElementList type="nodes" data={nodes}/>
                                 </div>
                             </div> :
@@ -100,7 +100,8 @@ class SearchRestuls extends Component {
                         {resources.data.length > 0 ?
                             <div className="col-md-2">
                                 <div className={this.elementListClasses(resources)}>
-                                    <h3>Resources</h3>
+                                    <h4>{resources.headers.total_count} resources</h4>
+
                                     <ElementList type="resources" data={resources}/>
                                 </div>
                             </div> :

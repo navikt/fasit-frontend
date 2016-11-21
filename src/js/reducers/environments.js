@@ -30,7 +30,8 @@ export default (state = {
         case ENVIRONMENTS_LIST_RECEIVED:
             return Object.assign({}, state, {
                 isFetching: false,
-                data: action.value
+                data: action.page.data,
+                headers: action.page.headers
             })
 
 

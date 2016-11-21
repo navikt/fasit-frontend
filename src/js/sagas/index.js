@@ -3,14 +3,11 @@ import {watchAuthentication} from './authentication'
 import {watchElementsList} from './elements_list'
 
 // Application
-import {watchApplicationsList} from './applications_list'
 
 // Environments
-import {watchEnvironmentsList} from './environments_list'
 import {watchEnvironmentNames} from './environment_names'
 
 // Instances
-import {watchInstancesList} from './instances_list'
 
 //Nodes
 import {watchNodeDelete} from './node_delete'
@@ -35,14 +32,11 @@ export default function*() {
         call(watchElementsList),
 
         // Applications
-        call(watchApplicationsList),
-        
+
         // Environments
-        call(watchEnvironmentsList),
         call(watchEnvironmentNames),
 
         // Instances
-        call(watchInstancesList),
 
         //Nodes
         call(watchNodeDelete),
@@ -55,7 +49,6 @@ export default function*() {
         call(watchNodeTypes),
 
         // Resources
-        //call(watchResourcesList),
         call(watchResourceTypes),
     ]
 }
