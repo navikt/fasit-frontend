@@ -1,10 +1,11 @@
 import {
     ENVIRONMENT_NAMES_REQUEST
 } from '../actionTypes'
-import {buildFilterString} from './element_lists'
 
 export const fetchEnvironmentNames = (filters) => (dispatch) => {
-    const filterList = ['environmentclass']
-    const filterString = buildFilterString(filters, filterList)
+    let filterString = ''
+    if (filters.environmentclass) {
+        filterString = `?environmentclass=${filters.environmentclass}`
+    }
     dispatch({type: ENVIRONMENT_NAMES_REQUEST, filterString})
 }

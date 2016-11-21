@@ -1,66 +1,94 @@
 import React, {Component, PropTypes} from 'react'
 import Select from 'react-select'
 import {connect} from 'react-redux'
-import { changeFilter } from '../../actionCreators/filters'
-import { fetchEnvironmentNames } from '../../actionCreators/environment_names'
-import { fetchResourceTypes } from '../../actionCreators/resource_types'
-import { fetchNodeTypes } from '../../actionCreators/node_types'
+import {changeFilter} from '../../actionCreators/filters'
+import {fetchEnvironmentNames} from '../../actionCreators/environment_names'
+import {fetchResourceTypes} from '../../actionCreators/resource_types'
+import {fetchNodeTypes} from '../../actionCreators/node_types'
+import {fetchElementList} from '../../actionCreators/element_lists'
+
 
 class Filters extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
-        this.resourceTypes = ['webserviceendpoint', 'baseurl', 'queue', 'datasource']
-        this.environmentClasses = ['u', 't', 'q', 'p']
         this.names = ['app1', 'app2', 'app3', 'app4']
         this.applications = ['app1', 'app2', 'app3', 'app4']
     }
-    componentDidMount(){
-        const { dispatch, filters} = this.props
-        dispatch(fetchEnvironmentNames(filters))
+
+    componentDidMount() {
+        const {dispatch, search} = this.props
+        dispatch(fetchEnvironmentNames(search.filters))
         dispatch(fetchResourceTypes())
         dispatch(fetchNodeTypes())
     }
-    componentWillReceiveProps(nextProps){
-        const { dispatch, filters} = this.props
 
-        if (filters.environmentclass != nextProps.filters.environmentclass) {
-            dispatch(fetchEnvironmentNames(nextProps.filters))
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, search} = this.props
+        if (search.filters.environmentclass != nextProps.search.filters.environmentclass) {
+            dispatch(fetchEnvironmentNames(nextProps.search.filters))
+        }
+        if (search.filters != nextProps.search.filters){
+            const elementTypes = ['nodes', 'environments', 'applications', 'instances', 'resources']
+            switch (search.context) {
+                case 'nodes':
+                    dispatch(fetchElementList(nextProps.search, "nodes"))
+                    return
+                case 'environments':
+                    dispatch(fetchElementList(nextProps.search, "environments"))
+                    return
+                case 'applications':
+                    dispatch(fetchElementList(nextProps.search, "applications"))
+                    return
+                case 'instances':
+                    dispatch(fetchElementList(nextProps.search, "instances"))
+                    return
+                case 'resources':
+                    dispatch(fetchElementList(nextProps.search, "resources"))
+                    return
+                default:
+                    elementTypes.forEach((e) => {
+                        dispatch(fetchElementList(nextProps.search, e))
+                    })
+                    return
+            }
         }
     }
 
-    handleChangeFilter(filtername, event){
-        this.props.dispatch(changeFilter(filtername, event))
-
+    handleChangeFilter(filtername, e) {
+        const {dispatch} = this.props
+        dispatch(changeFilter(filtername, e.value))
     }
-    convertToSelectObject(values){
+
+    convertToSelectObject(values) {
         return values.map(value => {
-            return {value: value, label: value}
+            return {value, label: value}
         })
     }
 
-    environmentFilter(){
+    environmentFilter() {
         return (
             <div className="Select-environment">
                 <Select
                     resetValue=""
                     placeholder="Env."
                     name="form-field-name"
-                    value={this.props.filters.environment}
+                    value={this.props.search.filters.environment}
                     options={this.convertToSelectObject(this.props.environmentNames)}
                     onChange={this.handleChangeFilter.bind(this, "environment")}
                 />
             </div>
         )
     }
-    applicationFilter(){
+
+    applicationFilter() {
         return (
             <div className="Select-application">
                 <Select
                     resetValue=""
                     placeholder="App."
                     name="form-field-name"
-                    value={this.props.filters.application}
+                    value={this.props.search.filters.application}
                     options={this.convertToSelectObject(this.applications)}
                     onChange={this.handleChangeFilter.bind(this, "application")}
 
@@ -68,37 +96,38 @@ class Filters extends Component {
             </div>
         )
     }
-    classFilter(){
+
+    classFilter() {
         return (
             <div className="Select-environmentclass">
                 <Select
                     resetValue=""
                     placeholder="Class"
                     name="form-field-name"
-                    value={this.props.filters.environmentclass}
-                    options={this.convertToSelectObject(this.environmentClasses)}
+                    value={this.props.search.filters.environmentclass}
+                    options={this.convertToSelectObject(this.props.environmentClasses)}
                     onChange={this.handleChangeFilter.bind(this, "environmentclass")}
-
                 />
             </div>
         )
     }
-    nodeTypeFilter(){
+
+    nodeTypeFilter() {
         return (
             <div className="Select-nodetype">
                 <Select
                     resetValue=""
                     placeholder="Type"
                     name="form-field-name"
-                    value={this.props.filters.type}
+                    value={this.props.search.filters.type}
                     options={this.convertToSelectObject(this.props.nodeTypes)}
                     onChange={this.handleChangeFilter.bind(this, "type")}
-
                 />
             </div>
         )
     }
-    resourceTypeFilter(){
+
+    resourceTypeFilter() {
         return (
             <div className="Select-resourcetype">
                 <Select
@@ -113,7 +142,8 @@ class Filters extends Component {
             </div>
         )
     }
-    nameFilter(){
+
+    nameFilter() {
         return (
             <div className="Select-name">
                 <Select
@@ -123,15 +153,14 @@ class Filters extends Component {
                     value={this.props.filters.name}
                     options={this.convertToSelectObject(this.names)}
                     onChange={this.handleChangeFilter.bind(this, "name")}
-
                 />
             </div>
         )
     }
-    generateFiltersFromContext(){
-        switch (this.props.context) {
-            case "":
-                return (<div></div>)
+
+    generateFiltersFromContext() {
+        const {search} = this.props
+        switch (search.context) {
             case "applications":
                 return (
                     <div className="filters">
@@ -169,9 +198,19 @@ class Filters extends Component {
                         {this.resourceTypeFilter()}
                     </div>
                 )
+            default:
+                return (
+                    <div className="filters">
+                        {this.classFilter()}
+                        {this.environmentFilter()}
+                        {this.nodeTypeFilter()}
+                        {this.applicationFilter()}
+                    </div>
+                )
         }
     }
-    render(){
+
+    render() {
         return (<div>
                 {this.generateFiltersFromContext()}
             </div>
@@ -180,9 +219,9 @@ class Filters extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        filters: state.search.filters,
-        context: state.search.context,
+        search: state.search,
         environmentNames: state.environments.environmentNames,
+        environmentClasses: state.environments.environmentClasses,
         nodeTypes: state.nodes.nodeTypes,
         resourceTypes: state.resources.resourceTypes
     }
