@@ -11,12 +11,12 @@ class Home extends Component {
         this.state = {showResults:false};
     }
     componentWillReceiveProps(nextProps){
-        console.log("searchResults",nextProps)
-        if (nextProps.location.pathname === "/") this.setState({showResults:false})
+        //if (nextProps.location.pathname === "/") this.setState({showResults:false})
+        //console.log("showresults:",this.state.showResults)
     }
 
     submitSearchString(e) {
-        const {searchString, dispatch, filters} = this.props
+        const {search, dispatch} = this.props
         const elementTypes = ['nodes', 'environments', 'applications', 'instances', 'resources']
 
         if (e.charCode == 13 || e.type === "click") {
@@ -24,24 +24,23 @@ class Home extends Component {
 
             switch (this.props.searchContext) {
                 case 'nodes':
-                    dispatch(changeFilter('hostname', searchString))
+                    dispatch(fetchElementList(search, "nodes"))
                     return
                 case 'environments':
-                    dispatch(changeFilter('environment', searchString))
+                    dispatch(fetchElementList(search, "environments"))
                     return
                 case 'applications':
-                    dispatch(changeFilter('application', searchString))
+                    dispatch(fetchElementList(search, "applications"))
                     return
                 case 'instances':
-                    dispatch(changeFilter('instances', searchString))
+                    dispatch(fetchElementList(search, "instances"))
                     return
                 case 'resources':
-                    dispatch(changeFilter('alias', searchString))
+                    dispatch(fetchElementList(search, "resources"))
                     return
                 default:
-                    dispatch(changeFilter('all', searchString))
                     elementTypes.forEach((e) => {
-                        dispatch(fetchElementList(filters, 0, e))
+                        dispatch(fetchElementList(search, e))
                     })
                     return
             }
@@ -94,9 +93,7 @@ Home.propTypes = {
 
 const mapStateToProps = (state) => ({
     location: state.routing.locationBeforeTransitions,
-    searchString: state.search.searchString,
-    searchContext: state.search.context,
-    filters: state.search.filters
+    search: state.search
 })
 
 export default connect(mapStateToProps)(Home)

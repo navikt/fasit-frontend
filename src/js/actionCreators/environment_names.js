@@ -1,7 +1,7 @@
 import {
     ENVIRONMENT_NAMES_REQUEST
 } from '../actionTypes'
-import {buildFilterString} from '../utils'
+import {buildFilterString} from './element_lists'
 
 export const fetchEnvironmentNames = (filters) => (dispatch) => {
     const filterList = ['environmentclass']

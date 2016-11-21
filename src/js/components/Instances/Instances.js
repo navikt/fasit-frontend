@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import Instance from './Instance'
 import InstancesStatistics from './InstancesStatistics'
 
-import { fetchInstancesList } from '../../actionCreators/instances_list'
 
 class Instances extends Component {
     constructor(props){
@@ -13,12 +12,12 @@ class Instances extends Component {
     }
     componentDidMount(){
         const { dispatch, filters } = this.props
-        dispatch(fetchInstancesList(filters))
+      //  dispatch(fetchInstancesList(filters))
     }
     componentWillReceiveProps(nextProps) {
         const { dispatch, filters } = this.props
         if (filters != nextProps.filters) {
-            dispatch(fetchInstancesList(nextProps.filters))
+     //       dispatch(fetchInstancesList(nextProps.filters))
         }
     }
     generateInstancesList(){

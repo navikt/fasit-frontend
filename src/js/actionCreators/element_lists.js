@@ -11,7 +11,6 @@ import {
     ENVIRONMENTS_LIST_REQUEST,
     CHANGE_PAGE
 } from '../actionTypes'
-import {buildFilterString} from '../utils'
 
 export const clearNodesList = () => (dispatch) => dispatch({type: NODES_LIST_FETCHING})
 export const clearResourcesList = () => (dispatch) => dispatch({type: RESOURCES_LIST_FETCHING})
@@ -19,26 +18,30 @@ export const clearEnvironmentsList = () => (dispatch) => dispatch({type: ENVIRON
 export const clearApplicationsList = () => (dispatch) => dispatch({type: APPLICATIONS_LIST_FETCHING})
 export const clearInstancesList = () => (dispatch) => dispatch({type: INSTANCES_LIST_FETCHING})
 
-export const fetchElementList = (filters, currentPage, type) => (dispatch) =>  {
+export const fetchElementList = (search, type) => (dispatch) =>  {
     const filterList = {
-        nodes: ["environment", "environmentclass", "type", "hostname"],
-        resources: ["alias", "environment", "environmentclass", "zone", "application"],
+        nodes: ["environment", "environmentclass", "type"],
+        resources: ["environment", "environmentclass", "zone", "application"],
         environments: ['environmentclass'],
         applications: ['application'],
         instances: ["environment", "environmentclass", "application"]
     }
-    const filterString = `?page=${currentPage}&pr_page=10&${buildFilterString(filters, filterList[type])}`
     switch(type){
         case "nodes":
-            return dispatch({type: NODES_LIST_REQUEST, filterString})
+            const nodeParams = `?page=${search.activePage}&pr_page=10&hostname=${search.searchString}&${buildFilterString(search.filters, filterList[type])}`
+            return dispatch({type: NODES_LIST_REQUEST, filterString: nodeParams})
         case "resources":
-            return dispatch({type: RESOURCES_LIST_REQUEST, filterString})
+            const resourceParams = `?page=${search.activePage}&pr_page=10&alias=${search.searchString}&${buildFilterString(search.filters, filterList[type])}`
+            return dispatch({type: RESOURCES_LIST_REQUEST, filterString: resourceParams})
         case "environments":
-            return dispatch({type: ENVIRONMENTS_LIST_REQUEST, filterString})
+            const environmentParams = `?page=${search.activePage}&pr_page=10&environment=${search.searchString}&${buildFilterString(search.filters, filterList[type])}`
+            return dispatch({type: ENVIRONMENTS_LIST_REQUEST, filterString: environmentParams})
         case "applications":
-            return dispatch({type: APPLICATIONS_LIST_REQUEST, filterString})
+            const applicationParams = `?page=${search.activePage}&pr_page=10&name=${search.searchString}&${buildFilterString(search.filters, filterList[type])}`
+            return dispatch({type: APPLICATIONS_LIST_REQUEST, filterString: applicationParams})
         case "instances":
-            return dispatch({type: INSTANCES_LIST_REQUEST, filterString})
+            const instanceParams = `?page=${search.activePage}&pr_page=10&application=${search.searchString}&${buildFilterString(search.filters, filterList[type])}`
+            return dispatch({type: INSTANCES_LIST_REQUEST, filterString: instanceParams})
 
 
 
@@ -49,5 +52,14 @@ export const changePage = (page, lastPage) => (dispatch) => {
     if (page < 0) page = 0
     if (page > lastPage) page = lastPage
     dispatch({type: CHANGE_PAGE, value: page} )
-
+}
+export const buildFilterString = (filters, filterList) => {
+    let filterString = ''
+    for (let filter in filters) {
+        if (filterList.indexOf(filter) !== -1) {
+            if (filters[filter])
+                filterString += filter + "=" + filters[filter] + "&"
+        }
+    }
+    return filterString
 }

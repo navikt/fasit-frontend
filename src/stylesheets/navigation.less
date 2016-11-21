@@ -118,15 +118,18 @@
 
 .element-list-item > div{
   padding: 6px;
-  background: @fasit-secondary;
-  cursor: pointer;
+  background: #fff;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  box-shadow: 0 4px 8px 0 #ddd;
+  margin-bottom: 10px;
+  transition: 0.3s;
 }
 
 .element-list-item > div:hover {
-  background-color: darken(@fasit-secondary, 7%);
+  box-shadow: 0 8px 16px 0 #ddd;
+  background-color: #fcfcfc;
 }
 .element-list-item-active > div {
   background: #fff;
@@ -138,7 +141,8 @@
   border-right: none;
 }
 a.element-list-item {
-  text-decoration: none !important
+  text-decoration: none !important;
+  text-align:left
 }
 .dropdown-menu {
   z-index: 1;

@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import Application from './Application'
 import ApplicationsStatistics from './ApplicationsStatistics'
 
-import { fetchApplicationsList } from '../../actionCreators/applications_list'
 
 class Applications extends Component {
     constructor(props){
@@ -13,12 +12,12 @@ class Applications extends Component {
     }
     componentDidMount(){
         const { dispatch, filters } = this.props
-        dispatch(fetchApplicationsList(filters))
+      //  dispatch(fetchApplicationsList(filters))
     }
     componentWillReceiveProps(nextProps) {
         const { dispatch, filters } = this.props
         if (filters != nextProps.filters) {
-            dispatch(fetchApplicationsList(nextProps.filters))
+        //    dispatch(fetchApplicationsList(nextProps.filters))
         }
     }
     generateApplicationsList(){

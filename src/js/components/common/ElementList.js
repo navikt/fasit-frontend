@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
+import moment from 'moment'
 
 export default class ElementList extends Component {
     constructor(props) {
@@ -41,8 +42,8 @@ export default class ElementList extends Component {
         const {data} = this.props
         return data.data.map((item, index)=> {
             return (
-                <Link key={index} to={'/environments/' + item.name} className="search-result"
-                      activeClassName='search-result-active'>
+                <Link key={index} to={'/environments/' + item.name} className="element-list-item"
+                      activeClassName='element-list-item-active'>
                     <div>
                         <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.name}</h5>
                         <i className="fa fa-globe fa-fw"></i> {item.environmentclass} <b> | </b>
@@ -57,8 +58,8 @@ export default class ElementList extends Component {
         const {data} = this.props
         return data.data.map((item, index)=> {
             return (
-                <Link key={index} to={'/applications/' + item.name} className="search-result"
-                      activeClassName='search-result-active'>
+                <Link key={index} to={'/applications/' + item.name} className="element-list-item"
+                      activeClassName='element-list-item-active'>
                     <div>
                         <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.name}</h5>
                         <i className="fa fa-globe fa-fw"></i> {item.groupid} <b> | </b>
@@ -72,9 +73,10 @@ export default class ElementList extends Component {
         const {data} = this.props
         return data.data.map((item, index)=> {
             return (
-                <Link key={index} to={'/instances/' + item.application} className="search-result"
-                      activeClassName='search-result-active'>
-                    <div>
+                <Link key={index} to={'/instances/' + item.application}
+                      className="element-list-item"
+                      activeClassName='element-list-item-active'>
+                    <div className="element-list-item">
                         <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.application}</h5>
                         <i className="fa fa-globe fa-fw"></i> {item.environment} <b> | </b>
                         {item.cluster ? item.cluster.name : ""}

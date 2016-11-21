@@ -1,10 +1,11 @@
 import {
     SET_SEARCH_CONTEXT,
     CHANGE_FILTER,
-    CHANGE_ALL_FILTERS,
+    CHANGE_PAGE,
     SET_SEARCH_STRING
 } from '../actionTypes'
 export default (state = {
+    activePage: 0,
     context: '',
     searchString: '',
     filters: {
@@ -12,15 +13,15 @@ export default (state = {
         environmentclass: '',
         type: '',
         resourcetype: '',
-        hostname: '',
-        cluster: '',
-        unit: '',
         application: '',
-        alias: '',
         zone: ''
     }
 }, action) => {
     switch (action.type) {
+        case CHANGE_PAGE:
+            return Object.assign({}, state, {
+                activePage: action.value
+            })
         case SET_SEARCH_CONTEXT:
             return Object.assign({}, state, {
                 context: action.value
@@ -30,16 +31,6 @@ export default (state = {
                 [action.filtername]: action.searchString
             })
 
-            return Object.assign({}, state, {
-                filters
-            })
-        }
-        case CHANGE_ALL_FILTERS: {
-            const filters = Object.assign({}, state.filters, {
-                environment: action.searchString,
-                hostname: action.searchString,
-                alias: action.searchString,
-            })
             return Object.assign({}, state, {
                 filters
             })

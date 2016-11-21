@@ -22,7 +22,6 @@ class SearchRestuls extends Component {
         const {nodes, resources, environments, applications, instances} = this.props
 
         switch (location) {
-
             case "environments":
                 return (
                     <div className="col-md-4 col-md-offset-3">
@@ -60,39 +59,53 @@ class SearchRestuls extends Component {
                 )
             default:
                 return (
-                    <div>
-                        <div className="col-md-1"/>
-                        <div className="col-md-2">
-                            <div className={this.elementListClasses(environments)}>
-                                <h3>Environments</h3>
-                                <ElementList type="environments" data={environments}/>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className={this.elementListClasses(applications)}>
-                                <h3>Applications</h3>
-                                <ElementList type="applications" data={applications}/>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className={this.elementListClasses(instances)}>
-                                <h3>Instances</h3>
-                                <ElementList type="instances" data={instances}/>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className={this.elementListClasses(nodes)}>
+                    <div className="center-block">
+                        {environments.data.length > 0 ?
+                            <div className="col-md-2">
+                                <div className={this.elementListClasses(environments)}>
+                                    <h3>Environments</h3>
+                                    <ElementList type="environments" data={environments}/>
+                                </div>
+                            </div> :
+                            <div />
+                        }
+                        {applications.data.length > 0 ?
+                            <div className="col-md-2">
+                                <div className={this.elementListClasses(applications)}>
+                                    <h3>Applications</h3>
+                                    <ElementList type="applications" data={applications}/>
+                                </div>
+                            </div> :
+                            <div />
+                        }
+                        {instances.data.length > 0 ?
+                            <div className="col-md-2">
+                                <div className={this.elementListClasses(instances)}>
+                                    <h3>Instances</h3>
+                                    <ElementList type="instances" data={instances}/>
+                                </div>
+                            </div> :
+                            <div />
+                        }
+                        {nodes.data.length > 0 ?
+                            <div className="col-md-2">
+                                <div className={this.elementListClasses(nodes)}>
 
-                                <h3>Nodes</h3>
-                                <ElementList type="nodes" data={nodes}/>
-                            </div>
-                        </div>
-                        <div className="col-md-2">
-                            <div className={this.elementListClasses(resources)}>
-                                <h3>Resources</h3>
-                                <ElementList type="resources" data={resources}/>
-                            </div>
-                        </div>
+                                    <h3>Nodes</h3>
+                                    <ElementList type="nodes" data={nodes}/>
+                                </div>
+                            </div> :
+                            <div />
+                        }
+                        {resources.data.length > 0 ?
+                            <div className="col-md-2">
+                                <div className={this.elementListClasses(resources)}>
+                                    <h3>Resources</h3>
+                                    <ElementList type="resources" data={resources}/>
+                                </div>
+                            </div> :
+                            <div />
+                        }
                     </div>
                 )
         }

@@ -11,19 +11,19 @@ class Resources extends Component {
 
     componentWillUnmount() {
         const {dispatch} = this.props
-        dispatch(clearResourcesList())
+        //dispatch(clearResourcesList())
     }
 
     componentDidMount() {
         const {dispatch, filters, currentPage} = this.props
-        dispatch(changePage(0))
-        dispatch(fetchElementList(filters, currentPage, "resources"))
+       // dispatch(changePage(0))
+        //dispatch(fetchElementList(filters, currentPage, "resources"))
     }
 
     componentWillReceiveProps(nextProps) {
         const {dispatch, filters, currentPage} = this.props
         if (filters != nextProps.filters || currentPage !== nextProps.currentPage) {
-            dispatch(fetchElementList(nextProps.filters, nextProps.currentPage, "resources"))
+         //   dispatch(fetchElementList(nextProps.filters, nextProps.currentPage, "resources"))
         }
     }
 

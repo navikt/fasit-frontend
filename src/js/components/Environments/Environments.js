@@ -6,7 +6,6 @@ import moment from 'moment'
 import Environment from './Environment'
 import EnvironmentsStatistics from './EnvironmentsStatistics'
 
-import { fetchEnvironmentsList } from '../../actionCreators/environments_list'
 
 class Environments extends Component {
     constructor(props){
@@ -14,12 +13,12 @@ class Environments extends Component {
     }
     componentDidMount(){
         const { dispatch, filters } = this.props
-        dispatch(fetchEnvironmentsList(filters))
+        //dispatch(fetchEnvironmentsList(filters))
     }
     componentWillReceiveProps(nextProps) {
         const { dispatch, filters } = this.props
         if (filters != nextProps.filters) {
-            dispatch(fetchEnvironmentsList(nextProps.filters))
+            //dispatch(fetchEnvironmentsList(nextProps.filters))
         }
     }
     generateEnvironmentsList(){
