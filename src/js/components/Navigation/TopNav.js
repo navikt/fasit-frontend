@@ -2,7 +2,8 @@ import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
 import Search from '../common/Search'
-import {logOut, getUser} from '../../actionCreators/authentication'
+import Login from '../Home/Login'
+import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
 
 
 class TopNav extends Component {
@@ -21,12 +22,19 @@ class TopNav extends Component {
 
 
     showLogin() {
-        if (!this.props.user.authenticated)
-            return <button type="button" className="btn btn-sm btn-info pull-right" style={{margin: 10 + "px"}}><i
-                className="fa fa-unlock-alt"></i>&nbsp;Log in</button>
+        const {user, dispatch} = this.props
+        if (!user.authenticated)
+            return <button
+                type="button"
+                className="btn btn-sm btn-info pull-right"
+                style={{margin: 10 + "px"}}
+                onClick={() => dispatch(displayLogin(true))}
+            >
+                <i className="fa fa-unlock-alt" />&nbsp;Log in
+            </button>
         return (
             <div>
-                <li className="userName"><i className="fa fa-user"></i>&nbsp;{this.props.user.displayname}</li>
+                <li className="userName"><i className="fa fa-user"></i>&nbsp;{user.displayname}</li>
                 <li className="log-button"><span className="log-button" onClick={this.handleLogout.bind(this)}><i
                     className="fa fa-sign-out"></i>&nbsp;Log out</span></li>
             </div>
@@ -43,6 +51,7 @@ class TopNav extends Component {
                         <div className="topnav-brand">Fasit</div>
                     </div>
                 {this.showLogin()}
+                    <Login />
             </div>)
 
         }
@@ -60,6 +69,7 @@ class TopNav extends Component {
                     <Search />
                 </div>
                 {this.showLogin()}
+                <Login />
             </div>
         )
     }

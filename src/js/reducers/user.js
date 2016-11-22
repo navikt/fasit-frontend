@@ -1,24 +1,29 @@
 import {
+    DISPLAY_LOGIN,
     LOGIN_FAILED,
     LOGIN_SUBMITTED,
     LOGIN_SUCCESS,
-    LOGOUT
 } from '../actionTypes'
 
 export default (state = {
     authenticated: false,
-    failedLogin: false
+    failedLogin: false,
+    showLogin: false,
 }, action) => {
     switch (action.type) {
-        case 'LOGIN_SUBMITTED':
+        case DISPLAY_LOGIN:
+            return Object.assign({}, state, {
+                showLogin:action.value
+            })
+        case LOGIN_SUBMITTED:
             return Object.assign({}, state, {
                 failedLogin: false,
             })
-        case 'LOGIN_SUCCESS':
+        case LOGIN_SUCCESS:
             return Object.assign({}, state, action.currentuser, {
                 failedLogin: false
             })
-        case 'LOGIN_FAILED':
+        case LOGIN_FAILED:
             return Object.assign({}, state, {
                 authenticated: false,
                 failedLogin: action.error
