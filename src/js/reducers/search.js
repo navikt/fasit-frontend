@@ -37,7 +37,7 @@ export default (state = {
         }
         case SET_SEARCH_STRING:
             return Object.assign({}, state, {
-                searchString: action.value
+                searchString: action.searchString
             })
 
         default:

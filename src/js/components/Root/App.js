@@ -34,9 +34,8 @@ export default class App extends Component {
             <div>
                 <TopNav />
                 <ContextMenu />
-                <SidebarNav />
 
-                <div className="col-md-10 main-content-container">
+                <div className="col-lg-8 col-md-offset-2">
                     {this.determineMainContent()}
                 </div>
             </div>

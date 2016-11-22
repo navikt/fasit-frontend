@@ -1,4 +1,5 @@
 import {
+    FETCH_ELEMENT_LISTS,
     NODES_LIST_REQUEST,
     NODES_LIST_FETCHING,
     RESOURCES_LIST_REQUEST,
@@ -17,6 +18,8 @@ export const clearResourcesList = () => (dispatch) => dispatch({type: RESOURCES_
 export const clearEnvironmentsList = () => (dispatch) => dispatch({type: ENVIRONMENTS_LIST_FETCHING})
 export const clearApplicationsList = () => (dispatch) => dispatch({type: APPLICATIONS_LIST_FETCHING})
 export const clearInstancesList = () => (dispatch) => dispatch({type: INSTANCES_LIST_FETCHING})
+
+export const submitSearchString = (location, searchString) => (dispatch) => dispatch({type: FETCH_ELEMENT_LISTS, location, searchString})
 
 export const fetchElementList = (search, type) => (dispatch) =>  {
     const filterList = {
@@ -42,9 +45,6 @@ export const fetchElementList = (search, type) => (dispatch) =>  {
         case "instances":
             const instanceParams = `?page=${search.activePage}&pr_page=10&application=${search.searchString}&${buildFilterString(search.filters, filterList[type])}`
             return dispatch({type: INSTANCES_LIST_REQUEST, filterString: instanceParams})
-
-
-
     }
 }
 
