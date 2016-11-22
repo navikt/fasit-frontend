@@ -9,24 +9,21 @@ class Home extends Component {
         this.state = {showResults: true};
     }
 
-    componentDidMount(){
-        ReactDOM.findDOMNode(this.refs.searchBox)
+    componentDidMount() {
     }
 
     render() {
         const {search} = this.props
-        if(!search.searchString) {
+        if (!search.searchString) {
             return (
-                <div className="">
+                <div>
                     <div className="row home-brand-logo-container">
-                        <br />
-                        <br />
-                        <img src="images/fasit-stempel.png" className="home-brand-logo "/>
-                        <br />
-                        <br />
+                        <div className="col-md-12">
+                            <img src="images/fasit-stempel.png" className="home-brand-logo "/>
+                        </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-6 col-md-offset-3">
+                        <div className="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
                             <Search />
                         </div>
                     </div>
@@ -34,7 +31,7 @@ class Home extends Component {
             )
         }
         return (
-            <Search></Search>
+            <SearchResults />
         )
     }
 }

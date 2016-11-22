@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
-import Search from './Search'
+import Search from '../common/Search'
 import {logOut, getUser} from '../../actionCreators/authentication'
 
 
@@ -22,7 +22,8 @@ class TopNav extends Component {
 
     showLogin() {
         if (!this.props.user.authenticated)
-            return <li><Link to="/login" className="log-button"><i className="fa fa-unlock-alt"></i>&nbsp;Log in</Link></li>
+            return <button type="button" className="btn btn-sm btn-info pull-right" style={{margin: 10 + "px"}}><i
+                className="fa fa-unlock-alt"></i>&nbsp;Log in</button>
         return (
             <div>
                 <li className="userName"><i className="fa fa-user"></i>&nbsp;{this.props.user.displayname}</li>
@@ -34,24 +35,32 @@ class TopNav extends Component {
 
 
     render() {
+        const {searchString, location} = this.props
+        if (location.pathname.split('/').length > 2 || !searchString) {
+            return (
+                <div className="row topnav">
+                    <div className="col-md-1 hidden-sm hidden-xs">
+                        <div className="topnav-brand">Fasit</div>
+                    </div>
+                {this.showLogin()}
+            </div>)
+
+        }
         return (
-            <nav className="navbar navbar-inverse navbar-static-top" role="navigation">
-                <div className="navbar-header">
-                    <button type="button" className="navbar-toggle" data-toggle="collapse"
-                            data-target=".navbar-collapse">
-                        <span className="sr-only">Toggle navigation</span>
-                        <span className="icon-bar"></span>
-                        <span className="icon-bar"></span>
-                        <span className="icon-bar"></span>
-                    </button>
+            <div className="row topnav topnav-active">
+                <div className="col-sm-1 hidden-xs">
+                    <div className="topnav-brand-logo-container">
+                        <img src="images/fasit-stempel.png" className="topnav-brand-logo"/>
+                    </div>
+                    </div>
+                <div className="col-md-1 hidden-sm hidden-xs">
+                    <div className="topnav-brand-active">Fasit</div>
                 </div>
-                {location.pathname.split('/').length > 2 ? <Search />: <div />}
-
-
-                <ul className="nav navbar-top-links navbar-right">
-                    {this.showLogin()}
-                </ul>
-            </nav>
+                <div className="col-xs-7 col-sm-6 col-md-4" >
+                    <Search />
+                </div>
+                {this.showLogin()}
+            </div>
         )
     }
 }
@@ -59,6 +68,7 @@ const mapStateToProps = (state) => {
     return {
         user: state.user,
         location: state.routing.locationBeforeTransitions,
+        searchString: state.search.searchString
 
     }
 }

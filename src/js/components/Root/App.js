@@ -33,7 +33,6 @@ export default class App extends Component {
         return (
             <div>
                 <TopNav />
-                <ContextMenu />
 
                 <div className="col-lg-8 col-md-offset-2">
                     {this.determineMainContent()}
