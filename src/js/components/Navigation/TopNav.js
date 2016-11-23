@@ -34,9 +34,12 @@ class TopNav extends Component {
             </button>
         return (
             <div>
-                <li className="userName"><i className="fa fa-user"></i>&nbsp;{user.displayname}</li>
-                <li className="log-button"><span className="log-button" onClick={this.handleLogout.bind(this)}><i
-                    className="fa fa-sign-out"></i>&nbsp;Log out</span></li>
+                <button type="button"
+                        className="btn pull-right topnav-user-icon"
+                        >
+                    <i className="fa fa-user" />
+                    </button>
+
             </div>
         )
     }

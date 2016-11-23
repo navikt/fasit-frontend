@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import Search from '../common/Search'
 import SearchResults from './SearchResults'
+import {fetchAllElementLists} from '../../actionCreators/element_lists'
 
 class Home extends Component {
     constructor(props) {
@@ -10,6 +11,9 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        const {dispatch} = this.props
+        dispatch(fetchAllElementLists())
+
     }
 
     render() {

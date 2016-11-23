@@ -19,7 +19,8 @@ export const clearEnvironmentsList = () => (dispatch) => dispatch({type: ENVIRON
 export const clearApplicationsList = () => (dispatch) => dispatch({type: APPLICATIONS_LIST_FETCHING})
 export const clearInstancesList = () => (dispatch) => dispatch({type: INSTANCES_LIST_FETCHING})
 
-export const submitSearchString = (location, searchString) => (dispatch) => dispatch({type: FETCH_ELEMENT_LISTS, location, searchString})
+export const submitSearchString = (location, searchString) => (dispatch) => dispatch({type: FETCH_ELEMENT_LISTS, location, searchString, prPage: 10})
+export const fetchAllElementLists = () => (dispatch) => dispatch({type: FETCH_ELEMENT_LISTS, location:"anything", searchString:"", prPage:1})
 
 export const fetchElementList = (search, type) => (dispatch) =>  {
     const filterList = {
