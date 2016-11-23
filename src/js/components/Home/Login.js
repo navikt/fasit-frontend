@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import classString from 'react-classset'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {displayLogin, submitLogin} from '../../actionCreators/authentication'
+import {displayLogin, logIn} from '../../actionCreators/authentication'
 
 
 class Login extends Component {
@@ -11,18 +11,8 @@ class Login extends Component {
         this.state = {username: "", password: ""}
     }
 
-    handleLogin(e) {
-        const {dispatch} = this.props
-        const auth = {
-            password: this.state.password,
-            username: this.state.username
-        }
-        dispatch(submitLogin(auth))
-
-    }
-
-    handleChange(field, e) {
-        this.setState({[field]: e.target.value})
+    handleChange(field, value) {
+        this.setState({[field]: value})
     }
 
     signInButtonClasses() {
@@ -52,41 +42,58 @@ class Login extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="login-form">
-                        <div className="form-group">
-                            <label form="name" className="control-label">Adeo-ident</label>
-                            <div className="input-group">
-                                <span className="input-group-addon"><i className="fa fa-user"></i></span>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="x123456"
-                                />
+                        <form className="form-horizontal" id="loginForm"
+                              onSubmit={(e) => {
+                                  e.preventDefault()
+                                  dispatch(logIn({
+                                      password: this.state.password,
+                                      username: this.state.username
+                                  }))
+                              }}>
+                            <div className="form-group">
+                                <label form="name" className="control-label">Adeo-ident</label>
+                                <div className="input-group">
+                                    <span className="input-group-addon"><i className="fa fa-user"></i></span>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="x123456"
+                                        onChange={(e) => this.handleChange("username", e.target.value)}
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="form-group">
-                            <label form="password" className="control-label">Password</label>
-                            <div className="input-group">
+                            <div className="form-group">
+                                <label form="password" className="control-label">Password</label>
+                                <div className="input-group">
                                             <span className="input-group-addon"><i
                                                 className="fa fa-lock fa-lg"></i></span>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    placeholder="Password"
-                                />
-                            </div>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        placeholder="Password"
+                                        onChange={(e) => this.handleChange("password", e.target.value)}
+                                    />
+                                </div>
 
-                        </div>
-                        <div className="form-group">
-                            <br />
-                            <button
-                                type="submit"
-                                className={this.signInButtonClasses()}
-                                onClick={() => dispatch(submitLogin({password: this.state.password, username:this.state.username}))}
-                                    >
-                                Sign in
-                            </button>
-                        </div>
+                            </div>
+                            <div className="form-group">
+                                <br />
+                                <button
+                                    type="submit"
+                                    className={this.signInButtonClasses()}
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        dispatch(logIn({
+                                            password: this.state.password,
+                                            username: this.state.username
+                                        }))
+                                    }}
+                                >
+                                    Sign in
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </Modal.Body>
                 {user.failedLogin ?

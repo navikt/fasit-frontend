@@ -1,8 +1,8 @@
-import {browserHistory} from 'react-router'
 import {takeEvery} from 'redux-saga'
 import {put, fork, select, call} from 'redux-saga/effects'
 import {postForm, fetchUrl} from '../utils'
 import {
+    DISPLAY_LOGIN,
     GET_USER,
     LOGIN,
     LOGIN_FAILED,
@@ -33,7 +33,7 @@ export function* logIn(action) {
         const url = `${configuration.fasit_baseurl}/api/login`
         yield postForm(url, action.form)
         yield call(getUser)
-        browserHistory.goBack()
+        yield put({type: DISPLAY_LOGIN, value:false})
     } catch (err) {
         const error = err.message
         yield put({type: LOGIN_FAILED, error})
