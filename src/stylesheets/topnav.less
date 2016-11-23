@@ -7,15 +7,26 @@
 .topnav-active{
   background-color: @fasit-secondary;
 }
-.topnav-user-icon{
-  color: @fasit-primary;
-  border-radius: 62px;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px 0 #ddd;
+.topnav-user-icon, .topnav-user-icon:active, .topnav-user-icon:focus{
+  outline:none !important;
+  background-color: @fasit-primary;
+  color: darken(@fasit-secondary,5%);
+  border-radius: 30px;
+  border: 1px solid #888;
+  box-shadow: 0 2px 4px 0 #888;
+  font-size: large;
+  width: 43px;
+  margin-top: 3px;
 }
-.topnav-user-icon:hover{
+.topnav-user-icon:hover, .topnav-user-icon:active{
+  outline:none !important;
+
   //background-color: darken(@fasit-secondary, 20%);
-  box-shadow: 0 8px 16px 0 #ddd;
+  box-shadow: 0 4px 8px 0 #888;
+  color: @fasit-secondary;
+  transition: box-shadow 200ms ease-in;
+  transition: color 200ms ease-in;
+
 }
 .topnav-brand{
   color: @fasit-primary;

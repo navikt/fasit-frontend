@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
 import Search from '../common/Search'
@@ -30,17 +31,44 @@ class TopNav extends Component {
                 style={{margin: 10 + "px"}}
                 onClick={() => dispatch(displayLogin(true))}
             >
-                <i className="fa fa-unlock-alt" />&nbsp;Log in
+                <i className="fa fa-unlock-alt"/>&nbsp;Log in
             </button>
         return (
-            <div>
+            <OverlayTrigger
+                trigger="click"
+                rootClose={true}
+                placement="bottom"
+                overlay={this.showLoginInformation()}
+            >
                 <button type="button"
                         className="btn pull-right topnav-user-icon"
-                        >
-                    <i className="fa fa-user" />
-                    </button>
+                >
+                    <i className="fa fa-user"/>
+                </button>
 
-            </div>
+            </OverlayTrigger>
+        )
+    }
+
+    showLoginInformation() {
+        const {dispatch} = this.props
+        return (
+            <Popover title="Frode Sundby">
+                <dl className="text-right">
+                    <dt>Roles</dt>
+                    <dd>Selfservice</dd>
+                    <dd>Superuser</dd>
+                    <dd>User</dd>
+                    <dd>Prod Operations</dd>
+                </dl>
+                <hr />
+                <button
+                    type="button"
+                    className="btn btn-info btn-sm"
+                    onClick={() => dispatch(logOut())}
+                >Log out</button>
+
+            </Popover>
         )
     }
 
@@ -53,9 +81,9 @@ class TopNav extends Component {
                     <div className="col-md-1 hidden-sm hidden-xs">
                         <div className="topnav-brand">Fasit</div>
                     </div>
-                {this.showLogin()}
+                    {this.showLogin()}
                     <Login />
-            </div>)
+                </div>)
 
         }
         return (
@@ -64,11 +92,11 @@ class TopNav extends Component {
                     <div className="topnav-brand-logo-container">
                         <img src="images/fasit-stempel.png" className="topnav-brand-logo"/>
                     </div>
-                    </div>
+                </div>
                 <div className="col-md-1 hidden-sm hidden-xs">
                     <div className="topnav-brand-active">Fasit</div>
                 </div>
-                <div className="col-xs-7 col-sm-6 col-md-4" >
+                <div className="col-xs-7 col-sm-6 col-md-4">
                     <Search />
                 </div>
                 {this.showLogin()}
