@@ -26,7 +26,6 @@ export default class App extends Component {
         if (params.instance) return <Instance hostname={params.node.instance}/>
         if (params.application) return <Application hostname={params.application}/>
         if (params.environment) return <Environment hostname={params.environment}/>
-        if (this.props.location.pathname === "/login") return <Login />
         else return <Home />
     }
     render() {
@@ -35,7 +34,7 @@ export default class App extends Component {
                 <TopNav />
 
                 <div className="col-lg-8 col-md-offset-2">
-                    {this.determineMainContent()}
+                    {this.props.children}
                 </div>
             </div>
         )
