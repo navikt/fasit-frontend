@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {Link} from 'react-router'
+import {Link, browserHistory} from 'react-router'
 import {connect} from 'react-redux'
 import {submitSearchString} from '../actionCreators/element_lists'
 
@@ -22,15 +22,24 @@ class Home extends Component {
                 </div>
                 <div className="row">
                     <div className="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                        <input
-                            type="text"
-                            className="form-control search-field-text-input"
-                            ref="searchField"
-                            placeholder={'Search for ' + context}
-                            value={searchString}
-                            onChange={(e) => dispatch(submitSearchString(context, e.target.value))}
-                        />
-                        <button type="button" className="search-field-button btn-grey" ><i className="fa fa-search"/></button>
+                        <form>
+                            <input
+                                type="text"
+                                className="form-control search-field-text-input"
+                                ref="searchField"
+                                placeholder={'Search for ' + context}
+                                value={searchString}
+                                onChange={(e) => dispatch(submitSearchString(context, e.target.value))}
+                            />
+                            <button
+                                type="submit"
+                                className="search-field-button btn-grey"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    browserHistory.push("/search")
+                                }}
+                            ><i className="fa fa-search"/></button>
+                        </form>
                     </div>
                     <br />
                 </div>
