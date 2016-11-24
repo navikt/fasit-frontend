@@ -12,7 +12,7 @@ export default class App extends Component {
         return (
             <div>
                 <TopNav />
-                <div className="col-lg-10 col-lg-offset-1 col-md-12">
+                <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
                     {this.props.children}
                 </div>
             </div>

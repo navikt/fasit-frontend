@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
 import {submitSearchString} from '../../actionCreators/element_lists'
 
-class Search extends Component {
+class SearchInput extends Component {
     constructor(props) {
         super(props)
     }
@@ -31,7 +31,7 @@ class Search extends Component {
     }
 }
 
-Search.propTypes = {
+SearchInput.propTypes = {
     dispatch: PropTypes.func.isRequired
 }
 
@@ -40,4 +40,4 @@ const mapStateToProps = (state) => ({
     searchString: state.search.searchString
 })
 
-export default connect(mapStateToProps)(Search)
+export default connect(mapStateToProps)(SearchInput)

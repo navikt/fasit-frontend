@@ -19,7 +19,7 @@ class ContexMenu extends Component {
     render() {
         return (
             <div className="context-menu row">
-                <div className="col-lg-10 col-lg-offset-2 col-md-12">
+                <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
                     <BreadCrumbs />
                     <ul className="nav nav-tabs nav-tab-positioning">
                         <li className={this.isActive("")}>
@@ -38,7 +38,7 @@ class ContexMenu extends Component {
                             <Link to="/instances">
                                 <i className="fa fa-home fa-cubes"/>&nbsp;&nbsp;Instances</Link>
                         </li>
-                        <li >
+                        <li className={this.isActive("nodes")}>
                             <Link to="/nodes">
                                 <i className="fa fa-home fa-laptop"/>&nbsp;&nbsp;Nodes</Link>
 
@@ -59,6 +59,11 @@ ContexMenu.propTypes = {
 
 const mapStateToProps = (state) => ({
     location: state.routing.locationBeforeTransitions,
+    nodes: state.nodes.headers,
+    resources: state.resources.headers,
+    nodes: state.nodes.headers,
+    nodes: state.nodes.headers,
+    nodes: state.nodes.headers,
 })
 
 export default connect(mapStateToProps)(ContexMenu)

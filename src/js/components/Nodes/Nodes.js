@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 
 import ElementPaging from '../common/ElementPaging'
+import SearchRestults from '../Search/SearchResults'
 
 import {clearNodesList, fetchElementList, changePage} from '../../actionCreators/element_lists'
 
@@ -30,6 +31,7 @@ class Nodes extends Component {
     }
 
     render() {
+        console.log(this.props)
         const {nodes, dispatch, currentPage} = this.props
         const total_count = nodes.headers.total_count
         const lastPage = Math.floor(total_count / 10) ? Math.floor(total_count / 10) : "?"
@@ -37,23 +39,10 @@ class Nodes extends Component {
         const toLastPage = ()=>dispatch(changePage(lastPage))
         const toNextPage = ()=>dispatch(changePage(currentPage + 1, lastPage))
         const toPrevPage = ()=>dispatch(changePage(currentPage - 1))
-        if (nodes.data.length > 0) {
-            return (
-                <div>
+        if (this.props.params.node)
+            return <Node hostname={this.props.params.node} />
+        return <SearchRestults />
 
-                    <ElementPaging
-                        toFirstPage={toFirstPage}
-                        toLastPage={toLastPage}
-                        toNextPage={toNextPage}
-                        toPrevPage={toPrevPage}
-                        current={currentPage + 1}
-                        last={lastPage}
-                        total={total_count}
-                    />
-                </div>
-            )
-        }
-        return <div />
     }
 }
 
