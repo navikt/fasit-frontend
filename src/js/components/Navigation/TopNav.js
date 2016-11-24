@@ -1,9 +1,8 @@
 import React, {Component, PropTypes} from 'react'
-import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {Link} from 'react-router'
+import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import Search from '../common/SearchInput'
-import Login from '../Search/Login'
+import Login from '../common/Login'
 import ContextMenu from './ContextMenu'
 import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
 
@@ -107,21 +106,32 @@ class TopNav extends Component {
 
 
     render() {
-        const {searchString, location} = this.props
-        if (searchString || location.pathname !== "/") {
+        const {location, dispatch, searchString} = this.props
+        const pathname = this.props.location.pathname.split('/')[1]
+        const context = pathname === "search" ? "anything" : pathname
+        if (location.pathname !== "/") {
             return (
                 <div>
                     <div className="row topnav topnav-active">
                         <div className="col-sm-1 hidden-xs">
                             <div className="topnav-brand-logo-container">
-                                <img src="images/fasit-stempel.png" className="topnav-brand-logo"/>
+                                <Link to="/">
+                                    <img src="images/fasit-stempel.png" className="topnav-brand-logo"/>
+                                </Link>
                             </div>
                         </div>
                         <div className="col-md-1 hidden-sm hidden-xs">
                             <div className="topnav-brand-active">Fasit</div>
                         </div>
                         <div className="col-xs-7 col-sm-6 col-md-4">
-                            <Search />
+                            <input
+                                type="text"
+                                className="form-control search-field-text-input-in-topnav"
+                                ref="searchField"
+                                placeholder={'Search for ' + context}
+                                value={searchString}
+                                onChange={(e) => dispatch(submitSearchString(location, e.target.value))}
+                            />
                         </div>
                         {this.showLogin()}
                         <Login />

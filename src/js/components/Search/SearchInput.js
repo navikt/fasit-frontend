@@ -20,12 +20,13 @@ class SearchInput extends Component {
             <div>
                 <input
                     type="text"
-                    className={searchString ? "form-control search-field-text-input-active": "form-control search-field-text-input"}
+                    className={location != "anything" ? "form-control search-field-text-input-in-topnav": "form-control search-field-text-input"}
                     ref="searchField"
                     placeholder={'Search for ' + location}
                     value={searchString}
                     onChange={(e) => dispatch(submitSearchString(location, e.target.value))}
                 />
+                <button type="button" className="search-field-button"><i className="fa fa-search" /></button>
             </div>
         )
     }

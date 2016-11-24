@@ -22,8 +22,8 @@ class ContexMenu extends Component {
                 <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
                     <BreadCrumbs />
                     <ul className="nav nav-tabs nav-tab-positioning">
-                        <li className={this.isActive("")}>
-                            <Link to="/">
+                        <li className={this.isActive("search")}>
+                            <Link to="/search">
                                 <i className="fa fa-search"/>&nbsp;&nbsp;Search</Link>
                         </li>
                         <li className={this.isActive("environments")}>
