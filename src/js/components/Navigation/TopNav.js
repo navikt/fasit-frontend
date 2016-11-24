@@ -20,44 +20,78 @@ class TopNav extends Component {
     showLogin() {
         const {user, dispatch} = this.props
         if (!user.authenticated)
-            return <button
-                type="button"
-                className="btn btn-sm btn-info pull-right"
-                style={{margin: 10 + "px"}}
-                onClick={() => dispatch(displayLogin(true))}
-            >
-                <i className="fa fa-unlock-alt"/>&nbsp;Log in
-            </button>
+            return (
+                <ul className="nav navbar-nav navbar-right">
+                    <li>
+                        <OverlayTrigger
+                            trigger="click"
+                            rootClose={true}
+                            placement="bottom"
+                            overlay={this.appsOverlay()}
+                        >
+                            <button type="button" className="btn btn-link topnav-button"><i
+                                className="fa fa-th fa-2x"/>
+                            </button>
+                        </OverlayTrigger>
+                    </li>
+                    <li>
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-info pull-right"
+                            style={{margin: 10 + "px"}}
+                            onClick={() => dispatch(displayLogin(true))}
+                        >
+                            <i className="fa fa-unlock-alt"/>&nbsp;Log in
+                        </button>
+                    </li>
+                </ul>
+            )
         return (
-            <div>
-                <OverlayTrigger
-                    trigger="click"
-                    rootClose={true}
-                    placement="bottom"
-                    overlay={this.showTools()}
-                >
-                    <button type="button" className="btn btn-link tools-button">Tools&nbsp;&nbsp;<i
-                        className="fa fa-cog"/>
-                    </button>
-                </OverlayTrigger>
-                <OverlayTrigger
-                    trigger="click"
-                    rootClose={true}
-                    placement="bottom"
-                    overlay={this.showLoginInformation()}
-                >
-                    <button type="button"
-                            className="btn pull-right topnav-user-icon"
+            <ul className="nav navbar-nav navbar-right">
+                <li>
+                    <OverlayTrigger
+                        trigger="click"
+                        rootClose={true}
+                        placement="bottom"
+                        overlay={this.appsOverlay()}
                     >
-                        <i className="fa fa-user"/>
-                    </button>
+                        <button type="button" className="btn btn-link topnav-button"><i
+                            className="fa fa-th fa-2x"/>
+                        </button>
+                    </OverlayTrigger>
+                </li>
+                <li>
+                    <OverlayTrigger
+                        trigger="click"
+                        rootClose={true}
+                        placement="bottom"
+                        overlay={this.toolsOverlay()}
+                    >
+                        <button type="button" className="btn btn-link topnav-button"><i
+                            className="fa fa-cog fa-2x"/>
+                        </button>
+                    </OverlayTrigger>
+                </li>
+                <li>
+                    <OverlayTrigger
+                        trigger="click"
+                        rootClose={true}
+                        placement="bottom"
+                        overlay={this.loginInformationOverlay()}
+                    >
+                        <button type="button"
+                                className="btn topnav-user-icon"
+                        >
+                            <i className="fa fa-user"/>
+                        </button>
+                    </OverlayTrigger>
+                </li>
 
-                </OverlayTrigger>
-            </div>
+            </ul>
         )
     }
 
-    showLoginInformation() {
+    loginInformationOverlay() {
         const {dispatch} = this.props
         return (
             <Popover title="Frode Sundby">
@@ -81,25 +115,30 @@ class TopNav extends Component {
         )
     }
 
-    showTools() {
-        const {dispatch} = this.props
+    toolsOverlay() {
         return (
             <Popover title="Tools">
                 <dl className="text-right">
-                    <dt>Roles</dt>
-                    <dd>Selfservice</dd>
-                    <dd>Superuser</dd>
-                    <dd>User</dd>
-                    <dd>Prod Operations</dd>
+                    <dt>+ new node</dt>
+                    <dd>+ cluster</dd>
+                    <dd>+ application</dd>
                 </dl>
-                <hr />
-                <button
-                    type="button"
-                    className="btn btn-info btn-sm"
-                    onClick={() => dispatch(logOut())}
-                >Log out
-                </button>
 
+            </Popover>
+        )
+    }
+
+    appsOverlay() {
+        return (
+            <Popover title="Applications">
+                <dl className="text-right">
+                    <dt>Vera</dt>
+                    <dd>Sera</dd>
+                    <dd>Nora</dd>
+                    <dd>Coca</dd>
+                    <dd>Visa</dd>
+                    <dd>Visa</dd>
+                </dl>
             </Popover>
         )
     }

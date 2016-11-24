@@ -8,15 +8,13 @@
   background-color: @fasit-secondary;
 }
 
-.tools-button {
-  right: 80px;
-  top: 12px;
-  position: absolute;
+.topnav-button{
+  margin-top:4px;
   color: @fasit-primary;
-  outline: none;
 }
 
-.tools-button:focus, .tools-button:active {
+
+.topnav-button:focus, .topnav-button:active {
   outline: none !important;
 }
 
@@ -55,7 +53,8 @@
   color: #444;
 }
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-  border-top: 3px solid #033C73;
+  border-top: 3px solid @fasit-primary;
+  color: @fasit-primary;
   background: #fff
 }
 
@@ -65,7 +64,7 @@
 }
 
 .nav-tab-positioning > li > a {
-  color: @fasit-primary;
+  color: @fasit-tertiary;
 
 }
 
