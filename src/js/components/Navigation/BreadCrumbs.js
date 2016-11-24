@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {Component}from 'react'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
 
-const BreadCrumbs = React.createClass({
-    getBreadCrumbs(){
+class BreadCrumbs extends Component {
+    getBreadCrumbs() {
         const crumbs = [];
         const locations = this.props.location.pathname.split('/')
         let path = "/"
@@ -19,27 +19,26 @@ const BreadCrumbs = React.createClass({
             }
         }
         return crumbs
-    },
-    showHomeCrumb(){
-        if (this.getBreadCrumbs().length > 0)
-            return <li><Link to="/"><i className="fa fa-home fa-fw"/></Link></li>
-    },
-    render(){
-        return (
-            <div className="navbar-breadcrumbs">
-                <ol className="breadcrumb">
-                    {this.showHomeCrumb()}
-                    {this.getBreadCrumbs().map(function (crumb) {
-                        if (crumb.last)
-                            return <li key={crumb.name}>{crumb.name}</li>
-                        return <li key={crumb.name}><Link to={crumb.path}>{crumb.name}</Link></li>
-                    })}
+    }
 
-                </ol>
-            </div>
+
+    render() {
+        const {location} = this.props
+        return (
+            <ol className="breadcrumb">
+                <li><Link to="/"><i className="fa fa-home fa-fw"/></Link></li>
+                {location.pathname === "/" ? <li>search</li>:""}
+
+                {this.getBreadCrumbs().map(function (crumb) {
+                    if (crumb.last)
+                        return <li key={crumb.name}>{crumb.name}</li>
+                    return <li key={crumb.name}><Link to={crumb.path}>{crumb.name}</Link></li>
+                })}
+
+            </ol>
         )
     }
-})
+}
 const mapStateToProps = (state) => {
     return {
         location: state.routing.locationBeforeTransitions

@@ -11,8 +11,8 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props
-        dispatch(fetchAllElementLists())
+        const {dispatch, search} = this.props
+        dispatch(fetchAllElementLists(search.searchString))
 
     }
 

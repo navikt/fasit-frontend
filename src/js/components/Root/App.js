@@ -1,16 +1,6 @@
 import React, {Component, PropTypes} from 'react'
-import {Link} from 'react-router'
 
 import TopNav from '../Navigation/TopNav'
-import SidebarNav from '../Navigation/SidebarNav'
-import ContextMenu from '../Navigation/ContextMenu'
-import Home from '../Home/Home'
-import Login from '../Login'
-import Node from '../Nodes/Node'
-import Resource from '../Resources/Resource'
-import Instance from '../Instances/Instances'
-import Application from '../Applications/Application'
-import Environment from '../Environments/Environment'
 
 
 export default class App extends Component {
@@ -18,22 +8,11 @@ export default class App extends Component {
         super(props)
     }
 
-
-    determineMainContent(){
-        const params = this.props.params
-        if (params.node) return <Node hostname={params.node}/>
-        if (params.resource) return <Resource hostname={params.resource}/>
-        if (params.instance) return <Instance hostname={params.node.instance}/>
-        if (params.application) return <Application hostname={params.application}/>
-        if (params.environment) return <Environment hostname={params.environment}/>
-        else return <Home />
-    }
-    render() {
+   render() {
         return (
             <div>
                 <TopNav />
-
-                <div className="col-lg-8 col-md-offset-2">
+                <div className="col-lg-10 col-lg-offset-1 col-md-12">
                     {this.props.children}
                 </div>
             </div>
