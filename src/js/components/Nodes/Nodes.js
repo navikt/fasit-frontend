@@ -3,7 +3,9 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 
 import ElementPaging from '../common/ElementPaging'
-import SearchRestults from '../Search/SearchResults'
+import ElementList from '../common/ElementList'
+import SearchResults from '../Search/SearchResults'
+import Filters from '../Search/Filters'
 
 import {clearNodesList, fetchElementList, changePage} from '../../actionCreators/element_lists'
 
@@ -40,8 +42,18 @@ class Nodes extends Component {
         const toNextPage = ()=>dispatch(changePage(currentPage + 1, lastPage))
         const toPrevPage = ()=>dispatch(changePage(currentPage - 1))
         if (this.props.params.node)
-            return <Node hostname={this.props.params.node} />
-        return <SearchRestults />
+            return <Node hostname={this.props.params.node}/>
+        return (
+            <div className="main-content-container">
+                <Filters />
+                <div className="col-sm-10">
+                    <div className="row element-list-container">
+                        <h4>{nodes.headers.total_count} nodes</h4>
+                        <ElementList type="nodes" data={nodes}/>
+                    </div>
+                </div>
+            </div>
+        )
 
     }
 }

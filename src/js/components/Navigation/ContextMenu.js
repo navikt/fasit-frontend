@@ -18,7 +18,7 @@ class ContexMenu extends Component {
 
     render() {
         return (
-            <div className="context-menu row">
+            <div className="context-menu">
                 <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
                     <BreadCrumbs />
                     <ul className="nav nav-tabs nav-tab-positioning">
@@ -40,12 +40,12 @@ class ContexMenu extends Component {
                         </li>
                         <li className={this.isActive("nodes")}>
                             <Link to="/nodes">
-                                <i className="fa fa-home fa-laptop"/>&nbsp;&nbsp;Nodes</Link>
+                                <i className="fa fa-home fa-server"/>&nbsp;&nbsp;Nodes</Link>
 
                         </li>
                         <li className={this.isActive("resources")}>
                             <Link to="/resources">
-                                <i className="fa fa-home fa-cutlery"/>&nbsp;&nbsp;Resources</Link>
+                                <i className="fa fa-home fa-cogs"/>&nbsp;&nbsp;Resources</Link>
                         </li>
                     </ul>
                 </div>

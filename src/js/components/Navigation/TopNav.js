@@ -112,7 +112,7 @@ class TopNav extends Component {
         if (location.pathname !== "/") {
             return (
                 <div>
-                    <div className="row topnav topnav-active">
+                    <div className="topnav topnav-active">
                         <div className="col-sm-1 hidden-xs">
                             <div className="topnav-brand-logo-container">
                                 <Link to="/">
@@ -141,7 +141,7 @@ class TopNav extends Component {
             )
         }
         return (
-            <div className="row topnav">
+            <div className="topnav">
                 <div className="col-md-1 hidden-sm hidden-xs">
                     <div className="topnav-brand">Fasit</div>
                 </div>
