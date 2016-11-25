@@ -7,7 +7,7 @@ import ElementList from '../common/ElementList'
 import SearchResults from '../Search/SearchResults'
 import Filters from '../Search/Filters'
 
-import {clearNodesList, fetchElementList, changePage} from '../../actionCreators/element_lists'
+import {submitSearchString, changePage} from '../../actionCreators/element_lists'
 
 class Nodes extends Component {
     constructor(props) {
@@ -20,29 +20,23 @@ class Nodes extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, filters, currentPage} = this.props
+        const {dispatch, search} = this.props
+        dispatch(submitSearchString("nodes", search.searchString))
         //dispatch(changePage(0))
         //dispatch(fetchElementList(filters, currentPage, "nodes"))
     }
 
-    componentWillReceiveProps(nextProps) {
-        const {dispatch, filters, currentPage} = this.props
-        if (filters != nextProps.filters || currentPage !== nextProps.currentPage) {
-            //dispatch(fetchElementList(nextProps.filters, nextProps.currentPage, "nodes"))
-        }
-    }
 
     render() {
-        console.log(this.props)
-        const {nodes, dispatch, currentPage} = this.props
+        const {nodes, dispatch, search} = this.props
         const total_count = nodes.headers.total_count
         const lastPage = Math.floor(total_count / 10) ? Math.floor(total_count / 10) : "?"
         const toFirstPage = ()=>dispatch(changePage(0))
         const toLastPage = ()=>dispatch(changePage(lastPage))
-        const toNextPage = ()=>dispatch(changePage(currentPage + 1, lastPage))
-        const toPrevPage = ()=>dispatch(changePage(currentPage - 1))
+        const toNextPage = ()=>dispatch(changePage(search.activePage + 1, lastPage))
+        const toPrevPage = ()=>dispatch(changePage(search.activePage - 1))
         if (this.props.params.node)
-            return <Node hostname={this.props.params.node}/>
+            return <div>{this.props.params.node}</div>//<Node hostname={this.props.params.node} />
         return (
             <div className="main-content-container">
                 <Filters />
@@ -62,8 +56,7 @@ class Nodes extends Component {
 const mapStateToProps = (state) => {
     return {
         nodes: state.nodes,
-        filters: state.search.filters,
-        currentPage: state.search.activePage
+        search: state.search
     }
 }
 

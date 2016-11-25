@@ -53,6 +53,7 @@ class TopNav extends Component {
                         trigger="click"
                         rootClose={true}
                         placement="bottom"
+                        id="appsOverlay"
                         overlay={this.appsOverlay()}
                     >
                         <button type="button" className="btn btn-link topnav-button"><i
@@ -65,6 +66,7 @@ class TopNav extends Component {
                         trigger="click"
                         rootClose={true}
                         placement="bottom"
+                        id="toolsOverlay"
                         overlay={this.toolsOverlay()}
                     >
                         <button type="button" className="btn btn-link topnav-button"><i
@@ -75,6 +77,7 @@ class TopNav extends Component {
                 <li>
                     <OverlayTrigger
                         trigger="click"
+                        id="loginINformationOverlay"
                         rootClose={true}
                         placement="bottom"
                         overlay={this.loginInformationOverlay()}
@@ -94,7 +97,7 @@ class TopNav extends Component {
     loginInformationOverlay() {
         const {dispatch} = this.props
         return (
-            <Popover title="Frode Sundby">
+            <Popover title="Frode Sundby" id="login">
                 <dl className="text-right">
                     <dt>Roles</dt>
                     <dd>Selfservice</dd>
@@ -117,7 +120,7 @@ class TopNav extends Component {
 
     toolsOverlay() {
         return (
-            <Popover title="Tools">
+            <Popover title="Tools" id="tools">
                 <dl className="text-right">
                     <dt>+ new node</dt>
                     <dd>+ cluster</dd>
@@ -130,7 +133,7 @@ class TopNav extends Component {
 
     appsOverlay() {
         return (
-            <Popover title="Applications">
+            <Popover title="Applications" id="apps">
                 <dl className="text-right">
                     <dt>Vera</dt>
                     <dd>Sera</dd>
