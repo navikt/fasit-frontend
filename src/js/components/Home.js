@@ -28,7 +28,7 @@ class Home extends Component {
                             ref="searchField"
                             placeholder={'Search for ' + context}
                             value={searchString}
-                            onChange={(e) => dispatch(submitSearchString(context, e.target.value))}
+                            onChange={(e) => dispatch(submitSearchString(context, e.target.value, 0))}
                         />
                         <button
                             type="submit"

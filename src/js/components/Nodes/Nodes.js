@@ -21,9 +21,14 @@ class Nodes extends Component {
 
     componentDidMount() {
         const {dispatch, search} = this.props
+        dispatch(changePage(0))
         dispatch(submitSearchString("nodes", search.searchString))
-        //dispatch(changePage(0))
         //dispatch(fetchElementList(filters, currentPage, "nodes"))
+    }
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, search} = this.props
+        if (search.activePage !== nextProps.search.activePage)
+            dispatch(submitSearchString("nodes", search.searchString))
     }
 
 
@@ -39,7 +44,22 @@ class Nodes extends Component {
             return <div>{this.props.params.node}</div>//<Node hostname={this.props.params.node} />
         return (
             <div className="main-content-container">
-                <Filters />
+                <div className="row">
+                    <div className="col-md-6">
+                        <Filters />
+                    </div>
+                    <div className="col-md-3 col-md-offset-1">
+                        <ElementPaging
+                            toFirstPage={toFirstPage}
+                            toLastPage={toLastPage}
+                            toNextPage={toNextPage}
+                            toPrevPage={toPrevPage}
+                            current={search.activePage + 1}
+                            last={lastPage}
+                            total={total_count}
+                        />
+                    </div>
+                </div>
                 <div className="col-sm-10">
                     <div className="row element-list-container">
                         <h4>{nodes.headers.total_count} nodes</h4>

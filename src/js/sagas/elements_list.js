@@ -110,7 +110,7 @@ export function* fetchAllLists(action) {
     }
 }
 const buildFilterString = (filters, filterConfig, searchString) => {
-    let filterString = ''
+    let filterString = '&'
     for (let filter in filters) {
         if (filterConfig.filters.indexOf(filter) !== -1) {
             if (filters[filter])

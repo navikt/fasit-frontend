@@ -5,6 +5,8 @@ import {connect} from 'react-redux'
 import Login from '../common/Login'
 import ContextMenu from './ContextMenu'
 import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
+import {submitSearchString, changePage} from '../../actionCreators/element_lists'
+
 
 
 class TopNav extends Component {
@@ -145,10 +147,15 @@ class TopNav extends Component {
             </Popover>
         )
     }
+    initiateSearch(location, searchString){
+        const {dispatch, search} = this.props
+        if (search.activePage !== 0)
+            dispatch(changePage(0))
+        dispatch(submitSearchString(location,searchString))
 
-
+    }
     render() {
-        const {location, dispatch, searchString} = this.props
+        const {location, search} = this.props
         const pathname = this.props.location.pathname.split('/')[1]
         const context = pathname === "search" ? "anything" : pathname
         if (location.pathname !== "/") {
@@ -171,8 +178,8 @@ class TopNav extends Component {
                                 className="form-control search-field-text-input-in-topnav"
                                 ref="searchField"
                                 placeholder={'Search for ' + context}
-                                value={searchString}
-                                onChange={(e) => dispatch(submitSearchString(location, e.target.value))}
+                                value={search.searchString}
+                                onChange={(e) => this.initiateSearch(location, e.target.value)}
                             />
                         </div>
                         {this.showLogin()}
@@ -197,7 +204,7 @@ const mapStateToProps = (state) => {
     return {
         user: state.user,
         location: state.routing.locationBeforeTransitions,
-        searchString: state.search.searchString
+        search: state.search
 
     }
 }
