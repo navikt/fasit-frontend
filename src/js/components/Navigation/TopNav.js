@@ -72,7 +72,7 @@ class TopNav extends Component {
                         overlay={this.toolsOverlay()}
                     >
                         <button type="button" className="btn btn-link topnav-button"><i
-                            className="fa fa-cog fa-2x"/>
+                            className="fa fa-wrench fa-2x"/>
                         </button>
                     </OverlayTrigger>
                 </li>
@@ -85,9 +85,8 @@ class TopNav extends Component {
                         overlay={this.loginInformationOverlay()}
                     >
                         <button type="button"
-                                className="btn topnav-user-icon"
-                        >
-                            <i className="fa fa-user"/>
+                                className="btn btn-link topnav-button"
+                        ><span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x" /><i className="fa fa-user fa-stack-1x fa-inverse"/></span>
                         </button>
                     </OverlayTrigger>
                 </li>
