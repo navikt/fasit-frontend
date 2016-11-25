@@ -10,7 +10,9 @@ import {
     INSTANCES_LIST_FETCHING,
     INSTANCES_LIST_REQUEST,
     ENVIRONMENTS_LIST_REQUEST,
-    CHANGE_PAGE
+    CHANGE_PAGE,
+    CHANGE_ALL_FILTERS,
+    CHANGE_FILTER
 } from '../actionTypes'
 
 export const clearNodesList = () => (dispatch) => dispatch({type: NODES_LIST_FETCHING})
@@ -19,7 +21,17 @@ export const clearEnvironmentsList = () => (dispatch) => dispatch({type: ENVIRON
 export const clearApplicationsList = () => (dispatch) => dispatch({type: APPLICATIONS_LIST_FETCHING})
 export const clearInstancesList = () => (dispatch) => dispatch({type: INSTANCES_LIST_FETCHING})
 
-export const submitSearchString = (location, searchString) => (dispatch) => dispatch({type: FETCH_ELEMENT_LISTS, location, searchString, prPage: 10})
+export const submitSearchString = (location, searchString, activePage) => (dispatch) => dispatch({type: FETCH_ELEMENT_LISTS, location, searchString, prPage: 10})
+
+export const changeFilter = (filtername, searchString) => (dispatch) => {
+    if (filtername === "all") dispatch({type:CHANGE_ALL_FILTERS, searchString})
+    return dispatch({
+        type: CHANGE_FILTER,
+        filtername,
+        searchString
+    })
+}
+export const submitPageChange = (location, searchString) => (dispatch) => {dispatch({type: FETCH_ELEMENT_LISTS, location, searchString, prPage: 10})}
 export const fetchAllElementLists = (searchString) => (dispatch) => dispatch({type: FETCH_ELEMENT_LISTS, location:"anything", searchString, prPage:1})
 
 export const fetchElementList = (search, type) => (dispatch) =>  {

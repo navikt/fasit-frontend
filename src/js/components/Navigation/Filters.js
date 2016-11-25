@@ -1,11 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import Select from 'react-select'
 import {connect} from 'react-redux'
-import {changeFilter} from '../../actionCreators/filters'
 import {fetchEnvironmentNames} from '../../actionCreators/environment_names'
 import {fetchResourceTypes} from '../../actionCreators/resource_types'
 import {fetchNodeTypes} from '../../actionCreators/node_types'
-import {fetchElementList} from '../../actionCreators/element_lists'
+import {fetchElementList, changeFilter} from '../../actionCreators/element_lists'
 
 
 class Filters extends Component {

@@ -22,13 +22,13 @@ class Nodes extends Component {
     componentDidMount() {
         const {dispatch, search} = this.props
         dispatch(changePage(0))
-        dispatch(submitSearchString("nodes", search.searchString))
+        dispatch(submitSearchString("nodes", search.searchString, search.activePage))
         //dispatch(fetchElementList(filters, currentPage, "nodes"))
     }
     componentWillReceiveProps(nextProps) {
         const {dispatch, search} = this.props
         if (search.activePage !== nextProps.search.activePage)
-            dispatch(submitSearchString("nodes", search.searchString))
+            dispatch(submitSearchString("nodes", search.searchString, search.activePage))
     }
 
 

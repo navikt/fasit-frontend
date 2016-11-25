@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import Login from '../common/Login'
 import ContextMenu from './ContextMenu'
 import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
-import {submitSearchString, changePage} from '../../actionCreators/element_lists'
+import {submitSearchString} from '../../actionCreators/element_lists'
 
 
 
@@ -146,13 +146,7 @@ class TopNav extends Component {
             </Popover>
         )
     }
-    initiateSearch(location, searchString){
-        const {dispatch, search} = this.props
-        if (search.activePage !== 0)
-            dispatch(changePage(0))
-        dispatch(submitSearchString(location,searchString))
 
-    }
     render() {
         const {location, search} = this.props
         const pathname = this.props.location.pathname.split('/')[1]
@@ -178,7 +172,7 @@ class TopNav extends Component {
                                 ref="searchField"
                                 placeholder={'Search for ' + context}
                                 value={search.searchString}
-                                onChange={(e) => this.initiateSearch(location, e.target.value)}
+                                onChange={(e) => submitSearchString(location, e.target.value, search.activePage)}
                             />
                         </div>
                         {this.showLogin()}
