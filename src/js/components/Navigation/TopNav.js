@@ -8,7 +8,6 @@ import {logOut, getUser, displayLogin} from '../../actionCreators/authentication
 import {submitSearchString} from '../../actionCreators/element_lists'
 
 
-
 class TopNav extends Component {
     constructor(props) {
         super(props)
@@ -59,7 +58,7 @@ class TopNav extends Component {
                         overlay={this.appsOverlay()}
                     >
                         <button type="button" className="btn  btn-link topnav-button apps-topnav-button"><i
-                            className="fa fa-th-large fa-2x"/>
+                            className="fa fa-th fa-2x"/>
                         </button>
                     </OverlayTrigger>
                 </li>
@@ -85,7 +84,8 @@ class TopNav extends Component {
                         overlay={this.loginInformationOverlay()}
                     >
                         <button type="button" className="btn  btn-link topnav-button">
-                            <span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x" /><i className="fa fa-user fa-stack-1x fa-inverse"/></span>
+                            <span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x"/><i
+                                className="fa fa-user fa-stack-1x fa-inverse"/></span>
                         </button>
                     </OverlayTrigger>
                 </li>
@@ -98,13 +98,13 @@ class TopNav extends Component {
         const {dispatch} = this.props
         return (
             <Popover title="Frode Sundby" id="login">
-                <dl className="text-right">
-                    <dt>Roles</dt>
-                    <dd>Selfservice</dd>
-                    <dd>Superuser</dd>
-                    <dd>User</dd>
-                    <dd>Prod Operations</dd>
-                </dl>
+                <strong>Roles</strong>
+                <ul className="topnav-menu">
+                    <li>Selfservice</li>
+                    <li>Superuser</li>
+                    <li>User</li>
+                    <li>Prod Operations</li>
+                </ul>
                 <hr />
                 <button
                     style={{outline: "none"}}
@@ -120,13 +120,14 @@ class TopNav extends Component {
 
     toolsOverlay() {
         return (
-            <Popover title="Tools" id="tools">
-                <dl className="text-right">
-                    <dt>+ new node</dt>
-                    <dd>+ cluster</dd>
-                    <dd>+ application</dd>
-                </dl>
-
+            <Popover id="tools">
+                <ul className="topnav-menu topnav-menu-selector">
+                    <li><i className="fa fa-server" /> &nbsp;&nbsp; Create node</li>
+                    <li><i className="fa fa-braille" /> &nbsp;&nbsp; Create cluster</li>
+                    <li><i className="fa fa-cube" /> &nbsp;&nbsp; Create application</li>
+                    <li><i className="fa fa-sitemap" /> &nbsp;&nbsp; Create environment</li>
+                    <li><i className="fa fa-cogs" /> &nbsp;&nbsp; Create resource</li>
+                </ul>
             </Popover>
         )
     }
