@@ -21,7 +21,7 @@ class TopNav extends Component {
 
     showLogin() {
         const {user, dispatch} = this.props
-        if (!user.authenticated)
+        if (user.authenticated)
             return (
                 <ul className="nav navbar-nav navbar-right">
                     <li>
@@ -39,7 +39,7 @@ class TopNav extends Component {
                     <li>
                         <button
                             type="button"
-                            className="btn btn-sm btn-info pull-right"
+                            className="btn btn-sm btn-info topnav-button"
                             style={{margin: 10 + "px"}}
                             onClick={() => dispatch(displayLogin(true))}
                         >
@@ -58,8 +58,8 @@ class TopNav extends Component {
                         id="appsOverlay"
                         overlay={this.appsOverlay()}
                     >
-                        <button type="button" className="btn btn-link topnav-button"><i
-                            className="fa fa-th fa-2x"/>
+                        <button type="button" className="btn  btn-link topnav-button apps-topnav-button"><i
+                            className="fa fa-th-large fa-2x"/>
                         </button>
                     </OverlayTrigger>
                 </li>
@@ -71,7 +71,7 @@ class TopNav extends Component {
                         id="toolsOverlay"
                         overlay={this.toolsOverlay()}
                     >
-                        <button type="button" className="btn btn-link topnav-button"><i
+                        <button type="button" className="btn  btn-link topnav-button tools-topnav-button"><i
                             className="fa fa-wrench fa-2x"/>
                         </button>
                     </OverlayTrigger>
@@ -84,9 +84,8 @@ class TopNav extends Component {
                         placement="bottom"
                         overlay={this.loginInformationOverlay()}
                     >
-                        <button type="button"
-                                className="btn btn-link topnav-button"
-                        ><span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x" /><i className="fa fa-user fa-stack-1x fa-inverse"/></span>
+                        <button type="button" className="btn  btn-link topnav-button">
+                            <span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x" /><i className="fa fa-user fa-stack-1x fa-inverse"/></span>
                         </button>
                     </OverlayTrigger>
                 </li>

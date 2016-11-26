@@ -6,7 +6,7 @@ import ElementPaging from '../common/ElementPaging'
 import ElementList from '../common/ElementList'
 import SearchResults from '../Search/SearchResults'
 import Filters from '../Search/Filters'
-
+import Node from './Node'
 import {submitSearchString, changePage} from '../../actionCreators/element_lists'
 
 class Nodes extends Component {
@@ -41,14 +41,14 @@ class Nodes extends Component {
         const toNextPage = ()=>dispatch(changePage(search.activePage + 1, lastPage))
         const toPrevPage = ()=>dispatch(changePage(search.activePage - 1))
         if (this.props.params.node)
-            return <div>{this.props.params.node}</div>//<Node hostname={this.props.params.node} />
+            return <Node hostname={this.props.params.node} />// <div>{this.props.params.node}</div>
         return (
             <div className="main-content-container">
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-sm-6 col-xs-12">
                         <Filters />
                     </div>
-                    <div className="col-md-3 col-md-offset-1">
+                    <div className="col-sm-3 col-sm-offset-1 col-xs-3">
                         <ElementPaging
                             toFirstPage={toFirstPage}
                             toLastPage={toLastPage}

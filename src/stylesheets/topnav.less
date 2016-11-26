@@ -7,12 +7,20 @@
 .topnav-active {
   background-color: @fasit-secondary;
 }
-
-.topnav-button{
-  margin-top:4px;
-  color: @fasit-tertiary;
+.topnav-button:hover .topnav-button:active .topnav-button:focus{
+  color: @fasit-primary !important;
 }
-
+.topnav-button{
+  color: @fasit-tertiary;
+  font-size: xx-small;
+  margin-top:4px;
+}
+.tools-topnav-button{
+  margin-top: 7px;
+}
+.apps-topnav-button{
+  margin-top: 9px;
+}
 
 .topnav-button:focus, .topnav-button:active {
   outline: none !important;

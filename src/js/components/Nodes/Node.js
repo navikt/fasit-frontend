@@ -21,13 +21,13 @@ class Node extends Component {
 
     componentDidMount() {
         const {dispatch, hostname} = this.props
-        dispatch(fetchFasitData(hostname))
+        //dispatch(fetchFasitData(hostname))
     }
 
     componentWillReceiveProps(nextProps) {
         const {dispatch, hostname} = this.props
         if (hostname != nextProps.hostname) {
-            dispatch(fetchFasitData(nextProps.hostname))
+            //dispatch(fetchFasitData(nextProps.hostname))
         }
     }
 
