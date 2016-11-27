@@ -214,7 +214,7 @@ class TopNav extends Component {
                         <div className="col-sm-1 hidden-xs">
                             <div className="topnav-brand-logo-container">
                                 <Link to="/">
-                                    <img src="images/fasit-stempel.png" className="topnav-brand-logo"/>
+                                    <img src="images/aura-ikoner/fasit-nobrand.png" className="topnav-brand-logo"/>
                                 </Link>
                             </div>
                         </div>

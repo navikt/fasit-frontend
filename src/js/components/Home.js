@@ -17,7 +17,7 @@ class Home extends Component {
             <div>
                 <div className="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 hidden-xs text-center">
                 <div className="home-brand-logo-container">
-                    <img src="images/aura-ikoner/fasit.png" className="home-brand-logo "/>
+                    <img src="images/aura-ikoner/fasit-nobrand.png" className="home-brand-logo "/>
                     <img src="images/aura-ikoner/fasit-center.png" className="home-brand-logo-center "/>
                 </div>
             </div>
