@@ -2,17 +2,36 @@
   margin-top: 40px;
   margin-left: -23px;
 }
-.search-entity-types > li > a{
+
+.search-entity-types > li > a {
   color: @fasit-primary !important;
   font-size: larger;
 }
-.home-brand-logo-container{
+
+.home-brand-logo-container {
+  display: inline-block;
   text-align: center;
   height: 400px;
-  padding-top: 100px;
+  padding-top: 70px;
+  margin-left: -250px;
 }
+
+.home-brand-logo-center {
+  width: 130px;
+  padding-top: 73px;
+  margin-left: 70px;
+  text-align: center;
+  z-index:2;
+  position:absolute;
+
+}
+
 .home-brand-logo {
-  width: 200px;
+  position: absolute;
+  text-align: center;
+  align-content: center;
+  z-index:1;
+  width: 250px;
   filter: drop-shadow(3px 3px 2px #888);
   -webkit-animation-name: spin;
   -webkit-animation-duration: 180000ms;
@@ -32,24 +51,40 @@
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
+
 @-ms-keyframes spin {
-   from { -ms-transform: rotate(0deg); }
-   to { -ms-transform: rotate(360deg); }
- }
-@-moz-keyframes spin {
-  from { -moz-transform: rotate(0deg); }
-  to { -moz-transform: rotate(360deg); }
-}
-@-webkit-keyframes spin {
-  from { -webkit-transform: rotate(0deg); }
-  to { -webkit-transform: rotate(360deg); }
-}
-@keyframes spin {
   from {
-    transform:rotate(0deg);
+    -ms-transform: rotate(0deg);
   }
   to {
-    transform:rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -60,17 +95,19 @@
   color: #033c73;
 }
 
-.search-field-text-input-in-topnav{
+.search-field-text-input-in-topnav {
   display: inline-block;
   height: 45px;
   margin-top: 3px;
   font-size: large;
 }
-.search-field-text-input{
+
+.search-field-text-input {
   height: 50px;
   font-size: x-large;
 }
-.search-field-button{
+
+.search-field-button {
   position: absolute;
   display: inline-block;
   height: 48px;
@@ -82,7 +119,8 @@
   border-right: none;
   outline: none;
 }
-.search-field-button:hover{
+
+.search-field-button:hover {
 
   border-top: none;
   border-bottom: none;
