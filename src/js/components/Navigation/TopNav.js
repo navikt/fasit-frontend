@@ -178,7 +178,7 @@ class TopNav extends Component {
                 <a href="https://visa.adeo.no" target="Visa">
                     <div className="app-container">
                         <div className="app-icon">
-                            <img src="images/aura-ikoner/coca.png" className="app-icon"/>
+                            <img src="images/aura-ikoner/visa.png" className="app-icon"/>
                         </div>
                         <div className="app-label">
                             Visa
@@ -241,7 +241,6 @@ class TopNav extends Component {
         return (
             <div className="topnav">
                 <div className="col-md-1 hidden-sm hidden-xs">
-                    <div className="topnav-brand">Fasit</div>
                 </div>
                 {this.showLogin()}
                 <Login />
