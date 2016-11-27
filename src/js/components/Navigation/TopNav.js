@@ -118,31 +118,87 @@ class TopNav extends Component {
         )
     }
 
-    toolsOverlay() {
+    appsOverlay() {
         return (
-            <Popover id="tools">
-                <ul className="topnav-menu topnav-menu-selector">
-                    <li><i className="fa fa-server" /> &nbsp;&nbsp; Create node</li>
-                    <li><i className="fa fa-braille" /> &nbsp;&nbsp; Create cluster</li>
-                    <li><i className="fa fa-cube" /> &nbsp;&nbsp; Create application</li>
-                    <li><i className="fa fa-sitemap" /> &nbsp;&nbsp; Create environment</li>
-                    <li><i className="fa fa-cogs" /> &nbsp;&nbsp; Create resource</li>
-                </ul>
+            <Popover title="Other AURA tools" id="apps">
+                <a href="https://vera.adeo.no" target="Vera">
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/vera.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Vera
+                        </div>
+                    </div>
+                </a>
+                <a href="https://sera.adeo.no" target="Sera">
+
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/sera.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Sera
+                        </div>
+                    </div>
+                </a>
+                <a href="https://nora.adeo.no" target="Nora">
+
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/nora.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Nora
+                        </div>
+                    </div>
+                </a>
+                <a href="https://basta.adeo.no" target="Basta">
+
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/basta.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Basta
+                        </div>
+                    </div>
+                </a>
+                <a href="https://coca.adeo.no" target="Coca">
+
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/coca.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Coca
+                        </div>
+                    </div>
+                </a>
+                <a href="https://visa.adeo.no" target="Visa">
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/coca.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Visa
+                        </div>
+                    </div>
+                </a>
             </Popover>
         )
     }
 
-    appsOverlay() {
+    toolsOverlay() {
         return (
-            <Popover title="Applications" id="apps">
-                <dl className="text-right">
-                    <dt>Vera</dt>
-                    <dd>Sera</dd>
-                    <dd>Nora</dd>
-                    <dd>Coca</dd>
-                    <dd>Visa</dd>
-                    <dd>Visa</dd>
-                </dl>
+            <Popover id="tools">
+                <ul className="topnav-menu topnav-menu-selector">
+                    <li><i className="fa fa-server"/> &nbsp;&nbsp; Create node</li>
+                    <li><i className="fa fa-braille"/> &nbsp;&nbsp; Create cluster</li>
+                    <li><i className="fa fa-cube"/> &nbsp;&nbsp; Create application</li>
+                    <li><i className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment</li>
+                    <li><i className="fa fa-cogs"/> &nbsp;&nbsp; Create resource</li>
+                </ul>
             </Popover>
         )
     }
