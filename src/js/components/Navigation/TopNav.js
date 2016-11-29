@@ -30,7 +30,7 @@ class TopNav extends Component {
                             placement="bottom"
                             overlay={this.appsOverlay()}
                         >
-                            <button type="button" className="btn btn-link topnav-button"><i
+                            <button type="button" className="btn btn-link topnav-button apps-topnav-button"><i
                                 className="fa fa-th fa-2x"/>
                             </button>
                         </OverlayTrigger>
@@ -38,7 +38,7 @@ class TopNav extends Component {
                     <li>
                         <button
                             type="button"
-                            className="btn btn-sm btn-info topnav-button"
+                            className="btn btn-sm topnav-button btn-info topnav-login-button"
                             style={{margin: 10 + "px"}}
                             onClick={() => dispatch(displayLogin(true))}
                         >
@@ -121,6 +121,28 @@ class TopNav extends Component {
     appsOverlay() {
         return (
             <Popover title="Other AURA tools" id="apps">
+                <a href="https://fasit.adeo.no" target="Fasit">
+
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/fasit.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Fasit
+                        </div>
+                    </div>
+                </a>
+                <a href="https://basta.adeo.no" target="Basta">
+
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/basta.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Basta
+                        </div>
+                    </div>
+                </a>
                 <a href="https://vera.adeo.no" target="Vera">
                     <div className="app-container">
                         <div className="app-icon">
@@ -153,17 +175,6 @@ class TopNav extends Component {
                         </div>
                     </div>
                 </a>
-                <a href="https://basta.adeo.no" target="Basta">
-
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="images/aura-ikoner/basta.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Basta
-                        </div>
-                    </div>
-                </a>
                 <a href="https://coca.adeo.no" target="Coca">
 
                     <div className="app-container">
@@ -182,6 +193,46 @@ class TopNav extends Component {
                         </div>
                         <div className="app-label">
                             Visa
+                        </div>
+                    </div>
+                </a>
+                <a href="https://plaster.adeo.no" target="Plaster">
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/plaster.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Plaster
+                        </div>
+                    </div>
+                </a>
+                <a href="https://ida.adeo.no" target="Ida">
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/ida.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Ida
+                        </div>
+                    </div>
+                </a>
+                <a href="https://skjera.adeo.no" target="Plaster">
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/skjera.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Skjera
+                        </div>
+                    </div>
+                </a>
+                <a href="https://confluence.adeo.no/display/AURA" target="confluence">
+                    <div className="app-container">
+                        <div className="app-icon">
+                            <img src="images/aura-ikoner/confluence.png" className="app-icon"/>
+                        </div>
+                        <div className="app-label">
+                            Docs
                         </div>
                     </div>
                 </a>
@@ -211,16 +262,14 @@ class TopNav extends Component {
             return (
                 <div>
                     <div className="topnav topnav-active">
-                        <div className="col-sm-1 hidden-xs">
+                        <div className="col-sm-1 col-md-2 hidden-xs">
                             <div className="topnav-brand-logo-container">
                                 <Link to="/">
-                                    <img src="images/aura-ikoner/fasit-nobrand.png" className="topnav-brand-logo"/>
+                                    <img src="images/aura-ikoner/fasit-small.png" className="topnav-brand-logo"/>
                                 </Link>
                             </div>
                         </div>
-                        <div className="col-md-1 hidden-sm hidden-xs">
-                            <div className="topnav-brand-active">Fasit</div>
-                        </div>
+
                         <div className="col-xs-7 col-sm-6 col-md-4">
                             <input
                                 type="text"
