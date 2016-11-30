@@ -10,7 +10,7 @@ import Nodes from './components/Nodes/Nodes'
 import Environments from './components/Environments/Environments'
 import Resources from './components/Resources/Resources'
 import Instances from './components/Instances/Instances'
-import NotFound from './components/Navigation/NotFound'
+import NotFound from './components/NotFound'
 
 export default () => {
     return (

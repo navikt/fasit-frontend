@@ -20,7 +20,7 @@ class TopNav extends Component {
 
     showLogin() {
         const {user, dispatch} = this.props
-        if (user.authenticated)
+        if (!user.authenticated)
             return (
                 <ul className="nav navbar-nav navbar-right">
                     <li>
@@ -95,15 +95,13 @@ class TopNav extends Component {
     }
 
     loginInformationOverlay() {
-        const {dispatch} = this.props
+        const {dispatch, user} = this.props
+        console.log("user",user)
         return (
-            <Popover title="Frode Sundby" id="login">
-                <strong>Roles</strong>
+            <Popover title={user.displayname} id="login">
+                <h5>Roles</h5>
                 <ul className="topnav-menu">
-                    <li>Selfservice</li>
-                    <li>Superuser</li>
-                    <li>User</li>
-                    <li>Prod Operations</li>
+                    {user.roles.map((role, idx) => <li key={idx}>{role.split("ROLE_")[1].toLowerCase()}</li>)}
                 </ul>
                 <hr />
                 <button
