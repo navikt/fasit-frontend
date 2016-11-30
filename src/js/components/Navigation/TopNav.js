@@ -255,7 +255,7 @@ class TopNav extends Component {
     }
 
     render() {
-        const {location, search} = this.props
+        const {location, search, dispatch} = this.props
         const pathname = this.props.location.pathname.split('/')[1]
         const context = pathname === "search" ? "anything" : pathname
         if (location.pathname !== "/") {
@@ -277,7 +277,7 @@ class TopNav extends Component {
                                 ref="searchField"
                                 placeholder={'Search for ' + context}
                                 value={search.searchString}
-                                onChange={(e) => submitSearchString(location, e.target.value, search.activePage)}
+                                onChange={(e) => dispatch(submitSearchString(context, e.target.value, 0))}
                             />
                         </div>
                         {this.showLogin()}

@@ -14,32 +14,14 @@ class Nodes extends Component {
         super(props)
     }
 
-    componentWillUnmount() {
-        const {dispatch} = this.props
-        //dispatch(clearNodesList())
-    }
-
     componentDidMount() {
         const {dispatch, search} = this.props
-        dispatch(changePage(0))
-        dispatch(submitSearchString("nodes", search.searchString, search.activePage))
-        //dispatch(fetchElementList(filters, currentPage, "nodes"))
+        dispatch(submitSearchString("nodes", search.searchString, 0))
     }
-    componentWillReceiveProps(nextProps) {
-        const {dispatch, search} = this.props
-        if (search.activePage !== nextProps.search.activePage)
-            dispatch(submitSearchString("nodes", search.searchString, search.activePage))
-    }
-
 
     render() {
         const {nodes, dispatch, search} = this.props
-        const total_count = nodes.headers.total_count
-        const lastPage = Math.floor(total_count / 10) ? Math.floor(total_count / 10) : "?"
-        const toFirstPage = ()=>dispatch(changePage(0))
-        const toLastPage = ()=>dispatch(changePage(lastPage))
-        const toNextPage = ()=>dispatch(changePage(search.activePage + 1, lastPage))
-        const toPrevPage = ()=>dispatch(changePage(search.activePage - 1))
+
         if (this.props.params.node)
             return <Node hostname={this.props.params.node} />// <div>{this.props.params.node}</div>
         return (
@@ -49,15 +31,7 @@ class Nodes extends Component {
                         <Filters />
                     </div>
                     <div className="col-sm-3 col-sm-offset-1 col-xs-3">
-                        <ElementPaging
-                            toFirstPage={toFirstPage}
-                            toLastPage={toLastPage}
-                            toNextPage={toNextPage}
-                            toPrevPage={toPrevPage}
-                            current={search.activePage + 1}
-                            last={lastPage}
-                            total={total_count}
-                        />
+                        <ElementPaging />
                     </div>
                 </div>
                 <div className="col-sm-10">

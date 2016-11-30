@@ -15,12 +15,12 @@ class Home extends Component {
         const context = location.pathname.split('/')[1] || "anything"
         return (
             <div>
-                <div className="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 hidden-xs text-center">
+                <div className="col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2 hidden-xs text-center">
                 <div className="home-brand-logo-container">
                     <img src="images/aura-ikoner/fasit.png" className="home-brand-logo"/>
                 </div>
             </div>
-        <div className="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div className="col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2">
             <form>
                 <input
                     type="text"
