@@ -204,26 +204,6 @@ class TopNav extends Component {
                         </div>
                     </div>
                 </a>
-                <a href="https://ida.adeo.no" target="Ida">
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="images/aura-ikoner/ida.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Ida
-                        </div>
-                    </div>
-                </a>
-                <a href="https://skjera.adeo.no" target="Plaster">
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="images/aura-ikoner/skjera.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Skjera
-                        </div>
-                    </div>
-                </a>
                 <a href="https://confluence.adeo.no/display/AURA" target="confluence">
                     <div className="app-container">
                         <div className="app-icon">
