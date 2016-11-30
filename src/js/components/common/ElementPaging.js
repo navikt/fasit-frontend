@@ -8,6 +8,13 @@ class ElementPaging extends Component {
         this.state = {page: 0}
     }
 
+    componentWillReceiveProps(nextProps){
+        const {search} = this.props
+        if (search.searchString !== nextProps.search.searchString){
+            this.setState({page:0})
+        }
+    }
+
     changePage(changeTo, lastPage) {
         const {dispatch, search} = this.props
         const page = this.state.page
