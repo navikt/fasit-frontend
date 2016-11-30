@@ -28,7 +28,7 @@ export default (state = {
             })
         case CHANGE_FILTER: {
             const filters = Object.assign({}, state.filters, {
-                [action.filtername]: action.searchString
+                [action.filterName]: action.filterValue
             })
 
             return Object.assign({}, state, {

@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {fetchEnvironmentNames} from '../../actionCreators/environment_names'
 import {fetchResourceTypes} from '../../actionCreators/resource_types'
 import {fetchNodeTypes} from '../../actionCreators/node_types'
-import {fetchElementList, changeFilter} from '../../actionCreators/element_lists'
+import {fetchElementList, changeFilter, submitSearchString} from '../../actionCreators/element_lists'
 
 
 class Filters extends Component {
@@ -27,36 +27,13 @@ class Filters extends Component {
         if (search.filters.environmentclass != nextProps.search.filters.environmentclass) {
             dispatch(fetchEnvironmentNames(nextProps.search.filters))
         }
-        if (search.filters != nextProps.search.filters){
-            const elementTypes = ['nodes', 'environments', 'applications', 'instances', 'resources']
-            switch (search.context) {
-                case 'nodes':
-                    dispatch(fetchElementList(nextProps.search, "nodes"))
-                    return
-                case 'environments':
-                    dispatch(fetchElementList(nextProps.search, "environments"))
-                    return
-                case 'applications':
-                    dispatch(fetchElementList(nextProps.search, "applications"))
-                    return
-                case 'instances':
-                    dispatch(fetchElementList(nextProps.search, "instances"))
-                    return
-                case 'resources':
-                    dispatch(fetchElementList(nextProps.search, "resources"))
-                    return
-                default:
-                    elementTypes.forEach((e) => {
-                        dispatch(fetchElementList(nextProps.search, e))
-                    })
-                    return
-            }
-        }
     }
 
-    handleChangeFilter(filtername, e) {
-        const {dispatch} = this.props
-        dispatch(changeFilter(filtername, e.value))
+    handleChangeFilter(filterName, filterValue) {
+        const {dispatch, search} = this.props
+        dispatch(changeFilter(filterName, filterValue))
+        dispatch(submitSearchString(search.context, search.searchString, 0))
+
     }
 
     convertToSelectObject(values) {
@@ -74,7 +51,7 @@ class Filters extends Component {
                     name="form-field-name"
                     value={this.props.search.filters.environment}
                     options={this.convertToSelectObject(this.props.environmentNames)}
-                    onChange={this.handleChangeFilter.bind(this, "environment")}
+                    onChange={(e) => this.handleChangeFilter("environment", e.value)}
                 />
             </div>
         )
@@ -89,7 +66,7 @@ class Filters extends Component {
                     name="form-field-name"
                     value={this.props.search.filters.application}
                     options={this.convertToSelectObject(this.applications)}
-                    onChange={this.handleChangeFilter.bind(this, "application")}
+                    onChange={(e) => this.handleChangeFilter("application", e.value)}
 
                 />
             </div>
@@ -105,8 +82,7 @@ class Filters extends Component {
                     name="form-field-name"
                     value={this.props.search.filters.environmentclass}
                     options={this.convertToSelectObject(this.props.environmentClasses)}
-                    onChange={this.handleChangeFilter.bind(this, "environmentclass")}
-                />
+                    onChange={(e) => this.handleChangeFilter("environmentclass", e.value)}/>
             </div>
         )
     }
@@ -120,7 +96,7 @@ class Filters extends Component {
                     name="form-field-name"
                     value={this.props.search.filters.type}
                     options={this.convertToSelectObject(this.props.nodeTypes)}
-                    onChange={this.handleChangeFilter.bind(this, "type")}
+                    onChange={(e) => this.handleChangeFilter("type", e.value)}
                 />
             </div>
         )
@@ -135,7 +111,7 @@ class Filters extends Component {
                     name="form-field-name"
                     value={this.props.filters.resourcetype}
                     options={this.convertToSelectObject(this.props.resourceTypes)}
-                    onChange={this.handleChangeFilter.bind(this, "resourcetype")}
+                    onChange={(e) => this.handleChangeFilter("resourcetype", e.value)}
 
                 />
             </div>
@@ -151,7 +127,7 @@ class Filters extends Component {
                     name="form-field-name"
                     value={this.props.filters.name}
                     options={this.convertToSelectObject(this.names)}
-                    onChange={this.handleChangeFilter.bind(this, "name")}
+                    onChange={(e) => this.handleChangeFilter("name", e.value)}
                 />
             </div>
         )

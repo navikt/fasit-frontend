@@ -4,8 +4,7 @@ import {Link} from 'react-router'
 
 import ElementPaging from '../common/ElementPaging'
 import ElementList from '../common/ElementList'
-import SearchResults from '../Search/SearchResults'
-import Filters from '../Search/Filters'
+import Filters from '../Navigation/Filters'
 import Node from './Node'
 import {submitSearchString, changePage} from '../../actionCreators/element_lists'
 

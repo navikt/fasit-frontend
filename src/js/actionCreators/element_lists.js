@@ -23,12 +23,11 @@ export const clearInstancesList = () => (dispatch) => dispatch({type: INSTANCES_
 
 export const submitSearchString = (location, searchString, page) => (dispatch) => dispatch({type: FETCH_ELEMENT_LISTS, location, searchString, prPage: 10, page})
 
-export const changeFilter = (filtername, searchString) => (dispatch) => {
-    if (filtername === "all") dispatch({type:CHANGE_ALL_FILTERS, searchString})
+export const changeFilter = (filterName, filterValue) => (dispatch) => {
     return dispatch({
         type: CHANGE_FILTER,
-        filtername,
-        searchString
+        filterName,
+        filterValue
     })
 }
 export const submitPageChange = (location, searchString) => (dispatch) => {dispatch({type: FETCH_ELEMENT_LISTS, location, searchString, prPage: 10})}

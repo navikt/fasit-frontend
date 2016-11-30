@@ -10,7 +10,7 @@ class ElementPaging extends Component {
 
     componentWillReceiveProps(nextProps){
         const {search} = this.props
-        if (search.searchString !== nextProps.search.searchString){
+        if (search.searchString !== nextProps.search.searchString || search.filters !== nextProps.search.filters){
             this.setState({page:0})
         }
     }
