@@ -11,7 +11,7 @@ export default class ElementList extends Component {
         const {data} = this.props
         return data.data.map((item, index)=> {
             return (
-                <Link key={index} to={'/resources/' + item.alias} className="element-list-item"
+                <Link key={index} to={'/resources/' + item.id} className="element-list-item"
                       activeClassName='element-list-item-active'>
                     <div>
                         <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.alias}</h5>

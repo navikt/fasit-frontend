@@ -87,7 +87,14 @@ export function* fetchAllLists(action) {
             yield fetchNodesList(`${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.nodes, action.searchString)}`)
             return
         case "resources":
-            yield fetchResourcesList(`${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.resources, action.searchString)}`)
+            let filters = buildFilterString(search.filters, filterConfig.resources, action.searchString)
+
+            // pga manglende like-søk, må vi ta bort alias fra backendspørringen
+            if (action.searchString === "" ){
+               filters = filters.replace("alias=", "")
+            }
+
+            yield fetchResourcesList(`${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${filters}`)
             return
         case "environments":
             yield fetchEnvironmentsList(`${configuration.fasit_environments}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.environments, action.searchString)}`)

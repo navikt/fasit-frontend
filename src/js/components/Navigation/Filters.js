@@ -166,11 +166,11 @@ class Filters extends Component {
             case "resources":
                 return (
                     <div className="filters">
-                        {this.nameFilter()}
+                        {/*this.nameFilter()*/}
                         {this.classFilter()}
                         {this.environmentFilter()}
                         {this.applicationFilter()}
-                        {this.resourceTypeFilter()}
+                        {/*this.resourceTypeFilter()*/}
                     </div>
                 )
             default:

@@ -1,52 +1,44 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import ElementPaging from '../common/ElementPaging'
+import {Link} from 'react-router'
 
-import {clearResourcesList, fetchElementList, changePage} from '../../actionCreators/element_lists'
+import ElementPaging from '../common/ElementPaging'
+import ElementList from '../common/ElementList'
+import Filters from '../Navigation/Filters'
+import Resource from './Resource'
+import {submitSearchString, changePage} from '../../actionCreators/element_lists'
 
 class Resources extends Component {
     constructor(props) {
         super(props)
     }
 
-    componentWillUnmount() {
-        const {dispatch} = this.props
-        //dispatch(clearResourcesList())
-    }
-
     componentDidMount() {
-        const {dispatch, filters, currentPage} = this.props
-       // dispatch(changePage(0))
-        //dispatch(fetchElementList(filters, currentPage, "resources"))
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const {dispatch, filters, currentPage} = this.props
-        if (filters != nextProps.filters || currentPage !== nextProps.currentPage) {
-         //   dispatch(fetchElementList(nextProps.filters, nextProps.currentPage, "resources"))
-        }
+        const {dispatch, search} = this.props
+        dispatch(submitSearchString("resources", search.searchString, 0))
     }
 
     render() {
-        const {resources, dispatch, currentPage} = this.props
-        const total_count = resources.headers.total_count
-        const lastPage = Math.floor(total_count / 10) ? Math.floor(total_count / 10) : "?"
-        const toFirstPage = ()=>dispatch(changePage(0))
-        const toLastPage = ()=>dispatch(changePage(lastPage))
-        const toNextPage = ()=>dispatch(changePage(currentPage + 1, lastPage))
-        const toPrevPage = ()=>dispatch(changePage(currentPage - 1))
-        return (
-            <div>
-                <ElementPaging
-                    toFirstPage={toFirstPage}
-                    toLastPage={toLastPage}
-                    toNextPage={toNextPage}
-                    toPrevPage={toPrevPage}
-                    current={currentPage + 1}
-                    last={lastPage}
-                    total={total_count}
-                />
+        const {resources, dispatch, search} = this.props
 
+        if (this.props.params.resource)
+            return <Resource id={this.props.params.resource} />// <div>{this.props.params.node}</div>
+        return (
+            <div className="main-content-container">
+                <div className="row">
+                    <div className="col-sm-6 col-xs-12">
+                        <Filters />
+                    </div>
+                    <div className="col-sm-3 col-sm-offset-1 col-xs-3">
+                        <ElementPaging />
+                    </div>
+                </div>
+                <div className="col-sm-10">
+                    <div className="row element-list-container">
+                        <h4>{resources.headers.total_count} resources</h4>
+                        <ElementList type="resources" data={resources}/>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -56,8 +48,7 @@ class Resources extends Component {
 const mapStateToProps = (state) => {
     return {
         resources: state.resources,
-        filters: state.search.filters,
-        currentPage: state.configuration.elementListPage
+        search: state.search
     }
 }
 

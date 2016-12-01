@@ -46,17 +46,16 @@ class ElementPaging extends Component {
     render() {
         const {search, nodes, resources, environments, applications, instances} = this.props
         const total_count = this.props[search.context].headers.total_count
-        const lastPage = Math.floor(total_count / 10) ? Math.floor(total_count / 10) : "?"
+        const lastPage = calculateLastPage(total_count)
         return (
             <div className="element-list-paging">
-
                 <div className="btn-group btn-group-justified">
                     <a className="btn btn-link " onClick={this.changePage.bind(this, "first", lastPage)}><i
                         className="fa fa-angle-double-left" aria-hidden="true"/></a>
                     <a className="btn btn-link " onClick={this.changePage.bind(this, "prev", lastPage)}><i
                         className="fa fa-angle-left" aria-hidden="true"/></a>
                     <div className="element-list-paging-number">
-                        {this.state.page + 1} / {!isNaN(lastPage) ? lastPage + 1 : lastPage}
+                        {this.state.page + 1} / {lastPage}
                     </div>
                     <a className="btn btn-link " onClick={this.changePage.bind(this, "next", lastPage)}><i
                         className="fa fa-angle-right" aria-hidden="true"/></a>
@@ -65,10 +64,19 @@ class ElementPaging extends Component {
                 </div>
             </div>
         )
-
     }
 }
 
+const calculateLastPage = (totalCount) => {
+    const PER_PAGE = 10
+    if (!totalCount){
+        return "?"
+    } else if (totalCount <= PER_PAGE){
+        return 1
+    } else {
+        return Math.floor(totalCount / PER_PAGE)
+    }
+}
 
 const mapStateToProps = (state) => {
     return {
