@@ -38,7 +38,7 @@ class TopNav extends Component {
                     <li>
                         <button
                             type="button"
-                            className="btn btn-sm topnav-button btn-info topnav-login-button"
+                            className="btn btn-sm topnav-button btn-link topnav-login-button"
                             style={{margin: 10 + "px"}}
                             onClick={() => dispatch(displayLogin(true))}
                         >
