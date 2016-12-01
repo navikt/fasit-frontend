@@ -84,26 +84,26 @@ export function* fetchAllLists(action) {
 
     switch (action.location) {
         case "nodes":
-            yield* fetchNodesList(`${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.nodes, action.searchString)}`)
+            yield fetchNodesList(`${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.nodes, action.searchString)}`)
             return
         case "resources":
-            yield* fetchResourcesList(`${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.resources, action.searchString)}`)
+            yield fetchResourcesList(`${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.resources, action.searchString)}`)
             return
         case "environments":
-            yield* fetchEnvironmentsList(`${configuration.fasit_environments}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.environments, action.searchString)}`)
+            yield fetchEnvironmentsList(`${configuration.fasit_environments}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.environments, action.searchString)}`)
             return
         case "applications":
-            yield* fetchApplicationsList(`${configuration.fasit_applications}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.applications, action.searchString)}`)
+            yield fetchApplicationsList(`${configuration.fasit_applications}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.applications, action.searchString)}`)
             return
         case "instances":
-            yield* fetchInstancesList(`${configuration.fasit_applicationinstances}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.instances, action.searchString)}`)
+            yield fetchInstancesList(`${configuration.fasit_applicationinstances}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.instances, action.searchString)}`)
             return
         default:
-            yield* fetchNodesList(`${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.nodes, action.searchString)}`)
-            yield* fetchResourcesList(`${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.resources, action.searchString)}`)
-            yield* fetchEnvironmentsList(`${configuration.fasit_environments}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.environments, action.searchString)}`)
-            yield* fetchApplicationsList(`${configuration.fasit_applications}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.applications, action.searchString)}`)
-            yield* fetchInstancesList(`${configuration.fasit_applicationinstances}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.instances, action.searchString)}`)
+            yield fetchNodesList(`${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.nodes, action.searchString)}`)
+            yield fetchResourcesList(`${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.resources, action.searchString)}`)
+            yield fetchEnvironmentsList(`${configuration.fasit_environments}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.environments, action.searchString)}`)
+            yield fetchApplicationsList(`${configuration.fasit_applications}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.applications, action.searchString)}`)
+            yield fetchInstancesList(`${configuration.fasit_applicationinstances}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.instances, action.searchString)}`)
 
             return
 
