@@ -11,7 +11,6 @@ class NodeSecurityView extends Component {
     render() {
         const {authenticated} = this.props
         return (
-            <div className="col-lg-4 col-lg-offset-4 col-md-6">
                 <div className="information-box">
                     <div className="information-box-header">
                         <div className="information-box-title text-overflow">
@@ -26,7 +25,6 @@ class NodeSecurityView extends Component {
                     </div>
 
                 </div>
-            </div>
         )
     }
 }

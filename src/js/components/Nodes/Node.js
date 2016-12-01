@@ -2,8 +2,10 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
 import {fetchFasitData, rescueNode} from '../../actionCreators/node_fasit'
+import classString from 'react-classset'
 import NodeSeraView from './NodeSeraView'
 import NodeEventsView from './NodeEventsView'
+import NodeGraph from './NodeGraph'
 import NodeLifecycle from './NodeLifecycle'
 import NodeSecurityView from './NodeSecurityView'
 import NodeRevisionsView from './NodeRevisionsView'
@@ -17,18 +19,19 @@ import NodeFasitViewSubmitNewNodeStatus from './NodeFasitViewSubmitNewNodeStatus
 class Node extends Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+            displayRevisions: false,
+            displaySecurity: false,
+            displayEvents: false,
+            displayPhysical: false,
+            displayGraphs: false
+        }
     }
 
     componentDidMount() {
         const {dispatch, hostname} = this.props
-        //dispatch(fetchFasitData(hostname))
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const {dispatch, hostname} = this.props
-        if (hostname != nextProps.hostname) {
-            //dispatch(fetchFasitData(nextProps.hostname))
-        }
+        dispatch(fetchFasitData(hostname))
     }
 
     showFasitData(authenticated) {
@@ -52,6 +55,18 @@ class Node extends Component {
         }
     }
 
+    toggleComponentDisplay(component) {
+        this.setState({[component]: !this.state[component]})
+    }
+
+    arrowDirection(component) {
+        return classString({
+            "fa": true,
+            "fa-angle-right": !this.state[component],
+            "fa-angle-down": this.state[component]
+        })
+    }
+
     render() {
         const {hostname, config, user, fasit, dispatch} = this.props
         let authenticated = false
@@ -60,37 +75,64 @@ class Node extends Component {
             authenticated = checkAuthentication(user, fasit.data.accesscontrol)
             lifecycle = fasit.data.lifecycle
         }
-        const grafanaSrc = `${config.grafana}/dashboard-solo/db/fasit-data-template?var-hostname=${hostname}&panelId=1&from=1471918908430&to=1471940508430&theme=light`
         return (
             <div>
-                <div className="col-md-12">
-                    <NodeSeraView hostname={hostname}/>
+                <div className="col-md-12 row">
+                    {/*  <NodeSeraView hostname={hostname}/>*/}
                 </div>
                 <div>
                     <div className="col-md-6">
                         {this.showFasitData(authenticated)}
-
+                        <br />
+                        <br />
+                        <br />
+                        <div className="row">
+                            <NodeLifecycle lifecycle={lifecycle}
+                                           rescueAction={()=>dispatch(rescueNode(hostname))}/>
+                        </div>
                     </div>
-                    <div className="col-md-6">
-                        <div className="row">
-                            <NodeRevisionsView hostname={hostname}/>
+                    <div className="col-md-4 col-md-offset-1">
+                        <div className="list-group node-list-group">
+                            <a className="list-group-item node-list-item"
+                               onClick={() => this.toggleComponentDisplay("displayRevisions")}>
+                                <i className={this.arrowDirection("displayRevisions")}/>&nbsp;&nbsp;&nbsp;&nbsp;Revisions
+                            </a>
+                            {this.state.displayRevisions ? <NodeRevisionsView hostname={hostname}/> : <div />}
+                            <a className="list-group-item node-list-item"
+                               onClick={() => this.toggleComponentDisplay("displaySecurity")}><i
+                                className={this.arrowDirection("displaySecurity")}/>&nbsp;&nbsp;&nbsp;&nbsp;Security</a>
+                            {this.state.displaySecurity ? <NodeSecurityView authenticated={authenticated}/> : <div />}
+                            <a className="list-group-item node-list-item"
+                               onClick={() => this.toggleComponentDisplay("displayEvents")}><i
+                                className={this.arrowDirection("displayEvents")}/>&nbsp;&nbsp;&nbsp;&nbsp;Events</a>
+                            {this.state.displayEvents ? <NodeEventsView /> : <div />}
+                            <a className="list-group-item node-list-item"
+                               onClick={() => this.toggleComponentDisplay("displayPhysical")}><i
+                                className={this.arrowDirection("displayPhysical")}/>&nbsp;&nbsp;&nbsp;&nbsp;Physical</a>
+                            <a className="list-group-item node-list-item"
+                               onClick={() => this.toggleComponentDisplay("displayGraphs")}><i
+                                className={this.arrowDirection("displayGraphs")}/>&nbsp;&nbsp;&nbsp;&nbsp;Graphs</a>
+                            {this.state.displayGraphs ? <NodeGraph url={config.grafana} hostname={hostname}/> : <div />}
                         </div>
-                        {(Object.keys(lifecycle).length > 0) ? <div className="row"><NodeLifecycle lifecycle={lifecycle} rescueAction={()=>dispatch(rescueNode(hostname))}/></div> : <div></div> }
-                        <div className="row">
-                            <NodeSecurityView authenticated={authenticated}/>
-                            <NodeEventsView />
-                        </div>
-                        <div className="row">
-                            <iframe src={grafanaSrc}
-                                    width="100%"
-                                    height="200"
-                                    frameBorder="1">
-                            </iframe>
-                        </div>
-                        <NodeFasitViewNewNodeForm />
-                        <NodeFasitViewDeleteNodeForm hostname={hostname}/>
-                        <NodeFasitViewSubmitNewNodeStatus />
-                        <NodeFasitViewSubmitDeleteStatus />
+                        {/*                        <div className="row">
+                         <NodeRevisionsView hostname={hostname}/>
+                         </div>
+                         {(Object.keys(lifecycle).length > 0) ? <div className="row"><NodeLifecycle lifecycle={lifecycle}
+                         rescueAction={()=>dispatch(rescueNode(hostname))}/>
+                         </div> : <div></div> }
+                         <div className="row">
+                         </div>
+                         <div className="row">
+                         <iframe src={grafanaSrc}
+                         width="100%"
+                         height="200"
+                         frameBorder="1">
+                         </iframe>
+                         </div>
+                         <NodeFasitViewNewNodeForm />
+                         <NodeFasitViewDeleteNodeForm hostname={hostname}/>
+                         <NodeFasitViewSubmitNewNodeStatus />
+                         <NodeFasitViewSubmitDeleteStatus />*/}
                     </div>
                 </div>
             </div>

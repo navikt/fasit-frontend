@@ -69,18 +69,12 @@ class NodeEventsView extends Component {
 
     render() {
         return (
-            <div className="col-lg-4 col-md-6">
                 <div className="information-box">
-                    <div className="information-box-header text-overflow">
-                        <h4 className="information-box-title"><i className="fa fa-bar-chart-o"></i><span
-                            className="hidden-md">&nbsp;&nbsp;Events</span></h4>
-                    </div>
                     <div className="information-box-body">
                         {this.showEvents()}
                     </div>
 
                 </div>
-            </div>
         )
     }
 }

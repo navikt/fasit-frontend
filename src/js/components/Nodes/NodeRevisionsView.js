@@ -127,7 +127,6 @@ class NodeRevisionsView extends Component {
     }
     render() {
         return (
-            <div className="col-lg-8 col-lg-offset-4 col-md-12">
                 <div className="information-box">
                     <div className="information-box-header">
                         <div className="information-box-title">
@@ -140,7 +139,6 @@ class NodeRevisionsView extends Component {
                     {this.showRevisionsFooter()}
 
                 </div>
-            </div>
         )
     }
 }
