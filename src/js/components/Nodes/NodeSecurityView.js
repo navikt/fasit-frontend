@@ -9,22 +9,32 @@ class NodeSecurityView extends Component {
 
 
     render() {
-        const {authenticated} = this.props
+        const {authenticated, requirements} = this.props
+        console.log(requirements)
         return (
-                <div className="information-box">
-                    <div className="information-box-header">
-                        <div className="information-box-title text-overflow">
-                            <span><i className="fa fa-lock"></i><span className="hidden-md">&nbsp;&nbsp;Security</span></span>
+
+            <div className="node-information-box">
+                <div className="panel panel-default">
+                    <div className="panel-body node-security-border">
+                        <div className="col-md-3 node-security-icon">
+                            {authenticated ? <i className="fa fa-check event-ok"/> :
+                                <i className="fa fa-exclamation-triangle event-error fa-2x"/>}
+                        </div>
+                        <div className="col-md-9">
+                            {authenticated ?
+                                "You have access to edit this element" :
+                                "You do not have the required permissions to edit this element"}
                         </div>
                     </div>
-                    <div className="information-box-body text-center">
-                        {authenticated ? <div className><i className="fa fa-check fa-3x event-ok"/></div> : <div className><i className="fa fa-exclamation-triangle fa-3x event-error"/></div>}
+                    <div className="panel-body">
+                        <b>Restricted to:</b><br />
+                        <ul>
+                            <li> Env.class: <b>{requirements.environmentclass}</b></li>
+                            {requirements.adgroups.length > 0 ? requirements.adgroups.map((group) => <li>AD group: <b>{group}</b></li>) : ""}
+                        </ul>
                     </div>
-                    <div className="information-box-footer text-center">
-                        {authenticated ? <div className>You have access to edit this element</div> : <div className>You do not have the required permissions to edit this element</div>}
-                    </div>
-
                 </div>
+            </div>
         )
     }
 }

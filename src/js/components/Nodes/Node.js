@@ -101,7 +101,7 @@ class Node extends Component {
                             <a className="list-group-item node-list-item"
                                onClick={() => this.toggleComponentDisplay("displaySecurity")}><i
                                 className={this.arrowDirection("displaySecurity")}/>&nbsp;&nbsp;&nbsp;&nbsp;Security</a>
-                            {this.state.displaySecurity ? <NodeSecurityView authenticated={authenticated}/> : <div />}
+                            {this.state.displaySecurity ? <NodeSecurityView authenticated={authenticated} requirements={fasit.data.accesscontrol}/> : <div />}
                             <a className="list-group-item node-list-item"
                                onClick={() => this.toggleComponentDisplay("displayEvents")}><i
                                 className={this.arrowDirection("displayEvents")}/>&nbsp;&nbsp;&nbsp;&nbsp;Events</a>
