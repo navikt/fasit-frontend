@@ -91,7 +91,7 @@ class Node extends Component {
                                            rescueAction={()=>dispatch(rescueNode(hostname))}/>
                         </div>
                     </div>
-                    <div className="col-md-4 col-md-offset-1">
+                    <div className="col-md-5 col-md-offset-1">
                         <div className="list-group node-list-group">
                             <a className="list-group-item node-list-item"
                                onClick={() => this.toggleComponentDisplay("displayRevisions")}>
