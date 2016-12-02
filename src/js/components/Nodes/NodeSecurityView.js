@@ -10,14 +10,13 @@ class NodeSecurityView extends Component {
 
     render() {
         const {authenticated, requirements} = this.props
-        console.log(requirements)
         return (
 
             <div className="node-information-box">
                 <div className="panel panel-default">
                     <div className="panel-body node-security-border">
                         <div className="col-md-3 node-security-icon">
-                            {authenticated ? <i className="fa fa-check event-ok"/> :
+                            {authenticated ? <i className="fa fa-check event-ok fa-2x"/> :
                                 <i className="fa fa-exclamation-triangle event-error fa-2x"/>}
                         </div>
                         <div className="col-md-9">
@@ -30,7 +29,7 @@ class NodeSecurityView extends Component {
                         <b>Restricted to:</b><br />
                         <ul>
                             <li> Env.class: <b>{requirements.environmentclass}</b></li>
-                            {requirements.adgroups.length > 0 ? requirements.adgroups.map((group) => <li>AD group: <b>{group}</b></li>) : ""}
+                            {requirements.adgroups.length > 0 ? requirements.adgroups.map((group, i) => <li key={i}>AD group: <b>{group}</b></li>) : ""}
                         </ul>
                     </div>
                 </div>

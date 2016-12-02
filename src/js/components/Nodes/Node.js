@@ -3,7 +3,9 @@ import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
 import {fetchFasitData, rescueNode} from '../../actionCreators/node_fasit'
 import classString from 'react-classset'
+import {FormString, FormList} from '../common/Forms'
 import NodeSeraView from './NodeSeraView'
+import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'
 import NodeGraph from './NodeGraph'
 import NodeLifecycle from './NodeLifecycle'
@@ -25,7 +27,8 @@ class Node extends Component {
             displaySecurity: false,
             displayEvents: false,
             displayPhysical: false,
-            displayGraphs: false
+            displayGraphs: false,
+            editMode: false
         }
     }
 
@@ -33,6 +36,35 @@ class Node extends Component {
         const {dispatch, hostname} = this.props
         dispatch(fetchFasitData(hostname))
     }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            hostname: nextProps.fasit.data.hostname,
+            username: nextProps.fasit.data.username,
+            type: nextProps.fasit.data.type
+        })
+    }
+
+    resetLocalState() {
+        const {fasit} = this.props
+        this.setState({
+            hostname: fasit.data.hostname,
+            username: fasit.data.username,
+            type: fasit.data.type
+        })
+    }
+
+    toggleComponentDisplay(component) {
+        this.setState({[component]: !this.state[component]})
+        if (component === "editMode" && this.state.editMode)
+            this.resetLocalState()
+
+    }
+
+    handleChange(field, value) {
+        this.setState({[field]: value})
+    }
+
 
     showFasitData(authenticated) {
         const {fasit, editMode}= this.props
@@ -55,9 +87,6 @@ class Node extends Component {
         }
     }
 
-    toggleComponentDisplay(component) {
-        this.setState({[component]: !this.state[component]})
-    }
 
     arrowDirection(component) {
         return classString({
@@ -68,7 +97,8 @@ class Node extends Component {
     }
 
     render() {
-        const {hostname, config, user, fasit, dispatch} = this.props
+        console.log(this.state)
+        const {hostname, config, user, fasit, dispatch, nodeTypes} = this.props
         let authenticated = false
         let lifecycle = {}
         if (Object.keys(fasit.data).length > 0) {
@@ -76,16 +106,43 @@ class Node extends Component {
             lifecycle = fasit.data.lifecycle
         }
         return (
-            <div>
-                <div className="col-md-12 row">
-                    {/*  <NodeSeraView hostname={hostname}/>*/}
-                </div>
-                <div>
+            <div className="row">
+                <div className="col-sm-12"><NodeTypeImage type={fasit.data.type}/><h1>heading</h1></div>
                     <div className="col-md-6">
-                        {this.showFasitData(authenticated)}
+                        {/*this.showFasitData(authenticated)*/}
                         <br />
                         <br />
                         <br />
+                        <i className="fa fa-wrench" onClick={() => this.toggleComponentDisplay("editMode")}/>
+
+
+                        <FormString
+                            label="hostname"
+                            editMode={this.state.editMode}
+                            value={this.state.hostname}
+                            handleChange={this.handleChange.bind(this)}
+                        />
+                        <FormString
+                            label="username"
+                            editMode={this.state.editMode}
+                            value={this.state.username}
+                            handleChange={this.handleChange.bind(this)}
+                        />
+
+                        <FormList
+                            label="type"
+                            editMode={this.state.editMode}
+                            value={this.state.type}
+                            handleChange={this.handleChange.bind(this)}
+                            options={nodeTypes}
+                        />
+
+                        <FormString
+                            label="cluster"
+                            value={fasit.data.cluster ? fasit.data.cluster.name : "Orphaned node"}
+                        />
+
+
                         <div className="row">
                             <NodeLifecycle lifecycle={lifecycle}
                                            rescueAction={()=>dispatch(rescueNode(hostname))}/>
@@ -95,13 +152,16 @@ class Node extends Component {
                         <div className="list-group node-list-group">
                             <a className="list-group-item node-list-item"
                                onClick={() => this.toggleComponentDisplay("displayRevisions")}>
-                                <i className={this.arrowDirection("displayRevisions")}/>&nbsp;&nbsp;&nbsp;&nbsp;Revisions
+                                <i className={this.arrowDirection("displayRevisions")}/>&nbsp;&nbsp;&nbsp;&nbsp;
+                                Revisions
                             </a>
                             {this.state.displayRevisions ? <NodeRevisionsView hostname={hostname}/> : <div />}
                             <a className="list-group-item node-list-item"
                                onClick={() => this.toggleComponentDisplay("displaySecurity")}><i
                                 className={this.arrowDirection("displaySecurity")}/>&nbsp;&nbsp;&nbsp;&nbsp;Security</a>
-                            {this.state.displaySecurity ? <NodeSecurityView authenticated={authenticated} requirements={fasit.data.accesscontrol}/> : <div />}
+                            {this.state.displaySecurity ? <NodeSecurityView authenticated={authenticated}
+                                                                            requirements={fasit.data.accesscontrol}/> :
+                                <div />}
                             <a className="list-group-item node-list-item"
                                onClick={() => this.toggleComponentDisplay("displayEvents")}><i
                                 className={this.arrowDirection("displayEvents")}/>&nbsp;&nbsp;&nbsp;&nbsp;Events</a>
@@ -134,7 +194,6 @@ class Node extends Component {
                          <NodeFasitViewSubmitNewNodeStatus />
                          <NodeFasitViewSubmitDeleteStatus />*/}
                     </div>
-                </div>
             </div>
         )
     }
@@ -145,7 +204,8 @@ const mapStateToProps = (state, ownProps) => {
         user: state.user,
         editMode: state.nodes.showEditNodeForm,
         hostname: ownProps.hostname,
-        config: state.configuration
+        config: state.configuration,
+        nodeTypes: state.nodes.nodeTypes
     }
 }
 

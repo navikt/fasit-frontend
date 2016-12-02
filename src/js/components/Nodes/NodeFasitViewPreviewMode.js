@@ -114,7 +114,7 @@ class NodeFasitViewPreviewMode extends Component {
                 <div className="information-main">
                     <div className="information-main-header">
                         <div className="information-main-title">
-                            <span><i className="fa fa-laptop fa-fw"></i>&nbsp;Node</span>
+                            <span><i className="fa fa-server fa-fw"></i>&nbsp;Node</span>
                             {this.showEditNodeButton(authenticated)}
                         </div>
                     </div>
