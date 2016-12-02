@@ -122,7 +122,7 @@ class TopNav extends Component {
 
                     <div className="app-container">
                         <div className="app-icon">
-                            <img src="images/aura-ikoner/fasit.png" className="app-icon"/>
+                            <img src="/images/aura-ikoner/fasit.png" className="app-icon"/>
                         </div>
                         <div className="app-label">
                             Fasit
@@ -133,7 +133,7 @@ class TopNav extends Component {
 
                     <div className="app-container">
                         <div className="app-icon">
-                            <img src="images/aura-ikoner/basta.png" className="app-icon"/>
+                            <img src="/images/aura-ikoner/basta.png" className="app-icon"/>
                         </div>
                         <div className="app-label">
                             Basta
@@ -143,7 +143,7 @@ class TopNav extends Component {
                 <a href="https://vera.adeo.no" target="Vera">
                     <div className="app-container">
                         <div className="app-icon">
-                            <img src="images/aura-ikoner/vera.png" className="app-icon"/>
+                            <img src="/images/aura-ikoner/vera.png" className="app-icon"/>
                         </div>
                         <div className="app-label">
                             Vera
@@ -154,7 +154,7 @@ class TopNav extends Component {
 
                     <div className="app-container">
                         <div className="app-icon">
-                            <img src="images/aura-ikoner/sera.png" className="app-icon"/>
+                            <img src="/images/aura-ikoner/sera.png" className="app-icon"/>
                         </div>
                         <div className="app-label">
                             Sera
@@ -165,7 +165,7 @@ class TopNav extends Component {
 
                     <div className="app-container">
                         <div className="app-icon">
-                            <img src="images/aura-ikoner/nora.png" className="app-icon"/>
+                            <img src="/images/aura-ikoner/nora.png" className="app-icon"/>
                         </div>
                         <div className="app-label">
                             Nora
@@ -176,7 +176,7 @@ class TopNav extends Component {
 
                     <div className="app-container">
                         <div className="app-icon">
-                            <img src="images/aura-ikoner/coca.png" className="app-icon"/>
+                            <img src="/images/aura-ikoner/coca.png" className="app-icon"/>
                         </div>
                         <div className="app-label">
                             Coca
@@ -186,7 +186,7 @@ class TopNav extends Component {
                 <a href="https://visa.adeo.no" target="Visa">
                     <div className="app-container">
                         <div className="app-icon">
-                            <img src="images/aura-ikoner/visa.png" className="app-icon"/>
+                            <img src="/images/aura-ikoner/visa.png" className="app-icon"/>
                         </div>
                         <div className="app-label">
                             Visa
@@ -196,7 +196,7 @@ class TopNav extends Component {
                 <a href="https://plaster.adeo.no" target="Plaster">
                     <div className="app-container">
                         <div className="app-icon">
-                            <img src="images/aura-ikoner/plaster.png" className="app-icon"/>
+                            <img src="/images/aura-ikoner/plaster.png" className="app-icon"/>
                         </div>
                         <div className="app-label">
                             Plaster
@@ -206,7 +206,7 @@ class TopNav extends Component {
                 <a href="https://confluence.adeo.no/display/AURA" target="confluence">
                     <div className="app-container">
                         <div className="app-icon">
-                            <img src="images/aura-ikoner/confluence.png" className="app-icon"/>
+                            <img src="/images/aura-ikoner/confluence.png" className="app-icon"/>
                         </div>
                         <div className="app-label">
                             Docs
@@ -242,7 +242,7 @@ class TopNav extends Component {
                         <div className="col-sm-1 col-md-2 hidden-xs">
                             <div className="topnav-brand-logo-container">
                                 <Link to="/">
-                                    <img src="images/aura-ikoner/fasit-small.png" className="topnav-brand-logo"/>
+                                    <img src="/images/aura-ikoner/fasit-small.png" className="topnav-brand-logo"/>
                                 </Link>
                             </div>
                         </div>

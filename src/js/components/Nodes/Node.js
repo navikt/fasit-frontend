@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
 import {fetchFasitData, rescueNode} from '../../actionCreators/node_fasit'
+import {showDeleteNodeForm } from '../../actionCreators/node_formActions'
+
 import classString from 'react-classset'
 import {FormString, FormList} from '../common/Forms'
 import NodeSeraView from './NodeSeraView'
@@ -97,7 +99,6 @@ class Node extends Component {
     }
 
     render() {
-        console.log(this.state)
         const {hostname, config, user, fasit, dispatch, nodeTypes} = this.props
         let authenticated = false
         let lifecycle = {}
@@ -107,93 +108,115 @@ class Node extends Component {
         }
         return (
             <div className="row">
-                <div className="col-sm-12"><NodeTypeImage type={fasit.data.type}/><h1>heading</h1></div>
-                    <div className="col-md-6">
-                        {/*this.showFasitData(authenticated)*/}
-                        <br />
-                        <br />
-                        <br />
-                        <i className="fa fa-wrench" onClick={() => this.toggleComponentDisplay("editMode")}/>
-
-
-                        <FormString
-                            label="hostname"
-                            editMode={this.state.editMode}
-                            value={this.state.hostname}
-                            handleChange={this.handleChange.bind(this)}
-                        />
-                        <FormString
-                            label="username"
-                            editMode={this.state.editMode}
-                            value={this.state.username}
-                            handleChange={this.handleChange.bind(this)}
-                        />
-
-                        <FormList
-                            label="type"
-                            editMode={this.state.editMode}
-                            value={this.state.type}
-                            handleChange={this.handleChange.bind(this)}
-                            options={nodeTypes}
-                        />
-
-                        <FormString
-                            label="cluster"
-                            value={fasit.data.cluster ? fasit.data.cluster.name : "Orphaned node"}
-                        />
-
-
-                        <div className="row">
-                            <NodeLifecycle lifecycle={lifecycle}
-                                           rescueAction={()=>dispatch(rescueNode(hostname))}/>
-                        </div>
+                <div className="col-xs-12 row main-data-container">
+                    <div className="col-sm-1 hidden-xs">
+                        <NodeTypeImage type={fasit.data.type}/>
                     </div>
-                    <div className="col-md-5 col-md-offset-1">
-                        <div className="list-group node-list-group">
-                            <a className="list-group-item node-list-item"
-                               onClick={() => this.toggleComponentDisplay("displayRevisions")}>
-                                <i className={this.arrowDirection("displayRevisions")}/>&nbsp;&nbsp;&nbsp;&nbsp;
-                                Revisions
-                            </a>
-                            {this.state.displayRevisions ? <NodeRevisionsView hostname={hostname}/> : <div />}
-                            <a className="list-group-item node-list-item"
-                               onClick={() => this.toggleComponentDisplay("displaySecurity")}><i
-                                className={this.arrowDirection("displaySecurity")}/>&nbsp;&nbsp;&nbsp;&nbsp;Security</a>
-                            {this.state.displaySecurity ? <NodeSecurityView authenticated={authenticated}
-                                                                            requirements={fasit.data.accesscontrol}/> :
-                                <div />}
-                            <a className="list-group-item node-list-item"
-                               onClick={() => this.toggleComponentDisplay("displayEvents")}><i
-                                className={this.arrowDirection("displayEvents")}/>&nbsp;&nbsp;&nbsp;&nbsp;Events</a>
-                            {this.state.displayEvents ? <NodeEventsView /> : <div />}
-                            <a className="list-group-item node-list-item"
-                               onClick={() => this.toggleComponentDisplay("displayPhysical")}><i
-                                className={this.arrowDirection("displayPhysical")}/>&nbsp;&nbsp;&nbsp;&nbsp;Physical</a>
-                            <a className="list-group-item node-list-item"
-                               onClick={() => this.toggleComponentDisplay("displayGraphs")}><i
-                                className={this.arrowDirection("displayGraphs")}/>&nbsp;&nbsp;&nbsp;&nbsp;Graphs</a>
-                            {this.state.displayGraphs ? <NodeGraph url={config.grafana} hostname={hostname}/> : <div />}
-                        </div>
-                        {/*                        <div className="row">
-                         <NodeRevisionsView hostname={hostname}/>
-                         </div>
-                         {(Object.keys(lifecycle).length > 0) ? <div className="row"><NodeLifecycle lifecycle={lifecycle}
-                         rescueAction={()=>dispatch(rescueNode(hostname))}/>
-                         </div> : <div></div> }
-                         <div className="row">
-                         </div>
-                         <div className="row">
-                         <iframe src={grafanaSrc}
-                         width="100%"
-                         height="200"
-                         frameBorder="1">
-                         </iframe>
-                         </div>
-                         <NodeFasitViewNewNodeForm />
-                         <NodeFasitViewDeleteNodeForm hostname={hostname}/>
-                         <NodeFasitViewSubmitNewNodeStatus />
-                         <NodeFasitViewSubmitDeleteStatus />*/}
+                    <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow"><strong>{hostname}</strong></div>
+                    <div className="col-sm-2 nopadding">
+                        <ul className="nav navbar-nav navbar-right">
+                            <li>
+                                <button type="button"
+                                        className="btn  btn-link topnav-button"
+                                        onClick={() => this.toggleComponentDisplay("editMode")}
+                                >
+                                    <i className="fa fa-wrench fa-2x"/>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button"
+                                        className="btn btn-link topnav-button"
+                                        onClick={() => dispatch(showDeleteNodeForm(true))}
+                                >
+                                    <i className="fa fa-trash fa-2x"/>
+                                </button>
+                            </li>
+                        </ul>
+
                     </div>
+                </div>
+                <div className="col-md-6">
+                    {/*this.showFasitData(authenticated)*/}
+
+
+                    <FormString
+                        label="hostname"
+                        editMode={this.state.editMode}
+                        value={this.state.hostname}
+                        handleChange={this.handleChange.bind(this)}
+                    />
+                    <FormString
+                        label="username"
+                        editMode={this.state.editMode}
+                        value={this.state.username}
+                        handleChange={this.handleChange.bind(this)}
+                    />
+
+                    <FormList
+                        label="type"
+                        editMode={this.state.editMode}
+                        value={this.state.type}
+                        handleChange={this.handleChange.bind(this)}
+                        options={nodeTypes}
+                    />
+
+                    <FormString
+                        label="cluster"
+                        value={fasit.data.cluster ? fasit.data.cluster.name : "Orphaned node"}
+                    />
+
+
+                    <div className="row">
+                        <NodeLifecycle lifecycle={lifecycle}
+                                       rescueAction={()=>dispatch(rescueNode(hostname))}/>
+                    </div>
+                </div>
+                <div className="col-md-5 col-md-offset-1">
+                    <div className="list-group">
+                        <a className="list-group-item node-list-item"
+                           onClick={() => this.toggleComponentDisplay("displayRevisions")}>
+                            <i className={this.arrowDirection("displayRevisions")}/>&nbsp;&nbsp;&nbsp;&nbsp;
+                            Revisions
+                        </a>
+                        {this.state.displayRevisions ? <NodeRevisionsView hostname={hostname}/> : <div />}
+                        <a className="list-group-item node-list-item"
+                           onClick={() => this.toggleComponentDisplay("displaySecurity")}><i
+                            className={this.arrowDirection("displaySecurity")}/>&nbsp;&nbsp;&nbsp;&nbsp;Security</a>
+                        {this.state.displaySecurity ? <NodeSecurityView authenticated={authenticated}
+                                                                        requirements={fasit.data.accesscontrol}/> :
+                            <div />}
+                        <a className="list-group-item node-list-item"
+                           onClick={() => this.toggleComponentDisplay("displayEvents")}><i
+                            className={this.arrowDirection("displayEvents")}/>&nbsp;&nbsp;&nbsp;&nbsp;Events</a>
+                        {this.state.displayEvents ? <NodeEventsView /> : <div />}
+                        <a className="list-group-item node-list-item"
+                           onClick={() => this.toggleComponentDisplay("displayPhysical")}><i
+                            className={this.arrowDirection("displayPhysical")}/>&nbsp;&nbsp;&nbsp;&nbsp;Physical</a>
+                        <a className="list-group-item node-list-item"
+                           onClick={() => this.toggleComponentDisplay("displayGraphs")}><i
+                            className={this.arrowDirection("displayGraphs")}/>&nbsp;&nbsp;&nbsp;&nbsp;Graphs</a>
+                        {this.state.displayGraphs ? <NodeGraph url={config.grafana} hostname={hostname}/> : <div />}
+                    </div>
+                    {/*                        <div className="row">
+                     <NodeRevisionsView hostname={hostname}/>
+                     </div>
+                     {(Object.keys(lifecycle).length > 0) ? <div className="row"><NodeLifecycle lifecycle={lifecycle}
+                     rescueAction={()=>dispatch(rescueNode(hostname))}/>
+                     </div> : <div></div> }
+                     <div className="row">
+                     </div>
+                     <div className="row">
+                     <iframe src={grafanaSrc}
+                     width="100%"
+                     height="200"
+                     frameBorder="1">
+                     </iframe>
+                     </div>
+                     <NodeFasitViewSubmitNewNodeStatus />
+                     <NodeFasitViewNewNodeForm />*/}
+                     <NodeFasitViewDeleteNodeForm hostname={hostname}/>
+                     <NodeFasitViewSubmitDeleteStatus />
+                </div>
             </div>
         )
     }
