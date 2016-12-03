@@ -68,7 +68,7 @@ class NodeRevisionsView extends Component {
 
     showRevisionsContent() {
         const {revisions} = this.props
-        if (revisions.isFetching || !revisions.data.length > 0)
+        if (revisions.isFetching )
             return <i className="fa fa-spinner fa-pulse fa-2x"></i>
 
         else if (revisions.requestFailed)

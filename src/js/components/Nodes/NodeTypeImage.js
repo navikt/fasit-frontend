@@ -30,7 +30,7 @@ export default class NodeTypeImage extends Component {
             case 'rhel':
                 return <img className="node-type-image" src='/images/nodetypes/redhat.png'/>
             default:
-                return ""
+                return null
         }
     }
 }
