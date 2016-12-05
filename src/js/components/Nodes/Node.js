@@ -2,10 +2,11 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
 import {fetchFasitData, rescueNode} from '../../actionCreators/node_fasit'
-import {showDeleteNodeForm } from '../../actionCreators/node_formActions'
+import {showDeleteNodeForm} from '../../actionCreators/node_formActions'
 
 import classString from 'react-classset'
-import {FormString, FormList} from '../common/Forms'
+import {FormString, FormList, FormSecret} from '../common/Forms'
+import {fetchNodePassword, clearNodePassword} from '../../actionCreators/node_fasit'
 import NodeSeraView from './NodeSeraView'
 import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'
@@ -30,7 +31,8 @@ class Node extends Component {
             displayEvents: false,
             displayPhysical: false,
             displayGraphs: false,
-            editMode: false
+            displaySecret: false,
+            editMode: false,
         }
     }
 
@@ -43,7 +45,8 @@ class Node extends Component {
         this.setState({
             hostname: nextProps.fasit.data.hostname,
             username: nextProps.fasit.data.username,
-            type: nextProps.fasit.data.type
+            type: nextProps.fasit.data.type,
+            password: nextProps.fasit.currentPassword
         })
     }
 
@@ -52,14 +55,29 @@ class Node extends Component {
         this.setState({
             hostname: fasit.data.hostname,
             username: fasit.data.username,
-            type: fasit.data.type
+            type: fasit.data.type,
+            password: ""
         })
     }
 
+    toggleDisplaySecret() {
+        const {dispatch} = this.props
+        if (this.state.displaySecret)
+            dispatch(fetchNodePassword())
+        dispatch(clearNodePassword())
+        this.setState({displaySecret: !this.state.displaySecret})
+
+
+    }
+
     toggleComponentDisplay(component) {
+        const {dispatch} = this.props
         this.setState({[component]: !this.state[component]})
         if (component === "editMode" && this.state.editMode)
             this.resetLocalState()
+        if (component === "editMode" && !this.state.editMode)
+            dispatch(fetchNodePassword())
+
 
     }
 
@@ -98,6 +116,16 @@ class Node extends Component {
         })
     }
 
+    buttonClasses(authenticated, edit) {
+        return classString({
+            "btn": true,
+            "btn-link": true,
+            "topnav-button": true,
+            "topnav-button-active": this.state.editMode && edit,
+            "disabled": !authenticated
+        })
+    }
+
     render() {
         const {hostname, config, user, fasit, dispatch, nodeTypes} = this.props
         let authenticated = false
@@ -112,12 +140,13 @@ class Node extends Component {
                     <div className="col-sm-1 hidden-xs">
                         <NodeTypeImage type={fasit.data.type}/>
                     </div>
-                    <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow"><strong>{hostname}</strong></div>
+                    <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow">
+                        <strong>{hostname}</strong></div>
                     <div className="col-sm-2 nopadding">
                         <ul className="nav navbar-nav navbar-right">
                             <li>
                                 <button type="button"
-                                        className="btn  btn-link topnav-button"
+                                        className={this.buttonClasses(authenticated, "edit")}
                                         onClick={() => this.toggleComponentDisplay("editMode")}
                                 >
                                     <i className="fa fa-wrench fa-2x"/>
@@ -125,14 +154,13 @@ class Node extends Component {
                             </li>
                             <li>
                                 <button type="button"
-                                        className="btn btn-link topnav-button"
+                                        className={this.buttonClasses(authenticated)}
                                         onClick={() => dispatch(showDeleteNodeForm(true))}
                                 >
                                     <i className="fa fa-trash fa-2x"/>
                                 </button>
                             </li>
                         </ul>
-
                     </div>
                 </div>
                 <div className="col-md-6">
@@ -152,6 +180,14 @@ class Node extends Component {
                         handleChange={this.handleChange.bind(this)}
                     />
 
+                    <FormSecret
+                        label="password"
+                        editMode={this.state.editMode}
+                        value={this.state.password}
+                        handleChange={this.handleChange.bind(this)}
+                        toggleDisplaySecret={this.toggleDisplaySecret.bind(this)}
+                    />
+
                     <FormList
                         label="type"
                         editMode={this.state.editMode}
@@ -164,6 +200,20 @@ class Node extends Component {
                         label="cluster"
                         value={fasit.data.cluster ? fasit.data.cluster.name : "Orphaned node"}
                     />
+
+                    <br />
+                    {this.state.editMode ?
+                        <div className="btn-block">
+                            <button type="submit" className="btn btn-sm btn-primary pull-right"
+                                    onClick={(e) => {
+                                    }}>Submit
+                            </button>
+                            <button type="reset" className="btn btn-sm btn-default btn-space pull-right"
+                                    onClick={() => this.toggleComponentDisplay("editMode")}>Cancel
+                            </button>
+                        </div>
+                        : ""
+                    }
 
 
                     <div className="row">
@@ -214,8 +264,8 @@ class Node extends Component {
                      </div>
                      <NodeFasitViewSubmitNewNodeStatus />
                      <NodeFasitViewNewNodeForm />*/}
-                     <NodeFasitViewDeleteNodeForm hostname={hostname}/>
-                     <NodeFasitViewSubmitDeleteStatus />
+                    <NodeFasitViewDeleteNodeForm hostname={hostname}/>
+                    <NodeFasitViewSubmitDeleteStatus />
                 </div>
             </div>
         )

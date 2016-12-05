@@ -100,3 +100,46 @@ export class FormString extends Component {
         )
     }
 }
+
+export class FormSecret extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+
+    render() {
+        const {label, value, editMode, handleChange, disabled, toggleDisplaySecret} = this.props
+        return (
+            <div className="row">
+                <div className="col-md-4 FormLabel"><b>{label.charAt(0).toUpperCase() + label.slice(1)}:</b></div>
+                <div className="col-md-8">
+                    {(editMode && !disabled) ?
+                        <input type="text"
+                               value={value}
+                               className="FormInputField FormString-value"
+                               onChange={(e) => handleChange(label, e.target.value)}
+                        /> :
+                        <div className="text-right">
+                            {!value ?
+                                <i className="fa fa-eye FormValue pull-right cursor-pointer"
+                                   onClick={() => toggleDisplaySecret()}/> :
+                                <i className="fa fa-eye-slash FormValue pull-right cursor-pointer"
+                                   onClick={() => toggleDisplaySecret()}/>
+                            }
+                            <OverlayTrigger {...overlayProps}>
+                            <span
+                                className="FormValue"
+                                style={{float: "right"}}
+                                id={label}
+                                onClick={() => copyToClipboard(label)}
+
+                            >{value ? value : "••••••••••••••••"}</span>
+                            </OverlayTrigger>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        )
+    }
+}

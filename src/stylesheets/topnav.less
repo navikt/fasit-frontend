@@ -7,10 +7,14 @@
 .topnav-active {
   background-color: @fasit-secondary;
 }
-.topnav-button:hover .topnav-button:active .topnav-button:focus{
+.topnav-button:hover .topnav-button:active{
   color: @fasit-primary !important;
 }
-.topnav-button{
+
+.topnav-button-active > i{
+  color: @brand-primary
+}
+.topnav-button, .topnav-button:focus{
   color: @fasit-tertiary;
   font-size: xx-small;
   margin-top:4px;
