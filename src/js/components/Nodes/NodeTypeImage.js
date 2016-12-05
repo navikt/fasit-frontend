@@ -14,7 +14,7 @@ export default class NodeTypeImage extends Component {
             case 'bpm':
                 return <img className="node-type-image" src='/images/nodetypes/websphere.png'/>
             case 'docker':
-                return <img className="node-type-image" src='/images/nodetypes/security.png'/>
+                return <img className="node-type-image" src='/images/nodetypes/docker.png'/>
             case 'datapower_physical':
             case 'datapower_virtual':
                 return <img className="node-type-image" src='/images/nodetypes/oracle.png'/>

@@ -10,7 +10,7 @@ class NodeEventsView extends Component {
 
     // Trenger sende hele fasitdata til actionCreator for å bygge URL basert på cluster, environment og hostname
     componentWillReceiveProps(nextProps) {
-        const { fasit, dispatch } = this.props
+        const {fasit, dispatch} = this.props
         if (fasit.data != nextProps.fasit.data && Object.keys(nextProps.fasit.data).length > 0) {
             dispatch(fetchEvents(nextProps.fasit.data))
         }
@@ -18,9 +18,9 @@ class NodeEventsView extends Component {
 
 
     showEvents() {
-        const { events, fasit }= this.props
+        const {events, fasit}= this.props
 
-        if (events.isFetching || !events.data || fasit.isFetching || !fasit.data)
+        if (events.isFetching || fasit.isFetching)
             return <i className="fa fa-spinner fa-pulse fa-2x"></i>
 
         else if (events.requestFailed)
@@ -38,7 +38,7 @@ class NodeEventsView extends Component {
     }
 
     generateEvent(events) {
-        return events.map((event, index)=> {
+        return events.map((event, index) => {
                 if (event.check.handlers) {
                     if (event.check.handlers[0] === "default") {
                         return (
@@ -69,12 +69,10 @@ class NodeEventsView extends Component {
 
     render() {
         return (
-                <div className="information-box">
-                    <div className="information-box-body">
-                        {this.showEvents()}
-                    </div>
+            <div className="node-information-box">
+                {this.showEvents()}
 
-                </div>
+            </div>
         )
     }
 }
