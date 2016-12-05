@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import { showSubmitEditNodeForm } from '../../actionCreators/node_formActions'
-import { submitEditNodeForm } from '../../actionCreators/node_editNodeForm'
+import {showSubmitEditNodeForm} from '../../actionCreators/node_formActions'
+import {submitEditNodeForm} from '../../actionCreators/node_editNodeForm'
 
 
 class NodeFasitViewSubmitForm extends Component {
@@ -11,12 +11,12 @@ class NodeFasitViewSubmitForm extends Component {
     }
 
     closeSubmitForm() {
-        const { dispatch } = this.props
+        const {dispatch} = this.props
         dispatch(showSubmitEditNodeForm(false))
     }
 
     handleSubmitForm() {
-        const { form, fasitData, dispatch } = this.props
+        const {form, fasitData, dispatch} = this.props
         const value = {
             password: {value: form.password},
             type: form.type,
@@ -38,15 +38,17 @@ class NodeFasitViewSubmitForm extends Component {
         }
         return <button type="submit" className="btn btn-primary pull-right disabled">Submit</button>
     }
-    showDiffMessage(fields){
+
+    showDiffMessage(fields) {
         if (this.findDifferences(fields).length > 0)
             return false
         return <span className="form-inline pull-left submit-warning">No change detected</span>
 
     }
-    findDifferences(fields){
+
+    findDifferences(fields) {
         return fields.filter((field) => {
-            if (field.oldField != field.newField){
+            if (field.oldField != field.newField) {
                 return field
             }
         })
@@ -78,14 +80,13 @@ class NodeFasitViewSubmitForm extends Component {
     }
 
     render() {
-        const { fasitData, form } = this.props
-
+        const {fasitData, form, onClose, onSubmit, display, originalValues, newValues} = this.props
         const fields =
             [
                 {
                     field: "Hostname",
-                    oldField: fasitData.hostname,
-                    newField: form.hostname
+                    oldField: originalValues.hostname,
+                    newField: newValues.hostname
                 },
                 {
                     field: "Type",
@@ -103,8 +104,9 @@ class NodeFasitViewSubmitForm extends Component {
                     newField: form.password
                 }
             ]
+
         return (
-            <Modal show={this.props.showSubmitForm} onHide={this.closeSubmitForm.bind(this)}>
+            <Modal show={display} onHide={onClose}>
                 <Modal.Header>
                     <Modal.Title>Commit changes</Modal.Title>
                 </Modal.Header>
@@ -118,7 +120,26 @@ class NodeFasitViewSubmitForm extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {this.generateTableRows(fields)}
+                        {display ?
+                            Object.keys(originalValues).map((key, idx) => {
+                                if (originalValues[key] === newValues[key]){
+                                    return (
+                                        <tr key={idx}>
+                                            <td><b>{key}</b></td>
+                                            <td>{originalValues[key]}</td>
+                                            <td>{newValues[key]}</td>
+                                        </tr>
+                                    )}
+                                return (
+                                    <tr key={idx}>
+                                        <td><b>{key}</b></td>
+                                        <td>{originalValues[key]}</td>
+                                        <td className="cell-bg">{newValues[key]}</td>
+                                    </tr>
+                                )
+                            }) :
+                            <td />
+                        }
 
                         </tbody>
                     </table>
@@ -129,7 +150,7 @@ class NodeFasitViewSubmitForm extends Component {
                             {this.showDiffMessage(fields)}
                             {this.showSubmitButton(fields)}
                             <button type="reset" className="btn btn-default btn-space pull-right"
-                                    onClick={this.closeSubmitForm.bind(this)}>Close
+                                    onClick={onClose}>Close
                             </button>
                         </div>
                     </div>
@@ -143,14 +164,19 @@ NodeFasitViewSubmitForm.propTypes = {
     dispatch: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
         user: state.user,
         fasitData: state.node_fasit.data,
         form: state.node_editNodeForm,
         editMode: state.nodes.showEditNodeForm,
         showSubmitForm: state.nodes.showSubmitEditFasitNodeForm,
-        currentPassword: state.nodes.currentNodeSecret
+        currentPassword: state.nodes.currentNodeSecret,
+        display: ownProps.display,
+        onSubmit: ownProps.onSubmit,
+        onClose: ownProps.onClose,
+        newValues: ownProps.newValues,
+        oldValues: ownProps.oldValues
 
     }
 }

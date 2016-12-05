@@ -7,19 +7,16 @@ import {showDeleteNodeForm} from '../../actionCreators/node_formActions'
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
 import {fetchNodePassword, clearNodePassword} from '../../actionCreators/node_fasit'
-import NodeSeraView from './NodeSeraView'
 import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'
 import NodeGraph from './NodeGraph'
 import NodeLifecycle from './NodeLifecycle'
 import NodeSecurityView from './NodeSecurityView'
 import NodeRevisionsView from './NodeRevisionsView'
-import NodeFasitViewPreviewMode from './NodeFasitViewPreviewMode'
-import NodeFasitViewEditMode from './NodeFasitViewEditMode'
-import NodeFasitViewNewNodeForm from './NodeFasitViewNewNodeForm'
+import NodeFasitViewSubmitForm from './NodeFasitViewSubmitForm'
+import NodeFasitViewSubmitFormStatus from './NodeFasitViewSubmitFormStatus'
 import NodeFasitViewDeleteNodeForm from './NodeFasitViewDeleteNodeForm'
 import NodeFasitViewSubmitDeleteStatus from './NodeFasitViewSubmitDeleteStatus'
-import NodeFasitViewSubmitNewNodeStatus from './NodeFasitViewSubmitNewNodeStatus'
 
 class Node extends Component {
     constructor(props) {
@@ -32,6 +29,7 @@ class Node extends Component {
             displayPhysical: false,
             displayGraphs: false,
             displaySecret: false,
+            displaySubmitForm: false,
             editMode: false,
         }
     }
@@ -85,29 +83,6 @@ class Node extends Component {
         this.setState({[field]: value})
     }
 
-
-    showFasitData(authenticated) {
-        const {fasit, editMode}= this.props
-        if (fasit.isFetching || !fasit.data)
-            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
-
-        else if (fasit.requestFailed)
-            return (
-                <div>Retrieving Fasit-data failed:
-                    <br />
-                    <br />
-                    <pre><i>{fasit.requestFailed}</i></pre>
-                </div>
-            )
-
-        else if (editMode) {
-            return <NodeFasitViewEditMode />
-        } else {
-            return <NodeFasitViewPreviewMode authenticated={authenticated}/>
-        }
-    }
-
-
     arrowDirection(component) {
         return classString({
             "fa": true,
@@ -134,6 +109,7 @@ class Node extends Component {
             authenticated = checkAuthentication(user, fasit.data.accesscontrol)
             lifecycle = fasit.data.lifecycle
         }
+
         return (
             <div className="row">
                 <div className="col-xs-12 row main-data-container">
@@ -164,9 +140,6 @@ class Node extends Component {
                     </div>
                 </div>
                 <div className="col-md-6">
-                    {/*this.showFasitData(authenticated)*/}
-
-
                     <FormString
                         label="hostname"
                         editMode={this.state.editMode}
@@ -205,8 +178,7 @@ class Node extends Component {
                     {this.state.editMode ?
                         <div className="btn-block">
                             <button type="submit" className="btn btn-sm btn-primary pull-right"
-                                    onClick={(e) => {
-                                    }}>Submit
+                                    onClick={() => this.toggleComponentDisplay("displaySubmitForm")}>Submit
                             </button>
                             <button type="reset" className="btn btn-sm btn-default btn-space pull-right"
                                     onClick={() => this.toggleComponentDisplay("editMode")}>Cancel
@@ -247,25 +219,27 @@ class Node extends Component {
                             className={this.arrowDirection("displayGraphs")}/>&nbsp;&nbsp;&nbsp;&nbsp;Graphs</a>
                         {this.state.displayGraphs ? <NodeGraph url={config.grafana} hostname={hostname}/> : <div />}
                     </div>
-                    {/*                        <div className="row">
-                     <NodeRevisionsView hostname={hostname}/>
-                     </div>
-                     {(Object.keys(lifecycle).length > 0) ? <div className="row"><NodeLifecycle lifecycle={lifecycle}
-                     rescueAction={()=>dispatch(rescueNode(hostname))}/>
-                     </div> : <div></div> }
-                     <div className="row">
-                     </div>
-                     <div className="row">
-                     <iframe src={grafanaSrc}
-                     width="100%"
-                     height="200"
-                     frameBorder="1">
-                     </iframe>
-                     </div>
-                     <NodeFasitViewSubmitNewNodeStatus />
-                     <NodeFasitViewNewNodeForm />*/}
+
                     <NodeFasitViewDeleteNodeForm hostname={hostname}/>
                     <NodeFasitViewSubmitDeleteStatus />
+                    <NodeFasitViewSubmitForm
+                        display={this.state.displaySubmitForm}
+                        onSubmit={(form) => console.log("submitting ", form)}
+                        onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
+                        newValues={{
+                            hostname: this.state.hostname,
+                            password: this.state.password,
+                            username: this.state.username,
+                            type: this.state.type
+                        }}
+                        originalValues={{
+                            hostname: fasit.data.hostname,
+                            username: fasit.data.username,
+                            type: fasit.data.type,
+                            password: fasit.currentPassword
+                        }}
+                    />
+                    <NodeFasitViewSubmitFormStatus />
                 </div>
             </div>
         )
