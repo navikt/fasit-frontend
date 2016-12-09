@@ -11,6 +11,7 @@ export default (state = {
     data: [],
     zones: ['fss', 'sbs'],
     environmentClasses: ['u','t','q','p'],
+    headers: {},
     environments: []
 }, action) => {
     switch (action.type) {

@@ -8,6 +8,7 @@ class ElementPaging extends Component {
         this.state = {page: 0}
     }
 
+    // always reset to page 0 if search or filters have changed
     componentWillReceiveProps(nextProps){
         const {search} = this.props
         if (search.searchString !== nextProps.search.searchString || search.filters !== nextProps.search.filters){
@@ -39,7 +40,6 @@ class ElementPaging extends Component {
                     dispatch(submitSearchString(search.context, search.searchString, page - 1))
                 }
                 break
-
         }
     }
 
@@ -55,7 +55,7 @@ class ElementPaging extends Component {
                     <a className="btn btn-link " onClick={this.changePage.bind(this, "prev", lastPage)}><i
                         className="fa fa-angle-left" aria-hidden="true"/></a>
                     <div className="element-list-paging-number">
-                        {this.state.page + 1} / {lastPage}
+                        {this.state.page + 1} / {lastPage + 1}
                     </div>
                     <a className="btn btn-link " onClick={this.changePage.bind(this, "next", lastPage)}><i
                         className="fa fa-angle-right" aria-hidden="true"/></a>
@@ -72,9 +72,9 @@ const calculateLastPage = (totalCount) => {
     if (!totalCount){
         return "?"
     } else if (totalCount <= PER_PAGE){
-        return 1
+        return 0
     } else {
-        return Math.floor(totalCount / PER_PAGE)
+        return Math.ceil(totalCount / PER_PAGE)
     }
 }
 
@@ -84,7 +84,7 @@ const mapStateToProps = (state) => {
         nodes: state.nodes,
         resources: state.resources,
         environments: state.environments,
-        application: state.application,
+        applications: state.applications,
         instances: state.instances,
     }
 }

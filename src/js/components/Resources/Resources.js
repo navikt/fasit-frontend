@@ -6,7 +6,7 @@ import ElementPaging from '../common/ElementPaging'
 import ElementList from '../common/ElementList'
 import Filters from '../Navigation/Filters'
 import Resource from './Resource'
-import {submitSearchString, changePage} from '../../actionCreators/element_lists'
+import {submitSearchString} from '../../actionCreators/element_lists'
 
 class Resources extends Component {
     constructor(props) {
@@ -19,10 +19,10 @@ class Resources extends Component {
     }
 
     render() {
-        const {resources, dispatch, search} = this.props
+        const {resources} = this.props
 
         if (this.props.params.resource)
-            return <Resource id={this.props.params.resource} />// <div>{this.props.params.node}</div>
+            return <Resource id={this.props.params.resource} />
         return (
             <div className="main-content-container">
                 <div className="row">

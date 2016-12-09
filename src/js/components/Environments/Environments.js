@@ -1,53 +1,43 @@
 import React, {Component, PropTypes} from 'react'
-import { Link } from 'react-router'
 import {connect} from 'react-redux'
-import moment from 'moment'
+import {Link} from 'react-router'
 
+import ElementPaging from '../common/ElementPaging'
+import ElementList from '../common/ElementList'
+import Filters from '../Navigation/Filters'
 import Environment from './Environment'
-import EnvironmentsStatistics from './EnvironmentsStatistics'
-
+import {submitSearchString} from '../../actionCreators/element_lists'
 
 class Environments extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
     }
-    componentDidMount(){
-        const { dispatch, filters } = this.props
-        //dispatch(fetchEnvironmentsList(filters))
-    }
-    componentWillReceiveProps(nextProps) {
-        const { dispatch, filters } = this.props
-        if (filters != nextProps.filters) {
-            //dispatch(fetchEnvironmentsList(nextProps.filters))
-        }
-    }
-    generateEnvironmentsList(){
-        const { environments } = this.props
-        if (environments.isFetching)
-            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
-        else if (environments.requestFailed)
-            return <pre>{environments.requestFailed}</pre>
-        return environments.data.map((item, index)=> {
-            return (
-                <Link key={index} to={'/environments/'+item.name} className="search-result" activeClassName='search-result-active'>
-                    <div>
-                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.name}</h5>
-                        <i className="fa fa-globe fa-fw"></i> {item.environmentclass} <b> | </b>
-                        {moment(item.created).format('ll')}
-                    </div>
-                </Link>
-            )
-        })
+
+    componentDidMount() {
+        const {dispatch, search} = this.props
+        dispatch(submitSearchString("environments", search.searchString, 0))
     }
 
     render() {
+        const {environments} = this.props
+
+        if (this.props.params.environment)
+            return <Environment name={this.props.params.environment} />
         return (
-            <div>
-                <div className="col-md-2 item-list">
-                    {this.generateEnvironmentsList()}
+            <div className="main-content-container">
+                <div className="row">
+                    <div className="col-sm-6 col-xs-12">
+                        <Filters />
+                    </div>
+                    <div className="col-sm-3 col-sm-offset-1 col-xs-3">
+                        <ElementPaging />
+                    </div>
                 </div>
-                <div className="col-md-10">
-                    {this.props.params.environment ? <Environment name={this.props.params.environment}/>: <EnvironmentsStatistics />}
+                <div className="col-sm-10">
+                    <div className="row element-list-container">
+                        <h4>{environments.headers.total_count} environments</h4>
+                        <ElementList type="environments" data={environments}/>
+                    </div>
                 </div>
             </div>
         )
@@ -58,7 +48,7 @@ class Environments extends Component {
 const mapStateToProps = (state) => {
     return {
         environments: state.environments,
-        filters: state.search.filters,
+        search: state.search
     }
 }
 

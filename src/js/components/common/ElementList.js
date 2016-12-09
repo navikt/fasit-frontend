@@ -73,7 +73,7 @@ export default class ElementList extends Component {
         const {data} = this.props
         return data.data.map((item, index)=> {
             return (
-                <Link key={index} to={'/instances/' + item.application}
+                <Link key={index} to={'/instances/' + item.id}
                       className="element-list-item"
                       activeClassName='element-list-item-active'>
                     <div className="element-list-item">

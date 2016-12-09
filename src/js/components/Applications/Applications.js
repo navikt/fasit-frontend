@@ -1,54 +1,48 @@
 import React, {Component, PropTypes} from 'react'
-import { Link } from 'react-router'
 import {connect} from 'react-redux'
+import {Link} from 'react-router'
 
-import Application from './Application'
-import ApplicationsStatistics from './ApplicationsStatistics'
-
+import ElementPaging from '../common/ElementPaging'
+import ElementList from '../common/ElementList'
+import Filters from '../Navigation/Filters'
+//import Application from './Application'
+import {submitSearchString} from '../../actionCreators/element_lists'
 
 class Applications extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
     }
-    componentDidMount(){
-        const { dispatch, filters } = this.props
-      //  dispatch(fetchApplicationsList(filters))
-    }
-    componentWillReceiveProps(nextProps) {
-        const { dispatch, filters } = this.props
-        if (filters != nextProps.filters) {
-        //    dispatch(fetchApplicationsList(nextProps.filters))
-        }
-    }
-    generateApplicationsList(){
-        const { applications } = this.props
-        if (applications.isFetching)
-            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
-        else if (applications.requestFailed)
-            return <pre>{applications.requestFailed}</pre>
-        return applications.data.map((item, index)=> {
-            return (
-                <Link key={index} to={'/applications/'+item.name} className="search-result" activeClassName='search-result-active'>
-                    <div>
-                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.name}</h5>
-                        <i className="fa fa-globe fa-fw"></i> {item.groupid} <b> | </b>
-                    </div>
-                </Link>
-            )
-        })
+
+    componentDidMount() {
+        const {dispatch, search} = this.props
+        dispatch(submitSearchString("applications", search.searchString, 0))
     }
 
     render() {
-        return (
-            <div>
-                <div className="col-md-2 item-list">
-                    {this.generateApplicationsList()}
+        const {applications} = this.props
+
+        if (this.props.params.application) {
+            return <div>this is {this.props.params.application}</div>
+        } else {
+            return (
+                <div className="main-content-container">
+                    <div className="row">
+                        <div className="col-sm-6 col-xs-12">
+                            <Filters />
+                        </div>
+                        <div className="col-sm-3 col-sm-offset-1 col-xs-3">
+                            <ElementPaging />
+                        </div>
+                    </div>
+                    <div className="col-sm-10">
+                        <div className="row element-list-container">
+                            <h4>{applications.headers.total_count} applications</h4>
+                            <ElementList type="applications" data={applications}/>
+                        </div>
+                    </div>
                 </div>
-                <div className="col-md-10">
-                    {this.props.params.application ? <Application name={this.props.params.application}/>: <ApplicationsStatistics />}
-                </div>
-            </div>
-        )
+            )
+        }
     }
 }
 
@@ -56,7 +50,7 @@ class Applications extends Component {
 const mapStateToProps = (state) => {
     return {
         applications: state.applications,
-        filters: state.search.filters,
+        search: state.search
     }
 }
 
