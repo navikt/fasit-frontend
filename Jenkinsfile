@@ -1,5 +1,5 @@
 def mvnHome, mvn, nodeHome, npm, node // tools
-def committer, lastcommit, releaseVersion // metadata
+def committer, committerEmail, lastcommit, releaseVersion // metadata
 def application = "fasit-frontend"
 def dockerDir = "./docker"
 def distDir = "${dockerDir}/dist"
