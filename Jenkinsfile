@@ -41,6 +41,8 @@ pipeline {
                             script: 'git log -1 --pretty=format:"%ae (%an) %h %s" --no-merges',
                             returnStdout: true
                     ).trim()
+
+                    committerEmail = sh(script: 'git log -1 --pretty=format:"%ae"', returnStdout: true).trim()
                 }
             }
         }
