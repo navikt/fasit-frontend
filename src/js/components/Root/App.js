@@ -1,14 +1,30 @@
 import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import {
+    fetchEnvironments,
+    fetchApplicationNames,
+    fetchResourceTypes,
+    fetchNodeTypes
+} from '../../actionCreators/fasit_initialize_data'
 
 import TopNav from '../Navigation/TopNav'
 
 
-export default class App extends Component {
+class App extends Component {
     constructor(props) {
         super(props)
     }
 
-   render() {
+    // pre-load fasit data
+    componentDidMount() {
+        const {dispatch} = this.props
+        dispatch(fetchEnvironments())
+        dispatch(fetchApplicationNames())
+        dispatch(fetchResourceTypes())
+        dispatch(fetchNodeTypes())
+    }
+
+    render() {
         return (
             <div>
                 <TopNav />
@@ -19,3 +35,5 @@ export default class App extends Component {
         )
     }
 }
+
+export default connect()(App)

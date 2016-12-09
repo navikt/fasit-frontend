@@ -3,9 +3,10 @@ import {watchAuthentication} from './authentication'
 import {watchElementsList} from './elements_list'
 
 // Application
+import {watchApplicationNames} from './application_names'
 
 // Environments
-import {watchEnvironmentNames} from './environment_names'
+import {watchEnvironments} from './environments'
 
 // Instances
 
@@ -32,9 +33,9 @@ export default function*() {
         call(watchElementsList),
 
         // Applications
-
+        call(watchApplicationNames),
         // Environments
-        call(watchEnvironmentNames),
+        call(watchEnvironments),
 
         // Instances
 

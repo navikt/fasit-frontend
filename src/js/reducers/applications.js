@@ -1,16 +1,24 @@
 import {
     APPLICATIONS_LIST_FETCHING,
     APPLICATIONS_LIST_RECEIVED,
-    APPLICATIONS_LIST_FAILED
+    APPLICATIONS_LIST_FAILED,
+    APPLICATION_NAMES_RECEIVED
 } from '../actionTypes'
 
 export default (state = {
     isFetching: true,
     requestFailed: false,
     data: [],
-    headers: {}
+    headers: {},
+    applicationNames: []
 }, action) => {
     switch (action.type) {
+
+        case APPLICATION_NAMES_RECEIVED:
+            return Object.assign({}, state, {
+                applicationNames: action.applicationNames
+            })
+
         case APPLICATIONS_LIST_FETCHING:
             return Object.assign({}, state, {
                 isFetching: true,

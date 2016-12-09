@@ -228,7 +228,7 @@ const mapStateToProps = (state) => {
         nodeTypes: state.nodes.nodeTypes,
         environmentClasses: state.environments.environmentClasses,
         zones: state.environments.zones,
-        environmentNames: state.environments.environmentNames
+        environments: state.environments.environments
 
     }
 }

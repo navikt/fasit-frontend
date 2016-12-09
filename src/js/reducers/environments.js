@@ -2,7 +2,7 @@ import {
     ENVIRONMENTS_LIST_FETCHING,
     ENVIRONMENTS_LIST_RECEIVED,
     ENVIRONMENTS_LIST_FAILED,
-    ENVIRONMENT_NAMES_RECEIVED,
+    ENVIRONMENTS_RECEIVED,
 } from '../actionTypes'
 
 export default (state = {
@@ -11,13 +11,13 @@ export default (state = {
     data: [],
     zones: ['fss', 'sbs'],
     environmentClasses: ['u','t','q','p'],
-    environmentNames: []
+    environments: []
 }, action) => {
     switch (action.type) {
 
-        case ENVIRONMENT_NAMES_RECEIVED:
+        case ENVIRONMENTS_RECEIVED:
             return Object.assign({}, state, {
-                environmentNames: action.value
+                environments: action.value
             })
 
         case ENVIRONMENTS_LIST_FETCHING:

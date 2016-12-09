@@ -1,39 +1,18 @@
 import React, {Component, PropTypes} from 'react'
 import Select from 'react-select'
 import {connect} from 'react-redux'
-import {fetchEnvironmentNames} from '../../actionCreators/environment_names'
-import {fetchResourceTypes} from '../../actionCreators/resource_types'
-import {fetchNodeTypes} from '../../actionCreators/node_types'
-import {fetchElementList, changeFilter, submitSearchString} from '../../actionCreators/element_lists'
+import {changeFilter, submitSearchString} from '../../actionCreators/element_lists'
 
 
 class Filters extends Component {
     constructor(props) {
         super(props)
-
-        this.names = ['app1', 'app2', 'app3', 'app4']
-        this.applications = ['app1', 'app2', 'app3', 'app4']
-    }
-
-    componentDidMount() {
-        const {dispatch, search} = this.props
-        dispatch(fetchEnvironmentNames(search.filters))
-        dispatch(fetchResourceTypes())
-        dispatch(fetchNodeTypes())
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const {dispatch, search} = this.props
-        if (search.filters.environmentclass != nextProps.search.filters.environmentclass) {
-            dispatch(fetchEnvironmentNames(nextProps.search.filters))
-        }
     }
 
     handleChangeFilter(filterName, filterValue) {
         const {dispatch, search} = this.props
         dispatch(changeFilter(filterName, filterValue))
         dispatch(submitSearchString(search.context, search.searchString, 0))
-
     }
 
     convertToSelectObject(values) {
@@ -43,6 +22,15 @@ class Filters extends Component {
     }
 
     environmentFilter() {
+        // if environmentclass is set, display only environments in that environmentclass
+        const filteredEnvironments = this.props.environments.filter((env) => {
+            if (!this.props.search.filters.environmentclass){
+                return true
+            } else {
+                return env.environmentclass === this.props.search.filters.environmentclass
+            }
+        })
+
         return (
             <div className="Select-environment">
                 <Select
@@ -50,7 +38,7 @@ class Filters extends Component {
                     placeholder="Env."
                     name="form-field-name"
                     value={this.props.search.filters.environment}
-                    options={this.convertToSelectObject(this.props.environmentNames)}
+                    options={this.convertToSelectObject(filteredEnvironments.map((env) => env.name))}
                     onChange={(e) => this.handleChangeFilter("environment", e.value)}
                 />
             </div>
@@ -65,9 +53,8 @@ class Filters extends Component {
                     placeholder="App."
                     name="form-field-name"
                     value={this.props.search.filters.application}
-                    options={this.convertToSelectObject(this.applications)}
+                    options={this.convertToSelectObject(this.props.applicationNames)}
                     onChange={(e) => this.handleChangeFilter("application", e.value)}
-
                 />
             </div>
         )
@@ -195,7 +182,8 @@ class Filters extends Component {
 const mapStateToProps = (state) => {
     return {
         search: state.search,
-        environmentNames: state.environments.environmentNames,
+        environments: state.environments.environments,
+        applicationNames: state.applications.applicationNames,
         environmentClasses: state.environments.environmentClasses,
         nodeTypes: state.nodes.nodeTypes,
         resourceTypes: state.resources.resourceTypes
