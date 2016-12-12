@@ -134,6 +134,7 @@ class Filters extends Component {
                     <div className="filters">
                         {this.classFilter()}
                         {this.environmentFilter()}
+                        {this.applicationFilter()}
                     </div>
                 )
             case "nodes":

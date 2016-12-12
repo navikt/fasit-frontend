@@ -74,7 +74,7 @@ export function* fetchAllLists(action) {
         resources: {key: "alias", filters: ["environment", "environmentclass", "zone", "application"]},
         environments: {key: "name", filters: ['environmentclass']},
         applications: {key: "name", filters: ['application']},
-        instances: {key: "application", filters: ["environment", "environmentclass", "application"]}
+        instances: {key: "id", filters: ["environment", "environmentclass", "application"]}
     }
 
     const configuration = yield select((state) => state.configuration)
