@@ -123,7 +123,7 @@ class Node extends Component {
                             <li>
                                 <button type="button"
                                         className={this.buttonClasses(authenticated, "edit")}
-                                        onClick={() => this.toggleComponentDisplay("editMode")}
+                                        onClick={authenticated ? () => this.toggleComponentDisplay("editMode") : () => {}}
                                 >
                                     <i className="fa fa-wrench fa-2x"/>
                                 </button>
@@ -131,7 +131,7 @@ class Node extends Component {
                             <li>
                                 <button type="button"
                                         className={this.buttonClasses(authenticated)}
-                                        onClick={() => dispatch(showDeleteNodeForm(true))}
+                                        onClick={authenticated ? () => dispatch(showDeleteNodeForm(true)) : () => {}}
                                 >
                                     <i className="fa fa-trash fa-2x"/>
                                 </button>
@@ -158,6 +158,7 @@ class Node extends Component {
                         editMode={this.state.editMode}
                         value={this.state.password}
                         handleChange={this.handleChange.bind(this)}
+                        authenticated={user.authenticated}
                         toggleDisplaySecret={this.toggleDisplaySecret.bind(this)}
                     />
 
@@ -168,12 +169,18 @@ class Node extends Component {
                         handleChange={this.handleChange.bind(this)}
                         options={nodeTypes}
                     />
-
+                    <FormString
+                        label="env.class"
+                        value={fasit.data.environmentclass}
+                    />
+                    <FormString
+                        label="environment"
+                        value={fasit.data.environment}
+                    />
                     <FormString
                         label="cluster"
                         value={fasit.data.cluster ? fasit.data.cluster.name : "Orphaned node"}
                     />
-
                     <br />
                     {this.state.editMode ?
                         <div className="btn-block">
@@ -230,13 +237,18 @@ class Node extends Component {
                             hostname: this.state.hostname,
                             password: this.state.password,
                             username: this.state.username,
-                            type: this.state.type
+                            type: this.state.type,
+
                         }}
                         originalValues={{
                             hostname: fasit.data.hostname,
                             username: fasit.data.username,
                             type: fasit.data.type,
-                            password: fasit.currentPassword
+                            password: fasit.currentPassword,
+                        }}
+                        additionalValues={{
+                            environment: fasit.data.environment,
+                            environmentclass: fasit.data.environmentclass
                         }}
                     />
                     <NodeFasitViewSubmitFormStatus />

@@ -117,7 +117,7 @@ class TopNav extends Component {
 
     appsOverlay() {
         return (
-            <Popover title="Other AURA tools" id="apps">
+            <Popover title="AURA tools" id="apps">
                 <a href="https://fasit.adeo.no" target="Fasit">
 
                     <div className="app-container">
