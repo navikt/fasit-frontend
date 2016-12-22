@@ -12,8 +12,8 @@ export const changeFilter = (filterName, filterValue) => {
     return {type: CHANGE_FILTER, filterName, filterValue}
 }
 
-export const changePage = (page, lastPage) => (dispatch) => {
+export const changePage = (page, lastPage) => {
     if (page < 0) page = 0
     if (page > lastPage) page = lastPage
-    dispatch({type: CHANGE_PAGE, value: page})
+    return {type: CHANGE_PAGE, value: page}
 }
