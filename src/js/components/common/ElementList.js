@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import moment from 'moment'
+import {truncate} from '../../utils/StringTools'
 
 export default class ElementList extends Component {
     constructor(props) {
@@ -9,13 +10,16 @@ export default class ElementList extends Component {
 
     generateResourcesList() {
         const {data} = this.props
+
         return data.data.map((item, index)=> {
             return (
                 <Link key={index} to={'/resources/' + item.id} className="element-list-item"
                       activeClassName='element-list-item-active'>
                     <div>
-                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.alias}</h5>
-                        <i className="fa fa-globe fa-fw"></i> {item.scope.environment} <b> | </b>
+                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.alias} - {item.type}</h5>
+                        <i className="fa fa-globe fa-fw"></i> {Object.keys(item.scope).map(k => `${item.scope[k]}`).join(' | ')}
+                        <br />
+                        {Object.keys(item.properties).map(k => (<div key={k}>{k}: {truncate(item.properties[k], 40)}</div>))}
                     </div>
                 </Link>
             )
