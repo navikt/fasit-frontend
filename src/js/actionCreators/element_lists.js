@@ -9,15 +9,11 @@ export const submitSearchString = (location, searchString, page) => {
 }
 
 export const changeFilter = (filterName, filterValue) => {
-    return {
-        type: CHANGE_FILTER,
-        filterName,
-        filterValue
-    }
+    return {type: CHANGE_FILTER, filterName, filterValue}
 }
 
-export const changePage = (page, lastPage)  => {
+export const changePage = (page, lastPage) => (dispatch) => {
     if (page < 0) page = 0
     if (page > lastPage) page = lastPage
-    return {type: CHANGE_PAGE, value: page}
+    dispatch({type: CHANGE_PAGE, value: page})
 }
