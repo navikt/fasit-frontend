@@ -10,6 +10,8 @@
     "predev": "better-npm-run prebuild",
     "dev": "better-npm-run dev",
     "build": "better-npm-run build",
+    "mockserver": "better-npm-run mockserver",
+    "mocked": "better-npm-run mocked",
     "test": "better-npm-run test",
     "test:watch": "npm test -- --watch"
   },
@@ -43,6 +45,32 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
         "PORT": 4242
+      }
+    },
+    "mockserver": {
+      "command": "node ./src/test/mockend/mockServer.js",
+      "env": {
+        "PORT": 9696,
+        "NODE_PATH": "./src/test/mockend"
+      }
+    },
+    "mocked": {
+      "command": "node ./server.js",
+      "env": {
+        "NODE_ENV": "standalone",
+        "NODE_PATH": "./src",
+        "PORT": 4242,
+        "fasit_resources_url": "http://localhost:9696/resources",
+        "fasit_environments_url": "http://localhost:9696/environments",
+        "fasit_applications_url": "https://e34jbsl01655.devillo.no:8443/api/v2/applications",
+        "fasit_applicationinstances_url": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances",
+        "fasit_secrets_url": "https://e34jbsl01655.devillo.no:8443/api/v2/secrets",
+        "fasit_nodes_url": "https://e34jbsl01655.devillo.no:8443/api/v2/nodes",
+        "fasit_url": "https://e34jbsl01655.devillo.no:8443",
+        "grafana_url": "https://grafana.adeo.no",
+        "jira_url": "http://jira-q1.adeo.no",
+        "sera_servers_url": "https://sera.adeo.no/api/v1/servers",
+        "sensu_api_url": "https://sensu-api.adeo.no"
       }
     },
     "test": {
@@ -91,6 +119,7 @@
     "bootstrap": "^3.3.6",
     "bootswatch": "^3.3.6",
     "chai": "^3.5.0",
+    "cors": "^2.8.1",
     "css-loader": "^0.25.0",
     "es6-promise": "^3.2.1",
     "eventsource-polyfill": "^0.9.6",
