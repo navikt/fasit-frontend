@@ -96,10 +96,9 @@ class Filters extends Component {
                     resetValue=""
                     placeholder="Type"
                     name="form-field-name"
-                    value={this.props.filters.resourcetype}
+                    value={this.props.search.filters.resourcetype}
                     options={this.convertToSelectObject(this.props.resourceTypes)}
                     onChange={(e) => this.handleChangeFilter("resourcetype", e.value)}
-
                 />
             </div>
         )
@@ -158,7 +157,7 @@ class Filters extends Component {
                         {this.classFilter()}
                         {this.environmentFilter()}
                         {this.applicationFilter()}
-                        {/*this.resourceTypeFilter()*/}
+                        {this.resourceTypeFilter()}
                     </div>
                 )
             default:

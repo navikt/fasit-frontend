@@ -71,7 +71,7 @@ function* fetchNodesList(url) {
 export function* fetchAllLists(action) {
     const filterConfig = {
         nodes: {key: "hostname", filters: ["environment", "environmentclass", "type"]},
-        resources: {key: "alias", filters: ["environment", "environmentclass", "zone", "application"]},
+        resources: {key: "alias", filters: ["environment", "environmentclass", "zone", "application", "resourcetype"]},
         environments: {key: "name", filters: ['environmentclass']},
         applications: {key: "name", filters: ['application']},
         instances: {key: "id", filters: ["environment", "environmentclass", "application"]}
@@ -90,8 +90,8 @@ export function* fetchAllLists(action) {
             let filters = buildFilterString(search.filters, filterConfig.resources, action.searchString)
 
             // pga manglende like-søk, må vi ta bort alias fra backendspørringen
-            if (action.searchString === "" ){
-               filters = filters.replace("alias=", "")
+            if (action.searchString === "") {
+                filters = filters.replace("alias=", "")
             }
 
             yield fetchResourcesList(`${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${filters}`)
@@ -113,18 +113,22 @@ export function* fetchAllLists(action) {
             yield fetchInstancesList(`${configuration.fasit_applicationinstances}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.instances, action.searchString)}`)
 
             return
-
     }
 }
-const buildFilterString = (filters, filterConfig, searchString) => {
-    let filterString = '&'
-    for (let filter in filters) {
-        if (filterConfig.filters.indexOf(filter) !== -1) {
-            if (filters[filter])
-                filterString += filter + "=" + filters[filter] + "&"
-        }
-    }
-    return filterConfig.key + "=" + searchString + filterString
+
+
+ const buildFilterString = (filters, filterConfig, searchString) => {
+    const filterString = Object.keys(filters)
+        .reduce((accumulator, current) => {
+            if(filters[current]) {
+                const queryParam  = (current === 'resourcetype') ? "type" : current // this is because there are multiple type properties in filters type name is taken by node
+                accumulator.push(`${queryParam}=${filters[current]}`)
+            }
+
+            return accumulator
+        }, []).join("&")
+
+    return `${filterConfig.key}=${searchString}&${filterString}`
 }
 export function* watchElementsList() {
     yield fork(takeLatest, FETCH_ELEMENT_LISTS, fetchAllLists)

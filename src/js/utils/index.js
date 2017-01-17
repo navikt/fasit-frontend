@@ -56,7 +56,7 @@ export const fetchPage = (url) => {
                 headers[header[0]] = header[1]
             }
 
-            return res.json().then((data)=>{
+            return res.json().then((data)=> {
                 return ({
                     data,
                     headers

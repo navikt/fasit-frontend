@@ -41,7 +41,6 @@ class Nodes extends Component {
                 </div>
             </div>
         )
-
     }
 }
 
