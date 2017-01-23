@@ -47,25 +47,18 @@
         "PORT": 4242
       }
     },
-    "mockserver": {
-      "command": "node ./src/test/mockend/mockServer.js",
-      "env": {
-        "PORT": 9696,
-        "NODE_PATH": "./src/test/mockend"
-      }
-    },
     "mocked": {
       "command": "node ./server.js",
       "env": {
         "NODE_ENV": "standalone",
         "NODE_PATH": "./src",
         "PORT": 4242,
-        "fasit_resources_url": "http://localhost:9696/resources",
-        "fasit_environments_url": "http://localhost:9696/environments",
-        "fasit_applications_url": "http://localhost:9696/applications",
+        "fasit_resources_url": "http://localhost:4242/mockapi/resources",
+        "fasit_environments_url": "http://localhost:4242/mockapi/environments",
+        "fasit_applications_url": "http://localhost:4242/mockapi/applications",
         "fasit_applicationinstances_url": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances",
         "fasit_secrets_url": "https://e34jbsl01655.devillo.no:8443/api/v2/secrets",
-        "fasit_nodes_url": "https://e34jbsl01655.devillo.no:8443/api/v2/nodes",
+        "fasit_nodes_url": "http://localhost:4242/mockapi/nodes",
         "fasit_url": "http://localhost:4242",
         "grafana_url": "https://grafana.adeo.no",
         "jira_url": "http://jira-q1.adeo.no",
