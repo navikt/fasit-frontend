@@ -5,8 +5,8 @@ const proxy = require('proxy-middleware')
 const fs = require('fs')
 const https = require('https')
 
-const environments = require('./src/test/mockend/environmentsMock')
-const resources = require('./src/test/mockend/resourcesMock')
+const environmentsMock = require('./src/test/mockend/environmentsMock')
+const resourcesMock = require('./src/test/mockend/resourcesMock')
 const applications = require('./src/test/mockend/applicationsMock')
 const resourceTypes = require('./src/test/mockend/resourceTypesMock')
 const nodeMock = require('./src/test/mockend/nodesMock')
@@ -15,7 +15,6 @@ const nodeMock = require('./src/test/mockend/nodesMock')
 const config = require('./config')
 console.log("ext", config.externalResources)
 const selftest = require('./selftest')
-
 
 
 const app = new express();
@@ -50,7 +49,7 @@ app.get("/mockapi/applications", (req, res) => {
 })
 
 app.get("/mockapi/environments", (req, res) => {
-    sendJson(res, environments)
+    sendJson(res, environmentsMock.findEnvironments(req.query))
 })
 
 app.get("/mockapi/resources/types/", (req, res) => {
@@ -58,12 +57,7 @@ app.get("/mockapi/resources/types/", (req, res) => {
 })
 
 app.get("/mockapi/resources", (req, res) => {
-    const filtered = Object.keys(req.query).filter(k => k !== 'page' && k !== 'pr_page')
-    const params = {}
-    filtered.forEach(f => parms = req[f])
-
-    console.log("Q", params)
-    sendJson(res, resources, filter)
+    sendJson(res, resourcesMock.findResources(req.query))
 })
 
 app.get("/mockapi/nodes/types", (req, res) => {
@@ -76,13 +70,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
 })
 
-function sendJson(res, json, filter) {
-
-    json.filter(o => {
-        Object.keys(filter).forEach(f => {
-            o[f] === filter[f]
-        })
-    })
+function sendJson(res, json) {
     res.set('total_count', json.length)
     res.json(json)
 }
