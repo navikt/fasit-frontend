@@ -58,7 +58,12 @@ app.get("/mockapi/resources/types/", (req, res) => {
 })
 
 app.get("/mockapi/resources", (req, res) => {
-    sendJson(res, resources)
+    const filtered = Object.keys(req.query).filter(k => k !== 'page' && k !== 'pr_page')
+    const params = {}
+    filtered.forEach(f => parms = req[f])
+
+    console.log("Q", params)
+    sendJson(res, resources, filter)
 })
 
 app.get("/mockapi/nodes/types", (req, res) => {
@@ -71,7 +76,13 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
 })
 
-function sendJson(res, json) {
+function sendJson(res, json, filter) {
+
+    json.filter(o => {
+        Object.keys(filter).forEach(f => {
+            o[f] === filter[f]
+        })
+    })
     res.set('total_count', json.length)
     res.json(json)
 }

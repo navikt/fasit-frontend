@@ -18,7 +18,7 @@ if (process.env['NODE_ENV'] === 'production' || process.env ['NODE_ENV'] === 'st
 else {
     exports.externalResources = {
         fasit_resources: "https://e34jbsl01655.devillo.no:8443/api/v2/resources",
-        fasit_environments: "http://e34jbsl01655.devillo.no:8443/environments",
+        fasit_environments: "https://e34jbsl01655.devillo.no:8443/api/v2/environments",
         fasit_applications: "https://e34jbsl01655.devillo.no:8443/api/v2/applications",
         fasit_applicationinstances: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances",
         fasit_secrets: "https://e34jbsl01655.devillo.no:8443/api/v2/secrets",
