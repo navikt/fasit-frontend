@@ -4,6 +4,7 @@ import {watchElementsList} from './elements_list'
 
 // Application
 import {watchApplicationNames} from './application_names'
+import {watchApplicationFasit} from './application_fasit'
 
 // Environments
 import {watchEnvironments} from './environments'
@@ -34,6 +35,8 @@ export default function*() {
 
         // Applications
         call(watchApplicationNames),
+        call(watchApplicationFasit),
+
         // Environments
         call(watchEnvironments),
 

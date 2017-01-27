@@ -6,7 +6,7 @@ import ElementPaging from '../common/ElementPaging'
 import ElementList from '../common/ElementList'
 import Filters from '../Navigation/Filters'
 import Node from './Node'
-import {submitSearchString, changePage} from '../../actionCreators/element_lists'
+import {submitSearchString} from '../../actionCreators/element_lists'
 
 class Nodes extends Component {
     constructor(props) {
@@ -19,10 +19,10 @@ class Nodes extends Component {
     }
 
     render() {
-        const {nodes, dispatch, search} = this.props
+        const {nodes} = this.props
 
         if (this.props.params.node)
-            return <Node hostname={this.props.params.node} />// <div>{this.props.params.node}</div>
+            return <Node hostname={this.props.params.node} />
         return (
             <div className="main-content-container">
                 <div className="row">

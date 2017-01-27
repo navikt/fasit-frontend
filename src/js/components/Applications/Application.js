@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 //import {fetchApplicationData} from '../../actionCreators/application_fasit'
 
-class Node extends Component {
+class Application extends Component {
     constructor(props) {
         super(props)
     }
@@ -75,7 +75,7 @@ class Node extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
     return {
-        application: state.application_fasit,
+        application: state.applications,
         name: ownProps.name,
     }
 }
