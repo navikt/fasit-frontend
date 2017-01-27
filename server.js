@@ -1,6 +1,6 @@
-const path = require('path');
-const express = require('express');
-const request = require('request');
+const path = require('path')
+const express = require('express')
+const request = require('request')
 const proxy = require('proxy-middleware')
 const fs = require('fs')
 const https = require('https')
@@ -9,7 +9,7 @@ const environmentsMock = require('./src/test/mockend/environmentsMock')
 const resourcesMock = require('./src/test/mockend/resourcesMock')
 const applications = require('./src/test/mockend/applicationsMock')
 const resourceTypes = require('./src/test/mockend/resourceTypesMock')
-const nodeMock = require('./src/test/mockend/nodesMock')
+const nodesMock = require('./src/test/mockend/nodesMock')
 
 
 const config = require('./config')
@@ -61,8 +61,21 @@ app.get("/mockapi/resources", (req, res) => {
 })
 
 app.get("/mockapi/nodes/types", (req, res) => {
-    sendJson(res, nodeMock.types)
+    sendJson(res, nodesMock.types)
 })
+
+
+app.get('/mockapi/nodes/:hostname', (req, res) => {
+    sendJson(res, nodesMock.getNode(req.params.hostname))
+
+})
+
+app.get("/mockapi/nodes", (req, res) => {
+    console.log("der", req.params)
+    sendJson(res, nodesMock.getNodes())
+})
+
+
 
 app.get('/selftest', selftest.selftest)
 
@@ -71,8 +84,16 @@ app.get('*', (req, res) => {
 })
 
 function sendJson(res, json) {
-    res.set('total_count', json.length)
-    res.json(json)
+    if(!json){
+        res.status(404).send("Found notn for you dawg")
+        return
+    }
+    else if(Array.isArray(json)) {
+        res.set('total_count', json.length)
+    }
+        res.json(json)
+
+
 }
 
 app.listen(config.server.port, config.server.host, (err) => {
