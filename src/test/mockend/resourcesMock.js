@@ -1,4 +1,28 @@
-module.exports = [
+module.exports = {
+    findResources: function (queryParams) {
+        const scopeFilter = Object.keys(queryParams).filter(k => k !== 'page' && k !== 'pr_page' && k !== 'type')
+        const typeFilter = queryParams.type
+
+        function byType(r) {
+            return  (typeFilter) ? r.type.toLowerCase() === typeFilter.toLowerCase() : true
+        }
+
+        function byScope(r) {
+            let result = true
+            scopeFilter.forEach(filter => {
+                if (r.scope[filter] !== queryParams[filter]) {
+                    result = false
+                }
+            })
+
+            return result
+        }
+
+        return resources.filter(byType).filter(byScope)
+    }
+} 
+
+const resources = [
     {
         "type": "baseurl",
         "alias": "tjenestebuss",

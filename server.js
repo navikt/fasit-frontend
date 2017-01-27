@@ -5,8 +5,8 @@ const proxy = require('proxy-middleware')
 const fs = require('fs')
 const https = require('https')
 
-const environments = require('./src/test/mockend/environmentsMock')
-const resources = require('./src/test/mockend/resourcesMock')
+const environmentsMock = require('./src/test/mockend/environmentsMock')
+const resourcesMock = require('./src/test/mockend/resourcesMock')
 const applications = require('./src/test/mockend/applicationsMock')
 const resourceTypes = require('./src/test/mockend/resourceTypesMock')
 const nodeMock = require('./src/test/mockend/nodesMock')
@@ -15,7 +15,6 @@ const nodeMock = require('./src/test/mockend/nodesMock')
 const config = require('./config')
 console.log("ext", config.externalResources)
 const selftest = require('./selftest')
-
 
 
 const app = new express();
@@ -50,7 +49,7 @@ app.get("/mockapi/applications", (req, res) => {
 })
 
 app.get("/mockapi/environments", (req, res) => {
-    sendJson(res, environments)
+    sendJson(res, environmentsMock.findEnvironments(req.query))
 })
 
 app.get("/mockapi/resources/types/", (req, res) => {
@@ -58,7 +57,7 @@ app.get("/mockapi/resources/types/", (req, res) => {
 })
 
 app.get("/mockapi/resources", (req, res) => {
-    sendJson(res, resources)
+    sendJson(res, resourcesMock.findResources(req.query))
 })
 
 app.get("/mockapi/nodes/types", (req, res) => {
