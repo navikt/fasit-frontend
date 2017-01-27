@@ -12,6 +12,7 @@ import NodeEventsView from './NodeEventsView'
 import NodeGraph from './NodeGraph'
 import NodeLifecycle from './NodeLifecycle'
 import NodeSecurityView from './NodeSecurityView'
+import NodeSeraView from './NodeSeraView'
 import NodeRevisionsView from './NodeRevisionsView'
 import NodeFasitViewSubmitForm from './NodeFasitViewSubmitForm'
 import NodeFasitViewSubmitFormStatus from './NodeFasitViewSubmitFormStatus'
@@ -221,6 +222,7 @@ class Node extends Component {
                         <a className="list-group-item node-list-item"
                            onClick={() => this.toggleComponentDisplay("displayPhysical")}><i
                             className={this.arrowDirection("displayPhysical")}/>&nbsp;&nbsp;&nbsp;&nbsp;Physical</a>
+                        {this.state.displayPhysical ? <NodeSeraView hostname={hostname}/> : <div />}
                         <a className="list-group-item node-list-item"
                            onClick={() => this.toggleComponentDisplay("displayGraphs")}><i
                             className={this.arrowDirection("displayGraphs")}/>&nbsp;&nbsp;&nbsp;&nbsp;Graphs</a>
