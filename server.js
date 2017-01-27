@@ -10,6 +10,7 @@ const resourcesMock = require('./src/test/mockend/resourcesMock')
 const applications = require('./src/test/mockend/applicationsMock')
 const resourceTypes = require('./src/test/mockend/resourceTypesMock')
 const nodesMock = require('./src/test/mockend/nodesMock')
+const loginMock = require('./src/test/mockend/loginMock')
 
 
 const config = require('./config')
@@ -74,9 +75,17 @@ app.get("/mockapi/nodes", (req, res) => {
     console.log("der", req.params)
     sendJson(res, nodesMock.getNodes())
 })
-
-
-
+if (process.env["NODE_ENV"] === "standalone") {
+    app.post("/api/login", (req, res) => {
+        sendJson(res, loginMock.getLogin())
+    })
+    app.post("/api/logout", (req, res) => {
+        sendJson(res, loginMock.getLogout())
+    })
+    app.get("/api/v2/currentuser", (req, res) => {
+        sendJson(res, loginMock.getUser())
+    })
+}
 app.get('/selftest', selftest.selftest)
 
 app.get('*', (req, res) => {
@@ -84,14 +93,14 @@ app.get('*', (req, res) => {
 })
 
 function sendJson(res, json) {
-    if(!json){
+    if (!json) {
         res.status(404).send("Found notn for you dawg")
         return
     }
-    else if(Array.isArray(json)) {
+    else if (Array.isArray(json)) {
         res.set('total_count', json.length)
     }
-        res.json(json)
+    res.json(json)
 
 
 }
