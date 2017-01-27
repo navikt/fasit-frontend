@@ -14,6 +14,7 @@ class Application extends Component {
         this.state = {
             displaySubmitForm: false,
             editMode: false,
+            deleteMode: false,
         }
     }
 
@@ -24,41 +25,27 @@ class Application extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            hostname: nextProps.fasit.data.hostname,
-            username: nextProps.fasit.data.username,
-            type: nextProps.fasit.data.type,
-            password: nextProps.fasit.currentPassword
+            name: nextProps.fasit.data.name,
+            artifactid: nextProps.fasit.data.artifactid,
+            groupid: nextProps.fasit.data.groupid,
+            portoffset: nextProps.fasit.data.portoffset
         })
     }
 
     resetLocalState() {
         const {fasit} = this.props
         this.setState({
-            hostname: fasit.data.hostname,
-            username: fasit.data.username,
-            type: fasit.data.type,
-            password: ""
+            name: fasit.data.name,
+            artifactid: fasit.data.artifactid,
+            groupid: fasit.data.groupid,
+            portoffset: fasit.data.portoffset
         })
     }
 
-    toggleDisplaySecret() {
-        const {dispatch} = this.props
-        if (this.state.displaySecret)
-            dispatch(fetchApplicationPassword())
-        dispatch(clearApplicationPassword())
-        this.setState({displaySecret: !this.state.displaySecret})
-
-
-    }
-
     toggleComponentDisplay(component) {
-        const {dispatch} = this.props
         this.setState({[component]: !this.state[component]})
         if (component === "editMode" && this.state.editMode)
             this.resetLocalState()
-        if (component === "editMode" && !this.state.editMode)
-            dispatch(fetchApplicationPassword())
-
 
     }
 
@@ -118,6 +105,44 @@ class Application extends Component {
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <div className="col-md-6">
+                        <FormString
+                            label="name"
+                            editMode={this.state.editMode}
+                            value={this.state.name}
+                            handleChange={this.handleChange.bind(this)}
+                        />
+                        <FormString
+                            label="artifact Id"
+                            editMode={this.state.editMode}
+                            value={this.state.artifactid}
+                            handleChange={this.handleChange.bind(this)}
+                        />
+                        <FormString
+                            label="group Id"
+                            editMode={this.state.editMode}
+                            value={this.state.groupid}
+                            handleChange={this.handleChange.bind(this)}
+                        />
+                        <FormString
+                            label="port offset"
+                            editMode={this.state.editMode}
+                            value={this.state.portoffset}
+                            handleChange={this.handleChange.bind(this)}
+                        />
+                        <br />
+                        {this.state.editMode ?
+                            <div className="btn-block">
+                                <button type="submit" className="btn btn-sm btn-primary pull-right"
+                                        onClick={() => this.toggleComponentDisplay("displaySubmitForm")}>Submit
+                                </button>
+                                <button type="reset" className="btn btn-sm btn-default btn-space pull-right"
+                                        onClick={() => this.toggleComponentDisplay("editMode")}>Cancel
+                                </button>
+                            </div>
+                            : ""
+                        }
                     </div>
                 </div>
         )
