@@ -31,7 +31,7 @@ class NodeSeraView extends Component {
 
         else if (sera.requestFailed || !sera.data) {
             return (
-                <div>Retrieving failed:
+                <div className="node-information-box">Retrieving failed:
                     <br />
                     <br />
                     <pre><i>{sera.requestFailed || "No data available"}</i></pre>

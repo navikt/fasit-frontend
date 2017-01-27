@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import ElementPaging from '../common/ElementPaging'
 import ElementList from '../common/ElementList'
 import Filters from '../Navigation/Filters'
-//import Application from './Application'
+import Application from './Application'
 import {submitSearchString} from '../../actionCreators/element_lists'
 
 class Applications extends Component {
@@ -21,7 +21,7 @@ class Applications extends Component {
         const {applications} = this.props
 
         if (this.props.params.application) {
-            return <div>this is {this.props.params.application}</div>
+            return <Application name={this.props.params.application} />
         } else {
             return (
                 <div className="main-content-container">
