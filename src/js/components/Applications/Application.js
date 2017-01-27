@@ -18,8 +18,8 @@ class Application extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, hostname} = this.props
-        dispatch(fetchFasitData(hostname))
+        const {dispatch, name} = this.props
+        dispatch(fetchFasitData(name))
     }
 
     componentWillReceiveProps(nextProps) {
@@ -94,10 +94,10 @@ class Application extends Component {
                 <div className="row">
                     <div className="col-xs-12 row main-data-container">
                         <div className="col-sm-1 hidden-xs">
-                            <NodeTypeImage type={fasit.data.type}/>
+                            <h4><i className="fa fa-cube fa-fw" /></h4>
                         </div>
                         <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow">
-                            <strong>{hostname}</strong></div>
+                            <strong>{name}</strong></div>
                         <div className="col-sm-2 nopadding">
                             <ul className="nav navbar-nav navbar-right">
                                 <li>

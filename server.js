@@ -45,8 +45,12 @@ app.get('/config', (req, res) => {
     res.json(config.externalResources)
 })
 
+app.get("/mockapi/applications/:application", (req, res) => {
+    sendJson(res, applications.getApplication(req.params.application))
+})
+
 app.get("/mockapi/applications", (req, res) => {
-    sendJson(res, applications)
+    sendJson(res, applications.getApplications())
 })
 
 app.get("/mockapi/environments", (req, res) => {
