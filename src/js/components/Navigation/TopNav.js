@@ -95,7 +95,6 @@ class TopNav extends Component {
 
     loginInformationOverlay() {
         const {dispatch, user} = this.props
-        console.log("user",user)
         return (
             <Popover title={user.displayname} id="login">
                 <h5>Roles</h5>

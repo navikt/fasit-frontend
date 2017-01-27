@@ -7,15 +7,11 @@ class NodeEventsView extends Component {
         super(props)
     }
 
-
     // Trenger sende hele fasitdata til actionCreator for å bygge URL basert på cluster, environment og hostname
-    componentWillReceiveProps(nextProps) {
+    componentDidMount(){
         const {fasit, dispatch} = this.props
-        if (fasit.data != nextProps.fasit.data && Object.keys(nextProps.fasit.data).length > 0) {
-            dispatch(fetchEvents(nextProps.fasit.data))
-        }
+        dispatch(fetchEvents(fasit.data))
     }
-
 
     showEvents() {
         const {events, fasit}= this.props
