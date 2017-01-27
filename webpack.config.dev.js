@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 
+
+
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
     entry: [
@@ -12,7 +14,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'fasit.js',
-        publicPath: 'http://localhost:4242/'
+        publicPath: `http://localhost:${process.env.PORT}/`
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),

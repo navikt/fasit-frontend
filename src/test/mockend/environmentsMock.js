@@ -1,4 +1,10 @@
-module.exports =  [
+module.exports = {
+    findEnvironments: function (queryParams) {
+        return environments.filter(e => (queryParams.environmentclass) ? e.environmentclass === queryParams.environmentclass : true)
+    }
+}
+
+const environments = [
     {
         "name": "u1",
         "environmentclass": "u",
@@ -66,6 +72,24 @@ module.exports =  [
         },
         "accesscontrol": {
             "environmentclass": "q",
+            "adgroups": []
+        },
+        "links": {
+            "nodes": "https://fasit.adeo.no/api/v2/nodes?environment=d4",
+            "self": "https://fasit.adeo.no/api/v2/environments/d4",
+            "revisions": "https://fasit.adeo.no/api/v2/environments/d4/revisions",
+            "clusters": "https://fasit.adeo.no/api/v2/environments/d4/clusters"
+        }
+    },
+    {
+        "name": "t1",
+        "environmentclass": "t",
+        "id": 23,
+        "created": "2016-04-15T13:04:09.251",
+        "updated": "2016-06-15T08:59:39.716",
+        "lifecycle": {},
+        "accesscontrol": {
+            "environmentclass": "t",
             "adgroups": []
         },
         "links": {
