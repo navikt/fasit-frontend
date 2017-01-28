@@ -15,10 +15,11 @@ class SubmitForm extends Component {
 
     handleSubmitForm() {
         const {component, additionalValues, newValues, onSubmit} = this.props
-        let value = {}
+        let form = {}
+        let key = ""
         switch (component) {
             case "node":
-                value = {
+                form = {
                     password: {value: newValues.password},
                     type: newValues.type,
                     environment: additionalValues.environment,
@@ -26,19 +27,22 @@ class SubmitForm extends Component {
                     username: newValues.username,
                     hostname: newValues.hostname
                 }
+                key = newValues.hostname
                 break
             case "application":
-                value = {
+                form = {
                     name: newValues.name,
                     groupid: newValues.groupid,
                     artifactid: newValues.artifactid,
                     portoffset: newValues.portoffset
                 }
+                key = newValues.name
                 break
         }
 
+        console.log("in handlesubmit", key, form, this.state.comment, component)
 
-        onSubmit({comment: this.state.comment, value})
+        onSubmit(key, form, this.state.comment, component)
     }
 
     render() {

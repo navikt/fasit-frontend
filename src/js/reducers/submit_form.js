@@ -1,7 +1,8 @@
 import {
     SUBMITTING_FORM,
+    SUBMIT_FORM_SUCCESS,
     SUBMIT_FORM_FAILED,
-    SUBMIT_FORM_SUCCESS
+    CLOSE_SUBMIT_FORM_STATUS
 } from '../actionTypes'
 export default (state = {
     isSubmitting: false,
@@ -26,6 +27,13 @@ export default (state = {
             return Object.assign({}, state, {
                 isSubmitting: false,
                 submitSuccess: true
+            })
+
+        case CLOSE_SUBMIT_FORM_STATUS:
+            return Object.assign({}, state, {
+                isSubmitting:false,
+                submitError: false,
+                submitSuccess: false
             })
 
 

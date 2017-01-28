@@ -7,6 +7,7 @@ import {showDeleteNodeForm} from '../../actionCreators/node_formActions'
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
 import {fetchNodePassword, clearNodePassword} from '../../actionCreators/node_fasit'
+import {submitForm} from '../../actionCreators/submit_form'
 import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'
 import NodeGraph from './NodeGraph'
@@ -47,6 +48,14 @@ class Node extends Component {
             type: nextProps.fasit.data.type,
             password: nextProps.fasit.currentPassword
         })
+    }
+    handleSubmitForm(key, form, comment, component){
+        const {dispatch} = this.props
+        this.toggleComponentDisplay("displaySubmitForm")
+        this.toggleComponentDisplay("editMode")
+        dispatch(submitForm(key,form,comment,component))
+
+
     }
 
     resetLocalState() {
@@ -234,7 +243,7 @@ class Node extends Component {
                     <SubmitForm
                         display={this.state.displaySubmitForm}
                         component="node"
-                        onSubmit={(form) => console.log("submitting ", form)}
+                        onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
                         onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
                         newValues={{
                             hostname: this.state.hostname,

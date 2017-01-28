@@ -26,12 +26,16 @@ import {watchNodeTypes} from './node_types'
 import {watchResourceTypes} from './resource_types'
 import {watchResourceFasit} from './resource_fasit'
 
+//Forms
+import {watchSubmitForm} from './submit_form'
+
 
 export default function*() {
     yield [
         // Common
         call(watchAuthentication),
         call(watchElementsList),
+        call(watchSubmitForm),
 
         // Applications
         call(watchApplicationNames),

@@ -72,7 +72,10 @@ app.get("/mockapi/nodes/types", (req, res) => {
 
 app.get('/mockapi/nodes/:hostname', (req, res) => {
     sendJson(res, nodesMock.getNode(req.params.hostname))
+})
 
+app.put('/mockapi/nodes/:hostname', (req, res) => {
+    sendJson(res, nodesMock.putNode(req.params.hostname))
 })
 
 app.get("/mockapi/nodes", (req, res) => {

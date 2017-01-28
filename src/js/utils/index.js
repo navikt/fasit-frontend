@@ -67,9 +67,13 @@ export const fetchPage = (url) => {
         })
 }
 
-export const putUrl = (url, content) => {
+export const putUrl = (url, content, comment) => {
+    let headers = {"Content-Type": "application/json"}
+    if (comment.length > 0){
+        headers = Object.assign({}, headers, {"X-Comment": comment})
+    }
     return fetch(url, {
-        headers: {"Content-Type": "application/json"},
+        headers,
         credentials: 'include',
         method: 'PUT',
         mode: 'cors',

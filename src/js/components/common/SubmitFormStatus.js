@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { showEditNodeForm } from '../../actionCreators/node_formActions'
-import { closeSubmitEditNodeFormStatus } from '../../actionCreators/node_editNodeForm'
+import { closeSubmitFormStatus } from '../../actionCreators/submit_form'
 
 
 class SubmitFormStatus extends Component {
@@ -12,8 +11,7 @@ class SubmitFormStatus extends Component {
 
     closeSubmitForm() {
         const {dispatch} = this.props
-        dispatch(closeSubmitEditNodeFormStatus())
-        dispatch(showEditNodeForm(false))
+        dispatch(closeSubmitFormStatus())
     }
 
     render() {
