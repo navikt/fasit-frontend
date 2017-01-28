@@ -14,8 +14,8 @@ import NodeLifecycle from './NodeLifecycle'
 import NodeSecurityView from './NodeSecurityView'
 import NodeSeraView from './NodeSeraView'
 import NodeRevisionsView from './NodeRevisionsView'
-import NodeFasitViewSubmitForm from './NodeFasitViewSubmitForm'
-import NodeFasitViewSubmitFormStatus from './NodeFasitViewSubmitFormStatus'
+import SubmitForm from '../common/SubmitForm'
+import SubmitFormStatus from '../common/SubmitFormStatus'
 import NodeFasitViewDeleteNodeForm from './NodeFasitViewDeleteNodeForm'
 import NodeFasitViewSubmitDeleteStatus from './NodeFasitViewSubmitDeleteStatus'
 
@@ -231,8 +231,9 @@ class Node extends Component {
 
                     <NodeFasitViewDeleteNodeForm hostname={hostname}/>
                     <NodeFasitViewSubmitDeleteStatus />
-                    <NodeFasitViewSubmitForm
+                    <SubmitForm
                         display={this.state.displaySubmitForm}
+                        component="node"
                         onSubmit={(form) => console.log("submitting ", form)}
                         onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
                         newValues={{
@@ -253,7 +254,7 @@ class Node extends Component {
                             environmentclass: fasit.data.environmentclass
                         }}
                     />
-                    <NodeFasitViewSubmitFormStatus />
+                    <SubmitFormStatus component="node"/>
                 </div>
             </div>
         )

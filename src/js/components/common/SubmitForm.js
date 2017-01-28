@@ -3,7 +3,7 @@ import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
 
-class NodeFasitViewSubmitForm extends Component {
+class SubmitForm extends Component {
     constructor(props) {
         super(props)
         this.state = {comment: ""}
@@ -14,15 +14,30 @@ class NodeFasitViewSubmitForm extends Component {
     }
 
     handleSubmitForm() {
-        const {additionalValues, newValues, onSubmit} = this.props
-        const value = {
-            password: {value: newValues.password},
-            type: newValues.type,
-            environment: additionalValues.environment,
-            environmentclass: additionalValues.environmentclass,
-            username: newValues.username,
-            hostname: newValues.hostname
+        const {component, additionalValues, newValues, onSubmit} = this.props
+        let value = {}
+        switch (component) {
+            case "node":
+                value = {
+                    password: {value: newValues.password},
+                    type: newValues.type,
+                    environment: additionalValues.environment,
+                    environmentclass: additionalValues.environmentclass,
+                    username: newValues.username,
+                    hostname: newValues.hostname
+                }
+                break
+            case "application":
+                value = {
+                    name: newValues.name,
+                    groupid: newValues.groupid,
+                    artifactid: newValues.artifactid,
+                    portoffset: newValues.portoffset
+                }
+                break
         }
+
+
         onSubmit({comment: this.state.comment, value})
     }
 
@@ -90,7 +105,8 @@ class NodeFasitViewSubmitForm extends Component {
                         <div className="btn-block">
                             <button type="submit"
                                     className={diff.length > 0 ? "btn btn-primary btn-sm pull-right" : "btn btn-primary btn-sm pull-right disabled"}
-                                    onClick={diff.length > 0 ? this.handleSubmitForm.bind(this) : () => {}}>Submit
+                                    onClick={diff.length > 0 ? this.handleSubmitForm.bind(this) : () => {
+                                        }}>Submit
                             </button>
                         </div>
                     </div>
@@ -104,6 +120,7 @@ class NodeFasitViewSubmitForm extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         display: ownProps.display,
+        component: ownProps.component,
         onSubmit: ownProps.onSubmit,
         onClose: ownProps.onClose,
         newValues: ownProps.newValues,
@@ -113,4 +130,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps)(NodeFasitViewSubmitForm)
+export default connect(mapStateToProps)(SubmitForm)

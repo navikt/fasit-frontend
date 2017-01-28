@@ -2,10 +2,10 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
 import {fetchFasitData} from '../../actionCreators/application_fasit'
-
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
-
+import SubmitForm from '../common/SubmitForm'
+import SubmitFormStatus from '../common/SubmitFormStatus'
 
 class Application extends Component {
     constructor(props) {
@@ -114,19 +114,19 @@ class Application extends Component {
                             handleChange={this.handleChange.bind(this)}
                         />
                         <FormString
-                            label="artifact Id"
+                            label="artifactid"
                             editMode={this.state.editMode}
                             value={this.state.artifactid}
                             handleChange={this.handleChange.bind(this)}
                         />
                         <FormString
-                            label="group Id"
+                            label="groupid"
                             editMode={this.state.editMode}
                             value={this.state.groupid}
                             handleChange={this.handleChange.bind(this)}
                         />
                         <FormString
-                            label="port offset"
+                            label="portoffset"
                             editMode={this.state.editMode}
                             value={this.state.portoffset}
                             handleChange={this.handleChange.bind(this)}
@@ -143,6 +143,27 @@ class Application extends Component {
                             </div>
                             : ""
                         }
+                        <SubmitForm
+                            display={this.state.displaySubmitForm}
+                            onSubmit={(form) => console.log("submit ", form)}
+                            onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
+                            component="application"
+                            newValues={{
+                                name: this.state.name,
+                                groupid: this.state.groupid,
+                                artifactid: this.state.artifactid,
+                                portoffset: this.state.portoffset,
+
+                            }}
+                            originalValues={{
+                                name: fasit.data.name,
+                                groupid: fasit.data.groupid,
+                                artifactid: fasit.data.artifactid,
+                                portoffset: fasit.data.portoffset,
+                            }}
+                            additionalValues={{}}
+                        />
+                        <SubmitFormStatus />
                     </div>
                 </div>
         )

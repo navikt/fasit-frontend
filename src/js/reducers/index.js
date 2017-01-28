@@ -9,6 +9,7 @@ import environments from './environments'
 import instances from './instances'
 import resources from './resources'
 import search from './search'
+import submit_form from './submit_form'
 import user from './user'
 import nodes from './nodes'
 import node_deleteNode from './node_deleteNode'
@@ -28,6 +29,7 @@ var fasitReducer = combineReducers({
     instances,
     resources,
     search,
+    submit_form,
     user,
     nodes,
     node_deleteNode,

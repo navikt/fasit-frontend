@@ -5,7 +5,7 @@ import { showEditNodeForm } from '../../actionCreators/node_formActions'
 import { closeSubmitEditNodeFormStatus } from '../../actionCreators/node_editNodeForm'
 
 
-class NodeFasitViewSubmitFormStatus extends Component {
+class SubmitFormStatus extends Component {
     constructor(props) {
         super(props)
     }
@@ -65,14 +65,14 @@ class NodeFasitViewSubmitFormStatus extends Component {
         return <div></div>
     }
 }
-NodeFasitViewSubmitFormStatus.propTypes = {
+SubmitFormStatus.propTypes = {
     dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
     return {
-        form: state.node_editNodeForm,
+        form: state.submit_form,
     }
 }
 
-export default connect(mapStateToProps)(NodeFasitViewSubmitFormStatus)
+export default connect(mapStateToProps)(SubmitFormStatus)
