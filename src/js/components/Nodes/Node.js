@@ -54,8 +54,6 @@ class Node extends Component {
         this.toggleComponentDisplay("displaySubmitForm")
         this.toggleComponentDisplay("editMode")
         dispatch(submitForm(key,form,comment,component))
-
-
     }
 
     resetLocalState() {
@@ -263,7 +261,7 @@ class Node extends Component {
                             environmentclass: fasit.data.environmentclass
                         }}
                     />
-                    <SubmitFormStatus component="node"/>
+                    <SubmitFormStatus />
                 </div>
             </div>
         )

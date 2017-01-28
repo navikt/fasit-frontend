@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
 import {fetchFasitData} from '../../actionCreators/application_fasit'
+import {submitForm} from '../../actionCreators/submit_form'
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
 import SubmitForm from '../common/SubmitForm'
@@ -30,6 +31,13 @@ class Application extends Component {
             groupid: nextProps.fasit.data.groupid,
             portoffset: nextProps.fasit.data.portoffset
         })
+    }
+
+    handleSubmitForm(key, form, comment, component){
+        const {dispatch} = this.props
+        this.toggleComponentDisplay("displaySubmitForm")
+        this.toggleComponentDisplay("editMode")
+        dispatch(submitForm(key,form,comment,component))
     }
 
     resetLocalState() {
@@ -145,7 +153,7 @@ class Application extends Component {
                         }
                         <SubmitForm
                             display={this.state.displaySubmitForm}
-                            onSubmit={(form) => console.log("submit ", form)}
+                            onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
                             onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
                             component="application"
                             newValues={{
