@@ -94,6 +94,7 @@ class Node extends Component {
     arrowDirection(component) {
         return classString({
             "fa": true,
+            "fa-fw": true,
             "fa-angle-right": !this.state[component],
             "fa-angle-down": this.state[component]
         })
@@ -121,6 +122,8 @@ class Node extends Component {
         return (
             <div className="row">
                 <div className="col-xs-12 row main-data-container">
+
+                    {/*Heading*/}
                     <div className="col-sm-1 hidden-xs">
                         <NodeTypeImage type={fasit.data.type}/>
                     </div>
@@ -147,6 +150,8 @@ class Node extends Component {
                         </ul>
                     </div>
                 </div>
+
+                {/*Form*/}
                 <div className="col-md-6">
                     <FormString
                         label="hostname"
@@ -189,6 +194,8 @@ class Node extends Component {
                         label="cluster"
                         value={fasit.data.cluster ? fasit.data.cluster.name : "Orphaned node"}
                     />
+
+                    {/*Submit / Cancel buttons*/}
                     <br />
                     {this.state.editMode ?
                         <div className="btn-block">
@@ -202,12 +209,15 @@ class Node extends Component {
                         : ""
                     }
 
-
+                    {/*Lifecycle*/}
                     <div className="row">
                         <NodeLifecycle lifecycle={lifecycle}
                                        rescueAction={()=>dispatch(rescueNode(hostname))}/>
                     </div>
                 </div>
+
+                {/*Side menu*/}
+
                 <div className="col-md-5 col-md-offset-1">
                     <div className="list-group">
                         <a className="list-group-item node-list-item"
@@ -235,34 +245,34 @@ class Node extends Component {
                             className={this.arrowDirection("displayGraphs")}/>&nbsp;&nbsp;&nbsp;&nbsp;Graphs</a>
                         {this.state.displayGraphs ? <NodeGraph url={config.grafana} hostname={hostname}/> : <div />}
                     </div>
-
-                    <NodeFasitViewDeleteNodeForm hostname={hostname}/>
-                    <NodeFasitViewSubmitDeleteStatus />
-                    <SubmitForm
-                        display={this.state.displaySubmitForm}
-                        component="node"
-                        onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
-                        onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
-                        newValues={{
-                            hostname: this.state.hostname,
-                            password: this.state.password,
-                            username: this.state.username,
-                            type: this.state.type,
-
-                        }}
-                        originalValues={{
-                            hostname: fasit.data.hostname,
-                            username: fasit.data.username,
-                            type: fasit.data.type,
-                            password: fasit.currentPassword,
-                        }}
-                        additionalValues={{
-                            environment: fasit.data.environment,
-                            environmentclass: fasit.data.environmentclass
-                        }}
-                    />
-                    <SubmitFormStatus />
                 </div>
+                {/* Misc. modals*/}
+                <NodeFasitViewDeleteNodeForm hostname={hostname}/>
+                <NodeFasitViewSubmitDeleteStatus />
+                <SubmitForm
+                    display={this.state.displaySubmitForm}
+                    component="node"
+                    onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
+                    onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
+                    newValues={{
+                        hostname: this.state.hostname,
+                        password: this.state.password,
+                        username: this.state.username,
+                        type: this.state.type,
+
+                    }}
+                    originalValues={{
+                        hostname: fasit.data.hostname,
+                        username: fasit.data.username,
+                        type: fasit.data.type,
+                        password: fasit.currentPassword,
+                    }}
+                    additionalValues={{
+                        environment: fasit.data.environment,
+                        environmentclass: fasit.data.environmentclass
+                    }}
+                />
+                <SubmitFormStatus />
             </div>
         )
     }

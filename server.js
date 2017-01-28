@@ -8,6 +8,7 @@ const https = require('https')
 const environmentsMock = require('./src/test/mockend/environmentsMock')
 const resourcesMock = require('./src/test/mockend/resourcesMock')
 const applications = require('./src/test/mockend/applicationsMock')
+const applicationinstances = require('./src/test/mockend/applicationinstancesMock')
 const resourceTypes = require('./src/test/mockend/resourceTypesMock')
 const nodesMock = require('./src/test/mockend/nodesMock')
 const loginMock = require('./src/test/mockend/loginMock')
@@ -56,6 +57,9 @@ app.get("/mockapi/applications", (req, res) => {
     sendJson(res, applications.getApplications())
 })
 
+app.get("/mockapi/applicationinstances", (req, res) => {
+    sendJson(res, applicationinstances.findApplicationInstance(req.query))
+})
 app.get("/mockapi/environments", (req, res) => {
     sendJson(res, environmentsMock.findEnvironments(req.query))
 })

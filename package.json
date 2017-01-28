@@ -56,7 +56,7 @@
         "fasit_resources_url": "http://localhost:6969/mockapi/resources",
         "fasit_environments_url": "http://localhost:6969/mockapi/environments",
         "fasit_applications_url": "http://localhost:6969/mockapi/applications",
-        "fasit_applicationinstances_url": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances",
+        "fasit_applicationinstances_url": "http://localhost:6969/mockapi/applicationinstances",
         "fasit_secrets_url": "https://e34jbsl01655.devillo.no:8443/api/v2/secrets",
         "fasit_nodes_url": "http://localhost:6969/mockapi/nodes",
         "fasit_url": "http://localhost:6969",

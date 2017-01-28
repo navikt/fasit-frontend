@@ -95,6 +95,8 @@ export default class ElementList extends Component {
     }
 
     render() {
+        moment.locale('nb')
+
         const {type, data} = this.props
         if (data.isFetching)
             return <div className="element-list"><i className="fa fa-spinner fa-pulse fa-2x"></i></div>
