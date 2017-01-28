@@ -1,6 +1,7 @@
 module.exports = {
     getApplications: () => applications,
-    getApplication: (application) => applications.filter(n => n.name === application)[0]
+    getApplication: (application) => applications.filter(n => n.name === application)[0],
+    putApplication: () => {return {}}
 
 }
 

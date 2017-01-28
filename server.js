@@ -48,6 +48,9 @@ app.get('/config', (req, res) => {
 app.get("/mockapi/applications/:application", (req, res) => {
     sendJson(res, applications.getApplication(req.params.application))
 })
+app.put("/mockapi/applications/:application", (req, res) => {
+    sendJson(res, applications.putApplication(req.params.application))
+})
 
 app.get("/mockapi/applications", (req, res) => {
     sendJson(res, applications.getApplications())
