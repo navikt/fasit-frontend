@@ -8,4 +8,17 @@ import SubmitForm from './SubmitForm'
 import SubmitFormStatus from './SubmitFormStatus'
 import {FormList, FormSecret, FormString} from './Forms'
 
-export {CollapsibleMenu, CollapsibleMenuItem, ElementList, ElementPaging, FormList, FormSecret, FormString, Lifecycle, Login, RevisionsView, SubmitFormStatus, SubmitForm}
+export {
+    CollapsibleMenu,
+    CollapsibleMenuItem,
+    ElementList,
+    ElementPaging,
+    FormList,
+    FormSecret,
+    FormString,
+    Lifecycle,
+    Login,
+    RevisionsView,
+    SubmitFormStatus,
+    SubmitForm
+}

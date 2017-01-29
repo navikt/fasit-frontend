@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import moment from 'moment'
 import {connect} from 'react-redux'
-import {fetchRevisions, fetchRevision, showAllRevisions} from '../../actionCreators/node_revisions'
+import {fetchRevisions, fetchRevision, showAllRevisions} from '../../actionCreators/node'
 import {Popover, OverlayTrigger} from 'react-bootstrap'
 
 

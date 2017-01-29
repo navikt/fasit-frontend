@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { showDeleteNodeForm } from '../../actionCreators/node_formActions'
-import { closeSubmitDeleteNodeStatus } from '../../actionCreators/node_delete'
+import { closeSubmitDeleteNodeStatus, showDeleteNodeForm } from '../../actionCreators/node'
 
 
 class NodeFasitViewSubmitDeleteStatus extends Component {

@@ -1,14 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
-import {fetchFasitData, rescueNode} from '../../actionCreators/node_fasit'
-import {showDeleteNodeForm} from '../../actionCreators/node_formActions'
+import {fetchFasitData, rescueNode, fetchNodePassword, clearNodePassword, showDeleteNodeForm} from '../../actionCreators/node'
 
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
 import {CollapsibleMenu, CollapsibleMenuItem, Lifecycle, RevisionsView, SubmitFormStatus, SubmitForm} from '../common/'
-
-import {fetchNodePassword, clearNodePassword} from '../../actionCreators/node_fasit'
 import {submitForm} from '../../actionCreators/submit_form'
 import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'

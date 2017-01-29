@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {fetchSeraData} from '../../actionCreators/node_sera'
+import {fetchSeraData} from '../../actionCreators/node'
 
 class NodeSeraView extends Component {
     constructor(props) {

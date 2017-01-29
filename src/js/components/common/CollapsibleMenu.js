@@ -1,22 +1,14 @@
 import React, {Component, PropTypes} from 'react'
 import classString from 'react-classset'
 
-
-export class CollapsibleMenu extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <div className="col-md-5 col-md-offset-1">
-                <div className="list-group">
-                    {this.props.children}
-                </div>
+export function CollapsibleMenu(props) {
+    return (
+        <div className="col-md-5 col-md-offset-1">
+            <div className="list-group">
+                {props.children}
             </div>
-        )
-
-    }
+        </div>
+    )
 }
 
 export class CollapsibleMenuItem extends Component {

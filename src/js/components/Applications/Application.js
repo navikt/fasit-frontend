@@ -1,11 +1,21 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
-import {fetchFasitData} from '../../actionCreators/application_fasit'
+import {fetchFasitData} from '../../actionCreators/application'
 import {submitForm} from '../../actionCreators/submit_form'
 import classString from 'react-classset'
-import {FormString, FormList, FormSecret} from '../common/Forms'
-import {CollapsibleMenu, CollapsibleMenuItem, Lifecycle, RevisionsView, SubmitFormStatus, SubmitForm} from '../common/'
+import ApplicationInstances from './ApplicationInstances'
+import {
+    CollapsibleMenu,
+    CollapsibleMenuItem,
+    FormString,
+    FormList,
+    FormSecret,
+    Lifecycle,
+    RevisionsView,
+    SubmitFormStatus,
+    SubmitForm
+} from '../common/'
 
 class Application extends Component {
     constructor(props) {
@@ -165,7 +175,7 @@ class Application extends Component {
                     {/*Lifecycle*/}
                     <div className="row">
                         <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => dispatch(rescueNode(hostname))}/>
+                                   rescueAction={() => dispatch(rescueApplication(name))}/>
                     </div>
                 </div>
                 {/*Side menu*/}
@@ -173,6 +183,9 @@ class Application extends Component {
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="Revisions">
                         <RevisionsView/>
+                    </CollapsibleMenuItem>
+                    <CollapsibleMenuItem label="Instances">
+                        <ApplicationInstances name={name}/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
 

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {fetchEvents} from '../../actionCreators/node_events'
+import {fetchEvents} from '../../actionCreators/node'
 
 class NodeEventsView extends Component {
     constructor(props) {
