@@ -4,6 +4,7 @@ import { routerReducer } from 'react-router-redux'
 
 import applications from './applications'
 import application_fasit from './application_fasit'
+import application_instances from './application_instances'
 import configuration from './configuration'
 import environments from './environments'
 import instances from './instances'
@@ -24,6 +25,7 @@ var fasitReducer = combineReducers({
     routing: routerReducer,
     applications,
     application_fasit,
+    application_instances,
     configuration,
     environments,
     instances,
