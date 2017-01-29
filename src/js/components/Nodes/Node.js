@@ -6,17 +6,16 @@ import {showDeleteNodeForm} from '../../actionCreators/node_formActions'
 
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
+import {CollapsibleMenu, CollapsibleMenuItem, Lifecycle, RevisionsView, SubmitFormStatus, SubmitForm} from '../common/'
+
 import {fetchNodePassword, clearNodePassword} from '../../actionCreators/node_fasit'
 import {submitForm} from '../../actionCreators/submit_form'
 import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'
 import NodeGraph from './NodeGraph'
-import NodeLifecycle from './NodeLifecycle'
 import NodeSecurityView from './NodeSecurityView'
 import NodeSeraView from './NodeSeraView'
 import NodeRevisionsView from './NodeRevisionsView'
-import SubmitForm from '../common/SubmitForm'
-import SubmitFormStatus from '../common/SubmitFormStatus'
 import NodeFasitViewDeleteNodeForm from './NodeFasitViewDeleteNodeForm'
 import NodeFasitViewSubmitDeleteStatus from './NodeFasitViewSubmitDeleteStatus'
 
@@ -49,11 +48,12 @@ class Node extends Component {
             password: nextProps.fasit.currentPassword
         })
     }
-    handleSubmitForm(key, form, comment, component){
+
+    handleSubmitForm(key, form, comment, component) {
         const {dispatch} = this.props
         this.toggleComponentDisplay("displaySubmitForm")
         this.toggleComponentDisplay("editMode")
-        dispatch(submitForm(key,form,comment,component))
+        dispatch(submitForm(key, form, comment, component))
     }
 
     resetLocalState() {
@@ -91,14 +91,6 @@ class Node extends Component {
         this.setState({[field]: value})
     }
 
-    arrowDirection(component) {
-        return classString({
-            "fa": true,
-            "fa-fw": true,
-            "fa-angle-right": !this.state[component],
-            "fa-angle-down": this.state[component]
-        })
-    }
 
     buttonClasses(authenticated, edit) {
         return classString({
@@ -134,7 +126,8 @@ class Node extends Component {
                             <li>
                                 <button type="button"
                                         className={this.buttonClasses(authenticated, "edit")}
-                                        onClick={authenticated ? () => this.toggleComponentDisplay("editMode") : () => {}}
+                                        onClick={authenticated ? () => this.toggleComponentDisplay("editMode") : () => {
+                                            }}
                                 >
                                     <i className="fa fa-wrench fa-2x"/>
                                 </button>
@@ -142,7 +135,8 @@ class Node extends Component {
                             <li>
                                 <button type="button"
                                         className={this.buttonClasses(authenticated)}
-                                        onClick={authenticated ? () => dispatch(showDeleteNodeForm(true)) : () => {}}
+                                        onClick={authenticated ? () => dispatch(showDeleteNodeForm(true)) : () => {
+                                            }}
                                 >
                                     <i className="fa fa-trash fa-2x"/>
                                 </button>
@@ -211,41 +205,32 @@ class Node extends Component {
 
                     {/*Lifecycle*/}
                     <div className="row">
-                        <NodeLifecycle lifecycle={lifecycle}
-                                       rescueAction={()=>dispatch(rescueNode(hostname))}/>
+                        <Lifecycle lifecycle={lifecycle}
+                                   rescueAction={() => dispatch(rescueNode(hostname))}/>
                     </div>
                 </div>
 
                 {/*Side menu*/}
 
-                <div className="col-md-5 col-md-offset-1">
-                    <div className="list-group">
-                        <a className="list-group-item node-list-item"
-                           onClick={() => this.toggleComponentDisplay("displayRevisions")}>
-                            <i className={this.arrowDirection("displayRevisions")}/>&nbsp;&nbsp;&nbsp;&nbsp;
-                            Revisions
-                        </a>
-                        {this.state.displayRevisions ? <NodeRevisionsView hostname={hostname}/> : <div />}
-                        <a className="list-group-item node-list-item"
-                           onClick={() => this.toggleComponentDisplay("displaySecurity")}><i
-                            className={this.arrowDirection("displaySecurity")}/>&nbsp;&nbsp;&nbsp;&nbsp;Security</a>
-                        {this.state.displaySecurity ? <NodeSecurityView authenticated={authenticated}
-                                                                        requirements={fasit.data.accesscontrol}/> :
-                            <div />}
-                        <a className="list-group-item node-list-item"
-                           onClick={() => this.toggleComponentDisplay("displayEvents")}><i
-                            className={this.arrowDirection("displayEvents")}/>&nbsp;&nbsp;&nbsp;&nbsp;Events</a>
-                        {this.state.displayEvents ? <NodeEventsView /> : <div />}
-                        <a className="list-group-item node-list-item"
-                           onClick={() => this.toggleComponentDisplay("displayPhysical")}><i
-                            className={this.arrowDirection("displayPhysical")}/>&nbsp;&nbsp;&nbsp;&nbsp;Physical</a>
-                        {this.state.displayPhysical ? <NodeSeraView hostname={hostname}/> : <div />}
-                        <a className="list-group-item node-list-item"
-                           onClick={() => this.toggleComponentDisplay("displayGraphs")}><i
-                            className={this.arrowDirection("displayGraphs")}/>&nbsp;&nbsp;&nbsp;&nbsp;Graphs</a>
-                        {this.state.displayGraphs ? <NodeGraph url={config.grafana} hostname={hostname}/> : <div />}
-                    </div>
-                </div>
+                <CollapsibleMenu>
+                    <CollapsibleMenuItem label="Revisions">
+                        <NodeRevisionsView hostname={hostname}/>
+                    </CollapsibleMenuItem>
+                    <CollapsibleMenuItem label="Security">
+                        <NodeSecurityView authenticated={authenticated}
+                                          requirements={fasit.data.accesscontrol}/>
+                    </CollapsibleMenuItem>
+                    <CollapsibleMenuItem label="Events">
+                        <NodeEventsView />
+                    </CollapsibleMenuItem>
+                    <CollapsibleMenuItem label="Physical">
+                        <NodeSeraView hostname={hostname}/>
+                    </CollapsibleMenuItem>
+                    <CollapsibleMenuItem label="Graphs">
+                        <NodeGraph url={config.grafana} hostname={hostname}/>
+                    </CollapsibleMenuItem>
+                </CollapsibleMenu>
+
                 {/* Misc. modals*/}
                 <NodeFasitViewDeleteNodeForm hostname={hostname}/>
                 <NodeFasitViewSubmitDeleteStatus />

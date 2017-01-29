@@ -5,7 +5,7 @@ import {fetchFasitData} from '../../actionCreators/application_fasit'
 import {submitForm} from '../../actionCreators/submit_form'
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
-import {Lifecycle, SubmitFormStatus, SubmitForm} from '../common/'
+import {CollapsibleMenu, CollapsibleMenuItem, Lifecycle, RevisionsView, SubmitFormStatus, SubmitForm} from '../common/'
 
 class Application extends Component {
     constructor(props) {
@@ -169,18 +169,12 @@ class Application extends Component {
                     </div>
                 </div>
                 {/*Side menu*/}
-                {/*Side menu*/}
 
-                <div className="col-md-5 col-md-offset-1">
-                    <div className="list-group">
-                        <a className="list-group-item node-list-item"
-                           onClick={() => this.toggleComponentDisplay("displayRevisions")}>
-                            <i className={this.arrowDirection("displayRevisions")}/>&emsp;
-                            Revisions
-                        </a>
-                        {this.state.displayRevisions ? <RevisionsView hostname={hostname}/> : <div />}
-                    </div>
-                </div>
+                <CollapsibleMenu>
+                    <CollapsibleMenuItem label="Revisions">
+                        <RevisionsView/>
+                    </CollapsibleMenuItem>
+                </CollapsibleMenu>
 
                 {/* Misc. modals*/}
                 <SubmitForm
