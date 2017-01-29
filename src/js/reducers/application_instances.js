@@ -8,7 +8,6 @@ export default (state = {
     isFetching: true,
     requestFailed: false,
     data: [],
-    headers: {},
 }, action) => {
     switch (action.type) {
 
@@ -23,8 +22,7 @@ export default (state = {
         case APPLICATION_INSTANCES_RECEIVED:
             return Object.assign({}, state, {
                 isFetching: false,
-                data: action.value,
-                headers: action.page.headers
+                data: action.value
             })
 
         case APPLICATION_INSTANCES_REQUEST_FAILED:
