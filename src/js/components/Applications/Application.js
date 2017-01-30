@@ -177,15 +177,14 @@ class Application extends Component {
                         <Lifecycle lifecycle={lifecycle}
                                    rescueAction={() => dispatch(rescueApplication(name))}/>
                     </div>
+                    <ApplicationInstances name={name}/>
+
                 </div>
                 {/*Side menu*/}
 
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="Revisions">
                         <RevisionsView/>
-                    </CollapsibleMenuItem>
-                    <CollapsibleMenuItem label="Instances">
-                        <ApplicationInstances name={name}/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
 

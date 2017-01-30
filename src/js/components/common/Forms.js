@@ -54,7 +54,6 @@ export class FormList extends Component {
                         <OverlayTrigger {...overlayProps}>
                             <span
                                 className="FormValue"
-                                style={{float: "right"}}
                                 id={label}
                                 onClick={() => copyToClipboard(label)}
 
@@ -88,7 +87,6 @@ export class FormString extends Component {
                         <OverlayTrigger {...overlayProps}>
                             <span
                                 className="FormValue"
-                                style={{float: "right"}}
                                 id={label}
                                 onClick={() => copyToClipboard(label)}
 
@@ -119,25 +117,25 @@ export class FormSecret extends Component {
                                className="FormInputField FormString-value"
                                onChange={(e) => handleChange(label, e.target.value)}
                         /> :
-                        <div className="text-right">
+                        <div>
+                            <OverlayTrigger {...overlayProps}>
+                                <span
+                                    className="FormValue"
+                                    id={label}
+                                    onClick={() => copyToClipboard(label)}
+
+                                >{value ? value : "••••••••••••••••    "}</span>
+                            </OverlayTrigger>
                             {authenticated ?
                                 !value ?
-                                    <i className="fa fa-eye FormValue pull-right cursor-pointer"
-                                        onClick={() => toggleDisplaySecret()}/> :
-                                <i className="fa fa-eye-slash FormValue pull-right cursor-pointer"
-                                   onClick={() => toggleDisplaySecret()}/>
+                                    <i className="fa fa-eye FormValue  cursor-pointer"
+                                       onClick={() => toggleDisplaySecret()}/> :
+                                    <i className="fa fa-eye-slash FormValue  cursor-pointer"
+                                       onClick={() => toggleDisplaySecret()}/>
                                 :
                                 value
                             }
-                            <OverlayTrigger {...overlayProps}>
-                            <span
-                                className="FormValue"
-                                style={{float: "right"}}
-                                id={label}
-                                onClick={() => copyToClipboard(label)}
 
-                            >{value ? value : "••••••••••••••••"}</span>
-                            </OverlayTrigger>
 
                         </div>
                     }

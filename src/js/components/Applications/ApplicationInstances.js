@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react'
+import {Link} from 'react-router'
 import moment from 'moment'
 import {connect} from 'react-redux'
+import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {fetchApplicationInstances} from '../../actionCreators/application'
 
 
@@ -13,6 +15,22 @@ class ApplicationInstances extends Component {
         const {dispatch, name} = this.props
         dispatch(fetchApplicationInstances(name))
     }
+
+    createPopover(instance) {
+            return (
+                <Popover
+                    className="popover-size"
+                    id="Instance"
+                    title={instance.application + ":" + instance.version + " in " + instance.environment}
+                >
+                    <b>Created:</b><span className="pull-right">{moment(instance.created).format('L, HH:mm')}</span><br />
+                    <b>Updated:</b><span className="pull-right">{moment(instance.updated).format('L, HH:mm')}</span><br />
+                    {Object.keys(instance.lifecycle).length > 0?
+                        <div><b>Lifecycle:</b><span className="pull-right">{instance.lifecycle.status}</span><br /></div>:null
+                    }
+                </Popover>
+            )
+        }
 
     showInstances() {
         const {instances} = this.props
@@ -27,13 +45,28 @@ class ApplicationInstances extends Component {
 
         return (
             <table className="table table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Env.</th>
+                    <th>Cluster</th>
+                    <th>Instance</th>
+                </tr>
+                </thead>
                 <tbody>
                 {instances.data.map(instance => {
                     return <tr key={instance.id}>
-
-                        <td>{instance.environment}</td>
-                        <td>{moment(instance.created).format('L, HH:mm')}</td>
-
+                        <OverlayTrigger
+                            trigger="click"
+                            rootClose={true}
+                            placement="left"
+                            overlay={this.createPopover(instance)}
+                        >
+                            <td className="cursor-pointer"><i className="fa fa-search"/></td>
+                        </OverlayTrigger>
+                        <td><Link to={'/environments/' + instance.environment}>{instance.environment}</Link></td>
+                        <td><Link to={'/environments/' + instance.environment + '/clusters/' + instance.cluster.name}>{instance.cluster.name}</Link></td>
+                        <td><Link to={'/instances/' + instance.id}>{instance.application + ":" + instance.version}</Link></td>
 
                     </tr>
                 })}
@@ -44,7 +77,7 @@ class ApplicationInstances extends Component {
     render() {
         moment.locale('nb')
         return (
-            <div className="node-information-box">
+            <div>
                 {this.showInstances()}
             </div>
         )
