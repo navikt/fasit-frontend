@@ -111,7 +111,6 @@ class Node extends Component {
         return (
             <div className="row">
                 <div className="col-xs-12 row main-data-container">
-
                     {/*Heading*/}
                     <div className="col-sm-1 hidden-xs">
                         <NodeTypeImage type={fasit.data.type}/>
@@ -229,8 +228,8 @@ class Node extends Component {
                 </CollapsibleMenu>
 
                 {/* Misc. modals*/}
-                <NodeFasitViewDeleteNodeForm hostname={hostname}/>
-                <NodeFasitViewSubmitDeleteStatus />
+{/*                <NodeFasitViewDeleteNodeForm hostname={hostname}/>
+                <NodeFasitViewSubmitDeleteStatus />*/}
                 <SubmitForm
                     display={this.state.displaySubmitForm}
                     component="node"

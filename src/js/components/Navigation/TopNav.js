@@ -4,7 +4,10 @@ import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import Login from '../common/Login'
 import ContextMenu from './ContextMenu'
+import NewNodeForm from '../Nodes/NewNodeForm'
+import SubmitFormStatus from '../common/SubmitFormStatus'
 import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
+import {showNewNodeForm} from '../../actionCreators/node'
 import {submitSearchString} from '../../actionCreators/element_lists'
 
 
@@ -217,10 +220,13 @@ class TopNav extends Component {
     }
 
     toolsOverlay() {
+        const {dispatch} = this.props
         return (
             <Popover id="tools">
                 <ul className="topnav-menu topnav-menu-selector">
-                    <li><i className="fa fa-server"/> &nbsp;&nbsp; Create node</li>
+                    <li onClick={() => dispatch(showNewNodeForm(true))}><i className="fa fa-server"/> &nbsp;&nbsp;
+                        Create node
+                    </li>
                     <li><i className="fa fa-braille"/> &nbsp;&nbsp; Create cluster</li>
                     <li><i className="fa fa-cube"/> &nbsp;&nbsp; Create application</li>
                     <li><i className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment</li>
@@ -260,6 +266,9 @@ class TopNav extends Component {
                         <Login />
                     </div>
                     <ContextMenu />
+                    {/*-- Misc. modal components --*/}
+                    <NewNodeForm />
+
                 </div>
             )
         }
