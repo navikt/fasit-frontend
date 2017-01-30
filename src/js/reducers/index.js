@@ -8,6 +8,7 @@ import application_instances from './application_instances'
 import configuration from './configuration'
 import environments from './environments'
 import instances from './instances'
+import instance_fasit from './instance_fasit'
 import resources from './resources'
 import search from './search'
 import submit_form from './submit_form'
@@ -26,6 +27,7 @@ var fasitReducer = combineReducers({
     configuration,
     environments,
     instances,
+    instance_fasit,
     resources,
     search,
     submit_form,

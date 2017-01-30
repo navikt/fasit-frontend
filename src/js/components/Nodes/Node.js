@@ -1,7 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
-import {fetchFasitData, rescueNode, fetchNodePassword, clearNodePassword, showDeleteNodeForm} from '../../actionCreators/node'
+import {
+    fetchFasitData,
+    rescueNode,
+    fetchNodePassword,
+    clearNodePassword,
+    showDeleteNodeForm
+} from '../../actionCreators/node'
 
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
@@ -80,7 +86,6 @@ class Node extends Component {
             this.resetLocalState()
         if (component === "editMode" && !this.state.editMode)
             dispatch(fetchNodePassword())
-
 
     }
 
