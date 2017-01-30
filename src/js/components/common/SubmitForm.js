@@ -39,9 +39,6 @@ class SubmitForm extends Component {
                 key = newValues.name
                 break
         }
-
-        console.log("in handlesubmit", key, form, this.state.comment, component)
-
         onSubmit(key, form, this.state.comment, component)
     }
 

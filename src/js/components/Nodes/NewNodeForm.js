@@ -1,17 +1,17 @@
 import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import Select from 'react-select'
 
-import {FormString, FormList, FormSecret} from '../common/Forms'
+import {FormString, FormList, FormComment} from '../common/Forms'
 
 import {showNewNodeForm} from '../../actionCreators/node'
-import {submitNewNodeForm} from '../../actionCreators/node_newNodeForm'
+import {submitForm} from '../../actionCreators/submit_form'
 
 class NewNodeForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            comment: "",
             hostname: "",
             username: "",
             password: "",
@@ -25,6 +25,7 @@ class NewNodeForm extends Component {
 
     resetLocalState() {
         this.setState({
+            comment: "",
             hostname: "",
             username: "",
             password: "",
@@ -41,29 +42,24 @@ class NewNodeForm extends Component {
 
     handleSubmitForm() {
         const {dispatch} = this.props
-        const value = {
-            hostname: this.state.hostname,
-            username: this.state.username,
-            password: {value: this.state.password},
-            type: this.state.type,
-            environment: this.state.environment,
-            environmentclass: this.state.environmentclass,
+        const {hostname, username, password, type, environment, environmentclass, comment} = this.state
+        const form= {
+            hostname,
+            username,
+            password: {value: password},
+            type,
+            environment,
+            environmentclass,
         }
-        if (!(this.state.environmentclass === 'u'))
-            value["zone"] = this.state.zone
-        dispatch(submitNewNodeForm(value))
+        if (!(environmentclass === 'u'))
+            form["zone"] = this.state.zone
+        dispatch(submitForm(form.hostname, form, comment, "newNode"))
     }
 
     closeForm() {
         const {dispatch} = this.props
         this.resetLocalState()
         dispatch(showNewNodeForm(false))
-    }
-
-    convertToSelectObject(values) {
-        return values.map(value => {
-            return {value: value, label: value}
-        })
     }
 
     showSubmitButton() {
@@ -127,8 +123,13 @@ class NewNodeForm extends Component {
                     <div className="col-xs-12" style={{height: 15 + 'px'}}></div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div className="btn-block">
-                        <div className="col-lg-10 col-lg-offset-2">
+                    <FormComment
+                    value={this.state.comment}
+                    handleChange={this.handleChange.bind(this)}
+                    />
+                    <br />
+                    <div className="row">
+                        <div className="row col-lg-10 col-lg-offset-2">
                             {this.showSubmitButton()}
                             <button type="reset" className="btn btn-default btn-space pull-right"
                                     onClick={this.closeForm.bind(this)}>Close

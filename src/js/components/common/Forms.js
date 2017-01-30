@@ -144,3 +144,29 @@ export class FormSecret extends Component {
         )
     }
 }
+
+export class FormComment extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+
+    render() {
+        const {value, handleChange} = this.props
+
+        return (
+            <div className="row">
+                <div className="col-md-4 FormLabel text-left"><b>Comment</b></div>
+                <div className="col-xs-8">
+            <textarea
+                type="text"
+                className="FormInputField FormString-value"
+                style={{"height": 85 + "px"}}
+                value={value}
+                onChange={(e) => handleChange("comment", e.target.value)}
+            />
+                </div>
+            </div>
+        )
+    }
+}
