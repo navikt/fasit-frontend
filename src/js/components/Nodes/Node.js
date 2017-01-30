@@ -1,13 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
-import {
-    fetchFasitData,
-    rescueNode,
-    fetchNodePassword,
-    clearNodePassword,
-    showDeleteNodeForm
-} from '../../actionCreators/node'
+import {fetchFasitData, rescueNode, fetchNodePassword, clearNodePassword, showDeleteNodeForm} from '../../actionCreators/node'
 
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
@@ -34,7 +28,7 @@ class Node extends Component {
             displayGraphs: false,
             displaySecret: false,
             displaySubmitForm: false,
-            editMode: false,
+            editMode: false
         }
     }
 
@@ -75,8 +69,6 @@ class Node extends Component {
             dispatch(fetchNodePassword())
         dispatch(clearNodePassword())
         this.setState({displaySecret: !this.state.displaySecret})
-
-
     }
 
     toggleComponentDisplay(component) {
@@ -86,6 +78,7 @@ class Node extends Component {
             this.resetLocalState()
         if (component === "editMode" && !this.state.editMode)
             dispatch(fetchNodePassword())
+
 
     }
 
@@ -116,6 +109,7 @@ class Node extends Component {
         return (
             <div className="row">
                 <div className="col-xs-12 row main-data-container">
+
                     {/*Heading*/}
                     <div className="col-sm-1 hidden-xs">
                         <NodeTypeImage type={fasit.data.type}/>
@@ -233,8 +227,8 @@ class Node extends Component {
                 </CollapsibleMenu>
 
                 {/* Misc. modals*/}
-{/*                <NodeFasitViewDeleteNodeForm hostname={hostname}/>
-                <NodeFasitViewSubmitDeleteStatus />*/}
+                <NodeFasitViewDeleteNodeForm hostname={hostname}/>
+                <NodeFasitViewSubmitDeleteStatus />
                 <SubmitForm
                     display={this.state.displaySubmitForm}
                     component="node"

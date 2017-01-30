@@ -60,10 +60,7 @@ ContexMenu.propTypes = {
 const mapStateToProps = (state) => ({
     location: state.routing.locationBeforeTransitions,
     nodes: state.nodes.headers,
-    resources: state.resources.headers,
-    nodes: state.nodes.headers,
-    nodes: state.nodes.headers,
-    nodes: state.nodes.headers,
+    resources: state.resources.headers
 })
 
 export default connect(mapStateToProps)(ContexMenu)
