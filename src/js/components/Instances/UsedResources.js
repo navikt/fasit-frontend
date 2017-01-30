@@ -12,7 +12,7 @@ export default class UsedResources extends Component {
     render() {
         return (
             <div>
-                <h1>USED</h1>
+                <h1>USED RESOURCES</h1>
             </div>
         )
     }
