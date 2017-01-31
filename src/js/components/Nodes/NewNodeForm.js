@@ -11,7 +11,6 @@ class NewNodeForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            comment: "",
             hostname: "",
             username: "",
             password: "",
@@ -25,7 +24,6 @@ class NewNodeForm extends Component {
 
     resetLocalState() {
         this.setState({
-            comment: "",
             hostname: "",
             username: "",
             password: "",
@@ -43,7 +41,7 @@ class NewNodeForm extends Component {
     handleSubmitForm() {
         const {dispatch} = this.props
         const {hostname, username, password, type, environment, environmentclass, comment} = this.state
-        const form= {
+        const form = {
             hostname,
             username,
             password: {value: password},
@@ -51,8 +49,9 @@ class NewNodeForm extends Component {
             environment,
             environmentclass,
         }
-        if (!(environmentclass === 'u'))
+        if (!(environmentclass === 'u')) {
             form["zone"] = this.state.zone
+        }
         dispatch(submitForm(form.hostname, form, comment, "newNode"))
     }
 
@@ -64,8 +63,8 @@ class NewNodeForm extends Component {
 
     showSubmitButton() {
         const {hostname, username, password, type, environmentclass, environment, zone} = this.state
-        if (hostname && username && password && type && environmentclass) {
-            if ((environment && zone) || (environmentclass === 'u')) {
+        if (hostname && username && password && type && environmentclass && environment) {
+            if ((zone) || (environmentclass === 'u')) {
                 return (
                     <button type="submit"
                             className="btn btn-primary pull-right"
@@ -124,8 +123,8 @@ class NewNodeForm extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <FormComment
-                    value={this.state.comment}
-                    handleChange={this.handleChange.bind(this)}
+                        value={this.state.comment}
+                        handleChange={this.handleChange.bind(this)}
                     />
                     <br />
                     <div className="row">
@@ -144,7 +143,7 @@ class NewNodeForm extends Component {
     environmentSelector() {
         const {environments} = this.props
         const {environmentclass} = this.state
-        if (environmentclass && environmentclass !== 'u') {
+        if (environmentclass) {
             const filteredEnvironments = environments.filter((env) => {
                 if (!environmentclass) {
                     return true

@@ -1,6 +1,6 @@
-import { takeEvery, delay} from 'redux-saga'
-import { call, put, fork, select } from 'redux-saga/effects'
-import { putUrl, postUrl, deleteUrl } from '../utils'
+import {takeEvery, delay} from 'redux-saga'
+import {call, put, fork, select} from 'redux-saga/effects'
+import {putUrl, postUrl, deleteUrl} from '../utils'
 import {
     SHOW_NEW_NODE_FORM,
     SUBMIT_FORM,
@@ -16,30 +16,32 @@ export function* submitForm(action) {
     let url = ""
     yield put({type: SUBMITTING_FORM})
     try {
-        switch (action.component){
+        switch (action.component) {
             case "node":
                 url = `${configuration.fasit_nodes}/${action.key}`
-                yield putUrl(url, action.value, action.comment)
+                yield putUrl(url, action.form, action.comment)
                 break
             case "newNode":
-                url = `${configuration.fasit_nodes}/${action.key}`
-                yield postUrl(url, action.value, action.comment)
+                url = `${configuration.fasit_nodes}`
+                yield postUrl(url, action.form, action.comment)
                 break
             case "deleteNode":
                 url = `${configuration.fasit_nodes}/${action.key}`
-                yield deleteUrl(url, action.value, action.comment)
+                yield deleteUrl(url, action.comment)
                 break
             case "application":
                 url = `${configuration.fasit_applications}/${action.key}`
-                yield putUrl(url, action.value, action.comment)
+                yield putUrl(url, action.form, action.comment)
                 break
 
         }
-        yield put({type: SHOW_NEW_NODE_FORM, value: false})
-        yield put({type: SUBMIT_FORM_SUCCESS })
+        if (action.component === "newNode") {
+            yield put({type: SHOW_NEW_NODE_FORM, value: false})
+        }
+        yield put({type: SUBMIT_FORM_SUCCESS})
         yield call(delay, 2000)
         yield put({type: CLOSE_SUBMIT_FORM_STATUS})
-    } catch(err) {
+    } catch (err) {
         const value = err.message
         yield put({type: SUBMIT_FORM_FAILED, value})
     }

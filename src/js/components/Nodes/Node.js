@@ -1,11 +1,16 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils/'
-import {fetchFasitData, rescueNode, fetchNodePassword, clearNodePassword, showDeleteNodeForm} from '../../actionCreators/node'
+import {
+    fetchFasitData,
+    rescueNode,
+    fetchNodePassword,
+    clearNodePassword,
+} from '../../actionCreators/node'
 
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
-import {CollapsibleMenu, CollapsibleMenuItem, Lifecycle, RevisionsView, SubmitFormStatus, SubmitForm} from '../common/'
+import {CollapsibleMenu, CollapsibleMenuItem, Lifecycle, RevisionsView, SubmitForm} from '../common/'
 import {submitForm} from '../../actionCreators/submit_form'
 import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'
@@ -13,8 +18,7 @@ import NodeGraph from './NodeGraph'
 import NodeSecurityView from './NodeSecurityView'
 import NodeSeraView from './NodeSeraView'
 import NodeRevisionsView from './NodeRevisionsView'
-//import NodeFasitViewDeleteNodeForm from './NodeFasitViewDeleteNodeForm'
-//import NodeFasitViewSubmitDeleteStatus from './NodeFasitViewSubmitDeleteStatus'
+import DeleteNodeForm from './DeleteNodeForm'
 
 class Node extends Component {
     constructor(props) {
@@ -28,6 +32,7 @@ class Node extends Component {
             displayGraphs: false,
             displaySecret: false,
             displaySubmitForm: false,
+            displayDeleteNode: false,
             editMode: false
         }
     }
@@ -47,9 +52,14 @@ class Node extends Component {
     }
 
     handleSubmitForm(key, form, comment, component) {
+        console.log(key, form, comment, component)
         const {dispatch} = this.props
-        this.toggleComponentDisplay("displaySubmitForm")
-        this.toggleComponentDisplay("editMode")
+        if (component == "node") {
+            this.toggleComponentDisplay("displaySubmitForm")
+            this.toggleComponentDisplay("editMode")
+        } else if (component === "deleteNode"){
+            this.toggleComponentDisplay("displayDeleteNode")
+        }
         dispatch(submitForm(key, form, comment, component))
     }
 
@@ -130,7 +140,7 @@ class Node extends Component {
                             <li>
                                 <button type="button"
                                         className={this.buttonClasses(authenticated)}
-                                        onClick={authenticated ? () => dispatch(showDeleteNodeForm(true)) : () => {
+                                        onClick={authenticated ? () => this.toggleComponentDisplay("displayDeleteNode") : () => {
                                             }}
                                 >
                                     <i className="fa fa-trash fa-2x"/>
@@ -226,9 +236,14 @@ class Node extends Component {
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
 
-                {/* Misc. modals
-                <NodeFasitViewDeleteNodeForm hostname={hostname}/>
-                <NodeFasitViewSubmitDeleteStatus />*/}
+                {/* Misc. modals*/}
+                <DeleteNodeForm
+                    displayDeleteNode={this.state.displayDeleteNode}
+                    onClose={() => this.toggleComponentDisplay("displayDeleteNode")}
+                    onSubmit={() => this.handleSubmitForm(hostname, null, "", "deleteNode")}
+                    hostname={hostname}
+
+                />
                 <SubmitForm
                     display={this.state.displaySubmitForm}
                     component="node"
