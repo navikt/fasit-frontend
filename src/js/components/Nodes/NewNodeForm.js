@@ -82,7 +82,11 @@ class NewNodeForm extends Component {
         return (
             <Modal show={showNewNodeForm} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
-                    <Modal.Title>New node</Modal.Title>
+                    <Modal.Title>New node
+                        <button type="reset" className="btn btn-link pull-right"
+                                onClick={this.closeForm.bind(this)}><strong>X</strong>
+                        </button>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FormString
@@ -130,9 +134,6 @@ class NewNodeForm extends Component {
                     <div className="row">
                         <div className="row col-lg-10 col-lg-offset-2">
                             {this.showSubmitButton()}
-                            <button type="reset" className="btn btn-default btn-space pull-right"
-                                    onClick={this.closeForm.bind(this)}>Close
-                            </button>
                         </div>
                     </div>
                 </Modal.Footer>

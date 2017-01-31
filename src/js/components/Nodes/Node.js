@@ -33,7 +33,8 @@ class Node extends Component {
             displaySecret: false,
             displaySubmitForm: false,
             displayDeleteNode: false,
-            editMode: false
+            editMode: false,
+            comment: ""
         }
     }
 
@@ -47,7 +48,8 @@ class Node extends Component {
             hostname: nextProps.fasit.data.hostname,
             username: nextProps.fasit.data.username,
             type: nextProps.fasit.data.type,
-            password: nextProps.fasit.currentPassword
+            password: nextProps.fasit.currentPassword,
+            comment:""
         })
     }
 
@@ -59,6 +61,7 @@ class Node extends Component {
             this.toggleComponentDisplay("editMode")
         } else if (component === "deleteNode"){
             this.toggleComponentDisplay("displayDeleteNode")
+            this.setState({comment:""})
         }
         dispatch(submitForm(key, form, comment, component))
     }
@@ -69,7 +72,8 @@ class Node extends Component {
             hostname: fasit.data.hostname,
             username: fasit.data.username,
             type: fasit.data.type,
-            password: ""
+            password: "",
+            comment: "",
         })
     }
 
@@ -109,6 +113,7 @@ class Node extends Component {
 
     render() {
         const {hostname, config, user, fasit, dispatch, nodeTypes} = this.props
+        const {comment} = this.state
         let authenticated = false
         let lifecycle = {}
         if (Object.keys(fasit.data).length > 0) {
@@ -240,8 +245,10 @@ class Node extends Component {
                 <DeleteNodeForm
                     displayDeleteNode={this.state.displayDeleteNode}
                     onClose={() => this.toggleComponentDisplay("displayDeleteNode")}
-                    onSubmit={() => this.handleSubmitForm(hostname, null, "", "deleteNode")}
+                    onSubmit={() => this.handleSubmitForm(hostname, null, comment, "deleteNode")}
                     hostname={hostname}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={comment}
 
                 />
                 <SubmitForm
