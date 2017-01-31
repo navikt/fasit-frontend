@@ -13,8 +13,8 @@ import NodeGraph from './NodeGraph'
 import NodeSecurityView from './NodeSecurityView'
 import NodeSeraView from './NodeSeraView'
 import NodeRevisionsView from './NodeRevisionsView'
-import NodeFasitViewDeleteNodeForm from './NodeFasitViewDeleteNodeForm'
-import NodeFasitViewSubmitDeleteStatus from './NodeFasitViewSubmitDeleteStatus'
+//import NodeFasitViewDeleteNodeForm from './NodeFasitViewDeleteNodeForm'
+//import NodeFasitViewSubmitDeleteStatus from './NodeFasitViewSubmitDeleteStatus'
 
 class Node extends Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class Node extends Component {
             displayGraphs: false,
             displaySecret: false,
             displaySubmitForm: false,
-            editMode: false,
+            editMode: false
         }
     }
 
@@ -69,8 +69,6 @@ class Node extends Component {
             dispatch(fetchNodePassword())
         dispatch(clearNodePassword())
         this.setState({displaySecret: !this.state.displaySecret})
-
-
     }
 
     toggleComponentDisplay(component) {
@@ -228,9 +226,9 @@ class Node extends Component {
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
 
-                {/* Misc. modals*/}
+                {/* Misc. modals
                 <NodeFasitViewDeleteNodeForm hostname={hostname}/>
-                <NodeFasitViewSubmitDeleteStatus />
+                <NodeFasitViewSubmitDeleteStatus />*/}
                 <SubmitForm
                     display={this.state.displaySubmitForm}
                     component="node"
@@ -254,7 +252,6 @@ class Node extends Component {
                         environmentclass: fasit.data.environmentclass
                     }}
                 />
-                <SubmitFormStatus />
             </div>
         )
     }

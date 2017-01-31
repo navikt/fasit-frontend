@@ -5,6 +5,9 @@ module.exports = {
     putNode: function () {
         return {}
     },
+    postNode: function () {
+        return {}
+    },
     getNodes: function () {
         return nodes
     },

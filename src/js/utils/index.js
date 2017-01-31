@@ -88,9 +88,13 @@ export const putUrl = (url, content, comment) => {
         })
 }
 
-export const postUrl = (url, form) => {
+export const postUrl = (url, form, comment) => {
+    let headers = {"Content-Type": "application/json"}
+    if (comment.length > 0){
+        headers = Object.assign({}, headers, {"X-Comment": comment})
+    }
     return fetch(url, {
-        headers: {"Content-Type": "application/json"},
+        headers,
         credentials: 'include',
         method: 'POST',
         mode: 'cors',
@@ -120,9 +124,13 @@ export const postForm = (url, body) => {
             return res.text()
         })
 }
-export const deleteUrl = (url) => {
+export const deleteUrl = (url, comment) => {
+    let headers = {"Content-Type": "application/json"}
+    if (comment.length > 0){
+        headers = Object.assign({}, headers, {"X-Comment": comment})
+    }
     return fetch(url, {
-        headers: {"Content-Type": "application/json"},
+        headers,
         credentials: 'include',
         method: 'DELETE'
     })

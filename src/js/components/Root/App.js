@@ -8,6 +8,7 @@ import {
 } from '../../actionCreators/fasit_initialize_data'
 
 import TopNav from '../Navigation/TopNav'
+import {SubmitFormStatus} from '../common/'
 
 
 class App extends Component {
@@ -31,6 +32,8 @@ class App extends Component {
                 <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
                     {this.props.children}
                 </div>
+                {/* Misc. modals*/}
+                <SubmitFormStatus />
             </div>
         )
     }
