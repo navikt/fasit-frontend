@@ -1,4 +1,8 @@
 module.exports = {
+    getResource: function (id) {
+        return  resources.filter(r => r.id == id)[0]
+    },
+
     findResources: function (queryParams) {
         const scopeFilter = Object.keys(queryParams).filter(k => k !== 'page' && k !== 'pr_page' && k !== 'type')
         const typeFilter = queryParams.type

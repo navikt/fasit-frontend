@@ -72,6 +72,10 @@ app.get("/mockapi/resources", (req, res) => {
     sendJson(res, resourcesMock.findResources(req.query))
 })
 
+app.get('/mockapi/resources/:id', (req, res) => {
+    sendJson(res, resourcesMock.getResource(req.params.id))
+})
+
 app.get("/mockapi/nodes/types", (req, res) => {
     sendJson(res, nodesMock.types)
 })
@@ -90,7 +94,6 @@ app.post('/mockapi/nodes/:hostname', (req, res) => {
 })
 
 app.get("/mockapi/nodes", (req, res) => {
-    console.log("der", req.params)
     sendJson(res, nodesMock.getNodes())
 })
 if (process.env["NODE_ENV"] === "standalone") {
