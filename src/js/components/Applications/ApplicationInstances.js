@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+    import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import moment from 'moment'
 import {connect} from 'react-redux'

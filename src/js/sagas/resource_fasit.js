@@ -13,6 +13,7 @@ export function* fetchFasit(action) {
     yield put({type: RESOURCE_FASIT_FETCHING})
     try {
         const value = yield call(fetchUrl, `${resourcesConfig}/${action.id}`)
+        console.log("got value", value)
         yield put({type: RESOURCE_FASIT_RECEIVED, value})
     } catch (error) {
         yield put({type: RESOURCE_FASIT_REQUEST_FAILED, error})
