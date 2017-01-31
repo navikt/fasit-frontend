@@ -93,6 +93,10 @@ app.post('/mockapi/nodes/:hostname', (req, res) => {
     sendJson(res, nodesMock.postNode(req.params.hostname))
 })
 
+app.delete('/mockapi/nodes/:hostname', (req, res) => {
+    sendJson(res, nodesMock.postNode(req.params.hostname))
+})
+
 app.get("/mockapi/nodes", (req, res) => {
     sendJson(res, nodesMock.getNodes())
 })

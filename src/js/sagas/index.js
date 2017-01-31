@@ -13,7 +13,6 @@ import {watchEnvironments} from './environments'
 import {watchInstanceFasit} from './instance_fasit'
 
 //Nodes
-import {watchNodeDelete} from './node_delete'
 import {watchNodeEvents} from './node_events'
 import {watchNodeFasit} from './node_fasit'
 import {watchNodeRevisions} from './node_revisions'
@@ -47,7 +46,6 @@ export default function*() {
         call(watchInstanceFasit),
 
         //Nodes
-        call(watchNodeDelete),
         call(watchNodeEvents),
         call(watchNodeFasit),
         call(watchNodeRevisions),
