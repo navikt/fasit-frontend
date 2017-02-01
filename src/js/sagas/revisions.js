@@ -1,4 +1,4 @@
-import { takeEvery } from 'redux-saga'
+import { takeEvery, takeLatest } from 'redux-saga'
 import { call, put, fork, select} from 'redux-saga/effects'
 import { fetchUrl } from '../utils'
 import {
@@ -30,10 +30,17 @@ export function* fetchRevisions(action) {
 
 // Fetching specific revision on a given node
 export function* fetchRevision(action) {
+    const configuration = yield select((state) => state.configuration)
+    let url = ""
+
     yield put({type: REVISION_FETCHING})
+
+
     try {
-        const configuration = yield select((state) => state.configuration)
-        const url = `${configuration.fasit_nodes}/${action.revision}`
+        switch(action.component){
+            case "node":
+                url = `${configuration.fasit_nodes}/${action.key}/revisions/${action.revision}`
+        }
         const value = yield call(fetchUrl, url)
         yield put({type: REVISION_RECEIVED, value})
     } catch(error) {
@@ -44,5 +51,5 @@ export function* fetchRevision(action) {
 
 export function* watchRevisions() {
     yield fork(takeEvery, REVISIONS_REQUEST, fetchRevisions)
-    yield fork(takeEvery, REVISION_REQUEST, fetchRevision)
+    yield fork(takeLatest, REVISION_REQUEST, fetchRevision)
 }

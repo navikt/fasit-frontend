@@ -11,6 +11,7 @@ const applications = require('./src/test/mockend/applicationsMock')
 const applicationinstances = require('./src/test/mockend/applicationinstancesMock')
 const resourceTypes = require('./src/test/mockend/resourceTypesMock')
 const nodesMock = require('./src/test/mockend/nodesMock')
+const nodeRevisionsMock = require('./src/test/mockend/nodeRevisionsMock')
 const loginMock = require('./src/test/mockend/loginMock')
 
 
@@ -104,6 +105,14 @@ app.post('/mockapi/nodes/:hostname', (req, res) => {
 
 app.delete('/mockapi/nodes/:hostname', (req, res) => {
     sendJson(res, nodesMock.postNode(req.params.hostname))
+})
+
+app.get('/mockapi/nodes/:hostname/revisions', (req, res) => {
+    sendJson(res, nodeRevisionsMock.getNodeRevisions(req.params.hostname))
+})
+
+app.get('/mockapi/nodes/:hostname/revisions/:revision', (req, res) => {
+    sendJson(res, nodeRevisionsMock.getNodeRevision(req.params))
 })
 
 app.get("/mockapi/nodes", (req, res) => {
