@@ -1,6 +1,9 @@
 module.exports = {
     findApplicationInstance: (queryParams) => {
         return applicationinstances.filter(a => (queryParams.application) ? a.application === queryParams.application : true)
+    },
+    getFirst: () => {
+        return applicationinstances[0]
     }
 }
 
@@ -15,7 +18,7 @@ const applicationinstances = [
             "ref": "http://localhost:6969/mockapi/environments/p/clusters/app1Cluster"
         },
         "appconfig": {
-            "ref": "http://localhost:6969/mockapi/applicationinstances/1/appconfig"
+            "ref": "http://localhost:6969/mockapi/applicationinstances/1/revisions/69/appconfig"
         },
         "exposedresources": [
             {
@@ -59,7 +62,8 @@ const applicationinstances = [
             }
         ],
         "missingresources": [],
-        "id": 1684520,
+        "id": 1,
+        "revision": 69,
         "created": "2016-08-09T11:02:30.581",
         "updated": "2016-10-20T11:29:01.54",
         "lifecycle": {},

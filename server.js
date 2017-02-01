@@ -25,7 +25,7 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.dev.js');
 
 const serverOptions = {
-    quiet: true,
+    quiet: false,
     noInfo: false,
     hot: true,
     inline: true,
@@ -60,6 +60,15 @@ app.get("/mockapi/applications", (req, res) => {
 app.get("/mockapi/applicationinstances", (req, res) => {
     sendJson(res, applicationinstances.findApplicationInstance(req.query))
 })
+
+app.get("/mockapi/applicationinstances/:id", (req, res) => {
+    sendJson(res, applicationinstances.getFirst())
+})
+
+app.get("/mockapi/applicationinstances/1/revisions/69/appconfig", (req, res) => {
+    res.send("<this><is><real><nested><xml>69</xml></nested></real></is></this>")
+})
+
 app.get("/mockapi/environments", (req, res) => {
     sendJson(res, environmentsMock.findEnvironments(req.query))
 })
@@ -126,8 +135,6 @@ function sendJson(res, json) {
         res.set('total_count', json.length)
     }
     res.json(json)
-
-
 }
 
 app.listen(config.server.port, config.server.host, (err) => {

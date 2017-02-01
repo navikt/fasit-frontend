@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import pd from 'pretty-data'
+import {pd} from 'pretty-data'
 import {
     fetchManifest
 } from "../../actionCreators/instance"
@@ -17,13 +17,12 @@ class Manifest extends Component {
     }
 
     render() {
-
-        console.log(pd)
-
         return (
-           <div>
-
-           </div>
+            <pre>
+                <code>
+                    {pd.xml(String(this.props.manifest))}
+                </code>
+            </pre>
         )
     }
 }

@@ -25,16 +25,11 @@ export function* fetchInstance(action) {
 }
 
 export function* fetchManifest() {
-    const instancesApi = yield select((state) => state.configuration.fasit_applicationinstances)
-     const instanceId = yield select((state) => state.instance_fasit.data.id)
-     const instanceRevision = yield select((state) => state.instance_fasit.data.revision)
-
-    console.log("id", instanceId);
-    console.log("revision", instanceRevision);
+    const appconfigRef = yield select((state) => state.instance_fasit.data.appconfig.ref)
 
     yield put({type: INSTANCE_MANIFEST_FASIT_FETCHING})
     try {
-        const value = yield call(fetchUrl, `${instancesApi}/${instanceId}/revisions/${instanceRevision}/appconfig`)
+        const value = yield call(fetchUrl, appconfigRef)
         yield put({type: INSTANCE_MANIFEST_FASIT_RECEIVED, value})
     } catch (error) {
         yield put({type: INSTANCE_MANIFEST_FASIT_REQUEST_FAILED, error})
