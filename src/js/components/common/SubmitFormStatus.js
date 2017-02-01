@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { closeSubmitFormStatus } from '../../actionCreators/submit_form'
+import { closeSubmitFormStatus } from '../../actionCreators/common'
 
 
 class SubmitFormStatus extends Component {

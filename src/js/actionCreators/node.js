@@ -1,6 +1,5 @@
 import {
     CLEAR_NODE_PASSWORD,
-    CLOSE_SUBMIT_DELETE_NODE_STATUS,
     NODE_EVENTS_REQUEST,
     NODE_FASIT_REQUEST,
     NODE_FASIT_PASSWORD_REQUEST,
@@ -10,13 +9,9 @@ import {
     RESCUE_NODE,
     SHOW_ALL_NODE_REVISIONS,
     SHOW_NEW_NODE_FORM,
-    SHOW_DELETE_NODE_FORM,
-    SUBMIT_DELETE_NODE,
 } from '../actionTypes'
 
-export const deleteNode = (hostname) => {return {type: SUBMIT_DELETE_NODE, hostname}}
 export const clearNodePassword = () => {return {type: CLEAR_NODE_PASSWORD}}
-export const closeSubmitDeleteNodeStatus = () => {return {type: CLOSE_SUBMIT_DELETE_NODE_STATUS}}
 export const fetchEvents = (fasitData) => {
     const client = fasitData.cluster ?
         fasitData.cluster.name + "_" + fasitData.environment + "_" + fasitData.hostname.split(".")[0] :
@@ -24,7 +19,7 @@ export const fetchEvents = (fasitData) => {
     return {type: NODE_EVENTS_REQUEST, client}
 }
 
-export const fetchFasitData = (hostname) => {return {type: NODE_FASIT_REQUEST, hostname}}
+export const fetchFasitData = (hostname, revision) => {return {type: NODE_FASIT_REQUEST, hostname, revision}}
 export const fetchNodePassword = () => {return {type: NODE_FASIT_PASSWORD_REQUEST}}
 export const fetchRevisions = (hostname) => {return {type: NODE_REVISIONS_REQUEST, hostname}}
 export const fetchRevision = (revision) => {return {type: NODE_REVISION_REQUEST, revision}}
@@ -32,4 +27,4 @@ export const fetchSeraData = (hostname) => {return {type: NODE_SERA_REQUEST, hos
 export const rescueNode = (hostname) => {return {type: RESCUE_NODE, hostname}}
 export const showAllRevisions = (value) => {return {type: SHOW_ALL_NODE_REVISIONS, value}}
 export const showNewNodeForm = (value) => {return {type: SHOW_NEW_NODE_FORM, value}}
-export const showDeleteNodeForm = (value) => {return {type: SHOW_DELETE_NODE_FORM, value}}
+export const setActiveRevision = (value) => {return {type: SET_ACTIVE_REVISION, value}}

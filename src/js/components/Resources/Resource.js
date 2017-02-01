@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils'
 import {fetchFasitData} from '../../actionCreators/resource'
-import {submitForm} from '../../actionCreators/submit_form'
+import {submitForm} from '../../actionCreators/common'
 import classString from 'react-classset'
 import moment from 'moment'
 

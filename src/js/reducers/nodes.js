@@ -3,10 +3,7 @@ import {
     NODES_LIST_FETCHING,
     NODES_LIST_RECEIVED,
     NODES_LIST_FAILED,
-    SHOW_SUBMIT_EDIT_NODE_FORM,
     SHOW_NEW_NODE_FORM,
-    SHOW_DELETE_NODE_FORM,
-    SHOW_EDIT_NODE_FORM,
 } from '../actionTypes'
 
 export default (state = {
@@ -52,21 +49,6 @@ export default (state = {
                 requestFailed: action.value
             })
 
-        case SHOW_SUBMIT_EDIT_NODE_FORM:
-            return Object.assign({}, state, {
-                showSubmitEditFasitNodeForm: action.value
-            })
-
-        case SHOW_DELETE_NODE_FORM:
-            return Object.assign({}, state, {
-                    showDeleteFasitNodeForm: action.value
-                }
-            )
-        case SHOW_EDIT_NODE_FORM:
-            return Object.assign({}, state, {
-                    showEditNodeForm: action.value
-                }
-            )
         case SHOW_NEW_NODE_FORM:
             return Object.assign({}, state, {
                     showNewNodeForm: action.value

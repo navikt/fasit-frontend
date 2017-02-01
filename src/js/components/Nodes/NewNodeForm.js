@@ -5,13 +5,12 @@ import {connect} from 'react-redux'
 import {FormString, FormList, FormComment} from '../common/Forms'
 
 import {showNewNodeForm} from '../../actionCreators/node'
-import {submitForm} from '../../actionCreators/submit_form'
+import {submitForm} from '../../actionCreators/common'
 
 class NewNodeForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            comment: "",
             hostname: "",
             username: "",
             password: "",
@@ -25,7 +24,6 @@ class NewNodeForm extends Component {
 
     resetLocalState() {
         this.setState({
-            comment: "",
             hostname: "",
             username: "",
             password: "",
@@ -43,7 +41,7 @@ class NewNodeForm extends Component {
     handleSubmitForm() {
         const {dispatch} = this.props
         const {hostname, username, password, type, environment, environmentclass, comment} = this.state
-        const form= {
+        const form = {
             hostname,
             username,
             password: {value: password},
@@ -51,8 +49,9 @@ class NewNodeForm extends Component {
             environment,
             environmentclass,
         }
-        if (!(environmentclass === 'u'))
+        if (!(environmentclass === 'u')) {
             form["zone"] = this.state.zone
+        }
         dispatch(submitForm(form.hostname, form, comment, "newNode"))
     }
 
@@ -64,8 +63,8 @@ class NewNodeForm extends Component {
 
     showSubmitButton() {
         const {hostname, username, password, type, environmentclass, environment, zone} = this.state
-        if (hostname && username && password && type && environmentclass) {
-            if ((environment && zone) || (environmentclass === 'u')) {
+        if (hostname && username && password && type && environmentclass && environment) {
+            if ((zone) || (environmentclass === 'u')) {
                 return (
                     <button type="submit"
                             className="btn btn-primary pull-right"
@@ -83,7 +82,11 @@ class NewNodeForm extends Component {
         return (
             <Modal show={showNewNodeForm} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
-                    <Modal.Title>New node</Modal.Title>
+                    <Modal.Title>New node
+                        <button type="reset" className="btn btn-link pull-right"
+                                onClick={this.closeForm.bind(this)}><strong>X</strong>
+                        </button>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FormString
@@ -124,16 +127,13 @@ class NewNodeForm extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <FormComment
-                    value={this.state.comment}
-                    handleChange={this.handleChange.bind(this)}
+                        value={this.state.comment}
+                        handleChange={this.handleChange.bind(this)}
                     />
                     <br />
                     <div className="row">
                         <div className="row col-lg-10 col-lg-offset-2">
                             {this.showSubmitButton()}
-                            <button type="reset" className="btn btn-default btn-space pull-right"
-                                    onClick={this.closeForm.bind(this)}>Close
-                            </button>
                         </div>
                     </div>
                 </Modal.Footer>
@@ -144,7 +144,7 @@ class NewNodeForm extends Component {
     environmentSelector() {
         const {environments} = this.props
         const {environmentclass} = this.state
-        if (environmentclass && environmentclass !== 'u') {
+        if (environmentclass) {
             const filteredEnvironments = environments.filter((env) => {
                 if (!environmentclass) {
                     return true
