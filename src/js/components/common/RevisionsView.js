@@ -23,9 +23,9 @@ class RevisionsView extends Component {
             dispatch(fetchRevisions(next.hostname))
     }
 
-    handleFetchRevision(url) {
+    handleFetchRevision(type, key, revision) {
         const {dispatch} = this.props
-        dispatch(fetchRevision(url.split("/").slice(6).join("/")))
+        dispatch(fetchRevision(type, key, revision))
     }
 
 
@@ -65,7 +65,12 @@ class RevisionsView extends Component {
     }
 
     showRevisionsContent() {
-        const {revisions, dispatch} = this.props
+        const {revisions, dispatch, type, hostname} = this.props
+        let key = ""
+        switch(type){
+            case "node":
+                key=hostname
+        }
         if (revisions.isFetching )
             return <i className="fa fa-spinner fa-pulse fa-2x"></i>
 
@@ -92,9 +97,10 @@ class RevisionsView extends Component {
                             trigger={["hover", "focus"]}
                             rootClose={true}
                             placement="left"
-                            overlay={this.createPopover(rev.author)}
+                            onEnter={() => this.handleFetchRevision(type, key, rev.revision)}
+                            overlay={this.createPopover(rev.author, type)}
                         >
-                            <td onClick={this.handleFetchRevision.bind(this, rev.links.entity)} className="cursor-pointer"><i
+                            <td className="cursor-pointer"><i
                                 className="fa fa-search"/></td>
                         </OverlayTrigger>
                         <td>{rev.revisiontype}</td>
@@ -149,6 +155,7 @@ class RevisionsView extends Component {
 const mapStateToProps = (state, ownProps) => ({
     hostname: ownProps.hostname,
     revisions: state.revisions,
+    type: ownProps.type
 })
 
 export default connect(mapStateToProps)(RevisionsView)
