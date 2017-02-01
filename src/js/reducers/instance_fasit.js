@@ -10,7 +10,8 @@ import {
 export default (state = {
     data: {},
     isFetching: false,
-    requestFailed: false
+    requestFailed: false,
+    manifest: "<no><manifest><here>:)</here></manifest></no>"
 }, action) => {
     switch (action.type) {
         case INSTANCE_FASIT_FETCHING:
