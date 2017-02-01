@@ -6,6 +6,7 @@ import {submitForm} from '../../actionCreators/submit_form'
 import classString from 'react-classset'
 import moment from 'moment'
 
+
 import {
     FormString,
     FormList,
@@ -37,7 +38,6 @@ class Resource extends Component {
     }
 
     setNewState(newState) {
-        console.log("Setting new state", newState)
 
         this.setState({
             id: newState.data.id,
@@ -85,10 +85,25 @@ class Resource extends Component {
         })
     }
 
+    renderResourceProperties(properties) {
+
+        if (properties) {
+            return Object.keys(properties).map(prop => {
+
+                return <FormString
+                    key={prop}
+                    label={prop}
+                    editMode={this.state.editMode}
+                    value={properties[prop]}
+                    handleChange={this.handleChange.bind(this)}/>
+            })
+        }
+    }
 
 
     render() {
-        const {id, fasit, user, dispatch} = this.props
+        const {id, fasit, user, dispatch, resourceTypes} = this.props
+
         let authenticated = false
         let lifecycle = {}
 
@@ -99,7 +114,7 @@ class Resource extends Component {
         return (
             <div className="row">
                 <div className="col-xs-12 row main-data-container">
-                    <div className="col-sm-2 nopadding">
+                    <div className="col-sm-8 nopadding nowrap">
                         <ul className="nav navbar-nav navbar-left">
                             <li>
                                 <button type="button"
@@ -116,25 +131,16 @@ class Resource extends Component {
                                     <i className="fa fa-trash fa-2x"/></button>
                             </li>
                         </ul>
+                        <span className="navbar-text">Last updated: {moment(this.state.updated).locale('en').fromNow()}</span>
                     </div>
                 </div>
 
-
                 <div className="col-md-6">
-                    <FormString label="type" editMode={this.state.editMode} value={this.state.type} handleChange={this.handleChange.bind(this)}/>
-                    <FormString label="alias" editMode={this.state.editMode} value={this.state.alias} handleChange={this.handleChange.bind(this)}/>
-                    <FormString label="created" editMode={false} value={this.state.created} handleChange={this.handleChange.bind(this)}/>
-                    <FormString label="updated" editMode={false} value={moment(this.state.updated).fromNow()} handleChange={this.handleChange.bind(this)}/>
-                    {Object.keys(this.state.properties).map(prop => {
-                        console.log("prop", prop)
-
-                            return <FormString
-                                label={prop}
-                                editMode={this.state.editMode}
-                                value={this.state.properties[prop]}
+                    <FormString label="type" editMode={false} value={this.state.type}
+                                handleChange={this.handleChange.bind(this)} options={resourceTypes}/>
+                    <FormString label="alias" editMode={this.state.editMode} value={this.state.alias}
                                 handleChange={this.handleChange.bind(this)}/>
-                                })}
-                    }
+                    {this.renderResourceProperties(this.state.properties)}
                 </div>
             </div>
         )
@@ -144,10 +150,9 @@ const mapStateToProps = (state, ownProps) => {
     return {
         fasit: state.resource_fasit,
         user: state.user,
-        //editMode: state.nodes.showEditNodeForm,
-        //hostname: ownProps.hostname,
         config: state.configuration,
-        id: ownProps.id
+        id: ownProps.id,
+        resourceTypes: state.resources.resourceTypes
     }
 }
 
