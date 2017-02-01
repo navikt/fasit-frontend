@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
 import {FormString} from "../common/Forms"
-import UsedResources from "./UsedResources"
+import InstanceResources from "./InstanceResources"
+import Manifest from "./Manifest"
 import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView} from "../common/"
 import {
     fetchInstance
@@ -63,9 +64,9 @@ class Instance extends Component {
                 </div>
                 <div className="col-xs-12">
                     <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                    {this.state.displayUsed ? <UsedResources />: ''}
-                    {this.state.displayExposed ? <h1>EXPOSED</h1>: ''}
-                    {this.state.displayManifest ? <h1>MANIFEST</h1>: ''}
+                    {this.state.displayUsed ? <InstanceResources items={instance.usedresources} />: ''}
+                    {this.state.displayExposed ? <InstanceResources items={instance.exposedresources} />: ''}
+                    {this.state.displayManifest ? <Manifest /> : ''}
                 </div>
             </div>
         )
