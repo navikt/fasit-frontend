@@ -1,13 +1,15 @@
 import React, {Component, PropTypes} from 'react'
 import moment from 'moment'
 import {connect} from 'react-redux'
-import {fetchRevisions, fetchRevision} from '../../actionCreators/common'
+import {fetchRevisions, fetchRevision, setActiveRevision} from '../../actionCreators/common'
 import {Popover, OverlayTrigger} from 'react-bootstrap'
-
 
 class RevisionsView extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            displayAllRevisions: false
+        }
     }
 
     componentDidMount() {
@@ -26,10 +28,6 @@ class RevisionsView extends Component {
         dispatch(fetchRevision(url.split("/").slice(6).join("/")))
     }
 
-    handleShowAllRevisions(value) {
-        const {dispatch} = this.props
-        dispatch(showAllRevisions(value))
-    }
 
     createPopover(author) {
         const {revisions} = this.props
@@ -67,7 +65,7 @@ class RevisionsView extends Component {
     }
 
     showRevisionsContent() {
-        const {revisions} = this.props
+        const {revisions, dispatch} = this.props
         if (revisions.isFetching )
             return <i className="fa fa-spinner fa-pulse fa-2x"></i>
 
@@ -78,16 +76,20 @@ class RevisionsView extends Component {
             </div>
 
         let displayRevisions = revisions.data
-        if (!revisions.showAllRevisions)
+        if (!this.state.displayAllRevisions)
             displayRevisions = revisions.data.slice(0, 5)
 
         return (
             <table className="table table-hover">
                 <tbody>
                 {displayRevisions.map(rev => {
-                    return <tr key={rev.revision}>
+                    return <tr
+                        key={rev.revision}
+                        onClick={() => dispatch(setActiveRevision(rev.revision))}
+                        className={(rev.revision === revisions.activeRevision) ? "info" : ""}
+                    >
                         <OverlayTrigger
-                            trigger="click"
+                            trigger={["hover", "focus"]}
                             rootClose={true}
                             placement="left"
                             overlay={this.createPopover(rev.author)}
@@ -108,22 +110,22 @@ class RevisionsView extends Component {
 
     showRevisionsFooter() {
         const {revisions} = this.props
-        if (revisions.data.length > 5 && !revisions.showAllRevisions) {
+        if (revisions.data.length > 5 && !this.state.displayAllRevisions) {
             return (
                 <div className="information-box-footer">
                     Showing 5 of {revisions.data.length} revisions.
                     <a className="text-right arrow cursor-pointer"
-                       onClick={this.handleShowAllRevisions.bind(this, true)}>Show All <i
+                       onClick={() => this.setState({displayAllRevisions:true})}>Show All <i
                         className="fa fa-angle-double-down"/></a>
                 </div>
             )
         }
-        if (revisions.data.length > 5 && revisions.showAllRevisions) {
+        if (revisions.data.length > 5 && this.state.displayAllRevisions) {
             return (
                 <div className="information-box-footer">
                     Showing all revisions.
                     <a className="text-right arrow cursor-pointer"
-                       onClick={this.handleShowAllRevisions.bind(this, false)}>Hide <i
+                       onClick={() => this.setState({displayAllRevisions:false})}>Hide <i
                         className="fa fa-angle-double-up"/></a>
                 </div>
             )
