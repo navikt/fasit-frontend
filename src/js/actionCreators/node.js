@@ -19,7 +19,7 @@ export const fetchEvents = (fasitData) => {
     return {type: NODE_EVENTS_REQUEST, client}
 }
 
-export const fetchFasitData = (hostname) => {return {type: NODE_FASIT_REQUEST, hostname}}
+export const fetchFasitData = (hostname, revision) => {return {type: NODE_FASIT_REQUEST, hostname, revision}}
 export const fetchNodePassword = () => {return {type: NODE_FASIT_PASSWORD_REQUEST}}
 export const fetchRevisions = (hostname) => {return {type: NODE_REVISIONS_REQUEST, hostname}}
 export const fetchRevision = (revision) => {return {type: NODE_REVISION_REQUEST, revision}}
@@ -27,3 +27,4 @@ export const fetchSeraData = (hostname) => {return {type: NODE_SERA_REQUEST, hos
 export const rescueNode = (hostname) => {return {type: RESCUE_NODE, hostname}}
 export const showAllRevisions = (value) => {return {type: SHOW_ALL_NODE_REVISIONS, value}}
 export const showNewNodeForm = (value) => {return {type: SHOW_NEW_NODE_FORM, value}}
+export const setActiveRevision = (value) => {return {type: SET_ACTIVE_REVISION, value}}

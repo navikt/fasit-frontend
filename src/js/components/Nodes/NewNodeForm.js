@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import {FormString, FormList, FormComment} from '../common/Forms'
 
 import {showNewNodeForm} from '../../actionCreators/node'
-import {submitForm} from '../../actionCreators/submit_form'
+import {submitForm} from '../../actionCreators/common'
 
 class NewNodeForm extends Component {
     constructor(props) {

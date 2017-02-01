@@ -11,13 +11,12 @@ import {
 import classString from 'react-classset'
 import {FormString, FormList, FormSecret} from '../common/Forms'
 import {CollapsibleMenu, CollapsibleMenuItem, Lifecycle, RevisionsView, SubmitForm} from '../common/'
-import {submitForm} from '../../actionCreators/submit_form'
+import {submitForm} from '../../actionCreators/common'
 import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'
 import NodeGraph from './NodeGraph'
 import NodeSecurityView from './NodeSecurityView'
 import NodeSeraView from './NodeSeraView'
-import NodeRevisionsView from './NodeRevisionsView'
 import DeleteNodeForm from './DeleteNodeForm'
 
 class Node extends Component {
@@ -39,11 +38,12 @@ class Node extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, hostname} = this.props
-        dispatch(fetchFasitData(hostname))
+        const {dispatch, hostname, revision} = this.props
+        dispatch(fetchFasitData(hostname, revision))
     }
 
     componentWillReceiveProps(nextProps) {
+        const {dispatch, hostname, revision} = this.props
         this.setState({
             hostname: nextProps.fasit.data.hostname,
             username: nextProps.fasit.data.username,
@@ -51,10 +51,12 @@ class Node extends Component {
             password: nextProps.fasit.currentPassword,
             comment:""
         })
+        if (nextProps.revision != this.props.revision){
+            dispatch(fetchFasitData(hostname, nextProps.revision))
+        }
     }
 
     handleSubmitForm(key, form, comment, component) {
-        console.log(key, form, comment, component)
         const {dispatch} = this.props
         if (component == "node") {
             this.toggleComponentDisplay("displaySubmitForm")
@@ -224,7 +226,7 @@ class Node extends Component {
 
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="Revisions">
-                        <NodeRevisionsView hostname={hostname}/>
+                        <RevisionsView hostname={hostname} type="node"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
                         <NodeSecurityView authenticated={authenticated}
