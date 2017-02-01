@@ -29,7 +29,7 @@ class RevisionsView extends Component {
     }
 
 
-    createPopover(author) {
+    createPopover(author, type) {
         const {revisions} = this.props
         if (revisions.activeRevisionIsFetching || !revisions.activeRevisionData)
             return <Popover id="Revision" className="popover-size"><i
@@ -46,32 +46,37 @@ class RevisionsView extends Component {
         }
         else {
             const revision = revisions.activeRevisionData
-            return (
-                <Popover
-                    className="popover-size"
-                    id="Revision"
-                    title={"Revision #" + revision.id + " by " + author}
-                >
-                    <b>hostname:</b> <span className="text-right">{revision.hostname + '\n'}</span><br />
-                    <b>env. class:</b> <span className="text-right">{revision.environmentclass + '\n'}</span><br />
-                    <b>environment:</b> <span className="text-right">{revision.environment + '\n'}</span><br />
-                    <b>type:</b> <span className="text-right">{revision.type + '\n'}</span><br />
-                    <b>username:</b> <span className="text-right">{revision.username + '\n'}</span><br />
-                    <b>cluster:</b> <span className="text-right">{revision.cluster.name + '\n'}</span><br />
-                    <b>applications:</b> <span className="text-right">{revision.applications + '\n'}</span><br />
-                </Popover>
-            )
+            switch (type) {
+                case "node":
+                    return (
+                        <Popover
+                            className="popover-size"
+                            id="Revision"
+                            title={"Revision #" + revision.revision + " by " + author}
+                        >
+                            <b>hostname:</b> <span className="text-right">{revision.hostname + '\n'}</span><br />
+                            <b>env. class:</b> <span
+                            className="text-right">{revision.environmentclass + '\n'}</span><br />
+                            <b>environment:</b> <span className="text-right">{revision.environment + '\n'}</span><br />
+                            <b>type:</b> <span className="text-right">{revision.type + '\n'}</span><br />
+                            <b>username:</b> <span className="text-right">{revision.username + '\n'}</span><br />
+                            <b>cluster:</b> <span className="text-right">{revision.cluster.name + '\n'}</span><br />
+                            <b>applications:</b> <span className="text-right">{revision.applications + '\n'}</span><br />
+                        </Popover>
+                    )
+            }
+
         }
     }
 
     showRevisionsContent() {
         const {revisions, dispatch, type, hostname} = this.props
         let key = ""
-        switch(type){
+        switch (type) {
             case "node":
-                key=hostname
+                key = hostname
         }
-        if (revisions.isFetching )
+        if (revisions.isFetching)
             return <i className="fa fa-spinner fa-pulse fa-2x"></i>
 
         else if (revisions.requestFailed)
@@ -91,7 +96,7 @@ class RevisionsView extends Component {
                     return <tr
                         key={rev.revision}
                         onClick={() => dispatch(setActiveRevision(rev.revision))}
-                        className={(rev.revision === revisions.activeRevision) ? "info" : ""}
+                        className={(rev.revision === revisions.activeRevision) ? "cursor-pointer info" : "cursor-pointer"}
                     >
                         <OverlayTrigger
                             trigger={["hover", "focus"]}
@@ -103,8 +108,9 @@ class RevisionsView extends Component {
                             <td className="cursor-pointer"><i
                                 className="fa fa-search"/></td>
                         </OverlayTrigger>
-                        <td>{rev.revisiontype}</td>
-                        <td>{moment(rev.timestamp).format('L, HH:mm')}</td>
+                        <td>{rev.revisiontype === "mod"? "Modified" : "Created"} by {rev.author}</td>
+                        <td>{moment(rev.timestamp).fromNow()}</td>
+                        {rev.message?<td><i className="fa fa-comment" /></td>:null}
 
 
                     </tr>
@@ -121,7 +127,7 @@ class RevisionsView extends Component {
                 <div className="information-box-footer">
                     Showing 5 of {revisions.data.length} revisions.
                     <a className="text-right arrow cursor-pointer"
-                       onClick={() => this.setState({displayAllRevisions:true})}>Show All <i
+                       onClick={() => this.setState({displayAllRevisions: true})}>Show All <i
                         className="fa fa-angle-double-down"/></a>
                 </div>
             )
@@ -131,7 +137,7 @@ class RevisionsView extends Component {
                 <div className="information-box-footer">
                     Showing all revisions.
                     <a className="text-right arrow cursor-pointer"
-                       onClick={() => this.setState({displayAllRevisions:false})}>Hide <i
+                       onClick={() => this.setState({displayAllRevisions: false})}>Hide <i
                         className="fa fa-angle-double-up"/></a>
                 </div>
             )
@@ -139,7 +145,6 @@ class RevisionsView extends Component {
     }
 
     render() {
-        moment.locale('nb')
         return (
             <div>
                 <div className="node-information-box">
