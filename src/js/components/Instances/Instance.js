@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
+import {Link} from "react-router"
 import {FormString} from "../common/Forms"
 import InstanceResources from "./InstanceResources"
 import Manifest from "./Manifest"
@@ -27,6 +28,8 @@ class Instance extends Component {
     render() {
         const {instance} = this.props
 
+        const clusterName = instance.cluster ? instance.cluster.name : ""
+
         return (
             <div className="row">
                 <div className="col-xs-12" style={{height: 30 + "px"}}></div>
@@ -43,6 +46,12 @@ class Instance extends Component {
                         label="environment"
                         value={instance.environment}
                     />
+                    <div className="row">
+                        <div className="col-md-4 FormLabel"><b>Cluster</b></div>
+                        <div className="col-md-8">
+                            <Link to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>
+                        </div>
+                    </div>
                 </div>
                 <div className="col-md-6">
                     <CollapsibleMenu>
@@ -54,9 +63,11 @@ class Instance extends Component {
                 <div className="col-xs-12">
                     <ul className="nav nav-tabs">
                         <li className={this.state.displayUsed ? "active" : ""}><a href="#"
-                                                                                  onClick={() => this.selectTab("used")}>Used resources</a></li>
+                                                                                  onClick={() => this.selectTab("used")}>Used
+                            resources</a></li>
                         <li className={this.state.displayExposed ? "active" : ""}><a href="#"
-                                                                                     onClick={() => this.selectTab("exposed")}>Exposed resources</a></li>
+                                                                                     onClick={() => this.selectTab("exposed")}>Exposed
+                            resources</a></li>
                         <li className={this.state.displayManifest ? "active" : ""}><a href="#"
                                                                                       onClick={() => this.selectTab("manifest")}>Manifest</a>
                         </li>
@@ -64,8 +75,8 @@ class Instance extends Component {
                 </div>
                 <div className="col-xs-12">
                     <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                    {this.state.displayUsed ? <InstanceResources items={instance.usedresources} />: ''}
-                    {this.state.displayExposed ? <InstanceResources items={instance.exposedresources} />: ''}
+                    {this.state.displayUsed ? <InstanceResources items={instance.usedresources}/> : ''}
+                    {this.state.displayExposed ? <InstanceResources items={instance.exposedresources}/> : ''}
                     {this.state.displayManifest ? <Manifest /> : ''}
                 </div>
             </div>
