@@ -131,7 +131,7 @@ class Node extends Component {
                         <NodeTypeImage type={fasit.data.type}/>
                     </div>
                     <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow">
-                        <strong>{hostname} {(fasit.data.revision != revisions.data[0].revision)? "(Old shit)" : ""}</strong></div>
+                        <strong>{hostname} {/*(fasit.data.revision != revisions.data[0].revision)? "(Old shit)" : ""*/}</strong></div>
 
                     <div className="col-sm-2 nopadding">
                         <ul className="nav navbar-nav navbar-right">
