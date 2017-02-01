@@ -17,7 +17,7 @@ import user from './user'
 import nodes from './nodes'
 import node_events from './node_events'
 import node_fasit from './node_fasit'
-import node_revisions from './node_revisions'
+import revisions from './revisions'
 import node_sera from './node_sera'
 
 var fasitReducer = combineReducers({
@@ -31,13 +31,13 @@ var fasitReducer = combineReducers({
     instance_fasit,
     resources,
     resource_fasit,
+    revisions,
     search,
     submit_form,
     user,
     nodes,
     node_events,
     node_fasit,
-    node_revisions,
     node_sera,
 })
 

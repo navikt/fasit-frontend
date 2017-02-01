@@ -1,66 +1,67 @@
 import {
-    NODE_REVISIONS_FETCHING,
-    NODE_REVISIONS_RECEIVED,
-    NODE_REVISIONS_REQUEST_FAILED,
-    NODE_REVISION_FETCHING,
-    NODE_REVISION_RECEIVED,
-    NODE_REVISION_REQUEST_FAILED,
-    SHOW_ALL_NODE_REVISIONS
+    SET_ACTIVE_REVISION,
+    REVISIONS_FETCHING,
+    REVISIONS_RECEIVED,
+    REVISIONS_REQUEST_FAILED,
+    REVISION_FETCHING,
+    REVISION_RECEIVED,
+    REVISION_REQUEST_FAILED,
 } from '../actionTypes'
 
 export default (state = {
+    activeRevision: null,
     isFetching: false,
     requestFailed: false,
     data: [],
-    showAllRevisions: false
 }, action) => {
     switch (action.type) {
-        case NODE_REVISIONS_RECEIVED:
+
+        case SET_ACTIVE_REVISION:
+            return Object.assign({}, state, {
+                activeRevision: action.value
+            })
+
+        case REVISIONS_RECEIVED:
             return Object.assign({}, state, {
                 data: action.value,
                 isFetching: false,
                 requestFailed: false
             })
 
-        case NODE_REVISIONS_FETCHING:
+        case REVISIONS_FETCHING:
             return Object.assign({}, state, {
                 data: [],
                 isFetching: true,
                 requestFailed: false
             })
 
-        case NODE_REVISIONS_REQUEST_FAILED:
+        case REVISIONS_REQUEST_FAILED:
             return Object.assign({}, state, {
                 requestFailed: action.error.message,
                 data: [],
                 isFetching:false
             })
 
-        case NODE_REVISION_RECEIVED:
+        case REVISION_RECEIVED:
             return Object.assign({}, state, {
                 activeRevisionData: action.value,
                 activeRevisionIsFetching: false,
                 activeRevisionRequestFailed: false
             })
 
-        case NODE_REVISION_FETCHING:
+        case REVISION_FETCHING:
             return Object.assign({}, state, {
                 activeRevisionData: {},
                 activeRevisionIsFetching: true,
                 revisionRequestFailed: false
             })
 
-        case NODE_REVISION_REQUEST_FAILED:
+        case REVISION_REQUEST_FAILED:
             return Object.assign({}, state, {
                 activeRevisionRequestFailed: action.error.message,
                 activeRevisionData: {},
                 activeRevisionIsFetching:false
             })
-
-        case SHOW_ALL_NODE_REVISIONS:
-            return Object.assign({}, state,
-                {showAllRevisions: action.value}
-            )
 
         default:
             return state

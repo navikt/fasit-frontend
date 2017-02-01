@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import moment from 'moment'
 import {connect} from 'react-redux'
-import {fetchRevisions, fetchRevision, showAllRevisions} from '../../actionCreators/node'
+import {fetchRevisions, fetchRevision} from '../../actionCreators/common'
 import {Popover, OverlayTrigger} from 'react-bootstrap'
 
 
@@ -144,13 +144,9 @@ class RevisionsView extends Component {
     }
 }
 
-Node.propTypes = {
-    dispatch: PropTypes.func.isRequired
-}
-
 const mapStateToProps = (state, ownProps) => ({
     hostname: ownProps.hostname,
-    revisions: state.node_revisions,
+    revisions: state.revisions,
 })
 
 export default connect(mapStateToProps)(RevisionsView)
