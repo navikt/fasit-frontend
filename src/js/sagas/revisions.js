@@ -26,6 +26,17 @@ export function* fetchRevisions(action) {
             case "application":
                 url = `${configuration.fasit_applications}/${action.key}/revisions`
                 break
+            case "instance":
+                url = `${configuration.fasit_applicationinstances}/${action.key}/revisions`
+                break
+            case "resource":
+                url = `${configuration.fasit_resources}/${action.key}/revisions`
+                break
+            case "environments":
+                url = `${configuration.fasit_environments}/${action.key}/revisions`
+                break
+            default:
+                throw new Error("Revisions Saga has no clue where you want to go, specify which component you're coming from")
         }
         yield(console.log(url))
         const response = yield call(fetchUrl, url)
@@ -53,6 +64,17 @@ export function* fetchRevision(action) {
             case "application":
                 url = `${configuration.fasit_applications}/${action.key}/revisions/${action.revision}`
                 break
+            case "instance":
+                url = `${configuration.fasit_applicationinstances}/${action.key}/revisions/${action.revision}`
+                break
+            case "resource":
+                url = `${configuration.fasit_resources}/${action.key}/revisions/${action.revision}`
+                break
+            case "environments":
+                url = `${configuration.fasit_environments}/${action.key}/revisions/${action.revision}`
+                break
+            default:
+                throw new Error("Revisions Saga has no clue where you want to go, specify which component you're coming from")
         }
         const value = yield call(fetchUrl, url)
         yield put({type: REVISION_RECEIVED, value})

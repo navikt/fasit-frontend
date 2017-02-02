@@ -53,12 +53,11 @@ class Instance extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6">
                     <CollapsibleMenu>
-                        <CollapsibleMenuItem label="Revisions">
+                        <CollapsibleMenuItem label="History">
+                            <RevisionsView id={instance.id} component="instance"/>
                         </CollapsibleMenuItem>
                     </CollapsibleMenu>
-                </div>
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
                 <div className="col-xs-12">
                     <ul className="nav nav-tabs">

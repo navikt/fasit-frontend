@@ -27,17 +27,21 @@ class Application extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, name} = this.props
-        dispatch(fetchFasitData(name))
+        const {dispatch, name, revision} = this.props
+        dispatch(fetchFasitData(name, revision))
     }
 
     componentWillReceiveProps(nextProps) {
+        const {dispatch, name, query} = this.props
         this.setState({
             name: nextProps.fasit.data.name,
             artifactid: nextProps.fasit.data.artifactid,
             groupid: nextProps.fasit.data.groupid,
             portoffset: nextProps.fasit.data.portoffset
         })
+        if (nextProps.query.revision != query.revision){
+            dispatch(fetchFasitData(name, nextProps.query.revision))
+        }
     }
 
     handleSubmitForm(key, form, comment, component) {
@@ -66,15 +70,6 @@ class Application extends Component {
 
     handleChange(field, value) {
         this.setState({[field]: value})
-    }
-
-    arrowDirection(component) {
-        return classString({
-            "fa": true,
-            "fa-fw": true,
-            "fa-angle-right": !this.state[component],
-            "fa-angle-down": this.state[component]
-        })
     }
 
     buttonClasses(authenticated, edit) {
@@ -186,7 +181,7 @@ class Application extends Component {
                 {/*Side menu*/}
 
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="Revisions">
+                    <CollapsibleMenuItem label="History">
                         <RevisionsView id={name} component="application"/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>

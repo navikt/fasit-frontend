@@ -78,8 +78,21 @@ class RevisionsView extends Component {
                         <b>Port offset:</b> <span className="text-right">{revision.portoffset + '\n'}</span><br />
                     </Popover>
                 )
+            } else if (component === "instance") {
+                return (
+                    <Popover
+                        className="popover-size"
+                        id="Revision"
+                        title={"Revision #" + revision.revision + " by " + author}
+                    ><br />
+                        <b>Application:</b> <span className="text-right">{revision.application + '\n'}</span><br />
+                        <b>Version:</b> <span className="text-right">{revision.version + '\n'}</span><br />
+                        <b>Environment:</b> <span className="text-right">{revision.environment + '\n'}</span><br />
+                        <b>Cluster:</b> <span className="text-right">{revision.cluster.name + '\n'}</span><br />
+                    </Popover>
+                )
             } else {
-                return <Popover />
+                return <Popover>I don't have a Popover for this component type yet</Popover>
 
             }
 
