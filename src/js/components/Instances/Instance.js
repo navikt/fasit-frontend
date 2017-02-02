@@ -21,8 +21,15 @@ class Instance extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, id} = this.props
-        dispatch(fetchInstance(id))
+        const {dispatch, id, revision} = this.props
+        dispatch(fetchInstance(id, revision))
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, id, query} = this.props
+        if (nextProps.query.revision != query.revision) {
+            dispatch(fetchInstance(id, nextProps.query.revision))
+        }
     }
 
     render() {
@@ -33,7 +40,7 @@ class Instance extends Component {
         return (
             <div className="row">
                 <div className="col-xs-12" style={{height: 30 + "px"}}></div>
-                <div className="col-md-6">
+                <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="application"
                         value={instance.application}
@@ -49,23 +56,27 @@ class Instance extends Component {
                     <div className="row">
                         <div className="col-md-4 FormLabel"><b>Cluster</b></div>
                         <div className="col-md-8">
-                            <Link to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>
+                            <Link
+                                to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>
                         </div>
                     </div>
                 </div>
-                    <CollapsibleMenu>
-                        <CollapsibleMenuItem label="History">
-                            <RevisionsView id={instance.id} component="instance"/>
-                        </CollapsibleMenuItem>
-                    </CollapsibleMenu>
+                <CollapsibleMenu>
+                    <CollapsibleMenuItem label="History">
+                        <RevisionsView id={instance.id} component="instance"/>
+                    </CollapsibleMenuItem>
+                </CollapsibleMenu>
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
                 <div className="col-xs-12">
                     <ul className="nav nav-tabs">
-                        <li className={this.state.displayUsed ? "active" : ""}><a onClick={() => this.selectTab("used")}>Used
+                        <li className={this.state.displayUsed ? "active" : ""}><a
+                            onClick={() => this.selectTab("used")}>Used
                             resources</a></li>
-                        <li className={this.state.displayExposed ? "active" : ""}><a onClick={() => this.selectTab("exposed")}>Exposed
+                        <li className={this.state.displayExposed ? "active" : ""}><a
+                            onClick={() => this.selectTab("exposed")}>Exposed
                             resources</a></li>
-                        <li className={this.state.displayManifest ? "active" : ""}><a onClick={() => this.selectTab("manifest")}>Manifest</a>
+                        <li className={this.state.displayManifest ? "active" : ""}><a
+                            onClick={() => this.selectTab("manifest")}>Manifest</a>
                         </li>
                     </ul>
                 </div>
@@ -77,6 +88,17 @@ class Instance extends Component {
                 </div>
             </div>
         )
+    }
+
+    oldRevision() {
+        const {revisions, query} = this.props
+        if (!query.revision) {
+            return false
+        } else if (revisions.data[0]) {
+            if (revisions.data[0].revision != query.revision) {
+                return true
+            }
+        }
     }
 
     selectTab(tab) {
@@ -114,7 +136,9 @@ const mapStateToProps = (state, ownProps) => {
         editMode: state.nodes.showEditNodeForm,
         hostname: ownProps.hostname,
         config: state.configuration,
-        id: ownProps.id
+        id: ownProps.id,
+        revisions: state.revisions,
+        query: state.routing.locationBeforeTransitions.query
     }
 }
 

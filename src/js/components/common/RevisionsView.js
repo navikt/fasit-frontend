@@ -15,14 +15,11 @@ class RevisionsView extends Component {
 
     componentDidMount() {
         const {dispatch, id, component} = this.props
+        console.log("mounted")
         dispatch(fetchRevisions(component, id))
     }
 
-    componentWillReceiveProps(next) {
-        const {dispatch, id, component} = this.props
-        if (id != next.id && next.id)
-            dispatch(fetchRevisions(component, next.id))
-    }
+
 
     handleFetchRevision(component, key, revision) {
         const {dispatch} = this.props

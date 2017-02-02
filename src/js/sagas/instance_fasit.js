@@ -15,9 +15,14 @@ import {
 
 export function* fetchInstance(action) {
     const instancesApi = yield select((state) => state.configuration.fasit_applicationinstances)
+    let value = {}
     yield put({type: INSTANCE_FASIT_FETCHING})
     try {
-        const value = yield call(fetchUrl, `${instancesApi}/${action.id}`)
+        if (action.revision){
+            value = yield call(fetchUrl, `${instancesApi}/${action.id}/revisions/${action.revision}`)
+        } else {
+            value = yield call(fetchUrl, `${instancesApi}/${action.id}`)
+        }
         yield put({type: INSTANCE_FASIT_RECEIVED, value})
     } catch (error) {
         yield put({type: INSTANCE_FASIT_REQUEST_FAILED, error})

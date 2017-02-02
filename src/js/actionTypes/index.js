@@ -33,7 +33,6 @@ export const LOGOUT = 'LOGOUT'
 // - Henter inn alle web-endepunkter som benyttes fra /config
 export const RECEIVE_CONFIGURATION = 'RECEIVE_CONFIGURATION'
 export const RECEIVE_CONFIGURATION_FAILED = 'RECEIVE_CONFIGURATION_FAILED'
-export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR'
 
 // --------- ENVIRONMENTS ---------
 // Environments - list
