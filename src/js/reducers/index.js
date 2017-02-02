@@ -7,6 +7,7 @@ import application_fasit from './application_fasit'
 import application_instances from './application_instances'
 import configuration from './configuration'
 import environments from './environments'
+import environment_fasit from './environment_fasit'
 import instances from './instances'
 import instance_fasit from './instance_fasit'
 import resources from './resources'
@@ -27,6 +28,7 @@ var fasitReducer = combineReducers({
     application_instances,
     configuration,
     environments,
+    environment_fasit,
     instances,
     instance_fasit,
     resources,

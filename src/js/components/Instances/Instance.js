@@ -14,9 +14,9 @@ class Instance extends Component {
         super(props)
 
         this.state = {
-            displayUsed: true,
-            displayExposed: false,
-            displayManifest: false
+            displayClusters: true,
+            displayNodes: false,
+            displayInstances: false
         }
     }
 
@@ -69,22 +69,20 @@ class Instance extends Component {
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
                 <div className="col-xs-12">
                     <ul className="nav nav-tabs">
-                        <li className={this.state.displayUsed ? "active" : ""}><a
+                        <li className={this.state.displayClusters ? "active" : ""}><a
                             onClick={() => this.selectTab("used")}>Used
                             resources</a></li>
-                        <li className={this.state.displayExposed ? "active" : ""}><a
-                            onClick={() => this.selectTab("exposed")}>Exposed
+                        <li className={this.state.displayNodes ? "active" : ""}><a onClick={() => this.selectTab("exposed")}>Exposed
                             resources</a></li>
-                        <li className={this.state.displayManifest ? "active" : ""}><a
-                            onClick={() => this.selectTab("manifest")}>Manifest</a>
+                        <li className={this.state.displayInstances ? "active" : ""}><a onClick={() => this.selectTab("manifest")}>Manifest</a>
                         </li>
                     </ul>
                 </div>
                 <div className="col-xs-12">
                     <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                    {this.state.displayUsed ? <InstanceResources items={instance.usedresources}/> : ''}
-                    {this.state.displayExposed ? <InstanceResources items={instance.exposedresources}/> : ''}
-                    {this.state.displayManifest ? <Manifest /> : ''}
+                    {this.state.displayClusters ? <InstanceResources items={instance.usedresources}/> : ''}
+                    {this.state.displayNodes ? <InstanceResources items={instance.exposedresources}/> : ''}
+                    {this.state.displayInstances ? <Manifest /> : ''}
                 </div>
             </div>
         )
@@ -105,24 +103,24 @@ class Instance extends Component {
         switch (tab) {
             case "used":
                 this.setState({
-                        displayUsed: true,
-                        displayExposed: false,
-                        displayManifest: false
+                        displayClusters: true,
+                        displayNodes: false,
+                        displayInstances: false
                     }
                 )
                 return
             case "exposed":
                 return this.setState({
-                        displayUsed: false,
-                        displayExposed: true,
-                        displayManifest: false
+                        displayClusters: false,
+                        displayNodes: true,
+                        displayInstances: false
                     }
                 )
             case "manifest":
                 return this.setState({
-                        displayUsed: false,
-                        displayExposed: false,
-                        displayManifest: true
+                        displayClusters: false,
+                        displayNodes: false,
+                        displayInstances: true
                     }
                 )
         }
