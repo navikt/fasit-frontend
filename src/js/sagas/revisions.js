@@ -15,10 +15,19 @@ import {
 
 // Fetching all revisions for the node
 export function* fetchRevisions(action) {
+    const configuration = yield select((state) => state.configuration)
+    let url = ""
     yield put({type: REVISIONS_FETCHING})
     try {
-        const configuration = yield select((state) => state.configuration)
-        const url = `${configuration.fasit_nodes}/${action.hostname}/revisions`
+        switch(action.component){
+            case "node":
+                url = `${configuration.fasit_nodes}/${action.key}/revisions`
+                break
+            case "application":
+                url = `${configuration.fasit_applications}/${action.key}/revisions`
+                break
+        }
+        yield(console.log(url))
         const response = yield call(fetchUrl, url)
         const value = yield response.reverse()
         yield put({type: REVISIONS_RECEIVED, value})
@@ -40,6 +49,10 @@ export function* fetchRevision(action) {
         switch(action.component){
             case "node":
                 url = `${configuration.fasit_nodes}/${action.key}/revisions/${action.revision}`
+                break
+            case "application":
+                url = `${configuration.fasit_applications}/${action.key}/revisions/${action.revision}`
+                break
         }
         const value = yield call(fetchUrl, url)
         yield put({type: REVISION_RECEIVED, value})

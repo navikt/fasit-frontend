@@ -9,8 +9,6 @@ import {
     CollapsibleMenu,
     CollapsibleMenuItem,
     FormString,
-    FormList,
-    FormSecret,
     Lifecycle,
     RevisionsView,
     SubmitFormStatus,
@@ -90,7 +88,7 @@ class Application extends Component {
     }
 
     render() {
-        const {name, fasit, user, dispatch} = this.props
+        const {name, fasit, user, dispatch, query} = this.props
         let authenticated = false
         let lifecycle = {}
         if (Object.keys(fasit.data).length > 0) {
@@ -105,34 +103,39 @@ class Application extends Component {
                     <div className="col-sm-1 hidden-xs">
                         <h4><i className="fa fa-cube fa-fw"/></h4>
                     </div>
-                    <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow">
-                        <strong>{name}</strong></div>
-                    <div className="col-sm-2 nopadding">
-                        <ul className="nav navbar-nav navbar-right">
-                            <li>
-                                <button type="button"
-                                        className={this.buttonClasses(authenticated, "edit")}
-                                        onClick={authenticated ? () => this.toggleComponentDisplay("editMode") : () => {
-                                            }}
-                                >
-                                    <i className="fa fa-wrench fa-2x"/>
-                                </button>
-                            </li>
-                            <li>
-                                <button type="button"
-                                        className={this.buttonClasses(authenticated)}
-                                        onClick={authenticated ? () => this.toggleComponentDisplay("deleteMode") : () => {
-                                            }}
-                                >
-                                    <i className="fa fa-trash fa-2x"/>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
+                        <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow">
+                            {this.oldRevision()?
+                                <strong className="disabled-text-color">Revision #{query.revision}</strong> :
+                                <strong>{name}</strong>
+                            }
+                        </div>
+                    {this.oldRevision() ? null :
+                        <div className="col-sm-2 nopadding">
+                            <ul className="nav navbar-nav navbar-right">
+                                <li>
+                                    <button type="button"
+                                            className={this.buttonClasses(authenticated, "edit")}
+                                            onClick={authenticated ? () => this.toggleComponentDisplay("editMode") : () => {
+                                                }}
+                                    >
+                                        <i className="fa fa-wrench fa-2x"/>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button"
+                                            className={this.buttonClasses(authenticated)}
+                                            onClick={authenticated ? () => this.toggleComponentDisplay("displayDeleteNode") : () => {
+                                                }}
+                                    >
+                                        <i className="fa fa-trash fa-2x"/>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>}
                 </div>
 
                 {/*Form*/}
-                <div className="col-md-6">
+                <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="name"
                         editMode={this.state.editMode}
@@ -184,7 +187,7 @@ class Application extends Component {
 
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="Revisions">
-                        <RevisionsView/>
+                        <RevisionsView id={name} component="application"/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
 
@@ -213,6 +216,16 @@ class Application extends Component {
             </div>
         )
     }
+    oldRevision() {
+        const {revisions, query} = this.props
+        if (!query.revision){
+            return false
+        } else if (revisions.data[0]) {
+            if (revisions.data[0].revision != query.revision) {
+                return true
+            }
+        }
+    }
 }
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -220,6 +233,8 @@ const mapStateToProps = (state, ownProps) => {
         user: state.user,
         name: ownProps.name,
         config: state.configuration,
+        revisions: state.revisions,
+        query: state.routing.locationBeforeTransitions.query
     }
 }
 

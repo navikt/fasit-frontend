@@ -43,7 +43,7 @@ class Node extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, hostname, revisions} = this.props
+        const {dispatch, hostname, query} = this.props
         this.setState({
             hostname: nextProps.fasit.data.hostname,
             username: nextProps.fasit.data.username,
@@ -51,8 +51,8 @@ class Node extends Component {
             password: nextProps.fasit.currentPassword,
             comment:""
         })
-        if (nextProps.revisions.activeRevision != revisions.activeRevision){
-            dispatch(fetchFasitData(hostname, nextProps.revisions.activeRevision))
+        if (nextProps.query.revision != query.revision){
+            dispatch(fetchFasitData(hostname, nextProps.query.revision))
         }
     }
 
@@ -114,7 +114,7 @@ class Node extends Component {
     }
 
     render() {
-        const {hostname, config, user, fasit, dispatch, nodeTypes, revisions} = this.props
+        const {hostname, config, user, fasit, dispatch, nodeTypes, query} = this.props
         const {comment} = this.state
         let authenticated = false
         let lifecycle = {}
@@ -131,8 +131,14 @@ class Node extends Component {
                         <NodeTypeImage type={fasit.data.type}/>
                     </div>
                     <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow">
-                        <strong>{hostname} {/*(fasit.data.revision != revisions.data[0].revision)? "(Old shit)" : ""*/}</strong></div>
+                        {this.oldRevision()?
+                        <strong className="disabled-text-color">Revision #{query.revision}</strong> :
+                        <strong>{hostname}</strong>
+                    }
+                    </div>
 
+
+                    {this.oldRevision() ? null :
                     <div className="col-sm-2 nopadding">
                         <ul className="nav navbar-nav navbar-right">
                             <li>
@@ -154,11 +160,12 @@ class Node extends Component {
                                 </button>
                             </li>
                         </ul>
-                    </div>
+                    </div>}
                 </div>
 
+
                 {/*Form*/}
-                <div className="col-md-6">
+                <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="hostname"
                         editMode={this.state.editMode}
@@ -225,8 +232,8 @@ class Node extends Component {
                 {/*Side menu*/}
 
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="Revisions">
-                        <RevisionsView hostname={hostname} type="node"/>
+                    <CollapsibleMenuItem label="History">
+                        <RevisionsView id={hostname} component="node"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
                         <NodeSecurityView authenticated={authenticated}
@@ -279,6 +286,17 @@ class Node extends Component {
             </div>
         )
     }
+
+    oldRevision() {
+        const {revisions, query} = this.props
+        if (!query.revision){
+            return false
+        } else if (revisions.data[0]) {
+            if (revisions.data[0].revision != query.revision) {
+                return true
+            }
+        }
+    }
 }
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -288,7 +306,8 @@ const mapStateToProps = (state, ownProps) => {
         hostname: ownProps.hostname,
         config: state.configuration,
         nodeTypes: state.nodes.nodeTypes,
-        revisions: state.revisions
+        revisions: state.revisions,
+        query: state.routing.locationBeforeTransitions.query
     }
 }
 
