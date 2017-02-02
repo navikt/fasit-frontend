@@ -1,5 +1,4 @@
 import {
-    SET_ACTIVE_REVISION,
     REVISIONS_FETCHING,
     REVISIONS_RECEIVED,
     REVISIONS_REQUEST_FAILED,
@@ -9,18 +8,11 @@ import {
 } from '../actionTypes'
 
 export default (state = {
-    activeRevision: null,
     isFetching: false,
     requestFailed: false,
     data: [],
 }, action) => {
     switch (action.type) {
-
-        case SET_ACTIVE_REVISION:
-            return Object.assign({}, state, {
-                activeRevision: action.value
-            })
-
         case REVISIONS_RECEIVED:
             return Object.assign({}, state, {
                 data: action.value,

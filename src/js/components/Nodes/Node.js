@@ -43,7 +43,7 @@ class Node extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, hostname, revisions} = this.props
+        const {dispatch, hostname, query} = this.props
         this.setState({
             hostname: nextProps.fasit.data.hostname,
             username: nextProps.fasit.data.username,
@@ -51,8 +51,8 @@ class Node extends Component {
             password: nextProps.fasit.currentPassword,
             comment:""
         })
-        if (nextProps.revisions.activeRevision != revisions.activeRevision){
-            dispatch(fetchFasitData(hostname, nextProps.revisions.activeRevision))
+        if (nextProps.query.revision != query.revision){
+            dispatch(fetchFasitData(hostname, nextProps.query.revision))
         }
     }
 
@@ -288,7 +288,8 @@ const mapStateToProps = (state, ownProps) => {
         hostname: ownProps.hostname,
         config: state.configuration,
         nodeTypes: state.nodes.nodeTypes,
-        revisions: state.revisions
+        revisions: state.revisions,
+        query: state.routing.locationBeforeTransitions.query
     }
 }
 

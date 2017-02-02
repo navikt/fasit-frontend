@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react'
+import {Link, browserHistory} from 'react-router'
 import moment from 'moment'
 import {connect} from 'react-redux'
-import {fetchRevisions, fetchRevision, setActiveRevision} from '../../actionCreators/common'
-import {Popover, OverlayTrigger} from 'react-bootstrap'
+import {fetchRevisions, fetchRevision} from '../../actionCreators/common'
+import {Popover, OverlayTrigger, Tooltip} from 'react-bootstrap'
 
 class RevisionsView extends Component {
     constructor(props) {
@@ -61,7 +62,8 @@ class RevisionsView extends Component {
                             <b>type:</b> <span className="text-right">{revision.type + '\n'}</span><br />
                             <b>username:</b> <span className="text-right">{revision.username + '\n'}</span><br />
                             <b>cluster:</b> <span className="text-right">{revision.cluster.name + '\n'}</span><br />
-                            <b>applications:</b> <span className="text-right">{revision.applications + '\n'}</span><br />
+                            <b>applications:</b> <span
+                            className="text-right">{revision.applications + '\n'}</span><br />
                         </Popover>
                     )
             }
@@ -70,7 +72,7 @@ class RevisionsView extends Component {
     }
 
     showRevisionsContent() {
-        const {revisions, dispatch, type, hostname} = this.props
+        const {revisions, dispatch, type, hostname, routing} = this.props
         let key = ""
         switch (type) {
             case "node":
@@ -88,35 +90,50 @@ class RevisionsView extends Component {
         let displayRevisions = revisions.data
         if (!this.state.displayAllRevisions)
             displayRevisions = revisions.data.slice(0, 5)
-
         return (
             <table className="table table-hover">
                 <tbody>
                 {displayRevisions.map(rev => {
                     return <tr
                         key={rev.revision}
-                        onClick={() => dispatch(setActiveRevision(rev.revision))}
-                        className={(rev.revision === revisions.activeRevision) ? "cursor-pointer info" : "cursor-pointer"}
+                        //onClick={() => dispatch(setActiveRevision(rev.revision))}
+                        onClick={() => browserHistory.push(routing.pathname + "?revision=" + rev.revision)}
+                        className={(rev.revision == routing.query.revision) ? "cursor-pointer info" : "cursor-pointer"}
                     >
+                        {rev.message ?
+                            <OverlayTrigger
+                                placement="left"
+                                overlay={this.tooltip(rev.message)}
+                            >
+                                <td>
+                                    <i className="fa fa-comment fa-flip-horizontal"/>
+                                </td>
+                            </OverlayTrigger>
+                            : <td></td>}
+                        <td>{rev.revisiontype === "mod" ? "Modified" : "Created"} by {rev.author}</td>
+                        <td>{moment(rev.timestamp).fromNow()}</td>
                         <OverlayTrigger
                             trigger={["hover", "focus"]}
                             rootClose={true}
-                            placement="left"
+                            placement="bottom"
                             onEnter={() => this.handleFetchRevision(type, key, rev.revision)}
                             overlay={this.createPopover(rev.author, type)}
                         >
                             <td className="cursor-pointer"><i
                                 className="fa fa-search"/></td>
                         </OverlayTrigger>
-                        <td>{rev.revisiontype === "mod"? "Modified" : "Created"} by {rev.author}</td>
-                        <td>{moment(rev.timestamp).fromNow()}</td>
-                        {rev.message?<td><i className="fa fa-comment" /></td>:null}
 
 
                     </tr>
                 })}
                 </tbody>
             </table>
+        )
+    }
+
+    tooltip(message) {
+        return (
+            <Tooltip id="tooltip">{message}</Tooltip>
         )
     }
 
@@ -160,7 +177,8 @@ class RevisionsView extends Component {
 const mapStateToProps = (state, ownProps) => ({
     hostname: ownProps.hostname,
     revisions: state.revisions,
-    type: ownProps.type
+    type: ownProps.type,
+    routing: state.routing.locationBeforeTransitions
 })
 
 export default connect(mapStateToProps)(RevisionsView)

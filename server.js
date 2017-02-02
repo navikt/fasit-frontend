@@ -26,7 +26,7 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.dev.js');
 
 const serverOptions = {
-    quiet: false,
+    quiet: true,
     noInfo: false,
     hot: true,
     inline: true,
