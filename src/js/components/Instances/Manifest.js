@@ -17,10 +17,12 @@ class Manifest extends Component {
     }
 
     render() {
+        const manifest = String(this.props.manifest).replace(/ns2:/g, '') // remove namespace noise
+
         return (
             <pre>
                 <code>
-                    {pd.xml(String(this.props.manifest))}
+                    {pd.xml(manifest)}
                 </code>
             </pre>
         )

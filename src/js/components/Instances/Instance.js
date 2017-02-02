@@ -62,14 +62,11 @@ class Instance extends Component {
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
                 <div className="col-xs-12">
                     <ul className="nav nav-tabs">
-                        <li className={this.state.displayUsed ? "active" : ""}><a href="#"
-                                                                                  onClick={() => this.selectTab("used")}>Used
+                        <li className={this.state.displayUsed ? "active" : ""}><a onClick={() => this.selectTab("used")}>Used
                             resources</a></li>
-                        <li className={this.state.displayExposed ? "active" : ""}><a href="#"
-                                                                                     onClick={() => this.selectTab("exposed")}>Exposed
+                        <li className={this.state.displayExposed ? "active" : ""}><a onClick={() => this.selectTab("exposed")}>Exposed
                             resources</a></li>
-                        <li className={this.state.displayManifest ? "active" : ""}><a href="#"
-                                                                                      onClick={() => this.selectTab("manifest")}>Manifest</a>
+                        <li className={this.state.displayManifest ? "active" : ""}><a onClick={() => this.selectTab("manifest")}>Manifest</a>
                         </li>
                     </ul>
                 </div>
