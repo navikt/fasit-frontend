@@ -9,6 +9,7 @@ import {watchApplicationFasit} from './application_fasit'
 
 // Environments
 import {watchEnvironments} from './environments'
+import {watchEnvironmentFasit} from './environment_fasit'
 
 // Instances
 import {watchInstanceFasit} from './instance_fasit'
@@ -18,7 +19,6 @@ import {watchNodeEvents} from './node_events'
 import {watchNodeFasit} from './node_fasit'
 import {watchNodeSera} from './node_sera'
 import {watchNodeTypes} from './node_types'
-
 
 // Resources
 import {watchResourceTypes} from './resource_types'
@@ -42,6 +42,7 @@ export default function*() {
 
         // Environments
         call(watchEnvironments),
+        call(watchEnvironmentFasit),
 
         // Instances
         call(watchInstanceFasit),
