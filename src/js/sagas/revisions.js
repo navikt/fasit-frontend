@@ -32,7 +32,7 @@ export function* fetchRevisions(action) {
             case "resource":
                 url = `${configuration.fasit_resources}/${action.key}/revisions`
                 break
-            case "environments":
+            case "environment":
                 url = `${configuration.fasit_environments}/${action.key}/revisions`
                 break
             default:
@@ -70,7 +70,7 @@ export function* fetchRevision(action) {
             case "resource":
                 url = `${configuration.fasit_resources}/${action.key}/revisions/${action.revision}`
                 break
-            case "environments":
+            case "environment":
                 url = `${configuration.fasit_environments}/${action.key}/revisions/${action.revision}`
                 break
             default:

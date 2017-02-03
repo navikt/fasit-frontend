@@ -2,4 +2,4 @@ import {
     ENVIRONMENT_FASIT_REQUEST
 } from '../actionTypes'
 
-export const fetchEnvironment = (name) => {return {type: ENVIRONMENT_FASIT_REQUEST, name}}
+export const fetchEnvironment = (id ,revision) => {return {type: ENVIRONMENT_FASIT_REQUEST, id, revision}}

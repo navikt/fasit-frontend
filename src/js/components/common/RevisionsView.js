@@ -15,17 +15,13 @@ class RevisionsView extends Component {
 
     componentDidMount() {
         const {dispatch, id, component} = this.props
-        console.log("mounted")
         dispatch(fetchRevisions(component, id))
     }
-
-
 
     handleFetchRevision(component, key, revision) {
         const {dispatch} = this.props
         dispatch(fetchRevision(component, key, revision))
     }
-
 
     createPopover(author, component) {
         const {revisions} = this.props
@@ -88,22 +84,69 @@ class RevisionsView extends Component {
                         <b>Cluster:</b> <span className="text-right">{revision.cluster.name + '\n'}</span><br />
                     </Popover>
                 )
+            } else if (component === "environment") {
+                return (
+                    <Popover
+                        className="popover-size"
+                        id="Revision"
+                        title={"Revision #" + revision.revision + " by " + author}
+                    ><br />
+                        <b>Name:</b> <span className="text-right">{revision.name + '\n'}</span><br />
+                        <b>Environment class:</b> <span className="text-right">{revision.environmentclass + '\n'}</span><br />
+                    </Popover>
+                )
             } else {
-                return <Popover>I don't have a Popover for this component type yet</Popover>
+                return <Popover id="unknown">I don't have a Popover for this component type yet</Popover>
 
             }
 
         }
     }
 
-    showRevisionsContent() {
+    tooltip(message) {
+        return (
+            <Tooltip id="tooltip">{message}</Tooltip>
+        )
+    }
+
+    showRevisionsFooter() {
+        const {revisions} = this.props
+        if (revisions.data.length > 5 && !this.state.displayAllRevisions) {
+            return (
+                <div className="information-box-footer">
+                    Showing 5 of {revisions.data.length} revisions.
+                    <a className="text-right arrow cursor-pointer"
+                       onClick={() => this.setState({displayAllRevisions: true})}>Show All <i
+                        className="fa fa-angle-double-down"/></a>
+                </div>
+            )
+        }
+        if (revisions.data.length > 5 && this.state.displayAllRevisions) {
+            return (
+                <div className="information-box-footer">
+                    Showing all revisions.
+                    <a className="text-right arrow cursor-pointer"
+                       onClick={() => this.setState({displayAllRevisions: false})}>Hide <i
+                        className="fa fa-angle-double-up"/></a>
+                </div>
+            )
+        }
+    }
+
+    render() {
         const {revisions, component, id, routing} = this.props
 
-        if (revisions.isFetching)
-            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
+        if (revisions.isFetching){
+            return(
+                <div className="node-information-box">
+                    <i className="fa fa-spinner fa-pulse fa-2x"></i>
+                </div>
+
+            )
+        }
 
         else if (revisions.requestFailed)
-            return <div>Retrieving revisions failed with the following message:
+            return <div className="node-information-box">Retrieving revisions failed with the following message:
                 <br />
                 <pre><i>{revisions.requestFailed}</i></pre>
             </div>
@@ -112,6 +155,7 @@ class RevisionsView extends Component {
         if (!this.state.displayAllRevisions)
             displayRevisions = revisions.data.slice(0, 5)
         return (
+            <div className="node-information-box">
             <table className="table table-hover">
                 <tbody>
                 {displayRevisions.map(rev => {
@@ -149,47 +193,7 @@ class RevisionsView extends Component {
                 })}
                 </tbody>
             </table>
-        )
-    }
-
-    tooltip(message) {
-        return (
-            <Tooltip id="tooltip">{message}</Tooltip>
-        )
-    }
-
-    showRevisionsFooter() {
-        const {revisions} = this.props
-        if (revisions.data.length > 5 && !this.state.displayAllRevisions) {
-            return (
-                <div className="information-box-footer">
-                    Showing 5 of {revisions.data.length} revisions.
-                    <a className="text-right arrow cursor-pointer"
-                       onClick={() => this.setState({displayAllRevisions: true})}>Show All <i
-                        className="fa fa-angle-double-down"/></a>
-                </div>
-            )
-        }
-        if (revisions.data.length > 5 && this.state.displayAllRevisions) {
-            return (
-                <div className="information-box-footer">
-                    Showing all revisions.
-                    <a className="text-right arrow cursor-pointer"
-                       onClick={() => this.setState({displayAllRevisions: false})}>Hide <i
-                        className="fa fa-angle-double-up"/></a>
-                </div>
-            )
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <div className="node-information-box">
-                    {this.showRevisionsContent()}
-                </div>
                 {this.showRevisionsFooter()}
-
             </div>
         )
     }
