@@ -39,7 +39,7 @@ class Application extends Component {
             groupid: nextProps.fasit.data.groupid,
             portoffset: nextProps.fasit.data.portoffset
         })
-        if (nextProps.query.revision != query.revision){
+        if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(name, nextProps.query.revision))
         }
     }
@@ -95,15 +95,18 @@ class Application extends Component {
                 <div className="col-xs-12 row main-data-container">
 
                     {/*Heading*/}
-                    <div className="col-sm-1 hidden-xs">
-                        <h4><i className="fa fa-cube fa-fw"/></h4>
+                    <div className="col-sm-1 hidden-xs main-data-title">
+                        <span className="fa-stack fa-lg">
+                            <i className="fa fa-circle fa-stack-2x"/>
+                            <i className="fa fa-cube fa-stack-1x fa-inverse"/>
+                        </span>
                     </div>
-                        <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow">
-                            {this.oldRevision()?
-                                <strong className="disabled-text-color">Revision #{query.revision}</strong> :
-                                <strong>{name}</strong>
-                            }
-                        </div>
+                    <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow">
+                        {this.oldRevision() ?
+                            <strong className="disabled-text-color">Revision #{query.revision}</strong> :
+                            <strong>{name}</strong>
+                        }
+                    </div>
                     {this.oldRevision() ? null :
                         <div className="col-sm-2 nopadding">
                             <ul className="nav navbar-nav navbar-right">
@@ -211,9 +214,10 @@ class Application extends Component {
             </div>
         )
     }
+
     oldRevision() {
         const {revisions, query} = this.props
-        if (!query.revision){
+        if (!query.revision) {
             return false
         } else if (revisions.data[0]) {
             if (revisions.data[0].revision != query.revision) {
