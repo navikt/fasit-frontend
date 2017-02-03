@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
-import {Link} from "react-router"
-import {FormString} from "../common/Forms"
-import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView} from "../common/"
+import {checkAuthentication} from '../../utils/'
+import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, Lifecycle, FormString} from "../common/"
 import {
     fetchEnvironment
 } from "../../actionCreators/environment"
@@ -19,19 +18,31 @@ class Environment extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, name} = this.props
-        dispatch(fetchEnvironment(name))
+        const {dispatch, id, revision} = this.props
+        dispatch(fetchEnvironment(id, revision))
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, id, query} = this.props
+        if (nextProps.query.revision != query.revision) {
+            dispatch(fetchEnvironment(id, nextProps.query.revision))
+        }
     }
 
     render() {
-        const {environment} = this.props
-        // const environment = {name: "p", environmentclass: "p"}
-
-
+        const {environment, user} = this.props
+        let lifecycle = {}
+        let authenticated = false
+        if (Object.keys(environment).length > 0) {
+            authenticated = checkAuthentication(user, environment.accesscontrol)
+            lifecycle = environment.lifecycle
+        }
         return (
             <div className="row">
                 <div className="col-xs-12" style={{height: 30 + "px"}}></div>
-                <div className="col-md-6">
+
+                {/*Form*/}
+                <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="name"
                         value={environment.name}
@@ -40,13 +51,23 @@ class Environment extends Component {
                         label="environment class"
                         value={environment.environmentclass}
                     />
+                    {/*Lifecycle*/}
+                    <div className="col-xs-12" style={{height: 30 + "px"}}></div>
+
+                    <div className="row">
+                        <Lifecycle lifecycle={lifecycle}
+                                   rescueAction={() => dispatch(rescueNode(hostname))}/>
+                    </div>
                 </div>
-                <div className="col-md-6">
-                    <CollapsibleMenu>
-                        <CollapsibleMenuItem label="Revisions">
-                        </CollapsibleMenuItem>
-                    </CollapsibleMenu>
-                </div>
+
+                {/*Side menu*/}
+                <CollapsibleMenu>
+                    <CollapsibleMenuItem label="History">
+                        <RevisionsView id={environment.name} component="environment"/>
+                    </CollapsibleMenuItem>
+                </CollapsibleMenu>
+
+                {/*Content view*/}
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
                 <div className="col-xs-12">
                     <ul className="nav nav-tabs">
@@ -95,11 +116,26 @@ class Environment extends Component {
                 )
         }
     }
+
+    oldRevision() {
+        const {revisions, query} = this.props
+        if (!query.revision) {
+            return false
+        } else if (revisions.data[0]) {
+            if (revisions.data[0].revision != query.revision) {
+                return true
+            }
+        }
+    }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
+        user: state.user,
+        id: ownProps.name,
         environment: state.environment_fasit.data,
+        revisions: state.revisions,
+        query: state.routing.locationBeforeTransitions.query
     }
 }
 
