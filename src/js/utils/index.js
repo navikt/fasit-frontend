@@ -56,7 +56,7 @@ export const fetchPage = (url) => {
                 headers[header[0]] = header[1]
             }
 
-            return res.json().then((data)=> {
+            return res.json().then((data) => {
                 return ({
                     data,
                     headers
@@ -69,7 +69,7 @@ export const fetchPage = (url) => {
 
 export const putUrl = (url, content, comment) => {
     let headers = {"Content-Type": "application/json"}
-    if (comment.length > 0){
+    if (comment.length > 0) {
         headers = Object.assign({}, headers, {"X-Comment": comment})
     }
     return fetch(url, {
@@ -90,7 +90,7 @@ export const putUrl = (url, content, comment) => {
 
 export const postUrl = (url, form, comment) => {
     let headers = {"Content-Type": "application/json"}
-    if (comment.length > 0){
+    if (comment.length > 0) {
         headers = Object.assign({}, headers, {"X-Comment": comment})
     }
     return fetch(url, {
@@ -101,11 +101,15 @@ export const postUrl = (url, form, comment) => {
         body: JSON.stringify(form)
     })
         .then(res => {
+            let text = res.text()
             if (res.status >= 400) {
-                const errorMessage = `${res.status}:${res.statusText}`
-                throw new Error(errorMessage)
+                return text.then(err => {
+                    const errorMessage = `${res.status}:${res.statusText}\n${err}`
+                    throw new Error(errorMessage)
+
+                })
             }
-            return res.text()
+            return text
         })
 }
 
@@ -126,7 +130,7 @@ export const postForm = (url, body) => {
 }
 export const deleteUrl = (url, comment) => {
     let headers = {"Content-Type": "application/json"}
-    if (comment.length > 0){
+    if (comment.length > 0) {
         headers = Object.assign({}, headers, {"X-Comment": comment})
     }
     return fetch(url, {

@@ -6,11 +6,13 @@ import Lifecycle from './Lifecycle'
 import RevisionsView from './RevisionsView'
 import SubmitForm from './SubmitForm'
 import SubmitFormStatus from './SubmitFormStatus'
+import DeleteElementForm from './DeleteElementForm'
 import {FormList, FormSecret, FormString, FormComment} from './Forms'
 
 export {
     CollapsibleMenu,
     CollapsibleMenuItem,
+    DeleteElementForm,
     ElementList,
     ElementPaging,
     FormList,

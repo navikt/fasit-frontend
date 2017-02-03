@@ -9,6 +9,7 @@ import {
 
 import TopNav from '../Navigation/TopNav'
 import NewNodeForm from '../Nodes/NewNodeForm'
+import NewApplicationForm from '../Applications/NewApplicationForm'
 import {SubmitFormStatus} from '../common/'
 
 
@@ -36,6 +37,7 @@ class App extends Component {
                 {/* Misc. modals*/}
                 <SubmitFormStatus />
                 <NewNodeForm />
+                <NewApplicationForm />
             </div>
         )
     }

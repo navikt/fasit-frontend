@@ -2,6 +2,7 @@ import {takeEvery, delay} from 'redux-saga'
 import {call, put, fork, select} from 'redux-saga/effects'
 import {putUrl, postUrl, deleteUrl} from '../utils'
 import {
+    SHOW_NEW_APPLICATION_FORM,
     SHOW_NEW_NODE_FORM,
     SUBMIT_FORM,
     SUBMITTING_FORM,
@@ -24,6 +25,11 @@ export function* submitForm(action) {
             case "newNode":
                 url = `${configuration.fasit_nodes}`
                 yield postUrl(url, action.form, action.comment)
+                yield put({type: SHOW_NEW_NODE_FORM, value: false})
+                break
+            case "deleteApplication":
+                url = `${configuration.fasit_applications}/${action.key}`
+                yield deleteUrl(url, action.comment)
                 break
             case "deleteNode":
                 url = `${configuration.fasit_nodes}/${action.key}`
@@ -33,11 +39,15 @@ export function* submitForm(action) {
                 url = `${configuration.fasit_applications}/${action.key}`
                 yield putUrl(url, action.form, action.comment)
                 break
+            case "newApplication":
+                url = `${configuration.fasit_applications}`
+                yield postUrl(url, action.form, action.comment)
+                yield put({type: SHOW_NEW_APPLICATION_FORM, value: false})
+                break
+            default:
+                throw new Error("I don't know which component you're coming from")
+        }
 
-        }
-        if (action.component === "newNode") {
-            yield put({type: SHOW_NEW_NODE_FORM, value: false})
-        }
         yield put({type: SUBMIT_FORM_SUCCESS})
         yield call(delay, 2000)
         yield put({type: CLOSE_SUBMIT_FORM_STATUS})

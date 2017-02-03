@@ -5,7 +5,6 @@ import {
     NODE_FASIT_PASSWORD_REQUEST,
     NODE_SERA_REQUEST,
     RESCUE_NODE,
-    SHOW_NEW_NODE_FORM,
 } from '../actionTypes'
 
 export const clearNodePassword = () => {return {type: CLEAR_NODE_PASSWORD}}
@@ -20,4 +19,3 @@ export const fetchFasitData = (hostname, revision) => {return {type: NODE_FASIT_
 export const fetchNodePassword = () => {return {type: NODE_FASIT_PASSWORD_REQUEST}}
 export const fetchSeraData = (hostname) => {return {type: NODE_SERA_REQUEST, hostname}}
 export const rescueNode = (hostname) => {return {type: RESCUE_NODE, hostname}}
-export const showNewNodeForm = (value) => {return {type: SHOW_NEW_NODE_FORM, value}}

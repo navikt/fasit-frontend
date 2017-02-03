@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 
 import {FormString, FormList, FormComment} from '../common/Forms'
 
-import {showNewNodeForm} from '../../actionCreators/node'
+import {showNewComponentForm} from '../../actionCreators/common'
 import {submitForm} from '../../actionCreators/common'
 
 class NewNodeForm extends Component {
@@ -58,7 +58,7 @@ class NewNodeForm extends Component {
     closeForm() {
         const {dispatch} = this.props
         this.resetLocalState()
-        dispatch(showNewNodeForm(false))
+        dispatch(showNewComponentForm("node", false))
     }
 
     showSubmitButton() {
