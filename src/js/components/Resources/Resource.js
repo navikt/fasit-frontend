@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils'
-import {fetchFasitData} from '../../actionCreators/resource'
+import {fetchFasitData, fetchResourcePassword} from '../../actionCreators/resource'
 import {submitForm} from '../../actionCreators/common'
 import classString from 'react-classset'
 import moment from 'moment'
@@ -38,7 +38,7 @@ class Resource extends Component {
     }
 
     setNewState(newState) {
-
+        // TODO, make generic?
         this.setState({
             id: newState.data.id,
             alias: newState.data.alias,
@@ -71,6 +71,14 @@ class Resource extends Component {
         }
     }
 
+    toggleDisplaySecret() {
+        const {dispatch} = this.props
+        if (this.state.displaySecret)
+            dispatch(fetchResourcePassword())
+        dispatch(clearResourcePassword())
+        this.setState({displaySecret: !this.state.displaySecret})
+    }
+
     handleChange(field, value) {
         this.setState({[field]: value})
     }
@@ -97,6 +105,27 @@ class Resource extends Component {
                     value={properties[prop]}
                     handleChange={this.handleChange.bind(this)}/>
             })
+        }
+    }
+
+    renderSecrets(secrets) {
+        console.log("jauy", secrets)
+        const {dispatch} = this.props
+
+        if(secrets) {
+            dispatch(fetchResourcePassword())
+            return Object.keys(secrets).map(secret => {
+                return <FormSecret
+                key={secret}
+                label={secret}
+                editMode={this.state.editMode}
+                handleChange={this.handleChange.bind(this)}
+                value="jauKake"
+                authenticated={user.authenticated}
+                toggleDisplaySecret={this.toggleDisplaySecret.bind(this)}/>
+
+                }
+            )
         }
     }
 
@@ -137,10 +166,11 @@ class Resource extends Component {
 
                 <div className="col-md-6">
                     <FormString label="type" editMode={false} value={this.state.type}
-                                handleChange={this.handleChange.bind(this)} options={resourceTypes}/>
+                                handleChange={this.handleChange.bind(this)}/>
                     <FormString label="alias" editMode={this.state.editMode} value={this.state.alias}
                                 handleChange={this.handleChange.bind(this)}/>
                     {this.renderResourceProperties(this.state.properties)}
+                    {this.renderSecrets(this.state.secrets)}
                 </div>
             </div>
         )
@@ -152,7 +182,6 @@ const mapStateToProps = (state, ownProps) => {
         user: state.user,
         config: state.configuration,
         id: ownProps.id,
-        resourceTypes: state.resources.resourceTypes
     }
 }
 

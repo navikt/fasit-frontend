@@ -25,7 +25,7 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.dev.js');
 
 const serverOptions = {
-    quiet: true,
+    quiet: false,
     noInfo: false,
     hot: true,
     inline: true,
@@ -100,6 +100,11 @@ app.delete('/mockapi/nodes/:hostname', (req, res) => {
 app.get("/mockapi/nodes", (req, res) => {
     sendJson(res, nodesMock.getNodes())
 })
+
+app.get("/mockapi/secrets", (req, res) => {
+    res.send("th151s4M0ck53cr3t")
+})
+
 if (process.env["NODE_ENV"] === "standalone") {
     app.post("/api/login", (req, res) => {
         sendJson(res, loginMock.getLogin())
