@@ -11,6 +11,7 @@ const applications = require('./src/test/mockend/applicationsMock')
 const applicationinstances = require('./src/test/mockend/applicationinstancesMock')
 const resourceTypes = require('./src/test/mockend/resourceTypesMock')
 const nodesMock = require('./src/test/mockend/nodesMock')
+const nodeRevisionsMock = require('./src/test/mockend/nodeRevisionsMock')
 const loginMock = require('./src/test/mockend/loginMock')
 
 
@@ -60,6 +61,15 @@ app.get("/mockapi/applications", (req, res) => {
 app.get("/mockapi/applicationinstances", (req, res) => {
     sendJson(res, applicationinstances.findApplicationInstance(req.query))
 })
+
+app.get("/mockapi/applicationinstances/:id", (req, res) => {
+    sendJson(res, applicationinstances.getFirst())
+})
+
+app.get("/mockapi/applicationinstances/1/revisions/69/appconfig", (req, res) => {
+    res.send("<this><is><real><nested><xml>69</xml></nested></real></is></this>")
+})
+
 app.get("/mockapi/environments", (req, res) => {
     sendJson(res, environmentsMock.findEnvironments(req.query))
 })
@@ -97,6 +107,14 @@ app.delete('/mockapi/nodes/:hostname', (req, res) => {
     sendJson(res, nodesMock.postNode(req.params.hostname))
 })
 
+app.get('/mockapi/nodes/:hostname/revisions', (req, res) => {
+    sendJson(res, nodeRevisionsMock.getNodeRevisions(req.params.hostname))
+})
+
+app.get('/mockapi/nodes/:hostname/revisions/:revision', (req, res) => {
+    sendJson(res, nodeRevisionsMock.getNodeRevision(req.params))
+})
+
 app.get("/mockapi/nodes", (req, res) => {
     sendJson(res, nodesMock.getNodes())
 })
@@ -131,8 +149,6 @@ function sendJson(res, json) {
         res.set('total_count', json.length)
     }
     res.json(json)
-
-
 }
 
 app.listen(config.server.port, config.server.host, (err) => {

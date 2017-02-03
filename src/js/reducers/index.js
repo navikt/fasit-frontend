@@ -7,6 +7,7 @@ import application_fasit from './application_fasit'
 import application_instances from './application_instances'
 import configuration from './configuration'
 import environments from './environments'
+import environment_fasit from './environment_fasit'
 import instances from './instances'
 import instance_fasit from './instance_fasit'
 import resources from './resources'
@@ -17,7 +18,7 @@ import user from './user'
 import nodes from './nodes'
 import node_events from './node_events'
 import node_fasit from './node_fasit'
-import node_revisions from './node_revisions'
+import revisions from './revisions'
 import node_sera from './node_sera'
 
 var fasitReducer = combineReducers({
@@ -27,17 +28,18 @@ var fasitReducer = combineReducers({
     application_instances,
     configuration,
     environments,
+    environment_fasit,
     instances,
     instance_fasit,
     resources,
     resource_fasit,
+    revisions,
     search,
     submit_form,
     user,
     nodes,
     node_events,
     node_fasit,
-    node_revisions,
     node_sera,
 })
 

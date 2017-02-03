@@ -267,7 +267,6 @@ class TopNav extends Component {
                     </div>
                     <ContextMenu />
                     {/*-- Misc. modal components --*/}
-                    <NewNodeForm />
 
                 </div>
             )

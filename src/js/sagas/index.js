@@ -8,6 +8,7 @@ import {watchApplicationFasit} from './application_fasit'
 
 // Environments
 import {watchEnvironments} from './environments'
+import {watchEnvironmentFasit} from './environment_fasit'
 
 // Instances
 import {watchInstanceFasit} from './instance_fasit'
@@ -15,10 +16,8 @@ import {watchInstanceFasit} from './instance_fasit'
 //Nodes
 import {watchNodeEvents} from './node_events'
 import {watchNodeFasit} from './node_fasit'
-import {watchNodeRevisions} from './node_revisions'
 import {watchNodeSera} from './node_sera'
 import {watchNodeTypes} from './node_types'
-
 
 // Resources
 import {watchResourceTypes} from './resource_types'
@@ -26,6 +25,7 @@ import {watchResourceFasit} from './resource_fasit'
 
 //Forms
 import {watchSubmitForm} from './submit_form'
+import {watchRevisions} from './revisions'
 
 
 export default function*() {
@@ -34,6 +34,8 @@ export default function*() {
         call(watchAuthentication),
         call(watchElementsList),
         call(watchSubmitForm),
+        call(watchRevisions),
+
 
         // Applications
         call(watchApplicationNames),
@@ -41,6 +43,7 @@ export default function*() {
 
         // Environments
         call(watchEnvironments),
+        call(watchEnvironmentFasit),
 
         // Instances
         call(watchInstanceFasit),
@@ -48,7 +51,6 @@ export default function*() {
         //Nodes
         call(watchNodeEvents),
         call(watchNodeFasit),
-        call(watchNodeRevisions),
         call(watchNodeSera),
         call(watchNodeTypes),
 

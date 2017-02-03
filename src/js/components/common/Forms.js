@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import Select from 'react-select'
 import {Tooltip, OverlayTrigger} from 'react-bootstrap'
+import {Link} from 'react-router'
 
 
 const copyToClipboard = (element) => {
@@ -48,7 +49,6 @@ export class FormList extends Component {
                             value={value}
                             options={this.convertToSelectObject(options)}
                             onChange={(e) => handleChange(label, e.value)}
-
                         />
                         :
                         <OverlayTrigger {...overlayProps}>

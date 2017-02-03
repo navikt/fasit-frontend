@@ -8,6 +8,7 @@ import {
 } from '../../actionCreators/fasit_initialize_data'
 
 import TopNav from '../Navigation/TopNav'
+import NewNodeForm from '../Nodes/NewNodeForm'
 import {SubmitFormStatus} from '../common/'
 
 
@@ -34,6 +35,7 @@ class App extends Component {
                 </div>
                 {/* Misc. modals*/}
                 <SubmitFormStatus />
+                <NewNodeForm />
             </div>
         )
     }
