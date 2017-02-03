@@ -26,7 +26,7 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.dev.js');
 
 const serverOptions = {
-    quiet: false,
+    quiet: true,
     noInfo: false,
     hot: true,
     inline: true,
@@ -119,7 +119,7 @@ app.get("/mockapi/nodes", (req, res) => {
     sendJson(res, nodesMock.getNodes())
 })
 
-app.get("/mockapi/secrets", (req, res) => {
+app.get("/mockapi/secrets/*", (req, res) => {
     res.send("th151s4M0ck53cr3t")
 })
 

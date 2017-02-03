@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils'
-import {fetchFasitData, fetchResourcePassword} from '../../actionCreators/resource'
+import {fetchFasitData, fetchResourcePassword, clearResourceSecret} from '../../actionCreators/resource'
 import {submitForm} from '../../actionCreators/common'
 import classString from 'react-classset'
 import moment from 'moment'
@@ -23,6 +23,7 @@ class Resource extends Component {
 
         this.state = {
             displaySubmitForm: false,
+            displaySecret: false,
             editMode: false,
             deleteMode: false
         }
@@ -33,12 +34,15 @@ class Resource extends Component {
         dispatch(fetchFasitData(id))
     }
 
+    //Brukes denne?
     componentWillReceiveProps(nextProps) {
         this.setNewState(nextProps.fasit)
     }
 
     setNewState(newState) {
         // TODO, make generic?
+
+
         this.setState({
             id: newState.data.id,
             alias: newState.data.alias,
@@ -50,6 +54,7 @@ class Resource extends Component {
             dodgy: newState.data.dodgy,
             created: newState.data.created,
             updated: newState.data.updated,
+            currentSecret: newState.currentSecret,
         })
     }
 
@@ -65,17 +70,24 @@ class Resource extends Component {
     }
 
     toggleComponentDisplay(component) {
+        const {dispatch} = this.props
         this.setState({[component]: !this.state[component]})
         if (component === "editMode" && this.state.editMode) {
             this.resetLocalState()
         }
+        if (component === "editMode" && !this.state.editMode)
+            dispatch(fetchResourcePassword())
     }
 
     toggleDisplaySecret() {
         const {dispatch} = this.props
-        if (this.state.displaySecret)
+        if (this.state.displaySecret) {
             dispatch(fetchResourcePassword())
-        dispatch(clearResourcePassword())
+        }
+        else {
+            dispatch(clearResourceSecret())
+        }
+
         this.setState({displaySecret: !this.state.displaySecret})
     }
 
@@ -109,24 +121,22 @@ class Resource extends Component {
     }
 
     renderSecrets(secrets) {
-        console.log("jauy", secrets)
-        const {dispatch} = this.props
+        const {user} = this.props
 
         if(secrets) {
-            dispatch(fetchResourcePassword())
             return Object.keys(secrets).map(secret => {
                 return <FormSecret
                 key={secret}
                 label={secret}
                 editMode={this.state.editMode}
                 handleChange={this.handleChange.bind(this)}
-                value="jauKake"
+                value={this.state.currentSecret}
                 authenticated={user.authenticated}
                 toggleDisplaySecret={this.toggleDisplaySecret.bind(this)}/>
 
                 }
             )
-        }
+        } else return <div></div>
     }
 
 
@@ -173,6 +183,7 @@ class Resource extends Component {
                     {this.renderSecrets(this.state.secrets)}
                 </div>
             </div>
+
         )
     }
 }

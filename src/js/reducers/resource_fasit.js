@@ -2,6 +2,8 @@ import {
     RESOURCE_FASIT_RECEIVED,
     RESOURCE_FASIT_FETCHING,
     RESOURCE_FASIT_REQUEST_FAILED,
+    CLEAR_RESOURCE_SECRET,
+    RESOURCE_FASIT_SECRET_RECEIVED
 } from '../actionTypes'
 
 export default (state = {
@@ -10,6 +12,11 @@ export default (state = {
     requestFailed: false,
 }, action) => {
     switch (action.type) {
+
+        case CLEAR_RESOURCE_SECRET:
+            return Object.assign({}, state, {
+                currentSecret: ""
+            })
 
         case RESOURCE_FASIT_RECEIVED:
             return Object.assign({}, state, {
@@ -23,6 +30,13 @@ export default (state = {
                 data: {},
                 isFetching: true,
                 requestFailed: false
+            })
+
+        case RESOURCE_FASIT_SECRET_RECEIVED:
+            console.log("Action", action.value)
+            return Object.assign({}, state, {
+                currentSecret: action.value,
+
             })
 
         case RESOURCE_FASIT_REQUEST_FAILED:
