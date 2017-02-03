@@ -5,13 +5,14 @@ import {fetchFasitData} from '../../actionCreators/application'
 import {submitForm} from '../../actionCreators/common'
 import classString from 'react-classset'
 import ApplicationInstances from './ApplicationInstances'
+import {DeleteElementForm} from '../common/'
+
 import {
     CollapsibleMenu,
     CollapsibleMenuItem,
     FormString,
     Lifecycle,
     RevisionsView,
-    SubmitFormStatus,
     SubmitForm
 } from '../common/'
 
@@ -21,8 +22,9 @@ class Application extends Component {
 
         this.state = {
             displaySubmitForm: false,
+            displayDeleteForm: false,
             editMode: false,
-            deleteMode: false,
+            comment: ""
         }
     }
 
@@ -37,7 +39,8 @@ class Application extends Component {
             name: nextProps.fasit.data.name,
             artifactid: nextProps.fasit.data.artifactid,
             groupid: nextProps.fasit.data.groupid,
-            portoffset: nextProps.fasit.data.portoffset
+            portoffset: nextProps.fasit.data.portoffset,
+            comment: ""
         })
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(name, nextProps.query.revision))
@@ -46,8 +49,13 @@ class Application extends Component {
 
     handleSubmitForm(key, form, comment, component) {
         const {dispatch} = this.props
-        this.toggleComponentDisplay("displaySubmitForm")
-        this.toggleComponentDisplay("editMode")
+        if (component == "application") {
+            this.toggleComponentDisplay("displaySubmitForm")
+            this.toggleComponentDisplay("editMode")
+        } else if (component === "deleteApplication"){
+            this.toggleComponentDisplay("displayDeleteForm")
+            this.setState({comment:""})
+        }
         dispatch(submitForm(key, form, comment, component))
     }
 
@@ -84,6 +92,7 @@ class Application extends Component {
 
     render() {
         const {name, fasit, user, dispatch, query} = this.props
+        const {comment} = this.state
         let authenticated = false
         let lifecycle = {}
         if (Object.keys(fasit.data).length > 0) {
@@ -122,7 +131,7 @@ class Application extends Component {
                                 <li>
                                     <button type="button"
                                             className={this.buttonClasses(authenticated)}
-                                            onClick={authenticated ? () => this.toggleComponentDisplay("displayDeleteNode") : () => {
+                                            onClick={authenticated ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {
                                                 }}
                                     >
                                         <i className="fa fa-trash fa-2x"/>
@@ -210,7 +219,14 @@ class Application extends Component {
                     }}
                     additionalValues={{}}
                 />
-                <SubmitFormStatus />
+                <DeleteElementForm
+                    displayDeleteForm={this.state.displayDeleteForm}
+                    onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
+                    onSubmit={() => this.handleSubmitForm(name, null, comment, "deleteApplication")}
+                    id={name}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={comment}
+                />
             </div>
         )
     }

@@ -17,7 +17,7 @@ import NodeEventsView from './NodeEventsView'
 import NodeGraph from './NodeGraph'
 import NodeSecurityView from './NodeSecurityView'
 import NodeSeraView from './NodeSeraView'
-import DeleteNodeForm from './DeleteNodeForm'
+import {DeleteElementForm} from '../common/'
 
 class Node extends Component {
     constructor(props) {
@@ -31,7 +31,7 @@ class Node extends Component {
             displayGraphs: false,
             displaySecret: false,
             displaySubmitForm: false,
-            displayDeleteNode: false,
+            displayDeleteForm: false,
             editMode: false,
             comment: ""
         }
@@ -62,7 +62,7 @@ class Node extends Component {
             this.toggleComponentDisplay("displaySubmitForm")
             this.toggleComponentDisplay("editMode")
         } else if (component === "deleteNode"){
-            this.toggleComponentDisplay("displayDeleteNode")
+            this.toggleComponentDisplay("displayDeleteForm")
             this.setState({comment:""})
         }
         dispatch(submitForm(key, form, comment, component))
@@ -153,7 +153,7 @@ class Node extends Component {
                             <li>
                                 <button type="button"
                                         className={this.buttonClasses(authenticated)}
-                                        onClick={authenticated ? () => this.toggleComponentDisplay("displayDeleteNode") : () => {
+                                        onClick={authenticated ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {
                                             }}
                                 >
                                     <i className="fa fa-trash fa-2x"/>
@@ -251,9 +251,9 @@ class Node extends Component {
                 </CollapsibleMenu>
 
                 {/* Misc. modals*/}
-                <DeleteNodeForm
-                    displayDeleteNode={this.state.displayDeleteNode}
-                    onClose={() => this.toggleComponentDisplay("displayDeleteNode")}
+                <DeleteElementForm
+                    displayDeleteForm={this.state.displayDeleteForm}
+                    onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
                     onSubmit={() => this.handleSubmitForm(hostname, null, comment, "deleteNode")}
                     hostname={hostname}
                     handleChange={this.handleChange.bind(this)}

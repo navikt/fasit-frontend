@@ -2,7 +2,8 @@ import {
     APPLICATIONS_LIST_FETCHING,
     APPLICATIONS_LIST_RECEIVED,
     APPLICATIONS_LIST_FAILED,
-    APPLICATION_NAMES_RECEIVED
+    APPLICATION_NAMES_RECEIVED,
+    SHOW_NEW_APPLICATION_FORM
 } from '../actionTypes'
 
 export default (state = {
@@ -10,7 +11,8 @@ export default (state = {
     requestFailed: false,
     data: [],
     headers: {},
-    applicationNames: []
+    applicationNames: [],
+    showNewApplicationForm: false
 }, action) => {
     switch (action.type) {
 
@@ -38,6 +40,12 @@ export default (state = {
                 isFetching: false,
                 requestFailed: action.value
             })
+
+        case SHOW_NEW_APPLICATION_FORM:
+            return Object.assign({}, state, {
+                    showNewApplicationForm: action.value
+                }
+            )
 
         default:
             return state

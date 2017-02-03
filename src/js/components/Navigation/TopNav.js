@@ -4,10 +4,8 @@ import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import Login from '../common/Login'
 import ContextMenu from './ContextMenu'
-import NewNodeForm from '../Nodes/NewNodeForm'
-import SubmitFormStatus from '../common/SubmitFormStatus'
 import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
-import {showNewNodeForm} from '../../actionCreators/node'
+import {showNewComponentForm} from '../../actionCreators/common'
 import {submitSearchString} from '../../actionCreators/element_lists'
 
 
@@ -224,13 +222,11 @@ class TopNav extends Component {
         return (
             <Popover id="tools">
                 <ul className="topnav-menu topnav-menu-selector">
-                    <li onClick={() => dispatch(showNewNodeForm(true))}><i className="fa fa-server"/> &nbsp;&nbsp;
-                        Create node
-                    </li>
-                    <li><i className="fa fa-braille"/> &nbsp;&nbsp; Create cluster</li>
-                    <li><i className="fa fa-cube"/> &nbsp;&nbsp; Create application</li>
-                    <li><i className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment</li>
-                    <li><i className="fa fa-cogs"/> &nbsp;&nbsp; Create resource</li>
+                    <li onClick={() => dispatch(showNewComponentForm("node", true))}><i className="fa fa-server"/> &nbsp;&nbsp;Create node</li>
+                    <li onClick={() => dispatch(showNewComponentForm("cluster", true))}><i className="fa fa-braille"/> &nbsp;&nbsp; Create cluster</li>
+                    <li onClick={() => dispatch(showNewComponentForm("application", true))}><i className="fa fa-cube"/> &nbsp;&nbsp; Create application</li>
+                    <li onClick={() => dispatch(showNewComponentForm("environment", true))}><i className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment</li>
+                    <li onClick={() => dispatch(showNewComponentForm("resource", true))}><i className="fa fa-cogs"/> &nbsp;&nbsp; Create resource</li>
                 </ul>
             </Popover>
         )
