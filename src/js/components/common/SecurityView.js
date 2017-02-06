@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {checkAuthentication} from '../../utils/'
+import {validAuthorization} from '../../utils/'
 
 
 class SecurityView extends Component {
@@ -11,19 +11,21 @@ class SecurityView extends Component {
 
     render() {
         const {accesscontrol, user} = this.props
-        console.log(accesscontrol, "access")
-        console.log(user, "user")
-        const authenticated = checkAuthentication(user, accesscontrol)
+        const authenticated = validAuthorization(user, accesscontrol)
         return (
             <div className="node-information-box">
-                <div style={{display: "inline-block", padding:10+"px"}}>
-                    {authenticated ? <i className="fa fa-2x fa-lock success"/> :
-                        <i className="fa fa-2x fa-unlock danger"/>}
-                </div>&emsp;&emsp;
-                <div style={{display: "inline-block"}}>
-                    security, dudes!
+                    <pre style={{marginTop:5+"px", width:70+"%"}}>
+                        <b>Requirements</b>
+                        <ul>
+                            <li>Environment class: <b>{accesscontrol.environmentclass}</b></li>
+                            {accesscontrol.adgroups.length > 0 ?
+                                accesscontrol.adgroups.map((g, i) => <li key={i}>AD-group: {g}</li>) : null
+                            }
+                        </ul>
+                        </pre>
+                    {!authenticated ? <i className="fa fa-fw fa-unlock text-success"/> :
+                        <div ><h4><i className="fa fa-fw fa-lock text-danger"/>Not logged in, no acccess</h4></div>}
                 </div>
-            </div>
         )
     }
 }

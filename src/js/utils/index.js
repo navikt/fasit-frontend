@@ -1,15 +1,15 @@
 import fetch from 'isomorphic-fetch'
 
-export const checkAuthentication = (user, accesscontrol) => {
+export const validAuthorization = (user, accesscontrol) => {
     if (user.authenticated && accesscontrol) {
         switch (accesscontrol.environmentclass) {
             case "p":
-                return hasRole(user, ['ROLE_PROD_OPERATIONS', 'ROLE_SELFSERVICE_PROD'])
+                return hasRole(user, ['ROLE_PROD_OPERATIONS'])
             case "q":
             case "t":
-                return hasRole(user, ['ROLE_PROD_OPERATIONS', 'ROLE_SELFSERVICE_PROD', 'ROLE_OPERATIONS', 'ROLE_SELFSERVICE'])
+                return hasRole(user, ['ROLE_PROD_OPERATIONS', 'ROLE_OPERATIONS'])
             case "u":
-                return hasRole(user, ['ROLE_USER', 'ROLE_CI', 'ROLE_PROD_OPERATIONS', 'ROLE_SELFSERVICE_PROD', 'ROLE_OPERATIONS', 'ROLE_SELFSERVICE'])
+                return hasRole(user, ['ROLE_USER', 'ROLE_CI', 'ROLE_PROD_OPERATIONS', 'ROLE_OPERATIONS'])
             default:
                 console.log("missing environmentclass")
                 return false

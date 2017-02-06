@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {checkAuthentication} from '../../utils/'
+import {validAuthorization} from '../../utils/'
 import {
     fetchFasitData,
     rescueNode,
@@ -128,10 +128,10 @@ class Node extends Component {
     render() {
         const {hostname, config, user, fasit, dispatch, nodeTypes, query} = this.props
         const {comment} = this.state
-        let authenticated = false
+        let authorized = false
         let lifecycle = {}
         if (Object.keys(fasit.data).length > 0) {
-            authenticated = checkAuthentication(user, fasit.data.accesscontrol)
+            authorized = validAuthorization(user, fasit.data.accesscontrol)
             lifecycle = fasit.data.lifecycle
         }
         return (
@@ -155,8 +155,8 @@ class Node extends Component {
                         <ul className="nav navbar-nav navbar-right">
                             <li>
                                 <button type="button"
-                                        className={this.buttonClasses(authenticated, "edit")}
-                                        onClick={authenticated ? () => this.toggleComponentDisplay("editMode") : () => {
+                                        className={this.buttonClasses(authorized, "edit")}
+                                        onClick={authorized ? () => this.toggleComponentDisplay("editMode") : () => {
                                             }}
                                 >
                                     <i className="fa fa-wrench fa-2x"/>
@@ -164,8 +164,8 @@ class Node extends Component {
                             </li>
                             <li>
                                 <button type="button"
-                                        className={this.buttonClasses(authenticated)}
-                                        onClick={authenticated ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {
+                                        className={this.buttonClasses(authorized)}
+                                        onClick={authorized ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {
                                             }}
                                 >
                                     <i className="fa fa-trash fa-2x"/>

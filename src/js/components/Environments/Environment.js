@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
-import {checkAuthentication} from '../../utils/'
+import {validAuthorization} from '../../utils/'
 import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, Lifecycle, FormString} from "../common/"
 import EnvironmentClusters from './EnvironmentClusters'
 import EnvironmentNodes from './EnvironmentNodes'
@@ -37,7 +37,7 @@ class Environment extends Component {
         let lifecycle = {}
         let authenticated = false
         if (Object.keys(environment).length > 0) {
-            authenticated = checkAuthentication(user, environment.accesscontrol)
+            authenticated = validAuthorization(user, environment.accesscontrol)
             lifecycle = environment.lifecycle
         }
         return (

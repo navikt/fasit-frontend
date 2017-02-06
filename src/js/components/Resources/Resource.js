@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {checkAuthentication} from '../../utils'
+import {validAuthorization} from '../../utils'
 import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from '../../actionCreators/resource'
 import {submitForm} from '../../actionCreators/common'
 import classString from 'react-classset'
@@ -153,7 +153,7 @@ class Resource extends Component {
         let lifecycle = {}
 
         if (Object.keys(fasit.data).length > 0) {
-            authenticated = checkAuthentication(user, fasit.data.accesscontrol)
+            authenticated = validAuthorization(user, fasit.data.accesscontrol)
             lifecycle = fasit.data.lifecycle
         }
         return (
