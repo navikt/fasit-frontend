@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {checkAuthentication} from '../../utils'
-import {fetchFasitData, fetchResourcePassword, clearResourceSecret} from '../../actionCreators/resource'
+import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from '../../actionCreators/resource'
 import {submitForm} from '../../actionCreators/common'
 import classString from 'react-classset'
 import moment from 'moment'
@@ -17,16 +17,18 @@ import {
     SubmitForm
 } from '../common/'
 
+const initialState = {
+    displaySubmitForm: false,
+    secretVisible: false,
+    editMode: false,
+    deleteMode: false,
+}
+
+
 class Resource extends Component {
     constructor(props) {
         super(props)
-
-        this.state = {
-            displaySubmitForm: false,
-            displaySecret: false,
-            editMode: false,
-            deleteMode: false
-        }
+        this.state = initialState
     }
 
     componentDidMount() {
@@ -39,11 +41,15 @@ class Resource extends Component {
         this.setNewState(nextProps.fasit)
     }
 
+    componentWillUnmount() {
+        this.props.dispatch(clearResourceSecret())
+    }
+
     setNewState(newState) {
         // TODO, make generic?
 
-
         this.setState({
+
             id: newState.data.id,
             alias: newState.data.alias,
             type: newState.data.type,
@@ -76,19 +82,19 @@ class Resource extends Component {
             this.resetLocalState()
         }
         if (component === "editMode" && !this.state.editMode)
-            dispatch(fetchResourcePassword())
+            dispatch(fetchResourceSecret())
     }
 
     toggleDisplaySecret() {
         const {dispatch} = this.props
-        if (this.state.displaySecret) {
-            dispatch(fetchResourcePassword())
-        }
-        else {
+        if (this.state.secretVisible) {
             dispatch(clearResourceSecret())
         }
+        else {
+            dispatch(fetchResourceSecret())
+        }
 
-        this.setState({displaySecret: !this.state.displaySecret})
+        this.setState({secretVisible: !this.state.secretVisible})
     }
 
     handleChange(field, value) {
@@ -187,12 +193,11 @@ class Resource extends Component {
         )
     }
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         fasit: state.resource_fasit,
         user: state.user,
         config: state.configuration,
-        id: ownProps.id,
     }
 }
 

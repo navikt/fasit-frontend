@@ -24,7 +24,7 @@ const nodes =[{
             "type": "jboss",
             "username": "deployer",
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/1584992"
+                "ref": "http://localhost:6969/mockapi/secrets/1584992"
             },
             "cluster": {
                 "name": "pensjon-patchstatusCluster",
@@ -56,7 +56,7 @@ const nodes =[{
             "type": "jboss",
             "username": "deployer",
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/1595986"
+                "ref": "http://localhost:6969/mockapi/secrets/1595986"
             },
             "cluster": {
                 "name": "mininnboksCluster",
@@ -85,7 +85,7 @@ const nodes =[{
             "type": "jboss",
             "username": "deployer",
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/428317"
+                "ref": "http://localhost:6969/mockapi/secrets/428317"
             },
             "cluster": {
                 "name": "ereg-solrCluster",
@@ -114,7 +114,7 @@ const nodes =[{
             "type": "was",
             "username": "deployer",
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/280131"
+                "ref": "http://localhost:6969/mockapi/secrets/280131"
             },
             "cluster": {
                 "name": "aareg-coreCluster",
@@ -143,7 +143,7 @@ const nodes =[{
             "type": "jboss",
             "username": "deployer",
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/876747"
+                "ref": "http://localhost:6969/mockapi/secrets/876747"
             },
             "cluster": {
                 "name": "digital-kontaktinformasjonCluster",

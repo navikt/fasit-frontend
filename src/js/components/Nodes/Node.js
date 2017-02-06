@@ -29,7 +29,7 @@ class Node extends Component {
             displayEvents: false,
             displayPhysical: false,
             displayGraphs: false,
-            displaySecret: false,
+            secretVisible: false,
             displaySubmitForm: false,
             displayDeleteForm: false,
             editMode: false,
@@ -40,6 +40,10 @@ class Node extends Component {
     componentDidMount() {
         const {dispatch, hostname, revision} = this.props
         dispatch(fetchFasitData(hostname, revision))
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(clearNodePassword())
     }
 
     componentWillReceiveProps(nextProps) {
@@ -81,10 +85,10 @@ class Node extends Component {
 
     toggleDisplaySecret() {
         const {dispatch} = this.props
-        if (this.state.displaySecret)
+        if (!this.state.secretVisible)
             dispatch(fetchNodePassword())
         dispatch(clearNodePassword())
-        this.setState({displaySecret: !this.state.displaySecret})
+        this.setState({secretVisible: !this.state.secretVisible})
     }
 
     toggleComponentDisplay(component) {

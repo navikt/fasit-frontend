@@ -4,7 +4,7 @@ import {fetchUrl} from '../utils'
 import {
     RESOURCE_FASIT_REQUEST,
     RESOURCE_FASIT_FETCHING,
-    RESOURCE_FASIT_PASSWORD_REQUEST,
+    RESOURCE_FASIT_SECRET_REQUEST,
     RESOURCE_FASIT_RECEIVED,
     RESOURCE_FASIT_SECRET_RECEIVED,
     RESOURCE_FASIT_REQUEST_FAILED
@@ -38,19 +38,5 @@ export function* fetchFasitResourceSecret() {
 
 export function* watchResourceFasit() {
     yield fork(takeEvery, RESOURCE_FASIT_REQUEST, fetchFasit)
-    yield fork(takeEvery, RESOURCE_FASIT_PASSWORD_REQUEST, fetchFasitResourceSecret)
+    yield fork(takeEvery, RESOURCE_FASIT_SECRET_REQUEST, fetchFasitResourceSecret)
 }
-
-
-/*
- * export function* fetchFasitPassword() {
- const secret = yield select((state) => state.node_fasit.data.password.ref)
- try {
- const value = yield fetchUrl(secret)
- yield put({type: NODE_FASIT_PASSWORD_RECEIVED, value})
- } catch (err) {
- const value = err.message
- yield put({type: NODE_FASIT_PASSWORD_REQUEST_FAILED, value})
- }
- }
- * */

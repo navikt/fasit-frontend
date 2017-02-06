@@ -33,7 +33,6 @@ export default (state = {
             })
 
         case RESOURCE_FASIT_SECRET_RECEIVED:
-            console.log("Action", action.value)
             return Object.assign({}, state, {
                 currentSecret: action.value,
 
