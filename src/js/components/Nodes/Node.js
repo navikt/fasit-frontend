@@ -9,13 +9,21 @@ import {
 } from '../../actionCreators/node'
 
 import classString from 'react-classset'
-import {FormString, FormList, FormSecret} from '../common/Forms'
-import {CollapsibleMenu, CollapsibleMenuItem, Lifecycle, RevisionsView, SubmitForm} from '../common/'
+import {
+    CollapsibleMenu,
+    CollapsibleMenuItem,
+    FormString,
+    FormList,
+    FormSecret,
+    Lifecycle,
+    RevisionsView,
+    SecurityView,
+    SubmitForm
+}from '../common/'
 import {submitForm} from '../../actionCreators/common'
 import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'
 import NodeGraph from './NodeGraph'
-import NodeSecurityView from './NodeSecurityView'
 import NodeSeraView from './NodeSeraView'
 import {DeleteElementForm} from '../common/'
 
@@ -236,8 +244,7 @@ class Node extends Component {
                         <RevisionsView id={hostname} component="node"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
-                        <NodeSecurityView authenticated={authenticated}
-                                          requirements={fasit.data.accesscontrol}/>
+                        <SecurityView accesscontrol={fasit.data.accesscontrol}/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Events">
                         <NodeEventsView />

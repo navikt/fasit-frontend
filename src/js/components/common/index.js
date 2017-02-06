@@ -5,6 +5,7 @@ import Login from './Login'
 import Lifecycle from './Lifecycle'
 import RevisionsView from './RevisionsView'
 import SubmitForm from './SubmitForm'
+import SecurityView from './SecurityView'
 import SubmitFormStatus from './SubmitFormStatus'
 import DeleteElementForm from './DeleteElementForm'
 import {FormList, FormSecret, FormString, FormComment} from './Forms'
@@ -22,6 +23,7 @@ export {
     Lifecycle,
     Login,
     RevisionsView,
+    SecurityView,
     SubmitFormStatus,
     SubmitForm
 }
