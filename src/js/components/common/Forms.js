@@ -124,7 +124,7 @@ export class FormSecret extends Component {
                                     id={label}
                                     onClick={() => copyToClipboard(label)}
 
-                                >{value ? value : "••••••••••••••••    "}</span>
+                                >{value ? value : "••••••••••••••••    "}&emsp;</span>
                             </OverlayTrigger>
                             {authenticated ?
                                 !value ?

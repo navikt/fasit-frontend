@@ -38,7 +38,6 @@ export function* fetchRevisions(action) {
             default:
                 throw new Error("Revisions Saga has no clue where you want to go, specify which component you're coming from")
         }
-        yield(console.log(url))
         const response = yield call(fetchUrl, url)
         const value = yield response.reverse()
         yield put({type: REVISIONS_RECEIVED, value})
