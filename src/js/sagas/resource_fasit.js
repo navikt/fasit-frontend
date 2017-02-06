@@ -4,7 +4,9 @@ import {fetchUrl} from '../utils'
 import {
     RESOURCE_FASIT_REQUEST,
     RESOURCE_FASIT_FETCHING,
+    RESOURCE_FASIT_SECRET_REQUEST,
     RESOURCE_FASIT_RECEIVED,
+    RESOURCE_FASIT_SECRET_RECEIVED,
     RESOURCE_FASIT_REQUEST_FAILED
 } from '../actionTypes'
 
@@ -13,7 +15,6 @@ export function* fetchFasit(action) {
     yield put({type: RESOURCE_FASIT_FETCHING})
     try {
         const value = yield call(fetchUrl, `${resourcesConfig}/${action.id}`)
-        console.log("got value", value)
         yield put({type: RESOURCE_FASIT_RECEIVED, value})
     } catch (error) {
         yield put({type: RESOURCE_FASIT_REQUEST_FAILED, error})
@@ -21,6 +22,21 @@ export function* fetchFasit(action) {
     }
 }
 
+
+export function* fetchFasitResourceSecret() {
+    const secrets = yield  select((state) => state.resource_fasit.data.secrets)
+
+
+    const key = Object.keys(secrets)[0]
+    const value = yield call(fetchUrl, secrets[key].ref)
+
+    yield put({type: RESOURCE_FASIT_SECRET_RECEIVED, value: value})
+
+    // TODO Husk error handling
+
+}
+
 export function* watchResourceFasit() {
     yield fork(takeEvery, RESOURCE_FASIT_REQUEST, fetchFasit)
+    yield fork(takeEvery, RESOURCE_FASIT_SECRET_REQUEST, fetchFasitResourceSecret)
 }

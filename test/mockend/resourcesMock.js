@@ -314,7 +314,7 @@ const resources = [
         },
         "secrets": {
             "keystorepassword": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/242159"
+                "ref": "http://localhost:6969/mockapi/secrets/242159"
             }
         },
         "files": {
@@ -406,7 +406,7 @@ const resources = [
         },
         "secrets": {
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/771397"
+                "ref": "http://localhost:6969/mockapi/secrets/771397"
             }
         },
         "files": {},
@@ -437,7 +437,7 @@ const resources = [
         },
         "secrets": {
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/242389"
+                "ref": "http://localhost:6969/mockapi/secrets/242389"
             }
         },
         "files": {},
@@ -493,7 +493,7 @@ const resources = [
         },
         "secrets": {
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/771549"
+                "ref": "http://localhost:6969/mockapi/secrets/771549"
             }
         },
         "files": {},
@@ -552,7 +552,7 @@ const resources = [
         },
         "secrets": {
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/1729516"
+                "ref": "http://localhost:6969/mockapi/secrets/1729516"
             }
         },
         "files": {},
@@ -668,7 +668,7 @@ const resources = [
         },
         "secrets": {
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/373797"
+                "ref": "http://localhost:6969/mockapi/secrets/373797"
             }
         },
         "files": {},
@@ -723,7 +723,7 @@ const resources = [
         },
         "secrets": {
             "keystorepassword": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/3512"
+                "ref": "http://localhost:6969/mockapi/secrets/3512"
             }
         },
         "files": {
@@ -878,7 +878,7 @@ const resources = [
         },
         "secrets": {
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/378545"
+                "ref": "http://localhost:6969/mockapi/secrets/378545"
             }
         },
         "files": {},

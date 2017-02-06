@@ -2,6 +2,9 @@ import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
 import {checkAuthentication} from '../../utils/'
 import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, Lifecycle, FormString} from "../common/"
+import EnvironmentClusters from './EnvironmentClusters'
+import EnvironmentNodes from './EnvironmentNodes'
+import EnvironmentInstances from './EnvironmentInstances'
 import {
     fetchEnvironment
 } from "../../actionCreators/environment"
@@ -82,9 +85,9 @@ class Environment extends Component {
                 </div>
                 <div className="col-xs-12">
                     <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                    {this.state.displayClusters ? '' : ''}
-                    {this.state.displayNodes ? '' : ''}
-                    {this.state.displayInstances ? '' : ''}
+                    {this.state.displayClusters ? <EnvironmentClusters environment={environment.name} /> : ''}
+                    {this.state.displayNodes ? <EnvironmentNodes environment={environment.name} /> : ''}
+                    {this.state.displayInstances ? <EnvironmentInstances environment={environment.name} /> : ''}
                 </div>
             </div>
         )

@@ -5,14 +5,14 @@ const proxy = require('proxy-middleware')
 const fs = require('fs')
 const https = require('https')
 
-const environmentsMock = require('./src/test/mockend/environmentsMock')
-const resourcesMock = require('./src/test/mockend/resourcesMock')
-const applications = require('./src/test/mockend/applicationsMock')
-const applicationinstances = require('./src/test/mockend/applicationinstancesMock')
-const resourceTypes = require('./src/test/mockend/resourceTypesMock')
-const nodesMock = require('./src/test/mockend/nodesMock')
-const nodeRevisionsMock = require('./src/test/mockend/nodeRevisionsMock')
-const loginMock = require('./src/test/mockend/loginMock')
+const environmentsMock = require('./test/mockend/environmentsMock')
+const resourcesMock = require('./test/mockend/resourcesMock')
+const applications = require('./test/mockend/applicationsMock')
+const applicationinstances = require('./test/mockend/applicationinstancesMock')
+const resourceTypes = require('./test/mockend/resourceTypesMock')
+const nodesMock = require('./test/mockend/nodesMock')
+const nodeRevisionsMock = require('./test/mockend/nodeRevisionsMock')
+const loginMock = require('./test/mockend/loginMock')
 
 
 const config = require('./config')
@@ -118,6 +118,11 @@ app.get('/mockapi/nodes/:hostname/revisions/:revision', (req, res) => {
 app.get("/mockapi/nodes", (req, res) => {
     sendJson(res, nodesMock.getNodes())
 })
+
+app.get("/mockapi/secrets/*", (req, res) => {
+    res.send("th151s4M0ck53cr3t")
+})
+
 if (process.env["NODE_ENV"] === "standalone") {
     app.post("/api/login", (req, res) => {
         sendJson(res, loginMock.getLogin())
