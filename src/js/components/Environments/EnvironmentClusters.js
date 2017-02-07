@@ -10,13 +10,20 @@ class EnvironmentClusters extends Component {
         super(props)
     }
 
-    componentDidMount() {
+    componentDidMount(){
+        console.log("envcluster, component did mount");
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log("envcluster, received props", nextProps);
         const {dispatch, environment} = this.props
-        dispatch(fetchEnvironmentClusters(environment))
+        if (environment != nextProps.environment) {
+            dispatch(fetchEnvironmentClusters(nextProps.environment))
+        }
     }
 
     render() {
-        return (
+        return (this.props.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"></i> : (
             <div>
                 <table className="table table-hover">
                     <thead>
@@ -27,8 +34,8 @@ class EnvironmentClusters extends Component {
                     <tbody>
                     {this.props.clusters.map(cluster => {
                         return <tr key={cluster.id}>
-                            <td><Link
-                                to={`/environments/${this.props.environmentName}/clusters/${cluster.clustername}`}>{cluster.clustername}</Link>
+                            <td>
+                                <Link to={`/environments/${this.props.environment}/clusters/${cluster.clustername}`}>{cluster.clustername}</Link>
                             </td>
                         </tr>
                     })}
@@ -39,10 +46,10 @@ class EnvironmentClusters extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         clusters: state.environment_clusters_fasit.data,
-        environmentName: ownProps.environment
+        isFetching: state.environment_clusters_fasit.isFetching
     }
 }
 

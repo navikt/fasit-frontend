@@ -10,13 +10,20 @@ class EnvironmentNodes extends Component {
         super(props)
     }
 
-    componentDidMount() {
+    componentDidMount(){
         const {dispatch, environment} = this.props
         dispatch(fetchEnvironmentNodes(environment))
     }
+    
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, environment} = this.props
+        if (environment != nextProps.environment) {
+            dispatch(fetchEnvironmentNodes(nextProps.environment))
+        }
+    }
 
     render() {
-        return (
+        return (this.props.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"></i> : (
             <div>
                 <table className="table table-hover">
                     <thead>
@@ -39,10 +46,10 @@ class EnvironmentNodes extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         nodes: state.environment_nodes_fasit.data,
-        environmentName: ownProps.environment
+        isFetching: state.environment_nodes_fasit.isFetching
     }
 }
 

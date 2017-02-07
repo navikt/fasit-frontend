@@ -5,14 +5,14 @@ import {
 } from '../actionTypes'
 
 export default (state = {
-    data: {},
+    data: [],
     isFetching: false,
     requestFailed: false,
 }, action) => {
     switch (action.type) {
         case ENVIRONMENT_NODES_FASIT_FETCHING:
             return Object.assign({}, state, {
-                data: {},
+                data: [],
                 isFetching: true,
                 requestFailed: false
             })
@@ -25,7 +25,7 @@ export default (state = {
         case ENVIRONMENT_NODES_FASIT_REQUEST_FAILED:
             return Object.assign({}, state, {
                 requestFailed: action.error.message,
-                data: {},
+                data: [],
                 isFetching: false
             })
 

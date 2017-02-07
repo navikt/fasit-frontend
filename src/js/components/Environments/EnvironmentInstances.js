@@ -15,8 +15,15 @@ class EnvironmentInstances extends Component {
         dispatch(fetchEnvironmentInstances(environment))
     }
 
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, environment} = this.props
+        if (environment != nextProps.environment) {
+            dispatch(fetchEnvironmentInstances(nextProps.environment))
+        }
+    }
+
     render() {
-        return (
+        return (this.props.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"></i> : (
             <div>
                 <table className="table table-hover">
                     <thead>
@@ -27,8 +34,8 @@ class EnvironmentInstances extends Component {
                     <tbody>
                     {this.props.instances.map(instance => {
                         return <tr key={instance.id}>
-                            <td><Link
-                                to={`"/instances/${instance.id}"`}>{instance.application + ":" + instance.version}</Link>
+                            <td>
+                                <Link to={`/instances/${instance.id}`}>{instance.application + ":" + instance.version}</Link>
                             </td>
                         </tr>
                     })}
@@ -39,10 +46,10 @@ class EnvironmentInstances extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         instances: state.environment_instances_fasit.data,
-        environmentName: ownProps.environment
+        isFetching: state.environment_instances_fasit.isFetching,
     }
 }
 

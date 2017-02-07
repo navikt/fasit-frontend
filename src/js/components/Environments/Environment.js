@@ -21,14 +21,14 @@ class Environment extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, id, revision} = this.props
-        dispatch(fetchEnvironment(id, revision))
+        const {dispatch, name, revision} = this.props
+        dispatch(fetchEnvironment(name, revision))
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, id, query} = this.props
+        const {dispatch, name, query} = this.props
         if (nextProps.query.revision != query.revision) {
-            dispatch(fetchEnvironment(id, nextProps.query.revision))
+            dispatch(fetchEnvironment(name, nextProps.query.revision))
         }
     }
 
@@ -132,10 +132,9 @@ class Environment extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         user: state.user,
-        id: ownProps.name,
         environment: state.environment_fasit.data,
         revisions: state.revisions,
         query: state.routing.locationBeforeTransitions.query
