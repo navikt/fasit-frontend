@@ -13,7 +13,7 @@ class SecurityView extends Component {
         const {accesscontrol, user} = this.props
         const authorized = validAuthorization(user, accesscontrol)
         return (
-            <div className="node-information-box">
+            <div className="collapsible-menu-content-container">
                 {authorized ?
                     <h3 style={{marginTop: 1 + "px"}}>
                         <small>
