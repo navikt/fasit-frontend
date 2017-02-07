@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 
 export const validAuthorization = (user, accesscontrol) => {
-    let group = false, role = false
+    let group = true, role = false
     if (user.authenticated && accesscontrol) {
         if (accesscontrol.adgroups.length > 0){
             group = hasGroup(user, accesscontrol.adgroups)
