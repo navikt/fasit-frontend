@@ -65,7 +65,7 @@ class NodeEventsView extends Component {
 
     render() {
         return (
-            <div className="node-information-box">
+            <div className="collapsible-menu-content-container">
                 {this.showEvents()}
 
             </div>

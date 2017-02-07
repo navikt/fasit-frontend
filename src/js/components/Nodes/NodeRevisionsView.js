@@ -134,7 +134,7 @@ class NodeRevisionsView extends Component {
         moment.locale('nb')
         return (
             <div>
-                <div className="node-information-box">
+                <div className="collapsible-menu-content-container">
                     {this.showRevisionsContent()}
                 </div>
                 {this.showRevisionsFooter()}

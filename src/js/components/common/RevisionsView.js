@@ -138,7 +138,7 @@ class RevisionsView extends Component {
 
         if (revisions.isFetching){
             return(
-                <div className="node-information-box">
+                <div className="collapsible-menu-content-container">
                     <i className="fa fa-spinner fa-pulse fa-2x"></i>
                 </div>
 
@@ -146,7 +146,7 @@ class RevisionsView extends Component {
         }
 
         else if (revisions.requestFailed)
-            return <div className="node-information-box">Retrieving revisions failed with the following message:
+            return <div className="collapsible-menu-content-container">Retrieving revisions failed with the following message:
                 <br />
                 <pre><i>{revisions.requestFailed}</i></pre>
             </div>
@@ -155,7 +155,7 @@ class RevisionsView extends Component {
         if (!this.state.displayAllRevisions)
             displayRevisions = revisions.data.slice(0, 5)
         return (
-            <div className="node-information-box">
+            <div className="collapsible-menu-content-container">
             <table className="table table-hover">
                 <tbody>
                 {displayRevisions.map(rev => {

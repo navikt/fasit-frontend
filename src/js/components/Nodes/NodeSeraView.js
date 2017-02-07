@@ -31,7 +31,7 @@ class NodeSeraView extends Component {
 
         else if (sera.requestFailed || !sera.data) {
             return (
-                <div className="node-information-box">Retrieving failed:
+                <div className="collapsible-menu-content-container">Retrieving failed:
                     <br />
                     <br />
                     <pre><i>{sera.requestFailed || "No data available"}</i></pre>
@@ -39,7 +39,7 @@ class NodeSeraView extends Component {
             )
         }
         return (
-            <div className="node-information-box">
+            <div className="collapsible-menu-content-container">
                 <table>
                     <tr>
                         <td>{this.getPowerIcon(sera.data.status)}</td>
