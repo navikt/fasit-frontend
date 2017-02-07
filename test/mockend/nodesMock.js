@@ -42,7 +42,7 @@ const nodes =[{
             },
             "accesscontrol": {
                 "environmentclass": "t",
-                "adgroups": []
+                "adgroups": ['Group1']
             },
             "links": {
                 "self": "https://fasit.adeo.no/api/v2/nodes/host1.test.local",
@@ -71,7 +71,7 @@ const nodes =[{
             "lifecycle": {},
             "accesscontrol": {
                 "environmentclass": "q",
-                "adgroups": []
+                "adgroups": ["Group2"]
             },
             "links": {
                 "self": "https://fasit.adeo.no/api/v2/nodes/host2.preprod.local",
@@ -100,7 +100,7 @@ const nodes =[{
             "lifecycle": {},
             "accesscontrol": {
                 "environmentclass": "u",
-                "adgroups": []
+                "adgroups": ["NonExistantGroup"]
             },
             "links": {
                 "self": "https://fasit.adeo.no/api/v2/nodes/host3.devillo.no",

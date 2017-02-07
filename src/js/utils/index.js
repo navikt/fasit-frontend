@@ -1,21 +1,33 @@
 import fetch from 'isomorphic-fetch'
 
 export const validAuthorization = (user, accesscontrol) => {
+    let group = false, role = false
     if (user.authenticated && accesscontrol) {
+        if (accesscontrol.adgroups.length > 0){
+            group = hasGroup(user, accesscontrol.adgroups)
+        }
         switch (accesscontrol.environmentclass) {
             case "p":
-                return hasRole(user, ['ROLE_PROD_OPERATIONS'])
+                role = hasRole(user, ['ROLE_PROD_OPERATIONS'])
+                break
             case "q":
             case "t":
-                return hasRole(user, ['ROLE_PROD_OPERATIONS', 'ROLE_OPERATIONS'])
+                role = hasRole(user, ['ROLE_PROD_OPERATIONS', 'ROLE_OPERATIONS'])
+                break
             case "u":
-                return hasRole(user, ['ROLE_USER', 'ROLE_CI', 'ROLE_PROD_OPERATIONS', 'ROLE_OPERATIONS'])
+                role = hasRole(user, ['ROLE_USER', 'ROLE_CI', 'ROLE_PROD_OPERATIONS', 'ROLE_OPERATIONS'])
+                break
             default:
-                console.log("missing environmentclass")
-                return false
+                role = false
+                break
         }
     }
-    return false
+    return (group && role)
+}
+const hasGroup = (user, groups) => {
+    for (let i = 0; i < user.groups.length; i++) {
+        if (groups.indexOf(user.groups[i]) !== -1) return true
+    }
 }
 const hasRole = (user, roles) => {
     for (let i = 0; i < user.roles.length; i++) {
