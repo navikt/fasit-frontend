@@ -35,7 +35,7 @@ export class FormList extends Component {
 
 
     render() {
-        const {label, value, editMode, handleChange, options} = this.props
+        const {label, value, editMode, handleChange, options, parent } = this.props
         return (
             <div className="row">
                 <div className="col-md-4 FormLabel"><b>{label.charAt(0).toUpperCase() + label.slice(1)}:</b></div>
@@ -48,7 +48,7 @@ export class FormList extends Component {
                             name="node-type"
                             value={value}
                             options={this.convertToSelectObject(options)}
-                            onChange={(e) => handleChange(label, e.value)}
+                            onChange={(e) => handleChange( label, e.value, parent)}
                         />
                         :
                         <OverlayTrigger {...overlayProps}>
@@ -73,7 +73,7 @@ export class FormString extends Component {
 
 
     render() {
-        const {label, value, editMode, handleChange, disabled} = this.props
+        const {label, value, editMode, handleChange, disabled, parent} = this.props
         return (
             <div className="row">
                 <div className="col-md-4 FormLabel"><b>{label.charAt(0).toUpperCase() + label.slice(1)}:</b></div>
@@ -82,7 +82,7 @@ export class FormString extends Component {
                         <input type="text"
                                value={value}
                                className="FormInputField FormString-value"
-                               onChange={(e) => handleChange(label, e.target.value)}
+                               onChange={(e) => handleChange(label, e.target.value, parent)}
                         /> :
                         <OverlayTrigger {...overlayProps}>
                             <span
