@@ -1,4 +1,5 @@
 import {CollapsibleMenu, CollapsibleMenuItem} from './CollapsibleMenu'
+import {AuraTools} from './AuraTools'
 import ElementList from './ElementList'
 import ElementPaging from './ElementPaging'
 import Login from './Login'
@@ -11,6 +12,7 @@ import DeleteElementForm from './DeleteElementForm'
 import {FormList, FormSecret, FormString, FormComment} from './Forms'
 
 export {
+    AuraTools,
     CollapsibleMenu,
     CollapsibleMenuItem,
     DeleteElementForm,

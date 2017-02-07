@@ -5,7 +5,7 @@ import {fetchFasitData} from '../../actionCreators/application'
 import {submitForm} from '../../actionCreators/common'
 import classString from 'react-classset'
 import ApplicationInstances from './ApplicationInstances'
-import {DeleteElementForm} from '../common/'
+import {DeleteElementForm, SecurityView} from '../common/'
 
 import {
     CollapsibleMenu,
@@ -195,6 +195,9 @@ class Application extends Component {
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="History">
                         <RevisionsView id={name} component="application"/>
+                    </CollapsibleMenuItem>
+                    <CollapsibleMenuItem label="Security">
+                        <SecurityView accesscontrol={fasit.data.accesscontrol}/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
 

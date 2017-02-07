@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import Login from '../common/Login'
+import {Login, AuraTools} from '../common/'
 import ContextMenu from './ContextMenu'
 import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
 import {showNewComponentForm} from '../../actionCreators/common'
@@ -29,7 +29,7 @@ class TopNav extends Component {
                             trigger="click"
                             rootClose={true}
                             placement="bottom"
-                            overlay={this.appsOverlay()}
+                            overlay={AuraTools()}
                         >
                             <button type="button" className="btn btn-link topnav-button apps-topnav-button"><i
                                 className="fa fa-th fa-2x"/>
@@ -55,7 +55,7 @@ class TopNav extends Component {
                         rootClose={true}
                         placement="bottom"
                         id="appsOverlay"
-                        overlay={this.appsOverlay()}
+                        overlay={AuraTools()}
                     >
                         <button type="button" className="btn  btn-link topnav-button apps-topnav-button"><i
                             className="fa fa-th fa-2x"/>
