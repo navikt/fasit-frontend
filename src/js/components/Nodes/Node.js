@@ -8,7 +8,6 @@ import {
     clearNodePassword,
 } from '../../actionCreators/node'
 
-import classString from 'react-classset'
 import {
     CollapsibleMenu,
     CollapsibleMenuItem,
@@ -18,7 +17,8 @@ import {
     Lifecycle,
     RevisionsView,
     SecurityView,
-    SubmitForm
+    SubmitForm,
+    ToolButtons
 }from '../common/'
 import {submitForm} from '../../actionCreators/common'
 import NodeTypeImage from './NodeTypeImage'
@@ -123,18 +123,18 @@ class Node extends Component {
         }
         return (
             <div className="row">
-                <div className="col-xs-12 row" style={{paddingTop: 30 + "px", paddingBottom: 30 + "px"}}>
-
+                <div className="col-xs-12" style={{paddingTop: 10 + "px", paddingBottom: 10 + "px"}}>
                     {/*Heading*/}
-                    <div className="col-sm-2 hidden-xs">
-                        <NodeTypeImage type={fasit.data.type}/>
-                    </div>
-                    <div className="col-sm-5 hidden-xs main-data-title text-overflow" style={{fontSize: 20 + "px"}}>
-                        {this.oldRevision() ?
-                            <strong className="disabled-text-color">Revision #{query.revision}</strong> :
-                            <strong>Node</strong>
-                        }
-                    </div>
+                    {this.oldRevision() ? <div><b>Revision #{query.revision}</b></div> :
+                        <ToolButtons
+                            authorized = {authorized}
+                            onEditClick = {() => this.toggleComponentDisplay("editMode")}
+                            onDeleteClick = {() => this.toggleComponentDisplay("displayDeleteForm")}
+                            onCopyClick = {() => console.log("Copy,copycopy!")}
+                        />
+
+                    }
+
                 </div>
 
 
@@ -206,32 +206,6 @@ class Node extends Component {
                 {/*Side menu*/}
 
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="Tools">
-                        <div className="btn-group btn-group-vertical collapsible-menu-content-container">
-                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                 style={{textAlign: "left"}}>
-                                <i className="fa fa-fw fa-plus"/>&emsp;Create new
-                            </div>
-                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                 style={{textAlign: "left"}}>
-                                <i className="fa fa-fw fa-user"/>&emsp;Access control
-                            </div>
-                                <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                     style={{textAlign: "left"}}>
-                                    <i className="fa fa-fw fa-files-o"/>&emsp;Copy
-                                </div>
-                                <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                    style={{textAlign: "left"}}
-                                    onClick={authorized ? () => this.toggleComponentDisplay("editMode") : () => {}}>
-                                    <i className="fa fa-fw fa-pencil-square-o"/>&emsp;Edit
-                                </div>
-                                <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                     style={{textAlign: "left"}}
-                                     onClick={authorized ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {}}>
-                                    <i className="fa fa-fw fa-trash"/>&emsp;Delete
-                                </div>
-                        </div>
-                    </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="History">
                         <RevisionsView id={hostname} component="node"/>
                     </CollapsibleMenuItem>

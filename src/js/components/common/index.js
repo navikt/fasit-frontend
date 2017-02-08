@@ -8,6 +8,7 @@ import RevisionsView from './RevisionsView'
 import SubmitForm from './SubmitForm'
 import SecurityView from './SecurityView'
 import SubmitFormStatus from './SubmitFormStatus'
+import ToolButtons from './ToolButtons'
 import DeleteElementForm from './DeleteElementForm'
 import {FormList, FormSecret, FormString, FormComment} from './Forms'
 
@@ -27,5 +28,6 @@ export {
     RevisionsView,
     SecurityView,
     SubmitFormStatus,
-    SubmitForm
+    SubmitForm,
+    ToolButtons
 }

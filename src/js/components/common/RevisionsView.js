@@ -134,6 +134,7 @@ class RevisionsView extends Component {
     }
 
     render() {
+        moment.locale("en")
         const {revisions, component, id, routing} = this.props
 
         if (revisions.isFetching){
@@ -175,8 +176,8 @@ class RevisionsView extends Component {
                                 </td>
                             </OverlayTrigger>
                             : <td></td>}
-                        <td>{rev.revisiontype === "mod" ? "Modified" : "Created"} by {rev.author}</td>
-                        <td>{moment(rev.timestamp).fromNow()}</td>
+
+                        <td>{rev.revisiontype === "mod" ? "Changed" : "Created"} <b>{moment(rev.timestamp).fromNow()}</b> by {rev.author}</td>
                         <OverlayTrigger
                             trigger={["hover", "focus"]}
                             rootClose={true}
