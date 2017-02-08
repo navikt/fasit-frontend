@@ -13,7 +13,7 @@ export default class NodeGraph extends Component {
         const grafanaSrc = `${url}/dashboard-solo/db/fasit-data-template?var-hostname=${hostname}&panelId=1&from=1471918908430&to=1471940508430&theme=light`
 
         return (
-            <div className="node-information-box">
+            <div className="collapsible-menu-content-container">
 
                 <iframe src={grafanaSrc}
                         width="100%"

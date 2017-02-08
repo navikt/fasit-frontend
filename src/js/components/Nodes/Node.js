@@ -61,9 +61,9 @@ class Node extends Component {
             username: nextProps.fasit.data.username,
             type: nextProps.fasit.data.type,
             password: nextProps.fasit.currentPassword,
-            comment:""
+            comment: ""
         })
-        if (nextProps.query.revision != query.revision){
+        if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(hostname, nextProps.query.revision))
         }
     }
@@ -73,9 +73,9 @@ class Node extends Component {
         if (component == "node") {
             this.toggleComponentDisplay("displaySubmitForm")
             this.toggleComponentDisplay("editMode")
-        } else if (component === "deleteNode"){
+        } else if (component === "deleteNode") {
             this.toggleComponentDisplay("displayDeleteForm")
-            this.setState({comment:""})
+            this.setState({comment: ""})
         }
         dispatch(submitForm(key, form, comment, component))
     }
@@ -106,23 +106,10 @@ class Node extends Component {
             this.resetLocalState()
         if (component === "editMode" && !this.state.editMode)
             dispatch(fetchNodePassword())
-
-
     }
 
     handleChange(field, value) {
         this.setState({[field]: value})
-    }
-
-
-    buttonClasses(authenticated, edit) {
-        return classString({
-            "btn": true,
-            "btn-link": true,
-            "topnav-button": true,
-            "topnav-button-active": this.state.editMode && edit,
-            "disabled": !authenticated
-        })
     }
 
     render() {
@@ -136,43 +123,18 @@ class Node extends Component {
         }
         return (
             <div className="row">
-                <div className="col-xs-12 row main-data-container">
+                <div className="col-xs-12 row" style={{paddingTop: 30 + "px", paddingBottom: 30 + "px"}}>
 
                     {/*Heading*/}
-                    <div className="col-sm-1 hidden-xs">
+                    <div className="col-sm-2 hidden-xs">
                         <NodeTypeImage type={fasit.data.type}/>
                     </div>
-                    <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow">
-                        {this.oldRevision()?
-                        <strong className="disabled-text-color">Revision #{query.revision}</strong> :
-                        <strong>{hostname}</strong>
-                    }
+                    <div className="col-sm-5 hidden-xs main-data-title text-overflow" style={{fontSize: 20 + "px"}}>
+                        {this.oldRevision() ?
+                            <strong className="disabled-text-color">Revision #{query.revision}</strong> :
+                            <strong>Node</strong>
+                        }
                     </div>
-
-
-                    {this.oldRevision() ? null :
-                    <div className="col-sm-2 nopadding">
-                        <ul className="nav navbar-nav navbar-right">
-                            <li>
-                                <button type="button"
-                                        className={this.buttonClasses(authorized, "edit")}
-                                        onClick={authorized ? () => this.toggleComponentDisplay("editMode") : () => {
-                                            }}
-                                >
-                                    <i className="fa fa-wrench fa-2x"/>
-                                </button>
-                            </li>
-                            <li>
-                                <button type="button"
-                                        className={this.buttonClasses(authorized)}
-                                        onClick={authorized ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {
-                                            }}
-                                >
-                                    <i className="fa fa-trash fa-2x"/>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>}
                 </div>
 
 
@@ -244,6 +206,32 @@ class Node extends Component {
                 {/*Side menu*/}
 
                 <CollapsibleMenu>
+                    <CollapsibleMenuItem label="Tools">
+                        <div className="btn-group btn-group-vertical collapsible-menu-content-container">
+                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                 style={{textAlign: "left"}}>
+                                <i className="fa fa-fw fa-plus"/>&emsp;Create new
+                            </div>
+                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                 style={{textAlign: "left"}}>
+                                <i className="fa fa-fw fa-user"/>&emsp;Access control
+                            </div>
+                                <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                     style={{textAlign: "left"}}>
+                                    <i className="fa fa-fw fa-files-o"/>&emsp;Copy
+                                </div>
+                                <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                    style={{textAlign: "left"}}
+                                    onClick={authorized ? () => this.toggleComponentDisplay("editMode") : () => {}}>
+                                    <i className="fa fa-fw fa-pencil-square-o"/>&emsp;Edit
+                                </div>
+                                <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                     style={{textAlign: "left"}}
+                                     onClick={authorized ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {}}>
+                                    <i className="fa fa-fw fa-trash"/>&emsp;Delete
+                                </div>
+                        </div>
+                    </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="History">
                         <RevisionsView id={hostname} component="node"/>
                     </CollapsibleMenuItem>
@@ -300,7 +288,7 @@ class Node extends Component {
 
     oldRevision() {
         const {revisions, query} = this.props
-        if (!query.revision){
+        if (!query.revision) {
             return false
         } else if (revisions.data[0]) {
             if (revisions.data[0].revision != query.revision) {
