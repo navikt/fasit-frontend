@@ -17,7 +17,8 @@ import {
     RevisionsView,
     SecurityView,
     SubmitFormStatus,
-    SubmitForm
+    SubmitForm,
+    ToolButtons
 } from '../common/'
 
 const initialState = {
@@ -179,16 +180,16 @@ class Resource extends Component {
                         | {application}</div>
                 </div>
             }
-            return <div className="well well-lg" style={{marginTop: "5px", paddingTop:"5px"}}>
-                    <div className="row FormLabel"><b>Scope:</b></div>
-                    <div className="row">
+            return <div className="well well-lg" style={{marginTop: "5px", paddingTop: "5px"}}>
+                <div className="row FormLabel"><b>Scope:</b></div>
+                <div className="row">
 
-                        {this.formListElement("environmentclass", scope.environmentclass, this.state.editMode, this.props.environmentClasses, "scope")}
-                        {this.formListElement("zone", scope.zone, this.state.editMode, this.props.zones, "scope")}
-                        {this.formListElement("environment", scope.environment, this.state.editMode, this.props.environmentNames, "scope")}
-                        {this.formListElement("application", scope.application, this.state.editMode, this.props.applications, "scope")}
-                    </div>
+                    {this.formListElement("environmentclass", scope.environmentclass, this.state.editMode, this.props.environmentClasses, "scope")}
+                    {this.formListElement("zone", scope.zone, this.state.editMode, this.props.zones, "scope")}
+                    {this.formListElement("environment", scope.environment, this.state.editMode, this.props.environmentNames, "scope")}
+                    {this.formListElement("application", scope.application, this.state.editMode, this.props.applications, "scope")}
                 </div>
+            </div>
 
         }
     }
@@ -212,52 +213,9 @@ class Resource extends Component {
 
         return (
             <div className="row">
-                <div className="col-xs-12 row main-data-container">
-                    <div className="col-sm-8 nopadding nowrap">
-                        {/*<ul className="nav navbar-nav navbar-left">
-                         <li>
-                         <button type="button"
-                         className={this.buttonClasses(authorized, "edit")}
-                         onClick={authorized ? () => this.toggleComponentDisplay("editMode") : () => {
-                         }}>
-                         <i className="fa fa-wrench fa-2x"/>
-                         </button>
-                         </li>
-                         <li>
-                         <button type="button" className={this.buttonClasses(authorized)}
-                         onClick={authorized ? () => this.toggleComponentDisplay("deleteMode") : () => {
-                         }}>
-                         <i className="fa fa-trash fa-2x"/></button>
-                         </li>
-                         </ul>*/}
-
-                        <div className="btn-group btn-group-horizontal">
-
-                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                 style={{textAlign: "left"}}>
-                                <i className="fa fa-fw fa-user"/>Access control
-                            </div>
-                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                 style={{textAlign: "left"}}>
-                                <i className="fa fa-fw fa-files-o"/>Copy
-                            </div>
-                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                 style={{textAlign: "left"}}
-                                 onClick={authorized ? () => this.toggleComponentDisplay("editMode") : () => {
-                                     }}>
-                                <i className="fa fa-fw fa-pencil-square-o"/>Edit
-                            </div>
-                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                 style={{textAlign: "left"}}
-                                 onClick={authorized ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {
-                                     }}>
-                                <i className="fa fa-fw fa-trash"/>Delete
-                            </div>
-                            <div className="btn">Updated: {moment(this.state.updated).locale('en').fromNow()}</div>
-                        </div>
-
-                    </div>
-                </div>
+                    <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
+                                 onDeleteClick={() => console.log("delete like a mofo")}
+                                 onCopyClick={() => console.log("Copy,copycopy!")}/>
 
 
                 <div className="col-md-6">
@@ -266,34 +224,9 @@ class Resource extends Component {
                     {this.renderResourceProperties(this.state.properties)}
                     {this.renderSecrets(this.state.secrets)}
                     {this.renderScope(this.state.scope)}
+
                 </div>
-
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="Tools">
-                        <div className="btn-group btn-group-vertical collapsible-menu-content-container">
-
-                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                 style={{textAlign: "left"}}>
-                                <i className="fa fa-fw fa-user"/>&emsp;Access control
-                            </div>
-                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                 style={{textAlign: "left"}}>
-                                <i className="fa fa-fw fa-files-o"/>&emsp;Copy
-                            </div>
-                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                 style={{textAlign: "left"}}
-                                 onClick={authorized ? () => this.toggleComponentDisplay("editMode") : () => {
-                                     }}>
-                                <i className="fa fa-fw fa-pencil-square-o"/>&emsp;Edit
-                            </div>
-                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
-                                 style={{textAlign: "left"}}
-                                 onClick={authorized ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {
-                                     }}>
-                                <i className="fa fa-fw fa-trash"/>&emsp;Delete
-                            </div>
-                        </div>
-                    </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="History">
                         <RevisionsView id={id} component="resource"/>
                     </CollapsibleMenuItem>
