@@ -8,11 +8,14 @@ import moment from 'moment'
 
 
 import {
+    CollapsibleMenu,
+    CollapsibleMenuItem,
     FormString,
     FormList,
     FormSecret,
     Lifecycle,
     RevisionsView,
+    SecurityView,
     SubmitFormStatus,
     SubmitForm
 } from '../common/'
@@ -161,13 +164,31 @@ class Resource extends Component {
     }
 
     renderScope(scope) {
+
         if (scope) {
-            return <div>
-                {this.formListElement("environmentclass", scope.environmentclass, this.state.editMode, this.props.environmentClasses, "scope")}
-                {this.formListElement("zone", scope.zone, this.state.editMode, this.props.zones, "scope")}
-                {this.formListElement("environment", scope.environment, this.state.editMode, this.props.environmentNames, "scope")}
-                {this.formListElement("application", scope.application, this.state.editMode, this.props.applications, "scope")}
-            </div>
+            if (!this.state.editMode) {
+
+                const envClass = scope.environmentclass ? scope.environmentclass : '-'
+                const environment = scope.environment ? scope.environment : '-'
+                const zone = scope.zone ? scope.zone : '-'
+                const application = scope.application ? scope.application : '-'
+
+                return <div className="row">
+                    <div className="col-md-4 FormLabel"><b>Scope:</b></div>
+                    <div className="col-md-8"><span className="formValue"></span>{envClass} | {zone} | {environment}
+                        | {application}</div>
+                </div>
+            }
+            return <div className="well well-lg" style={{marginTop: "5px", paddingTop:"5px"}}>
+                    <div className="row FormLabel"><b>Scope:</b></div>
+                    <div className="row">
+
+                        {this.formListElement("environmentclass", scope.environmentclass, this.state.editMode, this.props.environmentClasses, "scope")}
+                        {this.formListElement("zone", scope.zone, this.state.editMode, this.props.zones, "scope")}
+                        {this.formListElement("environment", scope.environment, this.state.editMode, this.props.environmentNames, "scope")}
+                        {this.formListElement("application", scope.application, this.state.editMode, this.props.applications, "scope")}
+                    </div>
+                </div>
 
         }
     }
@@ -181,11 +202,11 @@ class Resource extends Component {
 
         const {id, fasit, user, environmentClasses, environments} = this.props
 
-        let authenticated = false
+        let authorized = false
         let lifecycle = {}
 
         if (Object.keys(fasit.data).length > 0) {
-            authenticated = validAuthorization(user, fasit.data.accesscontrol)
+            authorized = validAuthorization(user, fasit.data.accesscontrol)
             lifecycle = fasit.data.lifecycle
         }
 
@@ -193,26 +214,51 @@ class Resource extends Component {
             <div className="row">
                 <div className="col-xs-12 row main-data-container">
                     <div className="col-sm-8 nopadding nowrap">
-                        <ul className="nav navbar-nav navbar-left">
-                            <li>
-                                <button type="button"
-                                        className={this.buttonClasses(authenticated, "edit")}
-                                        onClick={authenticated ? () => this.toggleComponentDisplay("editMode") : () => {
-                                            }}>
-                                    <i className="fa fa-wrench fa-2x"/>
-                                </button>
-                            </li>
-                            <li>
-                                <button type="button" className={this.buttonClasses(authenticated)}
-                                        onClick={authenticated ? () => this.toggleComponentDisplay("deleteMode") : () => {
-                                            }}>
-                                    <i className="fa fa-trash fa-2x"/></button>
-                            </li>
-                        </ul>
-                        <span
-                            className="navbar-text">Last updated: {moment(this.state.updated).locale('en').fromNow()}</span>
+                        {/*<ul className="nav navbar-nav navbar-left">
+                         <li>
+                         <button type="button"
+                         className={this.buttonClasses(authorized, "edit")}
+                         onClick={authorized ? () => this.toggleComponentDisplay("editMode") : () => {
+                         }}>
+                         <i className="fa fa-wrench fa-2x"/>
+                         </button>
+                         </li>
+                         <li>
+                         <button type="button" className={this.buttonClasses(authorized)}
+                         onClick={authorized ? () => this.toggleComponentDisplay("deleteMode") : () => {
+                         }}>
+                         <i className="fa fa-trash fa-2x"/></button>
+                         </li>
+                         </ul>*/}
+
+                        <div className="btn-group btn-group-horizontal">
+
+                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                 style={{textAlign: "left"}}>
+                                <i className="fa fa-fw fa-user"/>Access control
+                            </div>
+                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                 style={{textAlign: "left"}}>
+                                <i className="fa fa-fw fa-files-o"/>Copy
+                            </div>
+                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                 style={{textAlign: "left"}}
+                                 onClick={authorized ? () => this.toggleComponentDisplay("editMode") : () => {
+                                     }}>
+                                <i className="fa fa-fw fa-pencil-square-o"/>Edit
+                            </div>
+                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                 style={{textAlign: "left"}}
+                                 onClick={authorized ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {
+                                     }}>
+                                <i className="fa fa-fw fa-trash"/>Delete
+                            </div>
+                            <div className="btn">Updated: {moment(this.state.updated).locale('en').fromNow()}</div>
+                        </div>
+
                     </div>
                 </div>
+
 
                 <div className="col-md-6">
                     {this.formStringElement("type", this.state.type, false)}
@@ -221,6 +267,40 @@ class Resource extends Component {
                     {this.renderSecrets(this.state.secrets)}
                     {this.renderScope(this.state.scope)}
                 </div>
+
+                <CollapsibleMenu>
+                    <CollapsibleMenuItem label="Tools">
+                        <div className="btn-group btn-group-vertical collapsible-menu-content-container">
+
+                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                 style={{textAlign: "left"}}>
+                                <i className="fa fa-fw fa-user"/>&emsp;Access control
+                            </div>
+                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                 style={{textAlign: "left"}}>
+                                <i className="fa fa-fw fa-files-o"/>&emsp;Copy
+                            </div>
+                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                 style={{textAlign: "left"}}
+                                 onClick={authorized ? () => this.toggleComponentDisplay("editMode") : () => {
+                                     }}>
+                                <i className="fa fa-fw fa-pencil-square-o"/>&emsp;Edit
+                            </div>
+                            <div className={authorized ? "btn btn-white" : "btn btn-white disabled"}
+                                 style={{textAlign: "left"}}
+                                 onClick={authorized ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {
+                                     }}>
+                                <i className="fa fa-fw fa-trash"/>&emsp;Delete
+                            </div>
+                        </div>
+                    </CollapsibleMenuItem>
+                    <CollapsibleMenuItem label="History">
+                        <RevisionsView id={id} component="resource"/>
+                    </CollapsibleMenuItem>
+                    <CollapsibleMenuItem label="Security">
+                        <SecurityView accesscontrol={fasit.data.accesscontrol}/>
+                    </CollapsibleMenuItem>
+                </CollapsibleMenu>
 
             </div>
 
