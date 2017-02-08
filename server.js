@@ -70,6 +70,18 @@ app.get("/mockapi/applicationinstances/1/revisions/69/appconfig", (req, res) => 
     res.send("<this><is><real><nested><xml>69</xml></nested></real></is></this>")
 })
 
+app.get("/mockapi/environments/:name/clusters/:clustername", (req, res) => {
+    sendJson(res, environmentsMock.getCluster(req.params.name, req.params.clustername))
+})
+
+app.get("/mockapi/environments/:name/clusters/", (req, res) => {
+    sendJson(res, environmentsMock.getClusters(req.params.name))
+})
+
+app.get("/mockapi/environments/:name", (req, res) => {
+    sendJson(res, environmentsMock.getEnvironment(req.params.name))
+})
+
 app.get("/mockapi/environments", (req, res) => {
     sendJson(res, environmentsMock.findEnvironments(req.query))
 })

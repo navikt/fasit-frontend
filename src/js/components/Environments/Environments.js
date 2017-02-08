@@ -19,10 +19,10 @@ class Environments extends Component {
     }
 
     render() {
-        const {environments} = this.props
+        const {environments, params} = this.props
 
         if (this.props.params.environment)
-            return <Environment name={this.props.params.environment} />
+            return <Environment name={params.environment} clusterName={params.cluster} />
         return (
             <div className="main-content-container">
                 <div className="row">

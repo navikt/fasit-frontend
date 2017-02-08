@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 import {validAuthorization} from '../../utils/'
 import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, Lifecycle, FormString} from "../common/"
 import EnvironmentClusters from './EnvironmentClusters'
+import EnvironmentCluster from "./EnvironmentCluster"
 import EnvironmentNodes from './EnvironmentNodes'
 import EnvironmentInstances from './EnvironmentInstances'
 import {
@@ -33,7 +34,8 @@ class Environment extends Component {
     }
 
     render() {
-        const {environment, user} = this.props
+        const {environment, user, clusterName} = this.props
+        const {displayClusters, displayInstances, displayNodes} = this.state
         let lifecycle = {}
         let authenticated = false
         if (Object.keys(environment).length > 0) {
@@ -74,20 +76,20 @@ class Environment extends Component {
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
                 <div className="col-xs-12">
                     <ul className="nav nav-tabs">
-                        <li className={this.state.displayClusters ? "active" : ""}><a
+                        <li className={displayClusters ? "active" : ""}><a
                             onClick={() => this.selectTab("clusters")}>Clusters</a></li>
-                        <li className={this.state.displayNodes ? "active" : ""}><a
+                        <li className={displayNodes ? "active" : ""}><a
                             onClick={() => this.selectTab("nodes")}>Nodes</a></li>
-                        <li className={this.state.displayInstances ? "active" : ""}><a
+                        <li className={displayInstances ? "active" : ""}><a
                             onClick={() => this.selectTab("instances")}>Instances</a>
                         </li>
                     </ul>
                 </div>
                 <div className="col-xs-12">
                     <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                    {this.state.displayClusters ? <EnvironmentClusters environment={environment.name} /> : ''}
-                    {this.state.displayNodes ? <EnvironmentNodes environment={environment.name} /> : ''}
-                    {this.state.displayInstances ? <EnvironmentInstances environment={environment.name} /> : ''}
+                    {displayClusters ? clusterName ? <EnvironmentCluster clusterName={clusterName}/> : <EnvironmentClusters environment={environment.name}/> : null}
+                    {displayNodes ? <EnvironmentNodes environment={environment.name} /> : ''}
+                    {displayInstances ? <EnvironmentInstances environment={environment.name} /> : ''}
                 </div>
             </div>
         )

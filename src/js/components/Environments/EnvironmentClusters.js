@@ -13,21 +13,27 @@ class EnvironmentClusters extends Component {
         }
     }
 
+    componentDidMount() {
+        const {dispatch, environment} = this.props
+        if (environment)
+            dispatch(fetchEnvironmentClusters(environment))
+    }
+
     componentWillReceiveProps(nextProps) {
         const {dispatch, environment} = this.props
-        if (environment != nextProps.environment) {
+        if (environment != nextProps.environment && nextProps.environment) {
             dispatch(fetchEnvironmentClusters(nextProps.environment))
         }
     }
 
     render() {
         const {cluster, application} = this.state
-        const {clusters} = this.props
+        const {clusters, isFetching} = this.props
         const clusterNames = clusters.map(c => c.clustername)
-        const applicationNames = clusters.reduce((a,b) => a.concat(b.applications), []).map(a => a.name)
-        return this.props.isFetching ? <i className="fa fa-spinner fa-pulse fa-2x"></i> : (
+        const applicationNames = clusters.reduce((a, b) => a.concat(b.applications), []).map(a => a.name)
+        return isFetching ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> : (
                 <div>
-                    <div style={{width: 350, display:"inline-block"}}>
+                    <div style={{width: 350, display: "inline-block"}}>
                         <Select
                             resetValue=""
                             placeholder="Cluster"
@@ -37,7 +43,7 @@ class EnvironmentClusters extends Component {
                             onChange={(e) => this.handleChange("cluster", e.value)}
                         />
                     </div>
-                    <div style={{width: 250, display:"inline-block", paddingLeft:20}}>
+                    <div style={{width: 250, display: "inline-block", paddingLeft: 20}}>
                         <Select
                             resetValue=""
                             placeholder="Application"
@@ -68,11 +74,13 @@ class EnvironmentClusters extends Component {
             )
     }
 
+
     convertToSelectObject(values) {
         return values.map(value => {
             return {value, label: value}
         })
     }
+
     handleChange(field, value) {
         this.setState({[field]: value})
     }

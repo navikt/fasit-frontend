@@ -1,6 +1,35 @@
 module.exports = {
+    getCluster: function (name, clustername) {
+        return clusters.filter(c => c.clustername == clustername)[0]
+    },
+    getClusters: (env) => {
+        return clusters.filter(e => e.env == env)[0].clusters
+    },
+    getEnvironment: function (name) {
+        return environments.filter(e => e.name == name)[0]
+    },
     findEnvironments: function (queryParams) {
-        return environments.filter(e => (queryParams.environmentclass) ? e.environmentclass === queryParams.environmentclass : true)
+        const scopeFilter = Object.keys(queryParams).filter(k => k !== 'page' && k !== 'pr_page' && k !== 'type')
+
+        function byScope(e) {
+            let result = true
+            scopeFilter.forEach(filter => {
+                const re = new RegExp(queryParams[filter], "g")
+
+                if (filter === "name") {
+                    if (!e[filter].match(re) && e[filter] !== "") {
+                        result = false
+                    }
+                } else if (filter !== "name" && e[filter] !== queryParams[filter]) {
+                    result = false
+                }
+
+            })
+
+            return result
+        }
+
+        return environments.filter(byScope)
     }
 }
 
@@ -121,4 +150,189 @@ const environments = [
             "clusters": "https://fasit.adeo.no/api/v2/environments/d4/clusters"
         }
     }
+]
+
+const clusters = [
+    {
+        env: "u1",
+        clusters: [
+            {
+                "clustername": "bpm",
+                "zone": "fss",
+                "environment": "u1",
+                "environmentclass": "u",
+                "loadbalancerurl": "https://dummy.url.no:9443/",
+                "nodes": [
+                    {
+                        "name": "host1..devillo.no",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/e34wasl00353.devillo.no"
+                    }
+                ],
+                "applications": [
+                    {
+                        "name": "esb-virksomhet",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777086"
+                    },
+                    {
+                        "name": "esb-auth-conf",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356929"
+                    },
+                    {
+                        "name": "prosess-pensjon",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777162"
+                    },
+                    {
+                        "name": "esb",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356932"
+                    },
+                    {
+                        "name": "esb-pensjon",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777353"
+                    },
+                    {
+                        "name": "empty-bpm",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1645874"
+                    },
+                    {
+                        "name": "esb-nonenv-conf",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356930"
+                    },
+                    {
+                        "name": "esb-env-conf",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356931"
+                    },
+                    {
+                        "name": "bpm",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/357004"
+                    },
+                    {
+                        "name": "esb-legacy",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777277"
+                    }
+                ],
+                "id": 331415,
+                "created": "2014-03-13T10:59:38.913",
+                "updated": "2015-12-23T11:30:07.78",
+                "lifecycle": {},
+                "accesscontrol": {
+                    "environmentclass": "u",
+                    "adgroups": []
+                },
+                "links": {
+                    "self": "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/bpm",
+                    "revisions": "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/bpm/revisions"
+                }
+            },
+            {
+                "clustername": "cluster3",
+                "zone": "fss",
+                "environment": "u15",
+                "environmentclass": "u",
+                "nodes": [],
+                "applications": [],
+                "id": 2140506,
+                "created": "2017-01-31T15:47:48.28",
+                "updated": "2017-01-31T15:47:48.28",
+                "lifecycle": {},
+                "accesscontrol": {
+                    "environmentclass": "u",
+                    "adgroups": []
+                },
+                "links": {
+                    "self": "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster3",
+                    "revisions": "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster3/revisions"
+                }
+            },
+            {
+                "clustername": "cluster4",
+                "zone": "fss",
+                "environment": "u15",
+                "environmentclass": "u",
+                "nodes": [
+                    {
+                        "name": "tullenode4.devillo.no",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/tullenode4.devillo.no"
+                    }
+                ],
+                "applications": [],
+                "id": 2140522,
+                "created": "2017-02-03T14:07:20.218",
+                "updated": "2017-02-03T14:07:20.218",
+                "lifecycle": {},
+                "accesscontrol": {
+                    "environmentclass": "u",
+                    "adgroups": []
+                },
+                "links": {
+                    "self": "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster4",
+                    "revisions": "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster4/revisions"
+                }
+            },
+            {
+                "clustername": "cluster5",
+                "zone": "fss",
+                "environment": "u15",
+                "environmentclass": "u",
+                "nodes": [
+                    {
+                        "name": "tullball.devillo.no",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/tullball.devillo.no"
+                    }
+                ],
+                "applications": [],
+                "id": 2140535,
+                "created": "2017-02-03T15:04:18.821",
+                "updated": "2017-02-03T15:04:18.821",
+                "lifecycle": {},
+                "accesscontrol": {
+                    "environmentclass": "u",
+                    "adgroups": []
+                },
+                "links": {
+                    "self": "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster5",
+                    "revisions": "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster5/revisions"
+                }
+            },
+            {
+                "clustername": "pensjon-fss",
+                "zone": "fss",
+                "environment": "u15",
+                "environmentclass": "u",
+                "loadbalancerurl": "https://e34wasl00116.devillo.no:9443/",
+                "nodes": [
+                    {
+                        "name": "e34wasl00116.devillo.no",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/e34wasl00116.devillo.no"
+                    }
+                ],
+                "applications": [
+                    {
+                        "name": "pensjon-tekster-pselv-fss",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1584219"
+                    },
+                    {
+                        "name": "pensjon-fss",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/401502"
+                    },
+                    {
+                        "name": "trafikanten-fss",
+                        "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/401503"
+                    }
+                ],
+                "id": 331201,
+                "created": "2014-03-13T08:24:59.954",
+                "updated": "2014-05-28T09:27:06.339",
+                "lifecycle": {},
+                "accesscontrol": {
+                    "environmentclass": "u",
+                    "adgroups": []
+                },
+                "links": {
+                    "self": "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/pensjon-fss",
+                    "revisions": "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/pensjon-fss/revisions"
+                }
+            }
+        ]
+    }
+
 ]
