@@ -123,19 +123,15 @@ class Node extends Component {
         }
         return (
             <div className="row">
-                <div className="col-xs-12" style={{paddingTop: 10 + "px", paddingBottom: 10 + "px"}}>
-                    {/*Heading*/}
-                    {this.oldRevision() ? <div><b>Revision #{query.revision}</b></div> :
-                        <ToolButtons
-                            authorized = {authorized}
-                            onEditClick = {() => this.toggleComponentDisplay("editMode")}
-                            onDeleteClick = {() => this.toggleComponentDisplay("displayDeleteForm")}
-                            onCopyClick = {() => console.log("Copy,copycopy!")}
-                        />
-
-                    }
-
-                </div>
+                {/*Heading*/}
+                {this.oldRevision() ? <div><b>Revision #{query.revision}</b></div> :
+                    <ToolButtons
+                        authorized={authorized}
+                        onEditClick={() => this.toggleComponentDisplay("editMode")}
+                        onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                        onCopyClick={() => console.log("Copy,copycopy!")}
+                    />
+                }
 
 
                 {/*Form*/}
