@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from "react"
 import {Link} from 'react-router'
 import {connect} from "react-redux"
+import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, Lifecycle, FormString, ToolButtons} from "../common/"
 import {validAuthorization} from '../../utils/'
-import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, Lifecycle, FormString} from "../common/"
 import EnvironmentClusters from './EnvironmentClusters'
 import EnvironmentCluster from "./EnvironmentCluster"
 import EnvironmentNodes from './EnvironmentNodes'
@@ -35,18 +35,26 @@ class Environment extends Component {
     }
 
     render() {
-        const {environment, user, clusterName} = this.props
+        const {environment, user, query} = this.props
         const {displayClusters, displayInstances, displayNodes} = this.state
         let lifecycle = {}
-        let authenticated = false
+        let authorized = false
         if (Object.keys(environment).length > 0) {
-            authenticated = validAuthorization(user, environment.accesscontrol)
+            authorized = validAuthorization(user, environment.accesscontrol)
             lifecycle = environment.lifecycle
         }
+
         return (
             <div className="row">
-                <div className="col-xs-12" style={{height: 30 + "px"}}></div>
-
+                    {/*Heading*/}
+                {this.oldRevision() ? <div className="col-md-12" style={{paddingTop:10, paddingBottom:10}}><h4>Revision #{query.revision}</h4></div> :
+                        <ToolButtons
+                            authorized={authorized}
+                            onEditClick={() => this.toggleComponentDisplay("editMode")}
+                            onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                            onCopyClick={() => console.log("Copy,copycopy!")}
+                        />
+                    }
                 {/*Form*/}
                 <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
@@ -62,7 +70,7 @@ class Environment extends Component {
 
                     <div className="row">
                         <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => dispatch(rescueNode(hostname))}/>
+                                   rescueAction={() => console.log("you need to do something about this, dude!")}/>
                     </div>
                 </div>
 
@@ -85,15 +93,15 @@ class Environment extends Component {
                                   onClick={() => this.selectTab("nodes")}>Nodes</Link></li>
                         <li className={displayInstances ? "active" : ""}>
                             <Link to={`/environments/${environment.name}/instances`}
-                            onClick={() => this.selectTab("instances")}>Instances</Link>
+                                  onClick={() => this.selectTab("instances")}>Instances</Link>
                         </li>
                     </ul>
                 </div>
                 <div className="col-xs-12">
                     <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                    {displayClusters ? clusterName ? <EnvironmentCluster clusterName={clusterName} environment={environment.name}/> : <EnvironmentClusters environment={environment.name}/> : null}
-                    {displayNodes ? <EnvironmentNodes environment={environment.name} /> : ''}
-                    {displayInstances ? <EnvironmentInstances environment={environment.name} /> : ''}
+                    {displayClusters ? <EnvironmentClusters environment={environment.name}/> : null}
+                    {displayNodes ? <EnvironmentNodes environment={environment.name}/> : ''}
+                    {displayInstances ? <EnvironmentInstances environment={environment.name}/> : ''}
                 </div>
             </div>
         )

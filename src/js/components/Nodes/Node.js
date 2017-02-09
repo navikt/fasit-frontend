@@ -21,7 +21,6 @@ import {
     ToolButtons
 }from '../common/'
 import {submitForm} from '../../actionCreators/common'
-import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'
 import NodeGraph from './NodeGraph'
 import NodeSeraView from './NodeSeraView'
@@ -124,7 +123,7 @@ class Node extends Component {
         return (
             <div className="row">
                 {/*Heading*/}
-                {this.oldRevision() ? <div><b>Revision #{query.revision}</b></div> :
+                {this.oldRevision() ? <div className="col-md-12" style={{paddingTop:10, paddingBottom:10}}><h4>Revision #{query.revision}</h4></div> :
                     <ToolButtons
                         authorized={authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
