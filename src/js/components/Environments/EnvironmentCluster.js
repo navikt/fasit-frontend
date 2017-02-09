@@ -37,7 +37,7 @@ class EnvironmentCluster extends Component {
                     />
                 </div>
                 {/*Form*/}
-                <div className="col-md-6 ">
+                <div className="col-md-6 row">
                     <FormString
                         label="name"
                         value={cluster.data.clustername}
@@ -47,8 +47,12 @@ class EnvironmentCluster extends Component {
                         value={cluster.data.zone}
                     />
                     <FormString
-                        label="environment class"
+                        label="environment"
                         value={cluster.data.environment}
+                    />
+                    <FormString
+                        label="environmentclass"
+                        value={cluster.data.environmentclass}
                     />
                     {/*Lifecycle*/}
                     <div className="col-xs-12" style={{height: 30 + "px"}}></div>
@@ -74,7 +78,6 @@ class EnvironmentCluster extends Component {
 const mapStateToProps = (state) => {
     return {
         cluster: state.environment_cluster_fasit,
-
     }
 }
 

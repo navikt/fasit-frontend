@@ -114,12 +114,9 @@ class Node extends Component {
     render() {
         const {hostname, config, user, fasit, dispatch, nodeTypes, query} = this.props
         const {comment} = this.state
-        let authorized = false
-        let lifecycle = {}
-        if (Object.keys(fasit.data).length > 0) {
-            authorized = validAuthorization(user, fasit.data.accesscontrol)
-            lifecycle = fasit.data.lifecycle
-        }
+        let lifecycle = (Object.keys(fasit.data).length > 0) ? fasit.data.lifecycle : {}
+        let authorized = (Object.keys(fasit.data).length > 0) ? validAuthorization(user, fasit.data.accesscontrol) : false
+
         return (
             <div className="row">
                 {/*Heading*/}
