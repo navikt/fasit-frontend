@@ -1,10 +1,9 @@
 import React, {Component, PropTypes} from "react"
 import {Link} from 'react-router'
 import {connect} from "react-redux"
-import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, Lifecycle, FormString, ToolButtons} from "../common/"
+import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, Lifecycle, FormString, FormList, ToolButtons} from "../common/"
 import {validAuthorization} from '../../utils/'
 import EnvironmentClusters from './EnvironmentClusters'
-import EnvironmentCluster from "./EnvironmentCluster"
 import EnvironmentNodes from './EnvironmentNodes'
 import EnvironmentInstances from './EnvironmentInstances'
 import {
@@ -21,6 +20,27 @@ class Environment extends Component {
             displayInstances: false
         }
     }
+    resetLocalState() {
+        const {environment} = this.props
+        this.setState({
+            name: environment.name,
+            environmentclass: environment.environmentclass,
+            environment: environment.environment,
+            comment: ""
+
+        })
+    }
+
+    toggleComponentDisplay(component) {
+        this.setState({[component]: !this.state[component]})
+        if (component === "editMode" && this.state.editMode)
+            this.resetLocalState()
+
+    }
+    handleChange(field, value) {
+        console.log("!called")
+        this.setState({[field]: value})
+    }
 
     componentDidMount() {
         const {dispatch, name, revision} = this.props
@@ -29,13 +49,20 @@ class Environment extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {dispatch, name, query} = this.props
+        this.setState({
+            name: nextProps.environment.name,
+            environmentclass: nextProps.environment.environmentclass,
+            environment: nextProps.environment.environment,
+            comment: ""
+        })
+
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchEnvironment(name, nextProps.query.revision))
         }
     }
 
     render() {
-        const {environment, user, query} = this.props
+        const {environment, user, query, environmentClasses} = this.props
         const {displayClusters, displayInstances, displayNodes} = this.state
         let lifecycle = {}
         let authorized = false
@@ -59,12 +86,31 @@ class Environment extends Component {
                 <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="name"
+                        editMode={this.state.editMode}
+                        handleChange={this.handleChange.bind(this)}
                         value={environment.name}
                     />
-                    <FormString
-                        label="environment class"
-                        value={environment.environmentclass}
+                    <FormList
+                        label="environmentclass"
+                        editMode={this.state.editMode}
+                        value={this.state.environmentclass}
+                        handleChange={this.handleChange.bind(this)}
+                        options={environmentClasses}
                     />
+
+                    {/*Submit / Cancel buttons*/}
+                    <br />
+                    {this.state.editMode ?
+                        <div className="btn-block">
+                            <button type="submit" className="btn btn-sm btn-primary pull-right"
+                                    onClick={() => this.toggleComponentDisplay("displaySubmitForm")}>Submit
+                            </button>
+                            <button type="reset" className="btn btn-sm btn-default btn-space pull-right"
+                                    onClick={() => this.toggleComponentDisplay("editMode")}>Cancel
+                            </button>
+                        </div>
+                        : ""
+                    }
                     {/*Lifecycle*/}
                     <div className="col-xs-12" style={{height: 30 + "px"}}></div>
 
@@ -73,6 +119,7 @@ class Environment extends Component {
                                    rescueAction={() => console.log("you need to do something about this, dude!")}/>
                     </div>
                 </div>
+
 
                 {/*Side menu*/}
                 <CollapsibleMenu>
@@ -150,6 +197,7 @@ const mapStateToProps = (state) => {
     return {
         user: state.user,
         environment: state.environment_fasit.data,
+        environmentClasses: state.environments.environmentClasses,
         revisions: state.revisions,
         query: state.routing.locationBeforeTransitions.query
     }
