@@ -91,7 +91,7 @@ class Environment extends Component {
                 </div>
                 <div className="col-xs-12">
                     <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                    {displayClusters ? clusterName ? <EnvironmentCluster clusterName={clusterName}/> : <EnvironmentClusters environment={environment.name}/> : null}
+                    {displayClusters ? clusterName ? <EnvironmentCluster clusterName={clusterName} environment={environment.name}/> : <EnvironmentClusters environment={environment.name}/> : null}
                     {displayNodes ? <EnvironmentNodes environment={environment.name} /> : ''}
                     {displayInstances ? <EnvironmentInstances environment={environment.name} /> : ''}
                 </div>

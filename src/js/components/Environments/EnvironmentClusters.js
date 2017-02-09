@@ -90,8 +90,8 @@ class EnvironmentClusters extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        clusters: state.environment_clusters_fasit.data,
-        isFetching: state.environment_clusters_fasit.isFetching
+        clusters: state.environment_clusters.data,
+        isFetching: state.environment_clusters.isFetching
     }
 }
 

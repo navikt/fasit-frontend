@@ -1,7 +1,7 @@
 import {
-    ENVIRONMENT_CLUSTERS_FASIT_FETCHING,
-    ENVIRONMENT_CLUSTERS_FASIT_RECEIVED,
-    ENVIRONMENT_CLUSTERS_FASIT_REQUEST_FAILED,
+    ENVIRONMENT_CLUSTER_FASIT_FETCHING,
+    ENVIRONMENT_CLUSTER_FASIT_RECEIVED,
+    ENVIRONMENT_CLUSTER_FASIT_REQUEST_FAILED,
 } from '../actionTypes'
 
 export default (state = {
@@ -10,19 +10,19 @@ export default (state = {
     requestFailed: false,
 }, action) => {
     switch (action.type) {
-        case ENVIRONMENT_CLUSTERS_FASIT_FETCHING:
+        case ENVIRONMENT_CLUSTER_FASIT_FETCHING:
             return Object.assign({}, state, {
                 data: [],
                 isFetching: true,
                 requestFailed: false
             })
-        case ENVIRONMENT_CLUSTERS_FASIT_RECEIVED:
+        case ENVIRONMENT_CLUSTER_FASIT_RECEIVED:
             return Object.assign({}, state, {
                 data: action.value,
                 isFetching: false,
                 requestFailed: false
             })
-        case ENVIRONMENT_CLUSTERS_FASIT_REQUEST_FAILED:
+        case ENVIRONMENT_CLUSTER_FASIT_REQUEST_FAILED:
             return Object.assign({}, state, {
                 requestFailed: action.error.message,
                 data: [],
