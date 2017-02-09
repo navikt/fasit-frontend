@@ -1,14 +1,23 @@
 import React, {Component, PropTypes} from "react"
 import {Link} from 'react-router'
 import {connect} from "react-redux"
-import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, Lifecycle, FormString, FormList, ToolButtons} from "../common/"
+import {
+    CollapsibleMenu,
+    CollapsibleMenuItem,
+    RevisionsView,
+    Lifecycle,
+    FormString,
+    FormList,
+    SubmitForm,
+    DeleteElementForm,
+    ToolButtons
+} from "../common/"
+import {submitForm} from '../../actionCreators/common'
 import {validAuthorization} from '../../utils/'
 import EnvironmentClusters from './EnvironmentClusters'
 import EnvironmentNodes from './EnvironmentNodes'
 import EnvironmentInstances from './EnvironmentInstances'
-import {
-    fetchEnvironment
-} from "../../actionCreators/environment"
+import {fetchEnvironment} from "../../actionCreators/environment"
 
 class Environment extends Component {
     constructor(props) {
@@ -17,7 +26,13 @@ class Environment extends Component {
         this.state = {
             displayClusters: true,
             displayNodes: false,
-            displayInstances: false
+            displayInstances: false,
+            displaySubmitForm: false,
+            displayDeleteForm: false,
+            editMode: false,
+            comment:"",
+            environmentclass: "",
+            name: ""
         }
     }
     resetLocalState() {
@@ -38,8 +53,18 @@ class Environment extends Component {
 
     }
     handleChange(field, value) {
-        console.log("!called")
         this.setState({[field]: value})
+    }
+    handleSubmitForm(key, form, comment, component) {
+        const {dispatch} = this.props
+        if (component == "environment") {
+            this.toggleComponentDisplay("displaySubmitForm")
+            this.toggleComponentDisplay("editMode")
+        } else if (component === "deleteEnvironment") {
+            this.toggleComponentDisplay("displayDeleteForm")
+            this.setState({comment: ""})
+        }
+        dispatch(submitForm(key, form, comment, component))
     }
 
     componentDidMount() {
@@ -63,7 +88,7 @@ class Environment extends Component {
 
     render() {
         const {environment, user, query, environmentClasses} = this.props
-        const {displayClusters, displayInstances, displayNodes} = this.state
+        const {displayClusters, displayInstances, displayNodes, name, environmentclass, comment} = this.state
         let lifecycle = {}
         let authorized = false
         if (Object.keys(environment).length > 0) {
@@ -150,7 +175,38 @@ class Environment extends Component {
                     {displayNodes ? <EnvironmentNodes environment={environment.name}/> : ''}
                     {displayInstances ? <EnvironmentInstances environment={environment.name}/> : ''}
                 </div>
+
+                {/* Misc. modals*/}
+                <DeleteElementForm
+                    displayDeleteForm={this.state.displayDeleteForm}
+                    onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
+                    onSubmit={() => this.handleSubmitForm(name, null, comment, "deleteEnvionment")}
+                    id={name}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={comment}
+
+                />
+                <SubmitForm
+                    display={this.state.displaySubmitForm}
+                    component="environment"
+                    onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
+                    onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
+                    newValues={{
+                        name: this.state.name,
+                        environmentclass: this.state.environmentclass,
+
+                    }}
+                    originalValues={{
+                        name: environment.name,
+                        environmentclass: environment.environmentclass,
+                    }}
+                    additionalValues={{
+                        environment: environment.environment,
+                        environmentclass: environment.environmentclass
+                    }}
+                />
             </div>
+
         )
     }
 
