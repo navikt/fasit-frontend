@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
 import {Link} from "react-router"
-import {fetchEnvironmentClusters} from "../../actionCreators/environment"
+import {fetchEnvironmentClusters, clearEnvironmentClusters} from "../../actionCreators/environment"
 import Select from 'react-select'
 
 class EnvironmentClusters extends Component {
@@ -25,6 +25,10 @@ class EnvironmentClusters extends Component {
         if (environment != nextProps.environment && nextProps.environment) {
             dispatch(fetchEnvironmentClusters(nextProps.environment))
         }
+    }
+    compnentWillUnmount(){
+        const {dispatch} = this.props
+        dispatch(clearEnvironmentClusters())
     }
 
     render() {

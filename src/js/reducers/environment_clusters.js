@@ -1,4 +1,5 @@
 import {
+    CLEAR_ENVIRONMENT_CLUSTERS,
     ENVIRONMENT_CLUSTERS_FETCHING,
     ENVIRONMENT_CLUSTERS_RECEIVED,
     ENVIRONMENT_CLUSTERS_REQUEST_FAILED,
@@ -7,9 +8,15 @@ import {
 export default (state = {
     data: [],
     isFetching: false,
-    requestFailed: false,
+    requestFailed: false
 }, action) => {
     switch (action.type) {
+        case CLEAR_ENVIRONMENT_CLUSTERS:
+            return Object.assign({}, state, {
+                data: [],
+                isFetching: false,
+                requestFailed: false
+            })
         case ENVIRONMENT_CLUSTERS_FETCHING:
             return Object.assign({}, state, {
                 data: [],
