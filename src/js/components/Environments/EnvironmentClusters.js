@@ -29,6 +29,8 @@ class EnvironmentClusters extends Component {
     render() {
         const {cluster, application} = this.state
         const {clusters, isFetching} = this.props
+        const clustersFilteredByName = clusters.filter(c => (!cluster || c.clustername === cluster) ? true : false)
+        const clustersFilteredByNameAndApplication = clustersFilteredByName.filter(c => (!application|| c.applications.filter(app => app.name === application).length > 0 ? true : false))
         const clusterNames = clusters.map(c => c.clustername)
         const applicationNames = clusters.reduce((a, b) => a.concat(b.applications), []).map(a => a.name)
         return isFetching ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> : (
@@ -60,7 +62,7 @@ class EnvironmentClusters extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {this.props.clusters.map(cluster => {
+                        {clustersFilteredByNameAndApplication.map(cluster => {
                             return <tr key={cluster.id}>
                                 <td>
                                     <Link

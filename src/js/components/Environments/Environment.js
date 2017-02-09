@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from "react"
+import {Link} from 'react-router'
 import {connect} from "react-redux"
 import {validAuthorization} from '../../utils/'
 import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, Lifecycle, FormString} from "../common/"
@@ -76,12 +77,15 @@ class Environment extends Component {
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
                 <div className="col-xs-12">
                     <ul className="nav nav-tabs">
-                        <li className={displayClusters ? "active" : ""}><a
-                            onClick={() => this.selectTab("clusters")}>Clusters</a></li>
-                        <li className={displayNodes ? "active" : ""}><a
-                            onClick={() => this.selectTab("nodes")}>Nodes</a></li>
-                        <li className={displayInstances ? "active" : ""}><a
-                            onClick={() => this.selectTab("instances")}>Instances</a>
+                        <li className={displayClusters ? "active" : ""}>
+                            <Link to={`/environments/${environment.name}/clusters`}
+                                  onClick={() => this.selectTab("clusters")}>Clusters</Link></li>
+                        <li className={displayNodes ? "active" : ""}>
+                            <Link to={`/environments/${environment.name}/nodes`}
+                                  onClick={() => this.selectTab("nodes")}>Nodes</Link></li>
+                        <li className={displayInstances ? "active" : ""}>
+                            <Link to={`/environments/${environment.name}/instances`}
+                            onClick={() => this.selectTab("instances")}>Instances</Link>
                         </li>
                     </ul>
                 </div>

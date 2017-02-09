@@ -20,6 +20,8 @@ export default () => {
             <Route path="/nodes(/:node)" component={Nodes}/>
             <Route path="/environments(/:environment)" component={Environments}/>
             <Route path="/environments(/:environment)/clusters(/:cluster)" component={Environments}/>
+            <Route path="/environments(/:environment)/nodes" component={Environments}/>
+            <Route path="/environments(/:environment)/instances" component={Environments}/>
             <Route path="/applications(/:application)" component={Applications}/>
             <Route path="/resources(/:resource)" component={Resources}/>
             <Route path="/instances(/:instance)" component={Instances}/>
