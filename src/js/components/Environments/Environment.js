@@ -55,8 +55,9 @@ class Environment extends Component {
     handleChange(field, value) {
         this.setState({[field]: value})
     }
-    handleSubmitForm(key, form, comment, component) {
+    handleSubmitForm(id, form, comment, component) {
         const {dispatch} = this.props
+        console.log("key",id, "form",form,"comment", comment,"component", component)
         if (component == "environment") {
             this.toggleComponentDisplay("displaySubmitForm")
             this.toggleComponentDisplay("editMode")
@@ -64,7 +65,7 @@ class Environment extends Component {
             this.toggleComponentDisplay("displayDeleteForm")
             this.setState({comment: ""})
         }
-        dispatch(submitForm(key, form, comment, component))
+        dispatch(submitForm(id, form, comment, component))
     }
 
     componentDidMount() {
@@ -113,7 +114,7 @@ class Environment extends Component {
                         label="name"
                         editMode={this.state.editMode}
                         handleChange={this.handleChange.bind(this)}
-                        value={environment.name}
+                        value={this.state.name}
                     />
                     <FormList
                         label="environmentclass"
@@ -180,7 +181,7 @@ class Environment extends Component {
                 <DeleteElementForm
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-                    onSubmit={() => this.handleSubmitForm(name, null, comment, "deleteEnvionment")}
+                    onSubmit={() => this.handleSubmitForm(name, null, comment, "deleteEnvironment")}
                     id={name}
                     handleChange={this.handleChange.bind(this)}
                     comment={comment}
@@ -189,7 +190,7 @@ class Environment extends Component {
                 <SubmitForm
                     display={this.state.displaySubmitForm}
                     component="environment"
-                    onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
+                    onSubmit={(id, form, comment, component) => this.handleSubmitForm(id, form, comment, component)}
                     onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
                     newValues={{
                         name: this.state.name,

@@ -19,9 +19,12 @@ export function* submitForm(action) {
     yield put({type: SUBMITTING_FORM})
     try {
         switch (action.component) {
-            case "node":
-                url = `${configuration.fasit_nodes}/${action.key}`
-                yield putUrl(url, action.form, action.comment)
+
+            // New
+            case "newApplication":
+                url = `${configuration.fasit_applications}`
+                yield postUrl(url, action.form, action.comment)
+                yield put({type: SHOW_NEW_APPLICATION_FORM, value: false})
                 break
             case "newNode":
                 url = `${configuration.fasit_nodes}`
@@ -33,6 +36,8 @@ export function* submitForm(action) {
                 yield postUrl(url, action.form, action.comment)
                 yield put({type: SHOW_NEW_ENVIRONMENT_FORM, value: false})
                 break
+
+            // Delete
             case "deleteApplication":
                 url = `${configuration.fasit_applications}/${action.key}`
                 yield deleteUrl(url, action.comment)
@@ -41,14 +46,23 @@ export function* submitForm(action) {
                 url = `${configuration.fasit_nodes}/${action.key}`
                 yield deleteUrl(url, action.comment)
                 break
+            case "deleteEnvironment":
+                url = `${configuration.fasit_environments}/${action.key}`
+                yield deleteUrl(url, action.comment)
+                break
+
+            // Update
+            case "node":
+                url = `${configuration.fasit_nodes}/${action.key}`
+                yield putUrl(url, action.form, action.comment)
+                break
             case "application":
                 url = `${configuration.fasit_applications}/${action.key}`
                 yield putUrl(url, action.form, action.comment)
                 break
-            case "newApplication":
-                url = `${configuration.fasit_applications}`
-                yield postUrl(url, action.form, action.comment)
-                yield put({type: SHOW_NEW_APPLICATION_FORM, value: false})
+            case "environment":
+                url = `${configuration.fasit_environments}/${action.key}`
+                yield putUrl(url, action.form, action.comment)
                 break
             default:
                 throw new Error("I don't know which component you're coming from")
