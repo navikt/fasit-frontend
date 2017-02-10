@@ -43,7 +43,7 @@ class TopNav extends Component {
                         <li>
                             <button
                                 type="button"
-                                className="btn btn-sm topnav-button btn-link topnav-login-button topnavIcon"
+                                className="btn btn-sm topnav-button btn-link topnav-login-button"
                                 onClick={() => dispatch(displayLogin(true))}
                             >
                                 <i className="fa fa-unlock-alt"/>&nbsp;Log in
