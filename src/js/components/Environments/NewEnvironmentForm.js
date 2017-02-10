@@ -11,26 +11,18 @@ class NewNodeForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            hostname: "",
-            username: "",
-            password: "",
-            type: "",
-            environment: "",
+            name: "",
             environmentclass: "",
-            zone: ""
+            comment: ""
         }
     }
 
 
     resetLocalState() {
         this.setState({
-            hostname: "",
-            username: "",
-            password: "",
-            type: "",
-            environment: "",
+            name: "",
             environmentclass: "",
-            zone: ""
+            comment: ""
         })
     }
 
@@ -40,19 +32,12 @@ class NewNodeForm extends Component {
 
     handleSubmitForm() {
         const {dispatch} = this.props
-        const {hostname, username, password, type, environment, environmentclass, comment} = this.state
+        const {name, environmentclass, comment} = this.state
         const form = {
-            hostname,
-            username,
-            password: {value: password},
-            type,
-            environment,
+            name,
             environmentclass,
         }
-        if (!(environmentclass === 'u')) {
-            form["zone"] = this.state.zone
-        }
-        dispatch(submitForm(form.hostname, form, comment, "newNode"))
+        dispatch(submitForm(form.name, form, comment, "newEnvironment"))
     }
 
     closeForm() {
@@ -62,27 +47,25 @@ class NewNodeForm extends Component {
     }
 
     showSubmitButton() {
-        const {hostname, username, password, type, environmentclass, environment, zone} = this.state
-        if (hostname && username && password && type && environmentclass && environment) {
-            if ((zone) || (environmentclass === 'u')) {
-                return (
-                    <button type="submit"
-                            className="btn btn-primary pull-right"
-                            onClick={this.handleSubmitForm.bind(this, true)}>Submit
-                    </button>
-                )
-            }
+        const {name, environmentclass} = this.state
+        if (name && environmentclass) {
+            return (
+                <button type="submit"
+                        className="btn btn-primary pull-right"
+                        onClick={this.handleSubmitForm.bind(this, true)}>Submit
+                </button>
+            )
         }
         return <button type="submit" className="btn btn-primary pull-right disabled">Submit</button>
 
     }
 
     render() {
-        const {environmentClasses, showNewNodeForm, nodeTypes} = this.props
+        const {environmentClasses, showNewEnvironmentForm} = this.props
         return (
-            <Modal show={showNewNodeForm} onHide={this.closeForm.bind(this)}>
+            <Modal show={showNewEnvironmentForm} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
-                    <Modal.Title>New node
+                    <Modal.Title>New environment
                         <button type="reset" className="btn btn-link pull-right"
                                 onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>
@@ -90,29 +73,10 @@ class NewNodeForm extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <FormString
-                        label="hostname"
+                        label="name"
                         editMode={true}
-                        value={this.state.hostname}
+                        value={this.state.name}
                         handleChange={this.handleChange.bind(this)}
-                    />
-                    <FormString
-                        label="username"
-                        editMode={true}
-                        value={this.state.username}
-                        handleChange={this.handleChange.bind(this)}
-                    />
-                    <FormString
-                        label="password"
-                        editMode={true}
-                        value={this.state.password}
-                        handleChange={this.handleChange.bind(this)}
-                    />
-                    <FormList
-                        label="type"
-                        editMode={true}
-                        value={this.state.type}
-                        handleChange={this.handleChange.bind(this)}
-                        options={nodeTypes}
                     />
                     <FormList
                         label="environmentclass"
@@ -121,9 +85,7 @@ class NewNodeForm extends Component {
                         handleChange={this.handleChange.bind(this)}
                         options={environmentClasses}
                     />
-                    {this.environmentSelector()}
-                    {this.zoneSelector()}
-                    <div className="col-xs-12" style={{height: 15 + 'px'}}></div>
+                    <div className="col-xs-12" style={{height: 15}}></div>
                 </Modal.Body>
                 <Modal.Footer>
                     <FormComment
@@ -140,44 +102,6 @@ class NewNodeForm extends Component {
             </Modal>
         )
     }
-
-    environmentSelector() {
-        const {environments} = this.props
-        const {environmentclass} = this.state
-        if (environmentclass) {
-            const filteredEnvironments = environments.filter((env) => {
-                if (!environmentclass) {
-                    return true
-                } else {
-                    return env.environmentclass === environmentclass
-                }
-            })
-            return (
-                <FormList
-                    label="environment"
-                    editMode={true}
-                    value={this.state.environment}
-                    handleChange={this.handleChange.bind(this)}
-                    options={filteredEnvironments.map((env) => env.name)}
-                />)
-        }
-    }
-
-    zoneSelector() {
-        const {zones} = this.props
-        const {environmentclass} = this.state
-        if (environmentclass && environmentclass !== 'u') {
-            return (
-                <FormList
-                    label="zone"
-                    editMode={true}
-                    value={this.state.zone}
-                    handleChange={this.handleChange.bind(this)}
-                    options={zones}
-                />)
-        }
-    }
-
 }
 NewNodeForm.propTypes = {
     dispatch: PropTypes.func.isRequired
@@ -185,7 +109,7 @@ NewNodeForm.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        showNewEnvironmentForm: state.nodes.showNewEnvironmentForm,
+        showNewEnvironmentForm: state.environments.showNewEnvironmentForm,
         environmentClasses: state.environments.environmentClasses,
         environments: state.environments.environments,
         zones: state.environments.zones

@@ -3,6 +3,7 @@ import {call, put, fork, select} from 'redux-saga/effects'
 import {putUrl, postUrl, deleteUrl} from '../utils'
 import {
     SHOW_NEW_APPLICATION_FORM,
+    SHOW_NEW_ENVIRONMENT_FORM,
     SHOW_NEW_NODE_FORM,
     SUBMIT_FORM,
     SUBMITTING_FORM,
@@ -26,6 +27,11 @@ export function* submitForm(action) {
                 url = `${configuration.fasit_nodes}`
                 yield postUrl(url, action.form, action.comment)
                 yield put({type: SHOW_NEW_NODE_FORM, value: false})
+                break
+            case "newEnvironment":
+                url = `${configuration.fasit_environments}`
+                yield postUrl(url, action.form, action.comment)
+                yield put({type: SHOW_NEW_ENVIRONMENT_FORM, value: false})
                 break
             case "deleteApplication":
                 url = `${configuration.fasit_applications}/${action.key}`

@@ -3,6 +3,7 @@ import {
     ENVIRONMENTS_LIST_RECEIVED,
     ENVIRONMENTS_LIST_FAILED,
     ENVIRONMENTS_RECEIVED,
+    SHOW_NEW_ENVIRONMENT_FORM
 } from '../actionTypes'
 
 export default (state = {
@@ -12,7 +13,8 @@ export default (state = {
     zones: ['fss', 'sbs'],
     environmentClasses: ['u','t','q','p'],
     headers: {},
-    environments: []
+    environments: [],
+    showNewEnvironmentForm: false
 }, action) => {
     switch (action.type) {
 
@@ -41,6 +43,12 @@ export default (state = {
                 isFetching: false,
                 requestFailed: action.value
             })
+
+        case SHOW_NEW_ENVIRONMENT_FORM:
+            return Object.assign({}, state, {
+                showNewEnvironmentForm: action.value
+                }
+            )
 
         default:
             return state
