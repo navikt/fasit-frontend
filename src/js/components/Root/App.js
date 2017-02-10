@@ -11,6 +11,7 @@ import TopNav from '../Navigation/TopNav'
 import NewNodeForm from '../Nodes/NewNodeForm'
 import NewApplicationForm from '../Applications/NewApplicationForm'
 import NewEnvironmentForm from '../Environments/NewEnvironmentForm'
+import NewClusterForm from '../Environments/NewClusterForm'
 import {SubmitFormStatus} from '../common/'
 
 
@@ -39,6 +40,7 @@ class App extends Component {
                 <SubmitFormStatus />
                 <NewNodeForm />
                 <NewEnvironmentForm />
+                <NewClusterForm />
                 <NewApplicationForm />
             </div>
         )

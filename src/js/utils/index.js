@@ -154,10 +154,14 @@ export const deleteUrl = (url, comment) => {
         method: 'DELETE'
     })
         .then(res => {
+            let text = res.text()
             if (res.status >= 400) {
-                const errorMessage = `${res.status}:${res.statusText}\n${res.text()}`
-                throw new Error(errorMessage)
+                return text.then(err => {
+                    const errorMessage = `${res.status}:${res.statusText}\n${err}`
+                    throw new Error(errorMessage)
+
+                })
             }
-            return res.text()
+            return text
         })
 }

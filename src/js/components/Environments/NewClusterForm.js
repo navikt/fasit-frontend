@@ -7,12 +7,14 @@ import {FormString, FormList, FormComment} from '../common/Forms'
 import {showNewComponentForm} from '../../actionCreators/common'
 import {submitForm} from '../../actionCreators/common'
 
-class NewEnvironmentForm extends Component {
+class NewClusterForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: "",
+            clustername: "",
+            environment: "",
             environmentclass: "",
+            zone: "",
             comment: ""
         }
     }
@@ -20,8 +22,10 @@ class NewEnvironmentForm extends Component {
 
     resetLocalState() {
         this.setState({
-            name: "",
+            clustername: "",
+            environment: "",
             environmentclass: "",
+            zone: "",
             comment: ""
         })
     }
@@ -32,23 +36,26 @@ class NewEnvironmentForm extends Component {
 
     handleSubmitForm() {
         const {dispatch} = this.props
-        const {name, environmentclass, comment} = this.state
+        const {clustername, environment, environmentclass, zone, comment} = this.state
         const form = {
-            name,
+            clustername,
+            environment,
             environmentclass,
+            zone,
+            comment
         }
-        dispatch(submitForm(form.name, form, comment, "newEnvironment"))
+        dispatch(submitForm(form.clustername, form, comment, "newCluster"))
     }
 
     closeForm() {
         const {dispatch} = this.props
         this.resetLocalState()
-        dispatch(showNewComponentForm("environment", false))
+        dispatch(showNewComponentForm("cluster", false))
     }
 
     showSubmitButton() {
-        const {name, environmentclass} = this.state
-        if (name && environmentclass) {
+        const {clustername, environment, environmentclass, zone} = this.state
+        if (clustername && environment && environmentclass && zone) {
             return (
                 <button type="submit"
                         className="btn btn-primary pull-right"
@@ -61,11 +68,11 @@ class NewEnvironmentForm extends Component {
     }
 
     render() {
-        const {environmentClasses, showNewEnvironmentForm} = this.props
+        const {environments} = this.props
         return (
-            <Modal show={showNewEnvironmentForm} onHide={this.closeForm.bind(this)}>
+            <Modal show={environments.showNewClusterForm} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
-                    <Modal.Title>New environment
+                    <Modal.Title>New cluster
                         <button type="reset" className="btn btn-link pull-right"
                                 onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>
@@ -73,9 +80,9 @@ class NewEnvironmentForm extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <FormString
-                        label="name"
+                        label="clustername"
                         editMode={true}
-                        value={this.state.name}
+                        value={this.state.clustername}
                         handleChange={this.handleChange.bind(this)}
                     />
                     <FormList
@@ -83,8 +90,10 @@ class NewEnvironmentForm extends Component {
                         editMode={true}
                         value={this.state.environmentclass}
                         handleChange={this.handleChange.bind(this)}
-                        options={environmentClasses}
+                        options={environments.environmentClasses}
                     />
+                    {this.environmentSelector()}
+                    {this.zoneSelector()}
                     <div className="col-xs-12" style={{height: 15}}></div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -102,18 +111,53 @@ class NewEnvironmentForm extends Component {
             </Modal>
         )
     }
+    environmentSelector() {
+        const {environments} = this.props
+        const {environmentclass} = this.state
+        if (environmentclass) {
+            const filteredEnvironments = environments.environments.filter((env) => {
+                if (!environmentclass) {
+                    return true
+                } else {
+                    return env.environmentclass === environmentclass
+                }
+            })
+            return (
+                <FormList
+                    label="environment"
+                    editMode={true}
+                    value={this.state.environment}
+                    handleChange={this.handleChange.bind(this)}
+                    options={filteredEnvironments.map((env) => env.name)}
+                />)
+        }
+    }
+
+    zoneSelector() {
+        const {environments} = this.props
+        const {environmentclass} = this.state
+        if (environmentclass && environmentclass !== 'u') {
+            return (
+                <FormList
+                    label="zone"
+                    editMode={true}
+                    value={this.state.zone}
+                    handleChange={this.handleChange.bind(this)}
+                    options={environments.zones}
+                />)
+        }
+    }
 }
-NewEnvironmentForm.propTypes = {
+
+
+NewClusterForm.propTypes = {
     dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
     return {
-        showNewEnvironmentForm: state.environments.showNewEnvironmentForm,
-        environmentClasses: state.environments.environmentClasses,
-        environments: state.environments.environments,
-        zones: state.environments.zones
+        environments: state.environments,
     }
 }
 
-export default connect(mapStateToProps)(NewEnvironmentForm)
+export default connect(mapStateToProps)(NewClusterForm)

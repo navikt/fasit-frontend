@@ -32,7 +32,7 @@ class TopNav extends Component {
                                 id="toolsOverlay"
                                 overlay={this.toolsOverlay()}
                             >
-                                <button type="button" className="btn  btn-link topnav-button tools-topnav-button topnavIcon"><i
+                                <button type="button" className="btn  btn-link topnav-button tools-topnav-button"><i
                                     className="fa fa-wrench fa-2x"/>
                                 </button>
                             </OverlayTrigger>
@@ -58,7 +58,7 @@ class TopNav extends Component {
                                 placement="bottom"
                                 overlay={this.loginInformationOverlay()}
                             >
-                                <button type="button" className="btn  btn-link topnav-button topnavIcon">
+                                <button type="button" className="btn  btn-link topnav-button">
                             <span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x"/><i
                                 className="fa fa-user fa-stack-1x fa-inverse"/></span>
                                 </button>
@@ -74,7 +74,7 @@ class TopNav extends Component {
                     >
                         <img
                             src="/images/aura-ikoner/aurabot.png"
-                            style={{width:30, marginTop:10, marginRight:20, marginLeft:10, cursor:"pointer"}}
+                            style={{width:30, marginTop:11, marginRight:30, marginLeft:12, cursor:"pointer"}}
                             className="topnavIcon"/>
 
                     </OverlayTrigger>
