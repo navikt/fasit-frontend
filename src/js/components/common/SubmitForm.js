@@ -85,7 +85,7 @@ class SubmitForm extends Component {
                                     </tr>
                                 )
                             }) :
-                            <td />
+                            null
                         }
 
                         </tbody>
