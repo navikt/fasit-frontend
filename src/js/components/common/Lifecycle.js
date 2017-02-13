@@ -10,9 +10,10 @@ class Lifecycle extends Component {
 
     render() {
         const {lifecycle, jira, rescue} = this.props
-        switch (lifecycle.status) {
+        if (lifecycle === undefined) return null
+         switch (lifecycle.status) {
             case "stopped":
-                return (
+                 return (
                     <div className="alert alert-danger col-md-8">
                         This element was stopped and will be <b>deleted</b><br />
                         {moment(lifecycle.nextactiondate).format('ll, HH:mm')}<br />
@@ -31,7 +32,7 @@ class Lifecycle extends Component {
                     </div>
                 )
             case "rescued":
-                return (
+                 return (
                         <div className="alert alert-danger col-md-8">
                             This element has been <b>rescued</b> from deletion until&nbsp;
                             <strong>{moment(lifecycle.nextactiondate).format('ll, HH:mm')}</strong><br />
@@ -40,17 +41,14 @@ class Lifecycle extends Component {
                         </div>
                 )
             default :
-                return <div />
+                 return <div />
         }
-
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         jira: state.configuration.jira,
-        lifecycle: ownProps.lifecycle,
-        rescue: ownProps.rescueAction
     }
 }
 

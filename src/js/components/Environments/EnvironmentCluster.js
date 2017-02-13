@@ -31,7 +31,7 @@ class EnvironmentCluster extends Component {
     }
 
     render() {
-        const {cluster, user, params} = this.props
+        const {cluster, user, params, environments} = this.props
         const {editMode, displaySubmitForm, displayDeleteForm} = this.state
         let authorized = (Object.keys(cluster).length > 0) ? validAuthorization(user, cluster.data.accesscontrol) : false
         let lifecycle = (Object.keys(cluster).length > 0) ? cluster.data.lifecycle : {}
