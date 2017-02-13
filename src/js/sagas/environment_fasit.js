@@ -6,10 +6,14 @@ import {
     ENVIRONMENT_FASIT_FETCHING,
     ENVIRONMENT_FASIT_RECEIVED,
     ENVIRONMENT_FASIT_REQUEST_FAILED,
-    ENVIRONMENT_CLUSTERS_FASIT_REQUEST,
-    ENVIRONMENT_CLUSTERS_FASIT_FETCHING,
-    ENVIRONMENT_CLUSTERS_FASIT_RECEIVED,
-    ENVIRONMENT_CLUSTERS_FASIT_REQUEST_FAILED,
+    ENVIRONMENT_CLUSTERS_REQUEST,
+    ENVIRONMENT_CLUSTERS_FETCHING,
+    ENVIRONMENT_CLUSTERS_RECEIVED,
+    ENVIRONMENT_CLUSTERS_REQUEST_FAILED,
+    ENVIRONMENT_CLUSTER_FASIT_REQUEST,
+    ENVIRONMENT_CLUSTER_FASIT_FETCHING,
+    ENVIRONMENT_CLUSTER_FASIT_RECEIVED,
+    ENVIRONMENT_CLUSTER_FASIT_REQUEST_FAILED,
     ENVIRONMENT_NODES_FASIT_REQUEST,
     ENVIRONMENT_NODES_FASIT_FETCHING,
     ENVIRONMENT_NODES_FASIT_RECEIVED,
@@ -41,12 +45,24 @@ export function* fetchEnvironment(action) {
 export function* fetchEnvironmentClusters(action) {
     const environmentsApi = yield select((state) => state.configuration.fasit_environments)
     const environment = action.environment
-    yield put({type: ENVIRONMENT_CLUSTERS_FASIT_FETCHING})
+    yield put({type: ENVIRONMENT_CLUSTERS_FETCHING})
     try {
         const value = yield call(fetchUrl, `${environmentsApi}/${environment}/clusters`)
-        yield put({type: ENVIRONMENT_CLUSTERS_FASIT_RECEIVED, value})
+        yield put({type: ENVIRONMENT_CLUSTERS_RECEIVED, value})
     } catch (error) {
-        yield put({type: ENVIRONMENT_CLUSTERS_FASIT_REQUEST_FAILED, error})
+        yield put({type: ENVIRONMENT_CLUSTERS_REQUEST_FAILED, error})
+    }
+}
+
+export function* fetchEnvironmentCluster(action) {
+    const environmentsApi = yield select((state) => state.configuration.fasit_environments)
+    const {environment, cluster} = action
+    yield put({type: ENVIRONMENT_CLUSTER_FASIT_FETCHING})
+    try {
+        const value = yield call(fetchUrl, `${environmentsApi}/${environment}/clusters/${cluster}`)
+        yield put({type: ENVIRONMENT_CLUSTER_FASIT_RECEIVED, value})
+    } catch (error) {
+        yield put({type: ENVIRONMENT_CLUSTER_FASIT_REQUEST_FAILED, error})
     }
 }
 
@@ -74,7 +90,8 @@ export function* fetchEnvironmentInstances(action) {
 
 export function* watchEnvironmentFasit() {
     yield fork(takeEvery, ENVIRONMENT_FASIT_REQUEST, fetchEnvironment)
-    yield fork(takeEvery, ENVIRONMENT_CLUSTERS_FASIT_REQUEST, fetchEnvironmentClusters)
+    yield fork(takeEvery, ENVIRONMENT_CLUSTER_FASIT_REQUEST, fetchEnvironmentCluster)
+    yield fork(takeEvery, ENVIRONMENT_CLUSTERS_REQUEST, fetchEnvironmentClusters)
     yield fork(takeEvery, ENVIRONMENT_NODES_FASIT_REQUEST, fetchEnvironmentNodes)
     yield fork(takeEvery, ENVIRONMENT_INSTANCES_FASIT_REQUEST, fetchEnvironmentInstances)
 }

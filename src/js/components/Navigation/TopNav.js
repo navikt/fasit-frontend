@@ -21,76 +21,64 @@ class TopNav extends Component {
 
     showLogin() {
         const {user, dispatch} = this.props
-        if (!user.authenticated)
-            return (
-                <ul className="nav navbar-nav navbar-right">
-                    <li>
-                        <OverlayTrigger
-                            trigger="click"
-                            rootClose={true}
-                            placement="bottom"
-                            overlay={AuraTools()}
-                        >
-                            <button type="button" className="btn btn-link topnav-button apps-topnav-button"><i
-                                className="fa fa-th fa-2x"/>
-                            </button>
-                        </OverlayTrigger>
-                    </li>
-                    <li>
-                        <button
-                            type="button"
-                            className="btn btn-sm topnav-button btn-link topnav-login-button"
-                            onClick={() => dispatch(displayLogin(true))}
-                        >
-                            <i className="fa fa-unlock-alt"/>&nbsp;Log in
-                        </button>
-                    </li>
-                </ul>
-            )
         return (
             <ul className="nav navbar-nav navbar-right">
+                {user.authenticated ? (
+                        <li>
+                            <OverlayTrigger
+                                trigger="click"
+                                rootClose={true}
+                                placement="bottom"
+                                id="toolsOverlay"
+                                overlay={this.toolsOverlay()}
+                            >
+                                <button type="button" className="btn btn-sm  tools-topnav topnav-button">new&nbsp;<i
+                                    className="fa fa-plus"/>
+                                </button>
+                            </OverlayTrigger>
+                        </li>
+                    ) : null
+                }
+                {!user.authenticated ? (
+                        <li>
+                            <button
+                                type="button"
+                                className="btn btn-sm  tools-topnav topnav-button"
+                                onClick={() => dispatch(displayLogin(true))}
+                            >
+                                <i className="fa fa-unlock-alt"/>&nbsp;Log in
+                            </button>
+                        </li>
+                    ) : (
+                        <li>
+                            <OverlayTrigger
+                                trigger="click"
+                                id="loginINformationOverlay"
+                                rootClose={true}
+                                placement="bottom"
+                                overlay={this.loginInformationOverlay()}
+                            >
+                                <button type="button" className="btn btn-sm  btn-link  tools-topnav topnav-link">
+                            <span className="fa-stack"><i className="fa fa-circle fa-stack-2x user-icon"/><i
+                                className="fa fa-user fa-stack-1x fa-inverse"/></span>{user.displayname}
+                                </button>
+                            </OverlayTrigger>
+                        </li>
+                    )}
                 <li>
                     <OverlayTrigger
                         trigger="click"
                         rootClose={true}
                         placement="bottom"
-                        id="toolsOverlay"
-                        overlay={this.toolsOverlay()}
-                    >
-                        <button type="button" className="btn  btn-link topnav-button tools-topnav-button"><i
-                            className="fa fa-plus fa-2x"/><span style={{verticalAlign: "bottom", fontSize: "12px"}}>&nbsp;cnew...</span>
-                        </button>
-                    </OverlayTrigger>
-                </li>
-
-                <li>
-                    <OverlayTrigger
-                        trigger="click"
-                        id="loginInformationOverlay"
-                        rootClose={true}
-                        placement="bottom"
-                        overlay={this.loginInformationOverlay()}
-                    >
-                        <button type="button" className="btn  btn-link topnav-button">
-                            <i  className="fa fa-user fa-inverse" /><span style={{verticalAlign: "bottom", fontSize: "12px"}}>{user.displayname}</span>
-                        </button>
-                    </OverlayTrigger>
-                </li>
-
-                <li>
-                    <OverlayTrigger
-                        trigger="click"
-                        rootClose={true}
-                        placement="bottom"
-                        id="appsOverlay"
                         overlay={AuraTools()}
                     >
-                        <button type="button" className="btn  btn-link topnav-button apps-topnav-button"><i
-                            className="fa fa-th fa-2x"/>
-                        </button>
+                        <img
+                            src="/images/aura-ikoner/aurabot.png"
+                            style={{width:30, marginTop:11, marginRight:30, marginLeft:12, cursor:"pointer"}}
+                            className="topnavIcon"/>
+
                     </OverlayTrigger>
                 </li>
-
             </ul>
         )
     }
@@ -116,118 +104,26 @@ class TopNav extends Component {
         )
     }
 
-    appsOverlay() {
-        return (
-            <Popover title="AURA tools" id="apps">
-                <a href="https://fasit.adeo.no" target="Fasit">
-
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="/images/aura-ikoner/fasit.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Fasit
-                        </div>
-                    </div>
-                </a>
-                <a href="https://basta.adeo.no" target="Basta">
-
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="/images/aura-ikoner/basta.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Basta
-                        </div>
-                    </div>
-                </a>
-                <a href="https://vera.adeo.no" target="Vera">
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="/images/aura-ikoner/vera.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Vera
-                        </div>
-                    </div>
-                </a>
-                <a href="https://sera.adeo.no" target="Sera">
-
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="/images/aura-ikoner/sera.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Sera
-                        </div>
-                    </div>
-                </a>
-                <a href="https://nora.adeo.no" target="Nora">
-
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="/images/aura-ikoner/nora.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Nora
-                        </div>
-                    </div>
-                </a>
-                <a href="https://coca.adeo.no" target="Coca">
-
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="/images/aura-ikoner/coca.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Coca
-                        </div>
-                    </div>
-                </a>
-                <a href="https://visa.adeo.no" target="Visa">
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="/images/aura-ikoner/visa.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Visa
-                        </div>
-                    </div>
-                </a>
-                <a href="https://plaster.adeo.no" target="Plaster">
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="/images/aura-ikoner/plaster.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Plaster
-                        </div>
-                    </div>
-                </a>
-                <a href="https://confluence.adeo.no/display/AURA" target="confluence">
-                    <div className="app-container">
-                        <div className="app-icon">
-                            <img src="/images/aura-ikoner/confluence.png" className="app-icon"/>
-                        </div>
-                        <div className="app-label">
-                            Docs
-                        </div>
-                    </div>
-                </a>
-            </Popover>
-        )
-    }
-
     toolsOverlay() {
         const {dispatch} = this.props
         return (
             <Popover id="tools">
                 <ul className="topnav-menu topnav-menu-selector">
-                    <li onClick={() => dispatch(showNewComponentForm("node", true))}><i className="fa fa-server"/> &nbsp;&nbsp;Create node</li>
-                    <li onClick={() => dispatch(showNewComponentForm("cluster", true))}><i className="fa fa-braille"/> &nbsp;&nbsp; Create cluster</li>
-                    <li onClick={() => dispatch(showNewComponentForm("application", true))}><i className="fa fa-cube"/> &nbsp;&nbsp; Create application</li>
-                    <li onClick={() => dispatch(showNewComponentForm("environment", true))}><i className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment</li>
-                    <li onClick={() => dispatch(showNewComponentForm("resource", true))}><i className="fa fa-cogs"/> &nbsp;&nbsp; Create resource</li>
+                    <li onClick={() => dispatch(showNewComponentForm("node", true))}><i
+                        className="fa fa-server"/> &nbsp;&nbsp;Create node
+                    </li>
+                    <li onClick={() => dispatch(showNewComponentForm("cluster", true))}><i
+                        className="fa fa-braille"/> &nbsp;&nbsp; Create cluster
+                    </li>
+                    <li onClick={() => dispatch(showNewComponentForm("application", true))}><i
+                        className="fa fa-cube"/> &nbsp;&nbsp; Create application
+                    </li>
+                    <li onClick={() => dispatch(showNewComponentForm("environment", true))}><i
+                        className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment
+                    </li>
+                    <li onClick={() => dispatch(showNewComponentForm("resource", true))}><i
+                        className="fa fa-cogs"/> &nbsp;&nbsp; Create resource
+                    </li>
                 </ul>
             </Popover>
         )
@@ -237,13 +133,14 @@ class TopNav extends Component {
         const {location, search, dispatch} = this.props
         const pathname = this.props.location.pathname.split('/')[1]
         const context = pathname === "search" ? "anything" : pathname
-        if (location.pathname !== "/") {
-            return (
+        return (location.pathname !== "/") ?
+            (
                 <div>
                     <div className="topnav topnav-active">
                         <div className="col-sm-1 col-md-2 hidden-xs">
                             <div className="topnav-brand-logo-container">
-                                <Link to="/" className="topnav-brand-logo"><img src="/images/aura-ikoner/fasit-white.png" className="topnav-brand-logo"/>
+                                <Link to="/">
+                                    <img src="/images/aura-ikoner/fasit-white.png" className="topnav-brand-logo"/>
                                 </Link>
                             </div>
                         </div>
@@ -262,18 +159,12 @@ class TopNav extends Component {
                         <Login />
                     </div>
                     <ContextMenu />
-                    {/*-- Misc. modal components --*/}
-
                 </div>
-            )
-        }
-        return (
-            <div className="topnav">
-                <div className="col-md-1 hidden-sm hidden-xs">
-                </div>
-                {this.showLogin()}
-                <Login />
-            </div>)
+            ) : (
+                <div className="topnav">
+                    {this.showLogin()}
+                    <Login />
+                </div>)
 
     }
 }

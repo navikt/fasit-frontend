@@ -92,11 +92,14 @@ export const putUrl = (url, content, comment) => {
         body: JSON.stringify(content)
     })
         .then(res => {
+            let text = res.text()
             if (res.status >= 400) {
-                const errorMessage = `${res.status}:${res.statusText}`
-                throw new Error(errorMessage)
+                return text.then(err => {
+                    const errorMessage = `${res.status}:${res.statusText}\n${err}`
+                    throw new Error(errorMessage)
+                })
             }
-            return res.json()
+            return text
         })
 }
 
@@ -151,10 +154,14 @@ export const deleteUrl = (url, comment) => {
         method: 'DELETE'
     })
         .then(res => {
+            let text = res.text()
             if (res.status >= 400) {
-                const errorMessage = `${res.status}:${res.statusText}`
-                throw new Error(errorMessage)
+                return text.then(err => {
+                    const errorMessage = `${res.status}:${res.statusText}\n${err}`
+                    throw new Error(errorMessage)
+
+                })
             }
-            return res.text()
+            return text
         })
 }

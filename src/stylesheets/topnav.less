@@ -5,65 +5,40 @@
 }
 
 .topnav-active {
-  /*background-color: @fasit-secondary;*/
-  /*background-color: #2d3032;*/
-  background-color: #515d66;
+
+  background-color:  @topnav;
 
 
 }
-.topnav-button:hover .topnav-button:active{
-  color: @fasit-secondary !important;
+
+.topnav-button, topnav-link {
+  background-color: lighten(@topnav, 20%);
 }
 
-.topnav-button-active > i{
-  color: @brand-primary
-}
-.topnav-button{
+.topnav-button:hover {
   color: white;
-  font-size: xx-small;
-  margin-top:4px;
-}
-.tools-topnav-button{
-  margin-top: 7px;
-}
-.apps-topnav-button{
-  margin-top: 8px;
+  background-color: lighten(@topnav, 30%);
 }
 
-.topnav-button:focus, .topnav-button:active {
-  outline: none !important;
+topnav-link:hover {
+  color: white;
+  text-decoration: underline;
 }
 
-.topnav-login-button{
+.user-icon{
+  color: @magenta
+}
+
+.tools-topnav, .tools-topnav:focus{
+  color: white;
   margin-top: 11px;
-  margin-right: 15px;
+}
+
+.tools-topnav:hover {
   color: white;
-  font-size:small;
 }
-
-.topnav-user-icon, .topnav-user-icon:active, .topnav-user-icon:focus {
+.c:focus, .topnav-button:active, .topnav-button:focus, .topnav-link:focus {
   outline: none !important;
-  background-color: @fasit-tertiary;
-  color: darken(@fasit-secondary, 5%);
-  border-radius: 30px;
-  border: 1px solid #888;
-  box-shadow: 0 2px 4px 0 #888;
-  font-size: large;
-  width: 43px;
-  margin-right: 20px;
-  margin-top: 3px;
-}
-
-.topnav-user-icon:hover, .topnav-user-icon:active {
-  outline: none !important;
-
-  //background-color: darken(@fasit-secondary, 20%);
-  box-shadow: 0 4px 8px 0 #888;
-  color: @fasit-secondary;
-  background-color: lighten(@fasit-primary, 7%);
-  transition: box-shadow 200ms ease-in;
-  transition: color 200ms ease-in;
-
 }
 
 .nav-tabs > li > a:hover {
@@ -91,17 +66,6 @@
 
 }
 
-.topnav-brand {
-  color: @fasit-primary;
-  font-size: x-large;
-  margin-top: 4px;
-}
-
-.topnav-brand-active {
-  color: @fasit-primary;
-  font-size: xx-large;
-  margin-top: 4px;
-}
 
 .topnav-brand-logo-container {
   float: left;
@@ -110,24 +74,6 @@
 
 .topnav-brand-logo {
   height: 56px;
-  //filter: drop-shadow(1px 1px #888);
-  //-webkit-animation-name: spin;
-  //-webkit-animation-duration: 180000ms;
-  //-webkit-animation-iteration-count: infinite;
-  //-webkit-animation-timing-function: linear;
-  //-moz-animation-name: spin;
-  //-moz-animation-duration: 180000ms;
-  //-moz-animation-iteration-count: infinite;
-  //-moz-animation-timing-function: linear;
-  //-ms-animation-name: spin;
-  //-ms-animation-duration: 180000ms;
-  //-ms-animation-iteration-count: infinite;
-  //-ms-animation-timing-function: linear;
-
-  //animation-name: spin;
-  //animation-duration: 180000ms;
-  //animation-iteration-count: infinite;
-  //animation-timing-function: linear;
 }
 
 .context-menu{

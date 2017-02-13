@@ -21,7 +21,6 @@ import {
     ToolButtons
 }from '../common/'
 import {submitForm} from '../../actionCreators/common'
-import NodeTypeImage from './NodeTypeImage'
 import NodeEventsView from './NodeEventsView'
 import NodeGraph from './NodeGraph'
 import NodeSeraView from './NodeSeraView'
@@ -115,16 +114,13 @@ class Node extends Component {
     render() {
         const {hostname, config, user, fasit, dispatch, nodeTypes, query} = this.props
         const {comment} = this.state
-        let authorized = false
-        let lifecycle = {}
-        if (Object.keys(fasit.data).length > 0) {
-            authorized = validAuthorization(user, fasit.data.accesscontrol)
-            lifecycle = fasit.data.lifecycle
-        }
+        let lifecycle = (Object.keys(fasit.data).length > 0) ? fasit.data.lifecycle : {}
+        let authorized = (Object.keys(fasit.data).length > 0) ? validAuthorization(user, fasit.data.accesscontrol) : false
+
         return (
             <div className="row">
                 {/*Heading*/}
-                {this.oldRevision() ? <div><b>Revision #{query.revision}</b></div> :
+                {this.oldRevision() ? <div className="col-md-12" style={{paddingTop:10, paddingBottom:10}}><h4>Revision #{query.revision}</h4></div> :
                     <ToolButtons
                         authorized={authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}

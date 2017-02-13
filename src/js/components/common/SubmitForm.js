@@ -14,7 +14,7 @@ class SubmitForm extends Component {
     }
 
     handleSubmitForm() {
-        const {component, additionalValues, newValues, onSubmit} = this.props
+        const {component, additionalValues, newValues, originalValues, onSubmit} = this.props
         let form = {}
         let key = ""
         switch (component) {
@@ -27,7 +27,7 @@ class SubmitForm extends Component {
                     username: newValues.username,
                     hostname: newValues.hostname
                 }
-                key = newValues.hostname
+                key = originalValues.hostname
                 break
             case "application":
                 form = {
@@ -36,8 +36,17 @@ class SubmitForm extends Component {
                     artifactid: newValues.artifactid,
                     portoffset: newValues.portoffset
                 }
-                key = newValues.name
+                key = originalValues.name
                 break
+            case "environment":
+                form = {
+                    name: newValues.name,
+                    environmentclass: newValues.environmentclass
+                }
+                key = originalValues.name
+                break
+            default:
+                console.error("handleSubmitForm in SubmitForm is missing this component type")
         }
         onSubmit(key, form, this.state.comment, component)
     }
@@ -85,7 +94,7 @@ class SubmitForm extends Component {
                                     </tr>
                                 )
                             }) :
-                            <td />
+                            null
                         }
 
                         </tbody>
@@ -120,14 +129,6 @@ class SubmitForm extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        display: ownProps.display,
-        component: ownProps.component,
-        onSubmit: ownProps.onSubmit,
-        onClose: ownProps.onClose,
-        newValues: ownProps.newValues,
-        oldValues: ownProps.oldValues,
-        additionalValues: ownProps.additionalValues
-
     }
 }
 

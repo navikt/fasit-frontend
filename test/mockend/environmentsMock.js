@@ -1,6 +1,6 @@
 module.exports = {
     getCluster: function (name, clustername) {
-        return clusters.filter(c => c.clustername == clustername)[0]
+        return clusters.filter(e => e.env == name)[0].clusters.filter(c => c.clustername == clustername)[0]
     },
     getClusters: (env) => {
         return clusters.filter(e => e.env == env)[0].clusters
