@@ -54,38 +54,39 @@ class TopNav extends Component {
                         trigger="click"
                         rootClose={true}
                         placement="bottom"
-                        id="appsOverlay"
-                        overlay={AuraTools()}
-                    >
-                        <button type="button" className="btn  btn-link topnav-button apps-topnav-button"><i
-                            className="fa fa-th fa-2x"/>
-                        </button>
-                    </OverlayTrigger>
-                </li>
-                <li>
-                    <OverlayTrigger
-                        trigger="click"
-                        rootClose={true}
-                        placement="bottom"
                         id="toolsOverlay"
                         overlay={this.toolsOverlay()}
                     >
                         <button type="button" className="btn  btn-link topnav-button tools-topnav-button"><i
-                            className="fa fa-wrench fa-2x"/>
+                            className="fa fa-plus fa-2x"/><span style={{verticalAlign: "bottom", fontSize: "12px"}}>&nbsp;cnew...</span>
                         </button>
                     </OverlayTrigger>
                 </li>
+
                 <li>
                     <OverlayTrigger
                         trigger="click"
-                        id="loginINformationOverlay"
+                        id="loginInformationOverlay"
                         rootClose={true}
                         placement="bottom"
                         overlay={this.loginInformationOverlay()}
                     >
                         <button type="button" className="btn  btn-link topnav-button">
-                            <span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x"/><i
-                                className="fa fa-user fa-stack-1x fa-inverse"/></span>
+                            <i  className="fa fa-user fa-inverse" /><span style={{verticalAlign: "bottom", fontSize: "12px"}}>{user.displayname}</span>
+                        </button>
+                    </OverlayTrigger>
+                </li>
+
+                <li>
+                    <OverlayTrigger
+                        trigger="click"
+                        rootClose={true}
+                        placement="bottom"
+                        id="appsOverlay"
+                        overlay={AuraTools()}
+                    >
+                        <button type="button" className="btn  btn-link topnav-button apps-topnav-button"><i
+                            className="fa fa-th fa-2x"/>
                         </button>
                     </OverlayTrigger>
                 </li>
@@ -242,8 +243,7 @@ class TopNav extends Component {
                     <div className="topnav topnav-active">
                         <div className="col-sm-1 col-md-2 hidden-xs">
                             <div className="topnav-brand-logo-container">
-                                <Link to="/">
-                                    <img src="/images/aura-ikoner/fasit-small.png" className="topnav-brand-logo"/>
+                                <Link to="/" className="topnav-brand-logo"><img src="/images/aura-ikoner/fasit-white.png" className="topnav-brand-logo"/>
                                 </Link>
                             </div>
                         </div>
