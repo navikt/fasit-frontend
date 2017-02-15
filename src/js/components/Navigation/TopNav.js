@@ -23,22 +23,27 @@ class TopNav extends Component {
         const {user, dispatch} = this.props
         return (
             <ul className="nav navbar-nav navbar-right">
+                {/* Nytt element*/}
                 {user.authenticated ? (
-                        <li>
+                        <li className="spinningIcon">
                             <OverlayTrigger
-                                trigger="click"
+                                trigger="hover"
                                 rootClose={true}
                                 placement="bottom"
                                 id="toolsOverlay"
                                 overlay={this.toolsOverlay()}
                             >
-                                <button type="button" className="btn btn-sm  tools-topnav topnav-button" style={{marginTop:11, marginRight: 10}}>new<i
-                                    className="fa fa-plus" style={{fontSize:9, marginLeft:4}}/>
+                                <button type="button" className="btn btn-sm  btn-link tools-topnav topnav-link" style={{marginTop:8, marginRight: 10}}>
+                                    <span className="fa-stack" style={{marginRight:5, marginBottom:3}}><i className="fa fa-circle fa-stack-2x user-icon"/><i
+                                        className="fa fa-plus fa-stack-1x fa-inverse" style={{marginTop:1}}/></span>
+                                    New
                                 </button>
                             </OverlayTrigger>
                         </li>
                     ) : null
                 }
+
+                {/* Logg inn eller brukermeny*/}
                 {!user.authenticated ? (
                         <li>
                             <button
@@ -50,10 +55,11 @@ class TopNav extends Component {
                                 <i className="fa fa-unlock-alt" style={{marginRight:5}}/>Log in
                             </button>
                         </li>
+
                     ) : (
-                        <li>
+                        <li className="spinningIcon">
                             <OverlayTrigger
-                                trigger="click"
+                                trigger="hover"
                                 id="loginINformationOverlay"
                                 rootClose={true}
                                 placement="bottom"
@@ -66,9 +72,11 @@ class TopNav extends Component {
                             </OverlayTrigger>
                         </li>
                     )}
+                {/* Aurabot */}
+
                 <li>
                     <OverlayTrigger
-                        trigger="click"
+                        trigger="hover"
                         rootClose={true}
                         placement="bottom"
                         overlay={AuraTools()}
@@ -87,7 +95,7 @@ class TopNav extends Component {
     loginInformationOverlay() {
         const {dispatch, user} = this.props
         return (
-            <Popover title={user.displayname} id="login">
+            <Popover id="login">
                 <h5>Roles</h5>
                 <ul className="topnav-menu">
                     {user.roles.map((role, idx) => <li key={idx}>{role.split("ROLE_")[1].toLowerCase()}</li>)}

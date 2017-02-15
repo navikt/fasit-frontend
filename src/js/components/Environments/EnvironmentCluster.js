@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
 import {fetchEnvironmentCluster} from "../../actionCreators/environment"
-import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormString, FormList, Lifecycle, RevisionsView, ToolButtons} from "../common"
+import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormBox, FormString, FormList, Lifecycle, RevisionsView, ToolButtons} from "../common"
 import {validAuthorization} from '../../utils/'
 import {submitForm} from '../../actionCreators/common'
 
@@ -19,7 +19,8 @@ class EnvironmentCluster extends Component {
             zone: "",
             environmentclass: "",
             environment: "",
-            loadbalancerurl: ""
+            loadbalancerurl: "",
+            applications: []
         }
     }
     componentDidMount() {
@@ -31,6 +32,7 @@ class EnvironmentCluster extends Component {
             environmentclass: cluster.data.environmentclass,
             environment: cluster.data.environment,
             loadbalancerurl: cluster.data.loadbalancerurl,
+            applications: cluster.data.applications,
             comment: ""
         })
         if (params.environment && params.clusterName)
@@ -45,6 +47,7 @@ class EnvironmentCluster extends Component {
             environmentclass: nextProps.cluster.data.environmentclass,
             environment: nextProps.cluster.data.environment,
             loadbalancerurl: nextProps.cluster.data.loadbalancerurl,
+            applications: nextProps.cluster.data.applications,
             comment: ""
         })
         if ((params.environment != nextProps.params.environment || params.clusterName != nextProps.params.clusterName) && nextProps.params.environment && nextProps.params.clusterName) {
@@ -60,6 +63,7 @@ class EnvironmentCluster extends Component {
             environmentclass: cluster.data.environmentclass,
             environment: cluster.data.environment,
             loadbalancerurl: cluster.data.loadbalancerurl,
+            applications: cluster.data.applications,
             comment: ""
 
         })
@@ -74,7 +78,7 @@ class EnvironmentCluster extends Component {
 
     render() {
         const {cluster, user, params, environments} = this.props
-        const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl} = this.state
+        const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl, applications} = this.state
         let authorized = (Object.keys(cluster).length > 0) ? validAuthorization(user, cluster.data.accesscontrol) : false
         let lifecycle = (Object.keys(cluster).length > 0) ? cluster.data.lifecycle : {}
         return (cluster.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> :
@@ -114,6 +118,13 @@ class EnvironmentCluster extends Component {
                         value={environmentclass}
                         handleChange={this.handleChange.bind(this)}
                         options={environments.environmentClasses}
+                    />
+                    <FormBox
+                        label="Applications"
+                        editMode={editMode}
+                        value={this.state.applications}
+                        handleChange={this.handleChange.bind(this)}
+                        options={applications}
                     />
                     {this.environmentSelector()}
                     {this.zoneSelector()}
