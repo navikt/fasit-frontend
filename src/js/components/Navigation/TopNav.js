@@ -32,8 +32,8 @@ class TopNav extends Component {
                                 id="toolsOverlay"
                                 overlay={this.toolsOverlay()}
                             >
-                                <button type="button" className="btn  btn-link topnav-button tools-topnav-button"><i
-                                    className="fa fa-wrench fa-2x"/>
+                                <button type="button" className="btn btn-sm  tools-topnav topnav-button">new&nbsp;<i
+                                    className="fa fa-plus"/>
                                 </button>
                             </OverlayTrigger>
                         </li>
@@ -43,7 +43,7 @@ class TopNav extends Component {
                         <li>
                             <button
                                 type="button"
-                                className="btn btn-sm topnav-button btn-link topnav-login-button"
+                                className="btn btn-sm  tools-topnav topnav-button"
                                 onClick={() => dispatch(displayLogin(true))}
                             >
                                 <i className="fa fa-unlock-alt"/>&nbsp;Log in
@@ -58,9 +58,9 @@ class TopNav extends Component {
                                 placement="bottom"
                                 overlay={this.loginInformationOverlay()}
                             >
-                                <button type="button" className="btn  btn-link topnav-button">
-                            <span className="fa-stack fa-lg"><i className="fa fa-circle fa-stack-2x"/><i
-                                className="fa fa-user fa-stack-1x fa-inverse"/></span>
+                                <button type="button" className="btn btn-sm  btn-link  tools-topnav topnav-link">
+                            <span className="fa-stack"><i className="fa fa-circle fa-stack-2x user-icon"/><i
+                                className="fa fa-user fa-stack-1x fa-inverse"/></span>{user.displayname}
                                 </button>
                             </OverlayTrigger>
                         </li>
@@ -140,7 +140,7 @@ class TopNav extends Component {
                         <div className="col-sm-1 col-md-2 hidden-xs">
                             <div className="topnav-brand-logo-container">
                                 <Link to="/">
-                                    <img src="/images/aura-ikoner/fasit-small.png" className="topnav-brand-logo"/>
+                                    <img src="/images/aura-ikoner/fasit-white.png" className="topnav-brand-logo"/>
                                 </Link>
                             </div>
                         </div>
