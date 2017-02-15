@@ -14,25 +14,67 @@ class EnvironmentCluster extends Component {
             displayDeleteForm: false,
             displaySubmitForm: false,
             editMode: false,
-            comment:""
+            comment:"",
+            clustername: "",
+            zone: "",
+            environmentclass: "",
+            environment: "",
+            loadbalancerurl: ""
         }
     }
     componentDidMount() {
-        const {dispatch, params} = this.props
+        const {dispatch, params, cluster} = this.props
+        console.log(cluster)
+        this.setState({
+            clustername: cluster.data.clustername,
+            zone: cluster.data.zone,
+            environmentclass: cluster.data.environmentclass,
+            environment: cluster.data.environment,
+            loadbalancerurl: cluster.data.loadbalancerurl,
+            comment: ""
+        })
         if (params.environment && params.clusterName)
             dispatch(fetchEnvironmentCluster(params.environment, params.clusterName))
     }
 
     componentWillReceiveProps(nextProps) {
         const {dispatch, params} = this.props
+        this.setState({
+            clustername: nextProps.cluster.data.clustername,
+            zone: nextProps.cluster.data.zone,
+            environmentclass: nextProps.cluster.data.environmentclass,
+            environment: nextProps.cluster.data.environment,
+            loadbalancerurl: nextProps.cluster.data.loadbalancerurl,
+            comment: ""
+        })
         if ((params.environment != nextProps.params.environment || params.clusterName != nextProps.params.clusterName) && nextProps.params.environment && nextProps.params.clusterName) {
             dispatch(fetchEnvironmentCluster(nextProps.params.environment, nextProps.params.clusterName))
         }
     }
 
+    resetLocalState() {
+        const {cluster} = this.props
+        this.setState({
+            clustername: cluster.data.clustername,
+            zone: cluster.data.zone,
+            environmentclass: cluster.data.environmentclass,
+            environment: cluster.data.environment,
+            loadbalancerurl: cluster.data.loadbalancerurl,
+            comment: ""
+
+        })
+    }
+
+    toggleComponentDisplay(component) {
+        this.setState({[component]: !this.state[component]})
+        if (component === "editMode" && this.state.editMode)
+            this.resetLocalState()
+
+    }
+
     render() {
         const {cluster, user, params, environments} = this.props
-        const {editMode, displaySubmitForm, displayDeleteForm} = this.state
+        const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl} = this.state
         let authorized = (Object.keys(cluster).length > 0) ? validAuthorization(user, cluster.data.accesscontrol) : false
         let lifecycle = (Object.keys(cluster).length > 0) ? cluster.data.lifecycle : {}
         return (cluster.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> :
@@ -41,7 +83,7 @@ class EnvironmentCluster extends Component {
                     {/*Heading*/}
                     <ToolButtons
                         authorized={authorized}
-                        onEditClick={() => this.setState({editMode:!this.state.editMode})}
+                        onEditClick={() => this.toggleComponentDisplay("editMode")}
                         onDeleteClick={() => this.setState({displayDeleteForm: !this.state.editMode})}
                         onCopyClick={() => console.log("Copy,copycopy!")}
                     />
@@ -52,18 +94,24 @@ class EnvironmentCluster extends Component {
                         label="name"
                         editMode={editMode}
                         handleChange={this.handleChange.bind(this)}
-                        value={cluster.data.clustername}
+                        value={clustername}
                     />
                     <FormString
                         label="zone"
                         editMode={editMode}
                         handleChange={this.handleChange.bind(this)}
-                        value={cluster.data.zone}
+                        value={zone}
+                    />
+                    <FormString
+                        label="loadbalancerurl"
+                        editMode={editMode}
+                        handleChange={this.handleChange.bind(this)}
+                        value={loadbalancerurl}
                     />
                     <FormList
                         label="environmentclass"
-                        editMode={true}
-                        value={this.state.environmentclass}
+                        editMode={editMode}
+                        value={environmentclass}
                         handleChange={this.handleChange.bind(this)}
                         options={environments.environmentClasses}
                     />
@@ -129,7 +177,7 @@ class EnvironmentCluster extends Component {
     }
     environmentSelector() {
         const {environments} = this.props
-        const {environmentclass} = this.state
+        const {environmentclass, environment, editMode} = this.state
         if (environmentclass) {
             const filteredEnvironments = environments.environments.filter((env) => {
                 if (!environmentclass) {
@@ -141,8 +189,8 @@ class EnvironmentCluster extends Component {
             return (
                 <FormList
                     label="environment"
-                    editMode={true}
-                    value={this.state.environment}
+                    editMode={editMode}
+                    value={environment}
                     handleChange={this.handleChange.bind(this)}
                     options={filteredEnvironments.map((env) => env.name)}
                 />)
@@ -151,13 +199,13 @@ class EnvironmentCluster extends Component {
 
     zoneSelector() {
         const {environments} = this.props
-        const {environmentclass} = this.state
+        const {environmentclass, zone, editMode} = this.state
         if (environmentclass && environmentclass !== 'u') {
             return (
                 <FormList
                     label="zone"
-                    editMode={true}
-                    value={this.state.zone}
+                    editMode={editMode}
+                    value={zone}
                     handleChange={this.handleChange.bind(this)}
                     options={environments.zones}
                 />)

@@ -57,7 +57,6 @@ class Environment extends Component {
     }
     handleSubmitForm(id, form, comment, component) {
         const {dispatch} = this.props
-        console.log("key",id, "form",form,"comment", comment,"component", component)
         if (component == "environment") {
             this.toggleComponentDisplay("displaySubmitForm")
             this.toggleComponentDisplay("editMode")

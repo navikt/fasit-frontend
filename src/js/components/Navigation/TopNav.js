@@ -32,8 +32,8 @@ class TopNav extends Component {
                                 id="toolsOverlay"
                                 overlay={this.toolsOverlay()}
                             >
-                                <button type="button" className="btn btn-sm  tools-topnav topnav-button">new&nbsp;<i
-                                    className="fa fa-plus"/>
+                                <button type="button" className="btn btn-sm  tools-topnav topnav-button" style={{marginTop:11, marginRight: 10}}>new<i
+                                    className="fa fa-plus" style={{fontSize:9, marginLeft:4}}/>
                                 </button>
                             </OverlayTrigger>
                         </li>
@@ -45,8 +45,9 @@ class TopNav extends Component {
                                 type="button"
                                 className="btn btn-sm  tools-topnav topnav-button"
                                 onClick={() => dispatch(displayLogin(true))}
+                                style={{marginTop:11, marginRight: 10}}
                             >
-                                <i className="fa fa-unlock-alt"/>&nbsp;Log in
+                                <i className="fa fa-unlock-alt" style={{marginRight:5}}/>Log in
                             </button>
                         </li>
                     ) : (
@@ -58,8 +59,8 @@ class TopNav extends Component {
                                 placement="bottom"
                                 overlay={this.loginInformationOverlay()}
                             >
-                                <button type="button" className="btn btn-sm  btn-link  tools-topnav topnav-link">
-                            <span className="fa-stack"><i className="fa fa-circle fa-stack-2x user-icon"/><i
+                                <button type="button" className="btn btn-sm  btn-link  tools-topnav topnav-link" style={{marginTop:8}}>
+                            <span className="fa-stack" style={{marginRight:5, marginBottom:3}}><i className="fa fa-circle fa-stack-2x user-icon"/><i
                                 className="fa fa-user fa-stack-1x fa-inverse"/></span>{user.displayname}
                                 </button>
                             </OverlayTrigger>
