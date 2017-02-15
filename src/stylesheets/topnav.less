@@ -5,38 +5,33 @@
 }
 
 .topnav-active {
-
   background-color:  @topnav;
-
-
 }
 
-.topnav-button, topnav-link {
-  background-color: lighten(@topnav, 20%);
-}
-
-.topnav-button:hover {
-  color: white;
-  background-color: lighten(@topnav, 30%);
-}
-
-topnav-link:hover {
+.topnav-link:hover {
   color: white;
   text-decoration: underline;
 }
 
 .user-icon{
-  color: @magenta
+  color: @magenta;
 }
 
-.tools-topnav, .tools-topnav:focus{
-  color: white;
+.topnav-buttons{
+  color: @fasit-secondary !important;
+  outline: none !important;
+}
+.topnav-buttons:hover, topnav-buttons:focus {
+  color: #fff !important;
+  outline: none !important;
 }
 
-.tools-topnav:hover {
-  color: white;
+.topnav-buttons-inverse{
+  color: @topnav !important;
+  outline: none !important;
 }
-.c:focus, .topnav-button:active, .topnav-button:focus, .topnav-link:focus {
+.topnav-buttons-inverse:hover, topnav-buttons-inverse:focus {
+  color: darken(@topnav, 5%) !important;
   outline: none !important;
 }
 
@@ -49,6 +44,7 @@ topnav-link:hover {
   border-bottom: 0;
   color: #444;
 }
+
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
   border-top: 3px solid @fasit-primary;
   color: @fasit-primary;

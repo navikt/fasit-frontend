@@ -7,7 +7,7 @@
     "start": "better-npm-run start",
     "clean": "better-npm-run clean",
     "prebuild": "better-npm-run prebuild",
-    "premocked": "better-npm-run-prebuild",
+    "premocked": "better-npm-run prebuild",
     "predev": "better-npm-run prebuild",
     "dev": "better-npm-run dev",
     "build": "better-npm-run build",

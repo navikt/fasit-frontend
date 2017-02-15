@@ -19,7 +19,7 @@ class TopNav extends Component {
     }
 
 
-    showLogin() {
+    showLogin(root) {
         const {user, dispatch} = this.props
         return (
             <ul className="nav navbar-nav navbar-right">
@@ -33,7 +33,10 @@ class TopNav extends Component {
                                 id="toolsOverlay"
                                 overlay={this.toolsOverlay()}
                             >
-                                <button type="button" className="btn btn-sm  btn-link tools-topnav topnav-link" style={{marginTop:8, marginRight: 10}}>
+                                <button
+                                    type="button"
+                                    className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
+                                    style={{marginTop:8, marginRight: 10}}>
                                     <span className="fa-stack" style={{marginRight:5, marginBottom:3}}><i className="fa fa-circle fa-stack-2x user-icon"/><i
                                         className="fa fa-plus fa-stack-1x fa-inverse" style={{marginTop:1}}/></span>
                                     New
@@ -45,27 +48,29 @@ class TopNav extends Component {
 
                 {/* Logg inn eller brukermeny*/}
                 {!user.authenticated ? (
-                        <li>
+                        <li className="spinningIcon">
                             <button
                                 type="button"
-                                className="btn btn-sm  tools-topnav topnav-button"
+                                className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
                                 onClick={() => dispatch(displayLogin(true))}
-                                style={{marginTop:11, marginRight: 10}}
+                                style={{marginTop:8, marginRight: 10}}
                             >
-                                <i className="fa fa-unlock-alt" style={{marginRight:5}}/>Log in
+                                <span className="fa-stack" style={{marginRight:5, marginBottom:3}}><i className="fa fa-circle fa-stack-2x user-icon"/><i
+                                    className="fa fa-unlock-alt fa-stack-1x fa-inverse"/></span>
+                                Log in
                             </button>
                         </li>
 
                     ) : (
                         <li className="spinningIcon">
                             <OverlayTrigger
-                                trigger={["hover", "focus"]}
-                                id="loginINformationOverlay"
+                                trigger="click"
+                                id="loginInformationOverlay"
                                 rootClose={true}
                                 placement="bottom"
                                 overlay={this.loginInformationOverlay()}
                             >
-                                <button type="button" className="btn btn-sm  btn-link  tools-topnav topnav-link" style={{marginTop:8}}>
+                                <button type="button" className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"} style={{marginTop:8}}>
                             <span className="fa-stack" style={{marginRight:5, marginBottom:3}}><i className="fa fa-circle fa-stack-2x user-icon"/><i
                                 className="fa fa-user fa-stack-1x fa-inverse"/></span>{user.displayname}
                                 </button>
@@ -171,7 +176,7 @@ class TopNav extends Component {
                 </div>
             ) : (
                 <div className="topnav">
-                    {this.showLogin()}
+                    {this.showLogin("root")}
                     <Login />
                 </div>)
 
