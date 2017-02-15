@@ -41,22 +41,15 @@ export function FormBox(props) {
                 {editMode ?
                     <Select
                         backspaceRemoves={false}
-                        clearable={false}
+                        clearable={true}
                         type="text"
                         name="node-type"
-                        value={value}
+                        multi={true}
+                        value={convertToSelectObject(value)}
                         options={convertToSelectObject(options)}
-                        onChange={(e) => handleChange(label, e.value, parent)}
+                        onChange={(e) => handleChange(label, e.map(item => item.value), parent)}
                     />
-                    :
-                    <OverlayTrigger {...overlayProps}>
-                            <span
-                                className="FormValue"
-                                id={label}
-                                onClick={() => copyToClipboard(label)}
-
-                            >{value}</span>
-                    </OverlayTrigger>
+                    : <pre className="col-md-8">{value.map((v, i) => <span><Link key={i} to={`/applications/${v}`}>{v}</Link>{`\n`}</span>)}</pre>
                 }
             </div>
         </div>

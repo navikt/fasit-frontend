@@ -25,14 +25,13 @@ class EnvironmentCluster extends Component {
     }
     componentDidMount() {
         const {dispatch, params, cluster} = this.props
-        console.log(cluster)
         this.setState({
             clustername: cluster.data.clustername,
             zone: cluster.data.zone,
             environmentclass: cluster.data.environmentclass,
             environment: cluster.data.environment,
             loadbalancerurl: cluster.data.loadbalancerurl,
-            applications: cluster.data.applications,
+            applications: this.flatten(cluster.data.applications),
             comment: ""
         })
         if (params.environment && params.clusterName)
@@ -47,14 +46,16 @@ class EnvironmentCluster extends Component {
             environmentclass: nextProps.cluster.data.environmentclass,
             environment: nextProps.cluster.data.environment,
             loadbalancerurl: nextProps.cluster.data.loadbalancerurl,
-            applications: nextProps.cluster.data.applications,
+            applications: this.flatten(nextProps.cluster.data.applications),
             comment: ""
         })
         if ((params.environment != nextProps.params.environment || params.clusterName != nextProps.params.clusterName) && nextProps.params.environment && nextProps.params.clusterName) {
             dispatch(fetchEnvironmentCluster(nextProps.params.environment, nextProps.params.clusterName))
         }
     }
-
+    flatten(listOfObjects){
+        return (listOfObjects != undefined) ? listOfObjects.map(o => o.name) : []
+    }
     resetLocalState() {
         const {cluster} = this.props
         this.setState({
@@ -77,10 +78,11 @@ class EnvironmentCluster extends Component {
     }
 
     render() {
-        const {cluster, user, params, environments} = this.props
+        const {cluster, user, params, environments, applicationNames} = this.props
         const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl, applications} = this.state
         let authorized = (Object.keys(cluster).length > 0) ? validAuthorization(user, cluster.data.accesscontrol) : false
         let lifecycle = (Object.keys(cluster).length > 0) ? cluster.data.lifecycle : {}
+        console.log(this.state)
         return (cluster.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> :
             <div>
                 <div className="row">
@@ -119,15 +121,15 @@ class EnvironmentCluster extends Component {
                         handleChange={this.handleChange.bind(this)}
                         options={environments.environmentClasses}
                     />
-                    <FormBox
-                        label="Applications"
-                        editMode={editMode}
-                        value={this.state.applications}
-                        handleChange={this.handleChange.bind(this)}
-                        options={applications}
-                    />
                     {this.environmentSelector()}
                     {this.zoneSelector()}
+                    <FormBox
+                        label="applications"
+                        editMode={editMode}
+                        value={applications}
+                        handleChange={this.handleChange.bind(this)}
+                        options={applicationNames}
+                    />
                     {/*Submit / Cancel buttons*/}
                     <br />
                     {this.state.editMode ?
@@ -184,6 +186,8 @@ class EnvironmentCluster extends Component {
         dispatch(submitForm(id, form, comment, component))
     }
     handleChange(field, value) {
+        console.log("field:", field)
+        console.log("value:", value)
         this.setState({[field]: value})
     }
     environmentSelector() {
@@ -228,7 +232,8 @@ const mapStateToProps = (state) => {
     return {
         environments: state.environments,
         cluster: state.environment_cluster_fasit,
-        user: state.user
+        user: state.user,
+        applicationNames: state.applications.applicationNames
     }
 }
 

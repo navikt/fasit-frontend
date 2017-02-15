@@ -27,7 +27,7 @@ class TopNav extends Component {
                 {user.authenticated ? (
                         <li className="spinningIcon">
                             <OverlayTrigger
-                                trigger="hover"
+                                trigger={["hover", "focus"]}
                                 rootClose={true}
                                 placement="bottom"
                                 id="toolsOverlay"
@@ -59,7 +59,7 @@ class TopNav extends Component {
                     ) : (
                         <li className="spinningIcon">
                             <OverlayTrigger
-                                trigger="hover"
+                                trigger={["hover", "focus"]}
                                 id="loginINformationOverlay"
                                 rootClose={true}
                                 placement="bottom"
@@ -76,7 +76,7 @@ class TopNav extends Component {
 
                 <li>
                     <OverlayTrigger
-                        trigger="hover"
+                        trigger={["hover", "focus"]}
                         rootClose={true}
                         placement="bottom"
                         overlay={AuraTools()}
