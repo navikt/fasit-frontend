@@ -27,7 +27,7 @@ class TopNav extends Component {
                 {user.authenticated ? (
                         <li className="spinningIcon">
                             <OverlayTrigger
-                                trigger={["hover", "focus"]}
+                                trigger={"click"}
                                 rootClose={true}
                                 placement="bottom"
                                 id="toolsOverlay"

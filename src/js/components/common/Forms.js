@@ -49,7 +49,7 @@ export function FormBox(props) {
                         options={convertToSelectObject(options)}
                         onChange={(e) => handleChange(label, e.map(item => item.value), parent)}
                     />
-                    : <pre className="col-md-8">{value.map((v, i) => <span><Link key={i} to={`/applications/${v}`}>{v}</Link>{`\n`}</span>)}</pre>
+                    : <pre className="col-md-8">{value.map((v, i) => <span key={i}><Link to={`/applications/${v}`}>{v}</Link>{`\n`}</span>)}</pre>
                 }
             </div>
         </div>

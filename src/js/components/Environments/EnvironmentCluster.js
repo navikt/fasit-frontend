@@ -20,7 +20,8 @@ class EnvironmentCluster extends Component {
             environmentclass: "",
             environment: "",
             loadbalancerurl: "",
-            applications: []
+            applications: [],
+            nodes: []
         }
     }
     componentDidMount() {
@@ -32,6 +33,7 @@ class EnvironmentCluster extends Component {
             environment: cluster.data.environment,
             loadbalancerurl: cluster.data.loadbalancerurl,
             applications: this.flatten(cluster.data.applications),
+            nodes: this.flatten(cluster.data.nodes),
             comment: ""
         })
         if (params.environment && params.clusterName)
@@ -47,6 +49,7 @@ class EnvironmentCluster extends Component {
             environment: nextProps.cluster.data.environment,
             loadbalancerurl: nextProps.cluster.data.loadbalancerurl,
             applications: this.flatten(nextProps.cluster.data.applications),
+            nodes: this.flatten(nextProps.cluster.data.nodes),
             comment: ""
         })
         if ((params.environment != nextProps.params.environment || params.clusterName != nextProps.params.clusterName) && nextProps.params.environment && nextProps.params.clusterName) {
@@ -65,6 +68,7 @@ class EnvironmentCluster extends Component {
             environment: cluster.data.environment,
             loadbalancerurl: cluster.data.loadbalancerurl,
             applications: cluster.data.applications,
+            nodes: cluster.data.nodes,
             comment: ""
 
         })
@@ -79,10 +83,9 @@ class EnvironmentCluster extends Component {
 
     render() {
         const {cluster, user, params, environments, applicationNames} = this.props
-        const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl, applications} = this.state
+        const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl, applications, nodes} = this.state
         let authorized = (Object.keys(cluster).length > 0) ? validAuthorization(user, cluster.data.accesscontrol) : false
         let lifecycle = (Object.keys(cluster).length > 0) ? cluster.data.lifecycle : {}
-        console.log(this.state)
         return (cluster.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> :
             <div>
                 <div className="row">
@@ -130,6 +133,13 @@ class EnvironmentCluster extends Component {
                         handleChange={this.handleChange.bind(this)}
                         options={applicationNames}
                     />
+{/*                    <FormBox
+                        label="nodes"
+                        editMode={editMode}
+                        value={nodes}
+                        handleChange={this.handleChange.bind(this)}
+                        options={nodeNames}
+                    />*/}
                     {/*Submit / Cancel buttons*/}
                     <br />
                     {this.state.editMode ?
@@ -186,8 +196,6 @@ class EnvironmentCluster extends Component {
         dispatch(submitForm(id, form, comment, component))
     }
     handleChange(field, value) {
-        console.log("field:", field)
-        console.log("value:", value)
         this.setState({[field]: value})
     }
     environmentSelector() {
