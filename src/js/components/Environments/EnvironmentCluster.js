@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
-import {fetchEnvironmentCluster} from "../../actionCreators/environment"
+import {fetchEnvironmentCluster, fetchEnvironmentNodes} from "../../actionCreators/environment"
 import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormBox, FormString, FormList, Lifecycle, RevisionsView, ToolButtons} from "../common"
 import {validAuthorization} from '../../utils/'
 import {submitForm} from '../../actionCreators/common'
@@ -56,9 +56,7 @@ class EnvironmentCluster extends Component {
             dispatch(fetchEnvironmentCluster(nextProps.params.environment, nextProps.params.clusterName))
         }
     }
-    flatten(listOfObjects){
-        return (listOfObjects != undefined) ? listOfObjects.map(o => o.name) : []
-    }
+
     resetLocalState() {
         const {cluster} = this.props
         this.setState({
@@ -67,23 +65,27 @@ class EnvironmentCluster extends Component {
             environmentclass: cluster.data.environmentclass,
             environment: cluster.data.environment,
             loadbalancerurl: cluster.data.loadbalancerurl,
-            applications: cluster.data.applications,
-            nodes: cluster.data.nodes,
+            applications: this.flatten(cluster.data.applications),
+            nodes: this.flatten(cluster.data.nodes),
             comment: ""
 
         })
     }
 
     toggleComponentDisplay(component) {
+        const {dispatch, cluster} = this.props
         this.setState({[component]: !this.state[component]})
         if (component === "editMode" && this.state.editMode)
             this.resetLocalState()
+        if (component === "editMode" && !this.state.editMode)
+            dispatch(fetchEnvironmentNodes(cluster.data.environment))
 
     }
 
     render() {
-        const {cluster, user, params, environments, applicationNames} = this.props
+        const {cluster, user, params, environments, applicationNames, environmentNodes} = this.props
         const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl, applications, nodes} = this.state
+        let nodeNames = (environmentNodes != undefined) ? environmentNodes.map(n => n.hostname) : []
         let authorized = (Object.keys(cluster).length > 0) ? validAuthorization(user, cluster.data.accesscontrol) : false
         let lifecycle = (Object.keys(cluster).length > 0) ? cluster.data.lifecycle : {}
         return (cluster.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> :
@@ -133,13 +135,13 @@ class EnvironmentCluster extends Component {
                         handleChange={this.handleChange.bind(this)}
                         options={applicationNames}
                     />
-{/*                    <FormBox
+                    <FormBox
                         label="nodes"
                         editMode={editMode}
                         value={nodes}
                         handleChange={this.handleChange.bind(this)}
                         options={nodeNames}
-                    />*/}
+                    />
                     {/*Submit / Cancel buttons*/}
                     <br />
                     {this.state.editMode ?
@@ -148,7 +150,7 @@ class EnvironmentCluster extends Component {
                                     onClick={() => this.setState({displaySubmitForm: !displaySubmitForm})}>Submit
                             </button>
                             <button type="reset" className="btn btn-sm btn-default btn-space pull-right"
-                                    onClick={() => this.setState({editMode: !editMode})}>Cancel
+                                    onClick={() => this.toggleComponentDisplay("editMode")}>Cancel
                             </button>
                         </div>
                         : ""
@@ -234,14 +236,19 @@ class EnvironmentCluster extends Component {
                 />)
         }
     }
+    flatten(listOfObjects){
+        return (listOfObjects != undefined) ? listOfObjects.map(o => o.name) : []
+    }
 }
+
 
 const mapStateToProps = (state) => {
     return {
         environments: state.environments,
         cluster: state.environment_cluster_fasit,
         user: state.user,
-        applicationNames: state.applications.applicationNames
+        applicationNames: state.applications.applicationNames,
+        environmentNodes: state.environment_nodes_fasit.data
     }
 }
 
