@@ -14,7 +14,7 @@ class SubmitForm extends Component {
     }
 
     handleSubmitForm() {
-        const {component, additionalValues, newValues, originalValues, onSubmit} = this.props
+        const {component, additionalValues, newValues, originalValues,  onSubmit} = this.props
         let form = {}
         let key = ""
         switch (component) {
@@ -45,8 +45,21 @@ class SubmitForm extends Component {
                 }
                 key = originalValues.name
                 break
+            case "cluster":
+                form = {
+                    clustername: newValues.clustername,
+                    zone: newValues.zone,
+                    loadbalancerurl: newValues.loadbalancerurl,
+                    environmentclass: newValues.environmentclass,
+                    environment: newValues.environment,
+                    applications: newValues.applications,
+                    nodes: newValues.nodes,
+                }
+                key = originalValues.clustername
+                break
             default:
                 console.error("handleSubmitForm in SubmitForm is missing this component type")
+                return
         }
         onSubmit(key, form, this.state.comment, component)
     }
@@ -54,6 +67,9 @@ class SubmitForm extends Component {
     render() {
         const {onClose, display, originalValues, newValues} = this.props
         const diff = Object.keys(originalValues).filter((key) => {
+            if (typeof originalValues[key] === "object"){
+                return (originalValues[key].toString() !== newValues[key].toString())
+            }
             return (originalValues[key] != newValues[key])
         })
         return (
@@ -75,9 +91,22 @@ class SubmitForm extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {display ?
+                        {display?
                             Object.keys(originalValues).map((key, idx) => {
-                                if (originalValues[key] === newValues[key]) {
+                                if (typeof originalValues[key] === "object") {
+                                    if (originalValues[key].toString() === newValues[key].toString()){
+                                        return <tr key={idx}>
+                                            <td><b>{key}</b></td>
+                                            <td><pre>{originalValues[key].join(`, \n`)}</pre></td>
+                                            <td><pre>{newValues[key].join(`, \n`)}</pre></td>
+                                        </tr>
+                                    }
+                                    return <tr key={idx}>
+                                        <td><b>{key}</b></td>
+                                        <td><pre>{originalValues[key].join(`, \n`)}</pre></td>
+                                        <td className="cell-bg"><pre>{newValues[key].join(`, \n`)}</pre></td>
+                                    </tr>
+                                } else if (originalValues[key] === newValues[key]) {
                                     return (
                                         <tr key={idx}>
                                             <td><b>{key}</b></td>
@@ -93,8 +122,7 @@ class SubmitForm extends Component {
                                         <td className="cell-bg">{newValues[key]}</td>
                                     </tr>
                                 )
-                            }) :
-                            null
+                            }) : null
                         }
 
                         </tbody>

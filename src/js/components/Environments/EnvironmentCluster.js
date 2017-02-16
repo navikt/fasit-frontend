@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
 import {fetchEnvironmentCluster, fetchEnvironmentNodes} from "../../actionCreators/environment"
-import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormBox, FormString, FormList, Lifecycle, RevisionsView, ToolButtons} from "../common"
+import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormBox, FormString, FormList, Lifecycle, RevisionsView, SubmitForm, ToolButtons} from "../common"
 import {validAuthorization} from '../../utils/'
 import {submitForm} from '../../actionCreators/common'
 
@@ -108,12 +108,6 @@ class EnvironmentCluster extends Component {
                         value={clustername}
                     />
                     <FormString
-                        label="zone"
-                        editMode={editMode}
-                        handleChange={this.handleChange.bind(this)}
-                        value={zone}
-                    />
-                    <FormString
                         label="loadbalancerurl"
                         editMode={editMode}
                         handleChange={this.handleChange.bind(this)}
@@ -182,8 +176,32 @@ class EnvironmentCluster extends Component {
                     id={params.clusterName}
                     handleChange={(comment, value) => this.setState({comment: value})}
                     comment={this.state.comment}
-
                 />
+                <SubmitForm
+                    display={this.state.displaySubmitForm}
+                    component="cluster"
+                    onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
+                    onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
+                    newValues={{
+                        clustername: this.state.clustername,
+                        zone: this.state.zone,
+                        loadbalancerurl: this.state.loadbalancerurl,
+                        environmentclass: this.state.environmentclass,
+                        environment: this.state.environment,
+                        applications: this.state.applications,
+                        nodes: this.state.nodes,
+                    }}
+                    originalValues={{
+                        clustername: cluster.data.clustername,
+                        zone: cluster.data.zone,
+                        loadbalancerurl: cluster.data.loadbalancerurl,
+                        environmentclass: cluster.data.environmentclass,
+                        environment: cluster.data.environment,
+                        applications: this.flatten(cluster.data.applications),
+                        nodes: this.flatten(cluster.data.nodes),
+                    }}
+                />
+
             </div>
     }
     handleSubmitForm(id, form, comment, component) {

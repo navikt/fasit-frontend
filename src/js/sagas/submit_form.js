@@ -74,6 +74,10 @@ export function* submitForm(action) {
                 url = `${configuration.fasit_environments}/${action.key}`
                 yield putUrl(url, action.form, action.comment)
                 break
+            case "cluster":
+                url = `${configuration.fasit_environments}/${action.form.environment}/clusters/${action.key}`
+                yield putUrl(url, action.form, action.comment)
+                break
             default:
                 throw new Error("Submit_form-saga: I don't know which component you're coming from")
         }
