@@ -10,7 +10,7 @@ import SecurityView from './SecurityView'
 import SubmitFormStatus from './SubmitFormStatus'
 import ToolButtons from './ToolButtons'
 import DeleteElementForm from './DeleteElementForm'
-import {FormList, FormSecret, FormString, FormComment} from './Forms'
+import {FormBox, FormList, FormSecret, FormString, FormComment} from './Forms'
 
 export {
     AuraTools,
@@ -19,6 +19,7 @@ export {
     DeleteElementForm,
     ElementList,
     ElementPaging,
+    FormBox,
     FormList,
     FormComment,
     FormSecret,

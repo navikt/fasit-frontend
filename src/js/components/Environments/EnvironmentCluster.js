@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
-import {fetchEnvironmentCluster} from "../../actionCreators/environment"
-import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormString, FormList, Lifecycle, RevisionsView, ToolButtons} from "../common"
+import {fetchEnvironmentCluster, fetchEnvironmentNodes} from "../../actionCreators/environment"
+import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormBox, FormString, FormList, Lifecycle, RevisionsView, SubmitForm, ToolButtons} from "../common"
 import {validAuthorization} from '../../utils/'
 import {submitForm} from '../../actionCreators/common'
 
@@ -19,18 +19,21 @@ class EnvironmentCluster extends Component {
             zone: "",
             environmentclass: "",
             environment: "",
-            loadbalancerurl: ""
+            loadbalancerurl: "",
+            applications: [],
+            nodes: []
         }
     }
     componentDidMount() {
         const {dispatch, params, cluster} = this.props
-        console.log(cluster)
         this.setState({
             clustername: cluster.data.clustername,
             zone: cluster.data.zone,
             environmentclass: cluster.data.environmentclass,
             environment: cluster.data.environment,
             loadbalancerurl: cluster.data.loadbalancerurl,
+            applications: this.flatten(cluster.data.applications),
+            nodes: this.flatten(cluster.data.nodes),
             comment: ""
         })
         if (params.environment && params.clusterName)
@@ -45,6 +48,8 @@ class EnvironmentCluster extends Component {
             environmentclass: nextProps.cluster.data.environmentclass,
             environment: nextProps.cluster.data.environment,
             loadbalancerurl: nextProps.cluster.data.loadbalancerurl,
+            applications: this.flatten(nextProps.cluster.data.applications),
+            nodes: this.flatten(nextProps.cluster.data.nodes),
             comment: ""
         })
         if ((params.environment != nextProps.params.environment || params.clusterName != nextProps.params.clusterName) && nextProps.params.environment && nextProps.params.clusterName) {
@@ -60,21 +65,27 @@ class EnvironmentCluster extends Component {
             environmentclass: cluster.data.environmentclass,
             environment: cluster.data.environment,
             loadbalancerurl: cluster.data.loadbalancerurl,
+            applications: this.flatten(cluster.data.applications),
+            nodes: this.flatten(cluster.data.nodes),
             comment: ""
 
         })
     }
 
     toggleComponentDisplay(component) {
+        const {dispatch, cluster} = this.props
         this.setState({[component]: !this.state[component]})
         if (component === "editMode" && this.state.editMode)
             this.resetLocalState()
+        if (component === "editMode" && !this.state.editMode)
+            dispatch(fetchEnvironmentNodes(cluster.data.environment))
 
     }
 
     render() {
-        const {cluster, user, params, environments} = this.props
-        const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl} = this.state
+        const {cluster, user, params, environments, applicationNames, environmentNodes} = this.props
+        const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl, applications, nodes} = this.state
+        let nodeNames = (environmentNodes != undefined) ? environmentNodes.map(n => n.hostname) : []
         let authorized = (Object.keys(cluster).length > 0) ? validAuthorization(user, cluster.data.accesscontrol) : false
         let lifecycle = (Object.keys(cluster).length > 0) ? cluster.data.lifecycle : {}
         return (cluster.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> :
@@ -97,12 +108,6 @@ class EnvironmentCluster extends Component {
                         value={clustername}
                     />
                     <FormString
-                        label="zone"
-                        editMode={editMode}
-                        handleChange={this.handleChange.bind(this)}
-                        value={zone}
-                    />
-                    <FormString
                         label="loadbalancerurl"
                         editMode={editMode}
                         handleChange={this.handleChange.bind(this)}
@@ -117,6 +122,20 @@ class EnvironmentCluster extends Component {
                     />
                     {this.environmentSelector()}
                     {this.zoneSelector()}
+                    <FormBox
+                        label="applications"
+                        editMode={editMode}
+                        value={applications}
+                        handleChange={this.handleChange.bind(this)}
+                        options={applicationNames}
+                    />
+                    <FormBox
+                        label="nodes"
+                        editMode={editMode}
+                        value={nodes}
+                        handleChange={this.handleChange.bind(this)}
+                        options={nodeNames}
+                    />
                     {/*Submit / Cancel buttons*/}
                     <br />
                     {this.state.editMode ?
@@ -125,7 +144,7 @@ class EnvironmentCluster extends Component {
                                     onClick={() => this.setState({displaySubmitForm: !displaySubmitForm})}>Submit
                             </button>
                             <button type="reset" className="btn btn-sm btn-default btn-space pull-right"
-                                    onClick={() => this.setState({editMode: !editMode})}>Cancel
+                                    onClick={() => this.toggleComponentDisplay("editMode")}>Cancel
                             </button>
                         </div>
                         : ""
@@ -157,8 +176,32 @@ class EnvironmentCluster extends Component {
                     id={params.clusterName}
                     handleChange={(comment, value) => this.setState({comment: value})}
                     comment={this.state.comment}
-
                 />
+                <SubmitForm
+                    display={this.state.displaySubmitForm}
+                    component="cluster"
+                    onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
+                    onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
+                    newValues={{
+                        clustername: this.state.clustername,
+                        zone: this.state.zone,
+                        loadbalancerurl: this.state.loadbalancerurl,
+                        environmentclass: this.state.environmentclass,
+                        environment: this.state.environment,
+                        applications: this.state.applications,
+                        nodes: this.state.nodes,
+                    }}
+                    originalValues={{
+                        clustername: cluster.data.clustername,
+                        zone: cluster.data.zone,
+                        loadbalancerurl: cluster.data.loadbalancerurl,
+                        environmentclass: cluster.data.environmentclass,
+                        environment: cluster.data.environment,
+                        applications: this.flatten(cluster.data.applications),
+                        nodes: this.flatten(cluster.data.nodes),
+                    }}
+                />
+
             </div>
     }
     handleSubmitForm(id, form, comment, component) {
@@ -211,13 +254,19 @@ class EnvironmentCluster extends Component {
                 />)
         }
     }
+    flatten(listOfObjects){
+        return (listOfObjects != undefined) ? listOfObjects.map(o => o.name) : []
+    }
 }
+
 
 const mapStateToProps = (state) => {
     return {
         environments: state.environments,
         cluster: state.environment_cluster_fasit,
-        user: state.user
+        user: state.user,
+        applicationNames: state.applications.applicationNames,
+        environmentNodes: state.environment_nodes_fasit.data
     }
 }
 
