@@ -46,14 +46,16 @@ class SubmitForm extends Component {
                 key = originalValues.name
                 break
             case "cluster":
+                const applications = newValues.applications.map(a => {return {name: a}})
+                const nodes = newValues.nodes.map(n => {return {name: n}})
                 form = {
                     clustername: newValues.clustername,
                     zone: newValues.zone,
                     loadbalancerurl: newValues.loadbalancerurl,
                     environmentclass: newValues.environmentclass,
                     environment: newValues.environment,
-                    applications: newValues.applications,
-                    nodes: newValues.nodes,
+                    applications: applications,
+                    nodes: nodes,
                 }
                 key = originalValues.clustername
                 break
@@ -73,7 +75,7 @@ class SubmitForm extends Component {
             return (originalValues[key] != newValues[key])
         })
         return (
-            <Modal show={display} onHide={onClose}>
+            <Modal show={display} onHide={onClose} dialogClassName="submitForm">
                 <Modal.Header>
                     <Modal.Title>Commit changes
                         <button type="reset" className="btn btn-link pull-right"
