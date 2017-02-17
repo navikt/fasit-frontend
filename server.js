@@ -37,11 +37,19 @@ const serverOptions = {
     historyApiFallback: true
 }
 
+
+
 const compiler = webpack(webpackConfig);
 
 app.use(require('webpack-dev-middleware')(compiler, serverOptions));
 app.use(require('webpack-hot-middleware')(compiler));
 app.use(express.static(__dirname + "/dist"))
+
+/* Useful for making mock function sleep when simulating slow apis
+* sleep(5000).then(() => {sendJson(res, resourcesMock.getResource(req.params.id))})*/
+ function sleep(time) {
+     return new Promise(resolve => setTimeout(resolve, time))
+}
 
 app.get('/config', (req, res) => {
     res.json(config.externalResources)
@@ -95,7 +103,7 @@ app.get("/mockapi/resources", (req, res) => {
 })
 
 app.get('/mockapi/resources/:id', (req, res) => {
-    sendJson(res, resourcesMock.getResource(req.params.id))
+    sendJson(res, resourcesMock.getResource(req.params.id));
 })
 
 app.get("/mockapi/nodes/types", (req, res) => {

@@ -1,5 +1,6 @@
 module.exports = {
-    getResource: function (id) {
+    getResource:  function (id) {
+
         return  resources.filter(r => r.id == id)[0]
     },
 
@@ -24,7 +25,7 @@ module.exports = {
 
         return resources.filter(byType).filter(byScope)
     }
-} 
+}
 
 const resources = [
     {
