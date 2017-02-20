@@ -12,9 +12,9 @@ class SecurityView extends Component {
     render() {
         const {accesscontrol, user, displayAccessControlForm} = this.props
         const authorized = validAuthorization(user, accesscontrol)
-        return (
+        return  (typeof accesscontrol !== "undefined") ? (
             <div className="collapsible-menu-content-container">
-                {authorized ?
+                {(authorized) ?
                     <h3 style={{marginTop: 1 + "px"}}>
                         <small>
                             <i className="fa fa-fw fa-unlock text-success" style={{marginRight:15+"px"}}/>{"You've got access"}
@@ -36,7 +36,7 @@ class SecurityView extends Component {
                     </pre>
                 {authorized ? <button className="btn btn-sm btn-default" onClick={displayAccessControlForm}><i className="fa fa-fw fa-user" style={{marginRight:5}}/>Access control</button> : null}
             </div>
-        )
+        ) : null
     }
 }
 

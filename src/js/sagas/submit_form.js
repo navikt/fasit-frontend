@@ -1,5 +1,6 @@
 import {takeEvery, delay} from 'redux-saga'
 import {call, put, fork, select} from 'redux-saga/effects'
+import {browserHistory} from "react-router";
 import {putUrl, postUrl, deleteUrl} from '../utils'
 import {
     SHOW_NEW_APPLICATION_FORM,
@@ -10,7 +11,11 @@ import {
     SUBMITTING_FORM,
     SUBMIT_FORM_SUCCESS,
     SUBMIT_FORM_FAILED,
-    CLOSE_SUBMIT_FORM_STATUS
+    CLOSE_SUBMIT_FORM_STATUS,
+    NODE_FASIT_REQUEST,
+    ENVIRONMENT_FASIT_REQUEST,
+    ENVIRONMENT_CLUSTER_FASIT_REQUEST,
+    APPLICATION_FASIT_REQUEST
 
 } from '../actionTypes'
 
@@ -47,14 +52,17 @@ export function* submitForm(action) {
             case "deleteApplication":
                 url = `${configuration.fasit_applications}/${action.key}`
                 yield deleteUrl(url, action.comment)
+                yield browserHistory.push("/applications")
                 break
             case "deleteNode":
                 url = `${configuration.fasit_nodes}/${action.key}`
                 yield deleteUrl(url, action.comment)
+                yield browserHistory.push("/nodes")
                 break
             case "deleteEnvironment":
                 url = `${configuration.fasit_environments}/${action.key}`
                 yield deleteUrl(url, action.comment)
+                yield browserHistory.push("/environments")
                 break
             case "deleteCluster":
                 url = `${configuration.fasit_environments}/${action.form.env}/clusters/${action.key}`
@@ -65,18 +73,23 @@ export function* submitForm(action) {
             case "node":
                 url = `${configuration.fasit_nodes}/${action.key}`
                 yield putUrl(url, action.form, action.comment)
+                yield put({type:NODE_FASIT_REQUEST, hostname:action.key})
                 break
             case "application":
                 url = `${configuration.fasit_applications}/${action.key}`
                 yield putUrl(url, action.form, action.comment)
+                yield put({type:APPLICATION_FASIT_REQUEST, name:action.key})
                 break
             case "environment":
                 url = `${configuration.fasit_environments}/${action.key}`
                 yield putUrl(url, action.form, action.comment)
+                yield put({type:ENVIRONMENT_FASIT_REQUEST, id:action.key})
                 break
             case "cluster":
                 url = `${configuration.fasit_environments}/${action.form.environment}/clusters/${action.key}`
                 yield putUrl(url, action.form, action.comment)
+                yield put({type:ENVIRONMENT_CLUSTER_FASIT_REQUEST, id:action.key})
+
                 break
             default:
                 throw new Error("Submit_form-saga: I don't know which component you're coming from")

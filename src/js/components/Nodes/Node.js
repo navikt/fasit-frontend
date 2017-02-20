@@ -41,6 +41,7 @@ class Node extends Component {
             displaySubmitForm: false,
             displayDeleteForm: false,
             displayAccessControlForm: false,
+            adgroups: [],
             editMode: false,
             comment: ""
         }
@@ -62,12 +63,12 @@ class Node extends Component {
             username: nextProps.fasit.data.username,
             type: nextProps.fasit.data.type,
             password: nextProps.fasit.currentPassword,
-            adgroups: [],
             comment: ""
         })
-        if (nextProps.fasit.accesscontrol){
-            this.setState({adgroups: nextProps.fasit.accesscontrol.adgroups})
+        if (Object.keys(nextProps.fasit.data).length > 0){
+            this.setState({adgroups: nextProps.fasit.data.accesscontrol.adgroups})
         }
+
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(hostname, nextProps.query.revision))
         }
