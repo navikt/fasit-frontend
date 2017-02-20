@@ -5,7 +5,7 @@ import {fetchFasitData} from '../../actionCreators/application'
 import {submitForm} from '../../actionCreators/common'
 import classString from 'react-classset'
 import ApplicationInstances from './ApplicationInstances'
-import {DeleteElementForm, SecurityView,ToolButtons} from '../common/'
+import {DeleteElementForm, SecurityView, ToolButtons, AccessControl} from '../common/'
 
 import {
     CollapsibleMenu,
@@ -23,7 +23,9 @@ class Application extends Component {
         this.state = {
             displaySubmitForm: false,
             displayDeleteForm: false,
+            displayAccessControlForm: false,
             editMode: false,
+            adgroups: [],
             comment: ""
         }
     }
@@ -42,6 +44,9 @@ class Application extends Component {
             portoffset: nextProps.application.data.portoffset,
             comment: ""
         })
+        if (Object.keys(nextProps.application.data).length > 0) {
+            this.setState({adgroups: nextProps.application.data.accesscontrol.adgroups})
+        }
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(name, nextProps.query.revision))
         }
@@ -49,12 +54,14 @@ class Application extends Component {
 
     handleSubmitForm(key, form, comment, component) {
         const {dispatch} = this.props
-        if (component == "application") {
+        if (component == "application" && this.state.displaySubmitForm) {
             this.toggleComponentDisplay("displaySubmitForm")
             this.toggleComponentDisplay("editMode")
-        } else if (component === "deleteApplication"){
+        } else if (component === "deleteApplication") {
             this.toggleComponentDisplay("displayDeleteForm")
-            this.setState({comment:""})
+            this.setState({comment: ""})
+        } else if (component === "application" && this.state.displayAccessControlForm) {
+            this.toggleComponentDisplay("displayAccessControlForm")
         }
         dispatch(submitForm(key, form, comment, component))
     }
@@ -80,19 +87,9 @@ class Application extends Component {
         this.setState({[field]: value})
     }
 
-    buttonClasses(authenticated, edit) {
-        return classString({
-            "btn": true,
-            "btn-link": true,
-            "topnav-button": true,
-            "topnav-button-active": this.state.editMode && edit,
-            "disabled": !authenticated
-        })
-    }
-
     render() {
         const {name, application, user, dispatch, query} = this.props
-        const {comment} = this.state
+        const {comment, adgroups} = this.state
         let lifecycle = {}
         let authorized = false
         if (Object.keys(application).length > 0) {
@@ -102,7 +99,9 @@ class Application extends Component {
         return (
             <div className="row">
                 {/*Heading*/}
-                {this.oldRevision() ? <div className="col-md-12" style={{paddingTop:10, paddingBottom:10}}><h4>Revision #{query.revision}</h4></div> :
+                {this.oldRevision() ?
+                    <div className="col-md-12" style={{paddingTop: 10, paddingBottom: 10}}><h4>Revision
+                        #{query.revision}</h4></div> :
                     <ToolButtons
                         authorized={authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
@@ -167,11 +166,29 @@ class Application extends Component {
                         <RevisionsView id={name} component="application"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
-                        <SecurityView accesscontrol={application.data.accesscontrol}/>
+                        <SecurityView accesscontrol={application.data.accesscontrol}
+                                      displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
 
                 {/* Misc. modals*/}
+                <AccessControl
+                    displayAccessControlForm={this.state.displayAccessControlForm}
+                    onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
+                    onSubmit={() => this.handleSubmitForm(name, {
+                            name: application.data.name,
+                            groupid: application.data.groupid,
+                            artifactid: application.data.artifactid,
+                            portoffset: application.data.portoffset,
+                            accesscontrol: {adgroups}
+                        }
+                        , comment, "application")}
+                    id={name}
+                    value={adgroups}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={comment}
+                />
                 <SubmitForm
                     display={this.state.displaySubmitForm}
                     onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}

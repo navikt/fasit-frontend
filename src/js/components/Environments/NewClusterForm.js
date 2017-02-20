@@ -55,13 +55,15 @@ class NewClusterForm extends Component {
 
     showSubmitButton() {
         const {clustername, environment, environmentclass, zone} = this.state
-        if (clustername && environment && environmentclass && zone) {
-            return (
-                <button type="submit"
-                        className="btn btn-primary pull-right"
-                        onClick={this.handleSubmitForm.bind(this, true)}>Submit
-                </button>
-            )
+        if (clustername && environment && environmentclass) {
+            if (environmentclass === "u" || zone){
+                return (
+                    <button type="submit"
+                            className="btn btn-primary pull-right"
+                            onClick={this.handleSubmitForm.bind(this, true)}>Submit
+                    </button>
+                )
+            }
         }
         return <button type="submit" className="btn btn-primary pull-right disabled">Submit</button>
 
