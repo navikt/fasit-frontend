@@ -41,7 +41,7 @@ class NewApplicationForm extends Component {
             groupid,
             portoffset,
         }
-        dispatch(submitForm(form.hostname, form, comment, "newApplication"))
+        dispatch(submitForm(form.name, form, comment, "newApplication"))
     }
 
     closeForm() {

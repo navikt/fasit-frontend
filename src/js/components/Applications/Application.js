@@ -5,7 +5,7 @@ import {fetchFasitData} from '../../actionCreators/application'
 import {submitForm} from '../../actionCreators/common'
 import classString from 'react-classset'
 import ApplicationInstances from './ApplicationInstances'
-import {DeleteElementForm, SecurityView} from '../common/'
+import {DeleteElementForm, SecurityView,ToolButtons} from '../common/'
 
 import {
     CollapsibleMenu,
@@ -36,10 +36,10 @@ class Application extends Component {
     componentWillReceiveProps(nextProps) {
         const {dispatch, name, query} = this.props
         this.setState({
-            name: nextProps.fasit.data.name,
-            artifactid: nextProps.fasit.data.artifactid,
-            groupid: nextProps.fasit.data.groupid,
-            portoffset: nextProps.fasit.data.portoffset,
+            name: nextProps.application.data.name,
+            artifactid: nextProps.application.data.artifactid,
+            groupid: nextProps.application.data.groupid,
+            portoffset: nextProps.application.data.portoffset,
             comment: ""
         })
         if (nextProps.query.revision != query.revision) {
@@ -60,12 +60,12 @@ class Application extends Component {
     }
 
     resetLocalState() {
-        const {fasit} = this.props
+        const {application} = this.props
         this.setState({
-            name: fasit.data.name,
-            artifactid: fasit.data.artifactid,
-            groupid: fasit.data.groupid,
-            portoffset: fasit.data.portoffset
+            name: application.data.name,
+            artifactid: application.data.artifactid,
+            groupid: application.data.groupid,
+            portoffset: application.data.portoffset
         })
     }
 
@@ -91,55 +91,25 @@ class Application extends Component {
     }
 
     render() {
-        const {name, fasit, user, dispatch, query} = this.props
+        const {name, application, user, dispatch, query} = this.props
         const {comment} = this.state
-        let authenticated = false
         let lifecycle = {}
-        if (Object.keys(fasit.data).length > 0) {
-            authenticated = validAuthorization(user, fasit.data.accesscontrol)
-            lifecycle = fasit.data.lifecycle
+        let authorized = false
+        if (Object.keys(application).length > 0) {
+            authorized = validAuthorization(user, application.data.accesscontrol)
+            lifecycle = application.lifecycle
         }
         return (
             <div className="row">
-                <div className="col-xs-12 row main-data-container">
-
-                    {/*Heading*/}
-                    <div className="col-sm-1 hidden-xs main-data-title">
-                        <span className="fa-stack fa-lg">
-                            <i className="fa fa-circle fa-stack-2x"/>
-                            <i className="fa fa-cube fa-stack-1x fa-inverse"/>
-                        </span>
-                    </div>
-                    <div className="col-sm-3 hidden-xs FormLabel main-data-title text-overflow">
-                        {this.oldRevision() ?
-                            <strong className="disabled-text-color">Revision #{query.revision}</strong> :
-                            <strong>{name}</strong>
-                        }
-                    </div>
-                    {this.oldRevision() ? null :
-                        <div className="col-sm-2 nopadding">
-                            <ul className="nav navbar-nav navbar-right">
-                                <li>
-                                    <button type="button"
-                                            className={this.buttonClasses(authenticated, "edit")}
-                                            onClick={authenticated ? () => this.toggleComponentDisplay("editMode") : () => {
-                                                }}
-                                    >
-                                        <i className="fa fa-wrench fa-2x"/>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button"
-                                            className={this.buttonClasses(authenticated)}
-                                            onClick={authenticated ? () => this.toggleComponentDisplay("displayDeleteForm") : () => {
-                                                }}
-                                    >
-                                        <i className="fa fa-trash fa-2x"/>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>}
-                </div>
+                {/*Heading*/}
+                {this.oldRevision() ? <div className="col-md-12" style={{paddingTop:10, paddingBottom:10}}><h4>Revision #{query.revision}</h4></div> :
+                    <ToolButtons
+                        authorized={authorized}
+                        onEditClick={() => this.toggleComponentDisplay("editMode")}
+                        onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                        onCopyClick={() => console.log("Copy,copycopy!")}
+                    />
+                }
 
                 {/*Form*/}
                 <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
@@ -197,7 +167,7 @@ class Application extends Component {
                         <RevisionsView id={name} component="application"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
-                        <SecurityView accesscontrol={fasit.data.accesscontrol}/>
+                        <SecurityView accesscontrol={application.data.accesscontrol}/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
 
@@ -215,10 +185,10 @@ class Application extends Component {
 
                     }}
                     originalValues={{
-                        name: fasit.data.name,
-                        groupid: fasit.data.groupid,
-                        artifactid: fasit.data.artifactid,
-                        portoffset: fasit.data.portoffset,
+                        name: application.data.name,
+                        groupid: application.data.groupid,
+                        artifactid: application.data.artifactid,
+                        portoffset: application.data.portoffset,
                     }}
                     additionalValues={{}}
                 />
@@ -247,7 +217,7 @@ class Application extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
     return {
-        fasit: state.application_fasit,
+        application: state.application_fasit,
         user: state.user,
         name: ownProps.name,
         config: state.configuration,
