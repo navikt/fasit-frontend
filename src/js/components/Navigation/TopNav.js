@@ -25,7 +25,7 @@ class TopNav extends Component {
             <ul className="nav navbar-nav navbar-right">
                 {/* Nytt element*/}
                 {user.authenticated ? (
-                        <li className="spinningIcon">
+                        <li>
                             <OverlayTrigger
                                 trigger={"click"}
                                 rootClose={true}
@@ -48,7 +48,7 @@ class TopNav extends Component {
 
                 {/* Logg inn eller brukermeny*/}
                 {!user.authenticated ? (
-                        <li className="spinningIcon">
+                        <li>
                             <button
                                 type="button"
                                 className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
@@ -62,7 +62,7 @@ class TopNav extends Component {
                         </li>
 
                     ) : (
-                        <li className="spinningIcon">
+                        <li>
                             <OverlayTrigger
                                 trigger="click"
                                 id="loginInformationOverlay"
