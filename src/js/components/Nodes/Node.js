@@ -9,10 +9,11 @@ import {
 } from '../../actionCreators/node'
 
 import {
+    AccessControl,
     CollapsibleMenu,
     CollapsibleMenuItem,
     FormString,
-    FormList,
+    FormDropDown,
     FormSecret,
     Lifecycle,
     RevisionsView,
@@ -39,6 +40,7 @@ class Node extends Component {
             secretVisible: false,
             displaySubmitForm: false,
             displayDeleteForm: false,
+            displayAccessControlForm: false,
             editMode: false,
             comment: ""
         }
@@ -60,8 +62,12 @@ class Node extends Component {
             username: nextProps.fasit.data.username,
             type: nextProps.fasit.data.type,
             password: nextProps.fasit.currentPassword,
+            adgroups: [],
             comment: ""
         })
+        if (nextProps.fasit.accesscontrol){
+            this.setState({adgroups: nextProps.fasit.accesscontrol.adgroups})
+        }
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(hostname, nextProps.query.revision))
         }
@@ -69,12 +75,14 @@ class Node extends Component {
 
     handleSubmitForm(key, form, comment, component) {
         const {dispatch} = this.props
-        if (component == "node") {
+        if (component == "node" && this.state.displaySubmitForm) {
             this.toggleComponentDisplay("displaySubmitForm")
             this.toggleComponentDisplay("editMode")
         } else if (component === "deleteNode") {
             this.toggleComponentDisplay("displayDeleteForm")
             this.setState({comment: ""})
+        } else if (component === "node" && this.state.displayAccessControlForm){
+            this.toggleComponentDisplay("displayAccessControlForm")
         }
         dispatch(submitForm(key, form, comment, component))
     }
@@ -86,6 +94,7 @@ class Node extends Component {
             username: fasit.data.username,
             type: fasit.data.type,
             password: "",
+            adgroups: [],
             comment: "",
         })
     }
@@ -113,14 +122,16 @@ class Node extends Component {
 
     render() {
         const {hostname, config, user, fasit, dispatch, nodeTypes, query} = this.props
-        const {comment} = this.state
+        const {comment, editMode, username, password, type, adgroups} = this.state
         let lifecycle = (Object.keys(fasit.data).length > 0) ? fasit.data.lifecycle : {}
         let authorized = (Object.keys(fasit.data).length > 0) ? validAuthorization(user, fasit.data.accesscontrol) : false
 
         return (
             <div className="row">
                 {/*Heading*/}
-                {this.oldRevision() ? <div className="col-md-12" style={{paddingTop:10, paddingBottom:10}}><h4>Revision #{query.revision}</h4></div> :
+                {this.oldRevision() ?
+                    <div className="col-md-12" style={{paddingTop: 10, paddingBottom: 10}}><h4>Revision
+                        #{query.revision}</h4></div> :
                     <ToolButtons
                         authorized={authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
@@ -134,30 +145,30 @@ class Node extends Component {
                 <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="hostname"
-                        editMode={this.state.editMode}
+                        editMode={editMode}
                         value={this.state.hostname}
                         handleChange={this.handleChange.bind(this)}
                     />
                     <FormString
                         label="username"
-                        editMode={this.state.editMode}
-                        value={this.state.username}
+                        editMode={editMode}
+                        value={username}
                         handleChange={this.handleChange.bind(this)}
                     />
 
                     <FormSecret
                         label="password"
-                        editMode={this.state.editMode}
-                        value={this.state.password}
+                        editMode={editMode}
+                        value={password}
                         handleChange={this.handleChange.bind(this)}
                         authenticated={user.authenticated}
                         toggleDisplaySecret={this.toggleDisplaySecret.bind(this)}
                     />
 
-                    <FormList
+                    <FormDropDown
                         label="type"
-                        editMode={this.state.editMode}
-                        value={this.state.type}
+                        editMode={editMode}
+                        value={type}
                         handleChange={this.handleChange.bind(this)}
                         options={nodeTypes}
                     />
@@ -176,7 +187,7 @@ class Node extends Component {
 
                     {/*Submit / Cancel buttons*/}
                     <br />
-                    {this.state.editMode ?
+                    {editMode ?
                         <div className="btn-block">
                             <button type="submit" className="btn btn-sm btn-primary pull-right"
                                     onClick={() => this.toggleComponentDisplay("displaySubmitForm")}>Submit
@@ -202,7 +213,8 @@ class Node extends Component {
                         <RevisionsView id={hostname} component="node"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
-                        <SecurityView accesscontrol={fasit.data.accesscontrol}/>
+                        <SecurityView accesscontrol={fasit.data.accesscontrol}
+                                      displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Events">
                         <NodeEventsView />
@@ -216,6 +228,23 @@ class Node extends Component {
                 </CollapsibleMenu>
 
                 {/* Misc. modals*/}
+                <AccessControl
+                    displayAccessControlForm={this.state.displayAccessControlForm}
+                    onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
+                    onSubmit={() => this.handleSubmitForm(hostname, {
+                            hostname: fasit.data.hostname,
+                            username: fasit.data.username,
+                            type: fasit.data.type,
+                            environment: fasit.data.environment,
+                            environmentclass: fasit.data.environmentclass,
+                            accesscontrol: {adgroups}
+                        }
+                        , comment, "node")}
+                    id={hostname}
+                    value={adgroups}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={comment}
+                />
                 <DeleteElementForm
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
@@ -245,7 +274,7 @@ class Node extends Component {
                     }}
                     additionalValues={{
                         environment: fasit.data.environment,
-                        environmentclass: fasit.data.environmentclass
+                        environmentclass: fasit.data.environmentclass,
                     }}
                 />
             </div>

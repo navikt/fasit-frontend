@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
 import {fetchEnvironmentCluster, fetchEnvironmentNodes} from "../../actionCreators/environment"
-import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormBox, FormString, FormList, Lifecycle, RevisionsView, SubmitForm, ToolButtons} from "../common"
+import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormListBox, FormString, FormDropDown, Lifecycle, RevisionsView, SubmitForm, ToolButtons} from "../common"
 import {validAuthorization} from '../../utils/'
 import {submitForm} from '../../actionCreators/common'
 
@@ -113,7 +113,7 @@ class EnvironmentCluster extends Component {
                         handleChange={this.handleChange.bind(this)}
                         value={loadbalancerurl}
                     />
-                    <FormList
+                    <FormDropDown
                         label="environmentclass"
                         editMode={editMode}
                         value={environmentclass}
@@ -122,14 +122,14 @@ class EnvironmentCluster extends Component {
                     />
                     {this.environmentSelector()}
                     {this.zoneSelector()}
-                    <FormBox
+                    <FormListBox
                         label="applications"
                         editMode={editMode}
                         value={applications}
                         handleChange={this.handleChange.bind(this)}
                         options={applicationNames}
                     />
-                    <FormBox
+                    <FormListBox
                         label="nodes"
                         editMode={editMode}
                         value={nodes}
@@ -230,7 +230,7 @@ class EnvironmentCluster extends Component {
                 }
             })
             return (
-                <FormList
+                <FormDropDown
                     label="environment"
                     editMode={editMode}
                     value={environment}
@@ -245,7 +245,7 @@ class EnvironmentCluster extends Component {
         const {environmentclass, zone, editMode} = this.state
         if (environmentclass && environmentclass !== 'u') {
             return (
-                <FormList
+                <FormDropDown
                     label="zone"
                     editMode={editMode}
                     value={zone}

@@ -25,6 +25,7 @@ export const validAuthorization = (user, accesscontrol) => {
     return (group && role)
 }
 const hasGroup = (user, groups) => {
+    if (user.roles.indexOf("ROLE_SUPERUSER" > -1)) return true
     for (let i = 0; i < user.groups.length; i++) {
         if (groups.indexOf(user.groups[i]) !== -1) return true
     }

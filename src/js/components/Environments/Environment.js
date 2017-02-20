@@ -7,7 +7,7 @@ import {
     RevisionsView,
     Lifecycle,
     FormString,
-    FormList,
+    FormDropDown,
     SubmitForm,
     DeleteElementForm,
     ToolButtons
@@ -115,7 +115,7 @@ class Environment extends Component {
                         handleChange={this.handleChange.bind(this)}
                         value={this.state.name}
                     />
-                    <FormList
+                    <FormDropDown
                         label="environmentclass"
                         editMode={this.state.editMode}
                         value={this.state.environmentclass}

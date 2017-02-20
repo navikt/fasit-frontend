@@ -10,7 +10,7 @@ class SecurityView extends Component {
 
 
     render() {
-        const {accesscontrol, user} = this.props
+        const {accesscontrol, user, displayAccessControlForm} = this.props
         const authorized = validAuthorization(user, accesscontrol)
         return (
             <div className="collapsible-menu-content-container">
@@ -33,7 +33,8 @@ class SecurityView extends Component {
                                 accesscontrol.adgroups.map((g, i) => <li key={i}>AD-group: <b>{g}</b></li>) : null
                             }
                         </ul>
-                        </pre>
+                    </pre>
+                {authorized ? <button className="btn btn-sm btn-default" onClick={displayAccessControlForm}><i className="fa fa-fw fa-user" style={{marginRight:5}}/>Access control</button> : null}
             </div>
         )
     }
