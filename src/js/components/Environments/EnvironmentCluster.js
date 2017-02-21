@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
 import {fetchEnvironmentCluster, fetchEnvironmentNodes} from "../../actionCreators/environment"
-import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormBox, FormString, FormList, Lifecycle, RevisionsView, SubmitForm, ToolButtons} from "../common"
+import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormListBox, FormString, FormDropDown, Lifecycle, SecurityView, AccessControl, SubmitForm, ToolButtons} from "../common"
 import {validAuthorization} from '../../utils/'
 import {submitForm} from '../../actionCreators/common'
 
@@ -13,6 +13,7 @@ class EnvironmentCluster extends Component {
         this.state={
             displayDeleteForm: false,
             displaySubmitForm: false,
+            displayAccessControlForm: false,
             editMode: false,
             comment:"",
             clustername: "",
@@ -21,6 +22,7 @@ class EnvironmentCluster extends Component {
             environment: "",
             loadbalancerurl: "",
             applications: [],
+            adgroups: [],
             nodes: []
         }
     }
@@ -55,6 +57,9 @@ class EnvironmentCluster extends Component {
         if ((params.environment != nextProps.params.environment || params.clusterName != nextProps.params.clusterName) && nextProps.params.environment && nextProps.params.clusterName) {
             dispatch(fetchEnvironmentCluster(nextProps.params.environment, nextProps.params.clusterName))
         }
+        if (Object.keys(nextProps.cluster.data).length > 0) {
+            this.setState({adgroups: nextProps.cluster.data.accesscontrol.adgroups})
+        }
     }
 
     resetLocalState() {
@@ -67,6 +72,7 @@ class EnvironmentCluster extends Component {
             loadbalancerurl: cluster.data.loadbalancerurl,
             applications: this.flatten(cluster.data.applications),
             nodes: this.flatten(cluster.data.nodes),
+            adgroups: cluster.data.accesscontrol.adgroups,
             comment: ""
 
         })
@@ -84,7 +90,7 @@ class EnvironmentCluster extends Component {
 
     render() {
         const {cluster, user, params, environments, applicationNames, environmentNodes} = this.props
-        const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl, applications, nodes} = this.state
+        const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl, applications, nodes, adgroups} = this.state
         let nodeNames = (environmentNodes != undefined) ? environmentNodes.map(n => n.hostname) : []
         let authorized = (Object.keys(cluster).length > 0) ? validAuthorization(user, cluster.data.accesscontrol) : false
         let lifecycle = (Object.keys(cluster).length > 0) ? cluster.data.lifecycle : {}
@@ -113,7 +119,7 @@ class EnvironmentCluster extends Component {
                         handleChange={this.handleChange.bind(this)}
                         value={loadbalancerurl}
                     />
-                    <FormList
+                    <FormDropDown
                         label="environmentclass"
                         editMode={editMode}
                         value={environmentclass}
@@ -122,14 +128,14 @@ class EnvironmentCluster extends Component {
                     />
                     {this.environmentSelector()}
                     {this.zoneSelector()}
-                    <FormBox
+                    <FormListBox
                         label="applications"
                         editMode={editMode}
                         value={applications}
                         handleChange={this.handleChange.bind(this)}
                         options={applicationNames}
                     />
-                    <FormBox
+                    <FormListBox
                         label="nodes"
                         editMode={editMode}
                         value={nodes}
@@ -164,11 +170,34 @@ class EnvironmentCluster extends Component {
                     <CollapsibleMenuItem label="History">
 {/*
                         <RevisionsView id={clusterName} component="clusters"/>
-*/}
+*/}                    </CollapsibleMenuItem>
+                    <CollapsibleMenuItem label="Security">
+                        <SecurityView accesscontrol={cluster.data.accesscontrol}
+                                      displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+
                     </CollapsibleMenuItem>
+
                 </CollapsibleMenu>
 
                 {/*Misc. modals*/}
+                <AccessControl
+                    displayAccessControlForm={this.state.displayAccessControlForm}
+                    onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
+                    onSubmit={() => this.handleSubmitForm(clustername, {
+                            clustername: cluster.data.clustername,
+                            zone: cluster.data.zone,
+                            loadbalancerurl: cluster.data.loadbalancerurl,
+                            environmentclass: cluster.data.environmentclass,
+                            environment: cluster.data.environment,
+                            applications: this.flatten(cluster.data.applications),
+                            nodes: this.flatten(cluster.data.nodes),
+                            accesscontrol: {adgroups}
+                        }
+                        , "", "cluster")}
+                    id={clustername}
+                    value={adgroups}
+                    handleChange={this.handleChange.bind(this)}
+                />
                 <DeleteElementForm
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.setState({displayDeleteForm: false})}
@@ -206,12 +235,14 @@ class EnvironmentCluster extends Component {
     }
     handleSubmitForm(id, form, comment, component) {
         const {dispatch} = this.props
-        if (component == "cluster") {
+        if (component == "cluster" && this.state.displaySubmitForm) {
             this.setState({displaySubmitForm: !this.state.displaySubmitForm})
             this.setState({editMode: !this.state.editMode})
         } else if (component === "deleteCluster") {
             this.setState({displayDeleteForm: !this.state.displayDeleteForm})
             this.setState({comment: ""})
+        } else if (component === "cluster" && this.state.displayAccessControlForm){
+            this.setState({displayAccessControlForm: !this.state.displayAccessControlForm})
         }
         dispatch(submitForm(id, form, comment, component))
     }
@@ -230,7 +261,7 @@ class EnvironmentCluster extends Component {
                 }
             })
             return (
-                <FormList
+                <FormDropDown
                     label="environment"
                     editMode={editMode}
                     value={environment}
@@ -245,7 +276,7 @@ class EnvironmentCluster extends Component {
         const {environmentclass, zone, editMode} = this.state
         if (environmentclass && environmentclass !== 'u') {
             return (
-                <FormList
+                <FormDropDown
                     label="zone"
                     editMode={editMode}
                     value={zone}

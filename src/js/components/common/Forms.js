@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import Select from 'react-select'
+import Select, {Creatable} from 'react-select'
 import {Tooltip, OverlayTrigger} from 'react-bootstrap'
 import {Link} from 'react-router'
 
@@ -32,7 +32,30 @@ function convertToSelectObject(values) {
     })
 }
 
-export function FormBox(props) {
+export function FormCreatableList(props) {
+    const {label, value, editMode, handleChange, parent} = props
+    return (
+        <div className="row">
+            <div className="col-md-4 FormLabel text-left"><b>{capitalize(label)}:</b></div>
+            <div className="col-md-8">
+                {editMode ?
+                    <Creatable
+                        clearable={true}
+                        type="text"
+                        multi={true}
+                        className="text-left"
+                        placeholder="Start typing..."
+                        value={convertToSelectObject(value)}
+                        onChange={(e) => handleChange(label, e.map(item => item.value), parent)}
+                    />
+                    : <pre className="col-md-8">{value.map((v, i) => <span key={i}><Link to={`/applications/${v}`}>{v}</Link>{`\n`}</span>)}</pre>
+                }
+            </div>
+        </div>
+    )
+}
+
+export function FormListBox(props) {
     const {label, value, editMode, handleChange, options, parent} = props
     return (
         <div className="row">
@@ -56,7 +79,7 @@ export function FormBox(props) {
     )
 }
 
-export function FormList(props) {
+export function FormDropDown(props) {
     const {label, value, editMode, handleChange, options, parent} = props
     return (
         <div className="row">

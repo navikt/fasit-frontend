@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
-import {FormString, FormList, FormComment} from '../common/Forms'
+import {FormString, FormDropDown, FormComment} from '../common/Forms'
 
 import {showNewComponentForm} from '../../actionCreators/common'
 import {submitForm} from '../../actionCreators/common'
@@ -55,13 +55,15 @@ class NewClusterForm extends Component {
 
     showSubmitButton() {
         const {clustername, environment, environmentclass, zone} = this.state
-        if (clustername && environment && environmentclass && zone) {
-            return (
-                <button type="submit"
-                        className="btn btn-primary pull-right"
-                        onClick={this.handleSubmitForm.bind(this, true)}>Submit
-                </button>
-            )
+        if (clustername && environment && environmentclass) {
+            if (environmentclass === "u" || zone){
+                return (
+                    <button type="submit"
+                            className="btn btn-primary pull-right"
+                            onClick={this.handleSubmitForm.bind(this, true)}>Submit
+                    </button>
+                )
+            }
         }
         return <button type="submit" className="btn btn-primary pull-right disabled">Submit</button>
 
@@ -85,7 +87,7 @@ class NewClusterForm extends Component {
                         value={this.state.clustername}
                         handleChange={this.handleChange.bind(this)}
                     />
-                    <FormList
+                    <FormDropDown
                         label="environmentclass"
                         editMode={true}
                         value={this.state.environmentclass}
@@ -123,7 +125,7 @@ class NewClusterForm extends Component {
                 }
             })
             return (
-                <FormList
+                <FormDropDown
                     label="environment"
                     editMode={true}
                     value={this.state.environment}
@@ -138,7 +140,7 @@ class NewClusterForm extends Component {
         const {environmentclass} = this.state
         if (environmentclass && environmentclass !== 'u') {
             return (
-                <FormList
+                <FormDropDown
                     label="zone"
                     editMode={true}
                     value={this.state.zone}

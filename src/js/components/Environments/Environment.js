@@ -2,12 +2,14 @@ import React, {Component, PropTypes} from "react"
 import {Link} from 'react-router'
 import {connect} from "react-redux"
 import {
+    AccessControl,
     CollapsibleMenu,
     CollapsibleMenuItem,
     RevisionsView,
     Lifecycle,
     FormString,
-    FormList,
+    FormDropDown,
+    SecurityView,
     SubmitForm,
     DeleteElementForm,
     ToolButtons
@@ -18,6 +20,7 @@ import EnvironmentClusters from './EnvironmentClusters'
 import EnvironmentNodes from './EnvironmentNodes'
 import EnvironmentInstances from './EnvironmentInstances'
 import {fetchEnvironment} from "../../actionCreators/environment"
+import * as browserhistory from "react-router";
 
 class Environment extends Component {
     constructor(props) {
@@ -29,18 +32,22 @@ class Environment extends Component {
             displayInstances: false,
             displaySubmitForm: false,
             displayDeleteForm: false,
+            displayAccessControlForm: false,
             editMode: false,
-            comment:"",
+            comment: "",
             environmentclass: "",
+            adgroups: [],
             name: ""
         }
     }
+
     resetLocalState() {
         const {environment} = this.props
         this.setState({
             name: environment.name,
             environmentclass: environment.environmentclass,
             environment: environment.environment,
+            adgroups: [],
             comment: ""
 
         })
@@ -52,19 +59,26 @@ class Environment extends Component {
             this.resetLocalState()
 
     }
+
     handleChange(field, value) {
         this.setState({[field]: value})
     }
+
     handleSubmitForm(id, form, comment, component) {
-        const {dispatch} = this.props
-        if (component == "environment") {
+        const {dispatch, name, revision} = this.props
+        if (component == "environment" && this.state.displaySubmitForm) {
             this.toggleComponentDisplay("displaySubmitForm")
             this.toggleComponentDisplay("editMode")
         } else if (component === "deleteEnvironment") {
             this.toggleComponentDisplay("displayDeleteForm")
             this.setState({comment: ""})
+        } else if (component === "environment" && this.state.displayAccessControlForm) {
+            this.toggleComponentDisplay("displayAccessControlForm")
         }
         dispatch(submitForm(id, form, comment, component))
+        if (component === "deleteEnvironment") {
+            browserhistory.push("/environments")
+        }
     }
 
     componentDidMount() {
@@ -77,10 +91,11 @@ class Environment extends Component {
         this.setState({
             name: nextProps.environment.name,
             environmentclass: nextProps.environment.environmentclass,
-            environment: nextProps.environment.environment,
             comment: ""
         })
-
+        if (Object.keys(nextProps.environment).length > 0) {
+            this.setState({adgroups: nextProps.environment.accesscontrol.adgroups})
+        }
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchEnvironment(name, nextProps.query.revision))
         }
@@ -88,7 +103,7 @@ class Environment extends Component {
 
     render() {
         const {environment, user, query, environmentClasses} = this.props
-        const {displayClusters, displayInstances, displayNodes, name, environmentclass, comment} = this.state
+        const {displayClusters, displayInstances, displayNodes, name, environmentclass, comment, adgroups} = this.state
         let lifecycle = {}
         let authorized = false
         if (Object.keys(environment).length > 0) {
@@ -98,15 +113,17 @@ class Environment extends Component {
 
         return (
             <div className="row">
-                    {/*Heading*/}
-                {this.oldRevision() ? <div className="col-md-12" style={{paddingTop:10, paddingBottom:10}}><h4>Revision #{query.revision}</h4></div> :
-                        <ToolButtons
-                            authorized={authorized}
-                            onEditClick={() => this.toggleComponentDisplay("editMode")}
-                            onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                            onCopyClick={() => console.log("Copy,copycopy!")}
-                        />
-                    }
+                {/*Heading*/}
+                {this.oldRevision() ?
+                    <div className="col-md-12" style={{paddingTop: 10, paddingBottom: 10}}><h4>Revision
+                        #{query.revision}</h4></div> :
+                    <ToolButtons
+                        authorized={authorized}
+                        onEditClick={() => this.toggleComponentDisplay("editMode")}
+                        onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                        onCopyClick={() => console.log("Copy,copycopy!")}
+                    />
+                }
                 {/*Form*/}
                 <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
@@ -115,7 +132,7 @@ class Environment extends Component {
                         handleChange={this.handleChange.bind(this)}
                         value={this.state.name}
                     />
-                    <FormList
+                    <FormDropDown
                         label="environmentclass"
                         editMode={this.state.editMode}
                         value={this.state.environmentclass}
@@ -151,6 +168,10 @@ class Environment extends Component {
                     <CollapsibleMenuItem label="History">
                         <RevisionsView id={environment.name} component="environment"/>
                     </CollapsibleMenuItem>
+                    <CollapsibleMenuItem label="Security">
+                        <SecurityView accesscontrol={environment.accesscontrol}
+                                      displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                    </CollapsibleMenuItem>
                 </CollapsibleMenu>
 
                 {/*Content view*/}
@@ -177,6 +198,20 @@ class Environment extends Component {
                 </div>
 
                 {/* Misc. modals*/}
+                <AccessControl
+                    displayAccessControlForm={this.state.displayAccessControlForm}
+                    onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
+                    onSubmit={() => this.handleSubmitForm(name, {
+                            name: environment.name,
+                            environmentclass: environment.environmentclass,
+                            accesscontrol: {adgroups}
+                        }
+                        , comment, "environment")}
+                    id={name}
+                    value={adgroups}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={comment}
+                />
                 <DeleteElementForm
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
@@ -199,10 +234,6 @@ class Environment extends Component {
                     originalValues={{
                         name: environment.name,
                         environmentclass: environment.environmentclass,
-                    }}
-                    additionalValues={{
-                        environment: environment.environment,
-                        environmentclass: environment.environmentclass
                     }}
                 />
             </div>

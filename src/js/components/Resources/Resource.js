@@ -10,7 +10,7 @@ import {
     CollapsibleMenu,
     CollapsibleMenuItem,
     FormString,
-    FormList,
+    FormDropDown,
     FormSecret,
     Lifecycle,
     RevisionsView,
@@ -158,12 +158,12 @@ class Resource extends Component {
     }
 
     formListElement(label, value, editMode, options, field) {
-        return <FormList label={label}
-                         value={value ? value : '-'}
-                         editMode={editMode}
-                         handleChange={this.handleChange.bind(this)}
-                         options={options}
-                         parent={field}/>
+        return <FormDropDown label={label}
+                             value={value ? value : '-'}
+                             editMode={editMode}
+                             handleChange={this.handleChange.bind(this)}
+                             options={options}
+                             parent={field}/>
     }
 
     renderScope(scope) {

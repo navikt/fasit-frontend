@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
-import {FormString, FormList, FormComment} from '../common/Forms'
+import {FormString, FormDropDown, FormComment} from '../common/Forms'
 
 import {showNewComponentForm} from '../../actionCreators/common'
 import {submitForm} from '../../actionCreators/common'
@@ -78,7 +78,7 @@ class NewEnvironmentForm extends Component {
                         value={this.state.name}
                         handleChange={this.handleChange.bind(this)}
                     />
-                    <FormList
+                    <FormDropDown
                         label="environmentclass"
                         editMode={true}
                         value={this.state.environmentclass}
