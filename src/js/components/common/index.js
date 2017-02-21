@@ -11,6 +11,7 @@ import SecurityView from './SecurityView'
 import SubmitFormStatus from './SubmitFormStatus'
 import ToolButtons from './ToolButtons'
 import DeleteElementForm from './DeleteElementForm'
+import RescueElementForm from './RescueElementForm'
 import {FormListBox, FormCreatableList, FormDropDown, FormSecret, FormString, FormComment} from './Forms'
 
 export {
@@ -29,6 +30,7 @@ export {
     FormString,
     Lifecycle,
     Login,
+    RescueElementForm,
     RevisionsView,
     SecurityView,
     SubmitFormStatus,

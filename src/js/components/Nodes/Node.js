@@ -17,6 +17,7 @@ import {
     FormSecret,
     Lifecycle,
     RevisionsView,
+    RescueElementForm,
     SecurityView,
     SubmitForm,
     ToolButtons
@@ -40,6 +41,7 @@ class Node extends Component {
             secretVisible: false,
             displaySubmitForm: false,
             displayDeleteForm: false,
+            displayRescueForm: false,
             displayAccessControlForm: false,
             adgroups: [],
             editMode: false,
@@ -65,7 +67,7 @@ class Node extends Component {
             password: nextProps.fasit.currentPassword,
             comment: ""
         })
-        if (Object.keys(nextProps.fasit.data).length > 0){
+        if (Object.keys(nextProps.fasit.data).length > 0) {
             this.setState({adgroups: nextProps.fasit.data.accesscontrol.adgroups})
         }
 
@@ -82,8 +84,10 @@ class Node extends Component {
         } else if (component === "deleteNode") {
             this.toggleComponentDisplay("displayDeleteForm")
             this.setState({comment: ""})
-        } else if (component === "node" && this.state.displayAccessControlForm){
+        } else if (component === "node" && this.state.displayAccessControlForm) {
             this.toggleComponentDisplay("displayAccessControlForm")
+        } else if (component === "node" && this.state.displayRescueForm) {
+            this.toggleComponentDisplay("displayRescueForm")
         }
         dispatch(submitForm(key, form, comment, component))
     }
@@ -203,7 +207,7 @@ class Node extends Component {
                     {/*Lifecycle*/}
                     <div className="row">
                         <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => dispatch(rescueNode(hostname))}/>
+                                   rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}/>
                     </div>
                 </div>
 
@@ -251,6 +255,23 @@ class Node extends Component {
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
                     onSubmit={() => this.handleSubmitForm(hostname, null, comment, "deleteNode")}
                     hostname={hostname}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={comment}
+
+                />
+                <RescueElementForm
+                    displayRescueForm={this.state.displayRescueForm}
+                    onClose={() => this.toggleComponentDisplay("displayRescueForm")}
+                    onSubmit={() => this.handleSubmitForm(hostname, {
+                            hostname: fasit.data.hostname,
+                            username: fasit.data.username,
+                            type: fasit.data.type,
+                            environment: fasit.data.environment,
+                            environmentclass: fasit.data.environmentclass,
+                            lifecycle: {status: "rescued"}
+                        }
+                        , comment, "node")}
+                    id={hostname}
                     handleChange={this.handleChange.bind(this)}
                     comment={comment}
 
