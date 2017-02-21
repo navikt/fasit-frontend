@@ -81,10 +81,8 @@ class Resource extends Component {
             this.toggleComponentDisplay("displayDeleteForm")
             //this.setState({comment: comment})
             dispatch(submitForm(key, form2, comment, component))
-            browserHistory.push('/resources')
+
         }
-
-
     }
 
 

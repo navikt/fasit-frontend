@@ -54,6 +54,7 @@ export function* submitForm(action) {
             case "deleteApplication":
                 url = `${configuration.fasit_applications}/${action.key}`
                 yield deleteUrl(url, action.comment)
+                yield put({type: FETCH_ELEMENT_LISTS, location:"applications", prPage: 10, searchString:search.searchString, page:search.activePage})
                 yield browserHistory.push("/applications")
                 break
             case "deleteNode":
@@ -65,16 +66,21 @@ export function* submitForm(action) {
             case "deleteEnvironment":
                 url = `${configuration.fasit_environments}/${action.key}`
                 yield deleteUrl(url, action.comment)
+                yield put({type: FETCH_ELEMENT_LISTS, location:"environments", prPage: 10, searchString:search.searchString, page:search.activePage})
                 yield browserHistory.push("/environments")
                 break
             case "deleteCluster":
                 url = `${configuration.fasit_environments}/${action.form.env}/clusters/${action.key}`
+                // to current environment
                 yield deleteUrl(url, action.comment)
                 break
             case "deleteResource":
                 url = `${configuration.fasit_resources}/${action.key}`
                 yield deleteUrl(url, action.comment)
-            // Update
+                yield put({type: FETCH_ELEMENT_LISTS, location:"resources", prPage: 10, searchString:search.searchString, page:search.activePage})
+                yield browserHistory.push("/resources")
+
+            // / Update
             case "node":
                 url = `${configuration.fasit_nodes}/${action.key}`
                 yield putUrl(url, action.form, action.comment)

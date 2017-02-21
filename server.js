@@ -7,7 +7,7 @@ const https = require('https')
 
 const environmentsMock = require('./test/mockend/environmentsMock')
 const resourcesMock = require('./test/mockend/resourcesMock')
-const applications = require('./test/mockend/applicationsMock')
+const applicationsMock = require('./test/mockend/applicationsMock')
 const applicationinstances = require('./test/mockend/applicationinstancesMock')
 const resourceTypes = require('./test/mockend/resourceTypesMock')
 const nodesMock = require('./test/mockend/nodesMock')
@@ -56,14 +56,20 @@ app.get('/config', (req, res) => {
 })
 
 app.get("/mockapi/applications/:application", (req, res) => {
-    sendJson(res, applications.getApplication(req.params.application))
+    sendJson(res, applicationsMock.getApplication(req.params.application))
 })
 app.put("/mockapi/applications/:application", (req, res) => {
-    sendJson(res, applications.putApplication(req.params.application))
+    sendJson(res, applicationsMock.putApplication(req.params.application))
 })
 
+app.delete('/mockapi/applications/:application', (req, res) => {
+    applicationsMock.deleteApplication(req.params.application)
+    res.sendStatus(200)
+})
+
+
 app.get("/mockapi/applications", (req, res) => {
-    sendJson(res, applications.getApplications())
+    sendJson(res, applicationsMock.getApplications())
 })
 
 app.get("/mockapi/applicationinstances", (req, res) => {
@@ -88,6 +94,10 @@ app.get("/mockapi/environments/:name/clusters/", (req, res) => {
 
 app.get("/mockapi/environments/:name", (req, res) => {
     sendJson(res, environmentsMock.getEnvironment(req.params.name))
+})
+
+app.delete("/mockapi/environments/:name", (req, res) => {
+    sendJson(res, environmentsMock.deleteEnvironment(req.params.name))
 })
 
 app.get("/mockapi/environments", (req, res) => {
@@ -129,7 +139,8 @@ app.post('/mockapi/nodes/:hostname', (req, res) => {
 })
 
 app.delete('/mockapi/nodes/:hostname', (req, res) => {
-    sendJson(res, nodesMock.postNode(req.params.hostname))
+        nodesMock.deleteNode(req.params.hostname)
+        res.sendStatus(200)
 })
 
 app.get('/mockapi/nodes/:hostname/revisions', (req, res) => {

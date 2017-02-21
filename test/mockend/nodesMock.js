@@ -1,6 +1,6 @@
 module.exports = {
     getNode: function (hostname) {
-        return  nodes.filter(n => n.hostname === hostname)[0]
+        return nodes.filter(n => n.hostname === hostname)[0]
     },
     putNode: function () {
         return {}
@@ -11,7 +11,7 @@ module.exports = {
     getNodes: function () {
         return nodes
     },
-
+    deleteNode: (hostname) => nodes.splice(nodes.findIndex(n => n.hostname === hostname), 1),
 
     types: ["jboss", "was", "was9", "liberty", "bpm", "bpm9", "docker", "datapower_physical", "datapower_virtual", "openam_server", "openam_proxy", "windows", "windows_terminalserver", "windows_appserver", "windows_iisserver", "windows_rptserver"],
 

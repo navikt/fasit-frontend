@@ -1,7 +1,8 @@
 module.exports = {
     getApplications: () => applications,
     getApplication: (application) => applications.filter(n => n.name === application)[0],
-    putApplication: () => {return {}}
+    putApplication: () => {return {}},
+    deleteApplication: (application) => applications.splice(applications.findIndex(a => a.name === application), 1)
 
 }
 

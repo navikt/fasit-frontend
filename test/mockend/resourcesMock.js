@@ -27,12 +27,7 @@ module.exports = {
     },
 
     deleteresource: function (id) {
-         var ddd = resources.findIndex(e => {
-           //  console.log("idx", e.id, id)
-            return e.id == id})
-        console.log("found", ddd)
-        var rmed = resources.splice(resources.findIndex(e => e.id == id), 1)
-        console.log("popping", rmed, resources.length)
+        resources.splice(resources.findIndex(e => e.id == id), 1)
     }
 }
 
