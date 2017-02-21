@@ -5,6 +5,7 @@ import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from '../../ac
 import {submitForm} from '../../actionCreators/common'
 import classString from 'react-classset'
 import NotFound from '../NotFound'
+import {browserHistory} from 'react-router'
 import {
     CollapsibleMenu,
     CollapsibleMenuItem,
@@ -14,16 +15,18 @@ import {
     Lifecycle,
     RevisionsView,
     SecurityView,
-    SubmitFormStatus,
     SubmitForm,
+    DeleteElementForm,
     ToolButtons
 } from '../common/'
 
 const initialState = {
-    displaySubmitForm: false,
     secretVisible: false,
     editMode: false,
     deleteMode: false,
+    displaySubmitForm: false,
+    displayDeleteForm: false,
+    comment: ""
 }
 
 
@@ -62,15 +65,28 @@ class Resource extends Component {
             created: newState.data.created,
             updated: newState.data.updated,
             currentSecret: newState.currentSecret,
+            comment: ""
         })
     }
 
     handleSubmitForm(key, form, comment, component) {
         const {dispatch} = this.props
-        this.toggleComponentDisplay("displaySubmitForm")
-        this.toggleComponentDisplay("editMode")
-        dispatch(submitForm(key, form, comment, component))
+        if (component == "resource") {
+            //var form2  = this.state
+            dispatch(submitForm(key, form, comment, component))
+            this.toggleComponentDisplay("editMode")
+            dispatch(submitForm(key, form2, comment, component))
+
+        } else if (component === "deleteResource") {
+            this.toggleComponentDisplay("displayDeleteForm")
+            //this.setState({comment: comment})
+            dispatch(submitForm(key, form2, comment, component))
+            browserHistory.push('/resources')
+        }
+
+
     }
+
 
     toggleComponentDisplay(component) {
         const {dispatch} = this.props
@@ -104,16 +120,6 @@ class Resource extends Component {
         } else {
             this.setState({[field]: value})
         }
-    }
-
-    buttonClasses(authenticated, edit) {
-        return classString({
-            "btn": true,
-            "btn-link": true,
-            "topnav-button": true,
-            "topnav-button-active": this.state.editMode && edit,
-            "disabled": !authenticated
-        })
     }
 
     renderResourceProperties(properties) {
@@ -170,7 +176,8 @@ class Resource extends Component {
 
             return <div className="row">
                 <div className="col-md-4 FormLabel"><b>Scope:</b></div>
-                <div className="col-md-8"><span className="formValue"></span>{`${envClass} | ${zone} | ${environment} | ${application}`}</div>
+                <div className="col-md-8"><span
+                    className="formValue"></span>{`${envClass} | ${zone} | ${environment} | ${application}`}</div>
             </div>
         }
         return <div className="well well-lg" style={{marginTop: "5px", paddingTop: "5px"}}>
@@ -209,9 +216,13 @@ class Resource extends Component {
 
 
     render() {
-
+        // hvordan oppdatere etter slettet  innslag. Slette fra store eller ny fetch?
         // Sortere miljøer riktig i utils
-        // håndtere liste av security token
+        // håndtere liste av security token og andre ressurser med enum typer
+        // beholde filter verdier som query params i url
+        // håndtere application properties og større tekstfelt
+        // hva brukes display til?
+        // sortere resource types i filter på ressurser
 
         const {id, fasit, user} = this.props
 
@@ -219,7 +230,7 @@ class Resource extends Component {
         let lifecycle = {}
 
         if (fasit.requestFailed) {
-            if(fasit.requestFailed.startsWith("404")) {
+            if (fasit.requestFailed.startsWith("404")) {
                 return (<NotFound/>)
             }
             return <div>Retrieving resource {id} failed with the following message:
@@ -240,7 +251,7 @@ class Resource extends Component {
         return (
             <div className="row">
                 <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
-                             onDeleteClick={() => console.log("delete like a mofo")}
+                             onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                              onCopyClick={() => console.log("Copy,copycopy!")}/>
 
 
@@ -251,6 +262,18 @@ class Resource extends Component {
                     {this.renderSecrets(this.state.secrets)}
                     {this.renderScope(this.state.scope)}
 
+
+                    {this.state.editMode ?
+                        <div className="btn-block">
+                            <button type="submit" className="btn btn-sm btn-primary pull-right"
+                                    onClick={() => this.toggleComponentDisplay("displaySubmitForm")}>Submit
+                            </button>
+                            <button type="reset" className="btn btn-sm btn-default btn-space pull-right"
+                                    onClick={() => this.toggleComponentDisplay("editMode")}>Cancel
+                            </button>
+                        </div>
+                        : ""
+                    }
                 </div>
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="History">
@@ -260,6 +283,24 @@ class Resource extends Component {
                         <SecurityView accesscontrol={fasit.data.accesscontrol}/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
+
+                <DeleteElementForm
+                    displayDeleteForm={this.state.displayDeleteForm}
+                    onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
+                    onSubmit={() => this.handleSubmitForm(id, null, this.state.comment, "deleteResource")}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={this.state.comment}
+
+                />
+                {<SubmitForm
+                    display={this.state.displaySubmitForm}
+                    component="resource"
+                    onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
+                    onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
+                    displayDiff={false}
+                    newValues={{}}
+                    originalValues={{}}
+                />}
 
             </div>
 

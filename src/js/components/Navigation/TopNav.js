@@ -81,7 +81,7 @@ class TopNav extends Component {
 
                 <li>
                     <OverlayTrigger
-                        trigger={["hover", "focus"]}
+                        trigger={"click"}
                         rootClose={true}
                         placement="bottom"
                         overlay={AuraTools()}

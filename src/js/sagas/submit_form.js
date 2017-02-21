@@ -60,7 +60,9 @@ export function* submitForm(action) {
                 url = `${configuration.fasit_environments}/${action.form.env}/clusters/${action.key}`
                 yield deleteUrl(url, action.comment)
                 break
-
+            case "deleteResource":
+                url = `${configuration.fasit_resources}/${action.key}`
+                yield deleteUrl(url, action.comment)
             // Update
             case "node":
                 url = `${configuration.fasit_nodes}/${action.key}`
@@ -78,6 +80,8 @@ export function* submitForm(action) {
                 url = `${configuration.fasit_environments}/${action.form.environment}/clusters/${action.key}`
                 yield putUrl(url, action.form, action.comment)
                 break
+            //case "resource":
+              //  console.log("time to ur")
             default:
                 throw new Error("Submit_form-saga: I don't know which component you're coming from")
         }
