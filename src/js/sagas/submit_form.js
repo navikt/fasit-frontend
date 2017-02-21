@@ -15,12 +15,14 @@ import {
     NODE_FASIT_REQUEST,
     ENVIRONMENT_FASIT_REQUEST,
     ENVIRONMENT_CLUSTER_FASIT_REQUEST,
-    APPLICATION_FASIT_REQUEST
+    APPLICATION_FASIT_REQUEST,
+    FETCH_ELEMENT_LISTS
 
 } from '../actionTypes'
 
 export function* submitForm(action) {
     const configuration = yield select((state) => state.configuration)
+    const search = yield select((state) => state.search)
     let url = ""
     yield put({type: SUBMITTING_FORM})
     try {
@@ -57,6 +59,7 @@ export function* submitForm(action) {
             case "deleteNode":
                 url = `${configuration.fasit_nodes}/${action.key}`
                 yield deleteUrl(url, action.comment)
+                yield put({type: FETCH_ELEMENT_LISTS, location:"nodes", prPage: 10, searchString:search.searchString, page:search.activePage})
                 yield browserHistory.push("/nodes")
                 break
             case "deleteEnvironment":
@@ -96,7 +99,7 @@ export function* submitForm(action) {
         }
 
         yield put({type: SUBMIT_FORM_SUCCESS})
-        yield call(delay, 2000)
+        yield call(delay, 1000)
         yield put({type: CLOSE_SUBMIT_FORM_STATUS})
     } catch (err) {
         const value = err.message
