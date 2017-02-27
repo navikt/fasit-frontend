@@ -74,14 +74,11 @@ class SubmitForm extends Component {
     }
 
     renderDiffTable(originalValues, newValues, renderDiffTable) {
-        console.log("RRe", renderDiffTable)
         if(renderDiffTable === false) {
-            console.log("RR" , renderDiffTable, "false")
             return null
             
         }
         else {
-            console.log("truer")
             return (
                 <Modal.Body>
                     <table className="table">

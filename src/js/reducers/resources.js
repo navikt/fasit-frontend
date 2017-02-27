@@ -2,7 +2,8 @@ import {
     RESOURCE_TYPES_RECEIVED,
     RESOURCES_LIST_FETCHING,
     RESOURCES_LIST_RECEIVED,
-    RESOURCES_LIST_FAILED
+    RESOURCES_LIST_FAILED,
+    SHOW_NEW_RESOURCE_FORM
 } from '../actionTypes'
 
 export default (state = {
@@ -39,6 +40,12 @@ export default (state = {
                 isFetching: false,
                 requestFailed: action.value
             })
+
+        case SHOW_NEW_RESOURCE_FORM:
+            return Object.assign({}, state, {
+                    showNewResourceForm: action.value
+                }
+            )
 
         default:
             return state

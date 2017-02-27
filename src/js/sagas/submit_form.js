@@ -49,6 +49,9 @@ export function* submitForm(action) {
                 yield postUrl(url, action.form, action.comment)
                 yield put({type: SHOW_NEW_CLUSTER_FORM, value: false})
                 break
+            case "newResource":
+                console.log("crreate new resource")
+                break
 
             // Delete
             case "deleteApplication":

@@ -122,7 +122,7 @@ class TopNav extends Component {
         return (
             <Popover id="tools">
                 <ul className="topnav-menu topnav-menu-selector">
-                    '<li onClick={() => dispatch(showNewComponentForm("resource", true))}><i
+                    <li onClick={() => dispatch(showNewComponentForm("resource", true))}><i
                         className="fa fa-cogs"/> &nbsp;&nbsp; Create resource
                     </li>
                     <li onClick={() => dispatch(showNewComponentForm("application", true))}><i
