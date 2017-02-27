@@ -27,8 +27,7 @@ class TopNav extends Component {
                 {user.authenticated ? (
                         <li>
                             <OverlayTrigger
-                                trigger={"click"}
-                                rootClose={true}
+                                trigger="focus"
                                 placement="bottom"
                                 id="toolsOverlay"
                                 overlay={this.toolsOverlay()}
@@ -123,11 +122,8 @@ class TopNav extends Component {
         return (
             <Popover id="tools">
                 <ul className="topnav-menu topnav-menu-selector">
-                    <li onClick={() => dispatch(showNewComponentForm("node", true))}><i
-                        className="fa fa-server"/> &nbsp;&nbsp;Create node
-                    </li>
-                    <li onClick={() => dispatch(showNewComponentForm("cluster", true))}><i
-                        className="fa fa-braille"/> &nbsp;&nbsp; Create cluster
+                    <li onClick={() => dispatch(showNewComponentForm("resource", true))}><i
+                        className="fa fa-cogs"/> &nbsp;&nbsp; Create resource
                     </li>
                     <li onClick={() => dispatch(showNewComponentForm("application", true))}><i
                         className="fa fa-cube"/> &nbsp;&nbsp; Create application
@@ -135,8 +131,11 @@ class TopNav extends Component {
                     <li onClick={() => dispatch(showNewComponentForm("environment", true))}><i
                         className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment
                     </li>
-                    <li onClick={() => dispatch(showNewComponentForm("resource", true))}><i
-                        className="fa fa-cogs"/> &nbsp;&nbsp; Create resource
+                    <li onClick={() => dispatch(showNewComponentForm("node", true))}><i
+                        className="fa fa-server"/> &nbsp;&nbsp;Create node
+                    </li>
+                    <li onClick={() => dispatch(showNewComponentForm("cluster", true))}><i
+                        className="fa fa-braille"/> &nbsp;&nbsp; Create cluster
                     </li>
                 </ul>
             </Popover>

@@ -3,9 +3,7 @@ import {connect} from 'react-redux'
 import {validAuthorization} from '../../utils'
 import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from '../../actionCreators/resource'
 import {submitForm} from '../../actionCreators/common'
-import classString from 'react-classset'
 import NotFound from '../NotFound'
-import {browserHistory} from 'react-router'
 import {
     CollapsibleMenu,
     CollapsibleMenuItem,
@@ -19,6 +17,7 @@ import {
     DeleteElementForm,
     ToolButtons
 } from '../common/'
+import {resourceTypes} from '../../utils/resourceTypes'
 
 const initialState = {
     secretVisible: false,
@@ -139,7 +138,7 @@ class Resource extends Component {
         if (secrets) {
             return Object.keys(secrets).map(secret => {
                     return <FormSecret
-                        key={secret}
+                        /*key={secret}*/
                         label={secret}
                         editMode={this.state.editMode}
                         handleChange={this.handleChange.bind(this)}
@@ -214,13 +213,16 @@ class Resource extends Component {
 
 
     render() {
-        // hvordan oppdatere etter slettet  innslag. Slette fra store eller ny fetch?
         // Sortere miljøer riktig i utils
         // håndtere liste av security token og andre ressurser med enum typer
-        // beholde filter verdier som query params i url
         // håndtere application properties og større tekstfelt
         // hva brukes display til?
         // sortere resource types i filter på ressurser
+        // I resources element list hvis ressurstypen med riktig casing
+        // størrelse på scope teksten
+        // rendre alle required med *
+
+        console.log("Fakkk", resourceTypes)
 
         const {id, fasit, user} = this.props
 

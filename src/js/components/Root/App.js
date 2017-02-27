@@ -12,6 +12,7 @@ import NewNodeForm from '../Nodes/NewNodeForm'
 import NewApplicationForm from '../Applications/NewApplicationForm'
 import NewEnvironmentForm from '../Environments/NewEnvironmentForm'
 import NewClusterForm from '../Environments/NewClusterForm'
+import NewResourceForm from '../Resources/NewResourceForm'
 import {SubmitFormStatus} from '../common/'
 
 
@@ -42,6 +43,7 @@ class App extends Component {
                 <NewEnvironmentForm />
                 <NewClusterForm />
                 <NewApplicationForm />
+                <NewResourceForm/>
             </div>
         )
     }
