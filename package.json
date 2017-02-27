@@ -113,6 +113,7 @@
     "bootstrap": "^3.3.6",
     "bootswatch": "^3.3.6",
     "chai": "^3.5.0",
+    "chai-spies": "^0.7.1",
     "cors": "^2.8.1",
     "css-loader": "^0.25.0",
     "enzyme": "^2.7.1",

@@ -8,7 +8,7 @@ export default function DeleteElement(props){
         <Modal show={displayDeleteForm} onHide={onClose}>
             <Modal.Header>
                 <Modal.Title>Delete {id}
-                    <button type="reset" className="btn btn-link pull-right"
+                    <button type="reset" id="close" className="btn btn-link pull-right"
                             onClick={onClose}><strong>X</strong>
                     </button>
                 </Modal.Title>
@@ -27,7 +27,7 @@ export default function DeleteElement(props){
                 <br />
                 <div className="row">
                     <div className="col-lg-10 col-lg-offset-2">
-                        <button type="submit" className="btn btn-danger pull-right"
+                        <button type="submit" id="submit" className="btn btn-danger pull-right"
                                 onClick={onSubmit}>Delete
                         </button>
                     </div>
