@@ -7,6 +7,31 @@
   color: @fasit-primary !important;
   font-size: larger;
 }
+.search-entity-types > li > a:hover {
+  background:#fff;
+}
+
+.search-entity-types > li > a:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: @fasit-primary;
+  bottom:0;
+  left:0;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 550ms cubic-bezier(.45,1,.32,1);
+  transition: all 550ms cubic-bezier(.45,1,.32,1);
+}
+
+.search-entity-types > li > a:hover:after {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
 
 .home-brand-logo-container {
   //display: inline-block;

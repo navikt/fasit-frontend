@@ -10,29 +10,54 @@
 
 .topnav-link:hover {
   color: white;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .user-icon{
   color: @magenta;
 }
 
+.topnav-buttons, .topnav-buttons-inverse {
+  outline: none !important;
+  text-decoration: none;
+
+}
 .topnav-buttons{
   color: @fasit-secondary !important;
-  outline: none !important;
 }
-.topnav-buttons:hover, topnav-buttons:focus {
-  color: #fff !important;
-  outline: none !important;
-}
-
 .topnav-buttons-inverse{
   color: @topnav !important;
-  outline: none !important;
 }
-.topnav-buttons-inverse:hover, topnav-buttons-inverse:focus {
-  color: darken(@topnav, 5%) !important;
+
+.topnav-buttons:hover, topnav-buttons:focus {
+  color: #fff !important;
+}
+
+.topnav-buttons-inverse:hover, topnav-buttons-inverse:focus, .topnav-buttons:hover, topnav-buttons:focus {
   outline: none !important;
+  text-decoration:none;
+}
+
+.topnav-buttons-inverse:after, .topnav-buttons:after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: @magenta;
+  bottom:0;
+  left:0;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 550ms cubic-bezier(.45,1,.32,1);
+  transition: all 550ms cubic-bezier(.45,1,.32,1);
+}
+
+.topnav-buttons-inverse:hover:after, .topnav-buttons:hover:after{
+
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
 }
 
 .nav-tabs > li > a:hover {
