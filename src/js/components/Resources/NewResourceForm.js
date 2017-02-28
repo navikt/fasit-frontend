@@ -15,6 +15,9 @@ class NewResourceForm extends Component {
             alias: "",
             type: "",
             properties: {},
+            scope: {
+                environmentclass: 'u'
+            },
             files: {},
             secrets: {}
         }
@@ -84,12 +87,12 @@ class NewResourceForm extends Component {
 
             case "textarea":
                 return <FormTextArea key={key}
-                                   label={label}
-                                   field={field}
-                                   editMode={true}
-                                   value={this.state.properties[property.name]}
-                                   parent="properties"
-                                   handleChange={this.handleChange.bind(this)}/>
+                                     label={label}
+                                     field={field}
+                                     editMode={true}
+                                     value={this.state.properties[property.name]}
+                                     parent="properties"
+                                     handleChange={this.handleChange.bind(this)}/>
                 break
             case "dropdown":
                 return <FormDropDown key={key}
@@ -101,12 +104,12 @@ class NewResourceForm extends Component {
                                      options={property.options}/>
             case "secret":
                 return <FormString key={key}
-                            label={label}
-                            field={field}
-                            editMode={true}
-                            value={this.state.secrets[property.name]}
-                            parent="secrets"
-                            handleChange={this.handleChange.bind(this)}/>
+                                   label={label}
+                                   field={field}
+                                   editMode={true}
+                                   value={this.state.secrets[property.name]}
+                                   parent="secrets"
+                                   handleChange={this.handleChange.bind(this)}/>
             case "file":
                 console.log("FILE ", property.name, property.displayName, property.required)
                 break
@@ -136,6 +139,15 @@ class NewResourceForm extends Component {
         }
     }
 
+    formListElement(label, value, options) {
+        return <FormDropDown label={label}
+                             value={value ? value : '-'}
+                             editMode={true}
+                             handleChange={this.handleChange.bind(this)}
+                             options={options}
+                             parent="scope"/>
+    }
+
     showSubmitButton() {
         /*const {hostname, username, password, type, environmentclass, environment, zone} = this.state
          if (hostname && username && password && type && environmentclass && environment) {
@@ -153,11 +165,18 @@ class NewResourceForm extends Component {
     }
 
     render() {
+
+        // tode create scope as component
         const {environmentClasses, showNewResourceForm, zones, types} = this.props
+        const {scope} = this.state
         return (
             <Modal show={showNewResourceForm} onHide={this.closeForm.bind(this)} dialogClassName="newResourceForm">
                 <Modal.Header>
-                    <Modal.Title>New resource
+                    <Modal.Title>
+                        <span className="fa-stack fa-lg">
+                            <i className="fa fa-circle fa-stack-2x"/>
+                            <i className="fa fa-cogs fa-stack-1x fa-inverse"/>
+                        </span> &emsp;New resource
                         <button type="reset" className="btn btn-link pull-right"
                                 onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>
@@ -167,7 +186,32 @@ class NewResourceForm extends Component {
                     <FormDropDown label="Type" field="type" value={this.state.type} editMode={true}
                                   handleChange={this.handleChange.bind(this)} options={types}/>
                     {this.renderProperties()}
-                    <div className="col-xs-12" style={{height: 15 + 'px'}}></div>
+                    <div className="well well-lg" style={{marginTop: "5px", paddingTop: "5px"}}>
+                        <div className="row FormLabel"><b>Scope:</b></div>
+                        <div className="row">
+                            {this.formListElement(
+                                "environmentclass",
+                                scope.environmentclass,
+                                this.props.environmentClasses
+                            )}
+                            {this.formListElement(
+                                "zone",
+                                scope.zone,
+                                this.props.zones
+                            )}
+                            {this.formListElement(
+                                "environment",
+                                scope.environment,
+                                this.props.environments.filter(e => scope.environmentclass === e.environmentclass).map(e => e.name)
+                            )}
+                            {this.formListElement(
+                                "application",
+                                scope.application,
+                                this.props.applications
+                            )}
+                        </div>
+                        <div className="col-xs-12" style={{height: 15 + 'px'}}></div>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <FormComment
@@ -231,6 +275,7 @@ const mapStateToProps = (state) => {
     return {
         showNewResourceForm: state.resources.showNewResourceForm,
         environmentClasses: state.environments.environmentClasses,
+        applications: state.applications.applicationNames,
         types: Object.keys(resourceTypes).sort(),
         environments: state.environments.environments,
         zones: state.environments.zones
