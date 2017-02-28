@@ -7,7 +7,7 @@ import {
     SHOW_NEW_ENVIRONMENT_FORM
 } from '../actionTypes'
 
-export default (state = {
+export const initialState = {
     isFetching: false,
     requestFailed: false,
     data: [],
@@ -17,7 +17,8 @@ export default (state = {
     environments: [],
     showNewEnvironmentForm: false,
     showNewClusterForm: false
-}, action) => {
+}
+export default (state = initialState, action) => {
     switch (action.type) {
 
         case ENVIRONMENTS_RECEIVED:

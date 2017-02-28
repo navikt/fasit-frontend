@@ -6,13 +6,14 @@ import {
     SHOW_NEW_RESOURCE_FORM
 } from '../actionTypes'
 
-export default (state = {
+export const initialState = {
     isFetching: true,
     requestFailed: false,
     data: [],
     headers: {},
     resourceTypes: []
-}, action) => {
+}
+export default (state = initialState, action) => {
     switch (action.type) {
 
         case RESOURCE_TYPES_RECEIVED:

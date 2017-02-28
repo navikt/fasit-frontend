@@ -6,14 +6,15 @@ import {
     SHOW_NEW_APPLICATION_FORM
 } from '../actionTypes'
 
-export default (state = {
+export const initialState = {
     isFetching: true,
     requestFailed: false,
     data: [],
     headers: {},
     applicationNames: [],
     showNewApplicationForm: false
-}, action) => {
+}
+export default (state = initialState, action) => {
     switch (action.type) {
 
         case APPLICATION_NAMES_RECEIVED:
