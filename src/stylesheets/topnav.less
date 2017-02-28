@@ -61,20 +61,45 @@
 }
 
 .nav-tabs > li > a:hover {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f1f1f1));
-  background-image: -webkit-linear-gradient(top, #f8f8f8, #f1f1f1);
-  background-color: #f8f8f8;
-  background-image: linear-gradient(top, #f8f8f8, #f1f1f1);
-  background-image: -o-linear-gradient(top, #f8f8f8, #f1f1f1);
+  background: #f5f5f5;
   border-bottom: 0;
   color: #444;
 }
 
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
   border-top: 3px solid @fasit-primary;
   color: @fasit-primary;
   background: #fff
 }
+
+.nav-tabs > li > a:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: @fasit-primary;
+  top:0;
+  left:0;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 550ms cubic-bezier(.45,1,.32,1);
+  transition: all 550ms cubic-bezier(.45,1,.32,1);
+}
+
+.nav-tabs > li > a:hover:before{
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+.nav-tabs > li.active > a:hover:before{
+  visibility: hidden;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
 
 .nav-tab-positioning {
   position: absolute;

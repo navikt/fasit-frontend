@@ -47,10 +47,37 @@
   margin-top: 55px;
 }
 
-.node-list-item {
+.collapsible-menu-item {
   border: 0px;
   cursor: pointer;
   color: @fasit-tertiary;
+}
+
+.collapsible-menu-item:hover {
+  background-color: #fff !important;
+}
+.collapsible-menu-item:after {
+  content: '';
+  position: absolute;
+  width: 40%;
+  height: 2px;
+  background: @fasit-primary;
+  bottom:0;
+  left:0;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  transform-origin:left 0%;
+  -webkit-transition: all 550ms cubic-bezier(.45,1,.32,1);
+  transition: all 550ms cubic-bezier(.45,1,.32,1);
+}
+
+.collapsible-menu-item:hover:after,
+.collapsible-menu-item:focus:after,
+.collapsible-menu-item:active:after{
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
 }
 
 .collapsible-menu-content-container{
