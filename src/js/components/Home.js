@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Link, browserHistory} from 'react-router'
 import {connect} from 'react-redux'
-import {submitSearchString} from '../actionCreators/element_lists'
+import {submitNavSearch} from '../actionCreators/common'
 
 
 class Home extends Component {
@@ -28,7 +28,7 @@ class Home extends Component {
                     ref="searchField"
                     placeholder={'Search for ' + context}
                     value={searchString}
-                    onChange={(e) => dispatch(submitSearchString(context, e.target.value, 0))}
+                    onChange={(e) => dispatch(submitNavSearch(e.target.value))}
                 />
                 <button
                     type="submit"
@@ -75,7 +75,7 @@ class Home extends Component {
 const mapStateToProps = (state) => {
     return {
         location: state.routing.locationBeforeTransitions,
-        searchString: state.search.searchString
+        searchString: state.navsearch.query
     }
 }
 

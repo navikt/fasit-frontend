@@ -7,7 +7,8 @@ import {
     SHOW_NEW_NODE_FORM,
     SHOW_NEW_RESOURCE_FORM,
     REVISIONS_REQUEST,
-    REVISION_REQUEST
+    REVISION_REQUEST,
+    SUBMIT_NAV_SEARCH
 } from '../actionTypes'
 
 export const closeSubmitFormStatus = () => {return {type: CLOSE_SUBMIT_FORM_STATUS}}
@@ -34,3 +35,5 @@ export const showNewComponentForm = (component, value) => {
 
     }
 }
+
+export const submitNavSearch = (query) => {return {type: SUBMIT_NAV_SEARCH, query}}

@@ -1,6 +1,7 @@
 import {call} from 'redux-saga/effects'
 import {watchAuthentication} from './authentication'
 import {watchElementsList} from './elements_list'
+import {watchSearchQueries} from './search'
 
 // Application
 import {watchApplicationNames} from './application_names'
@@ -35,6 +36,7 @@ export default function*() {
         call(watchElementsList),
         call(watchSubmitForm),
         call(watchRevisions),
+        call(watchSearchQueries),
 
 
         // Applications

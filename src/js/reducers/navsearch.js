@@ -1,32 +1,28 @@
 import {
-    ENVIRONMENT_FASIT_RECEIVED,
-    ENVIRONMENT_FASIT_FETCHING,
-    ENVIRONMENT_FASIT_REQUEST_FAILED
+    NAVSEARCH_RESULTS_RECEIVED,
+    NAVSEARCH_REQUEST_FAILED,
+    SET_NAVSEARCH_QUERY
 } from '../actionTypes'
 
 export default (state = {
-    data: {},
-    isFetching: false,
-    requestFailed: false,
+    data: [],
+    requestFailed: false
 }, action) => {
     switch (action.type) {
-        case ENVIRONMENT_FASIT_FETCHING:
+        case SET_NAVSEARCH_QUERY:
             return Object.assign({}, state, {
-                data: {},
-                isFetching: true,
+                query: action.value,
                 requestFailed: false
             })
-        case ENVIRONMENT_FASIT_RECEIVED:
+        case NAVSEARCH_RESULTS_RECEIVED:
             return Object.assign({}, state, {
                 data: action.value,
-                isFetching: false,
                 requestFailed: false
             })
-        case ENVIRONMENT_FASIT_REQUEST_FAILED:
+        case NAVSEARCH_REQUEST_FAILED:
             return Object.assign({}, state, {
                 requestFailed: action.error.message,
-                data: {},
-                isFetching: false
+                data: []
             })
 
         default:
