@@ -37,8 +37,8 @@ export class CollapsibleMenuItem extends Component {
             <div>
                 <a className="list-group-item collapsible-menu-item"
                    onClick={() => this.toggleDisplay()}>
-                    <i className={this.arrowDirection()}/>&emsp;
-                    <strong id="label">{this.props.label}</strong>
+                    <i className={this.arrowDirection()}/>
+                    <strong id="label" style={{marginLeft:10}}>{this.props.label}</strong>
                 </a>
                 {this.state.displayContent ? this.props.children : null}
             </div>

@@ -5,6 +5,7 @@ import ElementList from './ElementList'
 import ElementPaging from './ElementPaging'
 import Login from './Login'
 import Lifecycle from './Lifecycle'
+import NavSearch from './NavSearch'
 import RevisionsView from './RevisionsView'
 import SubmitForm from './SubmitForm'
 import SecurityView from './SecurityView'
@@ -30,6 +31,7 @@ export {
     FormString,
     Lifecycle,
     Login,
+    NavSearch,
     RescueElementForm,
     RevisionsView,
     SecurityView,

@@ -4,10 +4,13 @@ import {
     SET_NAVSEARCH_QUERY
 } from '../actionTypes'
 
-export default (state = {
+export const initialState = {
     data: [],
-    requestFailed: false
-}, action) => {
+    requestFailed: false,
+    query: ""
+}
+
+export default (state = initialState, action) => {
     switch (action.type) {
         case SET_NAVSEARCH_QUERY:
             return Object.assign({}, state, {

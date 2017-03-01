@@ -35,29 +35,7 @@
 
 .topnav-buttons-inverse:hover, topnav-buttons-inverse:focus, .topnav-buttons:hover, topnav-buttons:focus {
   outline: none !important;
-  text-decoration:none;
-}
-
-.topnav-buttons-inverse:after, .topnav-buttons:after{
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  background: @magenta;
-  bottom:0;
-  left:0;
-  visibility: hidden;
-  -webkit-transform: scaleX(0);
-  transform: scaleX(0);
-  -webkit-transition: all 550ms cubic-bezier(.45,1,.32,1);
-  transition: all 550ms cubic-bezier(.45,1,.32,1);
-}
-
-.topnav-buttons-inverse:hover:after, .topnav-buttons:hover:after{
-
-  visibility: visible;
-  -webkit-transform: scaleX(1);
-  transform: scaleX(1);
+  text-decoration:underline;
 }
 
 .nav-tabs > li > a:hover {
@@ -74,31 +52,6 @@
   background: #fff
 }
 
-.nav-tabs > li > a:before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 3px;
-  background: @fasit-primary;
-  top:0;
-  left:0;
-  visibility: hidden;
-  -webkit-transform: scaleX(0);
-  transform: scaleX(0);
-  -webkit-transition: all 550ms cubic-bezier(.45,1,.32,1);
-  transition: all 550ms cubic-bezier(.45,1,.32,1);
-}
-
-.nav-tabs > li > a:hover:before{
-  visibility: visible;
-  -webkit-transform: scaleX(1);
-  transform: scaleX(1);
-}
-.nav-tabs > li.active > a:hover:before{
-  visibility: hidden;
-  -webkit-transform: scaleX(1);
-  transform: scaleX(1);
-}
 
 
 .nav-tab-positioning {

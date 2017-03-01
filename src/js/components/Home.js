@@ -1,8 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Link, browserHistory} from 'react-router'
 import {connect} from 'react-redux'
-import {submitNavSearch} from '../actionCreators/common'
-
+import NavSearch from './common'
 
 class Home extends Component {
     constructor(props) {
@@ -21,24 +20,7 @@ class Home extends Component {
                 </div>
             </div>
         <div className="col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2">
-            <form>
-                <input
-                    type="text"
-                    className="form-control search-field-text-input"
-                    ref="searchField"
-                    placeholder={'Search for ' + context}
-                    value={searchString}
-                    onChange={(e) => dispatch(submitNavSearch(e.target.value))}
-                />
-                <button
-                    type="submit"
-                    className="search-field-button btn-grey"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        browserHistory.push("/search")
-                    }}
-                ><i className="fa fa-search"/></button>
-            </form>
+            <NavSearch />
             <br />
         </div>
         <div className="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-2">
