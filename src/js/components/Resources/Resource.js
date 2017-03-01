@@ -3,10 +3,7 @@ import {connect} from 'react-redux'
 import {validAuthorization} from '../../utils'
 import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from '../../actionCreators/resource'
 import {submitForm} from '../../actionCreators/common'
-import classString from 'react-classset'
-import moment from 'moment'
-
-
+import NotFound from '../NotFound'
 import {
     CollapsibleMenu,
     CollapsibleMenuItem,
@@ -16,16 +13,19 @@ import {
     Lifecycle,
     RevisionsView,
     SecurityView,
-    SubmitFormStatus,
     SubmitForm,
+    DeleteElementForm,
     ToolButtons
 } from '../common/'
+import {resourceTypes} from '../../utils/resourceTypes'
 
 const initialState = {
-    displaySubmitForm: false,
     secretVisible: false,
     editMode: false,
     deleteMode: false,
+    displaySubmitForm: false,
+    displayDeleteForm: false,
+    comment: ""
 }
 
 
@@ -49,6 +49,7 @@ class Resource extends Component {
         this.props.dispatch(clearResourceSecret())
     }
 
+
     setNewState(newState) {
         // TODO, make generic?
 
@@ -63,15 +64,26 @@ class Resource extends Component {
             created: newState.data.created,
             updated: newState.data.updated,
             currentSecret: newState.currentSecret,
+            comment: ""
         })
     }
 
     handleSubmitForm(key, form, comment, component) {
         const {dispatch} = this.props
-        this.toggleComponentDisplay("displaySubmitForm")
-        this.toggleComponentDisplay("editMode")
-        dispatch(submitForm(key, form, comment, component))
+        if (component == "resource") {
+            //var form2  = this.state
+            dispatch(submitForm(key, form, comment, component))
+            this.toggleComponentDisplay("editMode")
+            dispatch(submitForm(key, form2, comment, component))
+
+        } else if (component === "deleteResource") {
+            this.toggleComponentDisplay("displayDeleteForm")
+            //this.setState({comment: comment})
+            dispatch(submitForm(key, form2, comment, component))
+
+        }
     }
+
 
     toggleComponentDisplay(component) {
         const {dispatch} = this.props
@@ -107,30 +119,17 @@ class Resource extends Component {
         }
     }
 
-    buttonClasses(authenticated, edit) {
-        return classString({
-            "btn": true,
-            "btn-link": true,
-            "topnav-button": true,
-            "topnav-button-active": this.state.editMode && edit,
-            "disabled": !authenticated
-        })
-    }
-
     renderResourceProperties(properties) {
+        return Object.keys(properties).map(prop => {
 
-        if (properties) {
-            return Object.keys(properties).map(prop => {
-
-                return <FormString
-                    key={prop}
-                    label={prop}
-                    editMode={this.state.editMode}
-                    value={properties[prop]}
-                    handleChange={this.handleChange.bind(this)}
-                    parent="properties"/>
-            })
-        }
+            return <FormString
+                key={prop}
+                label={prop}
+                editMode={this.state.editMode}
+                value={properties[prop]}
+                handleChange={this.handleChange.bind(this)}
+                parent="properties"/>
+        })
     }
 
     renderSecrets(secrets) {
@@ -139,7 +138,7 @@ class Resource extends Component {
         if (secrets) {
             return Object.keys(secrets).map(secret => {
                     return <FormSecret
-                        key={secret}
+                        /*key={secret}*/
                         label={secret}
                         editMode={this.state.editMode}
                         handleChange={this.handleChange.bind(this)}
@@ -165,46 +164,84 @@ class Resource extends Component {
     }
 
     renderScope(scope) {
+        if (!this.state.editMode) {
 
-        if (scope) {
-            if (!this.state.editMode) {
+            const envClass = scope.environmentclass ? scope.environmentclass : '-'
+            const environment = scope.environment ? scope.environment : '-'
+            const zone = scope.zone ? scope.zone : '-'
+            const application = scope.application ? scope.application : '-'
 
-                const envClass = scope.environmentclass ? scope.environmentclass : '-'
-                const environment = scope.environment ? scope.environment : '-'
-                const zone = scope.zone ? scope.zone : '-'
-                const application = scope.application ? scope.application : '-'
-
-                return <div className="row">
-                    <div className="col-md-4 FormLabel"><b>Scope:</b></div>
-                    <div className="col-md-8"><span className="formValue"></span>{envClass} | {zone} | {environment}
-                        | {application}</div>
-                </div>
-            }
-            return <div className="well well-lg" style={{marginTop: "5px", paddingTop: "5px"}}>
-                <div className="row FormLabel"><b>Scope:</b></div>
-                <div className="row">
-
-                    {this.formListElement("environmentclass", scope.environmentclass, this.state.editMode, this.props.environmentClasses, "scope")}
-                    {this.formListElement("zone", scope.zone, this.state.editMode, this.props.zones, "scope")}
-                    {this.formListElement("environment", scope.environment, this.state.editMode, this.props.environmentNames, "scope")}
-                    {this.formListElement("application", scope.application, this.state.editMode, this.props.applications, "scope")}
-                </div>
+            return <div className="row">
+                <div className="col-md-4 FormLabel"><b>Scope:</b></div>
+                <div className="col-md-8"><span
+                    className="formValue"></span>{`${envClass} | ${zone} | ${environment} | ${application}`}</div>
             </div>
-
         }
+        return <div className="well well-lg" style={{marginTop: "5px", paddingTop: "5px"}}>
+            <div className="row FormLabel"><b>Scope:</b></div>
+            <div className="row">
+
+                {this.formListElement(
+                    "environmentclass",
+                    scope.environmentclass,
+                    this.state.editMode,
+                    this.props.environmentClasses,
+                    "scope"
+                )}
+                {this.formListElement(
+                    "zone",
+                    scope.zone,
+                    this.state.editMode,
+                    this.props.zones,
+                    "scope")}
+                {this.formListElement(
+                    "environment",
+                    scope.environment,
+                    this.state.editMode,
+                    this.props.environments.filter(e => scope.environmentclass === e.environmentclass).map(e => e.name),
+                    "scope")}
+                {this.formListElement(
+                    "application",
+                    scope.application,
+                    this.state.editMode,
+                    this.props.applications,
+                    "scope")}
+            </div>
+        </div>
+
     }
 
+
     render() {
-
-        // Bedre måte å håndtere render når det ikke er noe data (spinner)
         // Sortere miljøer riktig i utils
-        // velge rett miljøklasse ut fra miljø i utils ?
-        // håndtere liste av security token
+        // håndtere liste av security token og andre ressurser med enum typer
+        // håndtere application properties og større tekstfelt
+        // hva brukes display til?
+        // sortere resource types i filter på ressurser
+        // I resources element list hvis ressurstypen med riktig casing
+        // størrelse på scope teksten
+        // rendre alle required med *
 
-        const {id, fasit, user, environmentClasses, environments} = this.props
+        console.log("Fakkk", resourceTypes)
+
+        const {id, fasit, user} = this.props
 
         let authorized = false
         let lifecycle = {}
+
+        if (fasit.requestFailed) {
+            if (fasit.requestFailed.startsWith("404")) {
+                return (<NotFound/>)
+            }
+            return <div>Retrieving resource {id} failed with the following message:
+                <br />
+                <pre><i>{fasit.requestFailed}</i></pre>
+            </div>
+        }
+
+        if (fasit.isFetching || Object.keys(fasit.data).length === 0) {
+            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
+        }
 
         if (Object.keys(fasit.data).length > 0) {
             authorized = validAuthorization(user, fasit.data.accesscontrol)
@@ -213,9 +250,9 @@ class Resource extends Component {
 
         return (
             <div className="row">
-                    <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
-                                 onDeleteClick={() => console.log("delete like a mofo")}
-                                 onCopyClick={() => console.log("Copy,copycopy!")}/>
+                <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
+                             onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                             onCopyClick={() => console.log("Copy,copycopy!")}/>
 
 
                 <div className="col-md-6">
@@ -225,6 +262,18 @@ class Resource extends Component {
                     {this.renderSecrets(this.state.secrets)}
                     {this.renderScope(this.state.scope)}
 
+
+                    {this.state.editMode ?
+                        <div className="btn-block">
+                            <button type="submit" className="btn btn-sm btn-primary pull-right"
+                                    onClick={() => this.toggleComponentDisplay("displaySubmitForm")}>Submit
+                            </button>
+                            <button type="reset" className="btn btn-sm btn-default btn-space pull-right"
+                                    onClick={() => this.toggleComponentDisplay("editMode")}>Cancel
+                            </button>
+                        </div>
+                        : ""
+                    }
                 </div>
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="History">
@@ -234,6 +283,24 @@ class Resource extends Component {
                         <SecurityView accesscontrol={fasit.data.accesscontrol}/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
+
+                <DeleteElementForm
+                    displayDeleteForm={this.state.displayDeleteForm}
+                    onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
+                    onSubmit={() => this.handleSubmitForm(id, null, this.state.comment, "deleteResource")}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={this.state.comment}
+
+                />
+                {<SubmitForm
+                    display={this.state.displaySubmitForm}
+                    component="resource"
+                    onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
+                    onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
+                    displayDiff={false}
+                    newValues={{}}
+                    originalValues={{}}
+                />}
 
             </div>
 
@@ -245,7 +312,7 @@ const mapStateToProps = (state) => {
         fasit: state.resource_fasit,
         environmentClasses: state.environments.environmentClasses,
         environments: state.environments.environments,
-        environmentNames: state.environments.environments.map(e => e.name),
+        //environmentNames: state.environments.environments.filter(e => state.).map(e => e.name),
         zones: state.environments.zones,
         applications: state.applications.applicationNames,
         user: state.user,

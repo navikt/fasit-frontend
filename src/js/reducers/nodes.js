@@ -5,8 +5,7 @@ import {
     NODES_LIST_FAILED,
     SHOW_NEW_NODE_FORM,
 } from '../actionTypes'
-
-export default (state = {
+export const initialState = {
     isFetching: true,
     requestFailed: false,
     data: [],
@@ -16,7 +15,8 @@ export default (state = {
     showEditNodeForm: false,
     showNewNodeForm: false,
     showDeleteNodeForm: false,
-}, action) => {
+}
+export default (state = initialState, action) => {
     switch (action.type) {
 
         case NODE_TYPES_RECEIVED:

@@ -29,7 +29,6 @@ export function* fetchFasitResourceSecret() {
 
     const key = Object.keys(secrets)[0]
     const value = yield call(fetchUrl, secrets[key].ref)
-
     yield put({type: RESOURCE_FASIT_SECRET_RECEIVED, value: value})
 
     // TODO Husk error handling

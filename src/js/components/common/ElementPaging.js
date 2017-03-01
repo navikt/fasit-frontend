@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {submitSearchString} from '../../actionCreators/element_lists'
 
-class ElementPaging extends Component {
+export class ElementPaging extends Component {
     constructor(props) {
         super(props)
         this.state = {page: 0}
@@ -44,22 +44,22 @@ class ElementPaging extends Component {
     }
 
     render() {
-        const {search, nodes, resources, environments, applications, instances} = this.props
+        const {search} = this.props
         const total_count = this.props[search.context].headers.total_count
         const lastPage = calculateLastPage(total_count)
         return (
             <div className="element-list-paging">
                 <div className="btn-group btn-group-justified">
-                    <a className="btn btn-link " onClick={this.changePage.bind(this, "first", lastPage)}><i
+                    <a className="btn btn-link" id="first" onClick={this.changePage.bind(this, "first", lastPage)}><i
                         className="fa fa-angle-double-left" aria-hidden="true"/></a>
-                    <a className="btn btn-link " onClick={this.changePage.bind(this, "prev", lastPage)}><i
+                    <a className="btn btn-link " id="prev" onClick={this.changePage.bind(this, "prev", lastPage)}><i
                         className="fa fa-angle-left" aria-hidden="true"/></a>
                     <div className="element-list-paging-number">
                         {this.state.page + 1} / {lastPage + 1}
                     </div>
-                    <a className="btn btn-link " onClick={this.changePage.bind(this, "next", lastPage)}><i
+                    <a className="btn btn-link" id="next" onClick={this.changePage.bind(this, "next", lastPage)}><i
                         className="fa fa-angle-right" aria-hidden="true"/></a>
-                    <a className="btn btn-link " onClick={this.changePage.bind(this, "last", lastPage)}><i
+                    <a className="btn btn-link " id="last" onClick={this.changePage.bind(this, "last", lastPage)}><i
                         className="fa fa-angle-double-right" aria-hidden="true"/></a>
                 </div>
             </div>

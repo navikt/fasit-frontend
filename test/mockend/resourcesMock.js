@@ -1,5 +1,6 @@
 module.exports = {
-    getResource: function (id) {
+    getResource:  function (id) {
+
         return  resources.filter(r => r.id == id)[0]
     },
 
@@ -23,8 +24,12 @@ module.exports = {
         }
 
         return resources.filter(byType).filter(byScope)
+    },
+
+    deleteresource: function (id) {
+        resources.splice(resources.findIndex(e => e.id == id), 1)
     }
-} 
+}
 
 const resources = [
     {

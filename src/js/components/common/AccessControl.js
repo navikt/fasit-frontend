@@ -8,7 +8,7 @@ export default function AccessControl(props){
         <Modal show={displayAccessControlForm} onHide={onClose}>
             <Modal.Header>
                 <Modal.Title>Alter access control for {id}
-                    <button type="reset" className="btn btn-link pull-right"
+                    <button type="reset" className="btn btn-link pull-right" id="close"
                             onClick={onClose}><strong>X</strong>
                     </button>
                 </Modal.Title>
@@ -28,7 +28,7 @@ export default function AccessControl(props){
                 <br />
                 <div className="row">
                     <div className="col-lg-10 col-lg-offset-2">
-                        <button type="submit" className="btn btn-danger pull-right"
+                        <button type="submit" id="submit" className="btn btn-danger pull-right"
                                 onClick={onSubmit}>Update
                         </button>
                     </div>

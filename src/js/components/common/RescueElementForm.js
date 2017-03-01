@@ -2,19 +2,19 @@ import React from 'react'
 import {Modal} from 'react-bootstrap'
 import {FormComment} from '../common'
 
-export default function DeleteElement(props){
-    const { displayDeleteForm, id, onClose, onSubmit, comment, handleChange} = props
+export default function RescueElementForm(props){
+    const { displayRescueForm, id, onClose, onSubmit, comment, handleChange} = props
     return (
-        <Modal show={displayDeleteForm} onHide={onClose}>
+        <Modal show={displayRescueForm} onHide={onClose}>
             <Modal.Header>
-                <Modal.Title>Delete {id}
-                    <button type="reset" id="close" className="btn btn-link pull-right"
+                <Modal.Title>Rescue {id}
+                    <button type="reset" className="btn btn-link pull-right"
                             onClick={onClose}><strong>X</strong>
                     </button>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Going to delete {id}
+                This will save {id}
                 <br />
                 Are you sure?
 
@@ -27,8 +27,8 @@ export default function DeleteElement(props){
                 <br />
                 <div className="row">
                     <div className="col-lg-10 col-lg-offset-2">
-                        <button type="submit" id="submit" className="btn btn-danger pull-right"
-                                onClick={onSubmit}>Delete
+                        <button type="submit" className="btn btn-info pull-right"
+                                onClick={onSubmit}><i className="fa fa-recycle"/>&nbsp;&nbsp;Rescue
                         </button>
                     </div>
                 </div>

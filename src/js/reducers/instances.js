@@ -3,13 +3,13 @@ import {
     INSTANCES_LIST_RECEIVED,
     INSTANCES_LIST_FAILED
 } from '../actionTypes'
-
-export default (state = {
+export const initialState = {
     isFetching: true,
     requestFailed: false,
     data: [],
     headers: {}
-}, action) => {
+}
+export default (state = initialState, action) => {
     switch (action.type) {
         case INSTANCES_LIST_FETCHING:
             return Object.assign({}, state, {

@@ -8,6 +8,8 @@ module.exports = {
     getEnvironment: function (name) {
         return environments.filter(e => e.name == name)[0]
     },
+    deleteEnvironment: (environment) => environments.splice(environments.findIndex(e => e.name === environment), 1),
+
     findEnvironments: function (queryParams) {
         const scopeFilter = Object.keys(queryParams).filter(k => k !== 'page' && k !== 'pr_page' && k !== 'type')
 

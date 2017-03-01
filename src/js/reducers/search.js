@@ -4,7 +4,7 @@ import {
     CHANGE_PAGE,
     SET_SEARCH_STRING
 } from '../actionTypes'
-export default (state = {
+export const initialState = {
     activePage: 0,
     context: '',
     searchString: '',
@@ -16,7 +16,8 @@ export default (state = {
         application: '',
         zone: ''
     }
-}, action) => {
+}
+export default (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_PAGE:
             return Object.assign({}, state, {

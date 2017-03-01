@@ -14,7 +14,7 @@ class SubmitForm extends Component {
     }
 
     handleSubmitForm() {
-        const {component, additionalValues, newValues, originalValues,  onSubmit} = this.props
+        const {component, additionalValues, newValues, originalValues, onSubmit} = this.props
         let form = {}
         let key = ""
         switch (component) {
@@ -46,8 +46,12 @@ class SubmitForm extends Component {
                 key = originalValues.name
                 break
             case "cluster":
-                const applications = newValues.applications.map(a => {return {name: a}})
-                const nodes = newValues.nodes.map(n => {return {name: n}})
+                const applications = newValues.applications.map(a => {
+                    return {name: a}
+                })
+                const nodes = newValues.nodes.map(n => {
+                    return {name: n}
+                })
                 form = {
                     clustername: newValues.clustername,
                     zone: newValues.zone,
@@ -59,6 +63,9 @@ class SubmitForm extends Component {
                 }
                 key = originalValues.clustername
                 break
+            case "resource":
+                console.log("submt", newValues, originalValues)
+                break
             default:
                 console.error("handleSubmitForm in SubmitForm is missing this component type")
                 return
@@ -66,47 +73,46 @@ class SubmitForm extends Component {
         onSubmit(key, form, this.state.comment, component)
     }
 
-    render() {
-        const {onClose, display, originalValues, newValues} = this.props
-        const diff = Object.keys(originalValues).filter((key) => {
-            if (typeof originalValues[key] === "object"){
-                return (originalValues[key].toString() !== newValues[key].toString())
-            }
-            return (originalValues[key] != newValues[key])
-        })
-        return (
-            <Modal show={display} onHide={onClose} dialogClassName="submitForm">
-                <Modal.Header>
-                    <Modal.Title>Commit changes
-                        <button type="reset" className="btn btn-link pull-right"
-                                onClick={onClose}><strong>X</strong>
-                        </button>
-                    </Modal.Title>
-                </Modal.Header>
+    renderDiffTable(originalValues, newValues, renderDiffTable) {
+        if(renderDiffTable === false) {
+            return null
+            
+        }
+        else {
+            return (
                 <Modal.Body>
                     <table className="table">
                         <thead>
                         <tr>
+
                             <th>Field</th>
                             <th>Current value</th>
                             <th>New value</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {display?
+                        {
                             Object.keys(originalValues).map((key, idx) => {
                                 if (typeof originalValues[key] === "object") {
-                                    if (originalValues[key].toString() === newValues[key].toString()){
+                                    if (originalValues[key].toString() === newValues[key].toString()) {
                                         return <tr key={idx}>
                                             <td><b>{key}</b></td>
-                                            <td><pre>{originalValues[key].join(`, \n`)}</pre></td>
-                                            <td><pre>{newValues[key].join(`, \n`)}</pre></td>
+                                            <td>
+                                                <pre>{originalValues[key].join(`, \n`)}</pre>
+                                            </td>
+                                            <td>
+                                                <pre>{newValues[key].join(`, \n`)}</pre>
+                                            </td>
                                         </tr>
                                     }
                                     return <tr key={idx}>
                                         <td><b>{key}</b></td>
-                                        <td><pre>{originalValues[key].join(`, \n`)}</pre></td>
-                                        <td className="cell-bg"><pre>{newValues[key].join(`, \n`)}</pre></td>
+                                        <td>
+                                            <pre>{originalValues[key].join(`, \n`)}</pre>
+                                        </td>
+                                        <td className="cell-bg">
+                                            <pre>{newValues[key].join(`, \n`)}</pre>
+                                        </td>
                                     </tr>
                                 } else if (originalValues[key] === newValues[key]) {
                                     return (
@@ -124,12 +130,37 @@ class SubmitForm extends Component {
                                         <td className="cell-bg">{newValues[key]}</td>
                                     </tr>
                                 )
-                            }) : null
+                            })
                         }
 
                         </tbody>
                     </table>
-                </Modal.Body>
+                </Modal.Body>)
+        }
+
+    }
+
+    render() {
+        const {onClose, display, originalValues, newValues, displayDiff} = this.props
+        /*if(displayDiff) {
+            const diff = Object.keys(originalValues).filter((key) => {
+                if (typeof originalValues[key] === "object") {
+                    return (originalValues[key].toString() !== newValues[key].toString())
+                }
+                return (originalValues[key] != newValues[key])
+            })
+        }*/
+
+        return (
+            <Modal show={display} onHide={onClose} dialogClassName="submitForm">
+                <Modal.Header>
+                    <Modal.Title>Commit changes
+                        <button type="reset" className="btn btn-link pull-right"
+                                onClick={onClose}><strong>X</strong>
+                        </button>
+                    </Modal.Title>
+                </Modal.Header>
+                {this.renderDiffTable(originalValues, newValues, displayDiff)}
                 <Modal.Footer>
                     <div className="col-xs-2 FormLabel"><b>Comment</b></div>
                     <div className="col-xs-8">
@@ -144,22 +175,19 @@ class SubmitForm extends Component {
                     <div className="col-xs-2 submit-button-placement">
                         <div className="btn-block">
                             <button type="submit"
-                                    className={diff.length > 0 ? "btn btn-primary btn-sm pull-right" : "btn btn-primary btn-sm pull-right disabled"}
-                                    onClick={diff.length > 0 ? this.handleSubmitForm.bind(this) : () => {
-                                        }}>Submit
+                                    className={"btn btn-primary btn-sm pull-right"}
+                                    onClick={this.handleSubmitForm.bind(this)}>Submit
                             </button>
                         </div>
                     </div>
                 </Modal.Footer>
             </Modal>
-
         )
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return {
-    }
+    return {}
 }
 
 export default connect(mapStateToProps)(SubmitForm)
