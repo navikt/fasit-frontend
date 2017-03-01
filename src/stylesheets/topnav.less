@@ -54,7 +54,13 @@
   transition: color, background-color  0.4s ease-in-out;
 }
 
-.topnav-buttons-inverse:hover:after, .topnav-buttons:hover:after{
+.topnav-buttons-inverse:hover:after,
+.topnav-buttons:hover:after,
+.topnav-buttons-inverse:active:after,
+.topnav-buttons:active:after,
+.topnav-buttons-inverse:focus:after,
+.topnav-buttons:focus:after
+{
     background-color: @magenta;
     color: white;
 }
