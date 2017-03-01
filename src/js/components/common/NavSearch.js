@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react'
+import {browserHistory} from 'react-router'
+
 import { connect } from 'react-redux'
 import {submitNavSearch} from '../../actionCreators/common'
 
@@ -9,7 +11,8 @@ class NavSearch extends Component {
     }
 
     render(){
-        const {dispatch} = this.props
+        const {dispatch, searchString, location} = this.props
+        const context = location.pathname.split('/')[1] || "anything"
         return (<form>
             <input
                 type="text"
@@ -36,8 +39,8 @@ NavSearch.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        form: state.submit_form,
-    }
+        location: state.routing.locationBeforeTransitions,
+        searchString: state.navsearch.query    }
 }
 
 export default connect(mapStateToProps)(NavSearch)
