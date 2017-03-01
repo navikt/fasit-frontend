@@ -17,6 +17,7 @@ import instance_fasit from './instance_fasit'
 import resources from './resources'
 import resource_fasit from './resource_fasit'
 import search from './search'
+import navsearch from './navsearch'
 import submit_form from './submit_form'
 import user from './user'
 import nodes from './nodes'
@@ -31,6 +32,7 @@ var fasitReducer = combineReducers({
     application_fasit,
     application_instances,
     configuration,
+    navsearch,
     environments,
     environment_fasit,
     environment_clusters,
