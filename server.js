@@ -11,6 +11,7 @@ const applicationsMock = require('./test/mockend/applicationsMock')
 const applicationinstances = require('./test/mockend/applicationinstancesMock')
 const resourceTypes = require('./test/mockend/resourceTypesMock')
 const nodesMock = require('./test/mockend/nodesMock')
+const navSearchMock = require('./test/mockend/navSearchMock')
 const nodeRevisionsMock = require('./test/mockend/nodeRevisionsMock')
 const loginMock = require('./test/mockend/loginMock')
 
@@ -67,6 +68,9 @@ app.delete('/mockapi/applications/:application', (req, res) => {
     res.sendStatus(200)
 })
 
+app.get("/mockapi/navsearch", (req, res) => {
+    sendJson(res, navSearchMock.getNavSearch())
+})
 
 app.get("/mockapi/applications", (req, res) => {
     sendJson(res, applicationsMock.getApplications())

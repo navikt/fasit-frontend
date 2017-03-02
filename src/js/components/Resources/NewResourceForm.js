@@ -36,8 +36,6 @@ class NewResourceForm extends Component {
     }
 
     handleChange(field, value, parent) {
-        console.log("parent", parent, field, value)
-
         if (parent) {
             const parentState = this.state[parent]
             parentState[field] = value
@@ -111,17 +109,14 @@ class NewResourceForm extends Component {
                                    parent="secrets"
                                    handleChange={this.handleChange.bind(this)}/>
             case "file":
-                console.log("FILE ", property.name, property.displayName, property.required)
                 break
             default:
-                console.log("Missing ", property.type, "for ", type)
 
         }
     }
 
     renderProperties() {
         const type = this.state.type
-        console.log(this.state)
         if (type !== "") {
             const properties = resourceTypes[type].properties
             return (
