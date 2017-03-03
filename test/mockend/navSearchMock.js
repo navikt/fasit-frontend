@@ -5,13 +5,13 @@ module.exports = {
 const navSearch = [
     {
         "id": 2097741,
-        "name": "abac-felles-u1",
-        "type": "environment"
+        "name": "host1.test.local",
+        "type": "node"
     },
     {
         "id": 1440899,
-        "name": "abacpdp",
-        "type": "application"
+        "name": "host2.preprod.local",
+        "type": "node"
     },
     {
         "id": 1440901,
