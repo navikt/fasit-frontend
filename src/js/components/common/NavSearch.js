@@ -3,7 +3,7 @@ import {browserHistory, Link} from 'react-router'
 
 import {connect} from 'react-redux'
 import {submitNavSearch} from '../../actionCreators/common'
-
+import {submitSearchString} from '../../actionCreators/element_lists'
 
 class NavSearch extends Component {
     constructor(props) {
@@ -17,7 +17,8 @@ class NavSearch extends Component {
     componentDidMount() {
         this.navSearch.focus()
     }
-    handleMouseOver(navItem){
+
+    handleMouseOver(navItem) {
         const {navSearch} = this.props
         const options = [...new Set(navSearch.data.map(result => result.id))]
         const mouseOverItem = options.indexOf(navItem.id)
@@ -25,7 +26,7 @@ class NavSearch extends Component {
 
     }
 
-    handleMouseClick(e){
+    handleMouseClick(e) {
         e.preventDefault()
         this.navigate()
     }
@@ -57,17 +58,25 @@ class NavSearch extends Component {
             default:
                 // reset selectedOption and display dropdown if query changes
                 this.setState({selectedOption: null, visible: true})
-                if(location.pathname === "/"){
+                if (location.pathname === "/") {
                     browserHistory.push("/search")
                 }
         }
     }
-    navigate(){
+
+    navigate() {
         const {dispatch, navSearch, location} = this.props
         const navItem = navSearch.data[this.state.selectedOption]
-        dispatch(submitNavSearch(""))
-        browserHistory.push(this.destinationUrl(navItem))
+        if (!navItem) {
+            dispatch(submitSearchString(null, navSearch.query, 0))
+            this.setState({visible: false})
+        } else {
+            dispatch(submitNavSearch(""))
+            browserHistory.push(this.destinationUrl(navItem))
+        }
     }
+
+
     changeSelectedOption(dir) {
         const {selectedOption} = this.state
         const {navSearch} = this.props
@@ -90,8 +99,9 @@ class NavSearch extends Component {
                 break
         }
     }
-    destinationUrl(navItem){
-        switch(navItem.type){
+
+    destinationUrl(navItem) {
+        switch (navItem.type) {
             case "node":
                 return `/nodes/${navItem.name}`
             case "application":
@@ -132,7 +142,7 @@ class NavSearch extends Component {
                 ><i className="fa fa-search"/></button>
             </form>
             {query && visible ? isFetching ?
-                    <div className="navSearchDropdown"><i className="fa fa-spinner fa-pulse fa-2x"></i></div> :
+                    <div className="navSearchDropdown loadingDots"/> :
                     <div className="navSearchDropdown">
                         {(data.length > 0) ? types.map((type, i) => {                                     // Returnerer en blokk for hver elementtype
                                 return (
@@ -140,16 +150,16 @@ class NavSearch extends Component {
                                         <b><i>{type}(s)</i></b>
                                         <ul style={{listStyleType: "none"}}>
                                             {data.filter(itemsByType => itemsByType.type === type)          // filtrerer ut resultater per type
-                                                        .map((navItem, i) => {                                 // returnerer en lenke til resultatet
-                                                        return (
-                                                            <Link to={this.destinationUrl(navItem)}
-                                                                  key={i}
-                                                                  onMouseOver={() => this.handleMouseOver(navItem)}
-                                                                  onClick={(e) => this.handleMouseClick(e)}
-                                                                  className={navItem.id === options[selectedOption] ? "navOption selectedNavOption" : "navOption"}>
-                                                                {navItem.name}<br />
-                                                            </Link>)
-                                                    })
+                                                .map((navItem, i) => {                                 // returnerer en lenke til resultatet
+                                                    return (
+                                                        <Link to={this.destinationUrl(navItem)}
+                                                              key={i}
+                                                              onMouseOver={() => this.handleMouseOver(navItem)}
+                                                              onClick={(e) => this.handleMouseClick(e)}
+                                                              className={navItem.id === options[selectedOption] ? "navOption selectedNavOption" : "navOption"}>
+                                                            {navItem.name}<br />
+                                                        </Link>)
+                                                })
                                             }
                                         </ul>
                                     </div>
@@ -160,7 +170,8 @@ class NavSearch extends Component {
                 null}
 
         </ div>)
-    }}
+    }
+}
 
 
 const mapStateToProps = (state) => {
