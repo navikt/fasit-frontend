@@ -136,10 +136,9 @@ class NavSearch extends Component {
                     type="submit"
                     className="navSearchButton btn-grey"
                     onClick={(e) => {
-                        e.preventDefault();
-                        browserHistory.push("/search")
-                    }}
-                ><i className="fa fa-search"/></button>
+                        e.preventDefault()
+                        this.navigate()
+                    }}><i className="fa fa-search"/></button>
             </form>
             {query && visible ? isFetching ?
                     <div className="navSearchDropdown loadingDots"/> :
