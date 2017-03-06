@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {Login, AuraTools} from '../common/'
+import {Login, AuraTools, NavSearch} from '../common/'
 import ContextMenu from './ContextMenu'
 import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
 import {showNewComponentForm} from '../../actionCreators/common'
@@ -159,14 +159,8 @@ class TopNav extends Component {
                         </div>
 
                         <div className="col-xs-7 col-sm-6 col-md-4">
-                            <input
-                                type="text"
-                                className="form-control search-field-text-input-in-topnav"
-                                ref="searchField"
-                                placeholder={'Search for ' + context}
-                                value={search.searchString}
-                                onChange={(e) => dispatch(submitSearchString(context, e.target.value, 0))}
-                            />
+                            <NavSearch />
+
                         </div>
                         {this.showLogin()}
                         <Login />

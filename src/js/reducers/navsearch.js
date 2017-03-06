@@ -1,12 +1,14 @@
 import {
     NAVSEARCH_RESULTS_RECEIVED,
     NAVSEARCH_REQUEST_FAILED,
+    NAVSEARCH_RESULTS_FETCING,
     SET_NAVSEARCH_QUERY
 } from '../actionTypes'
 
 export const initialState = {
     data: [],
     requestFailed: false,
+    isFetching:false,
     query: ""
 }
 
@@ -20,12 +22,19 @@ export default (state = initialState, action) => {
         case NAVSEARCH_RESULTS_RECEIVED:
             return Object.assign({}, state, {
                 data: action.value,
-                requestFailed: false
+                requestFailed: false,
+                isFetching:false
+            })
+        case NAVSEARCH_RESULTS_FETCING:
+            return Object.assign({}, state, {
+                data: [],
+                isFetching: true
             })
         case NAVSEARCH_REQUEST_FAILED:
             return Object.assign({}, state, {
                 requestFailed: action.error.message,
-                data: []
+                data: [],
+                isFetching:false
             })
 
         default:
