@@ -36,6 +36,10 @@ const hasRole = (user, roles) => {
     }
 }
 
+export function capitalize(label) {
+    return "" + label.charAt(0).toUpperCase() + label.slice(1)
+}
+
 export const fetchUrl = (url, noCredentials) => {
     let headers = {}
     if (!noCredentials) headers = {

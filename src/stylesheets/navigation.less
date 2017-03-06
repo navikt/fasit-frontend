@@ -1,7 +1,11 @@
+.navSearchContainer{
+  width: 100%;
+  position: absolute;
+}
 .navSearch {
   outline: none !important;
-  margin-bottom: -14px
-
+  margin-bottom: -14px;
+  width:100%
 }
 .navSearchTextInput {
   height: 50px;
@@ -29,12 +33,17 @@
 }
 
 .navSearchButton {
-  position: absolute;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  color: #033C73;
+  position: relative;
   display: inline-block;
   height: 48px;
   width: 55px;
-  right: 16px;
-  top: 1px;
+  top: -49px;
+  margin-right: 1px;
+  float: right;
+  border-radius: 0px 4px 4px 0px;
   border-top: none;
   border-bottom: none;
   border-right: none;
@@ -57,25 +66,25 @@
   padding-right: 20px;
   border-radius: 0px 0px 4px 4px;
   box-shadow: 4px 4px 10px #ddd;
-  min-width:400px;
+  width: 100%;;
   top: 50px;
+
 }
-.navSearchDropdownOption, .navSearchDropdownOption:hover{
+.navOption > a, .navOption >a:hover{
+  margin-left: 30px;
   color: #000;
   font-size: large;
   text-decoration: none;
 }
 
 .selectedNavOption, .selectedNavOption:hover, selectedNavOption:focus{
-  background-color: @fasit-primary;
+  background-color: @blue;
+}
+.selectedNavOption >a, .selectedNavOption >a:hover, selectedNavOption >a:focus{
   color: #fff;
   text-decoration: none;
+
 }
-
-
-
-
-
 .loading-spinner {
   height: 100px;
 }

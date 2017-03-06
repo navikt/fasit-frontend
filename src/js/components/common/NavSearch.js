@@ -4,6 +4,7 @@ import {browserHistory, Link} from 'react-router'
 import {connect} from 'react-redux'
 import {submitNavSearch} from '../../actionCreators/common'
 import {submitSearchString} from '../../actionCreators/element_lists'
+import {capitalize} from '../../utils/'
 
 class NavSearch extends Component {
     constructor(props) {
@@ -68,6 +69,9 @@ class NavSearch extends Component {
         const {dispatch, navSearch, location} = this.props
         const navItem = navSearch.data[this.state.selectedOption]
         if (!navItem) {
+            if (!(location.pathname === "/search")){
+                browserHistory.push("/search")
+            }
             dispatch(submitSearchString(null, navSearch.query, 0))
             this.setState({visible: false})
         } else {
@@ -122,53 +126,55 @@ class NavSearch extends Component {
         const {query, data, isFetching} = navSearch
         const types = [...new Set(data.map(item => item.type))]
         const options = [...new Set(data.map(item => item.id))]
-        return (<div onKeyDown={(e) => this.handleKeyDown(e)}>
-            <form className="navSearch">
-                <input
-                    type="text"
-                    className="navSearchTextInput"
-                    ref={(input) => this.navSearch = input}
-                    placeholder={"Search"}
-                    value={query}
-                    onChange={(e) => dispatch(submitNavSearch(e.target.value))}
-                />
-                <button
-                    type="submit"
-                    className="navSearchButton btn-grey"
-                    onClick={(e) => {
-                        e.preventDefault()
-                        this.navigate()
-                    }}><i className="fa fa-search"/></button>
-            </form>
-            {query && visible ? isFetching ?
-                    <div className="navSearchDropdown loadingDots"/> :
-                    <div className="navSearchDropdown">
-                        {(data.length > 0) ? types.map((type, i) => {                                     // Returnerer en blokk for hver elementtype
-                                return (
-                                    <div key={i}>
-                                        <b><i>{type}(s)</i></b>
-                                        <ul style={{listStyleType: "none"}}>
-                                            {data.filter(itemsByType => itemsByType.type === type)          // filtrerer ut resultater per type
-                                                .map((navItem, i) => {                                 // returnerer en lenke til resultatet
-                                                    return (
-                                                        <Link to={this.destinationUrl(navItem)}
-                                                              key={i}
-                                                              onMouseOver={() => this.handleMouseOver(navItem)}
-                                                              onClick={(e) => this.handleMouseClick(e)}
-                                                              className={navItem.id === options[selectedOption] ? "navOption selectedNavOption" : "navOption"}>
-                                                            {navItem.name}<br />
-                                                        </Link>)
-                                                })
-                                            }
-                                        </ul>
-                                    </div>
-                                )
-                            }) : "No results found"
-                        }
-                    </div> :
-                null}
+        return (
+            <div onKeyDown={(e) => this.handleKeyDown(e)} className="navSearchContainer">
+                <form className="navSearch">
+                    <input
+                        type="text"
+                        className="navSearchTextInput"
+                        ref={(input) => this.navSearch = input}
+                        placeholder={"Search"}
+                        value={query}
+                        onChange={(e) => dispatch(submitNavSearch(e.target.value))}
+                    />
+                    <button
+                        type="submit"
+                        className="navSearchButton"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            this.navigate()
+                        }}><i className="fa fa-search"/></button>
+                </form>
+                {query && visible ? isFetching ?
+                        <div className="navSearchDropdown loadingDots"/> :
+                        <div className="navSearchDropdown">
+                            {(data.length > 0) ? types.map((type, i) => { // Returnerer en blokk for hver elementtype
+                                    return (
+                                        <div key={i}>
+                                            <b><i><small>{capitalize(type)}{data.filter(itemsByType => itemsByType.type === type).length > 1 ? "s" : null}:</small></i></b>
+                                            <div>
+                                                {data.filter(itemsByType => itemsByType.type === type) // filtrerer ut resultater per type
+                                                    .map((navItem, i) => { // returnerer en lenke til resultatet
+                                                        return (
+                                                            <div className={navItem.id === options[selectedOption] ? "navOption selectedNavOption" : "navOption"}>
+                                                                <Link to={this.destinationUrl(navItem)}
+                                                                      key={i}
+                                                                      onMouseOver={() => this.handleMouseOver(navItem)}
+                                                                      onClick={(e) => this.handleMouseClick(e)}
+                                                                >
+                                                                    {navItem.name}<br />
+                                                                </Link></div>)
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                    )
+                                }) : "No results found"
+                            }
+                        </div> :
+                    null}
 
-        </ div>)
+            </ div>)
     }
 }
 

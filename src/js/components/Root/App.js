@@ -7,7 +7,8 @@ import {
     fetchResourceTypes,
     fetchNodeTypes
 } from '../../actionCreators/fasit_initialize_data'
-
+import {showNewComponentForm} from '../../actionCreators/common'
+import {displayLogin} from '../../actionCreators/authentication'
 import TopNav from '../Navigation/TopNav'
 import NewNodeForm from '../Nodes/NewNodeForm'
 import NewApplicationForm from '../Applications/NewApplicationForm'
@@ -31,20 +32,24 @@ class App extends Component {
         dispatch(fetchNodeTypes())
     }
 
-    test(){
-        console.log("test")
-    }
-
-
     render() {
+        const {dispatch} = this.props
         const handlers = {
-            'test': this.test
+            'logIn': () => dispatch(displayLogin(true)),
+            'createNewApplication': () => dispatch(showNewComponentForm("application", true)),
+            'createNewEnvironment': () => dispatch(showNewComponentForm("environment", true)),
+            'createNewCluster': () => dispatch(showNewComponentForm("cluster", true)),
+            'createNewNode': () => dispatch(showNewComponentForm("node", true))
         }
         const keyMap = {
-            'test': 'g i space'
+            'logIn': 'l i space',
+            'createNewApplication': 'n a space',
+            'createNewEnvironment': 'n e space',
+            'createNewCluster': 'n c space',
+            'createNewNode': 'n n space',
         }
         return (
-            <HotKeys handlers={handlers} keyMap={keyMap}>
+            <HotKeys handlers={handlers} keyMap={keyMap} style={{outline:"none"}}>
                 <TopNav />
                 <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
                     {this.props.children}
