@@ -2,10 +2,10 @@ import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {Login, AuraTools, NavSearch} from '../common/'
+import {Login, AuraTools, NavSearch, KeyboardShortcuts} from '../common/'
 import ContextMenu from './ContextMenu'
 import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
-import {showNewComponentForm} from '../../actionCreators/common'
+import {displayModal} from '../../actionCreators/common'
 import {submitSearchString} from '../../actionCreators/element_lists'
 
 
@@ -35,9 +35,10 @@ class TopNav extends Component {
                                 <button
                                     type="button"
                                     className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
-                                    style={{marginTop:8, marginRight: 10}}>
-                                    <span className="fa-stack" style={{marginRight:5, marginBottom:3}}><i className="fa fa-circle fa-stack-2x user-icon"/><i
-                                        className="fa fa-plus fa-stack-1x fa-inverse" style={{marginTop:1}}/></span>
+                                    style={{marginTop: 8, marginRight: 10}}>
+                                    <span className="fa-stack" style={{marginRight: 5, marginBottom: 3}}><i
+                                        className="fa fa-circle fa-stack-2x user-icon"/><i
+                                        className="fa fa-plus fa-stack-1x fa-inverse" style={{marginTop: 1}}/></span>
                                     New
                                 </button>
                             </OverlayTrigger>
@@ -52,9 +53,10 @@ class TopNav extends Component {
                                 type="button"
                                 className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
                                 onClick={() => dispatch(displayLogin(true))}
-                                style={{marginTop:8, marginRight: 10}}
+                                style={{marginTop: 8, marginRight: 10}}
                             >
-                                <span className="fa-stack" style={{marginRight:5, marginBottom:3}}><i className="fa fa-circle fa-stack-2x user-icon"/><i
+                                <span className="fa-stack" style={{marginRight: 5, marginBottom: 3}}><i
+                                    className="fa fa-circle fa-stack-2x user-icon"/><i
                                     className="fa fa-unlock-alt fa-stack-1x fa-inverse"/></span>
                                 Log in
                             </button>
@@ -69,15 +71,18 @@ class TopNav extends Component {
                                 placement="bottom"
                                 overlay={this.loginInformationOverlay()}
                             >
-                                <button type="button" className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"} style={{marginTop:8}}>
-                            <span className="fa-stack" style={{marginRight:5, marginBottom:3}}><i className="fa fa-circle fa-stack-2x user-icon"/><i
+                                <button type="button"
+                                        className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
+                                        style={{marginTop: 8}}>
+                            <span className="fa-stack" style={{marginRight: 5, marginBottom: 3}}><i
+                                className="fa fa-circle fa-stack-2x user-icon"/><i
                                 className="fa fa-user fa-stack-1x fa-inverse"/></span>{user.displayname}
                                 </button>
                             </OverlayTrigger>
                         </li>
                     )}
-                {/* Aurabot */}
 
+                {/* Aurabot */}
                 <li>
                     <OverlayTrigger
                         trigger={"click"}
@@ -87,10 +92,20 @@ class TopNav extends Component {
                     >
                         <img
                             src="/images/aura-ikoner/aurabot.png"
-                            style={{width:30, marginTop:11, marginRight:30, marginLeft:12, cursor:"pointer"}}
+                            style={{width: 30, marginTop: 11, marginRight: 30, marginLeft: 12, cursor: "pointer"}}
                             className="topnavIcon"/>
 
                     </OverlayTrigger>
+                </li>
+
+                {/* Shortcuts */}
+                <li>
+                    <button type="button"
+                            className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
+                            onClick={() => dispatch(displayModal("shortcuts", true))}
+                            style={{marginTop: 8}}>
+                        <i className="fa fa-2x fa-keyboard-o"/>
+                    </button>
                 </li>
             </ul>
         )
@@ -122,19 +137,19 @@ class TopNav extends Component {
         return (
             <Popover id="tools">
                 <ul className="topnav-menu topnav-menu-selector">
-                    <li onClick={() => dispatch(showNewComponentForm("resource", true))}><i
+                    <li onClick={() => dispatch(displayModal("resource", true))}><i
                         className="fa fa-cogs"/> &nbsp;&nbsp; Create resource
                     </li>
-                    <li onClick={() => dispatch(showNewComponentForm("application", true))}><i
+                    <li onClick={() => dispatch(displayModal("application", true))}><i
                         className="fa fa-cube"/> &nbsp;&nbsp; Create application
                     </li>
-                    <li onClick={() => dispatch(showNewComponentForm("environment", true))}><i
+                    <li onClick={() => dispatch(displayModal("environment", true))}><i
                         className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment
                     </li>
-                    <li onClick={() => dispatch(showNewComponentForm("node", true))}><i
+                    <li onClick={() => dispatch(displayModal("node", true))}><i
                         className="fa fa-server"/> &nbsp;&nbsp;Create node
                     </li>
-                    <li onClick={() => dispatch(showNewComponentForm("cluster", true))}><i
+                    <li onClick={() => dispatch(displayModal("cluster", true))}><i
                         className="fa fa-braille"/> &nbsp;&nbsp; Create cluster
                     </li>
                 </ul>

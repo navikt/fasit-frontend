@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 
 import {FormString, FormDropDown, FormComment, FormTextArea} from '../common/Forms'
 
-import {showNewComponentForm} from '../../actionCreators/common'
+import {displayModal} from '../../actionCreators/common'
 import {resourceTypes} from '../../utils/resourceTypes'
 import {submitForm} from '../../actionCreators/common'
 
@@ -65,7 +65,7 @@ class NewResourceForm extends Component {
     closeForm() {
         const {dispatch} = this.props
         this.resetLocalState()
-        dispatch(showNewComponentForm("resource", false))
+        dispatch(displayModal("resource", false))
     }
 
     renderProperty(property) {

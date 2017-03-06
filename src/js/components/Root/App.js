@@ -7,7 +7,7 @@ import {
     fetchResourceTypes,
     fetchNodeTypes
 } from '../../actionCreators/fasit_initialize_data'
-import {showNewComponentForm} from '../../actionCreators/common'
+import {displayModal} from '../../actionCreators/common'
 import {displayLogin} from '../../actionCreators/authentication'
 import TopNav from '../Navigation/TopNav'
 import NewNodeForm from '../Nodes/NewNodeForm'
@@ -15,7 +15,7 @@ import NewApplicationForm from '../Applications/NewApplicationForm'
 import NewEnvironmentForm from '../Environments/NewEnvironmentForm'
 import NewClusterForm from '../Environments/NewClusterForm'
 import NewResourceForm from '../Resources/NewResourceForm'
-import {SubmitFormStatus} from '../common/'
+import {SubmitFormStatus, KeyboardShortcuts} from '../common/'
 
 
 class App extends Component {
@@ -36,10 +36,10 @@ class App extends Component {
         const {dispatch} = this.props
         const handlers = {
             'logIn': () => dispatch(displayLogin(true)),
-            'createNewApplication': () => dispatch(showNewComponentForm("application", true)),
-            'createNewEnvironment': () => dispatch(showNewComponentForm("environment", true)),
-            'createNewCluster': () => dispatch(showNewComponentForm("cluster", true)),
-            'createNewNode': () => dispatch(showNewComponentForm("node", true))
+            'createNewApplication': () => dispatch(displayModal("application", true)),
+            'createNewEnvironment': () => dispatch(displayModal("environment", true)),
+            'createNewCluster': () => dispatch(displayModal("cluster", true)),
+            'createNewNode': () => dispatch(displayModal("node", true))
         }
         const keyMap = {
             'logIn': 'l i space',
@@ -61,6 +61,7 @@ class App extends Component {
                 <NewClusterForm />
                 <NewApplicationForm />
                 <NewResourceForm/>
+                <KeyboardShortcuts/>
             </HotKeys>
         )
     }
