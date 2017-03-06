@@ -18,6 +18,7 @@ import {
     ToolButtons
 } from '../common/'
 import {resourceTypes} from '../../utils/resourceTypes'
+import Scope from './Scope'
 
 const initialState = {
     secretVisible: false,
@@ -163,55 +164,6 @@ class Resource extends Component {
                              parent={field}/>
     }
 
-    renderScope(scope) {
-        if (!this.state.editMode) {
-
-            const envClass = scope.environmentclass ? scope.environmentclass : '-'
-            const environment = scope.environment ? scope.environment : '-'
-            const zone = scope.zone ? scope.zone : '-'
-            const application = scope.application ? scope.application : '-'
-
-            return <div className="row">
-                <div className="col-md-4 FormLabel"><b>Scope:</b></div>
-                <div className="col-md-8"><span
-                    className="formValue"></span>{`${envClass} | ${zone} | ${environment} | ${application}`}</div>
-            </div>
-        }
-        return <div className="well well-lg" style={{marginTop: "5px", paddingTop: "5px"}}>
-            <div className="row FormLabel"><b>Scope:</b></div>
-            <div className="row">
-
-                {this.formListElement(
-                    "environmentclass",
-                    scope.environmentclass,
-                    this.state.editMode,
-                    this.props.environmentClasses,
-                    "scope"
-                )}
-                {this.formListElement(
-                    "zone",
-                    scope.zone,
-                    this.state.editMode,
-                    this.props.zones,
-                    "scope")}
-                {this.formListElement(
-                    "environment",
-                    scope.environment,
-                    this.state.editMode,
-                    this.props.environments.filter(e => scope.environmentclass === e.environmentclass).map(e => e.name),
-                    "scope")}
-                {this.formListElement(
-                    "application",
-                    scope.application,
-                    this.state.editMode,
-                    this.props.applications,
-                    "scope")}
-            </div>
-        </div>
-
-    }
-
-
     render() {
         // Sortere miljøer riktig i utils
         // håndtere liste av security token og andre ressurser med enum typer
@@ -254,14 +206,13 @@ class Resource extends Component {
                              onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                              onCopyClick={() => console.log("Copy,copycopy!")}/>
 
-
                 <div className="col-md-6">
                     {this.formStringElement("type", this.state.type, false)}
                     {this.formStringElement("alias", this.state.alias, this.state.editMode)}
                     {this.renderResourceProperties(this.state.properties)}
                     {this.renderSecrets(this.state.secrets)}
-                    {this.renderScope(this.state.scope)}
 
+                    <Scope editMode={this.state.editMode} scope={this.state.scope} handleChange={this.handleChange.bind(this)}/>
 
                     {this.state.editMode ?
                         <div className="btn-block">

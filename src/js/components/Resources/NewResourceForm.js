@@ -7,6 +7,7 @@ import {FormString, FormDropDown, FormComment, FormTextArea} from '../common/For
 import {showNewComponentForm} from '../../actionCreators/common'
 import {resourceTypes} from '../../utils/resourceTypes'
 import {submitForm} from '../../actionCreators/common'
+import Scope from './Scope'
 
 class NewResourceForm extends Component {
     constructor(props) {
@@ -93,7 +94,6 @@ class NewResourceForm extends Component {
                                      value={this.state.properties[property.name]}
                                      parent="properties"
                                      handleChange={this.handleChange.bind(this)}/>
-                break
             case "dropdown":
                 return <FormDropDown key={key}
                                      label={label}
@@ -134,41 +134,31 @@ class NewResourceForm extends Component {
                     {properties.map(this.renderProperty.bind(this))}
                 </div>
             )
-
-
         }
     }
 
-    formListElement(label, value, options) {
-        return <FormDropDown label={label}
-                             value={value ? value : '-'}
-                             editMode={true}
-                             handleChange={this.handleChange.bind(this)}
-                             options={options}
-                             parent="scope"/>
-    }
 
     showSubmitButton() {
-        /*const {hostname, username, password, type, environmentclass, environment, zone} = this.state
-         if (hostname && username && password && type && environmentclass && environment) {
-         if ((zone) || (environmentclass === 'u')) {
-         return (
-         <button type="submit"
-         className="btn btn-primary pull-right"
-         onClick={this.handleSubmitForm.bind(this, true)}>Submit
-         </button>
-         )
-         }
-         }
-         return <button type="submit" className="btn btn-primary pull-right disabled">Submit</button>*/
-
+        const {type, alias, scope, properties, secrets, files} = this.state
+        if (hostname && username && password && type && environmentclass && environment) {
+            if ((zone) || (environmentclass === 'u')) {
+                return (
+                    <button type="submit"
+                            className="btn btn-primary pull-right"
+                            onClick={this.handleSubmitForm.bind(this, true)}>Submit
+                    </button>
+                )
+            }
+        }
+        return <button type="submit" className="btn btn-primary pull-right disabled">Submit</button>
     }
 
     render() {
 
         // tode create scope as component
+        // editmode kun når pålogget
+
         const {environmentClasses, showNewResourceForm, zones, types} = this.props
-        const {scope} = this.state
         return (
             <Modal show={showNewResourceForm} onHide={this.closeForm.bind(this)} dialogClassName="newResourceForm">
                 <Modal.Header>
@@ -186,32 +176,7 @@ class NewResourceForm extends Component {
                     <FormDropDown label="Type" field="type" value={this.state.type} editMode={true}
                                   handleChange={this.handleChange.bind(this)} options={types}/>
                     {this.renderProperties()}
-                    <div className="well well-lg" style={{marginTop: "5px", paddingTop: "5px"}}>
-                        <div className="row FormLabel"><b>Scope:</b></div>
-                        <div className="row">
-                            {this.formListElement(
-                                "environmentclass",
-                                scope.environmentclass,
-                                this.props.environmentClasses
-                            )}
-                            {this.formListElement(
-                                "zone",
-                                scope.zone,
-                                this.props.zones
-                            )}
-                            {this.formListElement(
-                                "environment",
-                                scope.environment,
-                                this.props.environments.filter(e => scope.environmentclass === e.environmentclass).map(e => e.name)
-                            )}
-                            {this.formListElement(
-                                "application",
-                                scope.application,
-                                this.props.applications
-                            )}
-                        </div>
-                        <div className="col-xs-12" style={{height: 15 + 'px'}}></div>
-                    </div>
+                    <Scope editMode={true} scope={this.state.scope} handleChange={this.handleChange.bind(this)}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <FormComment
@@ -219,6 +184,11 @@ class NewResourceForm extends Component {
                         handleChange={this.handleChange.bind(this)}
                     />
                     <br />
+                    <div className="row">
+                        <div className="row col-lg-10 col-lg-offset-2">
+                            {this.showSubmitButton()}
+                        </div>
+                    </div>
                     <div className="row">
                         {/*<div className="row col-lg-10 col-lg-offset-2">
                          {this.showSubmitButton()}
@@ -228,44 +198,6 @@ class NewResourceForm extends Component {
             </Modal>
         )
     }
-
-    environmentSelector() {
-        const {environments} = this.props
-        const {environmentclass} = this.state
-        if (environmentclass) {
-            const filteredEnvironments = environments.filter((env) => {
-                if (!environmentclass) {
-                    return true
-                } else {
-                    return env.environmentclass === environmentclass
-                }
-            })
-            return (
-                <FormDropDown
-                    label="environment"
-                    editMode={true}
-                    value={this.state.environment}
-                    handleChange={this.handleChange.bind(this)}
-                    options={filteredEnvironments.map((env) => env.name)}
-                />)
-        }
-    }
-
-    zoneSelector() {
-        const {zones} = this.props
-        const {environmentclass} = this.state
-        if (environmentclass && environmentclass !== 'u') {
-            return (
-                <FormDropDown
-                    label="zone"
-                    editMode={true}
-                    value={this.state.zone}
-                    handleChange={this.handleChange.bind(this)}
-                    options={zones}
-                />)
-        }
-    }
-
 }
 NewResourceForm.propTypes = {
     dispatch: PropTypes.func.isRequired
