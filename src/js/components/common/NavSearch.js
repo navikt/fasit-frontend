@@ -128,7 +128,7 @@ class NavSearch extends Component {
         const options = [...new Set(data.map(item => item.id))]
         return (
             <div onKeyDown={(e) => this.handleKeyDown(e)} className="navSearchContainer">
-                <form className="navSearch">
+                <form className="navSearchForm">
                     <input
                         type="text"
                         className="navSearchTextInput"
