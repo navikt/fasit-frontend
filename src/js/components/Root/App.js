@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
+import {HotKeys} from 'react-hotkeys'
 import {
     fetchEnvironments,
     fetchApplicationNames,
@@ -30,9 +31,20 @@ class App extends Component {
         dispatch(fetchNodeTypes())
     }
 
+    test(){
+        console.log("test")
+    }
+
+
     render() {
+        const handlers = {
+            'test': this.test
+        }
+        const keyMap = {
+            'test': 'g i space'
+        }
         return (
-            <div>
+            <HotKeys handlers={handlers} keyMap={keyMap}>
                 <TopNav />
                 <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
                     {this.props.children}
@@ -44,7 +56,7 @@ class App extends Component {
                 <NewClusterForm />
                 <NewApplicationForm />
                 <NewResourceForm/>
-            </div>
+            </HotKeys>
         )
     }
 }
