@@ -133,24 +133,37 @@ class NewResourceForm extends Component {
     }
 
 
-    showSubmitButton() {
-        const {type, alias, scope, properties, secrets, files} = this.state
-        if (hostname && username && password && type && environmentclass && environment) {
-            if ((zone) || (environmentclass === 'u')) {
-                return (
-                    <button type="submit"
-                            className="btn btn-primary pull-right"
-                            onClick={this.handleSubmitForm.bind(this, true)}>Submit
-                    </button>
-                )
-            }
+    isValid() {
+        function keys(prop) {
+            return Object.keys(prop)
         }
-        return <button type="submit" className="btn btn-primary pull-right disabled">Submit</button>
+
+        if (!this.state.alias) {
+            return false
+        }
+
+        const currentProperties = keys(this.state.properties).concat(keys(this.state.secrets).concat(keys(this.state.files)))
+        const requiredProperties = resourceTypes[this.state.type].properties.filter(p => p.required).map(p => p.name)
+        return requiredProperties.length === currentProperties.length
+    }
+
+
+    showSubmitButton() {
+        if (this.state.type !== "") {
+            const btnClasses = this.isValid() ? "btn btn-primary pull-right" : "btn btn-primary pull-right disabled"
+            return (
+                <button type="submit"
+                        className={btnClasses}
+                        onClick={this.handleSubmitForm.bind(this, true)}>Submit
+                </button>
+            )
+        }
     }
 
     render() {
 
         // tode create scope as component
+        // resaeat alias når bytta type
         // editmode kun når pålogget
 
         const {environmentClasses, showNewResourceForm, zones, types} = this.props
