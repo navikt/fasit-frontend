@@ -1,6 +1,7 @@
 import {
     SUBMIT_FORM,
     CLOSE_SUBMIT_FORM_STATUS,
+    SHOW_KEYBOARD_SHORTCUTS,
     SHOW_NEW_APPLICATION_FORM,
     SHOW_NEW_CLUSTER_FORM,
     SHOW_NEW_ENVIRONMENT_FORM,
@@ -15,8 +16,11 @@ export const closeSubmitFormStatus = () => {return {type: CLOSE_SUBMIT_FORM_STAT
 export const submitForm = (key, form, comment, component) =>  {return {type:SUBMIT_FORM, key, form, comment, component}}
 export const fetchRevisions = (component, key) => {return {type: REVISIONS_REQUEST, component, key}}
 export const fetchRevision = (component, key, revision) => {return {type: REVISION_REQUEST, component, key, revision}}
-export const showNewComponentForm = (component, value) => {
+export const displayModal = (component, value) => {
     switch(component){
+        case "shortcuts":
+            return {type: SHOW_KEYBOARD_SHORTCUTS, value}
+            break
         case "application":
             return {type: SHOW_NEW_APPLICATION_FORM, value}
             break

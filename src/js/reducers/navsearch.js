@@ -1,4 +1,5 @@
 import {
+    SHOW_KEYBOARD_SHORTCUTS,
     NAVSEARCH_RESULTS_RECEIVED,
     NAVSEARCH_REQUEST_FAILED,
     NAVSEARCH_RESULTS_FETCING,
@@ -7,6 +8,7 @@ import {
 
 export const initialState = {
     data: [],
+    displayShortcuts: false,
     requestFailed: false,
     isFetching:false,
     query: ""
@@ -35,6 +37,10 @@ export default (state = initialState, action) => {
                 requestFailed: action.error.message,
                 data: [],
                 isFetching:false
+            })
+        case     SHOW_KEYBOARD_SHORTCUTS:
+            return Object.assign({}, state, {
+                displayShortcuts: action.value
             })
 
         default:

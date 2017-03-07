@@ -1,8 +1,10 @@
 .navSearchContainer{
   width: 100%;
-  position: absolute;
+  position: inherit;
+  display: inline-block;
+  height: 50px;
 }
-.navSearch {
+.navSearchForm {
   outline: none !important;
   margin-bottom: -14px;
   width:100%
@@ -11,7 +13,6 @@
   height: 50px;
   font-size: x-large;
   outline: none !important;
-  display: block;
   width: 100%;
   padding: 8px 12px;
   line-height: 1.42857143;
@@ -29,7 +30,7 @@
 .navSearchTextInput:focus{
     border-color: @fasit-primary;
     outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 4px 4px rgba(102, 175, 233, 0.6);
 }
 
 .navSearchButton {
@@ -37,7 +38,6 @@
   background-color: #f2f2f2;
   color: #033C73;
   position: relative;
-  display: inline-block;
   height: 48px;
   width: 55px;
   top: -49px;
@@ -298,4 +298,17 @@ a.element-list-item {
   to {
     width: 20px;
   }
+}
+
+
+.keyboardButton{
+  position:absolute;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  background: #93a1a1;
+  color: #fff;
+  vertical-align: middle;
+  text-align:center;
+  border-radius: 10px;
 }
