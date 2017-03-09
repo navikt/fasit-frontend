@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react'
+import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
+import {browserHistory} from 'react-router'
 import {HotKeys} from 'react-hotkeys'
 import {
     fetchEnvironments,
@@ -8,7 +10,7 @@ import {
     fetchNodeTypes
 } from '../../actionCreators/fasit_initialize_data'
 import {displayModal} from '../../actionCreators/common'
-import {displayLogin} from '../../actionCreators/authentication'
+import {displayLogin, logOut} from '../../actionCreators/authentication'
 import TopNav from '../Navigation/TopNav'
 import NewNodeForm from '../Nodes/NewNodeForm'
 import NewApplicationForm from '../Applications/NewApplicationForm'
@@ -35,18 +37,34 @@ class App extends Component {
     render() {
         const {dispatch} = this.props
         const handlers = {
+            'showKeyMap': () => dispatch(displayModal("shortcuts", true)),
             'logIn': () => dispatch(displayLogin(true)),
+            'logOut': () => dispatch(logOut()),
             'createNewApplication': () => dispatch(displayModal("application", true)),
             'createNewEnvironment': () => dispatch(displayModal("environment", true)),
             'createNewCluster': () => dispatch(displayModal("cluster", true)),
-            'createNewNode': () => dispatch(displayModal("node", true))
+            'createNewNode': () => dispatch(displayModal("node", true)),
+            'goToEnvironments': () => browserHistory.push("/environments"),
+            'goToApplications': () => browserHistory.push("/applications"),
+            'goToInstances': () => browserHistory.push("/instances"),
+            'goToResources': () => browserHistory.push("/resources"),
+            'goToNodes': () => browserHistory.push("/nodes"),
+            'goToSearch': () => console.log("search", ReactDOM.findDOMNode(this.refs.navSearch)),
         }
         const keyMap = {
+            'showKeyMap': '? space',
             'logIn': 'l i space',
+            'logOut': 'l o space',
             'createNewApplication': 'n a space',
             'createNewEnvironment': 'n e space',
             'createNewCluster': 'n c space',
             'createNewNode': 'n n space',
+            'goToEnvironments': 'g e space',
+            'goToApplications': 'g a space',
+            'goToInstances': 'g i space',
+            'goToResources': 'g r space',
+            'goToNodes': 'g n space',
+            'goToSearch': 'g g space',
         }
         return (
             <HotKeys handlers={handlers} keyMap={keyMap} style={{outline:"none"}}>
