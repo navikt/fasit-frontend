@@ -174,8 +174,6 @@ class Resource extends Component {
         // størrelse på scope teksten
         // rendre alle required med *
 
-        console.log("Fakkk", resourceTypes)
-
         const {id, fasit, user} = this.props
 
         let authorized = false

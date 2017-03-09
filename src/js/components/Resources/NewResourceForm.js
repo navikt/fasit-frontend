@@ -7,6 +7,7 @@ import {FormString, FormDropDown, FormComment, FormTextArea} from '../common/For
 import {displayModal} from '../../actionCreators/common'
 import {resourceTypes} from '../../utils/resourceTypes'
 import {submitForm} from '../../actionCreators/common'
+import {validAuthorization} from '../../utils'
 import Scope from './Scope'
 
 class NewResourceForm extends Component {
@@ -161,11 +162,16 @@ class NewResourceForm extends Component {
         }
     }
 
+    loginWarning(authenticated) {
+        if(!authenticated) {
+            return <div className="alert alert-info">You need to log in before creating a resource</div>
+        }
+    }
+
     render() {
+        const {showNewResourceForm, types, user} = this.props
+        let authenticated = user.authenticated
 
-        // editmode kun når pålogget
-
-        const {showNewResourceForm, types} = this.props
         return (
             <Modal show={showNewResourceForm} onHide={this.closeForm.bind(this)} dialogClassName="newResourceForm">
                 <Modal.Header>
@@ -180,8 +186,9 @@ class NewResourceForm extends Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {this.loginWarning(authenticated)}
                     <FormDropDown label="Type" field="type" value={this.state.type} editMode={true}
-                                  handleChange={this.handleChange.bind(this)} options={types}/>
+                                  handleChange={this.handleChange.bind(this)} options={types} disabled={!authenticated}/>
                     {this.renderProperties()}
                     <Scope editMode={true} scope={this.state.scope} handleChange={this.handleChange.bind(this)}/>
                 </Modal.Body>
@@ -212,7 +219,8 @@ const mapStateToProps = (state) => {
         applications: state.applications.applicationNames,
         types: Object.keys(resourceTypes).sort(),
         environments: state.environments.environments,
-        zones: state.environments.zones
+        zones: state.environments.zones,
+        user: state.user
     }
 }
 
