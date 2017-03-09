@@ -6,12 +6,15 @@ const navSearch = [
     {
         "id": 2097741,
         "name": "host1.test.local",
-        "type": "node"
+        "type": "node",
+        "info": "t1"
     },
     {
         "id": 1440899,
         "name": "host2.preprod.local",
-        "type": "node"
+        "type": "node",
+        "info": "q1"
+
     },
     {
         "id": 1440901,
@@ -31,12 +34,14 @@ const navSearch = [
     {
         "id": 1532232,
         "name": "ABAC.admin",
-        "type": "resource"
+        "type": "resource",
+        "info": "DB2DataSource | u/devillo.no/-/-"
     },
     {
         "id": 1532219,
         "name": "ABAC.admin",
-        "type": "resource"
+        "type": "resource",
+        "info": "DB2DataSource | t/test.local/-/-"
     },
     {
         "id": 1532230,

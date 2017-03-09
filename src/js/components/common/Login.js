@@ -10,7 +10,12 @@ class Login extends Component {
         super(props)
         this.state = {username: "", password: ""}
     }
-
+    componentDidUpdate(prevProps) {
+        const {user} = this.props
+        if (!prevProps.user.showLogin && prevProps.user.showLogin != user.showLogin){
+            this.logIn.focus()
+        }
+    }
     handleChange(field, value) {
         this.setState({[field]: value})
     }
@@ -55,6 +60,7 @@ class Login extends Component {
                                 <div className="input-group">
                                     <span className="input-group-addon"><i className="fa fa-user"></i></span>
                                     <input
+                                        ref={(input) => this.logIn = input}
                                         type="text"
                                         className="form-control"
                                         placeholder="x123456"

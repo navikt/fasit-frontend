@@ -69,7 +69,7 @@ class NavSearch extends Component {
         const {dispatch, navSearch, location} = this.props
         const navItem = navSearch.data[this.state.selectedOption]
         if (!navItem) {
-            if (!(location.pathname === "/search")){
+            if (!(location.pathname === "/search")) {
                 browserHistory.push("/search")
             }
             dispatch(submitSearchString(null, navSearch.query, 0))
@@ -114,6 +114,8 @@ class NavSearch extends Component {
                 return `/environments/${navItem.name}`
             case "resource":
                 return `/resources/${navItem.id}`
+            case "cluster":
+                return `/environments/${navItem.info.split(" |")[0]}/clusters/${navItem.name}`
             default:
                 return "/"
 
@@ -151,19 +153,22 @@ class NavSearch extends Component {
                             {(data.length > 0) ? types.map((type, i) => { // Returnerer en blokk for hver elementtype
                                     return (
                                         <div key={i}>
-                                            <b><i><small>{capitalize(type)}{data.filter(itemsByType => itemsByType.type === type).length > 1 ? "s" : null}:</small></i></b>
+                                            <b><i>
+                                                <small>{capitalize(type)}{data.filter(itemsByType => itemsByType.type === type).length > 1 ? "s" : null}:</small>
+                                            </i></b>
                                             <div>
                                                 {data.filter(itemsByType => itemsByType.type === type) // filtrerer ut resultater per type
                                                     .map((navItem, i) => { // returnerer en lenke til resultatet
+                                                        const active = navItem.id === options[selectedOption]
                                                         return (
-                                                            <div className={navItem.id === options[selectedOption] ? "navOption selectedNavOption" : "navOption"}>
-                                                                <Link to={this.destinationUrl(navItem)}
-                                                                      key={i}
-                                                                      onMouseOver={() => this.handleMouseOver(navItem)}
-                                                                      onClick={(e) => this.handleMouseClick(e)}
-                                                                >
-                                                                    {navItem.name}<br />
-                                                                </Link></div>)
+                                                            <div
+                                                                key={i}
+                                                                className={ active ? "navOption selectedNavOption row" : "navOption row"}
+                                                                style={{marginLeft:-10, marginRight:-20}}
+                                                            >
+                                                                    <div className="col-md-5 text-overflow">{navItem.name}</div>
+                                                                    <div className="col-md-6 text-overflow"><small style={active ? {color: "#f5f5f5"} : {color: "#777"}}>{navItem.info}</small></div>
+                                                            </div>)
                                                     })
                                                 }
                                             </div>
