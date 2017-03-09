@@ -25,18 +25,19 @@ class NewResourceForm extends Component {
     }
 
     resetLocalState() {
-        /* this.setState({
-         hostname: "",
-         username: "",
-         password: "",
-         type: "",
-         environment: "",
-         environmentclass: "",
-         zone: ""
-         })*/
+        this.state.properties
+        this.setState({
+            alias: "",
+            properties: {},
+            files: {},
+            secrets: {}
+        })
     }
 
     handleChange(field, value, parent) {
+        if (field === "type" && this.state.type !== value) {
+            this.resetLocalState()
+        }
         if (parent) {
             const parentState = this.state[parent]
             parentState[field] = value
@@ -162,11 +163,9 @@ class NewResourceForm extends Component {
 
     render() {
 
-        // tode create scope as component
-        // resaeat alias når bytta type
         // editmode kun når pålogget
 
-        const {environmentClasses, showNewResourceForm, zones, types} = this.props
+        const {showNewResourceForm, types} = this.props
         return (
             <Modal show={showNewResourceForm} onHide={this.closeForm.bind(this)} dialogClassName="newResourceForm">
                 <Modal.Header>
@@ -196,11 +195,6 @@ class NewResourceForm extends Component {
                         <div className="row col-lg-10 col-lg-offset-2">
                             {this.showSubmitButton()}
                         </div>
-                    </div>
-                    <div className="row">
-                        {/*<div className="row col-lg-10 col-lg-offset-2">
-                         {this.showSubmitButton()}
-                         </div>*/}
                     </div>
                 </Modal.Footer>
             </Modal>
