@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
 import {browserHistory} from 'react-router'
-import {HotKeys} from 'react-hotkeys'
 import Mousetrap from 'mousetrap'
 import {
     fetchEnvironments,
@@ -26,16 +25,19 @@ class App extends Component {
         super(props)
     }
 
-    // pre-load fasit data
     componentDidMount() {
+        // pre-load fasit data
         const {dispatch} = this.props
         dispatch(fetchEnvironments())
         dispatch(fetchApplicationNames())
         dispatch(fetchResourceTypes())
         dispatch(fetchNodeTypes())
+
+        // Global keyboard shortcuts
         Mousetrap.bind('l i', () => dispatch(displayLogin(true)))
         Mousetrap.bind('l o', () => dispatch(logOut()))
         Mousetrap.bind('q', () => dispatch(displayModal("shortcuts", true)))
+        Mousetrap.bind('n r', () => dispatch(displayModal("resource", true)))
         Mousetrap.bind('n a', () => dispatch(displayModal("application", true)))
         Mousetrap.bind('n e', () => dispatch(displayModal("environment", true)))
         Mousetrap.bind('n c', () => dispatch(displayModal("cluster", true)))

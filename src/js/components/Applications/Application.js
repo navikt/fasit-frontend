@@ -50,6 +50,9 @@ class Application extends Component {
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(name, nextProps.query.revision))
         }
+        if (nextProps.name != name) {
+            dispatch(fetchFasitData(nextProps.name, nextProps.query.revision))
+        }
     }
 
     handleSubmitForm(key, form, comment, component) {

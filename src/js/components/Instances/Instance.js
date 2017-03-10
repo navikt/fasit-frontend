@@ -27,8 +27,13 @@ class Instance extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {dispatch, id, query} = this.props
+        // Fetch data from backend if revision changes
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchInstance(id, nextProps.query.revision))
+        }
+        // Fetch data from backend if id changes
+        if (nextProps.id != id) {
+            dispatch(fetchInstance(nextProps.id, nextProps.query.revision))
         }
     }
 

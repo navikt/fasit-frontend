@@ -59,7 +59,7 @@ class Node extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, hostname, query} = this.props
+        const {dispatch, hostname, query, revision} = this.props
         this.setState({
             hostname: nextProps.fasit.data.hostname,
             username: nextProps.fasit.data.username,
@@ -73,6 +73,11 @@ class Node extends Component {
 
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(hostname, nextProps.query.revision))
+        }
+
+        // fetch new data from backend if hostname changes
+        if (nextProps.hostname != hostname){
+            dispatch(fetchFasitData(nextProps.hostname, nextProps.revision))
         }
     }
 
