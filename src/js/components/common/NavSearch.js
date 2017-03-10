@@ -114,6 +114,8 @@ class NavSearch extends Component {
                 return `/environments/${navItem.name}`
             case "resource":
                 return `/resources/${navItem.id}`
+            case "instance":
+                return `/instances/${navItem.id}`
             case "cluster":
                 return `/environments/${navItem.info.split(" |")[0]}/clusters/${navItem.name}`
             default:
