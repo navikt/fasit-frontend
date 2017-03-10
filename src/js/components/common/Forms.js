@@ -84,7 +84,7 @@ export function FormDropDown(props) {
     return (
         <div className="row">
             <div className="col-md-3 FormLabel"><b>{capitalize(label)}:</b></div>
-            <div className="col-md-9">
+            <div className="col-md-9 FormDropDown">
                 {editMode ?
                     <Select
                         backspaceRemoves={false}
@@ -119,7 +119,7 @@ export function FormString(props) {
             <div className="col-md-9">
                 {(editMode && !disabled) ?
                     <input type="text"
-                           value={value}
+                           value={value || ""}
                            className="FormInputField FormString-value"
                            onChange={(e) => handleChange(field || label, e.target.value, parent)}
                     /> :
@@ -145,7 +145,7 @@ export function FormTextArea(props) {
             <div className="col-md-9">
                 {(editMode && !disabled) ?
                     <textarea
-                           value={value}
+                           value={value || ""}
                             rows="10"
                            className="TextAreaInputField FormString-value"
                            onChange={(e) => handleChange(field || label, e.target.value, parent)}
@@ -172,7 +172,7 @@ export function FormSecret(props) {
             <div className="col-md-9">
                 {(editMode && !disabled) ?
                     <input type="text"
-                           value={value}
+                           value={value || ""}
                            className="FormInputField FormString-value"
                            onChange={(e) => handleChange(field || label, e.target.value)}
                     /> :
