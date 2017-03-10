@@ -80,7 +80,7 @@ export function FormListBox(props) {
 }
 
 export function FormDropDown(props) {
-    const {label, value, editMode, handleChange, options, field, parent} = props
+    const {label, value, editMode, disabled, handleChange, options, field, parent} = props
     return (
         <div className="row">
             <div className="col-md-3 FormLabel"><b>{capitalize(label)}:</b></div>
@@ -91,6 +91,7 @@ export function FormDropDown(props) {
                         clearable={false}
                         type="text"
                         name="node-type"
+                        disabled={disabled}
                         value={value}
                         options={convertToSelectObject(options)}
                         onChange={(e) => handleChange(field || label, e.value, parent)}
