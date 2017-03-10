@@ -36,7 +36,6 @@ export const displayModal = (component, value) => {
         case "resource":
             return {type: SHOW_NEW_RESOURCE_FORM, value}
             break
-
     }
 }
 

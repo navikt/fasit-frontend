@@ -9,8 +9,9 @@ import {
     fetchResourceTypes,
     fetchNodeTypes
 } from '../../actionCreators/fasit_initialize_data'
-import {displayModal} from '../../actionCreators/common'
+import {displayModa, toggleModall} from '../../actionCreators/common'
 import {displayLogin, logOut} from '../../actionCreators/authentication'
+import {NavSearch} from "../common/"
 import TopNav from '../Navigation/TopNav'
 import NewNodeForm from '../Nodes/NewNodeForm'
 import NewApplicationForm from '../Applications/NewApplicationForm'
@@ -34,20 +35,19 @@ class App extends Component {
         dispatch(fetchNodeTypes())
 
         // Global keyboard shortcuts
-        Mousetrap.bind('l i', () => dispatch(displayLogin(true)))
-        Mousetrap.bind('l o', () => dispatch(logOut()))
-        Mousetrap.bind('q', () => dispatch(displayModal("shortcuts", true)))
-        Mousetrap.bind('n r', () => dispatch(displayModal("resource", true)))
-        Mousetrap.bind('n a', () => dispatch(displayModal("application", true)))
-        Mousetrap.bind('n e', () => dispatch(displayModal("environment", true)))
-        Mousetrap.bind('n c', () => dispatch(displayModal("cluster", true)))
-        Mousetrap.bind('n n', () => dispatch(displayModal("node", true)))
-        Mousetrap.bind('g e', () => browserHistory.push("/environments"))
-        Mousetrap.bind('g a', () => browserHistory.push("/applications"))
-        Mousetrap.bind('g i', () => browserHistory.push("/instances"))
-        Mousetrap.bind('g r', () => browserHistory.push("/resources"))
-        Mousetrap.bind('g n', () => browserHistory.push("/nodes"))
-        Mousetrap.bind('g g', () => browserHistory.push("/search"))
+        Mousetrap.bind('q', (e) => {e.preventDefault();  dispatch(toggleModal("shortcuts"))})
+        Mousetrap.bind('l i', (e) => {e.preventDefault(); dispatch(displayLogin(true))})
+        Mousetrap.bind('l o', (e) => {e.preventDefault();  dispatch(logOut())})
+        Mousetrap.bind('n r', (e) => {e.preventDefault();  dispatch(displayModal("resource", true))})
+        Mousetrap.bind('n a', (e) => {e.preventDefault();  dispatch(displayModal("application", true))})
+        Mousetrap.bind('n e', (e) => {e.preventDefault();  dispatch(displayModal("environment", true))})
+        Mousetrap.bind('n c', (e) => {e.preventDefault();  dispatch(displayModal("cluster", true))})
+        Mousetrap.bind('n n', (e) => {e.preventDefault();  dispatch(displayModal("node", true))})
+        Mousetrap.bind('g e', (e) => {e.preventDefault();  browserHistory.push("/environments")})
+        Mousetrap.bind('g a', (e) => {e.preventDefault();  browserHistory.push("/applications")})
+        Mousetrap.bind('g i', (e) => {e.preventDefault();  browserHistory.push("/instances")})
+        Mousetrap.bind('g r', (e) => {e.preventDefault();  browserHistory.push("/resources")})
+        Mousetrap.bind('g n', (e) => {e.preventDefault();  browserHistory.push("/nodes")})
     }
 
     render() {

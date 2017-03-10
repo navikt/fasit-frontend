@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {browserHistory, Link} from 'react-router'
-
 import {connect} from 'react-redux'
+import Mousetrap from 'mousetrap'
 import {submitNavSearch} from '../../actionCreators/common'
 import {submitSearchString} from '../../actionCreators/element_lists'
 import {capitalize} from '../../utils/'
@@ -17,6 +17,10 @@ class NavSearch extends Component {
 
     componentDidMount() {
         this.navSearch.focus()
+        Mousetrap.bind('g g', (e) => {e.preventDefault(); this.navSearch.focus()})
+    }
+    componentWillUnmount(){
+        Mousetrap.unbind('g g')
     }
 
     handleMouseOver(navItem) {
@@ -165,6 +169,8 @@ class NavSearch extends Component {
                                                         return (
                                                             <div
                                                                 key={i}
+                                                                onMouseEnter={() => this.handleMouseOver(navItem)}
+                                                                onClick={(e) => this.handleMouseClick(e)}
                                                                 className={ active ? "navOption selectedNavOption row" : "navOption row"}
                                                                 style={{marginLeft:-10, marginRight:-20}}
                                                             >
