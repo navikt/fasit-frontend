@@ -9,9 +9,8 @@ import {
     fetchResourceTypes,
     fetchNodeTypes
 } from '../../actionCreators/fasit_initialize_data'
-import {displayModa, toggleModall} from '../../actionCreators/common'
+import {displayModal, toggleHelp} from '../../actionCreators/common'
 import {displayLogin, logOut} from '../../actionCreators/authentication'
-import {NavSearch} from "../common/"
 import TopNav from '../Navigation/TopNav'
 import NewNodeForm from '../Nodes/NewNodeForm'
 import NewApplicationForm from '../Applications/NewApplicationForm'
@@ -33,21 +32,23 @@ class App extends Component {
         dispatch(fetchApplicationNames())
         dispatch(fetchResourceTypes())
         dispatch(fetchNodeTypes())
-
         // Global keyboard shortcuts
-        Mousetrap.bind('q', (e) => {e.preventDefault();  dispatch(toggleModal("shortcuts"))})
+        Mousetrap.bind('q', (e) => {e.preventDefault();  dispatch(toggleHelp())})
         Mousetrap.bind('l i', (e) => {e.preventDefault(); dispatch(displayLogin(true))})
         Mousetrap.bind('l o', (e) => {e.preventDefault();  dispatch(logOut())})
-        Mousetrap.bind('n r', (e) => {e.preventDefault();  dispatch(displayModal("resource", true))})
-        Mousetrap.bind('n a', (e) => {e.preventDefault();  dispatch(displayModal("application", true))})
-        Mousetrap.bind('n e', (e) => {e.preventDefault();  dispatch(displayModal("environment", true))})
-        Mousetrap.bind('n c', (e) => {e.preventDefault();  dispatch(displayModal("cluster", true))})
-        Mousetrap.bind('n n', (e) => {e.preventDefault();  dispatch(displayModal("node", true))})
         Mousetrap.bind('g e', (e) => {e.preventDefault();  browserHistory.push("/environments")})
         Mousetrap.bind('g a', (e) => {e.preventDefault();  browserHistory.push("/applications")})
         Mousetrap.bind('g i', (e) => {e.preventDefault();  browserHistory.push("/instances")})
         Mousetrap.bind('g r', (e) => {e.preventDefault();  browserHistory.push("/resources")})
         Mousetrap.bind('g n', (e) => {e.preventDefault();  browserHistory.push("/nodes")})
+    }
+    componentWillReceiveProps(nextProps){
+        const {user} = this.props
+        if (nextProps.user.authenticated && !user.authenticated){
+            this.protectedShortcuts()
+        } else if (!nextProps.user.authenticated && user.authenticated){
+            this.unbindShortcuts()
+        }
     }
 
     render() {
@@ -68,6 +69,25 @@ class App extends Component {
             </div>
         )
     }
+
+    protectedShortcuts(){
+        const {dispatch} = this.props
+        Mousetrap.bind('n r', (e) => {e.preventDefault();  dispatch(displayModal("resource", true))})
+        Mousetrap.bind('n a', (e) => {e.preventDefault();  dispatch(displayModal("application", true))})
+        Mousetrap.bind('n e', (e) => {e.preventDefault();  dispatch(displayModal("environment", true))})
+        Mousetrap.bind('n c', (e) => {e.preventDefault();  dispatch(displayModal("cluster", true))})
+        Mousetrap.bind('n n', (e) => {e.preventDefault();  dispatch(displayModal("node", true))})
+
+    }
+    unbindShortcuts(){
+        Mousetrap.unbind(['n r', 'n a', 'n e', 'n c', 'n n'])
+    }
 }
 
-export default connect()(App)
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(App)

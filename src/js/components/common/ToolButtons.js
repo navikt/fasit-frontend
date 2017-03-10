@@ -13,7 +13,7 @@ export default class ToolButtons extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        const {authorized, onEditClick, onDeleteClick, onCopyClick} = this.props
+        const {onEditClick, onDeleteClick, onCopyClick} = this.props
         if (nextProps.authorized){
             Mousetrap.bind('c', onCopyClick)
             Mousetrap.bind('d', onDeleteClick)

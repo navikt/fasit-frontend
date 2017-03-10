@@ -18,9 +18,6 @@ export const fetchRevisions = (component, key) => {return {type: REVISIONS_REQUE
 export const fetchRevision = (component, key, revision) => {return {type: REVISION_REQUEST, component, key, revision}}
 export const displayModal = (component, value) => {
     switch(component){
-        case "shortcuts":
-            return {type: SHOW_KEYBOARD_SHORTCUTS, value}
-            break
         case "application":
             return {type: SHOW_NEW_APPLICATION_FORM, value}
             break
@@ -38,5 +35,5 @@ export const displayModal = (component, value) => {
             break
     }
 }
-
 export const submitNavSearch = (query) => {return {type: SUBMIT_NAV_SEARCH, query}}
+export const toggleHelp = () => {return {type: SHOW_KEYBOARD_SHORTCUTS}}
