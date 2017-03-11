@@ -24,28 +24,27 @@ class KeyboardShortcuts extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <kbd>?</kbd> = Show this menu<br />
-                    <kbd>Esc</kbd> = Hide this menu<br />
-                    <br />
-                    <br />
-                    <kbd>L</kbd> + <kbd>I</kbd> + <kbd>space</kbd> = <b>L</b>og <b>I</b>n<br />
-                    <kbd>L</kbd> + <kbd>O</kbd> + <kbd>space</kbd> = <b>L</b>og <b>O</b>ut<br />
-                    <br />
-                    <br />
-                    <kbd>G</kbd> + <kbd>E</kbd> + <kbd>space</kbd> = <b>G</b>o to <b>E</b>nvironment<br />
-                    <kbd>G</kbd> + <kbd>A</kbd> + <kbd>space</kbd> = <b>G</b>o to <b>A</b>pplication<br />
-                    <kbd>G</kbd> + <kbd>I</kbd> + <kbd>space</kbd> = <b>G</b>o to <b>I</b>nstances<br />
-                    <kbd>G</kbd> + <kbd>R</kbd> + <kbd>space</kbd> = <b>G</b>o to <b>R</b>esources<br />
-                    <kbd>G</kbd> + <kbd>N</kbd> + <kbd>space</kbd> = <b>G</b>o to <b>N</b>odes<br />
-                    <kbd>G</kbd> + <kbd>G</kbd> + <kbd>space</kbd> = <b>G</b>o to Search<br />
-                    <br />
-
-                    <br />
-                    <kbd>N</kbd> + <kbd>A</kbd> + <kbd>space</kbd> = <b>N</b>ew <b>A</b>pplication<br />
-                    <kbd>N</kbd> + <kbd>E</kbd> + <kbd>space</kbd> = <b>N</b>ew <b>E</b>nvironment<br />
-                    <kbd>N</kbd> + <kbd>C</kbd> + <kbd>space</kbd> = <b>N</b>ew <b>C</b>luster<br />
-                    <kbd>N</kbd> + <kbd>R</kbd> + <kbd>space</kbd> = <b>N</b>ew <b>R</b>esource<br />
-                    <kbd>N</kbd> + <kbd>N</kbd> + <kbd>space</kbd> = <b>N</b>ew <b>N</b>ode<br />
+                    <kbd>Q</kbd> = Show/hide this menu<br />
+                    <hr />
+                    <kbd>L</kbd> + <kbd>I</kbd> = <b>L</b>og <b>I</b>n<br />
+                    <kbd>L</kbd> + <kbd>O</kbd> = <b>L</b>og <b>O</b>ut<br />
+                    <hr />
+                    <kbd>G</kbd> + <kbd>E</kbd> = <b>G</b>o to <b>E</b>nvironment<br />
+                    <kbd>G</kbd> + <kbd>A</kbd> = <b>G</b>o to <b>A</b>pplication<br />
+                    <kbd>G</kbd> + <kbd>I</kbd> = <b>G</b>o to <b>I</b>nstances<br />
+                    <kbd>G</kbd> + <kbd>R</kbd> = <b>G</b>o to <b>R</b>esources<br />
+                    <kbd>G</kbd> + <kbd>N</kbd> = <b>G</b>o to <b>N</b>odes<br />
+                    <kbd>G</kbd> + <kbd>G</kbd> = <b>G</b>o to Search<br />
+                    <hr />
+                    <kbd>N</kbd> + <kbd>A</kbd> = <b>N</b>ew <b>A</b>pplication<br />
+                    <kbd>N</kbd> + <kbd>E</kbd> = <b>N</b>ew <b>E</b>nvironment<br />
+                    <kbd>N</kbd> + <kbd>C</kbd> = <b>N</b>ew <b>C</b>luster<br />
+                    <kbd>N</kbd> + <kbd>R</kbd> = <b>N</b>ew <b>R</b>esource<br />
+                    <kbd>N</kbd> + <kbd>N</kbd> = <b>N</b>ew <b>N</b>ode<br />
+                    <hr />
+                    <kbd>C</kbd> = <b>C</b>opy <br />
+                    <kbd>E</kbd> = <b>E</b>dit <br />
+                    <kbd>D</kbd> = <b>D</b>elete<br />
 
                 </Modal.Body>
             </Modal>

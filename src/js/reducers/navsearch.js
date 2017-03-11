@@ -38,9 +38,9 @@ export default (state = initialState, action) => {
                 data: [],
                 isFetching:false
             })
-        case     SHOW_KEYBOARD_SHORTCUTS:
+        case SHOW_KEYBOARD_SHORTCUTS:
             return Object.assign({}, state, {
-                displayShortcuts: action.value
+                displayShortcuts: !state.displayShortcuts
             })
 
         default:

@@ -2,14 +2,14 @@ import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
 import {browserHistory} from 'react-router'
-import {HotKeys} from 'react-hotkeys'
+import Mousetrap from 'mousetrap'
 import {
     fetchEnvironments,
     fetchApplicationNames,
     fetchResourceTypes,
     fetchNodeTypes
 } from '../../actionCreators/fasit_initialize_data'
-import {displayModal} from '../../actionCreators/common'
+import {displayModal, toggleHelp} from '../../actionCreators/common'
 import {displayLogin, logOut} from '../../actionCreators/authentication'
 import TopNav from '../Navigation/TopNav'
 import NewNodeForm from '../Nodes/NewNodeForm'
@@ -25,51 +25,35 @@ class App extends Component {
         super(props)
     }
 
-    // pre-load fasit data
     componentDidMount() {
+        // pre-load fasit data
         const {dispatch} = this.props
         dispatch(fetchEnvironments())
         dispatch(fetchApplicationNames())
         dispatch(fetchResourceTypes())
         dispatch(fetchNodeTypes())
+        // Global keyboard shortcuts
+        Mousetrap.bind('q', (e) => {e.preventDefault();  dispatch(toggleHelp())})
+        Mousetrap.bind('l i', (e) => {e.preventDefault(); dispatch(displayLogin(true))})
+        Mousetrap.bind('l o', (e) => {e.preventDefault();  dispatch(logOut())})
+        Mousetrap.bind('g e', (e) => {e.preventDefault();  browserHistory.push("/environments")})
+        Mousetrap.bind('g a', (e) => {e.preventDefault();  browserHistory.push("/applications")})
+        Mousetrap.bind('g i', (e) => {e.preventDefault();  browserHistory.push("/instances")})
+        Mousetrap.bind('g r', (e) => {e.preventDefault();  browserHistory.push("/resources")})
+        Mousetrap.bind('g n', (e) => {e.preventDefault();  browserHistory.push("/nodes")})
+    }
+    componentWillReceiveProps(nextProps){
+        const {user} = this.props
+        if (nextProps.user.authenticated && !user.authenticated){
+            this.protectedShortcuts()
+        } else if (!nextProps.user.authenticated && user.authenticated){
+            this.unbindShortcuts()
+        }
     }
 
     render() {
-        const {dispatch} = this.props
-        const handlers = {
-            'showKeyMap': () => dispatch(displayModal("shortcuts", true)),
-            'logIn': () => dispatch(displayLogin(true)),
-            'logOut': () => dispatch(logOut()),
-            'createNewApplication': () => dispatch(displayModal("application", true)),
-            'createNewEnvironment': () => dispatch(displayModal("environment", true)),
-            'createNewCluster': () => dispatch(displayModal("cluster", true)),
-            'createNewNode': () => dispatch(displayModal("node", true)),
-            'createNewResource': () => dispatch(displayModal("resource", true)),
-            'goToEnvironments': () => browserHistory.push("/environments"),
-            'goToApplications': () => browserHistory.push("/applications"),
-            'goToInstances': () => browserHistory.push("/instances"),
-            'goToResources': () => browserHistory.push("/resources"),
-            'goToNodes': () => browserHistory.push("/nodes"),
-            'goToSearch': () => console.log("search", ReactDOM.findDOMNode(this.refs.navSearch)),
-        }
-        const keyMap = {
-            'showKeyMap': '? space',
-            'logIn': 'l i space',
-            'logOut': 'l o space',
-            'createNewApplication': 'n a space',
-            'createNewEnvironment': 'n e space',
-            'createNewCluster': 'n c space',
-            'createNewNode': 'n n space',
-            'createNewResource': 'n r space',
-            'goToEnvironments': 'g e space',
-            'goToApplications': 'g a space',
-            'goToInstances': 'g i space',
-            'goToResources': 'g r space',
-            'goToNodes': 'g n space',
-            'goToSearch': 'g g space',
-        }
         return (
-            <HotKeys handlers={handlers} keyMap={keyMap} style={{outline:"none"}}>
+            <div style={{outline:"none"}}>
                 <TopNav />
                 <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
                     {this.props.children}
@@ -82,9 +66,28 @@ class App extends Component {
                 <NewApplicationForm />
                 <NewResourceForm/>
                 <KeyboardShortcuts/>
-            </HotKeys>
+            </div>
         )
+    }
+
+    protectedShortcuts(){
+        const {dispatch} = this.props
+        Mousetrap.bind('n r', (e) => {e.preventDefault();  dispatch(displayModal("resource", true))})
+        Mousetrap.bind('n a', (e) => {e.preventDefault();  dispatch(displayModal("application", true))})
+        Mousetrap.bind('n e', (e) => {e.preventDefault();  dispatch(displayModal("environment", true))})
+        Mousetrap.bind('n c', (e) => {e.preventDefault();  dispatch(displayModal("cluster", true))})
+        Mousetrap.bind('n n', (e) => {e.preventDefault();  dispatch(displayModal("node", true))})
+
+    }
+    unbindShortcuts(){
+        Mousetrap.unbind(['n r', 'n a', 'n e', 'n c', 'n n'])
     }
 }
 
-export default connect()(App)
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(App)

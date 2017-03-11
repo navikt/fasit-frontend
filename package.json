@@ -1,6 +1,6 @@
 {
   "name": "fasit-frontend",
-  "version": "101.0.0",
+  "version": "104.0.0",
   "description": "Fasit frontend",
   "main": "server.js",
   "scripts": {
@@ -129,6 +129,7 @@
     "less-plugin-clean-css": "^1.5.1",
     "mkdirp": "^0.5.1",
     "mocha": "^3.0.2",
+    "mousetrap": "^1.6.0",
     "ncp": "^2.0.0",
     "postcss-loader": "^0.13.0",
     "pretty-data": "^0.40.0",
@@ -137,7 +138,6 @@
     "react-bootstrap": "^0.30.3",
     "react-classset": "0.0.2",
     "react-dom": "^15.3.2",
-    "react-hotkeys": "^0.9.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.5",

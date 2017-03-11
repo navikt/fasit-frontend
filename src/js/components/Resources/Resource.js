@@ -43,7 +43,11 @@ class Resource extends Component {
 
     //Brukes denne?
     componentWillReceiveProps(nextProps) {
+        const {dispatch, id, revision} = this.props
         this.setNewState(nextProps.fasit)
+        if (nextProps.id != id) {
+            dispatch(fetchFasitData(nextProps.id))
+        }
     }
 
     componentWillUnmount() {

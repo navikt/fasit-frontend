@@ -99,6 +99,9 @@ class Environment extends Component {
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchEnvironment(name, nextProps.query.revision))
         }
+        if (nextProps.name != name) {
+            dispatch(fetchEnvironment(nextProps.name, nextProps.query.revision))
+        }
     }
 
     render() {
