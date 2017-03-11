@@ -13,6 +13,10 @@ import Scope from './Scope'
 class NewResourceForm extends Component {
     constructor(props) {
         super(props)
+        this.initialState()
+    }
+
+    initialState() {
         this.state = {
             alias: "",
             type: "",
@@ -21,17 +25,18 @@ class NewResourceForm extends Component {
                 environmentclass: 'u'
             },
             files: {},
-            secrets: {}
+            secrets: {},
+            comment: ""
         }
     }
 
     resetLocalState() {
-        this.state.properties
         this.setState({
             alias: "",
             properties: {},
             files: {},
-            secrets: {}
+            secrets: {},
+            comment: ""
         })
     }
 
@@ -49,26 +54,36 @@ class NewResourceForm extends Component {
     }
 
     handleSubmitForm() {
-        /*const {dispatch} = this.props
-         const {hostname, username, password, type, environment, environmentclass, comment} = this.state
-         const form = {
-         hostname,
-         username,
-         password: {value: password},
-         type,
-         environment,
-         environmentclass,
-         }
-         if (!(environmentclass === 'u')) {
-         form["zone"] = this.state.zone
-         }
-         dispatch(submitForm(form.hostname, form, comment, "newNode"))*/
+        const {dispatch} = this.props
+        const {alias, type, properties, scope, secrets, files, comment} = this.state
+        const form = {
+            alias,
+            type,
+            properties,
+            scope,
+        }
+
+        if(Object.keys(secrets).length > 0 ) {
+            form.secrets = {}
+            Object.keys(secrets).forEach(k => {
+                form.secrets[k] = {value: secrets[k]}
+
+            })
+
+        }
+
+        if(Object.keys(files).length > 0 ) {
+            form.files = files
+        }
+
+        dispatch(submitForm(form.alias, form, comment, "newResource"))
     }
 
+
+
     closeForm() {
-        const {dispatch} = this.props
-        this.resetLocalState()
-        dispatch(displayModal("resource", false))
+        this.initialState()
+        this.props.dispatch(displayModal("resource", false))
     }
 
     renderProperty(property) {
@@ -152,11 +167,18 @@ class NewResourceForm extends Component {
 
     showSubmitButton() {
         if (this.state.type !== "") {
-            const btnClasses = this.isValid() ? "btn btn-primary pull-right" : "btn btn-primary pull-right disabled"
-            return (
+            if(this.isValid()) {
+                return (
+                    <button type="submit"
+                            className="btn btn-primary pull-right"
+                            onClick={this.handleSubmitForm.bind(this, true)}>Submit
+                    </button>
+                )
+            }
+
+           return (
                 <button type="submit"
-                        className={btnClasses}
-                        onClick={this.handleSubmitForm.bind(this, true)}>Submit
+                        className="btn btn-primary pull-right disabled">Submit
                 </button>
             )
         }
@@ -187,8 +209,14 @@ class NewResourceForm extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     {this.loginWarning(authenticated)}
-                    <FormDropDown label="Type" field="type" value={this.state.type} editMode={true}
-                                  handleChange={this.handleChange.bind(this)} options={types} disabled={!authenticated}/>
+                    <FormDropDown
+                        label="Type"
+                        field="type"
+                        value={this.state.type}
+                        editMode={true}
+                        handleChange={this.handleChange.bind(this)}
+                        options={types}
+                        disabled={!authenticated}/>
                     {this.renderProperties()}
                     <Scope editMode={true} scope={this.state.scope} handleChange={this.handleChange.bind(this)}/>
                 </Modal.Body>

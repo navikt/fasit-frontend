@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import moment from 'moment'
-import {truncate} from '../../utils/StringTools'
 
 export default class ElementList extends Component {
     constructor(props) {
@@ -19,7 +18,7 @@ export default class ElementList extends Component {
                         <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.alias} - {item.type}</h5>
                         <i className="fa fa-globe fa-fw"></i> {Object.keys(item.scope).map(k => `${item.scope[k]}`).join(' | ')}
                         <br />
-                        {Object.keys(item.properties).map(k => (<div key={k}>{k}: {truncate(item.properties[k], 40)}</div>))}
+                        {Object.keys(item.properties).map(k => (<div className="text-overflow" key={k}>{k}: {item.properties[k]}</div>))}
                     </div>
                 </Link>
             )

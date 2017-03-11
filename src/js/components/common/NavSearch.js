@@ -16,6 +16,7 @@ class NavSearch extends Component {
     }
 
     componentDidMount() {
+        console.log("ns ", this.navSearch)
         this.navSearch.focus()
     }
 

@@ -1,7 +1,10 @@
 module.exports = {
     getResource:  function (id) {
-
         return  resources.filter(r => r.id == id)[0]
+    },
+
+    createResource: function (resource) {
+        console.log(resource)
     },
 
     findResources: function (queryParams) {

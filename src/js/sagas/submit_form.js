@@ -50,7 +50,9 @@ export function* submitForm(action) {
                 yield put({type: SHOW_NEW_CLUSTER_FORM, value: false})
                 break
             case "newResource":
-                console.log("crreate new resource")
+                url = `${configuration.fasit_resources}`
+                yield postUrl(url, action.form, action.comment)
+                yield put({type: SHOW_NEW_CLUSTER_FORM, value: false})
                 break
 
             // Delete

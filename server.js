@@ -125,6 +125,10 @@ app.delete('/mockapi/resources/:id', (req, res) => {
     res.sendStatus(200)
 })
 
+app.post('/mockapi/resources/', (req, res) => {
+    sendJson(res, resourcesMock.createResource(req))
+})
+
 app.get("/mockapi/nodes/types", (req, res) => {
     sendJson(res, nodesMock.types)
 })
