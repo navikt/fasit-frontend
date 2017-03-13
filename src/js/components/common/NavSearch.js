@@ -37,26 +37,28 @@ class NavSearch extends Component {
     }
 
     handleKeyDown(e) {
+
         const {dispatch, navSearch, location} = this.props
-        switch (e.keyCode) {
-            case 37: // left
-            case 39: // left
+        switch (e.key) {
+            case 'ArrowRight': // left
+            case 'ArrowLeft': // left
                 break // avoid visibility changing when moving sideways
-            case 27: // esc
+            case 'Escape': // esc
                 e.preventDefault()
                 this.setState({visible: false})
                 break
-            case 38: // up
+            case 'ArrowUp': // up
                 e.preventDefault()
+
                 this.setState({visible: true})
                 this.changeSelectedOption("prev")
                 break
-            case 40: // down
+            case 'ArrowDown': // down
                 e.preventDefault()
                 this.setState({visible: true})
                 this.changeSelectedOption("next")
                 break
-            case 13: // enter
+            case 'Enter': // enter
                 e.preventDefault()
                 this.navigate()
                 break
