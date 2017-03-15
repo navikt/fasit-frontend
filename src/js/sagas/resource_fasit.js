@@ -17,6 +17,7 @@ export function* fetchFasit(action) {
         const value = yield call(fetchUrl, `${resourcesConfig}/${action.id}`)
         yield put({type: RESOURCE_FASIT_RECEIVED, value})
     } catch (error) {
+        console.log("error", error)
         yield put({type: RESOURCE_FASIT_REQUEST_FAILED, error})
 
     }
@@ -25,8 +26,6 @@ export function* fetchFasit(action) {
 
 export function* fetchFasitResourceSecret() {
     const secrets = yield  select((state) => state.resource_fasit.data.secrets)
-
-
     const key = Object.keys(secrets)[0]
     const value = yield call(fetchUrl, secrets[key].ref)
     yield put({type: RESOURCE_FASIT_SECRET_RECEIVED, value: value})

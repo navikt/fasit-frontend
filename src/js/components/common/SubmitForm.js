@@ -63,9 +63,7 @@ class SubmitForm extends Component {
                 }
                 key = originalValues.clustername
                 break
-            case "resource":
-                console.log("submt", newValues, originalValues)
-                break
+
             default:
                 console.error("handleSubmitForm in SubmitForm is missing this component type")
                 return
@@ -73,83 +71,75 @@ class SubmitForm extends Component {
         onSubmit(key, form, this.state.comment, component)
     }
 
-    renderDiffTable(originalValues, newValues, renderDiffTable) {
-        if(renderDiffTable === false) {
-            return null
-            
-        }
-        else {
-            return (
-                <Modal.Body>
-                    <table className="table">
-                        <thead>
-                        <tr>
+    renderDiffTable(originalValues, newValues) {
 
-                            <th>Field</th>
-                            <th>Current value</th>
-                            <th>New value</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            Object.keys(originalValues).map((key, idx) => {
-                                if (typeof originalValues[key] === "object") {
-                                    if (originalValues[key].toString() === newValues[key].toString()) {
-                                        return <tr key={idx}>
-                                            <td><b>{key}</b></td>
-                                            <td>
-                                                <pre>{originalValues[key].join(`, \n`)}</pre>
-                                            </td>
-                                            <td>
-                                                <pre>{newValues[key].join(`, \n`)}</pre>
-                                            </td>
-                                        </tr>
-                                    }
+        return (
+            <Modal.Body>
+                <table className="table">
+                    <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Current value</th>
+                        <th>New value</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        Object.keys(originalValues).map((key, idx) => {
+                            if (typeof originalValues[key] === "object") {
+                                if (originalValues[key].toString() === newValues[key].toString()) {
                                     return <tr key={idx}>
                                         <td><b>{key}</b></td>
                                         <td>
                                             <pre>{originalValues[key].join(`, \n`)}</pre>
                                         </td>
-                                        <td className="cell-bg">
+                                        <td>
                                             <pre>{newValues[key].join(`, \n`)}</pre>
                                         </td>
                                     </tr>
-                                } else if (originalValues[key] === newValues[key]) {
-                                    return (
-                                        <tr key={idx}>
-                                            <td><b>{key}</b></td>
-                                            <td>{originalValues[key]}</td>
-                                            <td>{newValues[key]}</td>
-                                        </tr>
-                                    )
                                 }
+                                return <tr key={idx}>
+                                    <td><b>{key}</b></td>
+                                    <td>
+                                        <pre>{originalValues[key].join(`, \n`)}</pre>
+                                    </td>
+                                    <td className="cell-bg">
+                                        <pre>{newValues[key].join(`, \n`)}</pre>
+                                    </td>
+                                </tr>
+                            } else if (originalValues[key] === newValues[key]) {
                                 return (
                                     <tr key={idx}>
                                         <td><b>{key}</b></td>
                                         <td>{originalValues[key]}</td>
-                                        <td className="cell-bg">{newValues[key]}</td>
+                                        <td>{newValues[key]}</td>
                                     </tr>
                                 )
-                            })
-                        }
+                            }
+                            return (
+                                <tr key={idx}>
+                                    <td><b>{key}</b></td>
+                                    <td>{originalValues[key]}</td>
+                                    <td className="cell-bg">{newValues[key]}</td>
+                                </tr>
+                            )
+                        })
+                    }
 
-                        </tbody>
-                    </table>
-                </Modal.Body>)
-        }
+                    </tbody>
+                </table>
+            </Modal.Body>)
 
     }
 
     render() {
-        const {onClose, display, originalValues, newValues, displayDiff} = this.props
-        /*if(displayDiff) {
-            const diff = Object.keys(originalValues).filter((key) => {
-                if (typeof originalValues[key] === "object") {
-                    return (originalValues[key].toString() !== newValues[key].toString())
-                }
-                return (originalValues[key] != newValues[key])
-            })
-        }*/
+        const {onClose, display, originalValues, newValues} = this.props
+        const diff = Object.keys(originalValues).filter((key) => {
+            if (typeof originalValues[key] === "object") {
+                return (originalValues[key].toString() !== newValues[key].toString())
+            }
+            return (originalValues[key] != newValues[key])
+        })
 
         return (
             <Modal show={display} onHide={onClose} dialogClassName="submitForm">
@@ -160,7 +150,7 @@ class SubmitForm extends Component {
                         </button>
                     </Modal.Title>
                 </Modal.Header>
-                {this.renderDiffTable(originalValues, newValues, displayDiff)}
+                {this.renderDiffTable(originalValues, newValues)}
                 <Modal.Footer>
                     <div className="col-xs-2 FormLabel"><b>Comment</b></div>
                     <div className="col-xs-8">
@@ -175,8 +165,9 @@ class SubmitForm extends Component {
                     <div className="col-xs-2 submit-button-placement">
                         <div className="btn-block">
                             <button type="submit"
-                                    className={"btn btn-primary btn-sm pull-right"}
-                                    onClick={this.handleSubmitForm.bind(this)}>Submit
+                                    className={diff.length > 0 ? "btn btn-primary btn-sm pull-right" : "btn btn-primary btn-sm pull-right disabled"}
+                                    onClick={diff.length > 0 ? this.handleSubmitForm.bind(this) : () => {
+                                        }}>Submit
                             </button>
                         </div>
                     </div>

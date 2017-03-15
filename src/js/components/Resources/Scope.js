@@ -11,7 +11,6 @@ class Scope extends Component {
 
     render() {
         const {editMode, scope, environmentClasses, environments, applications, zones} = this.props
-
         if (!editMode) {
 
             const envClass = scope.environmentclass ? scope.environmentclass : '-'
@@ -21,8 +20,7 @@ class Scope extends Component {
 
             return (<div className="row">
                 <div className="col-md-3 FormLabel"><b>Scope:</b></div>
-                <div className="col-md-9"><span
-                    className="formValue"></span>{`${envClass} | ${zone} | ${environment} | ${application}`}</div>
+                <div className="col-md-9 FormValue">{`${envClass} | ${zone} | ${environment} | ${application}`}</div>
             </div>)
         }
         else {

@@ -15,6 +15,7 @@ import {
     NODE_FASIT_REQUEST,
     ENVIRONMENT_FASIT_REQUEST,
     ENVIRONMENT_CLUSTER_FASIT_REQUEST,
+    RESOURCE_FASIT_REQUEST,
     APPLICATION_FASIT_REQUEST,
     FETCH_ELEMENT_LISTS
 
@@ -105,10 +106,12 @@ export function* submitForm(action) {
                 url = `${configuration.fasit_environments}/${action.form.environment}/clusters/${action.key}`
                 yield putUrl(url, action.form, action.comment)
                 yield put({type:ENVIRONMENT_CLUSTER_FASIT_REQUEST, cluster:action.key, environment:action.form.environment})
-
                 break
-            //case "resource":
-              //  console.log("time to ur")
+            case "resource":
+                url = `${configuration.fasit_resources}/${action.key}`
+                yield putUrl(url, action.form, action.comment)
+                yield put({type: RESOURCE_FASIT_REQUEST, id: action.key})
+                break
             default:
                 throw new Error("Submit_form-saga: I don't know which component you're coming from")
         }
