@@ -14,7 +14,7 @@ import SubmitFormStatus from './SubmitFormStatus'
 import ToolButtons from './ToolButtons'
 import DeleteElementForm from './DeleteElementForm'
 import RescueElementForm from './RescueElementForm'
-import {FormListBox, FormCreatableList, FormDropDown, FormSecret, FormString, FormComment} from './Forms'
+import {FormListBox, FormCreatableList, FormDropDown, FormSecret, FormString, FormComment, FormTextArea} from './Forms'
 
 export {
     AccessControl,
@@ -26,6 +26,7 @@ export {
     ElementPaging,
     FormListBox,
     FormDropDown,
+    FormTextArea,
     FormComment,
     FormCreatableList,
     FormSecret,

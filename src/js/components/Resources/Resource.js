@@ -12,10 +12,10 @@ import {
     FormString,
     FormDropDown,
     FormSecret,
+    FormTextArea,
     Lifecycle,
     RevisionsView,
     SecurityView,
-    SubmitForm,
     DeleteElementForm,
     ToolButtons
 } from '../common/'
@@ -163,7 +163,6 @@ class Resource extends Component {
         const label = `${property.displayName}${property.required === true ? " *" : ""}`
         const field = property.name
 
-
         switch (property.type) {
             case "textbox":
                 return <FormString key={key}
@@ -215,7 +214,7 @@ class Resource extends Component {
         // Sortere miljøer riktig i utils
         // sortere resource types i filter på ressurser
         // I resources element list hvis ressurstypen med riktig casing
-
+        // Få enter til å funke skikkelig i formene både ny, edit og comment
         const {id, fasit, user} = this.props
 
         let authorized = false
@@ -231,6 +230,7 @@ class Resource extends Component {
             </div>
         }
 
+
         if (fasit.isFetching || Object.keys(fasit.data).length === 0) {
             return <i className="fa fa-spinner fa-pulse fa-2x"></i>
         }
@@ -240,7 +240,10 @@ class Resource extends Component {
             lifecycle = fasit.data.lifecycle
         }
 
+
         return (
+
+       
             <div className="row">
                 <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
                              onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}

@@ -21,8 +21,10 @@ class Resources extends Component {
     render() {
         const {resources} = this.props
 
-        if (this.props.params.resource)
+        if (this.props.params.resource) {
             return <Resource id={this.props.params.resource} />
+        }
+
         return (
             <div className="main-content-container">
                 <div className="row">

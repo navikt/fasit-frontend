@@ -139,7 +139,7 @@ export const resourceTypes = {
     },
     ApplicationProperties: {
         properties: [
-            textarea("applicationproperties", "Properties")
+            textarea("applicationProperties", "Properties")
         ]
     },
     MemoryParameters: {
