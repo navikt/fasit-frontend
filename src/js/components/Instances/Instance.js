@@ -40,15 +40,16 @@ class Instance extends Component {
 
     render() {
         const {instance, revisions, query} = this.props
+        const showRevision = oldRevision(revisions, query.revision)
 
         const clusterName = instance.cluster ? instance.cluster.name : ""
 
         return (
             <div className="row">
-                {oldRevision(revisions, query.revision) ?
+                {showRevision ?
                     <CurrentRevision revisionId={query.revision} revisions={revisions}/> : null}
                 <div className="col-xs-12" style={{height: 30 + "px"}}></div>
-                <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
+                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="application"
                         value={instance.application}
