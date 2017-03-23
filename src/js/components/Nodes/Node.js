@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {validAuthorization, oldRevision} from '../../utils/'
-import moment from 'moment'
 import {
     fetchFasitData,
     rescueNode,
@@ -133,16 +132,17 @@ class Node extends Component {
     }
 
     render() {
-        const {hostname, config, user, fasit, dispatch, nodeTypes, query, revisions} = this.props
+        const {hostname, config, user, fasit, nodeTypes, query, revisions} = this.props
         const {comment, editMode, username, password, type, adgroups} = this.state
+        const showRevision = oldRevision(revisions, query.revision)
+
         let lifecycle = (Object.keys(fasit.data).length > 0) ? fasit.data.lifecycle : {}
         let authorized = (Object.keys(fasit.data).length > 0) ? validAuthorization(user, fasit.data.accesscontrol) : false
 
         return (
             <div className="row">
                 {/*Heading*/}
-                {oldRevision(revisions, query.revision) ?
-                    <CurrentRevision revisionId={query.revision} revisions={this.props.revisions}/>
+                {showRevision ? <CurrentRevision revisionId={query.revision} revisions={this.props.revisions}/>
                     : <ToolButtons
                         authorized={authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
@@ -152,7 +152,7 @@ class Node extends Component {
                 }
 
                 {/*Form*/}
-                <div className={oldRevision(revisions, query.revision) ? "col-md-6 disabled-text-color" : "col-md-6"}>
+                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="hostname"
                         editMode={editMode}

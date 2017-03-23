@@ -226,6 +226,7 @@ class Resource extends Component {
         // I resources element list hvis ressurstypen med riktig casing
         // Få enter til å funke skikkelig i formene både ny, edit og comment
         const {id, fasit, user, query, revisions} = this.props
+        const showRevision = oldRevision(revisions, query.revision)
 
         let authorized = false
         let lifecycle = {}
@@ -255,14 +256,13 @@ class Resource extends Component {
 
        
             <div className="row">
-                {oldRevision(revisions, query.revision) ?
-                    <CurrentRevision revisionId={query.revision} revisions={revisions}/>
-                    :   <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
+                { showRevision ? <CurrentRevision revisionId={query.revision} revisions={revisions}/>
+                    : <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
                                      onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                      onCopyClick={() => console.log("Copy,copycopy!")}/>
                 }
 
-                <div className={oldRevision(revisions, query.revision) ? "col-md-6 disabled-text-color" : "col-md-6"}>
+                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     {this.formStringElement("type", this.state.type, false)}
                     {this.formStringElement("alias", this.state.alias, this.state.editMode)}
                     {this.renderResourceProperties(this.state.properties)}

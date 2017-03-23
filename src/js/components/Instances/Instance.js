@@ -2,9 +2,10 @@ import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
 import {Link} from "react-router"
 import {FormString} from "../common/Forms"
+import {oldRevision} from '../../utils/'
 import InstanceResources from "./InstanceResources"
 import Manifest from "./Manifest"
-import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView} from "../common/"
+import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, CurrentRevision} from "../common/"
 import {
     fetchInstance
 } from "../../actionCreators/instance"
@@ -38,12 +39,14 @@ class Instance extends Component {
     }
 
     render() {
-        const {instance} = this.props
+        const {instance, revisions, query} = this.props
 
         const clusterName = instance.cluster ? instance.cluster.name : ""
 
         return (
             <div className="row">
+                {oldRevision(revisions, query.revision) ?
+                    <CurrentRevision revisionId={query.revision} revisions={revisions}/> : null}
                 <div className="col-xs-12" style={{height: 30 + "px"}}></div>
                 <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
@@ -68,7 +71,7 @@ class Instance extends Component {
                 </div>
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                        <RevisionsView id={instance.id} component="instance"/>
+                        <RevisionsView id={instance.id} currentRevision={query.revision} component="instance"/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
@@ -91,17 +94,6 @@ class Instance extends Component {
                 </div>
             </div>
         )
-    }
-
-    oldRevision() {
-        const {revisions, query} = this.props
-        if (!query.revision) {
-            return false
-        } else if (revisions.data[0]) {
-            if (revisions.data[0].revision != query.revision) {
-                return true
-            }
-        }
     }
 
     selectTab(tab) {
