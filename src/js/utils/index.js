@@ -171,3 +171,13 @@ export const deleteUrl = (url, comment) => {
             return text
         })
 }
+
+export const oldRevision = (revisions, revisionId) => {
+    if (!revisionId) {
+        return false
+    } else if (revisions.data[0]) {
+        if (revisions.data[0].revision != revisionId) {
+            return true
+        }
+    }
+}

@@ -10,13 +10,11 @@
   border-bottom: 1px solid #ddd;
 }
 .information-box-footer{
-  padding: 5px;
-  margin-top: 15px;
-  border-top: 1px solid #ddd;
+  margin-top: 5px;
 }
 .information-box-header-clickable{
   cursor: pointer;
-  padding-top: 10px;
+  padding-top: 5px;
   margin-left: 15px;
 }
 .information-box-header-clickable:hover{
@@ -140,4 +138,31 @@
 
 .btn-disabled {
   cursor: not-allowed;
+}
+
+.revisionList {
+  list-style: none;
+}
+
+.revisionListItem,
+.revisionListItem:hover,
+.revisionListItem:active,
+.revisionListItem:focus{
+  color: #707070;
+  cursor: pointer;
+}
+
+.currentRevision,
+.currentRevision:hover,
+.currentRevision:active,
+.currentRevision:focus {
+  color: darken(#757575,80%);
+}
+
+.revision-well {
+  background-color: @body-bg;
+  border-color: @topnav;
+  border-width: 2px;
+  padding-top: 5px;
+
 }

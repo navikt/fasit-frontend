@@ -31,8 +31,8 @@ class Application extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, name, revision} = this.props
-        dispatch(fetchFasitData(name, revision))
+        const {dispatch, name, query} = this.props
+        dispatch(fetchFasitData(name, query.revision))
     }
 
     componentWillReceiveProps(nextProps) {
@@ -165,7 +165,7 @@ class Application extends Component {
                 {/*Side menu*/}
 
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History">
+                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
                         <RevisionsView id={name} component="application"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">

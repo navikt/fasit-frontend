@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {validAuthorization} from '../../utils'
+import {validAuthorization, oldRevision} from '../../utils'
 import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from '../../actionCreators/resource'
 import {submitForm} from '../../actionCreators/common'
 import {resourceTypes} from '../../utils/resourceTypes'
@@ -9,6 +9,7 @@ import NotFound from '../NotFound'
 import {
     CollapsibleMenu,
     CollapsibleMenuItem,
+    CurrentRevision,
     FormString,
     FormDropDown,
     FormSecret,
@@ -38,15 +39,24 @@ class Resource extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, id} = this.props
-        dispatch(fetchFasitData(id))
+        const {dispatch, id, query} = this.props
+        if(query) {
+            dispatch(fetchFasitData(id, query.revision))
+        } else {
+            dispatch(fetchFasitData(id))
+        }
+
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, id, revision} = this.props
+        const {dispatch, id, query} = this.props
         this.setNewState(nextProps.fasit)
+
         if (nextProps.id != id) {
             dispatch(fetchFasitData(nextProps.id))
+        }
+        if (nextProps.query.revision != query.revision) {
+            dispatch(fetchFasitData(id, nextProps.query.revision))
         }
     }
 
@@ -215,7 +225,7 @@ class Resource extends Component {
         // sortere resource types i filter på ressurser
         // I resources element list hvis ressurstypen med riktig casing
         // Få enter til å funke skikkelig i formene både ny, edit og comment
-        const {id, fasit, user} = this.props
+        const {id, fasit, user, query, revisions} = this.props
 
         let authorized = false
         let lifecycle = {}
@@ -245,11 +255,14 @@ class Resource extends Component {
 
        
             <div className="row">
-                <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
-                             onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                             onCopyClick={() => console.log("Copy,copycopy!")}/>
+                {oldRevision(revisions, query.revision) ?
+                    <CurrentRevision revisionId={query.revision} revisions={revisions}/>
+                    :   <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
+                                     onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                                     onCopyClick={() => console.log("Copy,copycopy!")}/>
+                }
 
-                <div className="col-md-6">
+                <div className={oldRevision(revisions, query.revision) ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     {this.formStringElement("type", this.state.type, false)}
                     {this.formStringElement("alias", this.state.alias, this.state.editMode)}
                     {this.renderResourceProperties(this.state.properties)}
@@ -271,8 +284,8 @@ class Resource extends Component {
                     }
                 </div>
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History">
-                        <RevisionsView id={id} component="resource"/>
+                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
+                        <RevisionsView id={id} currentRevision={query.revision} component="resource"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
                         <SecurityView accesscontrol={fasit.data.accesscontrol}/>
@@ -346,6 +359,8 @@ const mapStateToProps = (state) => {
         applications: state.applications.applicationNames,
         user: state.user,
         config: state.configuration,
+        query: state.routing.locationBeforeTransitions.query,
+        revisions: state.revisions
     }
 }
 

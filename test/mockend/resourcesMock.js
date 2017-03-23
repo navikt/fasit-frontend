@@ -963,5 +963,48 @@ const resources = [
             "self": "http://localhost:9696/resources/42",
             "revisions": "http://localhost:9696/resources/42/revisions"
         }
+    },
+    {
+        "type": "db2datasource",
+        "alias": "ThisMaDs",
+        "scope": {
+            "environmentclass": "u",
+            "zone": "fss",
+            "environment": "u69",
+            "application": "app1"
+        },
+        "properties": {
+            "schema": "ohprettyschema",
+            "hostname": "schemaserver.se",
+            "port": "6969",
+            "dbaname": "BABOMBIBOM",
+            "username": "auser"
+        },
+        "secrets": {
+            "password": {
+                "ref": "https://fasit.adeo.no/api/v2/secrets/679729"
+            }
+        },
+        "files": {},
+        "lifecyclestatus": "alerted",
+        "usedbyapplications": [],
+        "dodgy": false,
+        "id": 69,
+        "revision": 4,
+        "created": "2014-10-29T14:19:14.756",
+        "updated": "2017-03-15T10:16:42.555",
+        "lifecycle": {
+            "status": "alerted",
+            "nextactiondate": "2017-06-13T10:16:42.554",
+            "issue": "AURAGC-7401"
+        },
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "links": {
+            "self": "https://fasit.adeo.no/api/v2/resources/679646",
+            "revisions": "https://fasit.adeo.no/api/v2/resources/679646/revisions"
+        }
     }
 ]

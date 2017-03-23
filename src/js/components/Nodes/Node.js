@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {validAuthorization} from '../../utils/'
+import {validAuthorization, oldRevision} from '../../utils/'
+import moment from 'moment'
 import {
     fetchFasitData,
     rescueNode,
@@ -10,6 +11,7 @@ import {
 
 import {
     AccessControl,
+    CurrentRevision,
     CollapsibleMenu,
     CollapsibleMenuItem,
     FormString,
@@ -50,8 +52,8 @@ class Node extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, hostname, revision} = this.props
-        dispatch(fetchFasitData(hostname, revision))
+        const {dispatch, hostname, query} = this.props
+        dispatch(fetchFasitData(hostname, query.revision))
     }
 
     componentWillUnmount() {
@@ -59,7 +61,7 @@ class Node extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, hostname, query, revision} = this.props
+        const {dispatch, hostname, query} = this.props
         this.setState({
             hostname: nextProps.fasit.data.hostname,
             username: nextProps.fasit.data.username,
@@ -76,7 +78,7 @@ class Node extends Component {
         }
 
         // fetch new data from backend if hostname changes
-        if (nextProps.hostname != hostname){
+        if (nextProps.hostname != hostname) {
             dispatch(fetchFasitData(nextProps.hostname, nextProps.revision))
         }
     }
@@ -131,7 +133,7 @@ class Node extends Component {
     }
 
     render() {
-        const {hostname, config, user, fasit, dispatch, nodeTypes, query} = this.props
+        const {hostname, config, user, fasit, dispatch, nodeTypes, query, revisions} = this.props
         const {comment, editMode, username, password, type, adgroups} = this.state
         let lifecycle = (Object.keys(fasit.data).length > 0) ? fasit.data.lifecycle : {}
         let authorized = (Object.keys(fasit.data).length > 0) ? validAuthorization(user, fasit.data.accesscontrol) : false
@@ -139,10 +141,9 @@ class Node extends Component {
         return (
             <div className="row">
                 {/*Heading*/}
-                {this.oldRevision() ?
-                    <div className="col-md-12" style={{paddingTop: 10, paddingBottom: 10}}><h4>Revision
-                        #{query.revision}</h4></div> :
-                    <ToolButtons
+                {oldRevision(revisions, query.revision) ?
+                    <CurrentRevision revisionId={query.revision} revisions={this.props.revisions}/>
+                    : <ToolButtons
                         authorized={authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
                         onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
@@ -150,9 +151,8 @@ class Node extends Component {
                     />
                 }
 
-
                 {/*Form*/}
-                <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
+                <div className={oldRevision(revisions, query.revision) ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="hostname"
                         editMode={editMode}
@@ -219,8 +219,8 @@ class Node extends Component {
                 {/*Side menu*/}
 
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History">
-                        <RevisionsView id={hostname} component="node"/>
+                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
+                        <RevisionsView id={hostname} currentRevision={query.revision} component="node"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
                         <SecurityView accesscontrol={fasit.data.accesscontrol}
@@ -306,17 +306,6 @@ class Node extends Component {
                 />
             </div>
         )
-    }
-
-    oldRevision() {
-        const {revisions, query} = this.props
-        if (!query.revision) {
-            return false
-        } else if (revisions.data[0]) {
-            if (revisions.data[0].revision != query.revision) {
-                return true
-            }
-        }
     }
 }
 const mapStateToProps = (state, ownProps) => {

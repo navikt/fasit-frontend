@@ -489,7 +489,7 @@ revisions = [
         "environmentclass": "t",
         "environment": "t1",
         "type": "jboss",
-        "username": "deployer",
+        "username": "revb3",
         "password": {
             "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/secrets/1584992"
         },

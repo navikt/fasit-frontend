@@ -21,8 +21,8 @@ class Instance extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, id, revision} = this.props
-        dispatch(fetchInstance(id, revision))
+        const {dispatch, id, query} = this.props
+        dispatch(fetchInstance(id, query.revision))
     }
 
     componentWillReceiveProps(nextProps) {
@@ -67,7 +67,7 @@ class Instance extends Component {
                     </div>
                 </div>
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History">
+                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
                         <RevisionsView id={instance.id} component="instance"/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
