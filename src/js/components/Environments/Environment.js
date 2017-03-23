@@ -4,6 +4,7 @@ import {connect} from "react-redux"
 import {
     AccessControl,
     CollapsibleMenu,
+    CurrentRevision,
     CollapsibleMenuItem,
     RevisionsView,
     Lifecycle,
@@ -15,7 +16,7 @@ import {
     ToolButtons
 } from "../common/"
 import {submitForm} from '../../actionCreators/common'
-import {validAuthorization} from '../../utils/'
+import {validAuthorization, oldRevision} from '../../utils/'
 import EnvironmentClusters from './EnvironmentClusters'
 import EnvironmentNodes from './EnvironmentNodes'
 import EnvironmentInstances from './EnvironmentInstances'
@@ -57,7 +58,6 @@ class Environment extends Component {
         this.setState({[component]: !this.state[component]})
         if (component === "editMode" && this.state.editMode)
             this.resetLocalState()
-
     }
 
     handleChange(field, value) {
@@ -105,9 +105,10 @@ class Environment extends Component {
     }
 
     render() {
-        const {environment, user, query, environmentClasses} = this.props
+        const {environment, user, query, environmentClasses, revisions} = this.props
         const {displayClusters, displayInstances, displayNodes, name, environmentclass, comment, adgroups} = this.state
         let lifecycle = {}
+        const showRevision = oldRevision(revisions, query.revision)
         let authorized = false
         if (Object.keys(environment).length > 0) {
             authorized = validAuthorization(user, environment.accesscontrol)
@@ -117,9 +118,8 @@ class Environment extends Component {
         return (
             <div className="row">
                 {/*Heading*/}
-                {this.oldRevision() ?
-                    <div className="col-md-12" style={{paddingTop: 10, paddingBottom: 10}}><h4>Revision
-                        #{query.revision}</h4></div> :
+                {showRevision ?
+                    <CurrentRevision revisionId={query.revision} revisions={revisions}/> :
                     <ToolButtons
                         authorized={authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
@@ -128,7 +128,7 @@ class Environment extends Component {
                     />
                 }
                 {/*Form*/}
-                <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
+                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="name"
                         editMode={this.state.editMode}
@@ -138,7 +138,7 @@ class Environment extends Component {
                     <FormDropDown
                         label="environmentclass"
                         editMode={this.state.editMode}
-                        value={this.state.environmentclass}
+                        value={environmentclass}
                         handleChange={this.handleChange.bind(this)}
                         options={environmentClasses}
                     />
@@ -169,7 +169,7 @@ class Environment extends Component {
                 {/*Side menu*/}
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                        <RevisionsView id={environment.name} component="environment"/>
+                        <RevisionsView id={environment.name} currentRevision={query.revision} component="environment"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
                         <SecurityView accesscontrol={environment.accesscontrol}
@@ -268,17 +268,6 @@ class Environment extends Component {
                         displayInstances: true
                     }
                 )
-        }
-    }
-
-    oldRevision() {
-        const {revisions, query} = this.props
-        if (!query.revision) {
-            return false
-        } else if (revisions.data[0]) {
-            if (revisions.data[0].revision != query.revision) {
-                return true
-            }
         }
     }
 }

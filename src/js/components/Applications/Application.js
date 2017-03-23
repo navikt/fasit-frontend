@@ -1,15 +1,15 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {validAuthorization} from '../../utils/'
+import {validAuthorization, oldRevision} from '../../utils/'
 import {fetchFasitData} from '../../actionCreators/application'
 import {submitForm} from '../../actionCreators/common'
-import classString from 'react-classset'
 import ApplicationInstances from './ApplicationInstances'
 import {DeleteElementForm, SecurityView, ToolButtons, AccessControl} from '../common/'
 
 import {
     CollapsibleMenu,
     CollapsibleMenuItem,
+    CurrentRevision,
     FormString,
     Lifecycle,
     RevisionsView,
@@ -91,10 +91,12 @@ class Application extends Component {
     }
 
     render() {
-        const {name, application, user, dispatch, query} = this.props
+        const {name, application, user, dispatch, query, revisions} = this.props
         const {comment, adgroups} = this.state
+        const showRevision = oldRevision(revisions, query.revision)
         let lifecycle = {}
         let authorized = false
+
         if (Object.keys(application).length > 0) {
             authorized = validAuthorization(user, application.data.accesscontrol)
             lifecycle = application.lifecycle
@@ -102,10 +104,9 @@ class Application extends Component {
         return (
             <div className="row">
                 {/*Heading*/}
-                {this.oldRevision() ?
-                    <div className="col-md-12" style={{paddingTop: 10, paddingBottom: 10}}><h4>Revision
-                        #{query.revision}</h4></div> :
-                    <ToolButtons
+                {showRevision ?
+                    <CurrentRevision revisionId={query.revision} revisions={revisions}/>
+                    : <ToolButtons
                         authorized={authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
                         onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
@@ -114,7 +115,7 @@ class Application extends Component {
                 }
 
                 {/*Form*/}
-                <div className={this.oldRevision() ? "col-md-6 disabled-text-color" : "col-md-6"}>
+                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     <FormString
                         label="name"
                         editMode={this.state.editMode}
@@ -166,12 +167,11 @@ class Application extends Component {
 
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                        <RevisionsView id={name} component="application"/>
+                        <RevisionsView id={name} currentRevision={query.revision} component="application"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
                         <SecurityView accesscontrol={application.data.accesscontrol}
                                       displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
-
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
 
@@ -222,17 +222,6 @@ class Application extends Component {
                 />
             </div>
         )
-    }
-
-    oldRevision() {
-        const {revisions, query} = this.props
-        if (!query.revision) {
-            return false
-        } else if (revisions.data[0]) {
-            if (revisions.data[0].revision != query.revision) {
-                return true
-            }
-        }
     }
 }
 const mapStateToProps = (state, ownProps) => {
