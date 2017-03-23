@@ -2,9 +2,6 @@ import {
     REVISIONS_FETCHING,
     REVISIONS_RECEIVED,
     REVISIONS_REQUEST_FAILED,
-    REVISION_FETCHING,
-    REVISION_RECEIVED,
-    REVISION_REQUEST_FAILED,
 } from '../actionTypes'
 
 export default (state = {
@@ -33,28 +30,6 @@ export default (state = {
                 data: [],
                 isFetching:false
             })
-
-        case REVISION_RECEIVED:
-            return Object.assign({}, state, {
-                activeRevisionData: action.value,
-                activeRevisionIsFetching: false,
-                activeRevisionRequestFailed: false
-            })
-
-        case REVISION_FETCHING:
-            return Object.assign({}, state, {
-                activeRevisionData: {},
-                activeRevisionIsFetching: true,
-                revisionRequestFailed: false
-            })
-
-        case REVISION_REQUEST_FAILED:
-            return Object.assign({}, state, {
-                activeRevisionRequestFailed: action.error.message,
-                activeRevisionData: {},
-                activeRevisionIsFetching:false
-            })
-
         default:
             return state
     }

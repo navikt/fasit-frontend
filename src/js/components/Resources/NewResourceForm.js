@@ -7,7 +7,6 @@ import {FormString, FormDropDown, FormComment, FormTextArea} from '../common/For
 import {displayModal} from '../../actionCreators/common'
 import {resourceTypes} from '../../utils/resourceTypes'
 import {submitForm} from '../../actionCreators/common'
-import {validAuthorization} from '../../utils'
 import Scope from './Scope'
 
 class NewResourceForm extends Component {

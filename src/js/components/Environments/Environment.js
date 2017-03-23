@@ -82,8 +82,8 @@ class Environment extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, name, revision} = this.props
-        dispatch(fetchEnvironment(name, revision))
+        const {dispatch, name, query} = this.props
+        dispatch(fetchEnvironment(name, query.revision))
     }
 
     componentWillReceiveProps(nextProps) {
@@ -168,7 +168,7 @@ class Environment extends Component {
 
                 {/*Side menu*/}
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History">
+                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
                         <RevisionsView id={environment.name} component="environment"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">

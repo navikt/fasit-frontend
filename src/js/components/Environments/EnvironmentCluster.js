@@ -167,7 +167,7 @@ class EnvironmentCluster extends Component {
 
                 {/*Side menu*/}
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History">
+                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
 {/*
                         <RevisionsView id={clusterName} component="clusters"/>
 */}                    </CollapsibleMenuItem>

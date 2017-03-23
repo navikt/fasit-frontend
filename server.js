@@ -7,6 +7,7 @@ const https = require('https')
 
 const environmentsMock = require('./test/mockend/environmentsMock')
 const resourcesMock = require('./test/mockend/resourcesMock')
+const resourceRevisionMock = require('./test/mockend/resourceRevisionsMock')
 const applicationsMock = require('./test/mockend/applicationsMock')
 const applicationinstances = require('./test/mockend/applicationinstancesMock')
 const resourceTypes = require('./test/mockend/resourceTypesMock')
@@ -120,13 +121,25 @@ app.get('/mockapi/resources/:id', (req, res) => {
     sendJson(res, resourcesMock.getResource(req.params.id));
 })
 
+app.get('/mockapi/resources/:id/revisions', (req, res) => {
+    sendJson(res, resourceRevisionMock.getResourceRevisions(req.params.id))
+})
+
+app.get('/mockapi/resources/:id/revisions/:revision', (req, res) => {
+  sendJson(res, resourceRevisionMock.getResourceRevision(req.params))
+})
+
 app.delete('/mockapi/resources/:id', (req, res) => {
     resourcesMock.deleteresource(req.params.id)
     res.sendStatus(200)
 })
 
-app.post('/mockapi/resources/', (req, res) => {
-    sendJson(res, resourcesMock.createResource(req))
+app.post('/mockapi/resources', (req, res) => {
+    res.sendStatus(200)
+})
+
+app.put('/mockapi/resources/:id', (req, res) => {
+    res.sendStatus(201)
 })
 
 app.get("/mockapi/nodes/types", (req, res) => {

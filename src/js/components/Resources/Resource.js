@@ -1,23 +1,25 @@
 import React, {Component, PropTypes} from 'react'
+import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {validAuthorization} from '../../utils'
+import {validAuthorization, oldRevision} from '../../utils'
 import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from '../../actionCreators/resource'
 import {submitForm} from '../../actionCreators/common'
+import {resourceTypes} from '../../utils/resourceTypes'
 import NotFound from '../NotFound'
 import {
     CollapsibleMenu,
     CollapsibleMenuItem,
+    CurrentRevision,
     FormString,
     FormDropDown,
     FormSecret,
+    FormTextArea,
     Lifecycle,
     RevisionsView,
     SecurityView,
-    SubmitForm,
     DeleteElementForm,
     ToolButtons
 } from '../common/'
-import {resourceTypes} from '../../utils/resourceTypes'
 import Scope from './Scope'
 
 const initialState = {
@@ -37,16 +39,24 @@ class Resource extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, id} = this.props
-        dispatch(fetchFasitData(id))
+        const {dispatch, id, query} = this.props
+        if(query) {
+            dispatch(fetchFasitData(id, query.revision))
+        } else {
+            dispatch(fetchFasitData(id))
+        }
+
     }
 
-    //Brukes denne?
     componentWillReceiveProps(nextProps) {
-        const {dispatch, id, revision} = this.props
+        const {dispatch, id, query} = this.props
         this.setNewState(nextProps.fasit)
+
         if (nextProps.id != id) {
             dispatch(fetchFasitData(nextProps.id))
+        }
+        if (nextProps.query.revision != query.revision) {
+            dispatch(fetchFasitData(id, nextProps.query.revision))
         }
     }
 
@@ -73,20 +83,41 @@ class Resource extends Component {
         })
     }
 
-    handleSubmitForm(key, form, comment, component) {
+    saveResource() {
         const {dispatch} = this.props
-        if (component == "resource") {
-            //var form2  = this.state
-            dispatch(submitForm(key, form, comment, component))
-            this.toggleComponentDisplay("editMode")
-            dispatch(submitForm(key, form2, comment, component))
+        const {alias, type, properties, scope, currentSecret, files, comment} = this.state
 
-        } else if (component === "deleteResource") {
-            this.toggleComponentDisplay("displayDeleteForm")
-            //this.setState({comment: comment})
-            dispatch(submitForm(key, form2, comment, component))
+        const form = {
+            alias,
+            type,
+            properties,
+            scope,
+        }
+
+        if (currentSecret && currentSecret.length > 0) {
+            form.secrets = {}
+
+            const secretKey = this.getResourceType(type).properties.filter(p => p.type === "secret")[0].name
+            form.secrets[secretKey] = {value: currentSecret}
 
         }
+
+        if (Object.keys(files).length > 0) {
+            form.files = files
+        }
+
+
+        this.toggleComponentDisplay("editMode")
+        this.toggleComponentDisplay("displaySubmitForm")
+
+        dispatch(submitForm(this.props.id, form, comment, "resource"))
+        this.toggleComponentDisplay("editMode")
+    }
+
+    deleteResource(key, form, comment, component) {
+        const {dispatch} = this.props
+        this.toggleComponentDisplay("displayDeleteForm")
+        dispatch(submitForm(key, form, comment, component))
     }
 
 
@@ -115,6 +146,7 @@ class Resource extends Component {
 
 
     handleChange(field, value, parent) {
+
         if (parent) {
             const parentState = this.state[parent]
             parentState[field] = value
@@ -124,34 +156,61 @@ class Resource extends Component {
         }
     }
 
-    renderResourceProperties(properties) {
-        return Object.keys(properties).map(prop => {
-
-            return <FormString
-                key={prop}
-                label={prop}
-                editMode={this.state.editMode}
-                value={properties[prop]}
-                handleChange={this.handleChange.bind(this)}
-                parent="properties"/>
-        })
+    renderResourceProperties() {
+        if (this.state.type) { // nødvendig??
+            const type = this.getResourceType(this.state.type)
+            return (
+                <div>
+                    {type.properties.map(this.renderProperty.bind(this))}
+                </div>
+            )
+        }
     }
 
-    renderSecrets(secrets) {
-        const {user} = this.props
+    renderProperty(property) {
+        const {user}  = this.props
+        const key = property.name
+        const label = `${property.displayName}${property.required === true ? " *" : ""}`
+        const field = property.name
 
-        if (secrets) {
-            return Object.keys(secrets).map(secret => {
-                    return <FormSecret
-                        /*key={secret}*/
-                        label={secret}
-                        editMode={this.state.editMode}
-                        handleChange={this.handleChange.bind(this)}
-                        value={this.state.currentSecret}
-                        authenticated={user.authenticated}
-                        toggleDisplaySecret={this.toggleDisplaySecret.bind(this)}/>
-                }
-            )
+        switch (property.type) {
+            case "textbox":
+                return <FormString key={key}
+                                   label={label}
+                                   field={field}
+                                   editMode={this.state.editMode}
+                                   value={this.state.properties[property.name]}
+                                   parent="properties"
+                                   handleChange={this.handleChange.bind(this)}/>
+
+            case "textarea":
+                return <FormTextArea key={key}
+                                     label={label}
+                                     field={field}
+                                     editMode={this.state.editMode}
+                                     value={this.state.properties[property.name]}
+                                     parent="properties"
+                                     handleChange={this.handleChange.bind(this)}/>
+            case "dropdown":
+                return <FormDropDown key={key}
+                                     label={label}
+                                     field={field}
+                                     value={this.state.properties[property.name]}
+                                     editMode={this.state.editMode}
+                                     handleChange={this.handleChange.bind(this)}
+                                     options={property.options}/>
+            case "secret":
+                return <FormSecret key={key}
+                                   label={label}
+                                   field="currentSecret"
+                                   editMode={this.state.editMode}
+                                   value={this.state.currentSecret}
+                                   authenticated={user.authenticated}
+                                   handleChange={this.handleChange.bind(this)}
+                                   toggleDisplaySecret={this.toggleDisplaySecret.bind(this)}/>
+            case "file":
+                break
+
         }
     }
 
@@ -159,26 +218,14 @@ class Resource extends Component {
         return <FormString label={label} value={value} editMode={editMode} handleChange={this.handleChange.bind(this)}/>
     }
 
-    formListElement(label, value, editMode, options, field) {
-        return <FormDropDown label={label}
-                             value={value ? value : '-'}
-                             editMode={editMode}
-                             handleChange={this.handleChange.bind(this)}
-                             options={options}
-                             parent={field}/>
-    }
-
     render() {
+        // handle isvalid() alt som er required
+        // Fikse resource types slik at vi slipper å håndtere casing. For eksempel lage felt for display name
         // Sortere miljøer riktig i utils
-        // håndtere liste av security token og andre ressurser med enum typer
-        // håndtere application properties og større tekstfelt
-        // hva brukes display til?
         // sortere resource types i filter på ressurser
         // I resources element list hvis ressurstypen med riktig casing
-        // størrelse på scope teksten
-        // rendre alle required med *
-
-        const {id, fasit, user} = this.props
+        // Få enter til å funke skikkelig i formene både ny, edit og comment
+        const {id, fasit, user, query, revisions} = this.props
 
         let authorized = false
         let lifecycle = {}
@@ -193,6 +240,7 @@ class Resource extends Component {
             </div>
         }
 
+
         if (fasit.isFetching || Object.keys(fasit.data).length === 0) {
             return <i className="fa fa-spinner fa-pulse fa-2x"></i>
         }
@@ -202,19 +250,26 @@ class Resource extends Component {
             lifecycle = fasit.data.lifecycle
         }
 
-        return (
-            <div className="row">
-                <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
-                             onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                             onCopyClick={() => console.log("Copy,copycopy!")}/>
 
-                <div className="col-md-6">
+        return (
+
+       
+            <div className="row">
+                {oldRevision(revisions, query.revision) ?
+                    <CurrentRevision revisionId={query.revision} revisions={revisions}/>
+                    :   <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
+                                     onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                                     onCopyClick={() => console.log("Copy,copycopy!")}/>
+                }
+
+                <div className={oldRevision(revisions, query.revision) ? "col-md-6 disabled-text-color" : "col-md-6"}>
                     {this.formStringElement("type", this.state.type, false)}
                     {this.formStringElement("alias", this.state.alias, this.state.editMode)}
                     {this.renderResourceProperties(this.state.properties)}
-                    {this.renderSecrets(this.state.secrets)}
 
-                    <Scope editMode={this.state.editMode} scope={this.state.scope} handleChange={this.handleChange.bind(this)}/>
+
+                    <Scope editMode={this.state.editMode} scope={this.state.scope}
+                           handleChange={this.handleChange.bind(this)}/>
 
                     {this.state.editMode ?
                         <div className="btn-block">
@@ -229,8 +284,8 @@ class Resource extends Component {
                     }
                 </div>
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History">
-                        <RevisionsView id={id} component="resource"/>
+                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
+                        <RevisionsView id={id} currentRevision={query.revision} component="resource"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
                         <SecurityView accesscontrol={fasit.data.accesscontrol}/>
@@ -240,36 +295,72 @@ class Resource extends Component {
                 <DeleteElementForm
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-                    onSubmit={() => this.handleSubmitForm(id, null, this.state.comment, "deleteResource")}
+                    onSubmit={() => this.handleSubmitForm(id, this.state.comment)}
                     handleChange={this.handleChange.bind(this)}
                     comment={this.state.comment}
 
                 />
-                {<SubmitForm
-                    display={this.state.displaySubmitForm}
-                    component="resource"
-                    onSubmit={(key, form, comment, component) => this.handleSubmitForm(key, form, comment, component)}
-                    onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
-                    displayDiff={false}
-                    newValues={{}}
-                    originalValues={{}}
-                />}
-
+                {this.renderSubmitForm()}
             </div>
 
         )
     }
+
+
+    getResourceType(typeKey) {
+        const key = Object.keys(resourceTypes)
+            .filter(resourceType => resourceType.toLowerCase() === typeKey.toLowerCase())[0]
+        return resourceTypes[key]
+    }
+
+
+    renderSubmitForm() {
+        return (
+            <Modal show={this.state.displaySubmitForm} onHide={() => this.toggleComponentDisplay("displaySubmitForm")}
+                   dialogClassName="submitForm">
+                <Modal.Header>
+                    <Modal.Title>Commit changes
+                        <button type="reset" className="btn btn-link pull-right"
+                                onClick={() => this.toggleComponentDisplay("displaySubmitForm")}><strong>X</strong>
+                        </button>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <div className="col-xs-2 FormLabel"><b>Comment</b></div>
+                    <div className="col-xs-8">
+                        <textarea
+                            type="text"
+                            rows="4"
+                            className="TextAreaInputField FormString-value"
+                            value={this.state.comment}
+                            onChange={(e) => this.handleChange("comment", e.target.value)}
+                        />
+                    </div>
+                    <div className="col-xs-2 submit-button-placement">
+                        <div className="btn-block">
+                            <button type="submit"
+                                    className="btn btn-primary pull-right"
+                                    onClick={this.saveResource.bind(this)}>Submit
+                            </button>
+                        </div>
+                    </div>
+                </Modal.Footer>
+            </Modal>)
+    }
 }
+
+
 const mapStateToProps = (state) => {
     return {
         fasit: state.resource_fasit,
         environmentClasses: state.environments.environmentClasses,
         environments: state.environments.environments,
-        //environmentNames: state.environments.environments.filter(e => state.).map(e => e.name),
         zones: state.environments.zones,
         applications: state.applications.applicationNames,
         user: state.user,
         config: state.configuration,
+        query: state.routing.locationBeforeTransitions.query,
+        revisions: state.revisions
     }
 }
 

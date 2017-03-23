@@ -3,7 +3,7 @@ import classString from 'react-classset'
 
 export function CollapsibleMenu(props) {
     return (
-        <div className="col-md-5 col-md-offset-1">
+        <div className="col-md-5">
             <div className="list-group">
                 {props.children}
             </div>
@@ -15,7 +15,7 @@ export class CollapsibleMenuItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            displayContent: false,
+            displayContent: props.defaultExpanded,
         }
     }
 
