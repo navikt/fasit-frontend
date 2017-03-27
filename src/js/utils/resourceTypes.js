@@ -35,7 +35,7 @@ export const resourceTypes = {
     },
     Credential: {
         properties: [
-            textbox("usermname"),
+            textbox("username"),
             secret("password")]
     },
     Certificate: {

@@ -39,7 +39,7 @@ class Instance extends Component {
     }
 
     render() {
-        const {instance, revisions, query} = this.props
+        const {instance, revisions, query, id} = this.props
         const showRevision = oldRevision(revisions, query.revision)
 
         const clusterName = instance.cluster ? instance.cluster.name : ""
@@ -63,8 +63,8 @@ class Instance extends Component {
                         value={instance.environment}
                     />
                     <div className="row">
-                        <div className="col-md-4 FormLabel"><b>Cluster</b></div>
-                        <div className="col-md-8">
+                        <div className="col-md-3 FormLabel"><b>Cluster</b></div>
+                        <div className="col-md-9">
                             <Link
                                 to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>
                         </div>
@@ -72,7 +72,7 @@ class Instance extends Component {
                 </div>
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                        <RevisionsView id={instance.id} currentRevision={query.revision} component="instance"/>
+                        <RevisionsView id={id} currentRevision={query.revision} component="instance"/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
@@ -81,9 +81,11 @@ class Instance extends Component {
                         <li className={this.state.displayClusters ? "active" : ""}><a
                             onClick={() => this.selectTab("used")}>Used
                             resources</a></li>
-                        <li className={this.state.displayNodes ? "active" : ""}><a onClick={() => this.selectTab("exposed")}>Exposed
+                        <li className={this.state.displayNodes ? "active" : ""}><a
+                            onClick={() => this.selectTab("exposed")}>Exposed
                             resources</a></li>
-                        <li className={this.state.displayInstances ? "active" : ""}><a onClick={() => this.selectTab("manifest")}>Manifest</a>
+                        <li className={this.state.displayInstances ? "active" : ""}><a
+                            onClick={() => this.selectTab("manifest")}>Manifest</a>
                         </li>
                     </ul>
                 </div>

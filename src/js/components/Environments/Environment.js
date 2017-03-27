@@ -65,7 +65,7 @@ class Environment extends Component {
     }
 
     handleSubmitForm(id, form, comment, component) {
-        const {dispatch, name, revision} = this.props
+        const {dispatch} = this.props
         if (component == "environment" && this.state.displaySubmitForm) {
             this.toggleComponentDisplay("displaySubmitForm")
             this.toggleComponentDisplay("editMode")
@@ -169,7 +169,7 @@ class Environment extends Component {
                 {/*Side menu*/}
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                        <RevisionsView id={environment.name} currentRevision={query.revision} component="environment"/>
+                        <RevisionsView id={this.props.name} currentRevision={query.revision} component="environment"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
                         <SecurityView accesscontrol={environment.accesscontrol}

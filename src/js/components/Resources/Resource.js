@@ -241,7 +241,6 @@ class Resource extends Component {
             </div>
         }
 
-
         if (fasit.isFetching || Object.keys(fasit.data).length === 0) {
             return <i className="fa fa-spinner fa-pulse fa-2x"></i>
         }
