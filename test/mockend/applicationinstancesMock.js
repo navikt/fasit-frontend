@@ -136,5 +136,42 @@ const applicationinstances = [
             "self": "http://localhost:6969/mockapi/applicationinstances/1684520",
             "revisions": "http://localhost:6969/mockapi/applicationinstances/1684520/revisions"
         }
+    },
+    {
+        "application": "app1",
+        "environment": "u69",
+        "version": "2.10.3",
+        "nodes": [],
+        "cluster": {
+            "name": "app1Cluster",
+            "ref": "http://localhost:6969/mockapi/environments/p/clusters/app1Cluster"
+        },
+        "appconfig": {
+            "ref": "http://localhost:6969/mockapi/applicationinstances/1/revisions/69/appconfig"
+        },
+        "exposedresources": [
+            {
+                "id": 4,
+                "revison": 1873524,
+                "alias": "app1Service",
+                "type": "webserviceendpoint",
+                "scope": {
+                    "environmentclass": "u",
+                    "environment": "u69"
+                },
+                "ref": "http://localhost:6969/mockapi/resources/7"
+            }
+        ],
+        "missingresources": [],
+        "id": 404,
+        "revision": 69,
+        "created": "2016-08-09T11:02:30.581",
+        "updated": "2016-10-20T11:29:01.54",
+        "lifecycle": {},
+        "accesscontrol": {},
+        "links": {
+            "self": "http://localhost:6969/mockapi/applicationinstances/404",
+            "revisions": "http://localhost:6969/mockapi/applicationinstances/404/revisions"
+        }
     }
 ]

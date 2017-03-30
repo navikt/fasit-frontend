@@ -57,6 +57,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/1",
             "revisions": "http://localhost:9696/resources/1/revisions"
@@ -84,6 +85,7 @@ const resources = [
             "environmentclass": "t",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/2",
             "revisions": "http://localhost:9696/resources/2/revisions"
@@ -112,6 +114,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/3",
             "revisions": "http://localhost:9696/resources/3/revisions"
@@ -130,6 +133,12 @@ const resources = [
             "endpointUrl": "http://www.vg.no",
             "wsdlUrl": "http://maven.com./nexus/path/etc/wsdl.zip"
         },
+        "exposedby": {
+            "application": "app1",
+            "environment": "u69",
+            "version": "2.10.3",
+            "ref": "http://localhost:6969/mockapi/applicationinstances/404"
+        },
         "secrets": {},
         "files": {},
         "dodgy": false,
@@ -141,9 +150,10 @@ const resources = [
             "environmentclass": "u",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
-            "self": "http://localhost:9696/resources/4",
-            "revisions": "http://localhost:9696/resources/4/revisions"
+            "self": "http://localhost:6969/resources/4",
+            "revisions": "http://localhost:6969/resources/4/revisions"
         }
     },
     {
@@ -168,6 +178,7 @@ const resources = [
             "environmentclass": "p",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/5",
             "revisions": "http://localhost:9696/resources/5/revisions"
@@ -195,6 +206,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/14",
             "revisions": "http://localhost:9696/resources/14/revisions"
@@ -221,6 +233,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/17",
             "revisions": "http://localhost:9696/resources/17/revisions"
@@ -248,6 +261,7 @@ const resources = [
             "environmentclass": "p",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/18",
             "revisions": "http://localhost:9696/resources/18/revisions"
@@ -276,6 +290,7 @@ const resources = [
             "environmentclass": "u",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/19",
             "revisions": "http://localhost:9696/resources/19/revisions"
@@ -304,6 +319,7 @@ const resources = [
             "environmentclass": "u",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/20",
             "revisions": "http://localhost:9696/resources/20/revisions"
@@ -340,6 +356,7 @@ const resources = [
             "environmentclass": "t",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/21",
             "revisions": "http://localhost:9696/resources/21/revisions"
@@ -368,6 +385,7 @@ const resources = [
             "environmentclass": "p",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/22",
             "revisions": "http://localhost:9696/resources/22/revisions"
@@ -395,6 +413,7 @@ const resources = [
             "environmentclass": "t",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/23",
             "revisions": "http://localhost:9696/resources/23/revisions"
@@ -427,6 +446,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/24",
             "revisions": "http://localhost:9696/resources/24/revisions"
@@ -458,6 +478,7 @@ const resources = [
             "environmentclass": "p",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/25",
             "revisions": "http://localhost:9696/resources/25/revisions"
@@ -485,6 +506,7 @@ const resources = [
             "environmentclass": "p",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/26",
             "revisions": "http://localhost:9696/resources/26/revisions"
@@ -514,6 +536,7 @@ const resources = [
             "environmentclass": "p",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/27",
             "revisions": "http://localhost:9696/resources/27/revisions"
@@ -540,6 +563,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/28",
             "revisions": "http://localhost:9696/resources/28/revisions"
@@ -573,6 +597,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/29",
             "revisions": "http://localhost:9696/resources/29/revisions"
@@ -601,6 +626,7 @@ const resources = [
             "environmentclass": "p",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/30",
             "revisions": "http://localhost:9696/resources/30/revisions"
@@ -630,6 +656,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/31",
             "revisions": "http://localhost:9696/resources/31/revisions"
@@ -658,6 +685,7 @@ const resources = [
             "environmentclass": "t",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/32",
             "revisions": "http://localhost:9696/resources/32/revisions"
@@ -689,6 +717,7 @@ const resources = [
             "environmentclass": "u",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/33",
             "revisions": "http://localhost:9696/resources/33/revisions"
@@ -715,6 +744,7 @@ const resources = [
             "environmentclass": "u",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/34",
             "revisions": "http://localhost:9696/resources/34/revisions"
@@ -749,6 +779,7 @@ const resources = [
             "environmentclass": "t",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/35",
             "revisions": "http://localhost:9696/resources/35/revisions"
@@ -779,6 +810,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/36",
             "revisions": "http://localhost:9696/resources/36/revisions"
@@ -808,6 +840,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/37",
             "revisions": "http://localhost:9696/resources/37/revisions"
@@ -835,6 +868,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/38",
             "revisions": "http://localhost:9696/resources/38/revisions"
@@ -863,6 +897,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/39",
             "revisions": "http://localhost:9696/resources/39/revisions"
@@ -904,6 +939,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/40",
             "revisions": "http://localhost:9696/resources/40/revisions"
@@ -933,6 +969,7 @@ const resources = [
             "environmentclass": "q",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/41",
             "revisions": "http://localhost:9696/resources/41/revisions"
@@ -959,6 +996,7 @@ const resources = [
             "environmentclass": "p",
             "adgroups": []
         },
+        "usedbyapplications": [],
         "links": {
             "self": "http://localhost:9696/resources/42",
             "revisions": "http://localhost:9696/resources/42/revisions"
@@ -1002,6 +1040,26 @@ const resources = [
             "environmentclass": "u",
             "adgroups": []
         },
+        "usedbyapplications": [
+            {
+                "application": "modiabrukerdialog",
+                "environment": "u69",
+                "version": "10.2.1",
+                "ref": "http://localhost:6969/mockapi/applicationinstances/404"
+            },
+            {
+                "application": "ruting",
+                "environment": "u70",
+                "version": "6.0.14",
+                "ref": "http://localhost:6969/mockapi/applicationinstances/404"
+            },
+            {
+                "application": "gosys",
+                "environment": "u96",
+                "version": "9.4.2",
+                "ref": "http://localhost:6969/mockapi/applicationinstances/404"
+            },
+        ],
         "links": {
             "self": "https://fasit.adeo.no/api/v2/resources/679646",
             "revisions": "https://fasit.adeo.no/api/v2/resources/679646/revisions"
