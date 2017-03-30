@@ -7,6 +7,7 @@ import {
     SHOW_NEW_CLUSTER_FORM,
     SHOW_NEW_ENVIRONMENT_FORM,
     SHOW_NEW_NODE_FORM,
+    SHOW_NEW_RESOURCE_FORM,
     SUBMIT_FORM,
     SUBMITTING_FORM,
     SUBMIT_FORM_SUCCESS,
@@ -53,7 +54,7 @@ export function* submitForm(action) {
             case "newResource":
                 url = `${configuration.fasit_resources}`
                 yield postUrl(url, action.form, action.comment)
-                yield put({type: SHOW_NEW_CLUSTER_FORM, value: false})
+                yield put({type: SHOW_NEW_RESOURCE_FORM, value: false})
                 break
 
             // Delete

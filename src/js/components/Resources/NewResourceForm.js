@@ -68,13 +68,11 @@ class NewResourceForm extends Component {
                 form.secrets[k] = {value: secrets[k]}
 
             })
-
         }
 
         if(Object.keys(files).length > 0 ) {
             form.files = files
         }
-
         dispatch(submitForm(form.alias, form, comment, "newResource"))
     }
 
