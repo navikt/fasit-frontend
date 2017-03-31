@@ -73,8 +73,8 @@ export function FormListBox(props) {
                         options={convertToSelectObject(options)}
                         onChange={(e) => handleChange(field || label, e.map(item => item.value), parent)}
                     />
-                    : <pre className="col-md-8">{value.map((v, i) => <span key={i}><Link
-                    to={`/${label}/${v}`}>{v}</Link>{`\n`}</span>)}</pre>
+                    : (value.length > 0) ? <pre className="col-md-8">{value.map((v, i) => <span key={i}><Link
+                    to={`/${label}/${v}`}>{v}</Link>{`\n`}</span>)}</pre> : <span className="FormValue">-</span>
                 }
             </div>
         </div>

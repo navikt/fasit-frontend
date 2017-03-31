@@ -39,6 +39,9 @@ class Resources extends Component {
                     <div className="row element-list-container">
                         <h4>{resources.headers.total_count} resources</h4>
                         <ElementList type="resources" data={resources}/>
+                        <div className="col-sm-2 pull-right">
+                            <ElementPaging />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -37,6 +37,9 @@ class Instances extends Component {
                     <div className="row element-list-container">
                         <h4>{instances.headers.total_count} instances</h4>
                         <ElementList type="instances" data={instances}/>
+                        <div className="col-sm-2 pull-right">
+                            <ElementPaging />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -37,6 +37,9 @@ class Nodes extends Component {
                     <div className="row element-list-container">
                         <h4>{nodes.headers.total_count} nodes</h4>
                         <ElementList type="nodes" data={nodes}/>
+                        <div className="col-sm-2 pull-right">
+                            <ElementPaging />
+                        </div>
                     </div>
                 </div>
             </div>
