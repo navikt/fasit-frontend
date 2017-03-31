@@ -12,6 +12,7 @@ import {
     CurrentRevision,
     FormString,
     FormDropDown,
+    FormLink,
     FormSecret,
     FormTextArea,
     Lifecycle,
@@ -40,7 +41,7 @@ class Resource extends Component {
 
     componentDidMount() {
         const {dispatch, id, query} = this.props
-        if(query) {
+        if (query) {
             dispatch(fetchFasitData(id, query.revision))
         } else {
             dispatch(fetchFasitData(id))
@@ -214,6 +215,17 @@ class Resource extends Component {
         }
     }
 
+    exposedByApplication() {
+        const exposedBy = this.props.fasit.data.exposedby
+        if (exposedBy) {
+            const displayString = `${exposedBy.application} (${exposedBy.version}) in ${exposedBy.environment}`
+            return <FormLink
+                label="Exposed by"
+                value={displayString}
+                linkTo={'/instances/' + exposedBy.id} />
+        }
+    }
+
     formStringElement(label, value, editMode) {
         return <FormString label={label} value={value} editMode={editMode} handleChange={this.handleChange.bind(this)}/>
     }
@@ -225,6 +237,11 @@ class Resource extends Component {
         // sortere resource types i filter på ressurser
         // I resources element list hvis ressurstypen med riktig casing
         // Få enter til å funke skikkelig i formene både ny, edit og comment
+        // håndtere error i fetch secrets
+        // access control
+        // life cycle
+
+
         const {id, fasit, user, query, revisions} = this.props
         const showRevision = oldRevision(revisions, query.revision)
 
@@ -253,12 +270,12 @@ class Resource extends Component {
 
         return (
 
-       
+
             <div className="row">
                 { showRevision ? <CurrentRevision revisionId={query.revision} revisions={revisions}/>
                     : <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
-                                     onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                                     onCopyClick={() => console.log("Copy,copycopy!")}/>
+                                   onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                                   onCopyClick={() => console.log("Copy,copycopy!")}/>
                 }
 
                 <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
@@ -269,6 +286,8 @@ class Resource extends Component {
 
                     <Scope editMode={this.state.editMode} scope={this.state.scope}
                            handleChange={this.handleChange.bind(this)}/>
+
+                    {this.exposedByApplication()}
 
                     {this.state.editMode ?
                         <div className="btn-block">

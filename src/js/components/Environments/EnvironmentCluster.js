@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
 import {fetchEnvironmentCluster, fetchEnvironmentNodes} from "../../actionCreators/environment"
-import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormListBox, FormString, FormDropDown, Lifecycle, SecurityView, AccessControl, SubmitForm, ToolButtons} from "../common"
+import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormListBox, FormString, FormDropDown, FormLinkDropDown, Lifecycle, SecurityView, AccessControl, SubmitForm, ToolButtons} from "../common"
 import {validAuthorization} from '../../utils/'
 import {submitForm} from '../../actionCreators/common'
 
@@ -261,12 +261,13 @@ class EnvironmentCluster extends Component {
                 }
             })
             return (
-                <FormDropDown
+                <FormLinkDropDown
                     label="environment"
                     editMode={editMode}
                     value={environment}
                     handleChange={this.handleChange.bind(this)}
                     options={filteredEnvironments.map((env) => env.name)}
+                    linkTo={`/environments/${environment}`}
                 />)
         }
     }

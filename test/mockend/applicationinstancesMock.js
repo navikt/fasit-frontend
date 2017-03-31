@@ -2,8 +2,10 @@ module.exports = {
     findApplicationInstance: (queryParams) => {
         return applicationinstances.filter(a => (queryParams.application) ? a.application === queryParams.application : true)
     },
-    getFirst: () => {
-        return applicationinstances[0]
+
+    getInstance: (id) => {
+        const instance = applicationinstances.filter(a => (a.id == id ))
+        return instance.length === 1 ? instance[0] : applicationinstances[0]
     }
 }
 

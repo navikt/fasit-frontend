@@ -14,6 +14,7 @@ import {
     CollapsibleMenu,
     CollapsibleMenuItem,
     FormString,
+    FormLink,
     FormDropDown,
     FormSecret,
     Lifecycle,
@@ -144,11 +145,11 @@ class Node extends Component {
                 {/*Heading*/}
                 {showRevision ? <CurrentRevision revisionId={query.revision} revisions={this.props.revisions}/>
                     : <ToolButtons
-                        authorized={authorized}
-                        onEditClick={() => this.toggleComponentDisplay("editMode")}
-                        onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                        onCopyClick={() => console.log("Copy,copycopy!")}
-                    />
+                    authorized={authorized}
+                    onEditClick={() => this.toggleComponentDisplay("editMode")}
+                    onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                    onCopyClick={() => console.log("Copy,copycopy!")}
+                />
                 }
 
                 {/*Form*/}
@@ -190,10 +191,14 @@ class Node extends Component {
                         label="environment"
                         value={fasit.data.environment}
                     />
-                    <FormString
-                        label="cluster"
-                        value={fasit.data.cluster ? fasit.data.cluster.name : "Orphaned node"}
-                    />
+                    {fasit.data.cluster ?
+                        <FormLink
+                            label="cluster"
+                            value={fasit.data.cluster.name}
+                            linkTo={`/environments/${fasit.data.environment}/clusters/${fasit.data.cluster.name}`}
+                        /> :
+                        <FormString label="Cluster" value="Orphaned node" />}
+
 
                     {/*Submit / Cancel buttons*/}
                     <br />

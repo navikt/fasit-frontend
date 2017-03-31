@@ -137,6 +137,7 @@ const resources = [
             "application": "app1",
             "environment": "u69",
             "version": "2.10.3",
+            "id": 404,
             "ref": "http://localhost:6969/mockapi/applicationinstances/404"
         },
         "secrets": {},

@@ -82,7 +82,7 @@ app.get("/mockapi/applicationinstances", (req, res) => {
 })
 
 app.get("/mockapi/applicationinstances/:id", (req, res) => {
-    sendJson(res, applicationinstances.getFirst())
+    sendJson(res, applicationinstances.getInstance(req.params.id))
 })
 
 app.get("/mockapi/applicationinstances/1/revisions/69/appconfig", (req, res) => {

@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react"
 import {connect} from "react-redux"
-import {Link} from "react-router"
-import {FormString} from "../common/Forms"
+//import {Link} from "react-router"
+import {FormString, FormLink} from "../common/Forms"
 import {oldRevision} from '../../utils/'
 import InstanceResources from "./InstanceResources"
 import Manifest from "./Manifest"
@@ -50,25 +50,25 @@ class Instance extends Component {
                     <CurrentRevision revisionId={query.revision} revisions={revisions}/> : null}
                 <div className="col-xs-12" style={{height: 30 + "px"}}></div>
                 <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
-                    <FormString
-                        label="application"
+                    <FormLink
+                        label="Application"
                         value={instance.application}
-                    />
+                        linkTo={`/applications/${instance.application}`} />
                     <FormString
                         label="version"
                         value={instance.version}
                     />
-                    <FormString
-                        label="environment"
+                    <FormLink
+                        label="Environment"
                         value={instance.environment}
+                        linkTo={`/environments/${instance.environment}`}
                     />
-                    <div className="row">
-                        <div className="col-md-3 FormLabel"><b>Cluster</b></div>
-                        <div className="col-md-9">
-                            <Link
-                                to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>
-                        </div>
-                    </div>
+
+                    <FormLink
+                        label="Cluster"
+                        value={clusterName}
+                        linkTo={`/environments/${instance.environment}/clusters/${clusterName}`}
+                    />
                 </div>
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="History" defaultExpanded={true}>
