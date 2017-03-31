@@ -166,7 +166,7 @@ const clusters = [
                 "loadbalancerurl": "https://dummy.url.no:9443/",
                 "nodes": [
                     {
-                        "name": "host1..devillo.no",
+                        "name": "host1.devillo.no",
                         "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/e34wasl00353.devillo.no"
                     }
                 ],

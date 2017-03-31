@@ -49,7 +49,7 @@ export function FormCreatableList(props) {
                         onChange={(e) => handleChange(label, e.map(item => item.value), parent)}
                     />
                     : <pre className="col-md-8">{value.map((v, i) => <span key={i}><Link
-                    to={`/applications/${v}`}>{v}</Link>{`\n`}</span>)}</pre>
+                    to={`/${label}/${v}`}>{v}</Link>{`\n`}</span>)}</pre>
                 }
             </div>
         </div>
@@ -74,7 +74,7 @@ export function FormListBox(props) {
                         onChange={(e) => handleChange(field || label, e.map(item => item.value), parent)}
                     />
                     : <pre className="col-md-8">{value.map((v, i) => <span key={i}><Link
-                    to={`/applications/${v}`}>{v}</Link>{`\n`}</span>)}</pre>
+                    to={`/${label}/${v}`}>{v}</Link>{`\n`}</span>)}</pre>
                 }
             </div>
         </div>
