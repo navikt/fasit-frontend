@@ -34,8 +34,7 @@ export function* fetchApplicationInstances(action) {
     const instances_api = yield select((state) => state.configuration.fasit_applicationinstances)
     yield put({type: APPLICATION_INSTANCES_FETCHING})
     try {
-        //const value = yield call(fetchUrl, `${instances_api}?application=${action.name}`)
-        const value = yield call(fetchUrl, `${instances_api}?application=${action.name}`)
+        const value = yield call(fetchUrl, `${instances_api}/application/${action.name}`)
         yield put({type: APPLICATION_INSTANCES_RECEIVED, value})
     } catch (error) {
         yield put({type: APPLICATION_INSTANCES_REQUEST_FAILED, error})

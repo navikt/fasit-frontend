@@ -81,7 +81,7 @@ export function* fetchEnvironmentInstances(action) {
     const instancesApi = yield select((state) => state.configuration.fasit_applicationinstances)
     yield put({type: ENVIRONMENT_INSTANCES_FASIT_FETCHING})
     try {
-        const value = yield call(fetchUrl, `${instancesApi}?environment=${action.environment}`)
+        const value = yield call(fetchUrl, `${instancesApi}/environment/${action.environment}`)
         yield put({type: ENVIRONMENT_INSTANCES_FASIT_RECEIVED, value})
     } catch (error) {
         yield put({type: ENVIRONMENT_INSTANCES_FASIT_REQUEST_FAILED, error})
