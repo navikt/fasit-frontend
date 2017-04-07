@@ -1,10 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import moment from 'moment'
-import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
-import {List, ListItem} from 'material-ui/List'
-import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card'
-import {capitalize} from '../../utils/'
+import {ResourcesList} from '../Resources/ResourcesList'
+// import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
+// import {List, ListItem} from 'material-ui/List'
+// import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
+// import {capitalize} from '../../utils/'
 
 
 export default class ElementList extends Component {
@@ -134,7 +135,7 @@ export default class ElementList extends Component {
                 case "nodes":
                     return <div className="element-list">{this.generateNodesList()}</div>
                 case "resources":
-                    return <div className="element-list">{this.generateResourcesList()}</div>
+                    return <ResourcesList resources={this.props.data}/>
                 case "environments":
                     return <div className="element-list">{this.generateEnvironmentsList()}</div>
                 case "applications":

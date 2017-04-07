@@ -85,7 +85,6 @@ export function* fetchAllLists(action) {
             yield fetchNodesList(`${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.nodes)}`)
             return
         case "resources":
-            console.log("Resources ", search.filters)
             let filters = buildFilterString(search.filters, filterConfig.resources)
             yield fetchResourcesList(`${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${filters}`)
             return
