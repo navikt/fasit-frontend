@@ -22,16 +22,17 @@ class Resources extends Component {
         const {resources} = this.props
 
         if (this.props.params.resource) {
-            return <Resource id={this.props.params.resource} />
+            return <Resource id={this.props.params.resource}/>
         }
-
         return (
             <div className="main-content-container">
                 <div className="row">
-                    <div className="col-sm-6 col-xs-12">
+                    <div className="col-sm-12">
                         <Filters />
                     </div>
-                    <div className="col-sm-3 col-sm-offset-1 col-xs-3">
+                </div>
+                <div className="row col-md-11">
+                    <div className="col-md-3 col-sm-offset-1 col-xs-3 pull-right">
                         <ElementPaging />
                     </div>
                 </div>
@@ -46,6 +47,7 @@ class Resources extends Component {
                 </div>
             </div>
         )
+
     }
 }
 

@@ -7,10 +7,13 @@ import {Root} from './js/components/Root/Root'
 import {configureStore} from './js/store/configureStore'
 import {SET_SEARCH_CONTEXT, RECEIVE_CONFIGURATION} from './js/actionTypes'
 
+
 const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)
 
 history.listen(location => store.dispatch({type: SET_SEARCH_CONTEXT, value: location.pathname.split("/")[1]}))
+
+
 
 // /config inneholder alle eksterne APIer, slik at vi slipper å bruke proxy.
 fetch('/config')

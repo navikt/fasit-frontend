@@ -5,6 +5,7 @@ import {validAuthorization, oldRevision} from '../../utils'
 import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from '../../actionCreators/resource'
 import {submitForm} from '../../actionCreators/common'
 import {resourceTypes} from '../../utils/resourceTypes'
+import {ResourceInstances} from './ResourceInstances'
 import NotFound from '../NotFound'
 import {
     CollapsibleMenu,
@@ -22,6 +23,7 @@ import {
     ToolButtons
 } from '../common/'
 import Scope from './Scope'
+import Paper from 'material-ui/Paper'
 
 const initialState = {
     secretVisible: false,
@@ -222,7 +224,7 @@ class Resource extends Component {
             return <FormLink
                 label="Exposed by"
                 value={displayString}
-                linkTo={'/instances/' + exposedBy.id} />
+                linkTo={'/instances/' + exposedBy.id}/>
         }
     }
 
@@ -300,10 +302,16 @@ class Resource extends Component {
                         </div>
                         : ""
                     }
+
+                    <div>
+                        <ResourceInstances instances={fasit.data.usedbyapplications}/>
+                    </div>
                 </div>
+
+
                 <CollapsibleMenu>
                     <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                        <RevisionsView id={id} currentRevision={query.revision} component="resource"/>
+                            <RevisionsView id={id} currentRevision={query.revision} component="resource"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
                         <SecurityView accesscontrol={fasit.data.accesscontrol}/>

@@ -14,7 +14,8 @@ export const initialState = {
         type: '',
         resourcetype: '',
         application: '',
-        zone: ''
+        zone: '',
+        alias: ''
     }
 }
 export default (state = initialState, action) => {

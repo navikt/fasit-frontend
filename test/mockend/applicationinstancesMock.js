@@ -3,6 +3,14 @@ module.exports = {
         return applicationinstances.filter(a => (queryParams.application) ? a.application === queryParams.application : true)
     },
 
+    findApplicationInstanceByApp: (app) => {
+        return applicationinstances.filter(a => a.application === app )
+    },
+
+    findApplicationInstanceByEnv: (env) => {
+        return applicationinstances.filter(a => a.environment === env)
+    },
+
     getInstance: (id) => {
         const instance = applicationinstances.filter(a => (a.id == id ))
         return instance.length === 1 ? instance[0] : applicationinstances[0]

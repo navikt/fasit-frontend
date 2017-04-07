@@ -18,7 +18,7 @@ import NewEnvironmentForm from '../Environments/NewEnvironmentForm'
 import NewClusterForm from '../Environments/NewClusterForm'
 import NewResourceForm from '../Resources/NewResourceForm'
 import {SubmitFormStatus, KeyboardShortcuts} from '../common/'
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class App extends Component {
     constructor(props) {
@@ -53,6 +53,7 @@ class App extends Component {
 
     render() {
         return (
+            <MuiThemeProvider>
             <div style={{outline:"none"}}>
                 <TopNav />
                 <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
@@ -67,6 +68,7 @@ class App extends Component {
                 <NewResourceForm/>
                 <KeyboardShortcuts/>
             </div>
+                </MuiThemeProvider>
         )
     }
 

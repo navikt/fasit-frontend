@@ -1,6 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import moment from 'moment'
+import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
+import {List, ListItem} from 'material-ui/List'
+import {Card, CardHeader, CardActions, CardTitle, CardText} from 'material-ui/Card'
+import {capitalize} from '../../utils/'
+
 
 export default class ElementList extends Component {
     constructor(props) {
@@ -11,16 +16,36 @@ export default class ElementList extends Component {
         const {data} = this.props
 
         return data.data.map((item, index)=> {
+            const avatar = resourceTypeIcon(item.type)
+            const title = `${getResourceTypeName(item.type)} - ${item.alias}`
+            const scope = Object.keys(item.scope).map(k => `${item.scope[k]}`).join(' | ')
+            const properties = Object.keys(item.properties).map(k => ({key: capitalize(k), property: item.properties[k]}))
+
             return (
-                <Link key={index} to={'/resources/' + item.id} className="element-list-item"
-                      activeClassName='element-list-item-active'>
-                    <div>
-                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.alias} - {item.type}</h5>
-                        <i className="fa fa-globe fa-fw"></i> {Object.keys(item.scope).map(k => `${item.scope[k]}`).join(' | ')}
-                        <br />
-                        {Object.keys(item.properties).map(k => (<div className="text-overflow" key={k}>{k}: {item.properties[k]}</div>))}
-                    </div>
-                </Link>
+                <div style={{paddingTop: 5 + "px"}} key={index}>
+                    <Card>
+                        <CardHeader title={title}
+                                    titleStyle={{fontWeight: 'bold'}}
+                                    subtitle={scope}
+                                    avatar={avatar}
+                                    style={{paddingBottom: '10px'}}
+                        />
+
+                        <CardText style={{paddingTop: '0px', paddingBottom: '0px'}}>
+                            <List>
+                                {properties.map((p, key) => p.key === 'ApplicationProperties' ?
+                                    <ListItem key={key} style={{paddingTop: '0px', paddingBottom: '0px'}} disabled={true} className="text-overflow" primaryText={<pre><code>{p.property}</code></pre>}/> :
+                                    <ListItem key={key} style={{paddingTop: '0px', paddingBottom: '0px'}} disabled={true} className="text-overflow" primaryText={p.key} secondaryText={p.property}  />
+                                )}
+                            </List>
+                        </CardText>
+                        <CardActions>
+
+                            <Link key={index} to={'/resources/' + item.id} className="element-list-item"
+                                  activeClassName='element-list-item-active'>View</Link>
+                        </CardActions>
+                    </Card>
+                </div>
             )
         })
     }
@@ -64,11 +89,12 @@ export default class ElementList extends Component {
                 <Link key={index} to={'/applications/' + item.name} className="element-list-item"
                       activeClassName='element-list-item-active'>
                     <div>
-                        <h4><i className="fa fa-cube fa-fw" />&emsp;{item.name}</h4>
-                        <i className="fa fa-id-card-o fa-fw" />&emsp;{item.groupid} &emsp;|&emsp;
-                        <i className="fa fa-id-badge fa-fw" />&emsp;{item.artifactid} <br />
-                        <i className="fa fa-birthday-cake fa-fw" />&emsp;{moment(item.created).format('L HH:mm')}&emsp;|&emsp;
-                        <i className="fa fa-recycle fa-fw" />&emsp;{moment(item.updated).format('L  HH:mm')}
+                        <h4><i className="fa fa-cube fa-fw"/>&emsp;{item.name}</h4>
+                        <i className="fa fa-id-card-o fa-fw"/>&emsp;{item.groupid} &emsp;|&emsp;
+                        <i className="fa fa-id-badge fa-fw"/>&emsp;{item.artifactid} <br />
+                        <i className="fa fa-birthday-cake fa-fw"/>&emsp;{moment(item.created).format('L HH:mm')}&emsp;
+                        |&emsp;
+                        <i className="fa fa-recycle fa-fw"/>&emsp;{moment(item.updated).format('L  HH:mm')}
 
                     </div>
                 </Link>

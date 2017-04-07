@@ -29,7 +29,7 @@ export default class ToolButtons extends Component {
     render() {
         const {authorized, onEditClick, onDeleteClick, onCopyClick} = this.props
         return (
-            <div className="col-xs-12" style={{paddingTop: 10 + "px", paddingBottom: 10 + "px"}}>
+            <div className="col-xs-12" style={{paddingTop: 10 + "px", paddingBottom: 50 + "px"}}>
                 <div>
                     <div className={authorized ? "btn btn-sm btn-grey" : "btn btn-sm btn-grey disabled"}
                          style={{textAlign: "left"}}

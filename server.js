@@ -85,6 +85,14 @@ app.get("/mockapi/applicationinstances/:id", (req, res) => {
     sendJson(res, applicationinstances.getInstance(req.params.id))
 })
 
+app.get("/mockapi/applicationinstances/environment/:environment", (req, res) => {
+    sendJson(res, applicationinstances.findApplicationInstanceByEnv(req.params.environment))
+})
+
+app.get("/mockapi/applicationinstances/application/:application", (req, res) => {
+    sendJson(res, applicationinstances.findApplicationInstanceByApp(req.params.application))
+})
+
 app.get("/mockapi/applicationinstances/1/revisions/69/appconfig", (req, res) => {
     res.send("<this><is><real><nested><xml>69</xml></nested></real></is></this>")
 })

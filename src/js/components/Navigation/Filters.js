@@ -32,7 +32,7 @@ class Filters extends Component {
         })
 
         return (
-            <div className="Select-environment">
+            <div className="form-group Select-environment">
                 <Select
                     resetValue=""
                     placeholder="Env."
@@ -47,7 +47,7 @@ class Filters extends Component {
 
     applicationFilter() {
         return (
-            <div className="Select-application">
+            <div className="form-group Select-application">
                 <Select
                     resetValue=""
                     placeholder="App."
@@ -60,9 +60,25 @@ class Filters extends Component {
         )
     }
 
+    zoneFilter() {
+        return (
+            <div className="form-group Select-environmentclass">
+                <Select
+                    resetValue=""
+                    placeholder="Zone"
+                    name="form-field-zone"
+                    disabled={this.props.search.filters.environmentclass === '' && this.props.search.filters.environment === ''}
+                    value={this.props.search.filters.zone}
+                    options={this.convertToSelectObject(this.props.zones)}
+                    onChange={(e) => this.handleChangeFilter("zone", e.value)}
+                />
+            </div>
+        )
+    }
+
     classFilter() {
         return (
-            <div className="Select-environmentclass">
+            <div className="form-group Select-environmentclass">
                 <Select
                     resetValue=""
                     placeholder="Class"
@@ -76,7 +92,7 @@ class Filters extends Component {
 
     nodeTypeFilter() {
         return (
-            <div className="Select-nodetype">
+            <div className="form-group Select-nodetype">
                 <Select
                     resetValue=""
                     placeholder="Type"
@@ -91,7 +107,7 @@ class Filters extends Component {
 
     resourceTypeFilter() {
         return (
-            <div className="Select-resourcetype">
+            <div className="form-group Select-resourcetype">
                 <Select
                     resetValue=""
                     placeholder="Type"
@@ -104,16 +120,16 @@ class Filters extends Component {
         )
     }
 
-    nameFilter() {
+    aliasFilter() {
         return (
-            <div className="Select-name">
-                <Select
-                    resetValue=""
-                    placeholder="Name"
-                    name="form-field-name"
-                    value={this.props.filters.name}
-                    options={this.convertToSelectObject(this.names)}
-                    onChange={(e) => this.handleChangeFilter("name", e.value)}
+            <div className="form-group Input-alias">
+                <input
+                    placeholder="Alias"
+                    className="form-control"
+                    style={{height: "34px"}}
+                    type="text"
+                    value={this.props.search.filters.alias}
+                    onChange={(e) => this.handleChangeFilter("alias", e.target.value)}
                 />
             </div>
         )
@@ -124,13 +140,13 @@ class Filters extends Component {
         switch (search.context) {
             case "applications":
                 return (
-                    <div className="filters">
+                    <div className="form-inline filters">
                     </div>
                 )
 
             case "instances":
                 return (
-                    <div className="filters">
+                    <div className="form-inline filters">
                         {this.classFilter()}
                         {this.environmentFilter()}
                         {this.applicationFilter()}
@@ -138,7 +154,7 @@ class Filters extends Component {
                 )
             case "nodes":
                 return (
-                    <div className="filters">
+                    <div className="form-inline filters">
                         {this.classFilter()}
                         {this.environmentFilter()}
                         {this.nodeTypeFilter()}
@@ -146,23 +162,25 @@ class Filters extends Component {
                 )
             case "environments":
                 return (
-                    <div className="filters">
+                    <div className="form-inline filters">
                         {this.classFilter()}
                     </div>
                 )
             case "resources":
                 return (
-                    <div className="filters">
-                        {/*this.nameFilter()*/}
+                    <form className="form-inline filters">
+                        {this.aliasFilter()}
                         {this.classFilter()}
                         {this.environmentFilter()}
                         {this.applicationFilter()}
+                        {this.zoneFilter()}
                         {this.resourceTypeFilter()}
-                    </div>
+
+                    </form>
                 )
             default:
                 return (
-                    <div className="filters">
+                    <div className="form-inline  filters">
                         {this.classFilter()}
                         {this.environmentFilter()}
                         {this.nodeTypeFilter()}
@@ -186,7 +204,8 @@ const mapStateToProps = (state) => {
         applicationNames: state.applications.applicationNames,
         environmentClasses: state.environments.environmentClasses,
         nodeTypes: state.nodes.nodeTypes,
-        resourceTypes: state.resources.resourceTypes
+        zones: state.environments.zones,
+        resourceTypes: state.resources.resourceTypes.sort()
     }
 }
 
