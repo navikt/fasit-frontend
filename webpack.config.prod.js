@@ -7,6 +7,11 @@ module.exports = {
         './src/index',
         './src/stylesheets/index.less'
     ],
+    resolve: {
+        modulesDirectories: ['node_modules'],
+        alias: {},
+        extensions: ['', '.jsx', '.js']
+    },
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'fasit.js',
@@ -29,6 +34,10 @@ module.exports = {
                 test: /\.js?/,
                 exclude: [/node_modules/, /stylesheets/],
                 loaders: ['babel-loader'],
+            },
+            {
+                test: /\.jsx$/,
+                loader: 'jsx-loader?harmony'
             },
             {
                 test: /\.less$/,
