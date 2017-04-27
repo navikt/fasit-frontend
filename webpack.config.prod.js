@@ -7,7 +7,6 @@ module.exports = {
         './src/index',
         './src/stylesheets/index.less'
     ],
-    debug: true,
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'fasit.js',
@@ -19,12 +18,12 @@ module.exports = {
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
 
-        /*new webpack.optimize.UglifyJsPlugin({
+        new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
             compressor: {
                 warnings: false
             }
-        })*/
+        })
     ],
     module: {
         loaders: [
