@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const DebugWebpackPlugin = require('debug-webpack-plugin')
 
 module.exports = {
     devtool: 'source-map',
@@ -19,27 +18,8 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
-        new DebugWebpackPlugin({
 
-            // Defaults to ['webpack:*'] which can be VERY noisy, so try to be specific
-            /*scope: [
-                'webpack:compiler:*', // include compiler logs
-
-            ],*/
-
-            // Inspect the arguments passed to an event
-            // These are triggered on emits
-            listeners: {
-                'webpack:compiler:run': function(compiler) {
-                    // Read some data out of the compiler
-                }
-            },
-            debug: true
-            // Defaults to the compiler's setting
-           // debug: true;
-})/*,
-
-        new webpack.optimize.UglifyJsPlugin({
+        /*new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
             compressor: {
                 warnings: false
