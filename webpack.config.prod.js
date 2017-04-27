@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const DebugWebpackPlugin = require('debug-webpack-plugin')
 
 module.exports = {
     devtool: 'source-map',
@@ -7,11 +8,7 @@ module.exports = {
         './src/index',
         './src/stylesheets/index.less'
     ],
-    resolve: {
-        modulesDirectories: ['node_modules'],
-        alias: {},
-        extensions: ['', '.jsx', '.js']
-    },
+    debug: true,
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'fasit.js',
@@ -22,11 +19,32 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
+        new DebugWebpackPlugin({
+
+            // Defaults to ['webpack:*'] which can be VERY noisy, so try to be specific
+            /*scope: [
+                'webpack:compiler:*', // include compiler logs
+
+            ],*/
+
+            // Inspect the arguments passed to an event
+            // These are triggered on emits
+            listeners: {
+                'webpack:compiler:run': function(compiler) {
+                    // Read some data out of the compiler
+                }
+            },
+            debug: true
+            // Defaults to the compiler's setting
+           // debug: true;
+})/*,
+
         new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
             compressor: {
                 warnings: false
             }
-        })
+        })*/
     ],
     module: {
         loaders: [
@@ -34,10 +52,6 @@ module.exports = {
                 test: /\.js?/,
                 exclude: [/node_modules/, /stylesheets/],
                 loaders: ['babel-loader'],
-            },
-            {
-                test: /\.jsx$/,
-                loader: 'jsx-loader?harmony'
             },
             {
                 test: /\.less$/,
