@@ -14,7 +14,7 @@ import {
 export const closeSubmitFormStatus = () => {return {type: CLOSE_SUBMIT_FORM_STATUS}}
 export const submitForm = (key, form, comment, component) =>  {return {type:SUBMIT_FORM, key, form, comment, component}}
 export const fetchRevisions = (component, key) => {return {type: REVISIONS_REQUEST, component, key}}
-export const displayModal = (component, value) => {
+export const displayModal = (component, value, copy) => {
     switch(component){
         case "application":
             return {type: SHOW_NEW_APPLICATION_FORM, value}
@@ -23,7 +23,7 @@ export const displayModal = (component, value) => {
             return {type: SHOW_NEW_CLUSTER_FORM, value}
             break
         case "environment":
-            return {type: SHOW_NEW_ENVIRONMENT_FORM, value}
+            return {type: SHOW_NEW_ENVIRONMENT_FORM, value, copy}
             break
         case "node":
             return {type: SHOW_NEW_NODE_FORM, value}

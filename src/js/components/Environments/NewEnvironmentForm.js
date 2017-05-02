@@ -16,7 +16,16 @@ class NewEnvironmentForm extends Component {
             comment: ""
         }
     }
+    componentWillReceiveProps(next){
+        const {name, environmentclass} = this.props
+        if (next.copy){
+            this.setState({
+                name,
+                environmentclass
+            })
 
+        }
+    }
 
     resetLocalState() {
         this.setState({
@@ -61,11 +70,11 @@ class NewEnvironmentForm extends Component {
     }
 
     render() {
-        const {environmentClasses, showNewEnvironmentForm} = this.props
+        const {environmentClasses, showNewEnvironmentForm, copy, name} = this.props
         return (
             <Modal show={showNewEnvironmentForm} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
-                    <Modal.Title>New environment
+                    <Modal.Title>{copy ? "Copying environment " + name : "New environment"}
                         <button type="reset" className="btn btn-link pull-right"
                                 onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>
@@ -112,7 +121,10 @@ const mapStateToProps = (state) => {
         showNewEnvironmentForm: state.environments.showNewEnvironmentForm,
         environmentClasses: state.environments.environmentClasses,
         environments: state.environments.environments,
-        zones: state.environments.zones
+        zones: state.environments.zones,
+        copy: state.environments.copy,
+        name: state.environment_fasit.data.name,
+        environmentclass: state.environment_fasit.data.environmentclass,
     }
 }
 
