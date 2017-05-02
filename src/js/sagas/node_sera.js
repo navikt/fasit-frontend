@@ -1,4 +1,4 @@
-import {takeEvery} from 'redux-saga'
+import {takeLatest} from 'redux-saga'
 import {call, put, fork, select} from 'redux-saga/effects'
 import {fetchUrl} from '../utils'
 import {
@@ -24,5 +24,5 @@ export function* fetchSera(action) {
 }
 
 export function* watchNodeSera() {
-    yield fork(takeEvery, NODE_SERA_REQUEST, fetchSera)
+    yield fork(takeLatest, NODE_SERA_REQUEST, fetchSera)
 }
