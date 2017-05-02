@@ -1,6 +1,6 @@
 {
   "name": "fasit-frontend",
-  "version": "112.0.0",
+  "version": "117.0.0",
   "description": "Fasit frontend",
   "main": "server.js",
   "scripts": {
@@ -35,7 +35,7 @@
       }
     },
     "build": {
-      "command": "webpack --verbose --colors --display-error-details --config webpack.config.prod.js",
+      "command": "webpack --verbose --devtool source-map --colors --display-error-details --progress --config webpack.config.prod.js",
       "env": {
         "NODE_ENV": "production"
       }

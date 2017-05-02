@@ -1,9 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
-import {Popover, OverlayTrigger} from 'react-bootstrap'
-
 import Paper from 'material-ui/Paper'
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/table'
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
 
 
 export function ResourceInstances(props) {
