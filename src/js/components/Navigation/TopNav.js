@@ -2,11 +2,10 @@ import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {Login, AuraTools, NavSearch, KeyboardShortcuts} from '../common/'
+import {Login, AuraTools, NavSearch} from '../common/'
 import ContextMenu from './ContextMenu'
 import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
-import {displayModal} from '../../actionCreators/common'
-import {submitSearchString} from '../../actionCreators/element_lists'
+import {toggleHelp} from '../../actionCreators/common'
 
 
 class TopNav extends Component {
@@ -102,7 +101,7 @@ class TopNav extends Component {
                 <li>
                     <button type="button"
                             className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
-                            onClick={() => dispatch(displayModal("shortcuts", true))}
+                            onClick={() => dispatch(toggleHelp())}
                             style={{marginTop: 8}}>
                         <i className="fa fa-2x fa-keyboard-o"/>
                     </button>

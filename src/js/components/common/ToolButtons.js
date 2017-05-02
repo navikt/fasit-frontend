@@ -9,7 +9,7 @@ export default class ToolButtons extends Component {
         if (authorized){
             Mousetrap.bind('c', onCopyClick)
             Mousetrap.bind('d', onDeleteClick)
-            Mousetrap.bind('e', onEditClick)
+            Mousetrap.bind(['e', 'esc'], onEditClick)
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -17,13 +17,13 @@ export default class ToolButtons extends Component {
         if (nextProps.authorized){
             Mousetrap.bind('c', onCopyClick)
             Mousetrap.bind('d', onDeleteClick)
-            Mousetrap.bind('e', onEditClick)
+            Mousetrap.bind(['e', 'esc'], onEditClick)
         } else if (!nextProps.authorized) {
-            Mousetrap.unbind(['c', 'e', 'd'])
+            Mousetrap.unbind(['c', 'e', 'd', 'esc'])
         }
     }
     componentWillUnmount(){
-        Mousetrap.unbind(['c', 'e', 'd'])
+        Mousetrap.unbind(['c', 'e', 'd', 'esc'])
     }
 
     render() {

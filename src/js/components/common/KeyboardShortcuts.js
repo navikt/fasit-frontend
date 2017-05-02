@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {displayModal} from '../../actionCreators/common'
+import {toggleHelp} from '../../actionCreators/common'
 
 
 class KeyboardShortcuts extends Component {
@@ -12,12 +12,12 @@ class KeyboardShortcuts extends Component {
     render() {
         const {dispatch, visibility} = this.props
         return (
-            <Modal bsSize="small" show={visibility} onHide={() => dispatch(displayModal("shortcuts", false))}>
+            <Modal bsSize="small" show={visibility} onHide={() => dispatch(toggleHelp())}>
                 <Modal.Header>
                     <Modal.Title>Keyboard shortcuts
                         <button
                             className="btn btn-xs btn-default pull-right"
-                            onClick={() => dispatch(displayModal("shortcuts", false))}
+                            onClick={() => dispatch(toggleHelp())}
                         ><i className="fa fa-times"/>
                         </button>
                     </Modal.Title>
