@@ -30,7 +30,7 @@ class Instances extends Component {
                         <Filters />
                     </div>
                     <div className="col-sm-3 col-sm-offset-1 col-xs-3">
-                        <ElementPaging />
+                        {/*<ElementPaging />*/}
                     </div>
                 </div>
                 <div className="col-sm-10">

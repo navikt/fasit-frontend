@@ -30,7 +30,7 @@ class Applications extends Component {
                             <Filters />
                         </div>
                         <div className="col-sm-2 col-sm-offset-1 col-xs-3 pull-right">
-                            <ElementPaging />
+                            {/*<ElementPaging />*/}
                         </div>
                     </div>
                     <div className="col-sm-10">
