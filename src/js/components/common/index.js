@@ -6,6 +6,7 @@ import ElementList from './ElementList'
 import ElementPaging from './ElementPaging'
 import KeyboardShortcuts from './KeyboardShortcuts'
 import Login from './Login'
+import {LifecycleStatus} from './LifecycleStatus'
 import Lifecycle from './Lifecycle'
 import NavSearch from './NavSearch'
 import RevisionsView from './RevisionsView'
@@ -36,6 +37,7 @@ export {
     FormSecret,
     FormString,
     KeyboardShortcuts,
+    LifecycleStatus,
     Lifecycle,
     Login,
     NavSearch,

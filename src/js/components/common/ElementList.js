@@ -2,53 +2,11 @@ import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import moment from 'moment'
 import {ResourcesList} from '../Resources/ResourcesList'
-// import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
-// import {List, ListItem} from 'material-ui/List'
-// import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
-// import {capitalize} from '../../utils/'
 
 
 export default class ElementList extends Component {
     constructor(props) {
         super(props)
-    }
-
-    generateResourcesList() {
-        const {data} = this.props
-
-        return data.data.map((item, index)=> {
-            const avatar = resourceTypeIcon(item.type)
-            const title = `${getResourceTypeName(item.type)} - ${item.alias}`
-            const scope = Object.keys(item.scope).map(k => `${item.scope[k]}`).join(' | ')
-            const properties = Object.keys(item.properties).map(k => ({key: capitalize(k), property: item.properties[k]}))
-
-            return (
-                <div style={{paddingTop: 5 + "px"}} key={index}>
-                    <Card>
-                        <CardHeader title={title}
-                                    titleStyle={{fontWeight: 'bold'}}
-                                    subtitle={scope}
-                                    avatar={avatar}
-                                    style={{paddingBottom: '10px'}}
-                        />
-
-                        <CardText style={{paddingTop: '0px', paddingBottom: '0px'}}>
-                            <List>
-                                {properties.map((p, key) => p.key === 'ApplicationProperties' ?
-                                    <ListItem key={key} style={{paddingTop: '0px', paddingBottom: '0px'}} disabled={true} className="text-overflow" primaryText={<pre><code>{p.property}</code></pre>}/> :
-                                    <ListItem key={key} style={{paddingTop: '0px', paddingBottom: '0px'}} disabled={true} className="text-overflow" primaryText={p.key} secondaryText={p.property}  />
-                                )}
-                            </List>
-                        </CardText>
-                        <CardActions>
-
-                            <Link key={index} to={'/resources/' + item.id} className="element-list-item"
-                                  activeClassName='element-list-item-active'>View</Link>
-                        </CardActions>
-                    </Card>
-                </div>
-            )
-        })
     }
 
     generateNodesList() {
