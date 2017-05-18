@@ -37,8 +37,11 @@ function ResourceListElement(props) {
            <LifecycleStatus status={resource.lifecyclestatus}/>
        </div>)
 
+    const primaryText = (key, value) => key === 'ApplicationProperties' ? (<pre><code>{value}</code></pre>) : value
+
+
     return (
-        <div style={{paddingTop: 5 + "px"}} >
+        <div style={{paddingTop: '5px'}} >
             <Card >
                 <CardHeader title={title}
                             titleStyle={{fontWeight: 'bold'}}
@@ -50,14 +53,11 @@ function ResourceListElement(props) {
 
                 <CardText style={{paddingTop: '0px', paddingBottom: '0px'}}>
                     <List>
-                        {properties.map((p, key) => p.key === 'ApplicationProperties' ?
-                            <ListItem key={key} style={{paddingTop: '0px', paddingBottom: '3px'}}
+                        {properties.map((p, key) =>
+                            <ListItem key={key} style={{paddingTop: '0px', paddingBottom: '14px'}}
                                       disabled={true} className="text-overflow"
-                                      primaryText={<pre><code>{p.property}</code></pre>}/> :
-                            <ListItem key={key} style={{paddingTop: '0px', paddingBottom: '5px'}}
-                                      disabled={true} className="text-overflow" primaryText={p.key}
-                                      secondaryText={p.property}/>
-                        )}
+                                      primaryText={primaryText(p.key, p.property)}
+                                        secondaryText={p.key}/>)}
                     </List>
                 </CardText>
                 <CardActions>

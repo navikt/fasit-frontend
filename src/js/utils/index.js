@@ -79,9 +79,7 @@ export const fetchPage = (url) => {
                     data,
                     headers
                 })
-
             })
-
         })
 }
 

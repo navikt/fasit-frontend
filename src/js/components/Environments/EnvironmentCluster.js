@@ -161,7 +161,8 @@ class EnvironmentCluster extends Component {
 
                     <div className="row">
                         <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => console.error("you need to do something about this")}/>
+                                   rescueAction={() => console.error("you need to do something about this")}
+                                   authorized={authorized}/>
                     </div>
                 </div>
 

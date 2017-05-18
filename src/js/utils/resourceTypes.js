@@ -182,8 +182,8 @@ export const resourceTypes = {
         color: WHITE,
         texticon: "MQ",
         properties: [
-            textbox("queuename", "Queue name"),
-            textbox("queuemanager", "Queue manager", false)
+            textbox("queueName", "Queue name"),
+            textbox("queueManager", "Queue manager", false)
 
         ]
     },

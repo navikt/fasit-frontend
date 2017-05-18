@@ -18,6 +18,7 @@ import {
     FormTextArea,
     Lifecycle,
     RevisionsView,
+    RescueElementForm,
     SecurityView,
     DeleteElementForm,
     ToolButtons
@@ -82,13 +83,13 @@ class Resource extends Component {
             created: newState.data.created,
             updated: newState.data.updated,
             currentSecret: newState.currentSecret,
+            lifecyclestatus: newState.data.lifecycle,
             comment: ""
         })
     }
 
-    saveResource() {
-        const {dispatch} = this.props
-        const {alias, type, properties, scope, currentSecret, files, comment} = this.state
+    buildFormData() {
+        const {alias, type, properties, scope, currentSecret, files} = this.state
 
         const form = {
             alias,
@@ -109,12 +110,27 @@ class Resource extends Component {
             form.files = files
         }
 
+        return form
+    }
+
+    rescueResource() {
+        const {dispatch} = this.props
+        const {comment} = this.state
+        const form = this.buildFormData()
+
+        form.lifecycle = {status: "rescued"}
+        this.toggleComponentDisplay("displayRescueForm")
+        dispatch(submitForm(this.props.id, form, comment, "resource"))
+    }
+
+    saveResource() {
+        const {dispatch} = this.props
+        const {comment} = this.state
+        const form = this.buildFormData()
 
         this.toggleComponentDisplay("editMode")
         this.toggleComponentDisplay("displaySubmitForm")
-
         dispatch(submitForm(this.props.id, form, comment, "resource"))
-        this.toggleComponentDisplay("editMode")
     }
 
     deleteResource(key, form, comment, component) {
@@ -242,6 +258,10 @@ class Resource extends Component {
         // håndtere error i fetch secrets
         // access control
         // life cycle
+        // file upload
+        // copy
+
+
 
 
         const {id, fasit, user, query, revisions} = this.props
@@ -271,8 +291,6 @@ class Resource extends Component {
 
 
         return (
-
-
             <div className="row">
                 { showRevision ? <CurrentRevision revisionId={query.revision} revisions={revisions}/>
                     : <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
@@ -303,6 +321,12 @@ class Resource extends Component {
                         : ""
                     }
 
+                    <div className="row">
+                        <Lifecycle lifecycle={lifecycle}
+                                   rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
+                                   authorized={authorized}/>
+                    </div>
+
                     <div>
                         <ResourceInstances instances={fasit.data.usedbyapplications}/>
                     </div>
@@ -317,6 +341,16 @@ class Resource extends Component {
                         <SecurityView accesscontrol={fasit.data.accesscontrol}/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
+
+                <RescueElementForm
+                    displayRescueForm={this.state.displayRescueForm}
+                    onClose={() => this.toggleComponentDisplay("displayRescueForm")}
+                    onSubmit={() => this.rescueResource()}
+                    id={fasit.data.id}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={this.state.comment}
+
+                />
 
                 <DeleteElementForm
                     displayDeleteForm={this.state.displayDeleteForm}

@@ -217,7 +217,8 @@ class Node extends Component {
                     {/*Lifecycle*/}
                     <div className="row">
                         <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}/>
+                                   rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
+                                   authorized={authorized}/>
                     </div>
                 </div>
 
