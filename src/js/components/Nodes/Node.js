@@ -172,7 +172,7 @@ class Node extends Component {
                         editMode={editMode}
                         value={password}
                         handleChange={this.handleChange.bind(this)}
-                        authenticated={user.authenticated}
+                        authorized={authorized}
                         toggleDisplaySecret={this.toggleDisplaySecret.bind(this)}
                     />
 

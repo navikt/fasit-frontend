@@ -206,7 +206,7 @@ export function FormTextArea(props) {
 }
 
 export function FormSecret(props) {
-    const {label, value, editMode, handleChange, disabled, toggleDisplaySecret, field, authenticated} = props
+    const {label, value, editMode, handleChange, disabled, toggleDisplaySecret, field, authorized} = props
     return (
         <div className="row">
             <div className="col-md-3 FormLabel"><b>{capitalize(label)}:</b></div>
@@ -226,7 +226,7 @@ export function FormSecret(props) {
 
                                 >{value ? value : "••••••••••••••••    "}&emsp;</span>
                         </OverlayTrigger>
-                        {authenticated ?
+                        {authorized ?
                             !value ?
                                 <i className="fa fa-eye FormValue  cursor-pointer"
                                    onClick={() => toggleDisplaySecret()}/> :
