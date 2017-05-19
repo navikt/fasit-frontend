@@ -1,6 +1,6 @@
 {
   "name": "fasit-frontend",
-  "version": "122.0.0",
+  "version": "123.0.0",
   "description": "Fasit frontend",
   "main": "server.js",
   "scripts": {
