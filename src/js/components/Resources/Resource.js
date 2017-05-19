@@ -233,7 +233,7 @@ class Resource extends Component {
                                      handleChange={this.handleChange.bind(this)}
                                      options={property.options}/>
             case "secret":
-                const authorized = validAuthorization(user, fasit.data.accesscontrol)
+                const authorized = validAuthorization(user, this.props.fasit.data.accesscontrol)
                 return <FormSecret key={key}
                                    label={label}
                                    field="currentSecret"

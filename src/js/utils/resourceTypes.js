@@ -37,7 +37,7 @@ export const resourceTypes = {
         properties: [
             textbox("url"),
             textbox("username"),
-            textbox("oemendpoint", "OEM endpoint (Oracle PDB Only)", false),
+            textbox("oemEndpoint", "OEM endpoint (Oracle PDB Only)", false),
             secret("password")]
     },
     MSSQLDataSource: {
@@ -124,8 +124,8 @@ export const resourceTypes = {
     WebserviceEndpoint: {
         icon: "fa fa-bookmark",
         properties: [
-            textbox("endpointurl", "Endpoint Url"),
-            textbox("wsdlurl", "WSDL Url", false),
+            textbox("endpointUrl", "Endpoint Url"),
+            textbox("wsdlUrl", "WSDL Url", false),
             dropdown("securityToken", "Security Token", ["NONE", "LTPA", "SAML", "USERNAME_TOKEN", "OTHER"]),
             textbox("description", "Description", false)
         ]
@@ -146,10 +146,10 @@ export const resourceTypes = {
     EJB: {
         icon: "fa fa-exclamation",
         properties: [
-            textbox("providerurl", "Provider Url"),
+            textbox("providerUrl", "Provider Url"),
             textbox("jndi", "Jndi", false),
-            textbox("beanhomeinterface", "Home Interface", false),
-            textbox("beancomponentinterface", "Component Interface", false),
+            textbox("beanHomeInterface", "Home Interface", false),
+            textbox("beanComponentInterface", "Component Interface", false),
             textbox("description", "Description", false)
         ]
     },
@@ -192,8 +192,8 @@ export const resourceTypes = {
         color: WHITE,
         texticon: "T",
         properties: [
-            textbox("topicstring", "Topic string"),
-            textbox("queuemanager", "Queue manager", false)
+            textbox("topicString", "Topic string"),
+            textbox("queueManager", "Queue manager", false)
         ]
     },
     DeploymentManager: {
@@ -214,9 +214,9 @@ export const resourceTypes = {
     MemoryParameters: {
         icon: "fa fa-microchip",
         properties: [
-            textbox("minmemory", "Initial memory"),
-            textbox("maxmemory", "Maximum memory"),
-            textbox("permgenmemory", "Maximum permgen/metaspace", false)
+            textbox("minMemory", "Initial memory"),
+            textbox("maxMemory", "Maximum memory"),
+            textbox("permGenMemory", "Maximum permgen/metaspace", false)
         ]
     },
     LoadBalancer: {
@@ -227,7 +227,7 @@ export const resourceTypes = {
             textbox("hostname", "Primary hostname"),
             textbox("secondary_hostname", "Secondary hostname"),
             textbox("username"),
-            secret("password", "secret")]
+            secret("password")]
     },
     LoadBalancerConfig: {
         backgroundColor: redA700,
@@ -235,8 +235,8 @@ export const resourceTypes = {
         icon: "fa fa-balance-scale",
         properties: [
             textbox("url"),
-            textbox("poolname", "Pool name"),
-            textbox("contextroots", "Context roots", false)
+            textbox("poolName", "Pool name"),
+            textbox("contextRoots", "Context roots", false)
         ]
     },
     FileLibrary: {
@@ -252,7 +252,7 @@ export const resourceTypes = {
         icon: "fa fa-exchange",
         properties: [
             textbox("name", "Channel name"),
-            textbox("queuemanager", "Queue manager", false)
+            textbox("queueManager", "Queue manager", false)
         ]
     }
 }
