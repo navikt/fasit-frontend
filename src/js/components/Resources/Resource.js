@@ -8,6 +8,7 @@ import {resourceTypes} from '../../utils/resourceTypes'
 import {ResourceInstances} from './ResourceInstances'
 import NotFound from '../NotFound'
 import {
+    AccessControl,
     CollapsibleMenu,
     CollapsibleMenuItem,
     CurrentRevision,
@@ -32,6 +33,7 @@ const initialState = {
     deleteMode: false,
     displaySubmitForm: false,
     displayDeleteForm: false,
+    adgroups: [],
     comment: ""
 }
 
@@ -62,6 +64,7 @@ class Resource extends Component {
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(id, nextProps.query.revision))
         }
+
     }
 
     componentWillUnmount() {
@@ -71,6 +74,8 @@ class Resource extends Component {
 
     setNewState(newState) {
         // TODO, make generic?
+
+        const adgroups = newState.accesscontrol ? newState.accesscontrol.adgroups : []
 
         this.setState({
             alias: newState.data.alias,
@@ -83,7 +88,7 @@ class Resource extends Component {
             created: newState.data.created,
             updated: newState.data.updated,
             currentSecret: newState.currentSecret,
-            lifecyclestatus: newState.data.lifecycle,
+            adgroups: adgroups,
             comment: ""
         })
     }
@@ -95,7 +100,7 @@ class Resource extends Component {
             alias,
             type,
             properties,
-            scope,
+            scope
         }
 
         if (currentSecret && currentSecret.length > 0) {
@@ -137,6 +142,15 @@ class Resource extends Component {
         const {dispatch} = this.props
         this.toggleComponentDisplay("displayDeleteForm")
         dispatch(submitForm(key, form, comment, component))
+    }
+
+    updateAccessControl() {
+        const {dispatch} = this.props
+        const comment = "Changed accesscontrol rules"
+        const form = this.buildFormData()
+        form.accesscontrol = {adgroups: this.state.adgroups}
+        this.toggleComponentDisplay("displayAccessControlForm")
+        dispatch(submitForm(this.props.id, form, comment, "resource"))
     }
 
 
@@ -256,13 +270,8 @@ class Resource extends Component {
         // I resources element list hvis ressurstypen med riktig casing
         // Få enter til å funke skikkelig i formene både ny, edit og comment
         // håndtere error i fetch secrets
-        // access control
-        // life cycle
         // file upload
         // copy
-
-
-
 
         const {id, fasit, user, query, revisions} = this.props
         const showRevision = oldRevision(revisions, query.revision)
@@ -288,7 +297,6 @@ class Resource extends Component {
             authorized = validAuthorization(user, fasit.data.accesscontrol)
             lifecycle = fasit.data.lifecycle
         }
-
 
         return (
             <div className="row">
@@ -338,7 +346,8 @@ class Resource extends Component {
                             <RevisionsView id={id} currentRevision={query.revision} component="resource"/>
                     </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Security">
-                        <SecurityView accesscontrol={fasit.data.accesscontrol}/>
+                        <SecurityView accesscontrol={fasit.data.accesscontrol}
+                                      displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                     </CollapsibleMenuItem>
                 </CollapsibleMenu>
 
@@ -346,10 +355,19 @@ class Resource extends Component {
                     displayRescueForm={this.state.displayRescueForm}
                     onClose={() => this.toggleComponentDisplay("displayRescueForm")}
                     onSubmit={() => this.rescueResource()}
-                    id={fasit.data.id}
+                    id={id}
                     handleChange={this.handleChange.bind(this)}
                     comment={this.state.comment}
 
+                />
+
+                <AccessControl
+                    displayAccessControlForm={this.state.displayAccessControlForm}
+                    onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
+                    onSubmit={() => this.updateAccessControl()}
+                    id={id}
+                    value={this.state.adgroups}
+                    handleChange={this.handleChange.bind(this)}
                 />
 
                 <DeleteElementForm
