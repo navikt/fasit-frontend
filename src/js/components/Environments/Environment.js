@@ -163,7 +163,8 @@ class Environment extends Component {
 
                     <div className="row">
                         <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => console.log("you need to do something about this, dude!")}/>
+                                   rescueAction={() => console.log("you need to do something about this, dude!")}
+                                   authorized={authorized}/>
                     </div>
                 </div>
 

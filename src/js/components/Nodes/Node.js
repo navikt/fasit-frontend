@@ -173,7 +173,7 @@ class Node extends Component {
                         editMode={editMode}
                         value={password}
                         handleChange={this.handleChange.bind(this)}
-                        authenticated={user.authenticated}
+                        authorized={authorized}
                         toggleDisplaySecret={this.toggleDisplaySecret.bind(this)}
                     />
 
@@ -218,7 +218,8 @@ class Node extends Component {
                     {/*Lifecycle*/}
                     <div className="row">
                         <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}/>
+                                   rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
+                                   authorized={authorized}/>
                     </div>
                 </div>
 

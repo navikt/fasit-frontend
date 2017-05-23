@@ -22,8 +22,8 @@ class RevisionsView extends Component {
     tooltip(message) {
         return (
             <Tooltip id="tooltip">{message}</Tooltip>
-        )
-    }
+)
+}
 
     showRevisionsFooter() {
         const {revisions} = this.props

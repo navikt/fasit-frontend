@@ -159,7 +159,8 @@ class Application extends Component {
                     {/*Lifecycle*/}
                     <div className="row">
                         <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => dispatch(rescueApplication(name))}/>
+                                   rescueAction={() => dispatch(rescueApplication(name))}
+                                   authorized={authorized}/>
                     </div>
                     <ApplicationInstances name={name}/>
 

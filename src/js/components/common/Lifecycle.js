@@ -10,7 +10,7 @@ class Lifecycle extends Component {
     }
 
     render() {
-        const {lifecycle, jira, rescueAction} = this.props
+        const {lifecycle, jira, rescueAction, authorized} = this.props
         if (lifecycle === undefined) return null
         if (!this.state.visible) return null
          switch (lifecycle.status) {
@@ -20,7 +20,7 @@ class Lifecycle extends Component {
                          <button type="button" className="close" onClick={() => this.setState({visible:false})}>&times;</button>
                          This element was stopped and will be <b>deleted</b><br />
                         {moment(lifecycle.nextactiondate).format('ll, HH:mm')}<br />
-                        <button className="btn btn-primary btn-sm" onClick={rescueAction} style={{marginRight:5}}>
+                        <button disabled={!authorized} className="btn btn-primary btn-sm" onClick={rescueAction} style={{marginRight:5}}>
                             <i className="fa fa-recycle"/>&nbsp;&nbsp;Rescue
                         </button>
                     </div>
@@ -29,11 +29,11 @@ class Lifecycle extends Component {
                 return (
                     <div className="alert alert-dismissible alert-info col-md-8">
                         <button type="button" className="close" onClick={() => this.setState({visible:false})}>&times;</button>
-                        This element is a candidate for deletion and will be <b>stopped</b><br />
+                         This element is a candidate for deletion and will be <b>stopped</b><br />
                         {moment(lifecycle.nextactiondate).format('ll, HH:mm')}
                         <br />See <a href={`${jira}/browse/${lifecycle.issue}`}
                                      target="jira">Jira-issue</a> for more details<br />
-                        <button className="btn btn-primary btn-sm pull-right" onClick={rescueAction} style={{position:"relative", right:-25, bottom:-5}}>
+                        <button className="btn btn-primary btn-sm pull-right" disabled={!authorized} onClick={rescueAction} style={{position:"relative", right:-25, bottom:-5}}>
                             <i className="fa fa-recycle"/>&nbsp;&nbsp;Rescue
                         </button>
 
