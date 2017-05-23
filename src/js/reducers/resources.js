@@ -11,7 +11,9 @@ export const initialState = {
     requestFailed: false,
     data: [],
     headers: {},
-    resourceTypes: []
+    resourceTypes: [],
+    showNewResourceForm: false,
+    copy: false,
 }
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -43,8 +45,16 @@ export default (state = initialState, action) => {
             })
 
         case SHOW_NEW_RESOURCE_FORM:
+            if (action.copy) {
+                return Object.assign({}, state, {
+                        showNewResourceForm: action.value,
+                        copy: action.copy,
+                    }
+                )
+            }
             return Object.assign({}, state, {
-                    showNewResourceForm: action.value
+                    showNewResourceForm: action.value,
+                    copy: false,
                 }
             )
 

@@ -12,7 +12,8 @@ export const initialState = {
     data: [],
     headers: {},
     applicationNames: [],
-    showNewApplicationForm: false
+    showNewApplicationForm: false,
+    copy: false
 }
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -43,8 +44,15 @@ export default (state = initialState, action) => {
             })
 
         case SHOW_NEW_APPLICATION_FORM:
+            if (action.copy){
+                return Object.assign({}, state, {
+                    showNewApplicationForm: action.value,
+                    copy: action.copy
+                })
+            }
             return Object.assign({}, state, {
-                    showNewApplicationForm: action.value
+                    showNewApplicationForm: action.value,
+                    copy: false
                 }
             )
 

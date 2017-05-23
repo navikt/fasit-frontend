@@ -106,7 +106,7 @@ class Environment extends Component {
 
     render() {
         const {environment, user, query, environmentClasses, revisions, dispatch} = this.props
-        const {displayClusters, displayInstances, displayNodes, name, environmentclass, comment, adgroups} = this.state
+        const {displayClusters, displayInstances, displayNodes, name, environmentclass, comment, adgroups, editMode} = this.state
         let lifecycle = {}
         const showRevision = oldRevision(revisions, query.revision)
         let authorized = false
@@ -125,6 +125,8 @@ class Environment extends Component {
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
                         onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                         onCopyClick={() => dispatch(displayModal("environment", true, true))}
+                        editMode={editMode}
+
                     />
                 }
                 {/*Form*/}

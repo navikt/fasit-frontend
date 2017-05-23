@@ -57,8 +57,16 @@ export default (state = initialState, action) => {
                 }
             )
         case SHOW_NEW_CLUSTER_FORM:
+            if (action.copy) {
+                return Object.assign({}, state, {
+                        showNewClusterForm: action.value,
+                        copy: action.copy
+                    }
+                )
+            }
             return Object.assign({}, state, {
-                    showNewClusterForm: action.value
+                    showNewClusterForm: action.value,
+                    copy: false
                 }
             )
 

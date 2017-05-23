@@ -9,17 +9,22 @@ export default class ToolButtons extends Component {
         if (authorized){
             Mousetrap.bind('c', onCopyClick)
             Mousetrap.bind('d', onDeleteClick)
-            Mousetrap.bind(['e', 'esc'], onEditClick)
+            Mousetrap.bind('e', onEditClick)
         }
     }
     componentWillReceiveProps(nextProps) {
-        const {onEditClick, onDeleteClick, onCopyClick} = this.props
-        if (nextProps.authorized){
-            Mousetrap.bind('c', onCopyClick)
-            Mousetrap.bind('d', onDeleteClick)
-            Mousetrap.bind(['e', 'esc'], onEditClick)
+        const {onEditClick, onDeleteClick, onCopyClick, editMode} = this.props
+            if (nextProps.authorized){
+                Mousetrap.bind('c', onCopyClick)
+                Mousetrap.bind('d', onDeleteClick)
+                Mousetrap.bind('e', onEditClick)
+            if (nextProps.editMode && nextProps.editMode != editMode) {
+                Mousetrap.bind('esc', onEditClick)
+            }
         } else if (!nextProps.authorized) {
             Mousetrap.unbind(['c', 'e', 'd', 'esc'])
+        } else if (!nextProps.editMode){
+            Mousetrap.unbind('esc', onEditClick)
         }
     }
     componentWillUnmount(){

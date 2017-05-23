@@ -17,19 +17,19 @@ export const fetchRevisions = (component, key) => {return {type: REVISIONS_REQUE
 export const displayModal = (component, value, copy) => {
     switch(component){
         case "application":
-            return {type: SHOW_NEW_APPLICATION_FORM, value}
+            return {type: SHOW_NEW_APPLICATION_FORM, value, copy}
             break
         case "cluster":
-            return {type: SHOW_NEW_CLUSTER_FORM, value}
+            return {type: SHOW_NEW_CLUSTER_FORM, value, copy}
             break
         case "environment":
             return {type: SHOW_NEW_ENVIRONMENT_FORM, value, copy}
             break
         case "node":
-            return {type: SHOW_NEW_NODE_FORM, value}
+            return {type: SHOW_NEW_NODE_FORM, value, copy}
             break
         case "resource":
-            return {type: SHOW_NEW_RESOURCE_FORM, value}
+            return {type: SHOW_NEW_RESOURCE_FORM, value, copy}
             break
     }
 }
