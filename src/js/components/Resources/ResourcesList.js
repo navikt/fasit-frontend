@@ -6,6 +6,7 @@ import {List, ListItem} from 'material-ui/List'
 import FlatButton from 'material-ui/FlatButton'
 import {browserHistory} from "react-router";
 import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
+import Settings from 'material-ui/svg-icons/action/settings'
 import {capitalize} from '../../utils/'
 import moment from 'moment'
 
@@ -67,9 +68,13 @@ function ResourceListElement(props) {
                     </List>
                 </CardText>
                 <CardActions>
-                    <FlatButton primary={true} disableTouchRipple={true} onTouchTap={() => navigateToResource(resource.id)}>
-                        <strong>VIEW</strong>
-                    </FlatButton>
+                    <FlatButton
+                        primary={true}
+                        disableTouchRipple={true}
+                        onTouchTap={() => navigateToResource(resource.id)}
+                        icon={<Settings/>}
+                        label="manage"
+                        labelStyle={{fontWeight: 'bold'}}/>
                 </CardActions>
             </Card>
         </div>
