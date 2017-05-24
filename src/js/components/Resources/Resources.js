@@ -33,7 +33,7 @@ class Resources extends Component {
                 </div>
                 <div className="row col-md-11">
                     <div className="col-md-3 col-sm-offset-1 col-xs-3 pull-right">
-                        <ElementPaging />
+                        {/*<ElementPaging />*/}
                     </div>
                 </div>
                 <div className="col-sm-10">

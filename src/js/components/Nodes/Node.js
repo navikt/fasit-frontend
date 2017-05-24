@@ -149,7 +149,8 @@ class Node extends Component {
                     onEditClick={() => this.toggleComponentDisplay("editMode")}
                     onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                     onCopyClick={() => console.log("Copy,copycopy!")}
-                />
+                    editMode={this.state.editMode}
+                    />
                 }
 
                 {/*Form*/}

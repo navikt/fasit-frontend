@@ -15,6 +15,7 @@ export const initialState = {
     showEditNodeForm: false,
     showNewNodeForm: false,
     showDeleteNodeForm: false,
+    copy: false,
 }
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -50,8 +51,16 @@ export default (state = initialState, action) => {
             })
 
         case SHOW_NEW_NODE_FORM:
+            if (action.copy) {
+                return Object.assign({}, state, {
+                        showNewNodeForm: action.value,
+                        copy: action.copy,
+                    }
+                )
+            }
             return Object.assign({}, state, {
-                    showNewNodeForm: action.value
+                    showNewNodeForm: action.value,
+                    copy: false,
                 }
             )
 

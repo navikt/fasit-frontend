@@ -19,6 +19,17 @@ class NewClusterForm extends Component {
         }
     }
 
+    componentWillReceiveProps(next){
+        const {clustername, environment, environmentclass, zone} = this.props
+        if (next.copy){
+            this.setState({
+                name,
+                environmentclass
+            })
+
+        }
+    }
+
 
     resetLocalState() {
         this.setState({
@@ -159,6 +170,7 @@ NewClusterForm.propTypes = {
 const mapStateToProps = (state) => {
     return {
         environments: state.environments,
+        cluster: state.environment
     }
 }
 

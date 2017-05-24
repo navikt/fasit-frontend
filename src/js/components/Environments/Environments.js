@@ -30,13 +30,16 @@ class Environments extends Component {
                         <Filters />
                     </div>
                     <div className="col-sm-3 col-sm-offset-1 col-xs-3">
-                        <ElementPaging />
+                        {/*<ElementPaging />*/}
                     </div>
                 </div>
                 <div className="col-sm-10">
                     <div className="row element-list-container">
                         <h4>{environments.headers.total_count} environments</h4>
                         <ElementList type="environments" data={environments}/>
+                        <div className="col-sm-2 pull-right">
+                            <ElementPaging />
+                        </div>
                     </div>
                 </div>
             </div>

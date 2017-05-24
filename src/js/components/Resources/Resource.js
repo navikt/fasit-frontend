@@ -29,7 +29,7 @@ import Scope from './Scope'
 
 const initialState = {
     secretVisible: false,
-    editMode: false,
+     editMode: false,
     deleteMode: false,
     displaySubmitForm: false,
     displayDeleteForm: false,
@@ -302,9 +302,13 @@ class Resource extends Component {
         return (
             <div className="row">
                 { showRevision ? <CurrentRevision revisionId={query.revision} revisions={revisions}/>
-                    : <ToolButtons authorized={authorized} onEditClick={() => this.toggleComponentDisplay("editMode")}
+                    : <ToolButtons authorized={authorized}
+                                   onEditClick={() => this.toggleComponentDisplay("editMode")}
                                    onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                                   onCopyClick={() => console.log("Copy,copycopy!")}/>
+                                   onCopyClick={() => console.log("Copy,copycopy!")}
+                                   editMode={this.state.editMode}
+                    />
+
                 }
 
                 <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>

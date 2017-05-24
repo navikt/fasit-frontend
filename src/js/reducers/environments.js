@@ -12,11 +12,12 @@ export const initialState = {
     requestFailed: false,
     data: [],
     zones: ['fss', 'sbs'],
-    environmentClasses: ['u','t','q','p'],
+    environmentClasses: ['u', 't', 'q', 'p'],
     headers: {},
     environments: [],
     showNewEnvironmentForm: false,
-    showNewClusterForm: false
+    showNewClusterForm: false,
+    copy: false
 }
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -43,13 +44,29 @@ export default (state = initialState, action) => {
                 requestFailed: action.value
             })
         case SHOW_NEW_ENVIRONMENT_FORM:
+            if (action.copy) {
+                return Object.assign({}, state, {
+                        showNewEnvironmentForm: action.value,
+                        copy: action.copy
+                    }
+                )
+            }
             return Object.assign({}, state, {
-                showNewEnvironmentForm: action.value
+                    showNewEnvironmentForm: action.value,
+                    copy: false
                 }
             )
         case SHOW_NEW_CLUSTER_FORM:
+            if (action.copy) {
+                return Object.assign({}, state, {
+                        showNewClusterForm: action.value,
+                        copy: action.copy
+                    }
+                )
+            }
             return Object.assign({}, state, {
-                    showNewClusterForm: action.value
+                    showNewClusterForm: action.value,
+                    copy: false
                 }
             )
 

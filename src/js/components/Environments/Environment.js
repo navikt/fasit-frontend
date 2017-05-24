@@ -15,7 +15,7 @@ import {
     DeleteElementForm,
     ToolButtons
 } from "../common/"
-import {submitForm} from '../../actionCreators/common'
+import {submitForm, displayModal} from '../../actionCreators/common'
 import {validAuthorization, oldRevision} from '../../utils/'
 import EnvironmentClusters from './EnvironmentClusters'
 import EnvironmentNodes from './EnvironmentNodes'
@@ -105,8 +105,8 @@ class Environment extends Component {
     }
 
     render() {
-        const {environment, user, query, environmentClasses, revisions} = this.props
-        const {displayClusters, displayInstances, displayNodes, name, environmentclass, comment, adgroups} = this.state
+        const {environment, user, query, environmentClasses, revisions, dispatch} = this.props
+        const {displayClusters, displayInstances, displayNodes, name, environmentclass, comment, adgroups, editMode} = this.state
         let lifecycle = {}
         const showRevision = oldRevision(revisions, query.revision)
         let authorized = false
@@ -124,7 +124,9 @@ class Environment extends Component {
                         authorized={authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
                         onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                        onCopyClick={() => console.log("Copy,copycopy!")}
+                        onCopyClick={() => dispatch(displayModal("environment", true, true))}
+                        editMode={editMode}
+
                     />
                 }
                 {/*Form*/}
