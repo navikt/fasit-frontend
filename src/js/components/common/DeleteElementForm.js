@@ -1,5 +1,6 @@
 import React from 'react'
 import {Modal} from 'react-bootstrap'
+import RaisedButton from 'material-ui/RaisedButton'
 import {FormComment} from '../common'
 
 export default function DeleteElement(props){
@@ -27,9 +28,9 @@ export default function DeleteElement(props){
                 <br />
                 <div className="row">
                     <div className="col-lg-10 col-lg-offset-2">
-                        <button type="submit" id="submit" className="btn btn-danger pull-right"
-                                onClick={onSubmit}>Delete
-                        </button>
+                        <RaisedButton disableTouchRipple={true} secondary={true} onTouchTap={onSubmit}>
+                            <strong style={{color: 'white'}}><i className="fa fa-fw fa-trash"/>&nbsp;DELETE</strong>
+                        </RaisedButton>
                     </div>
                 </div>
             </Modal.Footer>

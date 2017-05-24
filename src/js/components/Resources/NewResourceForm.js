@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
+import RaisedButton from 'material-ui/RaisedButton'
 
 import {FormString, FormDropDown, FormComment, FormTextArea} from '../common/Forms'
 
@@ -164,20 +165,12 @@ class NewResourceForm extends Component {
 
     showSubmitButton() {
         if (this.state.type !== "") {
-            if(this.isValid()) {
-                return (
-                    <button type="submit"
-                            className="btn btn-primary pull-right"
-                            onClick={this.handleSubmitForm.bind(this, true)}>Submit
-                    </button>
-                )
-            }
-
-           return (
-                <button type="submit"
-                        className="btn btn-primary pull-right disabled">Submit
-                </button>
-            )
+            return <RaisedButton
+                disableTouchRipple={true}
+                primary={true}
+                disabled={!this.isValid()}
+                label="submit"
+                onTouchTap={this.handleSubmitForm.bind(this, true)}/>
         }
     }
 

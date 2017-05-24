@@ -3,6 +3,8 @@ import {Link} from 'react-router'
 import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
 import {LifecycleStatus} from '../common/'
 import {List, ListItem} from 'material-ui/List'
+import FlatButton from 'material-ui/FlatButton'
+import {browserHistory} from "react-router";
 import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
 import {capitalize} from '../../utils/'
 import moment from 'moment'
@@ -16,6 +18,10 @@ export function ResourcesList(props) {
             })
         }   </div>
     )
+}
+
+function navigateToResource(id) {
+    browserHistory.push('/resources/' + id)
 }
 
 function ResourceListElement(props) {
@@ -42,7 +48,7 @@ function ResourceListElement(props) {
 
     return (
         <div style={{paddingTop: '5px'}} >
-            <Card >
+            <Card onClick={() => navigateToResource(resource.id)}>
                 <CardHeader title={title}
                             titleStyle={{fontWeight: 'bold'}}
                             subtitle={scope}
@@ -61,8 +67,9 @@ function ResourceListElement(props) {
                     </List>
                 </CardText>
                 <CardActions>
-                    <Link to={'/resources/' + resource.id} className="element-list-item"
-                          activeClassName='element-list-item-active'>View</Link>
+                    <FlatButton primary={true} disableTouchRipple={true} onTouchTap={() => navigateToResource(resource.id)}>
+                        <strong>VIEW</strong>
+                    </FlatButton>
                 </CardActions>
             </Card>
         </div>

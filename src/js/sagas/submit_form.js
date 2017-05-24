@@ -86,6 +86,7 @@ export function* submitForm(action) {
                 yield deleteUrl(url, action.comment)
                 yield put({type: FETCH_ELEMENT_LISTS, location:"resources", prPage: 10, searchString:search.searchString, page:search.activePage})
                 yield browserHistory.push("/resources")
+                break
 
             // / Update
             case "node":

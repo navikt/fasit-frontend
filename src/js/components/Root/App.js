@@ -33,20 +33,45 @@ class App extends Component {
         dispatch(fetchResourceTypes())
         dispatch(fetchNodeTypes())
         // Global keyboard shortcuts
-        Mousetrap.bind('q', (e) => {e.preventDefault();  dispatch(toggleHelp())})
-        Mousetrap.bind('l i', (e) => {e.preventDefault(); dispatch(displayLogin(true))})
-        Mousetrap.bind('l o', (e) => {e.preventDefault();  dispatch(logOut())})
-        Mousetrap.bind('g e', (e) => {e.preventDefault();  browserHistory.push("/environments")})
-        Mousetrap.bind('g a', (e) => {e.preventDefault();  browserHistory.push("/applications")})
-        Mousetrap.bind('g i', (e) => {e.preventDefault();  browserHistory.push("/instances")})
-        Mousetrap.bind('g r', (e) => {e.preventDefault();  browserHistory.push("/resources")})
-        Mousetrap.bind('g n', (e) => {e.preventDefault();  browserHistory.push("/nodes")})
+        Mousetrap.bind('q', (e) => {
+            e.preventDefault();
+            dispatch(toggleHelp())
+        })
+        Mousetrap.bind('l i', (e) => {
+            e.preventDefault();
+            dispatch(displayLogin(true))
+        })
+        Mousetrap.bind('l o', (e) => {
+            e.preventDefault();
+            dispatch(logOut())
+        })
+        Mousetrap.bind('g e', (e) => {
+            e.preventDefault();
+            browserHistory.push("/environments")
+        })
+        Mousetrap.bind('g a', (e) => {
+            e.preventDefault();
+            browserHistory.push("/applications")
+        })
+        Mousetrap.bind('g i', (e) => {
+            e.preventDefault();
+            browserHistory.push("/instances")
+        })
+        Mousetrap.bind('g r', (e) => {
+            e.preventDefault();
+            browserHistory.push("/resources")
+        })
+        Mousetrap.bind('g n', (e) => {
+            e.preventDefault();
+            browserHistory.push("/nodes")
+        })
     }
-    componentWillReceiveProps(nextProps){
+
+    componentWillReceiveProps(nextProps) {
         const {user} = this.props
-        if (nextProps.user.authenticated && !user.authenticated){
+        if (nextProps.user.authenticated && !user.authenticated) {
             this.protectedShortcuts()
-        } else if (!nextProps.user.authenticated && user.authenticated){
+        } else if (!nextProps.user.authenticated && user.authenticated) {
             this.unbindShortcuts()
         }
     }
@@ -54,34 +79,50 @@ class App extends Component {
     render() {
         return (
             <MuiThemeProvider>
-            <div style={{outline:"none"}}>
-                <TopNav />
-                <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
-                    {this.props.children}
+                <div style={{outline: "none"}}>
+                    <TopNav />
+                    <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
+                        {this.props.children}
+                    </div>
+                    {/* Misc. modals*/}
+                    <SubmitFormStatus />
+                    <NewNodeForm />
+                    <NewEnvironmentForm />
+                    <NewClusterForm />
+                    <NewApplicationForm />
+                    <NewResourceForm/>
+                    <KeyboardShortcuts/>
                 </div>
-                {/* Misc. modals*/}
-                <SubmitFormStatus />
-                <NewNodeForm />
-                <NewEnvironmentForm />
-                <NewClusterForm />
-                <NewApplicationForm />
-                <NewResourceForm/>
-                <KeyboardShortcuts/>
-            </div>
-                </MuiThemeProvider>
+            </MuiThemeProvider>
         )
     }
 
-    protectedShortcuts(){
+    protectedShortcuts() {
         const {dispatch} = this.props
-        Mousetrap.bind('n r', (e) => {e.preventDefault();  dispatch(displayModal("resource", true))})
-        Mousetrap.bind('n a', (e) => {e.preventDefault();  dispatch(displayModal("application", true))})
-        Mousetrap.bind('n e', (e) => {e.preventDefault();  dispatch(displayModal("environment", true))})
-        Mousetrap.bind('n c', (e) => {e.preventDefault();  dispatch(displayModal("cluster", true))})
-        Mousetrap.bind('n n', (e) => {e.preventDefault();  dispatch(displayModal("node", true))})
+        Mousetrap.bind('n r', (e) => {
+            e.preventDefault();
+            dispatch(displayModal("resource", true))
+        })
+        Mousetrap.bind('n a', (e) => {
+            e.preventDefault();
+            dispatch(displayModal("application", true))
+        })
+        Mousetrap.bind('n e', (e) => {
+            e.preventDefault();
+            dispatch(displayModal("environment", true))
+        })
+        Mousetrap.bind('n c', (e) => {
+            e.preventDefault();
+            dispatch(displayModal("cluster", true))
+        })
+        Mousetrap.bind('n n', (e) => {
+            e.preventDefault();
+            dispatch(displayModal("node", true))
+        })
 
     }
-    unbindShortcuts(){
+
+    unbindShortcuts() {
         Mousetrap.unbind(['n r', 'n a', 'n e', 'n c', 'n n'])
     }
 }

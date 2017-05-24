@@ -6,6 +6,7 @@ import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from '../../ac
 import {submitForm} from '../../actionCreators/common'
 import {resourceTypes} from '../../utils/resourceTypes'
 import {ResourceInstances} from './ResourceInstances'
+import RaisedButton from 'material-ui/RaisedButton'
 import NotFound from '../NotFound'
 import {
     AccessControl,
@@ -25,7 +26,6 @@ import {
     ToolButtons
 } from '../common/'
 import Scope from './Scope'
-import Paper from 'material-ui/Paper'
 
 const initialState = {
     secretVisible: false,
@@ -138,10 +138,10 @@ class Resource extends Component {
         dispatch(submitForm(this.props.id, form, comment, "resource"))
     }
 
-    deleteResource(key, form, comment, component) {
+    deleteResource(key, comment) {
         const {dispatch} = this.props
         this.toggleComponentDisplay("displayDeleteForm")
-        dispatch(submitForm(key, form, comment, component))
+        dispatch(submitForm(key, null, comment, "deleteResource"))
     }
 
     updateAccessControl() {
@@ -319,13 +319,18 @@ class Resource extends Component {
                     {this.exposedByApplication()}
 
                     {this.state.editMode ?
-                        <div className="btn-block">
-                            <button type="submit" className="btn btn-sm btn-primary pull-right"
-                                    onClick={() => this.toggleComponentDisplay("displaySubmitForm")}>Submit
-                            </button>
-                            <button type="reset" className="btn btn-sm btn-default btn-space pull-right"
-                                    onClick={() => this.toggleComponentDisplay("editMode")}>Cancel
-                            </button>
+                        <div className="pull-right">
+                            <RaisedButton
+                                style={{margin: '6'}}
+                                label="Submit"
+                                primary={true}
+                                onTouchTap={() => this.toggleComponentDisplay("displaySubmitForm")}
+                                disableTouchRipple={true}/>
+                            <RaisedButton
+                                style={{margin: '6'}}
+                                label="Cancel"
+                                default={true}
+                                onTouchTap={() => this.toggleComponentDisplay("editMode")} disableTouchRipple={true}/>
                         </div>
                         : ""
                     }
@@ -374,14 +379,13 @@ class Resource extends Component {
                 <DeleteElementForm
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-                    onSubmit={() => this.handleSubmitForm(id, this.state.comment)}
+                    onSubmit={() => this.deleteResource(id, this.state.comment)}
                     handleChange={this.handleChange.bind(this)}
                     comment={this.state.comment}
 
                 />
                 {this.renderSubmitForm()}
             </div>
-
         )
     }
 
@@ -416,12 +420,7 @@ class Resource extends Component {
                         />
                     </div>
                     <div className="col-xs-2 submit-button-placement">
-                        <div className="btn-block">
-                            <button type="submit"
-                                    className="btn btn-primary pull-right"
-                                    onClick={this.saveResource.bind(this)}>Submit
-                            </button>
-                        </div>
+                            <RaisedButton label="Submit" primary={true} onTouchTap={this.saveResource.bind(this)} disableTouchRipple={true}/>
                     </div>
                 </Modal.Footer>
             </Modal>)

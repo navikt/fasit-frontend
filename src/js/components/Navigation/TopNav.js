@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import {Login, AuraTools, NavSearch} from '../common/'
 import ContextMenu from './ContextMenu'
 import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
-import {toggleHelp} from '../../actionCreators/common'
+import {toggleHelp, displayModal} from '../../actionCreators/common'
 
 
 class TopNav extends Component {
