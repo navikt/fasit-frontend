@@ -1,6 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import Mousetrap from 'mousetrap'
 import FlatButton from 'material-ui/FlatButton'
+import Delete from 'material-ui/svg-icons/action/delete'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import Copy from 'material-ui/svg-icons/content/content-copy'
+
+
 
 export default class ToolButtons extends Component {
     constructor(props) {
@@ -36,29 +41,39 @@ export default class ToolButtons extends Component {
         Mousetrap.unbind(['c', 'e', 'd', 'esc'])
     }
 
+
+
     render() {
         const {authorized, onEditClick, onDeleteClick, onCopyClick} = this.props
+        const labelStyle = {margin:'4px'}
         return (
             <div className="col-xs-12" style={{paddingTop: '10px', paddingBottom: '50px'}}>
                 <FlatButton
                     primary={true}
                     disabled={!authorized}
+                    labelPosition={'before'}
                     disableTouchRipple={true}
                     onTouchTap={onCopyClick}
+                    icon={<Copy/>}
                     >
-                        <strong><i className="fa fa-fw fa-files-o"/>&nbsp;<u>C</u>OPY</strong>
+                    <strong style={labelStyle}><u>C</u>OPY</strong>
                 </FlatButton>
                 <FlatButton primary={true}
                             disabled={!authorized}
+                            labelPosition={'before'}
                             disableTouchRipple={true}
-                            onTouchTap={onEditClick}>
-                    <strong><i className="fa fa-fw fa-pencil-square-o"/>&nbsp;<u>E</u>DIT</strong>
+                            onTouchTap={onEditClick}
+                            icon={<Edit/>}>
+                    <strong style={labelStyle}><u>E</u>DIT</strong>
                 </FlatButton>
                 <FlatButton secondary={true}
                             disabled={!authorized}
                             disableTouchRipple={true}
-                            onTouchTap={onDeleteClick}>
-                    <strong><i className="fa fa-fw fa-trash"/>&nbsp;<u>D</u>ELETE</strong>
+                            onTouchTap={onDeleteClick}
+                            labelPosition={'before'}
+                            icon={<Delete/>}
+                            >
+                    <strong style={labelStyle}><u>D</u>ELETE</strong>
                 </FlatButton>
             </div>
         )

@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import moment from 'moment'
-
+import RaisedButton from 'material-ui/RaisedButton'
+import Restore from 'material-ui/svg-icons/action/restore'
 
 class Lifecycle extends Component {
     constructor(props) {
@@ -9,8 +10,16 @@ class Lifecycle extends Component {
         this.state={visible:true}
     }
 
+    rescueButton() {
+        return (<RaisedButton disableTouchRipple={true} label="Rescue" icon={<Restore/>} onTouchTap={this.props.rescueAction} disabled={!this.props.authorized}/>
+        )
+    }
+
     render() {
         const {lifecycle, jira, rescueAction, authorized} = this.props
+
+
+
         if (lifecycle === undefined) return null
         if (!this.state.visible) return null
          switch (lifecycle.status) {
@@ -23,6 +32,7 @@ class Lifecycle extends Component {
                         <button disabled={!authorized} className="btn btn-primary btn-sm" onClick={rescueAction} style={{marginRight:5}}>
                             <i className="fa fa-recycle"/>&nbsp;&nbsp;Rescue
                         </button>
+                         {this.rescueButton()}
                     </div>
                 )
             case "alerted":
