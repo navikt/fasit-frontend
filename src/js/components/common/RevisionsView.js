@@ -18,6 +18,14 @@ class RevisionsView extends Component {
         dispatch(fetchRevisions(component, id))
     }
 
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, id, component} = nextProps
+
+        if(this.props.id !== nextProps.id) {
+            dispatch(fetchRevisions(component, id))
+        }
+    }
+
 
     tooltip(message) {
         return (
