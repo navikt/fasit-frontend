@@ -5,6 +5,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 
 
 export function ResourceInstances(props) {
+    
     return (
             <div style={{paddingTop: 30 + "px"}}>
                 <h3>Used by</h3>

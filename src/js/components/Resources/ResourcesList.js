@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {Link} from 'react-router'
 import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
 import {LifecycleStatus} from '../common/'
 import {List, ListItem} from 'material-ui/List'

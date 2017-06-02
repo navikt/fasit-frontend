@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react'
+import Restore from 'material-ui/svg-icons/action/restore'
+import {colors, styles} from '../../commonStyles/commonInlineStyles'
 
 export function LifecycleStatus(props) {
     const lifecycleStatus = props.status
@@ -6,22 +8,25 @@ export function LifecycleStatus(props) {
         return null
     }
     let color
+
     switch (lifecycleStatus) {
         case 'alerted':
-            color = 'text-warning'
+            color = colors.orange
             break;
         case 'stopped':
-            color = 'text-danger'
+            color = colors.red
+
             break;
         case 'rescued':
-            color = 'text-success'
+            color = colors.green
             break;
     }
 
+    const stylesToApply = Object.assign(styles.valign, styles.bold, {color})
+
     return (
-        <div className={`${color} pull-right`}>
-            <i className="fa fa-recycle fa-lg"/>&nbsp;
-            <strong>{`${lifecycleStatus}`}</strong>
+        <div className="pull-right" style={stylesToApply}>
+            <Restore color={color}/> &nbsp;{`${lifecycleStatus}`}
         </div>
 
     )

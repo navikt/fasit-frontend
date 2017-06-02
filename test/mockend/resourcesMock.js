@@ -1025,7 +1025,6 @@ const resources = [
             }
         },
         "files": {},
-        "lifecyclestatus": "alerted",
         "usedbyapplications": [],
         "dodgy": false,
         "id": 69,
@@ -1045,25 +1044,67 @@ const resources = [
             {
                 "application": "modiabrukerdialog",
                 "environment": "u69",
+                "id": 200,
                 "version": "10.2.1",
                 "ref": "http://localhost:6969/mockapi/applicationinstances/404"
             },
             {
                 "application": "ruting",
                 "environment": "u70",
+                "id": 201,
                 "version": "6.0.14",
                 "ref": "http://localhost:6969/mockapi/applicationinstances/404"
             },
             {
                 "application": "gosys",
+                "id": 202,
                 "environment": "u96",
                 "version": "9.4.2",
                 "ref": "http://localhost:6969/mockapi/applicationinstances/404"
             },
         ],
         "links": {
-            "self": "https://fasit.adeo.no/api/v2/resources/679646",
-            "revisions": "https://fasit.adeo.no/api/v2/resources/679646/revisions"
+            "self": "http://localhost:9696/resources/69",
+            "revisions": "http://localhost:9696/resources/69/revisions"
+        }
+    },
+    {
+        "type": "datasource",
+        "alias": "henvendelseDataSource",
+        "scope": {
+            "environmentclass": "u",
+            "zone": "fss",
+            "environment": "u69",
+            "application": "henvendelse"
+        },
+        "properties": {
+            "url": "jdbc:oracle:thin:@d26dbfl004.test.local:1521:henu",
+            "username": "bjarnebetjent"
+        },
+        "secrets": {
+            "password": {
+                "ref": "https://e34jbsl01655.devillo.no:8443/api/v2/secrets/3580"
+            }
+        },
+        "files": {},
+        "lifecyclestatus": "rescued",
+        "usedbyapplications": [],
+        "dodgy": false,
+        "id": 96,
+        "created": "2013-04-12T13:07:12.157",
+        "updated": "2016-12-20T10:47:00.627",
+        "lifecycle": {
+            "status": "rescued",
+            "nextactiondate": "2017-12-20T10:47:00.626",
+            "issue": "AURAGC-6671"
+        },
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "links": {
+            "self": "http://localhost:9696/resources/69",
+            "revisions": "http://localhost:9696/resources/69/revisions"
         }
     }
 ]
