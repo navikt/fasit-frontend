@@ -157,9 +157,7 @@ class TopNav extends Component {
     }
 
     render() {
-        const {location, search, dispatch} = this.props
-        const pathname = this.props.location.pathname.split('/')[1]
-        const context = pathname === "search" ? "anything" : pathname
+        const {location} = this.props
         return (location.pathname !== "/") ?
             (
                 <div>
@@ -193,8 +191,6 @@ const mapStateToProps = (state) => {
     return {
         user: state.user,
         location: state.routing.locationBeforeTransitions,
-        search: state.search
-
     }
 }
 

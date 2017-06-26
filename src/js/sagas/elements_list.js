@@ -2,8 +2,7 @@ import {takeLatest} from 'redux-saga'
 import {put, fork, select} from 'redux-saga/effects'
 import {fetchPage} from '../utils'
 import {
-    FETCH_ELEMENT_LISTS,
-    SET_SEARCH_STRING,
+    SUBMIT_FILTER_SEARCH,
     APPLICATIONS_LIST_RECEIVED,
     APPLICATIONS_LIST_FAILED,
     ENVIRONMENTS_LIST_RECEIVED,
@@ -78,30 +77,31 @@ export function* fetchAllLists(action) {
     }
 
     const configuration = yield select((state) => state.configuration)
-    const search = yield select((state) => state.search)
+    const filter = yield select((state) => state.filter)
 
     switch (action.location) {
         case "nodes":
-            yield fetchNodesList(`${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.nodes)}`)
+            yield fetchNodesList(`${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(filter.filters, filterConfig.nodes)}`)
             return
         case "resources":
-            let filters = buildFilterString(search.filters, filterConfig.resources)
+            let filters = buildFilterString(filter.filters, filterConfig.resources)
             yield fetchResourcesList(`${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${filters}`)
             return
         case "environments":
-            yield fetchEnvironmentsList(`${configuration.fasit_environments}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.environments)}`)
+            yield fetchEnvironmentsList(`${configuration.fasit_environments}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(filter.filters, filterConfig.environments)}`)
             return
         case "applications":
-            yield fetchApplicationsList(`${configuration.fasit_applications}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.applications)}`)
+            yield fetchApplicationsList(`${configuration.fasit_applications}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(filter.filters, filterConfig.applications)}`)
             return
         case "instances":
-            yield fetchInstancesList(`${configuration.fasit_applicationinstances}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(search.filters, filterConfig.instances)}`)
+            yield fetchInstancesList(`${configuration.fasit_applicationinstances}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(filter.filters, filterConfig.instances)}`)
             return
     }
 }
 
 
- const buildFilterString = (filters, filterConfig, searchString) => {
+ const buildFilterString = (filters) => {
+    console.log("FIL ", filters )
     const filterString = Object.keys(filters)
         .reduce((accumulator, current) => {
             if(filters[current]) {
@@ -115,5 +115,5 @@ export function* fetchAllLists(action) {
     return `${filterString}`
 }
 export function* watchElementsList() {
-    yield fork(takeLatest, FETCH_ELEMENT_LISTS, fetchAllLists)
+    yield fork(takeLatest, SUBMIT_FILTER_SEARCH, fetchAllLists)
 }

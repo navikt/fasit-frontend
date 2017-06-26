@@ -6,7 +6,7 @@ import ElementPaging from '../common/ElementPaging'
 import ElementList from '../common/ElementList'
 import Filters from '../Navigation/Filters'
 import Node from './Node'
-import {submitSearchString} from '../../actionCreators/element_lists'
+import {submitFilterString} from '../../actionCreators/element_lists'
 
 class Nodes extends Component {
     constructor(props) {
@@ -14,8 +14,8 @@ class Nodes extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, search} = this.props
-        dispatch(submitSearchString("nodes", search.searchString, 0))
+        const {dispatch} = this.props
+        dispatch(submitFilterString("nodes", 0))
     }
 
     render() {
@@ -51,7 +51,6 @@ class Nodes extends Component {
 const mapStateToProps = (state) => {
     return {
         nodes: state.nodes,
-        search: state.search
     }
 }
 

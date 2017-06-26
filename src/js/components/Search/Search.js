@@ -1,18 +1,33 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
-export default class Home extends Component {
+class Search extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+           // selectedOption: null,
+            //visible: true
+        }
     }
+
+
+
+
 
 
     render() {
-        return (
-            <div>
-                Here be searchresults!
-            </div>
-        )
+        console.log("redner ", this.props)
+        return this.props.navsearch ?
+             <div>{this.props.navSearch.searchResults.map(sr => <div>{sr.name + "  " + sr.type}</div>)}</div> : null
     }
 
 }
+
+const mapStateToProps = (state) => {
+    return {
+        //location: state.routing.locationBeforeTransitions,
+        navSearch : state.navsearch
+    }
+}
+
+export default connect(mapStateToProps)(Search)

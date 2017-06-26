@@ -4,7 +4,7 @@ import chai, {expect} from 'chai'
 import chaiSpies from 'chai-spies'
 chai.use(chaiSpies)
 
-import {initialState as search} from '../../../src/js/reducers/search'
+import {initialState as search} from '../../../src/js/reducers/filter'
 import {initialState as nodes} from '../../../src/js/reducers/nodes'
 import {initialState as resources} from '../../../src/js/reducers/resources'
 import {initialState as environments} from '../../../src/js/reducers/environments'

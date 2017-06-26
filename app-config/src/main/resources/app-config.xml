@@ -14,6 +14,7 @@
         <rest alias="fasit:secrets_v2" mapToProperty="fasit_secrets"/>
         <rest alias="fasit:nodes_v2" mapToProperty="fasit_nodes"/>
         <rest alias="fasit:navsearch_v1" mapToProperty="fasit_navsearch"/>
+        <rest alias="fasit:search_v1" mapToProperty="fasit_search"/>
         <baseUrl alias="fasit"/>
         <baseUrl alias="grafana"/>
         <rest alias="sera:servers_v1" mapToProperty="sera_servers"/>

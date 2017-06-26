@@ -6,7 +6,7 @@ import ElementPaging from '../common/ElementPaging'
 import ElementList from '../common/ElementList'
 import Filters from '../Navigation/Filters'
 import Environment from './Environment'
-import {submitSearchString} from '../../actionCreators/element_lists'
+import {submitFilterString} from '../../actionCreators/element_lists'
 
 class Environments extends Component {
     constructor(props) {
@@ -14,8 +14,8 @@ class Environments extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, search} = this.props
-        dispatch(submitSearchString("environments", search.searchString, 0))
+        const {dispatch} = this.props
+        dispatch(submitFilterString("environments", 0))
     }
 
     render() {
@@ -51,7 +51,6 @@ class Environments extends Component {
 const mapStateToProps = (state) => {
     return {
         environments: state.environments,
-        search: state.search
     }
 }
 

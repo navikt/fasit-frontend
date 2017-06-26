@@ -18,13 +18,13 @@ import {
     ENVIRONMENT_CLUSTER_FASIT_REQUEST,
     RESOURCE_FASIT_REQUEST,
     APPLICATION_FASIT_REQUEST,
-    FETCH_ELEMENT_LISTS
+    SUBMIT_FILTER_SEARCH
 
 } from '../actionTypes'
 
 export function* submitForm(action) {
     const configuration = yield select((state) => state.configuration)
-    const search = yield select((state) => state.search)
+    //const filter = yield select((state) => state.filter)
     let url = ""
     yield put({type: SUBMITTING_FORM})
     try {
@@ -61,19 +61,19 @@ export function* submitForm(action) {
             case "deleteApplication":
                 url = `${configuration.fasit_applications}/${action.key}`
                 yield deleteUrl(url, action.comment)
-                yield put({type: FETCH_ELEMENT_LISTS, location:"applications", prPage: 10, searchString:search.searchString, page:search.activePage})
+                yield put({type: SUBMIT_FILTER_SEARCH, location:"applications", prPage: 10, /*searchString:filter.searchString,*/ page:search.activePage})
                 yield browserHistory.push("/applications")
                 break
             case "deleteNode":
                 url = `${configuration.fasit_nodes}/${action.key}`
                 yield deleteUrl(url, action.comment)
-                yield put({type: FETCH_ELEMENT_LISTS, location:"nodes", prPage: 10, searchString:search.searchString, page:search.activePage})
+                yield put({type: SUBMIT_FILTER_SEARCH, location:"nodes", prPage: 10, /*searchString:search.searchString,*/ page:search.activePage})
                 yield browserHistory.push("/nodes")
                 break
             case "deleteEnvironment":
                 url = `${configuration.fasit_environments}/${action.key}`
                 yield deleteUrl(url, action.comment)
-                yield put({type: FETCH_ELEMENT_LISTS, location:"environments", prPage: 10, searchString:search.searchString, page:search.activePage})
+                yield put({type: SUBMIT_FILTER_SEARCH, location:"environments", prPage: 10, /*searchString:search.searchString,*/ page:search.activePage})
                 yield browserHistory.push("/environments")
                 break
             case "deleteCluster":
@@ -84,7 +84,7 @@ export function* submitForm(action) {
             case "deleteResource":
                 url = `${configuration.fasit_resources}/${action.key}`
                 yield deleteUrl(url, action.comment)
-                yield put({type: FETCH_ELEMENT_LISTS, location:"resources", prPage: 10, searchString:search.searchString, page:search.activePage})
+                yield put({type: SUBMIT_FILTER_SEARCH, location:"resources", prPage: 10, /*searchString:search.searchString,*/ page:search.activePage})
                 yield browserHistory.push("/resources")
                 break
 

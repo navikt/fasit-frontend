@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import Select from 'react-select'
 import {connect} from 'react-redux'
-import {changeFilter, submitSearchString} from '../../actionCreators/element_lists'
+import {changeFilter, submitFilterString} from '../../actionCreators/element_lists'
 
 
 class Filters extends Component {
@@ -10,9 +10,9 @@ class Filters extends Component {
     }
 
     handleChangeFilter(filterName, filterValue) {
-        const {dispatch, search} = this.props
+        const {dispatch, filter} = this.props
         dispatch(changeFilter(filterName, filterValue))
-        dispatch(submitSearchString(search.context, search.searchString, 0))
+        dispatch(submitFilterString(filter.context, 0))
     }
 
     convertToSelectObject(values) {
@@ -23,11 +23,12 @@ class Filters extends Component {
 
     environmentFilter() {
         // if environmentclass is set, display only environments in that environmentclass
+        const {filter} = this.props
         const filteredEnvironments = this.props.environments.filter((env) => {
-            if (!this.props.search.filters.environmentclass){
+            if (!filter.filters.environmentclass){
                 return true
             } else {
-                return env.environmentclass === this.props.search.filters.environmentclass
+                return env.environmentclass === filter.filters.environmentclass
             }
         })
 
@@ -37,7 +38,7 @@ class Filters extends Component {
                     resetValue=""
                     placeholder="Env."
                     name="form-field-name"
-                    value={this.props.search.filters.environment}
+                    value={filter.filters.environment}
                     options={this.convertToSelectObject(filteredEnvironments.map((env) => env.name))}
                     onChange={(e) => this.handleChangeFilter("environment", e.value)}
                 />
@@ -52,7 +53,7 @@ class Filters extends Component {
                     resetValue=""
                     placeholder="App."
                     name="form-field-name"
-                    value={this.props.search.filters.application}
+                    value={this.props.filter.filters.application}
                     options={this.convertToSelectObject(this.props.applicationNames)}
                     onChange={(e) => this.handleChangeFilter("application", e.value)}
                 />
@@ -61,14 +62,15 @@ class Filters extends Component {
     }
 
     zoneFilter() {
+        const {filter} = this.props.filter
         return (
             <div className="form-group Select-environmentclass">
                 <Select
                     resetValue=""
                     placeholder="Zone"
                     name="form-field-zone"
-                    disabled={this.props.search.filters.environmentclass === '' && this.props.search.filters.environment === ''}
-                    value={this.props.search.filters.zone}
+                    disabled={filter.filters.environmentclass === '' && filter.filters.environment === ''}
+                    value={filter.filters.zone}
                     options={this.convertToSelectObject(this.props.zones)}
                     onChange={(e) => this.handleChangeFilter("zone", e.value)}
                 />
@@ -83,7 +85,7 @@ class Filters extends Component {
                     resetValue=""
                     placeholder="Class"
                     name="form-field-name"
-                    value={this.props.search.filters.environmentclass}
+                    value={this.props.filter.filters.environmentclass}
                     options={this.convertToSelectObject(this.props.environmentClasses)}
                     onChange={(e) => this.handleChangeFilter("environmentclass", e.value)}/>
             </div>
@@ -97,7 +99,7 @@ class Filters extends Component {
                     resetValue=""
                     placeholder="Type"
                     name="form-field-name"
-                    value={this.props.search.filters.type}
+                    value={this.props.filter.filters.type}
                     options={this.convertToSelectObject(this.props.nodeTypes)}
                     onChange={(e) => this.handleChangeFilter("type", e.value)}
                 />
@@ -112,7 +114,7 @@ class Filters extends Component {
                     resetValue=""
                     placeholder="Type"
                     name="form-field-name"
-                    value={this.props.search.filters.resourcetype}
+                    value={this.props.filter.filters.resourcetype}
                     options={this.convertToSelectObject(this.props.resourceTypes)}
                     onChange={(e) => this.handleChangeFilter("resourcetype", e.value)}
                 />
@@ -128,7 +130,7 @@ class Filters extends Component {
                     className="form-control"
                     style={{height: "34px"}}
                     type="text"
-                    value={this.props.search.filters.alias}
+                    value={this.props.filter.filters.alias}
                     onChange={(e) => this.handleChangeFilter("alias", e.target.value)}
                 />
             </div>
@@ -136,8 +138,8 @@ class Filters extends Component {
     }
 
     generateFiltersFromContext() {
-        const {search} = this.props
-        switch (search.context) {
+        const {filter} = this.props
+        switch (filter.context) {
             case "applications":
                 return (
                     <div className="form-inline filters">
@@ -199,7 +201,7 @@ class Filters extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        search: state.search,
+        filter: state.filter,
         environments: state.environments.environments,
         applicationNames: state.applications.applicationNames,
         environmentClasses: state.environments.environmentClasses,

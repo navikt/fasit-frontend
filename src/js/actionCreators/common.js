@@ -8,7 +8,9 @@ import {
     SHOW_NEW_NODE_FORM,
     SHOW_NEW_RESOURCE_FORM,
     REVISIONS_REQUEST,
-    SUBMIT_NAV_SEARCH
+    SUBMIT_NAV_SEARCH,
+    SUBMIT_SEARCH
+
 } from '../actionTypes'
 
 export const closeSubmitFormStatus = () => {return {type: CLOSE_SUBMIT_FORM_STATUS}}
@@ -34,4 +36,5 @@ export const displayModal = (component, value, copy) => {
     }
 }
 export const submitNavSearch = (query) => {return {type: SUBMIT_NAV_SEARCH, query}}
+export const submitSearch = (query) => {return {type: SUBMIT_SEARCH, query}}
 export const toggleHelp = () => {return {type: SHOW_KEYBOARD_SHORTCUTS}}

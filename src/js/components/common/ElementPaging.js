@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {submitSearchString} from '../../actionCreators/element_lists'
+import {submitFilterString} from '../../actionCreators/element_lists'
 
 export class ElementPaging extends Component {
     constructor(props) {
@@ -10,42 +10,42 @@ export class ElementPaging extends Component {
 
     // always reset to page 0 if search or filters have changed
     componentWillReceiveProps(nextProps){
-        const {search} = this.props
-        if (search.searchString !== nextProps.search.searchString || search.filters !== nextProps.search.filters){
+        const {filter} = this.props
+        if ( filter.filters !== nextProps.filter.filters){
             this.setState({page:0})
         }
     }
 
     changePage(changeTo, lastPage) {
-        const {dispatch, search} = this.props
+        const {dispatch, filter} = this.props
         const page = this.state.page
         switch (changeTo) {
             case "first":
                 this.setState({page: 0})
-                dispatch(submitSearchString(search.context, search.searchString, 0))
+                dispatch(submitFilterString(filter.context, 0))
                 break
             case "last":
                 this.setState({page: lastPage})
-                dispatch(submitSearchString(search.context, search.searchString, lastPage))
+                dispatch(submitFilterString(filter.context, lastPage))
                 break
             case "next":
                 if (page < lastPage) {
                     this.setState({page: page + 1})
-                    dispatch(submitSearchString(search.context, search.searchString, page + 1))
+                    dispatch(submitFilterString(filter.context, page + 1))
                 }
                 break
             case "prev":
                 if (page > 0) {
                     this.setState({page: page - 1})
-                    dispatch(submitSearchString(search.context, search.searchString, page - 1))
+                    dispatch(submitFilterString(filter.context, page - 1))
                 }
                 break
         }
     }
 
     render() {
-        const {search} = this.props
-        const total_count = this.props[search.context].headers.total_count
+        const {filter} = this.props
+        const total_count = this.props[filter.context].headers.total_count
         const lastPage = calculateLastPage(total_count)
         return (
             <div className="element-list-paging">
@@ -80,7 +80,7 @@ const calculateLastPage = (totalCount) => {
 
 const mapStateToProps = (state) => {
     return {
-        search: state.search,
+        filter: state.filter,
         nodes: state.nodes,
         resources: state.resources,
         environments: state.environments,

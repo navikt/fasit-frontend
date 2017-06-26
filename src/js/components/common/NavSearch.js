@@ -2,8 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {browserHistory, Link} from 'react-router'
 import {connect} from 'react-redux'
 import Mousetrap from 'mousetrap'
-import {submitNavSearch} from '../../actionCreators/common'
-import {submitSearchString} from '../../actionCreators/element_lists'
+import {submitNavSearch, submitSearch} from '../../actionCreators/common'
 import {capitalize} from '../../utils/'
 
 class NavSearch extends Component {
@@ -24,6 +23,7 @@ class NavSearch extends Component {
     }
 
     handleMouseOver(navItem) {
+
         const {navSearch} = this.props
         const options = [...new Set(navSearch.data.map(result => result.id))]
         const mouseOverItem = options.indexOf(navItem.id)
@@ -38,7 +38,7 @@ class NavSearch extends Component {
 
     handleKeyDown(e) {
 
-        const {dispatch, navSearch, location} = this.props
+        const {location} = this.props
         switch (e.key) {
             case 'ArrowRight': // left
             case 'ArrowLeft': // left
@@ -78,7 +78,7 @@ class NavSearch extends Component {
             if (!(location.pathname === "/search")) {
                 browserHistory.push("/search")
             }
-            dispatch(submitSearchString(null, navSearch.query, 0))
+            dispatch(submitSearch(navSearch.query))
             this.setState({visible: false})
         } else {
             dispatch(submitNavSearch(""))
@@ -131,7 +131,7 @@ class NavSearch extends Component {
     }
 
     render() {
-        const {dispatch, navSearch, location} = this.props
+        const {dispatch, navSearch} = this.props
         const {visible, selectedOption} = this.state
         const {query, data, isFetching} = navSearch
         const types = [...new Set(data.map(item => item.type))]
