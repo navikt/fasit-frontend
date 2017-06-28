@@ -13,7 +13,8 @@ export const styles = {
     red: {color: colors.red},
     orange: {color: colors.orange},
     green: {color: colors.green},
-    marginTop5: {marginTop: '25px'},
+    marginTop25: {marginTop: '25px'},
+    paddingTop5: {paddingTop: '5px'},
     valign: {display: 'inline-flex', verticalAlign: 'middle'}
 }
 

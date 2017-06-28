@@ -2,10 +2,9 @@ import React, {Component, PropTypes} from 'react'
 import Select, {Creatable} from 'react-select'
 import {Tooltip, OverlayTrigger} from 'react-bootstrap'
 import {Link} from 'react-router'
+import {capitalize} from '../../utils/'
 
-function capitalize(label) {
-    return "" + label.charAt(0).toUpperCase() + label.slice(1)
-}
+
 
 const copyToClipboard = (element) => {
     let el = document.getElementById(element)

@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import {browserHistory} from "react-router";
 import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
 import Settings from 'material-ui/svg-icons/action/settings'
+import {styles, colors}  from '../../commonStyles/commonInlineStyles'
 import {capitalize} from '../../utils/'
 import moment from 'moment'
 
@@ -47,10 +48,10 @@ function ResourceListElement(props) {
 
 
     return (
-        <div style={{paddingTop: '5px'}} >
+        <div style={styles.paddingTop5} >
             <Card onClick={() => navigateToResource(resource.id)}>
                 <CardHeader title={title}
-                            titleStyle={{fontWeight: 'bold'}}
+                            titleStyle={styles.bold}
                             subtitle={scope}
                             avatar={avatar}
                             style={{paddingBottom: '10px'}}

@@ -36,7 +36,7 @@ class Lifecycle extends Component {
     card(title, subtitle, iconColor, displayRescueButton = true) {
         const {lifecycle} = this.props
         return (<Card expandable={lifecycle.issue !== undefined} initiallyExpanded={false}
-                      style={styles.marginTop5}>
+                      style={styles.marginTop25}>
             <CardHeader
                 title={title}
                 titleStyle={styles.bold}

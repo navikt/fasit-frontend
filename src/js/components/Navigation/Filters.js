@@ -62,7 +62,7 @@ class Filters extends Component {
     }
 
     zoneFilter() {
-        const {filter} = this.props.filter
+        const {filter} = this.props
         return (
             <div className="form-group Select-environmentclass">
                 <Select

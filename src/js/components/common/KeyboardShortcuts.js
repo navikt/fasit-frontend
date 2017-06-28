@@ -57,7 +57,7 @@ KeyboardShortcuts.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        visibility: state.navsearch.displayShortcuts,
+        visibility: state.hotkeys.displayShortcuts,
     }
 }
 
