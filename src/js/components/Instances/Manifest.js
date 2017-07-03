@@ -1,10 +1,9 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router'
-import {pd} from 'pretty-data'
 import {
     fetchManifest
 } from "../../actionCreators/instance"
+import PrettyXml from '../common/PrettyXml'
 
 class Manifest extends Component {
     constructor(props) {
@@ -17,15 +16,7 @@ class Manifest extends Component {
     }
 
     render() {
-        const manifest = String(this.props.manifest).replace(/ns2:/g, '') // remove namespace noise
-
-        return (
-            <pre>
-                <code>
-                    {pd.xml(manifest)}
-                </code>
-            </pre>
-        )
+        return (<PrettyXml xml={this.props.manifest}/>)
     }
 }
 

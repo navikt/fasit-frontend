@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from "react"
+import React, {Component} from "react"
 import {connect} from "react-redux"
 import {fetchEnvironmentCluster, fetchEnvironmentNodes} from "../../actionCreators/environment"
 import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormListBox, FormString, FormDropDown, FormLinkDropDown, Lifecycle, SecurityView, AccessControl, SubmitForm, ToolButtons} from "../common"

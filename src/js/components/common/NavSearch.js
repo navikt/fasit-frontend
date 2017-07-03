@@ -1,8 +1,8 @@
-import React, {Component, PropTypes} from 'react'
-import {browserHistory, Link} from 'react-router'
+import React, {Component} from 'react'
+import {browserHistory} from 'react-router'
 import {connect} from 'react-redux'
 import Mousetrap from 'mousetrap'
-import {submitNavSearch, submitSearch} from '../../actionCreators/common'
+import {submitNavSearch} from '../../actionCreators/common'
 import {capitalize} from '../../utils/'
 
 class NavSearch extends Component {
@@ -23,12 +23,10 @@ class NavSearch extends Component {
     }
 
     handleMouseOver(navItem) {
-
         const {navSearch} = this.props
         const options = [...new Set(navSearch.data.map(result => result.id))]
         const mouseOverItem = options.indexOf(navItem.id)
         this.setState({selectedOption: mouseOverItem})
-
     }
 
     handleMouseClick(e) {
@@ -78,7 +76,8 @@ class NavSearch extends Component {
             if (!(location.pathname === "/search")) {
                 browserHistory.push("/search")
             }
-            dispatch(submitSearch(navSearch.query))
+
+            browserHistory.push(`search/${navSearch.query}`)
             this.setState({visible: false})
         } else {
             dispatch(submitNavSearch(""))

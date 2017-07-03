@@ -18,6 +18,8 @@ export function* submitSearch(action) {
         const payload = yield fetchUrl(url + "?q=" + action.query)
         yield put({type: SEARCH_RESULTS_RECEIVED, value: payload})
     } catch (err) {
+        console.log("err", err)
+
         yield put({type: SEARCH_REQUEST_FAILED, value: err.message})
     }
 }

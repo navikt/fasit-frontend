@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import {browserHistory} from "react-router";
 import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
 import Settings from 'material-ui/svg-icons/action/settings'
-import {styles, colors}  from '../../commonStyles/commonInlineStyles'
+import {styles}  from '../../commonStyles/commonInlineStyles'
 import {capitalize} from '../../utils/'
 import moment from 'moment'
 

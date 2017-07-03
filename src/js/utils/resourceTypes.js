@@ -1,10 +1,11 @@
-import React, {Component, PropTypes} from 'react'
+import React from 'react'
 import {redA700, green500, orange400, blueGrey800, deepPurple400} from 'material-ui/styles/colors'
+import {colors}  from '../commonStyles/commonInlineStyles'
 import Avatar from 'material-ui/Avatar'
 
-const DEFAULT_BACKGROUND_COLOR = "#268bd2"
-const DEFAULT_COLOR = "#ffffff"
-const WHITE = "#ffffff"
+
+const DEFAULT_BACKGROUND_COLOR = colors.avatarBackgroundColor
+const DEFAULT_COLOR = colors.white
 
 export const getResourceTypeName = function (type) {
     const filteredType = Object.keys(resourceTypes).filter(t => t.toLowerCase() === type)
@@ -33,7 +34,7 @@ export const resourceTypes = {
     DataSource: {
         icon: "fa fa-database",
         backgroundColor: redA700,
-        color: WHITE,
+        color: colors.white,
         properties: [
             textbox("url"),
             textbox("username"),
@@ -50,7 +51,7 @@ export const resourceTypes = {
     },
     DB2DataSource: {
         backgroundColor: green500,
-        color: WHITE,
+        color: colors.white,
         icon: "fa fa-database",
         properties: [
             textbox("hostname"),
@@ -113,7 +114,7 @@ export const resourceTypes = {
     },
     QueueManager: {
         backgroundColor: deepPurple400,
-        color: WHITE,
+        color: colors.white,
         texticon: "QM",
         properties: [
             textbox("name"),
@@ -155,7 +156,7 @@ export const resourceTypes = {
     },
     Datapower: {
         backgroundColor: deepPurple400,
-        color: WHITE,
+        color: colors.white,
         icon: "fa fa-money",
         properties: [
             textbox("adminurl", "Admin Url"),
@@ -179,7 +180,7 @@ export const resourceTypes = {
     },
     Queue: {
         backgroundColor: deepPurple400,
-        color: WHITE,
+        color: colors.white,
         texticon: "MQ",
         properties: [
             textbox("queueName", "Queue name"),
@@ -189,7 +190,7 @@ export const resourceTypes = {
     },
     Topic: {
         backgroundColor: deepPurple400,
-        color: WHITE,
+        color: colors.white,
         texticon: "T",
         properties: [
             textbox("topicString", "Topic string"),
@@ -198,7 +199,7 @@ export const resourceTypes = {
     },
     DeploymentManager: {
         backgroundColor: deepPurple400,
-        color: WHITE,
+        color: colors.white,
         icon: "fa fa-dashboard",
         properties: [
             textbox("hostname"),
@@ -221,7 +222,7 @@ export const resourceTypes = {
     },
     LoadBalancer: {
         backgroundColor: redA700,
-        color: WHITE,
+        color: colors.white,
         texticon: "f5",
         properties: [
             textbox("hostname", "Primary hostname"),
@@ -231,7 +232,7 @@ export const resourceTypes = {
     },
     LoadBalancerConfig: {
         backgroundColor: redA700,
-        color: WHITE,
+        color: colors.white,
         icon: "fa fa-balance-scale",
         properties: [
             textbox("url"),
@@ -248,7 +249,7 @@ export const resourceTypes = {
     },
     Channel: {
         backgroundColor: deepPurple400,
-        color: WHITE,
+        color: colors.white,
         icon: "fa fa-exchange",
         properties: [
             textbox("name", "Channel name"),
