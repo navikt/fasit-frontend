@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {browserHistory} from 'react-router'
 import {connect} from 'react-redux'
 import Mousetrap from 'mousetrap'
-import {submitNavSearch} from '../../actionCreators/common'
+import {submitNavSearch, clearSearchBox} from '../../actionCreators/common'
 import {capitalize} from '../../utils/'
 
 class NavSearch extends Component {
@@ -76,7 +76,7 @@ class NavSearch extends Component {
             if (!(location.pathname === "/search")) {
                 browserHistory.push("/search")
             }
-
+            dispatch(clearSearchBox())
             browserHistory.push(`search/${navSearch.query}`)
             this.setState({visible: false})
         } else {

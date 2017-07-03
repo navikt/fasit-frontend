@@ -23,15 +23,19 @@ class Search extends Component {
 
     componentDidMount() {
         const {dispatch, params} = this.props
-        if (params.query)
+        if (params.query) {
+            console.log("CMD", params.query)
             dispatch(submitSearch(params.query))
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         const {dispatch, params} = this.props
 
+        console.log("cwrp", this.props.params.query, nextProps.params.query)
+
         if (nextProps.params.query && params.query != nextProps.params.query) {
-            dispatch(submitSearch(nextProps.query))
+            dispatch(submitSearch(nextProps.params.query))
         }
     }
 
@@ -52,7 +56,6 @@ class Search extends Component {
                 return value.split('\n').map((v, idx) => (<span key={idx}>{v}<br/></span>))
             default:
                 return value
-
         }
     }
 

@@ -14,21 +14,13 @@ export const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case SET_SEARCH_QUERY:
-            console.log("SETQ", action.value)
-            return Object.assign({}, state, {
-                query: action.value,
-                requestFailed: false
-            })
         case SEARCH_RESULTS_RECEIVED:
-            console.log("Se Re Rec", action.value)
             return Object.assign({}, state, {
                 data: action.value,
                 requestFailed: false,
                 isFetching: false
             })
         case SEARCH_RESULTS_FETCHING:
-            console.log("Se Re Fet", action.value)
             return Object.assign({}, state, {
                 data: [],
                 isFetching: true

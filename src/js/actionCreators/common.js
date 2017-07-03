@@ -1,5 +1,6 @@
 import {
     SUBMIT_FORM,
+    CLEAR_SEARCH_QUERY,
     CLOSE_SUBMIT_FORM_STATUS,
     SHOW_KEYBOARD_SHORTCUTS,
     SHOW_NEW_APPLICATION_FORM,
@@ -36,5 +37,6 @@ export const displayModal = (component, value, copy) => {
     }
 }
 export const submitNavSearch = (query) => {return {type: SUBMIT_NAV_SEARCH, query}}
+export const clearSearchBox = () => {return {type: CLEAR_SEARCH_QUERY}}
 export const submitSearch = (query) => {return {type: SUBMIT_SEARCH, query}}
 export const toggleHelp = () => {return {type: SHOW_KEYBOARD_SHORTCUTS}}
