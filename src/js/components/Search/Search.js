@@ -143,7 +143,7 @@ class Search extends Component {
     resultTypeFilters() {
         const {searchResults} = this.props
         const filter = searchResults.filter
-        return searchResults.data.length > 0 && <Toolbar>
+        return  <Toolbar>
                 <ToolbarGroup>
                     <ToolbarTitle text="Filter"/>
                     <FilterButton activeFilter={filter} type={APPCONFIG}
