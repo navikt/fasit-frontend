@@ -18,6 +18,7 @@ export function* submitSearch(action) {
             yield put({type: SET_SEARCH_FILTER, value: action.typeFilter})
             payload = yield fetchUrl(`${url}?q=${action.query}&type=${action.typeFilter}`)
         } else {
+            yield put({type: SET_SEARCH_FILTER, value: ''})
             payload = yield fetchUrl(`${url}?q=${action.query}`)
         }
 

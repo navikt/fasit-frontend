@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {browserHistory} from "react-router";
 import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
-import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar'
+import {Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator} from 'material-ui/Toolbar'
 import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import Avatar from 'material-ui/Avatar'
 import {Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
 import {styles, colors, icons}  from '../../commonStyles/commonInlineStyles'
@@ -101,30 +102,28 @@ class Search extends Component {
                                 actAsExpander={true}
                                 children={this.additionalCardInfo(searchResult)}/>
 
-                    {hasDetailedInfo ? (
-                        <CardText expandable={true} actAsExpander={true}>
-                            <Table>
-                                <TableBody displayRowCheckbox={false}>
-                                    {Object.keys(detailedInfo)
-                                        .filter(di => detailedInfo[di] !== null && detailedInfo[di] !== '')
-                                        .sort()
-                                        .map((di) => {
-                                            return (
-                                                <TableRow key={di}>
-                                                    <TableRowColumn style={styles.tableCellPadding}
-                                                                    className={"col-sm-2"}>
-                                                        {capitalize(di)}
-                                                    </TableRowColumn>
-                                                    <TableRowColumn style={styles.tableCellPadding}
-                                                                    className="text-overflow">
-                                                        {this.cellContents(di, detailedInfo[di])}
-                                                    </TableRowColumn>
-                                                </TableRow>)
-                                        })}
-
-                                </TableBody>
-                            </Table>
-                        </CardText>) : null}
+                    {hasDetailedInfo && <CardText expandable={true} actAsExpander={true}>
+                        <Table>
+                            <TableBody displayRowCheckbox={false}>
+                                {Object.keys(detailedInfo)
+                                    .filter(di => detailedInfo[di] !== null && detailedInfo[di] !== '')
+                                    .sort()
+                                    .map((di) => {
+                                        return (
+                                            <TableRow key={di}>
+                                                <TableRowColumn style={styles.tableCellPadding}
+                                                                className={"col-sm-2"}>
+                                                    {capitalize(di)}
+                                                </TableRowColumn>
+                                                <TableRowColumn style={styles.tableCellPadding}
+                                                                className="text-overflow">
+                                                    {this.cellContents(di, detailedInfo[di])}
+                                                </TableRowColumn>
+                                            </TableRow>)
+                                    })}
+                            </TableBody>
+                        </Table>
+                    </CardText>}
                     <CardActions actAsExpander={true}>
                         <FlatButton
                             disableTouchRipple={true}
@@ -140,25 +139,35 @@ class Search extends Component {
     filterByType(type) {
         const {searchQuery, dispatch} = this.props
         dispatch(submitSearch(searchQuery, type))
-        browserHistory.push(`/search/${searchQuery}?type=${type}`)
+        const newPath = type ? `/search/${searchQuery}?type=${type}` : `/search/${searchQuery}`
+        browserHistory.push(newPath)
     }
 
     resultTypeFilters() {
-        const filter = this.props.searchResults.filter
-        return (
-            <Toolbar>
+        const {searchResults} = this.props
+        const filter = searchResults.filter
+        return searchResults.data.length > 0 && <Toolbar>
                 <ToolbarGroup>
                     <ToolbarTitle text="Filter"/>
-                    <FilterButton activeFilter={filter} type={APPCONFIG} onClickHandler={() => this.filterByType(APPCONFIG)}/>
-                    <FilterButton activeFilter={filter} type={APPLICATION} onClickHandler={() => this.filterByType(APPLICATION)}/>
-                    <FilterButton activeFilter={filter} type={ENVIRONMENT} onClickHandler={() => this.filterByType(ENVIRONMENT)}/>
-                    <FilterButton activeFilter={filter} type={CLUSTER} onClickHandler={() => this.filterByType(CLUSTER)} />
-                    <FilterButton activeFilter={filter} type={INSTANCE} onClickHandler={() => this.filterByType(INSTANCE)} />
+                    <FilterButton activeFilter={filter} type={APPCONFIG}
+                                  onClickHandler={() => this.filterByType(APPCONFIG)}/>
+                    <FilterButton activeFilter={filter} type={APPLICATION}
+                                  onClickHandler={() => this.filterByType(APPLICATION)}/>
+                    <FilterButton activeFilter={filter} type={ENVIRONMENT}
+                                  onClickHandler={() => this.filterByType(ENVIRONMENT)}/>
+                    <FilterButton activeFilter={filter} type={CLUSTER}
+                                  onClickHandler={() => this.filterByType(CLUSTER)}/>
+                    <FilterButton activeFilter={filter} type={INSTANCE}
+                                  onClickHandler={() => this.filterByType(INSTANCE)}/>
                     <FilterButton activeFilter={filter} type={NODE} onClickHandler={() => this.filterByType(NODE)}/>
-                    <FilterButton activeFilter={filter} type={RESOURCE} onClickHandler={() => this.filterByType(RESOURCE)}/>
+                    <FilterButton activeFilter={filter} type={RESOURCE}
+                                  onClickHandler={() => this.filterByType(RESOURCE)}/>
+                </ToolbarGroup>
+                <ToolbarGroup>
+                    <ToolbarSeparator/>
+                    <RaisedButton label='clear' disableTouchRipple={true} primary={true} onTouchTap={() => this.filterByType()}/>
                 </ToolbarGroup>
             </Toolbar>
-        )
     }
 
     render() {
@@ -182,7 +191,8 @@ const mapStateToProps = (state) => {
 
 function FilterButton(props) {
     const {type, onClickHandler, activeFilter} = props
-    return (<FlatButton key={type} primary={activeFilter===type} label={type} disableTouchRipple={true} onTouchTap={onClickHandler}/>)
+    return (<FlatButton key={type} primary={activeFilter === type} label={type} disableTouchRipple={true}
+                        onTouchTap={onClickHandler}/>)
 }
 
 export default connect(mapStateToProps)(Search)
