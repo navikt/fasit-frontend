@@ -109,26 +109,6 @@ class NavSearch extends Component {
         }
     }
 
-    /*destinationUrl(navItem) {
-        switch (navItem.type) {
-            case NODE:
-                return `/nodes/${navItem.name}`
-            case APPLICATION:
-                return `/applications/${navItem.name}`
-            case ENVIRONMENT:
-                return `/environments/${navItem.name}`
-            case RESOURCE:
-                return `/resources/${navItem.id}`
-            case INSTANCE:
-                return `/instances/${navItem.id}`
-            case CLUSTER:
-                return `/environments/${navItem.info.split(" |")[0]}/clusters/${navItem.name}`
-            default:
-                return "/"
-
-        }
-    }*/
-
     render() {
         const {dispatch, navSearch} = this.props
         const {visible, selectedOption} = this.state
