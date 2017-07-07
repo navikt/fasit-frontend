@@ -74,7 +74,7 @@ function ResourceListElement(props) {
                         onTouchTap={() => navigateToResource(resource.id)}
                         icon={<Settings/>}
                         label="manage"
-                        labelStyle={{fontWeight: 'bold'}}/>
+                        labelStyle={styles.bold}/>
                 </CardActions>
             </Card>
         </div>

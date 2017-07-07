@@ -101,7 +101,6 @@ export function* fetchAllLists(action) {
 
 
  const buildFilterString = (filters) => {
-    console.log("FIL ", filters )
     const filterString = Object.keys(filters)
         .reduce((accumulator, current) => {
             if(filters[current]) {

@@ -3,6 +3,7 @@ import {browserHistory} from 'react-router'
 import {connect} from 'react-redux'
 import Mousetrap from 'mousetrap'
 import {submitNavSearch} from '../../actionCreators/common'
+import {destinationUrl} from '../Search/searchResultTypes'
 import {capitalize} from '../../utils/'
 
 class NavSearch extends Component {
@@ -80,7 +81,7 @@ class NavSearch extends Component {
             this.setState({visible: false})
         } else {
             dispatch(submitNavSearch(""))
-            browserHistory.push(this.destinationUrl(navItem))
+            browserHistory.push(destinationUrl(navItem))
         }
     }
 
@@ -108,25 +109,25 @@ class NavSearch extends Component {
         }
     }
 
-    destinationUrl(navItem) {
+    /*destinationUrl(navItem) {
         switch (navItem.type) {
-            case "node":
+            case NODE:
                 return `/nodes/${navItem.name}`
-            case "application":
+            case APPLICATION:
                 return `/applications/${navItem.name}`
-            case "environment":
+            case ENVIRONMENT:
                 return `/environments/${navItem.name}`
-            case "resource":
+            case RESOURCE:
                 return `/resources/${navItem.id}`
-            case "instance":
+            case INSTANCE:
                 return `/instances/${navItem.id}`
-            case "cluster":
+            case CLUSTER:
                 return `/environments/${navItem.info.split(" |")[0]}/clusters/${navItem.name}`
             default:
                 return "/"
 
         }
-    }
+    }*/
 
     render() {
         const {dispatch, navSearch} = this.props

@@ -7,21 +7,13 @@ import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import Avatar from 'material-ui/Avatar'
 import {Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
+import {APPCONFIG, APPLICATION, CLUSTER, ENVIRONMENT, INSTANCE, NODE, RESOURCE, destinationUrl} from '../Search/searchResultTypes'
 import {styles, colors, icons}  from '../../commonStyles/commonInlineStyles'
 import {capitalize} from '../../utils/'
 import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
 import {submitSearch, setSearchString} from '../../actionCreators/common'
 import PrettyXml from '../common/PrettyXml'
 import moment from 'moment'
-
-const APPCONFIG = "appconfig"
-const APPLICATION = "application"
-const CLUSTER = "cluster"
-const ENVIRONMENT = "environment"
-const INSTANCE = "instance"
-const NODE = "node"
-const RESOURCE = "resource"
-
 
 class Search extends Component {
 
@@ -130,10 +122,15 @@ class Search extends Component {
                             label="View"
                             primary={true}
                             labelStyle={styles.bold}
+                            onTouchTap={() => this.navigate(searchResult)}
                         />
                     </CardActions>
                 </Card>
             </div>)
+    }
+
+    navigate(searchResult) {
+        browserHistory.push(destinationUrl(searchResult))
     }
 
     filterByType(type) {
@@ -165,7 +162,8 @@ class Search extends Component {
                 </ToolbarGroup>
                 <ToolbarGroup>
                     <ToolbarSeparator/>
-                    <RaisedButton label='clear' disableTouchRipple={true} primary={true} onTouchTap={() => this.filterByType()}/>
+                    <RaisedButton label='clear' disabled={!searchResults.filter} disableTouchRipple={true} primary={true}
+                                  onTouchTap={() => this.filterByType()}/>
                 </ToolbarGroup>
             </Toolbar>
     }
@@ -191,8 +189,12 @@ const mapStateToProps = (state) => {
 
 function FilterButton(props) {
     const {type, onClickHandler, activeFilter} = props
-    return (<FlatButton key={type} primary={activeFilter === type} label={type} disableTouchRipple={true}
-                        onTouchTap={onClickHandler}/>)
+    return (<RaisedButton
+        key={type}
+        primary={activeFilter === type}
+        label={type}
+        disableTouchRipple={true}
+        onTouchTap={onClickHandler}/>)
 }
 
 export default connect(mapStateToProps)(Search)
