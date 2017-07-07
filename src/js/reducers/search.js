@@ -2,18 +2,23 @@ import {
     SEARCH_RESULTS_RECEIVED,
     SEARCH_REQUEST_FAILED,
     SEARCH_RESULTS_FETCHING,
-    SET_SEARCH_QUERY,
+    SET_SEARCH_FILTER,
 } from '../actionTypes'
 
 export const initialState = {
     data: [],
     requestFailed: false,
     isFetching: false,
-    query: "",
+    filter: ''
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case SET_SEARCH_FILTER:
+            return Object.assign({}, state, {
+                filter: action.value,
+                requestFailed: false
+            })
         case SEARCH_RESULTS_RECEIVED:
             return Object.assign({}, state, {
                 data: action.value,

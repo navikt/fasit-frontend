@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {browserHistory} from 'react-router'
 import {connect} from 'react-redux'
 import Mousetrap from 'mousetrap'
-import {submitNavSearch, clearSearchBox} from '../../actionCreators/common'
+import {submitNavSearch} from '../../actionCreators/common'
 import {capitalize} from '../../utils/'
 
 class NavSearch extends Component {
@@ -10,7 +10,7 @@ class NavSearch extends Component {
         super(props)
         this.state = {
             selectedOption: null,
-            visible: true
+            visible: false
         }
     }
 
@@ -18,6 +18,7 @@ class NavSearch extends Component {
         this.navSearch.focus()
         Mousetrap.bind('g g', (e) => {e.preventDefault(); this.navSearch.focus()})
     }
+
     componentWillUnmount(){
         Mousetrap.unbind('g g')
     }
@@ -47,7 +48,6 @@ class NavSearch extends Component {
                 break
             case 'ArrowUp': // up
                 e.preventDefault()
-
                 this.setState({visible: true})
                 this.changeSelectedOption("prev")
                 break
@@ -76,8 +76,7 @@ class NavSearch extends Component {
             if (!(location.pathname === "/search")) {
                 browserHistory.push("/search")
             }
-            dispatch(clearSearchBox())
-            browserHistory.push(`search/${navSearch.query}`)
+           browserHistory.push(`search/${navSearch.query}`)
             this.setState({visible: false})
         } else {
             dispatch(submitNavSearch(""))

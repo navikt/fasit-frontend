@@ -1,20 +1,28 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {browserHistory} from "react-router";
 import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar'
 import FlatButton from 'material-ui/FlatButton'
 import Avatar from 'material-ui/Avatar'
 import {Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
 import {styles, colors, icons}  from '../../commonStyles/commonInlineStyles'
 import {capitalize} from '../../utils/'
 import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
-import {submitSearch} from '../../actionCreators/common'
+import {submitSearch, setSearchString} from '../../actionCreators/common'
 import PrettyXml from '../common/PrettyXml'
 import moment from 'moment'
 
+const APPCONFIG = "appconfig"
+const APPLICATION = "application"
+const CLUSTER = "cluster"
+const ENVIRONMENT = "environment"
+const INSTANCE = "instance"
+const NODE = "node"
 const RESOURCE = "resource"
 
-class Search extends Component {
 
+class Search extends Component {
 
     constructor(props) {
         super(props)
@@ -22,17 +30,15 @@ class Search extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, params} = this.props
+        const {dispatch, params, location} = this.props
         if (params.query) {
-            console.log("CMD", params.query)
-            dispatch(submitSearch(params.query))
+            dispatch(setSearchString(params.query))
+            dispatch(submitSearch(params.query, location.query.type))
         }
     }
 
     componentWillReceiveProps(nextProps) {
         const {dispatch, params} = this.props
-
-        console.log("cwrp", this.props.params.query, nextProps.params.query)
 
         if (nextProps.params.query && params.query != nextProps.params.query) {
             dispatch(submitSearch(nextProps.params.query))
@@ -40,10 +46,8 @@ class Search extends Component {
     }
 
     // eget card element
-    // filter i search på type
-
     cellContents(key, value) {
-        const {params} =  this.props
+        const {params} = this.props
 
         if (Array.isArray(value)) {
             return value.map((v, idx) => (<span key={idx}>{v}<br/></span>))
@@ -102,15 +106,17 @@ class Search extends Component {
                             <Table>
                                 <TableBody displayRowCheckbox={false}>
                                     {Object.keys(detailedInfo)
-                                        .filter(di => detailedInfo[di] !== null &&  detailedInfo[di] !== '')
+                                        .filter(di => detailedInfo[di] !== null && detailedInfo[di] !== '')
                                         .sort()
                                         .map((di) => {
                                             return (
                                                 <TableRow key={di}>
-                                                    <TableRowColumn style={styles.tableCellPadding} className={"col-sm-2"}>
+                                                    <TableRowColumn style={styles.tableCellPadding}
+                                                                    className={"col-sm-2"}>
                                                         {capitalize(di)}
                                                     </TableRowColumn>
-                                                    <TableRowColumn style={styles.tableCellPadding} className="text-overflow">
+                                                    <TableRowColumn style={styles.tableCellPadding}
+                                                                    className="text-overflow">
                                                         {this.cellContents(di, detailedInfo[di])}
                                                     </TableRowColumn>
                                                 </TableRow>)
@@ -119,7 +125,6 @@ class Search extends Component {
                                 </TableBody>
                             </Table>
                         </CardText>) : null}
-
                     <CardActions actAsExpander={true}>
                         <FlatButton
                             disableTouchRipple={true}
@@ -132,8 +137,33 @@ class Search extends Component {
             </div>)
     }
 
+    filterByType(type) {
+        const {searchQuery, dispatch} = this.props
+        dispatch(submitSearch(searchQuery, type))
+        browserHistory.push(`/search/${searchQuery}?type=${type}`)
+    }
+
+    resultTypeFilters() {
+        const filter = this.props.searchResults.filter
+        return (
+            <Toolbar>
+                <ToolbarGroup>
+                    <ToolbarTitle text="Filter"/>
+                    <FilterButton activeFilter={filter} type={APPCONFIG} onClickHandler={() => this.filterByType(APPCONFIG)}/>
+                    <FilterButton activeFilter={filter} type={APPLICATION} onClickHandler={() => this.filterByType(APPLICATION)}/>
+                    <FilterButton activeFilter={filter} type={ENVIRONMENT} onClickHandler={() => this.filterByType(ENVIRONMENT)}/>
+                    <FilterButton activeFilter={filter} type={CLUSTER} onClickHandler={() => this.filterByType(CLUSTER)} />
+                    <FilterButton activeFilter={filter} type={INSTANCE} onClickHandler={() => this.filterByType(INSTANCE)} />
+                    <FilterButton activeFilter={filter} type={NODE} onClickHandler={() => this.filterByType(NODE)}/>
+                    <FilterButton activeFilter={filter} type={RESOURCE} onClickHandler={() => this.filterByType(RESOURCE)}/>
+                </ToolbarGroup>
+            </Toolbar>
+        )
+    }
+
     render() {
         return (<div className="main-content-container">
+            {this.resultTypeFilters()}
             <div className="row">
                 <div className="col-sm-12">
                     {this.props.searchResults.data.map((sr, idx) => this.searchResultCard(sr, idx))}
@@ -145,8 +175,14 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        searchResults: state.search
+        searchResults: state.search,
+        searchQuery: state.navsearch.query
     }
+}
+
+function FilterButton(props) {
+    const {type, onClickHandler, activeFilter} = props
+    return (<FlatButton key={type} primary={activeFilter===type} label={type} disableTouchRipple={true} onTouchTap={onClickHandler}/>)
 }
 
 export default connect(mapStateToProps)(Search)

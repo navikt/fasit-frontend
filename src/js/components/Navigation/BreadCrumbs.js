@@ -12,6 +12,7 @@ class BreadCrumbs extends Component {
             if (locations[i]) {
                 if (i == locations.length - 1)
                     crumb.last = true
+
                 crumb.path = path += locations[i]
                 crumb.name = decodeURIComponent(locations[i])
                 crumbs.push(crumb)

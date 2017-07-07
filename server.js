@@ -75,7 +75,7 @@ app.get("/mockapi/navsearch", (req, res) => {
 })
 
 app.get("/mockapi/search", (req, res) => {
-    sendJson(res, searchMock.getSearch())
+    sendJson(res, searchMock.getSearch(req.query))
 })
 
 app.get("/mockapi/applications", (req, res) => {

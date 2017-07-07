@@ -1,6 +1,7 @@
 module.exports = {
-    getSearch: () => search
+    getSearch: (queryParams) => search.filter(result => queryParams.type ? result.type === queryParams.type : true)
 }
+
 
 const search = [
     {
@@ -20,7 +21,7 @@ const search = [
         "link": "http://localhost:6969/mockapi/environments/p/clusters/jauKløsterJa",
         "type": "cluster",
         "info": "Applications: 8 | nodes: 4",
-        "©": 1433246644739,
+        "lastchange": 1433246644739,
         "detailedinfo": {
             "nodes": [
                 "enhost.com",
