@@ -1,6 +1,6 @@
 
 node {
-    def mvnHome, mvn, nodeHome, npm, node // tools
+    def mvnHome, mvn, npm, node // tools
     def committer, committerEmail, changelog, releaseVersion // metadata
     def application = "fasit-frontend"
     def dockerDir = "./docker"
@@ -14,9 +14,8 @@ node {
         stage("initialize") {
             mvnHome = tool "maven-3.3.9"
             mvn = "${mvnHome}/bin/mvn"
-            nodeHome = tool "nodejs-6.6.0"
-            npm = "${nodeHome}/bin/npm"
-            node = "${nodeHome}/bin/node"
+            npm = "/usr/bin/npm"
+            node = "/usr/bin/node"
 			changelog = sh(script: 'git log `git describe --tags --abbrev=0`..HEAD --oneline', returnStdout: true)
             releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
 
