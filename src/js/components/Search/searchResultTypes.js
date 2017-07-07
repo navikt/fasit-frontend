@@ -9,7 +9,6 @@ export const NODE = "node"
 export const RESOURCE = "resource"
 
 export function destinationUrl(searchResult) {
-    console.log(searchResult)
     switch (searchResult.type) {
         case NODE:
             return `/nodes/${searchResult.name}`

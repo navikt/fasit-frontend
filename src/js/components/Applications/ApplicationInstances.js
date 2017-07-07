@@ -16,6 +16,14 @@ class ApplicationInstances extends Component {
         dispatch(fetchApplicationInstances(name))
     }
 
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, name} = this.props
+
+        if (nextProps.name !== name) {
+            dispatch(fetchApplicationInstances(nextProps.name))
+        }
+    }
+
     createPopover(instance) {
             return (
                 <Popover

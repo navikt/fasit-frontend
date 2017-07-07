@@ -18,7 +18,7 @@ export function* submitNavSearch(action) {
         const payload = yield fetchUrl(url + "?q=" + action.query + "&maxCount=10")
         yield put({type: NAVSEARCH_RESULTS_RECEIVED, value: payload})
     } catch (err) {
-        console.log(err.message)
+        console.log("Error submitting nav search", err.message)
         yield put({type: NAVSEARCH_REQUEST_FAILED, value: err.message})
     }
 }
