@@ -1,11 +1,18 @@
-import React, {Component, PropTypes} from "react"
+import React, {Component} from "react"
 import {connect} from "react-redux"
-//import {Link} from "react-router"
 import {FormString, FormLink} from "../common/Forms"
 import {oldRevision} from '../../utils/'
 import InstanceResources from "./InstanceResources"
+import {List, ListItem} from 'material-ui/List'
+import Subheader from 'material-ui/Subheader'
+import {Card, CardHeader, CardText} from 'material-ui/Card'
+import {styles} from '../../commonStyles/commonInlineStyles'
+import {Link} from 'react-router'
+import Avatar from 'material-ui/Avatar'
+import LinkIcon from 'material-ui/svg-icons/content/link'
+import ChangeHistory from 'material-ui/svg-icons/action/change-history'
 import Manifest from "./Manifest"
-import {CollapsibleMenu, CollapsibleMenuItem, RevisionsView, CurrentRevision} from "../common/"
+import {CollapsibleMenu, CollapsibleMenuItem, CollapsibleList, CollapsibleListItem, RevisionsView, CurrentRevision, } from "../common/"
 import {
     fetchInstance
 } from "../../actionCreators/instance"
@@ -41,7 +48,6 @@ class Instance extends Component {
     render() {
         const {instance, revisions, query, id} = this.props
         const showRevision = oldRevision(revisions, query.revision)
-
         const clusterName = instance.cluster ? instance.cluster.name : ""
 
         return (
@@ -53,7 +59,7 @@ class Instance extends Component {
                     <FormLink
                         label="Application"
                         value={instance.application}
-                        linkTo={`/applications/${instance.application}`} />
+                        linkTo={`/applications/${instance.application}`}/>
                     <FormString
                         label="version"
                         value={instance.version}
@@ -63,20 +69,55 @@ class Instance extends Component {
                         value={instance.environment}
                         linkTo={`/environments/${instance.environment}`}
                     />
-
                     <FormLink
                         label="Cluster"
                         value={clusterName}
                         linkTo={`/environments/${instance.environment}/clusters/${clusterName}`}
                     />
                 </div>
-                <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                        <RevisionsView id={id} currentRevision={query.revision} component="instance"/>
-                    </CollapsibleMenuItem>
-                </CollapsibleMenu>
+
+                {/*<CollapsibleMenu>
+                 {instance.selftesturls && instance.selftesturls.length > 0  &&
+                 <List>
+                 <ListItem primaryText="Selftest links"  initiallyOpen={true} primaryTogglesNestedList={true} nestedItems={instance.selftesturls.map(
+                 selftest => {
+                 console.log("dada", selftest); return <ListItem key={selftest} primaryText={selftest.split("/")[2]}/>})}/>
+                 </List>}
+'
+                 <CollapsibleMenuItem label="History" defaultExpanded={true}>
+                 <RevisionsView id={id} currentRevision={query.revision} component="instance"/>
+                 </CollapsibleMenuItem>
+                 </CollapsibleMenu>*/}
+                <div className="col-md-5">
+                    {instance.selftesturls && <CollapsibleList
+                     primaryText="Selftest links"
+                     leftIcon={<LinkIcon/>}
+                     initiallyOpen={false}
+                     nestedItems={instance.selftesturls
+                         .map((selftest, idx) => <CollapsibleListItem
+                             key={idx}
+                             primaryText={<a href={selftest} target="_blank">{selftest.split("/")[2]}</a>}
+                             />
+                    )} />
+               }
+               <CollapsibleList primaryText="History"
+                                initiallyOpen={true}
+                                leftIcon={<ChangeHistory/>}
+                                nestedItems={<RevisionsView key={id} id={id} currentRevision={query.revision} component="instance"/>}/>
+                </div>
+                    {/*instance.selftesturls && instance.selftesturls.length > 0  && <List>
+                        <ListItem primaryText="Selftest links"  initiallyOpen={true} primaryTogglesNestedList={true} nestedItems={instance.selftesturls.map(
+                            selftest => <ListItem key={selftest} primaryText={selftest.split("/")[2]}/>)}/>
+                    </List>*/}
+                {/*<List>
+                        <ListItem primaryText="History" initiallyOpen={true} primaryTogglesNestedList={true}
+                                  nestedItems={[<ListItem key="1" children={<RevisionsView key={id} id={id}
+                                                                                           currentRevision={query.revision}
+                                                                                           component="instance"/>}/>]}/>
+                    </List>
+                </div>*/}
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                <div className="col-xs-12">
+                <div>
                     <ul className="nav nav-tabs">
                         <li className={this.state.displayClusters ? "active" : ""}><a
                             onClick={() => this.selectTab("used")}>Used

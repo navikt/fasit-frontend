@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import classString from 'react-classset'
+import {List, ListItem} from 'material-ui/List'
 
 export function CollapsibleMenu(props) {
     return (
@@ -9,6 +10,30 @@ export function CollapsibleMenu(props) {
             </div>
         </div>
     )
+}
+
+export function CollapsibleList(props) {
+    let {nestedItems, ...rest} = props
+
+    return <List>
+        <ListItem
+            nestedItems={toArray(nestedItems)}
+            {...rest}
+            primaryTogglesNestedList={true}
+        /></List>
+}
+
+function toArray(maybeArray) {
+    if (Array.isArray(maybeArray)) {
+        return maybeArray
+    }
+    let array = []
+    array.push(maybeArray)
+    return array
+}
+
+export function CollapsibleListItem(props) {
+    return <ListItem {...props}/>
 }
 
 export class CollapsibleMenuItem extends Component {
@@ -38,7 +63,7 @@ export class CollapsibleMenuItem extends Component {
                 <a className="list-group-item collapsible-menu-item"
                    onClick={() => this.toggleDisplay()}>
                     <i className={this.arrowDirection()}/>
-                    <strong id="label" style={{marginLeft:10}}>{this.props.label}</strong>
+                    <strong id="label" style={{marginLeft: 10}}>{this.props.label}</strong>
                 </a>
                 {this.state.displayContent ? this.props.children : null}
             </div>

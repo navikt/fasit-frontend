@@ -1,4 +1,4 @@
-import {CollapsibleMenu, CollapsibleMenuItem} from './CollapsibleMenu'
+import {CollapsibleMenu, CollapsibleMenuItem, CollapsibleList, CollapsibleListItem} from './CollapsibleMenu'
 import {AuraTools} from './AuraTools'
 import AccessControl from './AccessControl'
 import {CurrentRevision} from './CurrentRevision'
@@ -23,6 +23,8 @@ export {
     AuraTools,
     CollapsibleMenu,
     CollapsibleMenuItem,
+    CollapsibleList,
+    CollapsibleListItem,
     CurrentRevision,
     DeleteElementForm,
     ElementList,
@@ -36,6 +38,7 @@ export {
     FormCreatableList,
     FormSecret,
     FormString,
+
     KeyboardShortcuts,
     LifecycleStatus,
     Lifecycle,

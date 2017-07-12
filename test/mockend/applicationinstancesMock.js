@@ -23,6 +23,21 @@ const applicationinstances = [
         "environment": "p",
         "version": "1",
         "nodes": [],
+        "selftesturls": [
+            "https://loadbalanced.com/gosys/internal/selftest",
+            "https://airhost1:9444/gosys/internal/selftest",
+            "https://airhost2.adeo.no:9444/asys/selftest",
+            "https://airhost3.adeo.no:9444/asys/selftest",
+            "https://airhost4.adeo.no:9444/asys/selftest",
+            "https://airhost5.adeo.no:9444/asys/selftest",
+            "https://airhost6.adeo.no:9444/asys/selftest",
+            "https://airhost7.adeo.no:9444/asys/selftest",
+            "https://airhost8.adeo.no:9444/asys/selftest",
+            "https://airhost9.adeo.no:9444/asys/selftest",
+            "https://airhost10.adeo.no:9444/asys/selftest",
+            "https://airhost11.adeo.no:9444/asys/selftest",
+            "https://airhost12.adeo.no:9444/asys/selftest"
+        ],
         "cluster": {
             "name": "app1Cluster",
             "ref": "http://localhost:6969/mockapi/environments/p/clusters/app1Cluster"
@@ -87,6 +102,7 @@ const applicationinstances = [
         "application": "app1",
         "environment": "t1",
         "version": "1",
+        "selftesturls": [],
         "nodes": [],
         "cluster": {
             "name": "app1Cluster",
@@ -152,6 +168,9 @@ const applicationinstances = [
         "environment": "u69",
         "version": "2.10.3",
         "nodes": [],
+        "selftesturls": [
+            "https://ahostname.no:9443/someapp/selftest"
+        ],
         "cluster": {
             "name": "app1Cluster",
             "ref": "http://localhost:6969/mockapi/environments/p/clusters/app1Cluster"
