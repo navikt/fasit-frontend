@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import fetch from "isomorphic-fetch";
 
 export const validAuthorization = (user, accesscontrol) => {
     let group = true, role = false
@@ -85,7 +85,7 @@ export const fetchPage = (url) => {
 
 export const putUrl = (url, content, comment) => {
     let headers = {"Content-Type": "application/json"}
-    if (comment.length > 0) {
+    if (comment && comment.length > 0) {
         headers = Object.assign({}, headers, {"X-Comment": comment})
     }
     return fetch(url, {
@@ -109,7 +109,7 @@ export const putUrl = (url, content, comment) => {
 
 export const postUrl = (url, form, comment) => {
     let headers = {"Content-Type": "application/json"}
-    if (comment.length > 0) {
+    if (comment && comment.length > 0) {
         headers = Object.assign({}, headers, {"X-Comment": comment})
     }
     return fetch(url, {
@@ -149,7 +149,7 @@ export const postForm = (url, body) => {
 }
 export const deleteUrl = (url, comment) => {
     let headers = {"Content-Type": "application/json"}
-    if (comment.length > 0) {
+    if (comment && comment.length > 0) {
         headers = Object.assign({}, headers, {"X-Comment": comment})
     }
     return fetch(url, {

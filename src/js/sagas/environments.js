@@ -1,10 +1,7 @@
-import {takeEvery} from 'redux-saga'
-import {put, fork, select} from 'redux-saga/effects'
-import {fetchUrl} from '../utils'
-import {
-    ENVIRONMENTS_REQUEST,
-    ENVIRONMENTS_RECEIVED
-} from '../actionTypes'
+import {takeEvery} from "redux-saga";
+import {put, fork, select} from "redux-saga/effects";
+import {fetchUrl} from "../utils";
+import {ENVIRONMENTS_REQUEST, ENVIRONMENTS_RECEIVED} from "../actionTypes";
 
 export function* fetchEnvironments() {
     const url = yield select((state) => state.configuration.fasit_environments)

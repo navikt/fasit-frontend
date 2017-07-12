@@ -1,11 +1,8 @@
-import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
-import {connect} from 'react-redux'
-
-import {FormString, FormDropDown, FormComment} from '../common/Forms'
-
-import {displayModal} from '../../actionCreators/common'
-import {submitForm} from '../../actionCreators/common'
+import React, {Component, PropTypes} from "react";
+import {Modal} from "react-bootstrap";
+import {connect} from "react-redux";
+import {FormString, FormDropDown, FormComment} from "../common/Forms";
+import {displayModal, submitForm} from "../../actionCreators/common";
 
 class NewClusterForm extends Component {
     constructor(props) {
@@ -19,9 +16,9 @@ class NewClusterForm extends Component {
         }
     }
 
-    componentWillReceiveProps(next){
+    componentWillReceiveProps(next) {
         const {clustername, environment, environmentclass, zone} = this.props
-        if (next.copy){
+        if (next.copy) {
             this.setState({
                 name,
                 environmentclass
@@ -67,7 +64,7 @@ class NewClusterForm extends Component {
     showSubmitButton() {
         const {clustername, environment, environmentclass, zone} = this.state
         if (clustername && environment && environmentclass) {
-            if (environmentclass === "u" || zone){
+            if (environmentclass === "u" || zone) {
                 return (
                     <button type="submit"
                             className="btn btn-primary pull-right"
@@ -124,16 +121,13 @@ class NewClusterForm extends Component {
             </Modal>
         )
     }
+
     environmentSelector() {
         const {environments} = this.props
         const {environmentclass} = this.state
         if (environmentclass) {
             const filteredEnvironments = environments.environments.filter((env) => {
-                if (!environmentclass) {
-                    return true
-                } else {
-                    return env.environmentclass === environmentclass
-                }
+                return env.environmentclass === environmentclass
             })
             return (
                 <FormDropDown
