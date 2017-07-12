@@ -2,6 +2,7 @@ import {takeEvery, delay} from "redux-saga";
 import {call, put, fork, select} from "redux-saga/effects";
 import {browserHistory} from "react-router";
 import {
+    APPLICATION_NAMES_REQUEST,
     ENVIRONMENTS_REQUEST,
     SHOW_NEW_APPLICATION_FORM,
     SHOW_NEW_CLUSTER_FORM,
@@ -34,6 +35,7 @@ export function* submitForm(action) {
             case "newApplication":
                 url = `${configuration.fasit_applications}`
                 yield postUrl(url, action.form, action.comment)
+                yield put({type: APPLICATION_NAMES_REQUEST})
                 yield put({type: SHOW_NEW_APPLICATION_FORM, value: false})
                 break
             case "newNode":
@@ -124,6 +126,7 @@ export function* submitForm(action) {
         yield put({type: CLOSE_SUBMIT_FORM_STATUS})
     } catch (err) {
         const value = err.message
+        console.error("Error submitting form", err)
         yield put({type: SUBMIT_FORM_FAILED, value})
     }
 
