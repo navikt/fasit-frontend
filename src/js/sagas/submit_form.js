@@ -1,8 +1,8 @@
-import {takeEvery, delay} from 'redux-saga'
-import {call, put, fork, select} from 'redux-saga/effects'
+import {takeEvery, delay} from "redux-saga";
+import {call, put, fork, select} from "redux-saga/effects";
 import {browserHistory} from "react-router";
-import {putUrl, postUrl, deleteUrl} from '../utils'
 import {
+    ENVIRONMENTS_REQUEST,
     SHOW_NEW_APPLICATION_FORM,
     SHOW_NEW_CLUSTER_FORM,
     SHOW_NEW_ENVIRONMENT_FORM,
@@ -19,8 +19,8 @@ import {
     RESOURCE_FASIT_REQUEST,
     APPLICATION_FASIT_REQUEST,
     SUBMIT_FILTER_SEARCH
-
-} from '../actionTypes'
+} from "../actionTypes";
+import {putUrl, postUrl, deleteUrl} from "../utils";
 
 export function* submitForm(action) {
     const configuration = yield select((state) => state.configuration)
@@ -44,6 +44,7 @@ export function* submitForm(action) {
             case "newEnvironment":
                 url = `${configuration.fasit_environments}`
                 yield postUrl(url, action.form, action.comment)
+                yield put({type: ENVIRONMENTS_REQUEST})
                 yield put({type: SHOW_NEW_ENVIRONMENT_FORM, value: false})
                 break
             case "newCluster":
