@@ -3,15 +3,13 @@ import {Link} from 'react-router'
 import {connect} from "react-redux"
 import {
     AccessControl,
-    CollapsibleMenu,
     CurrentRevision,
-    CollapsibleMenuItem,
-    RevisionsView,
+    History,
     Lifecycle,
     FormString,
     FormDropDown,
-    SecurityView,
     SubmitForm,
+    Security,
     DeleteElementForm,
     ToolButtons
 } from "../common/"
@@ -170,15 +168,17 @@ class Environment extends Component {
 
 
                 {/*Side menu*/}
-                <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                        <RevisionsView id={this.props.name} currentRevision={query.revision} component="environment"/>
-                    </CollapsibleMenuItem>
-                    <CollapsibleMenuItem label="Security">
-                        <SecurityView accesscontrol={environment.accesscontrol}
-                                      displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
-                    </CollapsibleMenuItem>
-                </CollapsibleMenu>
+                <div className="col-md-4">
+                    <History id={this.props.name} currentRevision={query.revision} compenent="environment"/>
+                    <Security accesscontrol={environment.accesscontrol} displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                </div>
+                {/*<CollapsibleMenu>
+
+                 <CollapsibleMenuItem label="Security">
+                 <SecurityView accesscontrol={environment.accesscontrol}
+                 displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                 </CollapsibleMenuItem>
+                 </CollapsibleMenu>*/}
 
                 {/*Content view*/}
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>

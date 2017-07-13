@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Link, browserHistory} from 'react-router'
 import moment from 'moment'
 import {connect} from 'react-redux'
-import {fetchRevisions, fetchRevision} from '../../actionCreators/common'
+import {fetchRevisions} from '../../actionCreators/common'
 import {OverlayTrigger, Tooltip} from 'react-bootstrap'
 
 class RevisionsView extends Component {

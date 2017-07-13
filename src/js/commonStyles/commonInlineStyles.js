@@ -4,13 +4,14 @@ import GroupWork from 'material-ui/svg-icons/action/group-work'
 import Description from 'material-ui/svg-icons/action/description'
 import Timeline from 'material-ui/svg-icons/action/timeline'
 import Link from 'material-ui/svg-icons/content/link'
+import Security from 'material-ui/svg-icons/hardware/security'
 import Avatar from 'material-ui/Avatar'
 
 export const colors = {
     white: '#ffffff',
     avatarBackgroundColor: "#268bd2",
     red: red400,
-    orange:  orange300,
+    orange: orange300,
     green: green400
 }
 
@@ -24,7 +25,8 @@ export const styles = {
     paddingTop5: {paddingTop: '5px'},
     valign: {
         display: 'inline-flex',
-        verticalAlign: 'middle'},
+        verticalAlign: 'middle'
+    },
     tableCellPadding: {
         verticalAlign: 'top',
         paddingTop: '10px',
@@ -41,6 +43,7 @@ export const icons = {
     appconfig: <Description style={styles.white}/>,
     resource: <i className="fa fa-cogs"/>,
     historyAvatar: <Avatar icon={<Timeline/>}/>,
+    securityAvatar: <Avatar icon={<Security/>}/>,
     linkAvatar: <Avatar icon={<Link/>}/>
 
 }

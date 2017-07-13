@@ -71,11 +71,11 @@ class Instance extends Component {
 
                 <div className="col-md-4">
                     {instance.selftesturls && <CollapsibleList
-                     primaryText="Selftests"
-                     leftAvatar={icons.linkAvatar}
-                     initiallyOpen={false}
-                     nestedItems={<SelfTestLinks key={id} links={instance.selftesturls}/>}/>}
-            <History id={id} revision={query.revision} component="instance"/>
+                        primaryText="Selftests"
+                        leftAvatar={icons.linkAvatar}
+                        initiallyOpen={false}
+                        nestedItems={<SelfTestLinks key={id} links={instance.selftesturls}/>}/>}
+                    <History id={id} revision={query.revision} component="instance"/>
                 </div>
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
                 <div>

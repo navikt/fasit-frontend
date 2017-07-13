@@ -5,14 +5,14 @@ import {CurrentRevision} from './CurrentRevision'
 import ElementList from './ElementList'
 import ElementPaging from './ElementPaging'
 import {History} from './History'
+import RevisionsView from './RevisionsView'
 import KeyboardShortcuts from './KeyboardShortcuts'
 import Login from './Login'
 import {LifecycleStatus} from './LifecycleStatus'
 import Lifecycle from './Lifecycle'
 import NavSearch from './NavSearch'
-import RevisionsView from './RevisionsView'
 import SubmitForm from './SubmitForm'
-import SecurityView from './SecurityView'
+import Security from './Security'
 import SubmitFormStatus from './SubmitFormStatus'
 import ToolButtons from './ToolButtons'
 import DeleteElementForm from './DeleteElementForm'
@@ -41,6 +41,7 @@ export {
     ElementList,
     ElementPaging,
     FormListBox,
+    RevisionsView,
     FormLink,
     FormDropDown,
     FormLinkDropDown,
@@ -56,8 +57,7 @@ export {
     Login,
     NavSearch,
     RescueElementForm,
-    RevisionsView,
-    SecurityView,
+    Security,
     SubmitFormStatus,
     SubmitForm,
     ToolButtons
