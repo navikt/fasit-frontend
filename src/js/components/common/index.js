@@ -4,6 +4,7 @@ import AccessControl from './AccessControl'
 import {CurrentRevision} from './CurrentRevision'
 import ElementList from './ElementList'
 import ElementPaging from './ElementPaging'
+import {History} from './History'
 import KeyboardShortcuts from './KeyboardShortcuts'
 import Login from './Login'
 import {LifecycleStatus} from './LifecycleStatus'
@@ -16,7 +17,17 @@ import SubmitFormStatus from './SubmitFormStatus'
 import ToolButtons from './ToolButtons'
 import DeleteElementForm from './DeleteElementForm'
 import RescueElementForm from './RescueElementForm'
-import {FormListBox, FormLink, FormCreatableList, FormDropDown, FormSecret, FormString, FormComment, FormTextArea, FormLinkDropDown} from './Forms'
+import {
+    FormListBox,
+    FormLink,
+    FormCreatableList,
+    FormDropDown,
+    FormSecret,
+    FormString,
+    FormComment,
+    FormTextArea,
+    FormLinkDropDown
+} from './Forms'
 
 export {
     AccessControl,
@@ -38,7 +49,7 @@ export {
     FormCreatableList,
     FormSecret,
     FormString,
-
+    History,
     KeyboardShortcuts,
     LifecycleStatus,
     Lifecycle,

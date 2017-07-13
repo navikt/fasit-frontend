@@ -3,16 +3,9 @@ import {connect} from "react-redux"
 import {FormString, FormLink} from "../common/Forms"
 import {oldRevision} from '../../utils/'
 import InstanceResources from "./InstanceResources"
-import {List, ListItem} from 'material-ui/List'
-import Subheader from 'material-ui/Subheader'
-import {Card, CardHeader, CardText} from 'material-ui/Card'
-import {styles} from '../../commonStyles/commonInlineStyles'
-import {Link} from 'react-router'
-import Avatar from 'material-ui/Avatar'
-import LinkIcon from 'material-ui/svg-icons/content/link'
-import ChangeHistory from 'material-ui/svg-icons/action/change-history'
+import {icons} from '../../commonStyles/commonInlineStyles'
 import Manifest from "./Manifest"
-import {CollapsibleMenu, CollapsibleMenuItem, CollapsibleList, CollapsibleListItem, RevisionsView, CurrentRevision, } from "../common/"
+import {CollapsibleList, CurrentRevision, History} from "../common/"
 import {
     fetchInstance
 } from "../../actionCreators/instance"
@@ -22,9 +15,9 @@ class Instance extends Component {
         super(props)
 
         this.state = {
-            displayClusters: true,
-            displayNodes: false,
-            displayInstances: false
+            usedResources: true,
+            exposedResources: false,
+            displayManifest: false
         }
     }
 
@@ -76,65 +69,33 @@ class Instance extends Component {
                     />
                 </div>
 
-                {/*<CollapsibleMenu>
-                 {instance.selftesturls && instance.selftesturls.length > 0  &&
-                 <List>
-                 <ListItem primaryText="Selftest links"  initiallyOpen={true} primaryTogglesNestedList={true} nestedItems={instance.selftesturls.map(
-                 selftest => {
-                 console.log("dada", selftest); return <ListItem key={selftest} primaryText={selftest.split("/")[2]}/>})}/>
-                 </List>}
-'
-                 <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                 <RevisionsView id={id} currentRevision={query.revision} component="instance"/>
-                 </CollapsibleMenuItem>
-                 </CollapsibleMenu>*/}
-                <div className="col-md-5">
+                <div className="col-md-4">
                     {instance.selftesturls && <CollapsibleList
-                     primaryText="Selftest links"
-                     leftIcon={<LinkIcon/>}
+                     primaryText="Selftests"
+                     leftAvatar={icons.linkAvatar}
                      initiallyOpen={false}
-                     nestedItems={instance.selftesturls
-                         .map((selftest, idx) => <CollapsibleListItem
-                             key={idx}
-                             primaryText={<a href={selftest} target="_blank">{selftest.split("/")[2]}</a>}
-                             />
-                    )} />
-               }
-               <CollapsibleList primaryText="History"
-                                initiallyOpen={true}
-                                leftIcon={<ChangeHistory/>}
-                                nestedItems={<RevisionsView key={id} id={id} currentRevision={query.revision} component="instance"/>}/>
+                     nestedItems={<SelfTestLinks key={id} links={instance.selftesturls}/>}/>}
+            <History id={id} revision={query.revision} component="instance"/>
                 </div>
-                    {/*instance.selftesturls && instance.selftesturls.length > 0  && <List>
-                        <ListItem primaryText="Selftest links"  initiallyOpen={true} primaryTogglesNestedList={true} nestedItems={instance.selftesturls.map(
-                            selftest => <ListItem key={selftest} primaryText={selftest.split("/")[2]}/>)}/>
-                    </List>*/}
-                {/*<List>
-                        <ListItem primaryText="History" initiallyOpen={true} primaryTogglesNestedList={true}
-                                  nestedItems={[<ListItem key="1" children={<RevisionsView key={id} id={id}
-                                                                                           currentRevision={query.revision}
-                                                                                           component="instance"/>}/>]}/>
-                    </List>
-                </div>*/}
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>
                 <div>
                     <ul className="nav nav-tabs">
-                        <li className={this.state.displayClusters ? "active" : ""}><a
+                        <li className={this.state.usedResources ? "active" : ""}><a
                             onClick={() => this.selectTab("used")}>Used
                             resources</a></li>
-                        <li className={this.state.displayNodes ? "active" : ""}><a
+                        <li className={this.state.exposedResources ? "active" : ""}><a
                             onClick={() => this.selectTab("exposed")}>Exposed
                             resources</a></li>
-                        <li className={this.state.displayInstances ? "active" : ""}><a
+                        <li className={this.state.displayManifest ? "active" : ""}><a
                             onClick={() => this.selectTab("manifest")}>Manifest</a>
                         </li>
                     </ul>
                 </div>
                 <div className="col-xs-12">
                     <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                    {this.state.displayClusters ? <InstanceResources items={instance.usedresources}/> : ''}
-                    {this.state.displayNodes ? <InstanceResources items={instance.exposedresources}/> : ''}
-                    {this.state.displayInstances ? <Manifest /> : ''}
+                    {this.state.usedResources ? <InstanceResources items={instance.usedresources}/> : ''}
+                    {this.state.exposedResources ? <InstanceResources items={instance.exposedresources}/> : ''}
+                    {this.state.displayManifest ? <Manifest /> : ''}
                 </div>
             </div>
         )
@@ -144,41 +105,49 @@ class Instance extends Component {
         switch (tab) {
             case "used":
                 this.setState({
-                        displayClusters: true,
-                        displayNodes: false,
-                        displayInstances: false
+                        usedResources: true,
+                        exposedResources: false,
+                        displayManifest: false
                     }
                 )
                 return
             case "exposed":
                 return this.setState({
-                        displayClusters: false,
-                        displayNodes: true,
-                        displayInstances: false
+                        usedResources: false,
+                        exposedResources: true,
+                        displayManifest: false
                     }
                 )
             case "manifest":
                 return this.setState({
-                        displayClusters: false,
-                        displayNodes: false,
-                        displayInstances: true
+                        usedResources: false,
+                        exposedResources: false,
+                        displayManifest: true
                     }
                 )
         }
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         instance: state.instance_fasit.data,
         user: state.user,
         editMode: state.nodes.showEditNodeForm,
-        hostname: ownProps.hostname,
         config: state.configuration,
-        id: ownProps.id,
         revisions: state.revisions,
         query: state.routing.locationBeforeTransitions.query
     }
+}
+
+function SelfTestLinks(props) {
+    return (<ul key="1" className="revisionList">
+        {props.links
+            .map(link =>
+                <li key={link}>
+                    <a href={link} className="revisionListItem" target="_blank">{link.split("/")[2]}</a>
+                </li>)}
+    </ul>)
 }
 
 export default connect(mapStateToProps)(Instance)

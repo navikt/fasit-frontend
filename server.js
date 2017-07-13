@@ -10,6 +10,7 @@ const resourcesMock = require('./test/mockend/resourcesMock')
 const resourceRevisionMock = require('./test/mockend/resourceRevisionsMock')
 const applicationsMock = require('./test/mockend/applicationsMock')
 const applicationinstances = require('./test/mockend/applicationinstancesMock')
+const applicationinstancesRevisionsMock = require('./test/mockend/applicationInstancesRevisionsMock')
 const resourceTypes = require('./test/mockend/resourceTypesMock')
 const nodesMock = require('./test/mockend/nodesMock')
 const navSearchMock = require('./test/mockend/navSearchMock')
@@ -88,6 +89,10 @@ app.get("/mockapi/applicationinstances", (req, res) => {
 
 app.get("/mockapi/applicationinstances/:id", (req, res) => {
     sendJson(res, applicationinstances.getInstance(req.params.id))
+})
+
+app.get("/mockapi/applicationinstances/:id/revisions", (req, res) => {
+    sendJson(res, applicationinstancesRevisionsMock.getApplicationInstanceRevisions())
 })
 
 app.get("/mockapi/applicationinstances/environment/:environment", (req, res) => {

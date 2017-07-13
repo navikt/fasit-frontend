@@ -1,7 +1,10 @@
-import React, {Component, PropTypes} from 'react'
+import React from 'react'
 import {red400, green400, orange300} from 'material-ui/styles/colors'
 import GroupWork from 'material-ui/svg-icons/action/group-work'
 import Description from 'material-ui/svg-icons/action/description'
+import Timeline from 'material-ui/svg-icons/action/timeline'
+import Link from 'material-ui/svg-icons/content/link'
+import Avatar from 'material-ui/Avatar'
 
 export const colors = {
     white: '#ffffff',
@@ -36,6 +39,9 @@ export const icons = {
     node: <i className="fa fa-home fa-server"/>,
     cluster: <GroupWork style={styles.white}/>,
     appconfig: <Description style={styles.white}/>,
-    resource: <i className="fa fa-cogs"/>
+    resource: <i className="fa fa-cogs"/>,
+    historyAvatar: <Avatar icon={<Timeline/>}/>,
+    linkAvatar: <Avatar icon={<Link/>}/>
 
 }
+

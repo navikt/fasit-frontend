@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import classString from 'react-classset'
 import {List, ListItem} from 'material-ui/List'
 
@@ -30,10 +30,6 @@ function toArray(maybeArray) {
     let array = []
     array.push(maybeArray)
     return array
-}
-
-export function CollapsibleListItem(props) {
-    return <ListItem {...props}/>
 }
 
 export class CollapsibleMenuItem extends Component {

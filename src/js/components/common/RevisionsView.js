@@ -1,9 +1,9 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {Link, browserHistory} from 'react-router'
 import moment from 'moment'
 import {connect} from 'react-redux'
 import {fetchRevisions, fetchRevision} from '../../actionCreators/common'
-import {Popover, OverlayTrigger, Tooltip} from 'react-bootstrap'
+import {OverlayTrigger, Tooltip} from 'react-bootstrap'
 
 class RevisionsView extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class RevisionsView extends Component {
     componentWillReceiveProps(nextProps) {
         const {dispatch, id, component} = nextProps
 
-        if(this.props.id !== nextProps.id) {
+        if (this.props.id !== nextProps.id) {
             dispatch(fetchRevisions(component, id))
         }
     }
@@ -30,8 +30,8 @@ class RevisionsView extends Component {
     tooltip(message) {
         return (
             <Tooltip id="tooltip">{message}</Tooltip>
-)
-}
+        )
+    }
 
     showRevisionsFooter() {
         const {revisions} = this.props
@@ -56,50 +56,48 @@ class RevisionsView extends Component {
     }
 
     render() {
-        moment.locale("en")
-        const {revisions, routing, currentRevision} = this.props
+            moment.locale("en")
+            const {revisions, routing, currentRevision} = this.props
 
-        if (revisions.isFetching) {
+            if (revisions.isFetching) {
+                return (
+                  <div>
+                        <i className="fa fa-spinner fa-pulse fa-2x"></i>
+                    </div>
+                )
+            }
+
+            else if (revisions.requestFailed)
+                return  <div key="1">Unable to fetch revisions</div>
+
+            let displayRevisions = revisions.data
+           
+            if (!this.state.displayAllRevisions)
+                displayRevisions = revisions.data.slice(0, 5)
             return (
-                <div>
-                    <i className="fa fa-spinner fa-pulse fa-2x"></i>
-                </div>
+                <ul className="revisionList">
+                    {displayRevisions.map(rev => {
+                        const className = rev.revision == currentRevision ? "revisionListItem currentRevision " : "revisionListItem"
+                        return (
+                            <OverlayTrigger
+                                placement="left"
+                                key={rev.revision}
+                                overlay={this.tooltip(rev.revisiontype === 'add' ? "Created" : rev.message || 'Changes made without a comment')}
+                            >
+                                <li id={rev.revision}>
+                                    <Link
+                                        onClick={() => browserHistory.push(routing.pathname + "?revision=" + rev.revision)}
+                                        className={className}>
+                                        {rev.revisiontype === 'add' ? 'Created' : 'Modified'} {moment(rev.timestamp).fromNow()}
+                                        by {rev.author}</Link>
+                                </li>
+                            </OverlayTrigger>)
+                    })}
 
+                    {this.showRevisionsFooter()}
+                </ul>
             )
         }
-
-        else if (revisions.requestFailed)
-            return <div>Retrieving revisions failed with the following message:
-                <br />
-                <pre><i>{revisions.requestFailed}</i></pre>
-            </div>
-
-        let displayRevisions = revisions.data
-        if (!this.state.displayAllRevisions)
-            displayRevisions = revisions.data.slice(0, 5)
-        return (
-            <ul className="revisionList">
-                {displayRevisions.map(rev => {
-                    const className = rev.revision == currentRevision ? "revisionListItem currentRevision " : "revisionListItem"
-                    return (
-                        <OverlayTrigger
-                            placement="left"
-                            key={rev.revision}
-                            overlay={this.tooltip(rev.revisiontype === 'add' ? "Created" : rev.message || 'Changes made without a comment')}
-                        >
-                            <li id={rev.revision}>
-                                <Link
-                                    onClick={() => browserHistory.push(routing.pathname + "?revision=" + rev.revision)}
-                                    className={className}>
-                                    {rev.revisiontype === 'add' ? 'Created' : 'Modified'} {moment(rev.timestamp).fromNow()} by {rev.author}</Link>
-                            </li>
-                        </OverlayTrigger>)
-                })}
-
-                {this.showRevisionsFooter()}
-            </ul>
-        )
-    }
 }
 
 const mapStateToProps = (state, ownProps) => ({
