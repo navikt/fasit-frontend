@@ -100,10 +100,10 @@ class RevisionsView extends Component {
         }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-    id: ownProps.id,
+const mapStateToProps = (state) => ({
+    //id: ownProps.id,
     revisions: state.revisions,
-    component: ownProps.component,
+    //component: ownProps.component,
     routing: state.routing.locationBeforeTransitions
 })
 

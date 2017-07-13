@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {validAuthorization, oldRevision} from '../../utils'
@@ -10,8 +10,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import NotFound from '../NotFound'
 import {
     AccessControl,
-    CollapsibleMenu,
-    CollapsibleMenuItem,
     CurrentRevision,
     FormString,
     FormDropDown,
@@ -19,9 +17,9 @@ import {
     FormSecret,
     FormTextArea,
     Lifecycle,
-    RevisionsView,
     RescueElementForm,
-    SecurityView,
+    Security,
+    History,
     DeleteElementForm,
     ToolButtons
 } from '../common/'
@@ -351,15 +349,11 @@ class Resource extends Component {
                 </div>
 
 
-                <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                            <RevisionsView id={id} currentRevision={query.revision} component="resource"/>
-                    </CollapsibleMenuItem>
-                    <CollapsibleMenuItem label="Security">
-                        <SecurityView accesscontrol={fasit.data.accesscontrol}
-                                      displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
-                    </CollapsibleMenuItem>
-                </CollapsibleMenu>
+                <div className="col-md-4">
+                    <History id={id} currentRevision={query.revision} component="instance"/>
+                    <Security accesscontrol={fasit.data.accesscontrol}
+                              displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                </div>
 
                 <RescueElementForm
                     displayRescueForm={this.state.displayRescueForm}

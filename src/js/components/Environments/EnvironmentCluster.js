@@ -181,7 +181,7 @@ class EnvironmentCluster extends Component {
                 {/*Side menu*/}
                 <div className="col-md-4">
                     {/* Disabled for now as revisions is not working properly for clusters
-                     <History id={clustername} currentRevision={query.revision} compenent="clusters"/>*/}
+                     <History id={clustername} currentRevision={query.revision} component="clusters"/>*/}
                     <Security accesscontrol={cluster.data.accesscontrol}
                               displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                 </div>

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {validAuthorization, oldRevision} from '../../utils/'
 import {fetchFasitData} from '../../actionCreators/application'
@@ -166,8 +166,9 @@ class Application extends Component {
 
                 {/*Side menu*/}
                 <div className="col-md-4">
-                    <History id={name} currentRevision={query.revision} compenent="application"/>
-                    <Security accesscontrol={application.data.accesscontrol} displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                    <History id={name} currentRevision={query.revision} component="application"/>
+                    <Security accesscontrol={application.data.accesscontrol}
+                              displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                 </div>
 
                 {/* Misc. modals*/}

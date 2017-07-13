@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {validAuthorization, oldRevision} from '../../utils/'
 import {
     fetchFasitData,
-    rescueNode,
     fetchNodePassword,
     clearNodePassword,
 } from '../../actionCreators/node'
@@ -18,9 +17,9 @@ import {
     FormDropDown,
     FormSecret,
     Lifecycle,
-    RevisionsView,
     RescueElementForm,
-    SecurityView,
+    Security,
+    History,
     SubmitForm,
     ToolButtons
 }from '../common/'
@@ -225,14 +224,13 @@ class Node extends Component {
 
                 {/*Side menu*/}
 
+                <div className="col-md-4">
+                    <History id={hostname} currentRevision={query.revision} component="node"/>
+                    <Security accesscontrol={fasit.data.accesscontrol}
+                              displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                </div>
+
                 <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                        <RevisionsView id={hostname} currentRevision={query.revision} component="node"/>
-                    </CollapsibleMenuItem>
-                    <CollapsibleMenuItem label="Security">
-                        <SecurityView accesscontrol={fasit.data.accesscontrol}
-                                      displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
-                    </CollapsibleMenuItem>
                     <CollapsibleMenuItem label="Events">
                         <NodeEventsView />
                     </CollapsibleMenuItem>
