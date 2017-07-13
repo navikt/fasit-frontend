@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {fetchEvents} from '../../actionCreators/node'
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {fetchEvents} from "../../actionCreators/node";
 
 class NodeEventsView extends Component {
     constructor(props) {
@@ -8,7 +8,7 @@ class NodeEventsView extends Component {
     }
 
     // Trenger sende hele fasitdata til actionCreator for å bygge URL basert på cluster, environment og hostname
-    componentDidMount(){
+        componentDidMount(){
         const {fasit, dispatch} = this.props
         dispatch(fetchEvents(fasit.data))
     }

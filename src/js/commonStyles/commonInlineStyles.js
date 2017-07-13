@@ -1,11 +1,13 @@
-import React from 'react'
-import {red400, green400, orange300} from 'material-ui/styles/colors'
-import GroupWork from 'material-ui/svg-icons/action/group-work'
-import Description from 'material-ui/svg-icons/action/description'
-import Timeline from 'material-ui/svg-icons/action/timeline'
-import Link from 'material-ui/svg-icons/content/link'
-import Security from 'material-ui/svg-icons/hardware/security'
-import Avatar from 'material-ui/Avatar'
+import React from "react";
+import {red400, green400, orange300} from "material-ui/styles/colors";
+import GroupWork from "material-ui/svg-icons/action/group-work";
+import Description from "material-ui/svg-icons/action/description";
+import Timeline from "material-ui/svg-icons/action/timeline";
+import Link from "material-ui/svg-icons/content/link";
+import NewReleases from "material-ui/svg-icons/av/new-releases";
+import Security from "material-ui/svg-icons/hardware/security";
+import Build from "material-ui/svg-icons/action/build";
+import Avatar from "material-ui/Avatar";
 
 export const colors = {
     white: '#ffffff',
@@ -44,7 +46,9 @@ export const icons = {
     resource: <i className="fa fa-cogs"/>,
     historyAvatar: <Avatar icon={<Timeline/>}/>,
     securityAvatar: <Avatar icon={<Security/>}/>,
-    linkAvatar: <Avatar icon={<Link/>}/>
-
+    linkAvatar: <Avatar icon={<Link/>}/>,
+    sensuStatusAvatar: <Avatar icon={<NewReleases/>}/>,
+    hardwareAvatar: <Avatar icon={<Build/>}/>,
+    grafanaAvatar: <Avatar icon={<i className="fa fa-area-chart"/>}/>
 }
 

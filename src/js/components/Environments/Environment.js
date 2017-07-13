@@ -1,6 +1,7 @@
-import React, {Component} from "react"
-import {Link} from 'react-router'
-import {connect} from "react-redux"
+import React, {Component} from "react";
+import * as browserhistory from "react-router";
+import {Link} from "react-router";
+import {connect} from "react-redux";
 import {
     AccessControl,
     CurrentRevision,
@@ -12,14 +13,13 @@ import {
     Security,
     DeleteElementForm,
     ToolButtons
-} from "../common/"
-import {submitForm, displayModal} from '../../actionCreators/common'
-import {validAuthorization, oldRevision} from '../../utils/'
-import EnvironmentClusters from './EnvironmentClusters'
-import EnvironmentNodes from './EnvironmentNodes'
-import EnvironmentInstances from './EnvironmentInstances'
-import {fetchEnvironment} from "../../actionCreators/environment"
-import * as browserhistory from "react-router";
+} from "../common/";
+import {submitForm, displayModal} from "../../actionCreators/common";
+import {validAuthorization, oldRevision} from "../../utils/";
+import EnvironmentClusters from "./EnvironmentClusters";
+import EnvironmentNodes from "./EnvironmentNodes";
+import EnvironmentInstances from "./EnvironmentInstances";
+import {fetchEnvironment} from "../../actionCreators/environment";
 
 class Environment extends Component {
     constructor(props) {
@@ -168,7 +168,7 @@ class Environment extends Component {
 
 
                 <div className="col-md-4">
-                    <History id={this.props.name} currentRevision={query.revision} compenent="environment"/>
+                    <History id={this.props.name} currentRevision={query.revision} component="environment"/>
                     <Security accesscontrol={environment.accesscontrol} displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                 </div>
 

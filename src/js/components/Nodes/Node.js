@@ -1,17 +1,11 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {validAuthorization, oldRevision} from '../../utils/'
-import {
-    fetchFasitData,
-    fetchNodePassword,
-    clearNodePassword,
-} from '../../actionCreators/node'
-
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {validAuthorization, oldRevision} from "../../utils/";
+import {fetchFasitData, fetchNodePassword, clearNodePassword} from "../../actionCreators/node";
 import {
     AccessControl,
     CurrentRevision,
-    CollapsibleMenu,
-    CollapsibleMenuItem,
+    CollapsibleList,
     FormString,
     FormLink,
     FormDropDown,
@@ -21,13 +15,14 @@ import {
     Security,
     History,
     SubmitForm,
-    ToolButtons
-}from '../common/'
-import {submitForm} from '../../actionCreators/common'
-import NodeEventsView from './NodeEventsView'
-import NodeGraph from './NodeGraph'
-import NodeSeraView from './NodeSeraView'
-import {DeleteElementForm} from '../common/'
+    ToolButtons,
+    DeleteElementForm
+} from "../common/";
+import {submitForm} from "../../actionCreators/common";
+import NodeEventsView from "./NodeEventsView";
+import NodeGraph from "./NodeGraph";
+import NodeSeraView from "./NodeSeraView";
+import {icons} from "../../commonStyles/commonInlineStyles";
 
 class Node extends Component {
     constructor(props) {
@@ -223,24 +218,26 @@ class Node extends Component {
                 </div>
 
                 {/*Side menu*/}
-
                 <div className="col-md-4">
                     <History id={hostname} currentRevision={query.revision} component="node"/>
                     <Security accesscontrol={fasit.data.accesscontrol}
                               displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                    <CollapsibleList
+                        primaryText="Sensu status"
+                        leftAvatar={icons.sensuStatusAvatar}
+                        initiallyOpen={false}
+                        nestedItems={<NodeEventsView key={hostname}/>}/>
+                    <CollapsibleList
+                        primaryText="Hardware"
+                        leftAvatar={icons.hardwareAvatar}
+                        initiallyOpen={false}
+                        nestedItems={<NodeSeraView key={hostname} hostname={hostname}/>}/>
+                    <CollapsibleList
+                        primaryText="Grafana graph"
+                        leftAvatar={icons.grafanaAvatar}
+                        initiallyOpen={false}
+                        nestedItems={<NodeGraph key={hostname} url={config.grafana} hostname={hostname}/>}/>
                 </div>
-
-                <CollapsibleMenu>
-                    <CollapsibleMenuItem label="Events">
-                        <NodeEventsView />
-                    </CollapsibleMenuItem>
-                    <CollapsibleMenuItem label="Physical">
-                        <NodeSeraView hostname={hostname}/>
-                    </CollapsibleMenuItem>
-                    <CollapsibleMenuItem label="Graphs">
-                        <NodeGraph url={config.grafana} hostname={hostname}/>
-                    </CollapsibleMenuItem>
-                </CollapsibleMenu>
 
                 {/* Misc. modals*/}
                 <AccessControl
