@@ -7,12 +7,11 @@ import ApplicationInstances from './ApplicationInstances'
 import {DeleteElementForm, SecurityView, ToolButtons, AccessControl} from '../common/'
 
 import {
-    CollapsibleMenu,
-    CollapsibleMenuItem,
     CurrentRevision,
     FormString,
     Lifecycle,
-    RevisionsView,
+    History,
+    Security,
     SubmitForm
 } from '../common/'
 
@@ -163,19 +162,13 @@ class Application extends Component {
                                    authorized={authorized}/>
                     </div>
                     <ApplicationInstances name={name}/>
-
                 </div>
-                {/*Side menu*/}
 
-                <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
-                        <RevisionsView id={name} currentRevision={query.revision} component="application"/>
-                    </CollapsibleMenuItem>
-                    <CollapsibleMenuItem label="Security">
-                        <SecurityView accesscontrol={application.data.accesscontrol}
-                                      displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
-                    </CollapsibleMenuItem>
-                </CollapsibleMenu>
+                {/*Side menu*/}
+                <div className="col-md-4">
+                    <History id={name} currentRevision={query.revision} compenent="application"/>
+                    <Security accesscontrol={application.data.accesscontrol} displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                </div>
 
                 {/* Misc. modals*/}
                 <AccessControl

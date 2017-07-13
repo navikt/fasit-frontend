@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from "react"
+import React, {Component} from "react"
 import {Link} from 'react-router'
 import {connect} from "react-redux"
 import {
@@ -167,18 +167,10 @@ class Environment extends Component {
                 </div>
 
 
-                {/*Side menu*/}
                 <div className="col-md-4">
                     <History id={this.props.name} currentRevision={query.revision} compenent="environment"/>
                     <Security accesscontrol={environment.accesscontrol} displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                 </div>
-                {/*<CollapsibleMenu>
-
-                 <CollapsibleMenuItem label="Security">
-                 <SecurityView accesscontrol={environment.accesscontrol}
-                 displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
-                 </CollapsibleMenuItem>
-                 </CollapsibleMenu>*/}
 
                 {/*Content view*/}
                 <div className="col-xs-12" style={{height: 20 + "px"}}></div>

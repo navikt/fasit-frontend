@@ -1,7 +1,18 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import {fetchEnvironmentCluster, fetchEnvironmentNodes} from "../../actionCreators/environment"
-import {CollapsibleMenu, CollapsibleMenuItem, DeleteElementForm, FormListBox, FormString, FormDropDown, FormLinkDropDown, Lifecycle, SecurityView, AccessControl, SubmitForm, ToolButtons} from "../common"
+import {
+    DeleteElementForm,
+    FormListBox,
+    FormString,
+    FormDropDown,
+    FormLinkDropDown,
+    Lifecycle,
+    AccessControl,
+    Security,
+    SubmitForm,
+    ToolButtons
+} from "../common"
 import {validAuthorization} from '../../utils/'
 import {submitForm} from '../../actionCreators/common'
 
@@ -10,12 +21,12 @@ class EnvironmentCluster extends Component {
     constructor(props) {
         super(props)
 
-        this.state={
+        this.state = {
             displayDeleteForm: false,
             displaySubmitForm: false,
             displayAccessControlForm: false,
             editMode: false,
-            comment:"",
+            comment: "",
             clustername: "",
             zone: "",
             environmentclass: "",
@@ -26,6 +37,7 @@ class EnvironmentCluster extends Component {
             nodes: []
         }
     }
+
     componentDidMount() {
         const {dispatch, params, cluster} = this.props
         this.setState({
@@ -167,18 +179,12 @@ class EnvironmentCluster extends Component {
                 </div>
 
                 {/*Side menu*/}
-                <CollapsibleMenu>
-                    <CollapsibleMenuItem label="History" defaultExpanded={true}>
-{/*
-                        <RevisionsView id={clusterName} component="clusters"/>
-*/}                    </CollapsibleMenuItem>
-                    <CollapsibleMenuItem label="Security">
-                        <SecurityView accesscontrol={cluster.data.accesscontrol}
-                                      displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
-
-                    </CollapsibleMenuItem>
-
-                </CollapsibleMenu>
+                <div className="col-md-4">
+                    {/* Disabled for now as revisions is not working properly for clusters
+                     <History id={clustername} currentRevision={query.revision} compenent="clusters"/>*/}
+                    <Security accesscontrol={cluster.data.accesscontrol}
+                              displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                </div>
 
                 {/*Misc. modals*/}
                 <AccessControl
@@ -202,7 +208,7 @@ class EnvironmentCluster extends Component {
                 <DeleteElementForm
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.setState({displayDeleteForm: false})}
-                    onSubmit={() => this.handleSubmitForm(params.clusterName, {env:params.environment}, this.state.comment, "deleteCluster")}
+                    onSubmit={() => this.handleSubmitForm(params.clusterName, {env: params.environment}, this.state.comment, "deleteCluster")}
                     id={params.clusterName}
                     handleChange={(comment, value) => this.setState({comment: value})}
                     comment={this.state.comment}
@@ -234,6 +240,7 @@ class EnvironmentCluster extends Component {
 
             </div>
     }
+
     handleSubmitForm(id, form, comment, component) {
         const {dispatch} = this.props
         if (component == "cluster" && this.state.displaySubmitForm) {
@@ -242,14 +249,16 @@ class EnvironmentCluster extends Component {
         } else if (component === "deleteCluster") {
             this.setState({displayDeleteForm: !this.state.displayDeleteForm})
             this.setState({comment: ""})
-        } else if (component === "cluster" && this.state.displayAccessControlForm){
+        } else if (component === "cluster" && this.state.displayAccessControlForm) {
             this.setState({displayAccessControlForm: !this.state.displayAccessControlForm})
         }
         dispatch(submitForm(id, form, comment, component))
     }
+
     handleChange(field, value) {
         this.setState({[field]: value})
     }
+
     environmentSelector() {
         const {environments} = this.props
         const {environmentclass, environment, editMode} = this.state
@@ -287,7 +296,8 @@ class EnvironmentCluster extends Component {
                 />)
         }
     }
-    flatten(listOfObjects){
+
+    flatten(listOfObjects) {
         return (listOfObjects != undefined) ? listOfObjects.map(o => o.name) : []
     }
 }
