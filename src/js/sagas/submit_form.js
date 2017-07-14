@@ -1,5 +1,5 @@
-import {takeEvery, delay} from "redux-saga";
-import {call, put, fork, select} from "redux-saga/effects";
+import {takeEvery} from "redux-saga";
+import {put, fork, select} from "redux-saga/effects";
 import {browserHistory} from "react-router";
 import {
     APPLICATION_NAMES_REQUEST,
@@ -10,10 +10,8 @@ import {
     SHOW_NEW_NODE_FORM,
     SHOW_NEW_RESOURCE_FORM,
     SUBMIT_FORM,
-    SUBMITTING_FORM,
     SUBMIT_FORM_SUCCESS,
     SUBMIT_FORM_FAILED,
-    CLOSE_SUBMIT_FORM_STATUS,
     NODE_FASIT_REQUEST,
     ENVIRONMENT_FASIT_REQUEST,
     ENVIRONMENT_CLUSTER_FASIT_REQUEST,
@@ -27,7 +25,6 @@ export function* submitForm(action) {
     const configuration = yield select((state) => state.configuration)
     //const filter = yield select((state) => state.filter)
     let url = ""
-    yield put({type: SUBMITTING_FORM})
     try {
         switch (action.component) {
 
@@ -122,8 +119,6 @@ export function* submitForm(action) {
         }
 
         yield put({type: SUBMIT_FORM_SUCCESS})
-        yield call(delay, 1000)
-        yield put({type: CLOSE_SUBMIT_FORM_STATUS})
     } catch (err) {
         const value = err.message
         console.error("Error submitting form", err)

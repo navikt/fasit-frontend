@@ -1,7 +1,6 @@
 import {
     SUBMIT_FORM,
     SET_NAVSEARCH_QUERY,
-    CLOSE_SUBMIT_FORM_STATUS,
     SHOW_KEYBOARD_SHORTCUTS,
     SHOW_NEW_APPLICATION_FORM,
     SHOW_NEW_CLUSTER_FORM,
@@ -14,7 +13,6 @@ import {
 
 } from '../actionTypes'
 
-export const closeSubmitFormStatus = () => {return {type: CLOSE_SUBMIT_FORM_STATUS}}
 export const submitForm = (key, form, comment, component) =>  {return {type:SUBMIT_FORM, key, form, comment, component}}
 export const fetchRevisions = (component, key) => {return {type: REVISIONS_REQUEST, component, key}}
 export const displayModal = (component, value, copy) => {
