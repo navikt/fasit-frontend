@@ -73,7 +73,7 @@ class Instance extends Component {
                     {instance.selftesturls && <CollapsibleList
                         primaryText="Selftests"
                         leftAvatar={icons.linkAvatar}
-                        initiallyOpen={false}
+                        initiallyOpen={true}
                         nestedItems={<SelfTestLinks key={id} links={instance.selftesturls}/>}/>}
                     <History id={id} revision={query.revision} component="instance"/>
                 </div>
@@ -142,7 +142,8 @@ const mapStateToProps = (state) => {
 
 function SelfTestLinks(props) {
     return (<ul key="1" className="revisionList">
-        {props.links
+        {props.links.
+            sort()
             .map(link =>
                 <li key={link}>
                     <a href={link} className="revisionListItem" target="_blank">{link.split("/")[2]}</a>
