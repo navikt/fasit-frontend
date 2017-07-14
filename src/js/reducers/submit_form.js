@@ -1,42 +1,24 @@
 import {
-    SUBMITTING_FORM,
     SUBMIT_FORM_SUCCESS,
-    SUBMIT_FORM_FAILED,
-    CLOSE_SUBMIT_FORM_STATUS
+    SUBMIT_FORM_FAILED
 } from '../actionTypes'
 export default (state = {
-    isSubmitting: false,
-    submitError: false,
-    submitSuccess: false,
+    displaySnackbar: false,
+    submitMessage: ''
 }, action) => {
 
     switch (action.type) {
-
-        case SUBMITTING_FORM:
-            return Object.assign({}, state, {
-                isSubmitting: true
-            })
-
         case SUBMIT_FORM_FAILED:
             return Object.assign({}, state, {
-                isSubmitting: false,
-                submitError: action.value
+                displaySnackbar: true,
+                submitMessage: `Error submitting ${action.value}`
             })
 
         case SUBMIT_FORM_SUCCESS:
             return Object.assign({}, state, {
-                isSubmitting: false,
-                submitSuccess: true
+                displaySnackbar: true,
+                submitMessage: "Success"
             })
-
-        case CLOSE_SUBMIT_FORM_STATUS:
-            return Object.assign({}, state, {
-                isSubmitting:false,
-                submitError: false,
-                submitSuccess: false
-            })
-
-
         default:
             return state
     }

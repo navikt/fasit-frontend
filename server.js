@@ -127,6 +127,10 @@ app.get("/mockapi/environments", (req, res) => {
     sendJson(res, environmentsMock.findEnvironments(req.query))
 })
 
+app.post('/mockapi/environments', (req, res) => {
+    res.sendStatus(201)
+})
+
 app.get("/mockapi/resources/types/", (req, res) => {
     sendJson(res, resourceTypes)
 })
