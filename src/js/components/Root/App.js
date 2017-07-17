@@ -17,7 +17,7 @@ import NewApplicationForm from '../Applications/NewApplicationForm'
 import NewEnvironmentForm from '../Environments/NewEnvironmentForm'
 import NewClusterForm from '../Environments/NewClusterForm'
 import NewResourceForm from '../Resources/NewResourceForm'
-import {SubmitFormStatus, KeyboardShortcuts} from '../common/'
+import {SubmitFormStatus, KeyboardShortcuts, ErrorDialog} from '../common/'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class App extends Component {
@@ -88,6 +88,7 @@ class App extends Component {
                     <SubmitFormStatus />
                     <NewNodeForm />
                     <NewEnvironmentForm />
+                    <ErrorDialog />
                     <NewClusterForm />
                     <NewApplicationForm />
                     <NewResourceForm/>
