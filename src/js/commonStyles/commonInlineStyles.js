@@ -5,6 +5,7 @@ import Description from "material-ui/svg-icons/action/description";
 import Timeline from "material-ui/svg-icons/action/timeline";
 import Link from "material-ui/svg-icons/content/link";
 import NewReleases from "material-ui/svg-icons/av/new-releases";
+import Error from "material-ui/svg-icons/alert/error"
 import Security from "material-ui/svg-icons/hardware/security";
 import Build from "material-ui/svg-icons/action/build";
 import Avatar from "material-ui/Avatar";
@@ -49,6 +50,7 @@ export const icons = {
     linkAvatar: <Avatar icon={<Link/>}/>,
     sensuStatusAvatar: <Avatar icon={<NewReleases/>}/>,
     hardwareAvatar: <Avatar icon={<Build/>}/>,
-    grafanaAvatar: <Avatar icon={<i className="fa fa-area-chart"/>}/>
+    grafanaAvatar: <Avatar icon={<i className="fa fa-area-chart"/>}/>,
+    errorAvatar: <Avatar icon={<Error/>} backgroundColor={colors.red} />
 }
 

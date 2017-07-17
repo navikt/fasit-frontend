@@ -1,4 +1,5 @@
 import {
+    CLEAR_FORM_ERROR,
     SUBMIT_FORM,
     SET_NAVSEARCH_QUERY,
     SHOW_KEYBOARD_SHORTCUTS,
@@ -14,6 +15,7 @@ import {
 } from '../actionTypes'
 
 export const submitForm = (key, form, comment, component) =>  {return {type:SUBMIT_FORM, key, form, comment, component}}
+export const clearFormError = () => {return {type: CLEAR_FORM_ERROR}}
 export const fetchRevisions = (component, key) => {return {type: REVISIONS_REQUEST, component, key}}
 export const displayModal = (component, value, copy) => {
     switch(component){

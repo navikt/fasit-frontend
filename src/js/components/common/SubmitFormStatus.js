@@ -16,14 +16,14 @@ class SubmitFormStatus extends Component {
         return (
             <Snackbar
                 open={form.displaySnackbar}
-                message={form.submitMessage}
+                message="Success"
                 autoHideDuration={this.state.autoHideDuration}
             />
         )
     }
 }
 SubmitFormStatus.propTypes = {
-    dispatch: PropTypes.func.isRequired
+dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {

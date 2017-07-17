@@ -4,6 +4,7 @@ import AccessControl from "./AccessControl";
 import {CurrentRevision} from "./CurrentRevision";
 import ElementList from "./ElementList";
 import ElementPaging from "./ElementPaging";
+import ErrorDialog from "./ErrorDialog";
 import {History} from "./History";
 import RevisionsView from "./RevisionsView";
 import KeyboardShortcuts from "./KeyboardShortcuts";
@@ -34,9 +35,10 @@ export {
     AuraTools,
     CollapsibleList,
     CurrentRevision,
-    DeleteElementForm,
+DeleteElementForm,
     ElementList,
     ElementPaging,
+    ErrorDialog,
     FormListBox,
     RevisionsView,
     FormLink,

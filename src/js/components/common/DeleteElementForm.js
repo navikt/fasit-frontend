@@ -3,8 +3,8 @@ import {Modal} from 'react-bootstrap'
 import RaisedButton from 'material-ui/RaisedButton'
 import {FormComment} from '../common'
 
-export default function DeleteElement(props){
-    const { displayDeleteForm, id, onClose, onSubmit, comment, handleChange} = props
+export default function DeleteElement(props) {
+    const {displayDeleteForm, id, onClose, onSubmit, comment, handleChange} = props
     return (
         <Modal show={displayDeleteForm} onHide={onClose}>
             <Modal.Header>
