@@ -61,19 +61,19 @@ export function* submitForm(action) {
             case "deleteApplication":
                 url = `${configuration.fasit_applications}/${action.key}`
                 yield deleteUrl(url, action.comment)
-                yield put({type: SUBMIT_FILTER_SEARCH, location:"applications", prPage: 10, /*searchString:filter.searchString,*/ page:filter.activePage})
+                yield put({type: SUBMIT_FILTER_SEARCH, location:"applications", prPage: 10, page:filter.activePage})
                 yield browserHistory.push("/applications")
                 break
             case "deleteNode":
                 url = `${configuration.fasit_nodes}/${action.key}`
                 yield deleteUrl(url, action.comment)
-                yield put({type: SUBMIT_FILTER_SEARCH, location:"nodes", prPage: 10, /*searchString:search.searchString,*/ page:filter.activePage})
+                yield put({type: SUBMIT_FILTER_SEARCH, location:"nodes", prPage: 10,page:filter.activePage})
                 yield browserHistory.push("/nodes")
                 break
             case "deleteEnvironment":
                 url = `${configuration.fasit_environments}/${action.key}`
                 yield deleteUrl(url, action.comment)
-                yield put({type: SUBMIT_FILTER_SEARCH, location:"environments", prPage: 10, /*searchString:search.searchString,*/ page:filter.activePage})
+                yield put({type: SUBMIT_FILTER_SEARCH, location:"environments", prPage: 10, page:filter.activePage})
                 yield browserHistory.push("/environments")
                 break
             case "deleteCluster":
@@ -82,14 +82,10 @@ export function* submitForm(action) {
                 yield deleteUrl(url, action.comment)
                 break
             case "deleteResource":
-                console.log("deleting resource ", action)
                 url = `${configuration.fasit_resources}/${action.key}`
                 yield deleteUrl(url, action.comment)
-                console.log("delete ok")
-                yield put({type: SUBMIT_FILTER_SEARCH, location:"resources", prPage: 10, /*searchString:search.searchString,*/ page:filter.activePage})
-                console.log("submit search ok")
+                yield put({type: SUBMIT_FILTER_SEARCH, location:"resources", prPage: 10, page:filter.activePage})
                 yield browserHistory.push("/resources")
-                console.log("bhp")
                 break
 
             // / Update

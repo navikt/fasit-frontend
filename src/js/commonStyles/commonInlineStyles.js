@@ -9,19 +9,27 @@ import Error from "material-ui/svg-icons/alert/error"
 import Security from "material-ui/svg-icons/hardware/security";
 import Build from "material-ui/svg-icons/action/build";
 import Avatar from "material-ui/Avatar";
+import Delete from 'material-ui/svg-icons/action/delete'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import Copy from 'material-ui/svg-icons/content/content-copy'
 
 export const colors = {
     white: '#ffffff',
     avatarBackgroundColor: "#268bd2",
     red: red400,
     orange: orange300,
-    green: green400
+    green: green400,
+    pink: '#d33682',
+    grey:  '#aaa',
+    toolbarBackground: '#515d66'
 }
 
 export const styles = {
     bold: {fontWeight: 'bold'},
     white: {color: colors.white.color},
     red: {color: colors.red},
+    button: {color: colors.white},
+    toolbarBackground: {backgroundColor: colors.toolbarBackground},
     orange: {color: colors.orange},
     green: {color: colors.green},
     marginTop25: {marginTop: '25px'},
@@ -44,8 +52,11 @@ export const icons = {
     node: <i className="fa fa-home fa-server"/>,
     cluster: <GroupWork style={styles.white}/>,
     appconfig: <Description style={styles.white}/>,
+    edit: <Edit hoverColor={colors.avatarBackgroundColor}/>,
+    delete: <Delete hoverColor={colors.avatarBackgroundColor}/>,
+    copy: <Copy hoverColor={colors.avatarBackgroundColor}/>,
     resource: <i className="fa fa-cogs"/>,
-    historyAvatar: <Avatar icon={<Timeline/>}/>,
+    historyAvatar: <Avatar  icon={<Timeline/>}/>,
     securityAvatar: <Avatar icon={<Security/>}/>,
     linkAvatar: <Avatar icon={<Link/>}/>,
     sensuStatusAvatar: <Avatar icon={<NewReleases/>}/>,

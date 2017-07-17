@@ -1,11 +1,8 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import Mousetrap from 'mousetrap'
-import FlatButton from 'material-ui/FlatButton'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Copy from 'material-ui/svg-icons/content/content-copy'
-
-
+import IconButton from 'material-ui/IconButton'
+import {styles, icons} from '../../commonStyles/commonInlineStyles'
+import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 
 export default class ToolButtons extends Component {
     constructor(props) {
@@ -23,16 +20,16 @@ export default class ToolButtons extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {onEditClick, onDeleteClick, onCopyClick, editMode} = this.props
-            if (nextProps.authorized){
-                Mousetrap.bind('c', onCopyClick)
-                Mousetrap.bind('d', onDeleteClick)
-                Mousetrap.bind('e', onEditClick)
+        if (nextProps.authorized) {
+            Mousetrap.bind('c', onCopyClick)
+            Mousetrap.bind('d', onDeleteClick)
+            Mousetrap.bind('e', onEditClick)
             if (nextProps.editMode && nextProps.editMode != editMode) {
                 Mousetrap.bind('esc', onEditClick)
             }
         } else if (!nextProps.authorized) {
             Mousetrap.unbind(['c', 'e', 'd', 'esc'])
-        } else if (!nextProps.editMode){
+        } else if (!nextProps.editMode) {
             Mousetrap.unbind('esc', onEditClick)
         }
     }
@@ -42,39 +39,49 @@ export default class ToolButtons extends Component {
     }
 
 
-
     render() {
         const {authorized, onEditClick, onDeleteClick, onCopyClick} = this.props
-        const labelStyle = {margin:'4px'}
+        const disabledString = 'Log in or make sure you have access'
         return (
-            <div className="col-xs-12" style={{paddingTop: '10px', paddingBottom: '50px'}}>
-                <FlatButton
-                    primary={true}
-                    disabled={!authorized}
-                    labelPosition={'before'}
-                    disableTouchRipple={true}
-                    onTouchTap={onCopyClick}
-                    icon={<Copy/>}
-                    >
-                    <strong style={labelStyle}><u>C</u>OPY</strong>
-                </FlatButton>
-                <FlatButton primary={true}
+            <div className="col-xs-12" style={{paddingBottom: '15px'}}>
+                <Toolbar style={styles.toolbarBackground}>
+                    <ToolbarGroup>
+                        <IconButton
                             disabled={!authorized}
-                            labelPosition={'before'}
+                            touch={true}
+                            disableTouchRipple={true}
+                            onTouchTap={onCopyClick}
+                            iconStyle={styles.button}
+                            tooltip= {authorized ?  <div><u>C</u>opy</div>  : disabledString}
+                            tooltipPosition='top-center'
+                        >
+                            {icons.copy}
+                        </IconButton>
+                        <IconButton
+                            disabled={!authorized}
+                            touch={true}
                             disableTouchRipple={true}
                             onTouchTap={onEditClick}
-                            icon={<Edit/>}>
-                    <strong style={labelStyle}><u>E</u>DIT</strong>
-                </FlatButton>
-                <FlatButton secondary={true}
+                            iconStyle={styles.button}
+                            tooltip={authorized ? <div><u>E</u>dit</div> : disabledString}
+                            tooltipPosition='top-center'>
+                            {icons.edit}
+
+                        </IconButton>
+                        <IconButton
                             disabled={!authorized}
+                            touch={true}
                             disableTouchRipple={true}
                             onTouchTap={onDeleteClick}
-                            labelPosition={'before'}
-                            icon={<Delete/>}
-                            >
-                    <strong style={labelStyle}><u>D</u>ELETE</strong>
-                </FlatButton>
+                            iconStyle={styles.button}
+                            tooltip={authorized ?  <div><u>D</u>elete</div>  : disabledString}
+                            tooltipPosition='top-center'
+                        >
+                            {icons.delete}
+
+                        </IconButton>
+                    </ToolbarGroup>
+                </Toolbar>
             </div>
         )
     }
