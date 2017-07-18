@@ -166,8 +166,6 @@ class Environment extends Component {
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
                     onSubmit={() => this.handleSubmitForm(envName, null, comment, "deleteEnvironment")}
                     id={envName}
-                    handleChange={this.handleChange.bind(this)}
-                    comment={comment}
                 />
             </div>
         )
