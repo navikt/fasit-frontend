@@ -1,11 +1,9 @@
-import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
-import {connect} from 'react-redux'
-
-import {FormString, FormDropDown, FormComment} from '../common/Forms'
-import {capitalize}from '../../utils'
-import {displayModal} from '../../actionCreators/common'
-import {submitForm} from '../../actionCreators/common'
+import React, {Component, PropTypes} from "react";
+import {Modal} from "react-bootstrap";
+import {connect} from "react-redux";
+import {FormString, FormDropDown, FormComment} from "../common/Forms";
+import {capitalize} from "../../utils";
+import {displayModal, submitForm} from "../../actionCreators/common";
 
 class NewEnvironmentForm extends Component {
     constructor(props) {
@@ -47,7 +45,7 @@ class NewEnvironmentForm extends Component {
         }
 
         if(mode === "edit") {
-            dispatch(submitForm(form.name, form, comment, "environment"))
+            dispatch(submitForm(this.props.name, form, comment, "environment"))
         }
         else {
             dispatch(submitForm(form.name, form, comment, "newEnvironment"))
@@ -79,7 +77,7 @@ class NewEnvironmentForm extends Component {
         return (
             <Modal show={showNewEnvironmentForm} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
-                    <Modal.Title>{mode && `${capitalize(mode)} environment ${name}` }
+                    <Modal.Title>{mode && `${capitalize(mode)} environment ${mode !== 'new' ? name : ''}` }
                         <button type="reset" className="btn btn-link pull-right"
                                 onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>

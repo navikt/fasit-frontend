@@ -1,24 +1,15 @@
 import React, {Component} from "react";
-import {browserHistory}  from "react-router";
-import {Link} from "react-router";
+import {browserHistory, Link} from "react-router";
 import {connect} from "react-redux";
-import {
-    AccessControl,
-    CurrentRevision,
-    History,
-    Lifecycle,
-    Security,
-    DeleteElementForm,
-    ToolButtons
-} from "../common/";
+import {AccessControl, CurrentRevision, History, Lifecycle, Security, DeleteElementForm, ToolButtons} from "../common/";
 import {submitForm, displayModal} from "../../actionCreators/common";
 import {validAuthorization, oldRevision} from "../../utils/";
 import EnvironmentClusters from "./EnvironmentClusters";
 import EnvironmentNodes from "./EnvironmentNodes";
 import EnvironmentInstances from "./EnvironmentInstances";
 import {fetchEnvironment} from "../../actionCreators/environment";
-import {icons} from "../../commonStyles/commonInlineStyles"
-import {Card, CardActions, CardHeader} from 'material-ui/Card'
+import {icons} from "../../commonStyles/commonInlineStyles";
+import {Card, CardActions, CardHeader} from "material-ui/Card";
 
 class Environment extends Component {
     constructor(props) {
@@ -134,7 +125,6 @@ class Environment extends Component {
                 </div>
 
                 {/*Content view*/}
-                <div className="col-xs-12" style={{height: 20 + "px"}}></div>
                 <div className="col-xs-12">
                     <ul className="nav nav-tabs">
                         <li className={displayClusters ? "active" : ""}>
@@ -174,7 +164,7 @@ class Environment extends Component {
                 <DeleteElementForm
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-                    onSubmit={() => this.handleSubmitForm(name, null, comment, "deleteEnvironment")}
+                    onSubmit={() => this.handleSubmitForm(envName, null, comment, "deleteEnvironment")}
                     id={envName}
                     handleChange={this.handleChange.bind(this)}
                     comment={comment}

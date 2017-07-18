@@ -1,24 +1,23 @@
-import React, {Component, PropTypes} from 'react'
-import ReactDOM from 'react-dom'
-import {connect} from 'react-redux'
-import {browserHistory} from 'react-router'
-import Mousetrap from 'mousetrap'
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {browserHistory} from "react-router";
+import Mousetrap from "mousetrap";
 import {
     fetchEnvironments,
     fetchApplicationNames,
     fetchResourceTypes,
     fetchNodeTypes
-} from '../../actionCreators/fasit_initialize_data'
-import {displayModal, toggleHelp} from '../../actionCreators/common'
-import {displayLogin, logOut} from '../../actionCreators/authentication'
-import TopNav from '../Navigation/TopNav'
-import NewNodeForm from '../Nodes/NewNodeForm'
-import NewApplicationForm from '../Applications/NewApplicationForm'
-import NewEnvironmentForm from '../Environments/NewEnvironmentForm'
-import NewClusterForm from '../Environments/NewClusterForm'
-import NewResourceForm from '../Resources/NewResourceForm'
-import {SubmitFormStatus, KeyboardShortcuts, ErrorDialog} from '../common/'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+} from "../../actionCreators/fasit_initialize_data";
+import {displayModal, toggleHelp} from "../../actionCreators/common";
+import {displayLogin, logOut} from "../../actionCreators/authentication";
+import TopNav from "../Navigation/TopNav";
+import NewNodeForm from "../Nodes/NewNodeForm";
+import NewApplicationForm from "../Applications/NewApplicationForm";
+import NewEnvironmentForm from "../Environments/NewEnvironmentForm";
+import NewClusterForm from "../Environments/NewClusterForm";
+import NewResourceForm from "../Resources/NewResourceForm";
+import {SubmitFormStatus, KeyboardShortcuts, ErrorDialog} from "../common/";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 class App extends Component {
     constructor(props) {
@@ -110,7 +109,7 @@ class App extends Component {
         })
         Mousetrap.bind('n e', (e) => {
             e.preventDefault();
-            dispatch(displayModal("environment", true))
+            dispatch(displayModal("environment", true, "new"))
         })
         Mousetrap.bind('n c', (e) => {
             e.preventDefault();

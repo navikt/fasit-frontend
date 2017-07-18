@@ -1,7 +1,8 @@
-import React from 'react'
-import {Modal} from 'react-bootstrap'
-import RaisedButton from 'material-ui/RaisedButton'
-import {FormComment} from '../common'
+import React from "react";
+import {Modal} from "react-bootstrap";
+import RaisedButton from "material-ui/RaisedButton";
+import {FormComment} from "../common";
+import {styles} from "../../commonStyles/commonInlineStyles";
 
 export default function DeleteElement(props) {
     const {displayDeleteForm, id, onClose, onSubmit, comment, handleChange} = props
@@ -27,7 +28,7 @@ export default function DeleteElement(props) {
                 <br />
                 <div className="row">
                     <div className="col-lg-10 col-lg-offset-2">
-                        <RaisedButton disableTouchRipple={true} secondary={true} onTouchTap={onSubmit}>
+                        <RaisedButton disableTouchRipple={true} style={styles.button} onTouchTap={onSubmit}>
                             <strong style={{color: 'white'}}><i className="fa fa-fw fa-trash"/>&nbsp;DELETE</strong>
                         </RaisedButton>
                     </div>

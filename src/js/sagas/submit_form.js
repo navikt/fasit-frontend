@@ -102,6 +102,8 @@ export function* submitForm(action) {
             case "environment":
                 url = `${configuration.fasit_environments}/${action.key}`
                 yield putUrl(url, action.form, action.comment)
+                yield put({type: SHOW_NEW_ENVIRONMENT_FORM, value: false})
+                yield browserHistory.push(`/environments/${action.form.name}`)
                 yield put({type:ENVIRONMENT_FASIT_REQUEST, id:action.key})
                 break
             case "cluster":

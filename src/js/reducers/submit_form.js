@@ -1,8 +1,4 @@
-import {
-    SUBMIT_FORM_SUCCESS,
-    SUBMIT_FORM_FAILED,
-    CLEAR_FORM_ERROR
-} from '../actionTypes'
+import {SUBMIT_FORM_SUCCESS, SUBMIT_FORM_FAILED, CLEAR_FORM_ERROR} from "../actionTypes";
 export default (state = {
     displaySnackbar: false,
     formError: false,
@@ -14,7 +10,9 @@ export default (state = {
         case SUBMIT_FORM_FAILED:
             return Object.assign({}, state, {
                 formError: true,
+                displaySnackbar: false,
                 submitFormErrorMessage: `Error submitting ${action.value}`
+
             })
 
         case SUBMIT_FORM_SUCCESS:
