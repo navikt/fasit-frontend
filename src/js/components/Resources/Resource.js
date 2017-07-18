@@ -300,7 +300,7 @@ class Resource extends Component {
         return (
             <div className="row">
                 { showRevision ? <CurrentRevision revisionId={query.revision} revisions={revisions}/>
-                    : <ToolButtons authorized={authorized}
+                    : <ToolButtons disabled={!authorized}
                                    onEditClick={() => this.toggleComponentDisplay("editMode")}
                                    onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                    onCopyClick={() => console.log("Copy,copycopy!")}

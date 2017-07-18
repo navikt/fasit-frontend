@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
 import {connect} from "react-redux";
 import {validAuthorization, oldRevision} from "../../utils/";
 import {fetchFasitData, fetchNodePassword, clearNodePassword} from "../../actionCreators/node";
@@ -139,7 +139,7 @@ class Node extends Component {
                 {/*Heading*/}
                 {showRevision ? <CurrentRevision revisionId={query.revision} revisions={this.props.revisions}/>
                     : <ToolButtons
-                    authorized={authorized}
+                    disabled={!authorized}
                     onEditClick={() => this.toggleComponentDisplay("editMode")}
                     onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                     onCopyClick={() => console.log("Copy,copycopy!")}

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {Link} from 'react-router'
 import {Popover, OverlayTrigger} from 'react-bootstrap'
 import {connect} from 'react-redux'
@@ -142,7 +142,7 @@ class TopNav extends Component {
                     <li onClick={() => dispatch(displayModal("application", true))}><i
                         className="fa fa-cube"/> &nbsp;&nbsp; Create application
                     </li>
-                    <li onClick={() => dispatch(displayModal("environment", true))}><i
+                    <li onClick={() => dispatch(displayModal("environment", true, "new"))}><i
                         className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment
                     </li>
                     <li onClick={() => dispatch(displayModal("node", true))}><i

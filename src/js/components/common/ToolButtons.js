@@ -1,11 +1,7 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import Mousetrap from 'mousetrap'
-import FlatButton from 'material-ui/FlatButton'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Copy from 'material-ui/svg-icons/content/content-copy'
-
-
+import IconButton from 'material-ui/IconButton'
+import {styles, icons} from '../../commonStyles/commonInlineStyles'
 
 export default class ToolButtons extends Component {
     constructor(props) {
@@ -13,8 +9,8 @@ export default class ToolButtons extends Component {
     }
 
     componentDidMount() {
-        const {authorized, onEditClick, onDeleteClick, onCopyClick} = this.props
-        if (authorized) {
+        const {disabled, onEditClick, onDeleteClick, onCopyClick} = this.props
+        if (!disabled) {
             Mousetrap.bind('c', onCopyClick)
             Mousetrap.bind('d', onDeleteClick)
             Mousetrap.bind('e', onEditClick)
@@ -23,16 +19,16 @@ export default class ToolButtons extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {onEditClick, onDeleteClick, onCopyClick, editMode} = this.props
-            if (nextProps.authorized){
-                Mousetrap.bind('c', onCopyClick)
-                Mousetrap.bind('d', onDeleteClick)
-                Mousetrap.bind('e', onEditClick)
+        if (!nextProps.disabled) {
+            Mousetrap.bind('c', onCopyClick)
+            Mousetrap.bind('d', onDeleteClick)
+            Mousetrap.bind('e', onEditClick)
             if (nextProps.editMode && nextProps.editMode != editMode) {
                 Mousetrap.bind('esc', onEditClick)
             }
-        } else if (!nextProps.authorized) {
+        } else if (nextProps.disabled) {
             Mousetrap.unbind(['c', 'e', 'd', 'esc'])
-        } else if (!nextProps.editMode){
+        } else if (!nextProps.editMode) {
             Mousetrap.unbind('esc', onEditClick)
         }
     }
@@ -42,39 +38,46 @@ export default class ToolButtons extends Component {
     }
 
 
-
     render() {
-        const {authorized, onEditClick, onDeleteClick, onCopyClick} = this.props
-        const labelStyle = {margin:'4px'}
+        const {disabled, onEditClick, onDeleteClick, onCopyClick} = this.props
+        const disabledString = 'Log in or make sure you have access'
         return (
-            <div className="col-xs-12" style={{paddingTop: '10px', paddingBottom: '50px'}}>
-                <FlatButton
-                    primary={true}
-                    disabled={!authorized}
-                    labelPosition={'before'}
+
+            <div>
+                <IconButton
+                    disabled={disabled}
+                    touch={true}
                     disableTouchRipple={true}
                     onTouchTap={onCopyClick}
-                    icon={<Copy/>}
-                    >
-                    <strong style={labelStyle}><u>C</u>OPY</strong>
-                </FlatButton>
-                <FlatButton primary={true}
-                            disabled={!authorized}
-                            labelPosition={'before'}
-                            disableTouchRipple={true}
-                            onTouchTap={onEditClick}
-                            icon={<Edit/>}>
-                    <strong style={labelStyle}><u>E</u>DIT</strong>
-                </FlatButton>
-                <FlatButton secondary={true}
-                            disabled={!authorized}
-                            disableTouchRipple={true}
-                            onTouchTap={onDeleteClick}
-                            labelPosition={'before'}
-                            icon={<Delete/>}
-                            >
-                    <strong style={labelStyle}><u>D</u>ELETE</strong>
-                </FlatButton>
+                    iconStyle={styles.button}
+                    tooltip={disabled ? disabledString : <div><u>C</u>opy</div>}
+                    tooltipPosition='bottom-center'
+                >
+                    {icons.copy}
+                </IconButton>
+                <IconButton
+                    disabled={disabled}
+                    touch={true}
+                    disableTouchRipple={true}
+                    onTouchTap={onEditClick}
+                    iconStyle={styles.button}
+                    tooltip={disabled ? disabledString : <div><u>E</u>dit</div>}
+                    tooltipPosition='bottom-center'>
+                    {icons.edit}
+
+                </IconButton>
+                <IconButton
+                    disabled={disabled}
+                    touch={true}
+                    disableTouchRipple={true}
+                    onTouchTap={onDeleteClick}
+                    iconStyle={styles.button}
+                    tooltip={disabled ? disabledString : <div><u>D</u>elete</div>}
+                    tooltipPosition='bottom-center'
+                >
+                    {icons.delete}
+
+                </IconButton>
             </div>
         )
     }

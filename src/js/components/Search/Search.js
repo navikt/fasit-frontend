@@ -75,12 +75,7 @@ class Search extends Component {
             avatar = resourceTypeIcon(detailedInfo.type)
         } else {
             title = searchResult.name
-            let icon = icons[searchResult.type] || searchResult.type.substr(0, 1).toUpperCase()
-            avatar = (<Avatar
-                backgroundColor={colors.avatarBackgroundColor}
-                color={colors.white}>
-                {icon}
-            </Avatar>)
+            avatar = icons[searchResult.type]
         }
 
         return (

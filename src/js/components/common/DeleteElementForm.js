@@ -18,7 +18,6 @@ export default function DeleteElement(props) {
                 Going to delete {id}
                 <br />
                 Are you sure?
-
             </Modal.Body>
             <Modal.Footer>
                 <FormComment

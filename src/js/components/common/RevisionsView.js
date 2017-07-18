@@ -82,13 +82,13 @@ class RevisionsView extends Component {
                             <OverlayTrigger
                                 placement="left"
                                 key={rev.revision}
-                                overlay={this.tooltip(rev.revisiontype === 'add' ? "Created" : rev.message || 'Changes made without a comment')}
+                                overlay={this.tooltip(rev.revisiontype === 'add' ? "Created " : rev.message || 'Changes made without a comment')}
                             >
                                 <li id={rev.revision}>
                                     <Link
                                         onClick={() => browserHistory.push(routing.pathname + "?revision=" + rev.revision)}
                                         className={className}>
-                                        {rev.revisiontype === 'add' ? 'Created' : 'Modified'} {moment(rev.timestamp).fromNow()}
+                                        {rev.revisiontype === 'add' ? 'Created ' : 'Modified '} {moment(rev.timestamp).fromNow()}
                                         by {rev.author}</Link>
                                 </li>
                             </OverlayTrigger>)
