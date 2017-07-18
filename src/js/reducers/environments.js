@@ -17,7 +17,7 @@ export const initialState = {
     environments: [],
     showNewEnvironmentForm: false,
     showNewClusterForm: false,
-    copy: false
+    mode: 'new'
 }
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -44,18 +44,11 @@ export default (state = initialState, action) => {
                 requestFailed: action.value
             })
         case SHOW_NEW_ENVIRONMENT_FORM:
-            if (action.copy) {
                 return Object.assign({}, state, {
                         showNewEnvironmentForm: action.value,
-                        copy: action.copy
+                        mode: action.mode
                     }
                 )
-            }
-            return Object.assign({}, state, {
-                    showNewEnvironmentForm: action.value,
-                    copy: false
-                }
-            )
         case SHOW_NEW_CLUSTER_FORM:
             if (action.copy) {
                 return Object.assign({}, state, {

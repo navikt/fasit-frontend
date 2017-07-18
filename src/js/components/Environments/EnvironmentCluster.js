@@ -111,7 +111,7 @@ class EnvironmentCluster extends Component {
                 <div className="row">
                     {/*Heading*/}
                     <ToolButtons
-                        authorized={authorized}
+                        disabled={!authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
                         onDeleteClick={() => this.setState({displayDeleteForm: !this.state.editMode})}
                         onCopyClick={() => console.log("Copy,copycopy!")}

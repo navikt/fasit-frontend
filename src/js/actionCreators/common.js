@@ -17,22 +17,22 @@ import {
 export const submitForm = (key, form, comment, component) =>  {return {type:SUBMIT_FORM, key, form, comment, component}}
 export const clearFormError = () => {return {type: CLEAR_FORM_ERROR}}
 export const fetchRevisions = (component, key) => {return {type: REVISIONS_REQUEST, component, key}}
-export const displayModal = (component, value, copy) => {
+export const displayModal = (component, value, mode) => {
     switch(component){
         case "application":
-            return {type: SHOW_NEW_APPLICATION_FORM, value, copy}
+            return {type: SHOW_NEW_APPLICATION_FORM, value, mode}
             break
         case "cluster":
-            return {type: SHOW_NEW_CLUSTER_FORM, value, copy}
+            return {type: SHOW_NEW_CLUSTER_FORM, value, mode}
             break
         case "environment":
-            return {type: SHOW_NEW_ENVIRONMENT_FORM, value, copy}
+            return {type: SHOW_NEW_ENVIRONMENT_FORM, value, mode}
             break
         case "node":
-            return {type: SHOW_NEW_NODE_FORM, value, copy}
+            return {type: SHOW_NEW_NODE_FORM, value, mode}
             break
         case "resource":
-            return {type: SHOW_NEW_RESOURCE_FORM, value, copy}
+            return {type: SHOW_NEW_RESOURCE_FORM, value, mode}
             break
     }
 }

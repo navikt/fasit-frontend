@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import * as browserhistory from "react-router";
+import {browserHistory}  from "react-router";
 import {Link} from "react-router";
 import {connect} from "react-redux";
 import {
@@ -7,9 +7,6 @@ import {
     CurrentRevision,
     History,
     Lifecycle,
-    FormString,
-    FormDropDown,
-    SubmitForm,
     Security,
     DeleteElementForm,
     ToolButtons
@@ -20,6 +17,8 @@ import EnvironmentClusters from "./EnvironmentClusters";
 import EnvironmentNodes from "./EnvironmentNodes";
 import EnvironmentInstances from "./EnvironmentInstances";
 import {fetchEnvironment} from "../../actionCreators/environment";
+import {icons} from "../../commonStyles/commonInlineStyles"
+import {Card, CardActions, CardHeader} from 'material-ui/Card'
 
 class Environment extends Component {
     constructor(props) {
@@ -34,21 +33,14 @@ class Environment extends Component {
             displayAccessControlForm: false,
             editMode: false,
             comment: "",
-            environmentclass: "",
             adgroups: [],
-            name: ""
         }
     }
 
     resetLocalState() {
-        const {environment} = this.props
         this.setState({
-            name: environment.name,
-            environmentclass: environment.environmentclass,
-            environment: environment.environment,
             adgroups: [],
             comment: ""
-
         })
     }
 
@@ -64,10 +56,8 @@ class Environment extends Component {
 
     handleSubmitForm(id, form, comment, component) {
         const {dispatch} = this.props
-        if (component == "environment" && this.state.displaySubmitForm) {
-            this.toggleComponentDisplay("displaySubmitForm")
-            this.toggleComponentDisplay("editMode")
-        } else if (component === "deleteEnvironment") {
+
+        if (component === "deleteEnvironment") {
             this.toggleComponentDisplay("displayDeleteForm")
             this.setState({comment: ""})
         } else if (component === "environment" && this.state.displayAccessControlForm) {
@@ -75,7 +65,7 @@ class Environment extends Component {
         }
         dispatch(submitForm(id, form, comment, component))
         if (component === "deleteEnvironment") {
-            browserhistory.push("/environments")
+            browserHistory.push("/environments")
         }
     }
 
@@ -87,8 +77,6 @@ class Environment extends Component {
     componentWillReceiveProps(nextProps) {
         const {dispatch, name, query} = this.props
         this.setState({
-            name: nextProps.environment.name,
-            environmentclass: nextProps.environment.environmentclass,
             comment: ""
         })
         if (Object.keys(nextProps.environment).length > 0) {
@@ -103,8 +91,10 @@ class Environment extends Component {
     }
 
     render() {
-        const {environment, user, query, environmentClasses, revisions, dispatch} = this.props
-        const {displayClusters, displayInstances, displayNodes, name, environmentclass, comment, adgroups, editMode} = this.state
+        const {environment, user, query, revisions, dispatch} = this.props
+        const {displayClusters, displayInstances, displayNodes, comment, adgroups, editMode} = this.state
+        const envName = environment.name
+        const envClass = environment.environmentclass
         let lifecycle = {}
         const showRevision = oldRevision(revisions, query.revision)
         let authorized = false
@@ -115,49 +105,20 @@ class Environment extends Component {
 
         return (
             <div className="row">
-                {/*Heading*/}
-                {showRevision ?
-                    <CurrentRevision revisionId={query.revision} revisions={revisions}/> :
-                    <ToolButtons
-                        authorized={authorized}
-                        onEditClick={() => this.toggleComponentDisplay("editMode")}
-                        onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                        onCopyClick={() => dispatch(displayModal("environment", true, true))}
-                        editMode={editMode}
-
-                    />
-                }
-                {/*Form*/}
-                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
-                    <FormString
-                        label="name"
-                        editMode={this.state.editMode}
-                        handleChange={this.handleChange.bind(this)}
-                        value={this.state.name}
-                    />
-                    <FormDropDown
-                        label="environmentclass"
-                        editMode={this.state.editMode}
-                        value={environmentclass}
-                        handleChange={this.handleChange.bind(this)}
-                        options={environmentClasses}
-                    />
-
-                    {/*Submit / Cancel buttons*/}
-                    <br />
-                    {this.state.editMode ?
-                        <div className="btn-block">
-                            <button type="submit" className="btn btn-sm btn-primary pull-right"
-                                    onClick={() => this.toggleComponentDisplay("displaySubmitForm")}>Submit
-                            </button>
-                            <button type="reset" className="btn btn-sm btn-default btn-space pull-right"
-                                    onClick={() => this.toggleComponentDisplay("editMode")}>Cancel
-                            </button>
-                        </div>
-                        : ""
-                    }
-                    {/*Lifecycle*/}
-                    <div className="col-xs-12" style={{height: 30 + "px"}}></div>
+                {showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
+                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"} style={{paddingTop: '20px'}}>
+                    <Card>
+                        <CardHeader avatar={icons.environment} title={`Environment ${envName}`} subtitle={`Environment class: ${envClass} `}/>
+                        <CardActions>
+                            <ToolButtons
+                                disabled={showRevision || !authorized}
+                                onEditClick={() => dispatch(displayModal("environment", true, "edit"))}
+                                onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                                onCopyClick={() => dispatch(displayModal("environment", true, "copy"))}
+                                editMode={editMode}
+                            />
+                        </CardActions>
+                    </Card>
 
                     <div className="row">
                         <Lifecycle lifecycle={lifecycle}
@@ -177,22 +138,22 @@ class Environment extends Component {
                 <div className="col-xs-12">
                     <ul className="nav nav-tabs">
                         <li className={displayClusters ? "active" : ""}>
-                            <Link to={`/environments/${environment.name}/clusters`}
+                            <Link to={`/environments/${envName}/clusters`}
                                   onClick={() => this.selectTab("clusters")}>Clusters</Link></li>
                         <li className={displayNodes ? "active" : ""}>
-                            <Link to={`/environments/${environment.name}/nodes`}
+                            <Link to={`/environments/${envName}/nodes`}
                                   onClick={() => this.selectTab("nodes")}>Nodes</Link></li>
                         <li className={displayInstances ? "active" : ""}>
-                            <Link to={`/environments/${environment.name}/instances`}
+                            <Link to={`/environments/${envName}/instances`}
                                   onClick={() => this.selectTab("instances")}>Instances</Link>
                         </li>
                     </ul>
                 </div>
                 <div className="col-xs-12">
                     <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                    {displayClusters ? <EnvironmentClusters environment={environment.name}/> : null}
-                    {displayNodes ? <EnvironmentNodes environment={environment.name}/> : ''}
-                    {displayInstances ? <EnvironmentInstances environment={environment.name}/> : ''}
+                    {displayClusters ? <EnvironmentClusters environment={envName}/> : null}
+                    {displayNodes ? <EnvironmentNodes environment={envName}/> : ''}
+                    {displayInstances ? <EnvironmentInstances environment={envName}/> : ''}
                 </div>
 
                 {/* Misc. modals*/}
@@ -200,8 +161,8 @@ class Environment extends Component {
                     displayAccessControlForm={this.state.displayAccessControlForm}
                     onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
                     onSubmit={() => this.handleSubmitForm(name, {
-                            name: environment.name,
-                            environmentclass: environment.environmentclass,
+                            name: envName,
+                            environmentclass: envClass,
                             accesscontrol: {adgroups}
                         }
                         , comment, "environment")}
@@ -214,28 +175,11 @@ class Environment extends Component {
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
                     onSubmit={() => this.handleSubmitForm(name, null, comment, "deleteEnvironment")}
-                    id={name}
+                    id={envName}
                     handleChange={this.handleChange.bind(this)}
                     comment={comment}
-
-                />
-                <SubmitForm
-                    display={this.state.displaySubmitForm}
-                    component="environment"
-                    onSubmit={(id, form, comment, component) => this.handleSubmitForm(id, form, comment, component)}
-                    onClose={() => this.toggleComponentDisplay("displaySubmitForm")}
-                    newValues={{
-                        name: this.state.name,
-                        environmentclass: this.state.environmentclass,
-
-                    }}
-                    originalValues={{
-                        name: environment.name,
-                        environmentclass: environment.environmentclass,
-                    }}
                 />
             </div>
-
         )
     }
 

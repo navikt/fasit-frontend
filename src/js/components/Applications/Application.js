@@ -106,7 +106,7 @@ class Application extends Component {
                 {showRevision ?
                     <CurrentRevision revisionId={query.revision} revisions={revisions}/>
                     : <ToolButtons
-                        authorized={authorized}
+                        disabled={!authorized}
                         onEditClick={() => this.toggleComponentDisplay("editMode")}
                         onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                         onCopyClick={() => console.log("Copy,copycopy!")}

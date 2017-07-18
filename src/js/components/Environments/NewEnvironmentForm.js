@@ -3,7 +3,7 @@ import {Modal} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
 import {FormString, FormDropDown, FormComment} from '../common/Forms'
-
+import {capitalize}from '../../utils'
 import {displayModal} from '../../actionCreators/common'
 import {submitForm} from '../../actionCreators/common'
 
@@ -18,12 +18,11 @@ class NewEnvironmentForm extends Component {
     }
     componentWillReceiveProps(next){
         const {name, environmentclass} = this.props
-        if (next.copy){
+        if (next.mode === "edit"  || next.mode === "copy"){
             this.setState({
                 name,
                 environmentclass
             })
-
         }
     }
 
@@ -40,13 +39,19 @@ class NewEnvironmentForm extends Component {
     }
 
     handleSubmitForm() {
-        const {dispatch} = this.props
+        const {dispatch, mode} = this.props
         const {name, environmentclass, comment} = this.state
         const form = {
             name,
             environmentclass,
         }
-        dispatch(submitForm(form.name, form, comment, "newEnvironment"))
+
+        if(mode === "edit") {
+            dispatch(submitForm(form.name, form, comment, "environment"))
+        }
+        else {
+            dispatch(submitForm(form.name, form, comment, "newEnvironment"))
+        }
     }
 
     closeForm() {
@@ -70,11 +75,11 @@ class NewEnvironmentForm extends Component {
     }
 
     render() {
-        const {environmentClasses, showNewEnvironmentForm, copy, name} = this.props
+        const {environmentClasses, showNewEnvironmentForm, mode, name} = this.props
         return (
             <Modal show={showNewEnvironmentForm} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
-                    <Modal.Title>{copy ? "Copying environment " + name : "New environment"}
+                    <Modal.Title>{mode && `${capitalize(mode)} environment ${name}` }
                         <button type="reset" className="btn btn-link pull-right"
                                 onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>
@@ -122,7 +127,7 @@ const mapStateToProps = (state) => {
         environmentClasses: state.environments.environmentClasses,
         environments: state.environments.environments,
         zones: state.environments.zones,
-        copy: state.environments.copy,
+        mode: state.environments.mode,
         name: state.environment_fasit.data.name,
         environmentclass: state.environment_fasit.data.environmentclass,
     }
