@@ -4,7 +4,7 @@ import {
     RESOURCE_FASIT_REQUEST_FAILED,
     CLEAR_RESOURCE_SECRET,
     RESOURCE_FASIT_SECRET_RECEIVED
-} from '../actionTypes'
+} from "../actionTypes";
 
 export default (state = {
     data: {},

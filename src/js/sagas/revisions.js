@@ -4,7 +4,6 @@ import {fetchUrl} from "../utils";
 import {REVISIONS_REQUEST, REVISIONS_FETCHING, REVISIONS_RECEIVED, REVISIONS_REQUEST_FAILED} from "../actionTypes";
 
 
-// Fetching all revisions for the node
 export function* fetchRevisions(action) {
     const configuration = yield select((state) => state.configuration)
     let url = ""
@@ -33,7 +32,6 @@ export function* fetchRevisions(action) {
         const value = yield response.reverse()
         yield put({type: REVISIONS_RECEIVED, value})
     } catch (error) {
-        console.error("Error fetching revions", error)
         yield put({type: REVISIONS_REQUEST_FAILED, error})
 
     }

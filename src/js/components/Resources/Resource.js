@@ -44,7 +44,6 @@ class Resource extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, id, query} = this.props
         if (query) {
             dispatch(fetchFasitData(id, query.revision))
         } else {
@@ -351,7 +350,7 @@ class Resource extends Component {
 
 
                 <div className="col-md-4">
-                    <History id={id} currentRevision={query.revision} component="instance"/>
+                    <History id={id} currentRevision={query.revision} component="resource"/>
                     <Security accesscontrol={fasit.data.accesscontrol}
                               displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                 </div>
