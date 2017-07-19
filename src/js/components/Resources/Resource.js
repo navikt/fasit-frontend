@@ -44,6 +44,7 @@ class Resource extends Component {
     }
 
     componentDidMount() {
+        const {dispatch, id, query} = this.props
         if (query) {
             dispatch(fetchFasitData(id, query.revision))
         } else {
