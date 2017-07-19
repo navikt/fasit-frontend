@@ -1,6 +1,6 @@
-import {takeEvery} from 'redux-saga'
-import {select, put, fork, call} from 'redux-saga/effects'
-import {fetchUrl} from '../utils'
+import {takeEvery} from "redux-saga";
+import {select, put, fork, call} from "redux-saga/effects";
+import {fetchUrl} from "../utils";
 import {
     INSTANCE_FASIT_REQUEST,
     INSTANCE_FASIT_FETCHING,
@@ -10,8 +10,7 @@ import {
     INSTANCE_MANIFEST_FASIT_FETCHING,
     INSTANCE_MANIFEST_FASIT_RECEIVED,
     INSTANCE_MANIFEST_FASIT_REQUEST_FAILED
-
-} from '../actionTypes'
+} from "../actionTypes";
 
 export function* fetchInstance(action) {
     const instancesApi = yield select((state) => state.configuration.fasit_applicationinstances)

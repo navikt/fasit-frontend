@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {Link, browserHistory} from 'react-router'
-import moment from 'moment'
-import {connect} from 'react-redux'
-import {fetchRevisions} from '../../actionCreators/common'
-import {OverlayTrigger, Tooltip} from 'react-bootstrap'
+import React, {Component} from "react";
+import {Link, browserHistory} from "react-router";
+import moment from "moment";
+import {connect} from "react-redux";
+import {fetchRevisions} from "../../actionCreators/common";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 class RevisionsView extends Component {
     constructor(props) {
@@ -88,8 +88,8 @@ class RevisionsView extends Component {
                                     <Link
                                         onClick={() => browserHistory.push(routing.pathname + "?revision=" + rev.revision)}
                                         className={className}>
-                                        {rev.revisiontype === 'add' ? 'Created ' : 'Modified '} {moment(rev.timestamp).fromNow()}
-                                        by {rev.author}</Link>
+                                        {`${rev.revisiontype === 'add' ? 'Created ' : 'Modified '} ${moment(rev.timestamp).fromNow()}
+                                        by ${rev.author}`}</Link>
                                 </li>
                             </OverlayTrigger>)
                     })}
@@ -101,9 +101,7 @@ class RevisionsView extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    //id: ownProps.id,
     revisions: state.revisions,
-    //component: ownProps.component,
     routing: state.routing.locationBeforeTransitions
 })
 
