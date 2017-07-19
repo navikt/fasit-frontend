@@ -52,9 +52,9 @@ export default class ToolButtons extends Component {
                     iconStyle={styles.button}
                     tooltip={disabled ? disabledString : <div><u>C</u>opy</div>}
                     tooltipPosition='bottom-center'
-                >
-                    {icons.copy}
-                </IconButton>
+                >{icons.copy}</IconButton>
+
+
                 <IconButton
                     disabled={disabled}
                     touch={true}

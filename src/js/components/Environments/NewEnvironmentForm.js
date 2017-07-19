@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
-import {FormString, FormDropDown, FormComment} from "../common/Forms";
+import {FormString, FormDropDown, FormComment, } from "../common/Forms";
 import {capitalize} from "../../utils";
 import {displayModal, submitForm} from "../../actionCreators/common";
 
@@ -11,7 +11,7 @@ class NewEnvironmentForm extends Component {
         this.state = {
             name: "",
             environmentclass: "",
-            comment: ""
+            displaySubmitFormWithDiff: false
         }
     }
     componentWillReceiveProps(next){
@@ -69,7 +69,6 @@ class NewEnvironmentForm extends Component {
             )
         }
         return <button type="submit" className="btn btn-primary pull-right disabled">Submit</button>
-
     }
 
     render() {
@@ -112,6 +111,7 @@ class NewEnvironmentForm extends Component {
                     </div>
                 </Modal.Footer>
             </Modal>
+
         )
     }
 }
