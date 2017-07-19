@@ -1,14 +1,23 @@
 import React, {Component} from "react";
 import {browserHistory, Link} from "react-router";
 import {connect} from "react-redux";
-import {AccessControl, CurrentRevision, History, Lifecycle, Security, DeleteElementForm, ToolButtons} from "../common/";
+import {
+    AccessControl,
+    CurrentRevision,
+    History,
+    Lifecycle,
+    Security,
+    DeleteElementForm,
+    ToolButtons,
+    RescueElementForm
+} from "../common/";
 import {submitForm, displayModal} from "../../actionCreators/common";
 import {validAuthorization, oldRevision} from "../../utils/";
 import EnvironmentClusters from "./EnvironmentClusters";
 import EnvironmentNodes from "./EnvironmentNodes";
 import EnvironmentInstances from "./EnvironmentInstances";
 import {fetchEnvironment} from "../../actionCreators/environment";
-import {icons} from "../../commonStyles/commonInlineStyles";
+import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import {Card, CardActions, CardHeader} from "material-ui/Card";
 
 class Environment extends Component {
@@ -22,6 +31,7 @@ class Environment extends Component {
             displaySubmitForm: false,
             displayDeleteForm: false,
             displayAccessControlForm: false,
+            displayRescueForm: false,
             editMode: false,
             comment: "",
             adgroups: [],
@@ -39,6 +49,16 @@ class Environment extends Component {
         this.setState({[component]: !this.state[component]})
         if (component === "editMode" && this.state.editMode)
             this.resetLocalState()
+    }
+
+    rescue() {
+        const {dispatch, environment} = this.props
+        const name = environment.name
+        const environmentclass = environment.environmentclass
+        const {comment} = this.state
+        const form = {name, environmentclass, lifecycle: {status: "rescued"}}
+        this.toggleComponentDisplay("displayRescueForm")
+        dispatch(submitForm(this.props.name, form, comment, "environment"))
     }
 
     handleChange(field, value) {
@@ -87,6 +107,7 @@ class Environment extends Component {
         const envName = environment.name
         const envClass = environment.environmentclass
         let lifecycle = {}
+
         const showRevision = oldRevision(revisions, query.revision)
         let authorized = false
         if (Object.keys(environment).length > 0) {
@@ -96,10 +117,11 @@ class Environment extends Component {
 
         return (
             <div className="row">
-                {showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
-                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"} style={{paddingTop: '20px'}}>
+                <div className="col-md-6" style={styles.cardPadding}>
+                    {showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
                     <Card>
-                        <CardHeader avatar={icons.environment} title={`Environment ${envName}`} subtitle={`Environment class: ${envClass} `}/>
+                        <CardHeader avatar={icons.environment} title={`Environment ${envName}`}
+                                    subtitle={`Environment class: ${envClass} `}/>
                         <CardActions>
                             <ToolButtons
                                 disabled={showRevision || !authorized}
@@ -111,17 +133,16 @@ class Environment extends Component {
                         </CardActions>
                     </Card>
 
-                    <div className="row">
-                        <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => console.log("you need to do something about this, dude!")}
-                                   authorized={authorized}/>
-                    </div>
+                    <Lifecycle lifecycle={lifecycle}
+                               rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
+                               authorized={authorized}/>
                 </div>
 
 
                 <div className="col-md-4">
                     <History id={this.props.name} currentRevision={query.revision} component="environment"/>
-                    <Security accesscontrol={environment.accesscontrol} displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                    <Security accesscontrol={environment.accesscontrol}
+                              displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                 </div>
 
                 {/*Content view*/}
@@ -167,9 +188,19 @@ class Environment extends Component {
                     onSubmit={() => this.handleSubmitForm(envName, null, comment, "deleteEnvironment")}
                     id={envName}
                 />
+
+                <RescueElementForm
+                    displayRescueForm={this.state.displayRescueForm}
+                    onClose={() => this.toggleComponentDisplay("displayRescueForm")}
+                    onSubmit={() => this.rescue()}
+                    id={envName}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={this.state.comment}
+                />
             </div>
         )
     }
+
 
     selectTab(tab) {
         switch (tab) {

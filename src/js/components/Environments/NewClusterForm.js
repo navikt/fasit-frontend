@@ -11,7 +11,7 @@ class NewClusterForm extends Component {
             clustername: "",
             environment: "",
             environmentclass: "",
-            zone: "",
+            zone: "fss",
             comment: ""
         }
     }
@@ -33,7 +33,7 @@ class NewClusterForm extends Component {
             clustername: "",
             environment: "",
             environmentclass: "",
-            zone: "",
+            zone: "fss",
             comment: ""
         })
     }

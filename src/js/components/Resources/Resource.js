@@ -1,13 +1,13 @@
-import React, {Component} from 'react'
-import {Modal} from 'react-bootstrap'
-import {connect} from 'react-redux'
-import {validAuthorization, oldRevision} from '../../utils'
-import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from '../../actionCreators/resource'
-import {submitForm} from '../../actionCreators/common'
-import {resourceTypes} from '../../utils/resourceTypes'
-import {ResourceInstances} from './ResourceInstances'
-import RaisedButton from 'material-ui/RaisedButton'
-import NotFound from '../NotFound'
+import React, {Component} from "react";
+import {Modal} from "react-bootstrap";
+import {connect} from "react-redux";
+import {validAuthorization, oldRevision} from "../../utils";
+import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from "../../actionCreators/resource";
+import {submitForm} from "../../actionCreators/common";
+import {resourceTypes} from "../../utils/resourceTypes";
+import {ResourceInstances} from "./ResourceInstances";
+import RaisedButton from "material-ui/RaisedButton";
+import NotFound from "../NotFound";
 import {
     AccessControl,
     CurrentRevision,
@@ -22,8 +22,8 @@ import {
     History,
     DeleteElementForm,
     ToolButtons
-} from '../common/'
-import Scope from './Scope'
+} from "../common/";
+import Scope from "./Scope";
 
 const initialState = {
     secretVisible: false,
@@ -31,6 +31,7 @@ const initialState = {
     deleteMode: false,
     displaySubmitForm: false,
     displayDeleteForm: false,
+    displayRescueForm: false,
     adgroups: [],
     comment: ""
 }
@@ -362,7 +363,6 @@ class Resource extends Component {
                     id={id}
                     handleChange={this.handleChange.bind(this)}
                     comment={this.state.comment}
-
                 />
 
                 <AccessControl
@@ -378,9 +378,6 @@ class Resource extends Component {
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
                     onSubmit={() => this.deleteResource(id, this.state.comment)}
-                    handleChange={this.handleChange.bind(this)}
-                    comment={this.state.comment}
-
                 />
                 {this.renderSubmitForm()}
             </div>

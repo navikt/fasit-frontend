@@ -1,5 +1,8 @@
-import React, {Component, PropTypes} from 'react'
-import moment from 'moment'
+import React, {Component, PropTypes} from "react";
+import moment from "moment";
+import {Card, CardHeader, CardText} from "material-ui/Card";
+import {styles} from "../../commonStyles/commonInlineStyles";
+
 
 export function CurrentRevision(props) {
     moment.locale("en")
@@ -10,15 +13,12 @@ export function CurrentRevision(props) {
         const currentRevision = rev[0]
 
         return (
-            <div className="col-md-12" style={{paddingTop: 10, paddingBottom: 10}}>
-                <div className="well well-sm col-md-5 revision-well">
-                    <h4>Revision #{currentRevision.revision} </h4>
-                    {currentRevision.revisiontype === 'add' ? 'Created' : 'Modified'}&nbsp;
-                    {`${moment(currentRevision.timestamp).format('D.MM YYYY, H:mm:ss')} by ${currentRevision.author} (${currentRevision.authorid})`}
-                    <br/>
-                    {currentRevision.message ? `Comment: ${currentRevision.message}` : '' }
-                </div>
-            </div>
-        )
+            <Card style={styles.cardPadding}>
+                <CardHeader
+                    title={`Revision ${currentRevision.revision} - ${currentRevision.revisiontype === 'add' ? 'Created' : 'Modified'}` }
+                    titleStyle={styles.bold}
+                    subtitle={`${moment(currentRevision.timestamp).format('DD.MM YYYY, H:mm:ss')} by ${currentRevision.author} (${currentRevision.authorid})`}/>
+                {currentRevision.message && <CardText>{currentRevision.message}</CardText>}
+            </Card>)
     }
 }

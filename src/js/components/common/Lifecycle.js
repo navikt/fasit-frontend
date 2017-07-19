@@ -1,11 +1,11 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import moment from 'moment'
-import FlatButton from 'material-ui/FlatButton'
-import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card'
-import Avatar from 'material-ui/Avatar'
-import Restore from 'material-ui/svg-icons/action/restore'
-import {styles, colors}  from '../../commonStyles/commonInlineStyles'
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import moment from "moment";
+import FlatButton from "material-ui/FlatButton";
+import {Card, CardHeader, CardText, CardActions} from "material-ui/Card";
+import Avatar from "material-ui/Avatar";
+import Restore from "material-ui/svg-icons/action/restore";
+import {styles, colors} from "../../commonStyles/commonInlineStyles";
 
 class Lifecycle extends Component {
     constructor(props) {
@@ -35,8 +35,7 @@ class Lifecycle extends Component {
 
     card(title, subtitle, iconColor, displayRescueButton = true) {
         const {lifecycle} = this.props
-        return (<Card expandable={lifecycle.issue !== undefined} initiallyExpanded={false}
-                      style={styles.marginTop25}>
+        return (<Card expandable={lifecycle.issue !== undefined} initiallyExpanded={false} style={styles.cardPadding}>
             <CardHeader
                 title={title}
                 titleStyle={styles.bold}
@@ -49,8 +48,7 @@ class Lifecycle extends Component {
                 {displayRescueButton && <FlatButton
                     disableTouchRipple={true}
                     label="Rescue"
-                    secondary={true}
-                    labelStyle={styles.bold}
+                    labelStyle={styles.flatButton}
                     onTouchTap={this.props.rescueAction}
                     disabled={!this.props.authorized}/>}
             </CardActions>

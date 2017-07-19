@@ -1,19 +1,21 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {validAuthorization, oldRevision} from '../../utils/'
-import {fetchFasitData} from '../../actionCreators/application'
-import {submitForm} from '../../actionCreators/common'
-import ApplicationInstances from './ApplicationInstances'
-import {DeleteElementForm, SecurityView, ToolButtons, AccessControl} from '../common/'
-
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {validAuthorization, oldRevision} from "../../utils/";
+import {fetchFasitData} from "../../actionCreators/application";
+import {submitForm} from "../../actionCreators/common";
+import ApplicationInstances from "./ApplicationInstances";
 import {
+    DeleteElementForm,
+    SecurityView,
+    ToolButtons,
+    AccessControl,
     CurrentRevision,
     FormString,
     Lifecycle,
     History,
     Security,
     SubmitForm
-} from '../common/'
+} from "../common/";
 
 class Application extends Component {
     constructor(props) {
@@ -213,8 +215,7 @@ class Application extends Component {
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
                     onSubmit={() => this.handleSubmitForm(name, null, comment, "deleteApplication")}
                     id={name}
-                    handleChange={this.handleChange.bind(this)}
-                    comment={comment}
+
                 />
             </div>
         )

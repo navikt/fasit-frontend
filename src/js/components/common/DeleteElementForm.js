@@ -1,7 +1,7 @@
 import React from "react";
 import FlatButton from "material-ui/FlatButton";
 import {styles} from "../../commonStyles/commonInlineStyles";
-import Dialog from 'material-ui/Dialog'
+import Dialog from "material-ui/Dialog";
 
 export default function DeleteElement(props) {
     const {displayDeleteForm, id, onClose, onSubmit} = props
@@ -17,7 +17,6 @@ export default function DeleteElement(props) {
             label="Cancel"
             onTouchTap={onClose}/>
     ]
-
 
     return (
         <Dialog actions={actions} open={displayDeleteForm} modal={true} onRequestClose={onClose} title="Confirm delete">
