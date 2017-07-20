@@ -9,6 +9,7 @@ import {Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
 import {APPCONFIG, APPLICATION, CLUSTER, ENVIRONMENT, INSTANCE, NODE, RESOURCE, destinationUrl} from '../Search/searchResultTypes'
 import {styles, colors, icons}  from '../../commonStyles/commonInlineStyles'
 import {capitalize} from '../../utils/'
+import {WebsphereManagementConsole} from '../common'
 import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
 import {submitSearch, setSearchString} from '../../actionCreators/common'
 import PrettyXml from '../common/PrettyXml'
@@ -65,12 +66,14 @@ class Search extends Component {
     searchResultCard(searchResult, idx) {
         let title
         let avatar
+        let subtitle = capitalize(searchResult.type)
 
         const detailedInfo = searchResult.detailedinfo
         const hasDetailedInfo = Object.keys(detailedInfo).length > 0
 
         if (searchResult.type === RESOURCE) {
             title = `${getResourceTypeName(detailedInfo.type)} ${searchResult.name}`
+            subtitle = `${subtitle} ${searchResult.detailedinfo.scope}`
             avatar = resourceTypeIcon(detailedInfo.type)
         } else {
             title = searchResult.name
@@ -82,7 +85,7 @@ class Search extends Component {
                 <Card expandable={hasDetailedInfo} initiallyExpanded={false}>
                     <CardHeader title={title}
                                 titleStyle={styles.bold}
-                                subtitle={capitalize(searchResult.type)}
+                                subtitle={subtitle}
                                 avatar={avatar}
                                 showExpandableButton={false}
                                 actAsExpander={true}
@@ -117,6 +120,9 @@ class Search extends Component {
                             style={styles.flatButton}
                             onTouchTap={() => this.navigate(searchResult)}
                         />
+                        {searchResult.type === RESOURCE
+                        && searchResult.detailedinfo.type.toLowerCase() === 'deploymentmanager'
+                        && ( <WebsphereManagementConsole hostname={searchResult.detailedinfo.hostname}/>)}
                     </CardActions>
                 </Card>
             </div>)

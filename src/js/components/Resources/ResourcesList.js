@@ -1,11 +1,10 @@
-import React, {Component, PropTypes} from 'react'
+import React from 'react'
 import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
-import {LifecycleStatus} from '../common/'
+import {LifecycleStatus, WebsphereManagementConsole} from '../common/'
 import {List, ListItem} from 'material-ui/List'
 import FlatButton from 'material-ui/FlatButton'
 import {browserHistory} from "react-router";
 import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
-import Settings from 'material-ui/svg-icons/action/settings'
 import {styles}  from '../../commonStyles/commonInlineStyles'
 import {capitalize} from '../../utils/'
 import moment from 'moment'
@@ -49,16 +48,17 @@ function ResourceListElement(props) {
 
     return (
         <div style={styles.paddingTop5} >
-            <Card onClick={() => navigateToResource(resource.id)}>
+            <Card>
                 <CardHeader title={title}
                             titleStyle={styles.bold}
                             subtitle={scope}
                             avatar={avatar}
                             style={{paddingBottom: '10px'}}
                             children={additionalCardInfo}
+                            onClick={() => navigateToResource(resource.id)}
                 />
 
-                <CardText style={{paddingTop: '0px', paddingBottom: '0px'}}>
+                <CardText style={{paddingTop: '0px', paddingBottom: '0px'}} onClick={() => navigateToResource(resource.id)}>
                     <List>
                         {properties.map((p, key) =>
                             <ListItem key={key} style={{paddingTop: '0px', paddingBottom: '14px'}}
@@ -71,9 +71,10 @@ function ResourceListElement(props) {
                     <FlatButton
                         disableTouchRipple={true}
                         onTouchTap={() => navigateToResource(resource.id)}
-                        icon={<Settings/>}
                         label="manage"
                         style={styles.flatButton}/>
+                    {resource.type.toLowerCase() === 'deploymentmanager'
+                    && (<WebsphereManagementConsole hostname={resource.properties.hostname}/>)}
                 </CardActions>
             </Card>
         </div>

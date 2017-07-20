@@ -68,6 +68,20 @@ const search = [
         }
     },
     {
+        "id": 279177,
+        "name": "wasDmgr",
+        "link": "http://localhost:6969/mockapi/resources/279177",
+        "type": "resource",
+        "info": "DeploymentManager | u/FSS/u2/-",
+        "lastchange": 1386574313728,
+        "detailedinfo": {
+            "hostname": "viswas.expensive.com",
+            "scope": "u/FSS/u2/-",
+            "type": "deploymentmanager",
+            "username": "deployer"
+        }
+    },
+    {
         "id": 826420,
         "name": "anapp:3.25.4.build_257",
         "link": "http//localhost:6969/mockapi/applicationinstances/826420",

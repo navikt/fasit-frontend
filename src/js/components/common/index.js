@@ -18,6 +18,7 @@ import SubmitFormStatus from "./SubmitFormStatus";
 import ToolButtons from "./ToolButtons";
 import DeleteElementForm from "./DeleteElementForm";
 import RescueElementForm from "./RescueElementForm";
+import WebsphereManagementConsole from "./WebsphereManagementConsole"
 import {
     FormListBox,
     FormLink,
@@ -59,5 +60,6 @@ DeleteElementForm,
     Security,
     SubmitFormStatus,
     SubmitForm,
-    ToolButtons
+    ToolButtons,
+    WebsphereManagementConsole
 }

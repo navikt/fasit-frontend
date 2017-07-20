@@ -92,6 +92,38 @@ const resources = [
         }
     },
     {
+        "type": "deploymentmanager",
+        "alias": "wasDmgr",
+        "scope": {
+            "environmentclass": "t",
+            "zone": "sbs",
+            "environment": "t4"
+        },
+        "properties": {
+            "hostname": "damager.no",
+            "username": "superduperadminuser"
+        },
+        "secrets": {
+            "password": {
+                "ref": "http://localhost:9696/secrets/358660"
+            }
+        },
+        "files": {},
+        "dodgy": false,
+        "id": 358659,
+        "created": "2014-04-16T11:45:00.633",
+        "updated": "2014-04-16T11:45:00.633",
+        "lifecycle": {},
+        "accesscontrol": {
+            "environmentclass": "t",
+            "adgroups": []
+        },
+        "links": {
+            "self": "https://fasit.adeo.no/api/v2/resources/358659",
+            "revisions": "https://fasit.adeo.no/api/v2/resources/358659/revisions"
+        }
+    },
+    {
         "type": "queue",
         "alias": "RAY.AMELDING",
         "scope": {
