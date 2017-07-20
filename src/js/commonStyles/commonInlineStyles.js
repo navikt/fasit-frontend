@@ -22,7 +22,8 @@ export const colors = {
     green: green400,
     pink: '#d33682',
     grey:  '#aaa',
-    toolbarBackground: '#515d66'
+    toolbarBackground: '#515d66',
+    black: 'rgba(0, 0, 0, 0.87)'
 }
 
 export const styles = {
@@ -31,6 +32,7 @@ export const styles = {
     red: {color: colors.red},
     button: {color: colors.toolbarBackground},
     flatButton: {color: colors.avatarBackgroundColor},
+    raisedButton: {backgroundColor: colors.avatarBackgroundColor},
     orange: {color: colors.orange},
     green: {color: colors.green},
     marginTop25: {marginTop: '25px'},

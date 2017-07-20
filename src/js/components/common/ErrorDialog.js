@@ -4,6 +4,7 @@ import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import {icons} from '../../commonStyles/commonInlineStyles'
 import {clearFormError} from "../../actionCreators/common";
+import {styles} from '../../commonStyles/commonInlineStyles'
 
 
 class ErrorDialog extends Component {
@@ -18,7 +19,7 @@ class ErrorDialog extends Component {
 
     render() {
         const actions = [
-            <FlatButton label="ok" primary={true} onTouchTap={() => this.handleClose()} disableTouchRipple={true}/>
+            <FlatButton label="ok"  onTouchTap={() => this.handleClose()}  style={styles.flatButton} disableTouchRipple={true}/>
         ]
         const {errorMessage, formError} = this.props
         return (<Dialog

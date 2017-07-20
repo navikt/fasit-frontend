@@ -69,12 +69,11 @@ function ResourceListElement(props) {
                 </CardText>
                 <CardActions>
                     <FlatButton
-                        primary={true}
                         disableTouchRipple={true}
                         onTouchTap={() => navigateToResource(resource.id)}
                         icon={<Settings/>}
                         label="manage"
-                        labelStyle={styles.bold}/>
+                        style={styles.flatButton}/>
                 </CardActions>
             </Card>
         </div>

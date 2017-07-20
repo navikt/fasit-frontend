@@ -8,12 +8,12 @@ export default function DeleteElement(props) {
     const actions = [
         <FlatButton
             disableTouchRipple={true}
-            labelStyle={styles.flatButton}
+            style={styles.flatButton}
             label="Ok"
             onTouchTap={onSubmit}/>,
         <FlatButton
             disableTouchRipple={true}
-            labelStyle={styles.flatButton}
+            style={styles.flatButton}
             label="Cancel"
             onTouchTap={onClose}/>
     ]

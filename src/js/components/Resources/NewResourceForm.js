@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 
 import {FormString, FormDropDown, FormComment, FormTextArea} from '../common/Forms'
-
+import {colors} from '../../commonStyles/commonInlineStyles'
 import {displayModal} from '../../actionCreators/common'
 import {resourceTypes} from '../../utils/resourceTypes'
 import {submitForm} from '../../actionCreators/common'
@@ -167,7 +167,8 @@ class NewResourceForm extends Component {
         if (this.state.type !== "") {
             return <RaisedButton
                 disableTouchRipple={true}
-                primary={true}
+                backgroundColor={colors.toolbarBackground}
+                labelColor={colors.white}
                 disabled={!this.isValid()}
                 label="submit"
                 onTouchTap={this.handleSubmitForm.bind(this, true)}/>

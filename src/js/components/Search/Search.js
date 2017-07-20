@@ -5,7 +5,6 @@ import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
 import {Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator} from 'material-ui/Toolbar'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
-import Avatar from 'material-ui/Avatar'
 import {Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
 import {APPCONFIG, APPLICATION, CLUSTER, ENVIRONMENT, INSTANCE, NODE, RESOURCE, destinationUrl} from '../Search/searchResultTypes'
 import {styles, colors, icons}  from '../../commonStyles/commonInlineStyles'
@@ -115,8 +114,7 @@ class Search extends Component {
                         <FlatButton
                             disableTouchRipple={true}
                             label="View"
-                            primary={true}
-                            labelStyle={styles.bold}
+                            style={styles.flatButton}
                             onTouchTap={() => this.navigate(searchResult)}
                         />
                     </CardActions>
@@ -157,7 +155,7 @@ class Search extends Component {
                 </ToolbarGroup>
                 <ToolbarGroup>
                     <ToolbarSeparator/>
-                    <RaisedButton label='clear' disabled={!searchResults.filter} disableTouchRipple={true} primary={true}
+                    <RaisedButton label='clear' disabled={!searchResults.filter} disableTouchRipple={true} backgroundColor={colors.toolbarBackground} labelColor={colors.white} style={styles.raisedButton}
                                   onTouchTap={() => this.filterByType()}/>
                 </ToolbarGroup>
             </Toolbar>
@@ -186,9 +184,10 @@ function FilterButton(props) {
     const {type, onClickHandler, activeFilter} = props
     return (<RaisedButton
         key={type}
-        primary={activeFilter === type}
         label={type}
         disableTouchRipple={true}
+        backgroundColor={activeFilter === type ? colors.toolbarBackground : colors.white}
+        labelColor={activeFilter === type ? colors.white : colors.black}
         onTouchTap={onClickHandler}/>)
 }
 
