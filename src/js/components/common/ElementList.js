@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router'
 import moment from 'moment'
-import {ResourcesList} from '../Resources/ResourcesList'
+import {ResourcesList} from  '../Resources/ResourcesList'
+import {EnvironmentsList} from  '../Environments/EnvironmentsList'
 
 
 export default class ElementList extends Component {
@@ -11,7 +12,7 @@ export default class ElementList extends Component {
 
     generateNodesList() {
         const {data} = this.props
-        return data.data.map((item, index)=> {
+        return data.data.map((item, index) => {
             return (
                 <Link key={index} to={'/nodes/' + item.hostname} className="element-list-item"
                       activeClassName='element-list-item-active'>
@@ -25,25 +26,9 @@ export default class ElementList extends Component {
         })
     }
 
-    generateEnvironmentsList() {
-        const {data} = this.props
-        return data.data.map((item, index)=> {
-            return (
-                <Link key={index} to={'/environments/' + item.name} className="element-list-item"
-                      activeClassName='element-list-item-active'>
-                    <div>
-                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.name}</h5>
-                        <i className="fa fa-globe fa-fw"></i> {item.environmentclass} <b> | </b>
-                        {moment(item.created).format('ll')}
-                    </div>
-                </Link>
-            )
-        })
-    }
-
     generateApplicationsList() {
         const {data} = this.props
-        return data.data.map((item, index)=> {
+        return data.data.map((item, index) => {
             return (
                 <Link key={index} to={'/applications/' + item.name} className="element-list-item"
                       activeClassName='element-list-item-active'>
@@ -63,7 +48,7 @@ export default class ElementList extends Component {
 
     generateInstancesList() {
         const {data} = this.props
-        return data.data.map((item, index)=> {
+        return data.data.map((item, index) => {
             return (
                 <Link key={index} to={'/instances/' + item.id}
                       className="element-list-item"
@@ -95,7 +80,7 @@ export default class ElementList extends Component {
                 case "resources":
                     return <ResourcesList resources={this.props.data}/>
                 case "environments":
-                    return <div className="element-list">{this.generateEnvironmentsList()}</div>
+                    return <EnvironmentsList environments={this.props.data}/>
                 case "applications":
                     return <div className="element-list">{this.generateApplicationsList()}</div>
                 case "instances":

@@ -1,6 +1,5 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router'
 
 import ElementPaging from '../common/ElementPaging'
 import ElementList from '../common/ElementList'
@@ -20,7 +19,6 @@ class Environments extends Component {
 
     render() {
         const {environments, params} = this.props
-
         if (this.props.params.environment)
             return <Environment name={params.environment} clusterName={params.cluster} />
         return (
@@ -55,3 +53,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Environments)
+
