@@ -18,7 +18,7 @@ class Applications extends Component {
     }
 
     render() {
-        const {applications} = this.props
+        const {applications, totalCount} = this.props
 
         if (this.props.params.application) {
             return <Application name={this.props.params.application}/>
@@ -35,7 +35,7 @@ class Applications extends Component {
                     </div>
                     <div className="col-sm-10">
                         <div className="row element-list-container">
-                            <h4>{applications.headers.total_count} applications</h4>
+                            <h4>{totalCount} applications</h4>
                             <ElementList type="applications" data={applications}/>
                             <div className="col-sm-2 pull-right">
                                 <ElementPaging />
@@ -51,7 +51,8 @@ class Applications extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        applications: state.applications,
+        applications: state.applications.data,
+        totalCount: state.applications.headers.total_count
     }
 }
 

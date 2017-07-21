@@ -27,22 +27,22 @@ const applications = [
         }
     },
     {
-        "name": "app2",
+        "name": "superawesomeapp",
         "groupid": "no.group.id",
-        "artifactid": "artifact2",
+        "artifactid": "artifact5",
         "portoffset": 0,
-        "id": 2,
-        "created": "2016-12-15T13:06:58.903",
-        "updated": "2016-12-15T14:12:13.46",
+        "id": 5,
+        "created": "2015-08-21T14:02:29.426",
+        "updated": "2015-08-21T14:05:59.041",
         "lifecycle": {},
         "accesscontrol": {
             "environmentclass": "t",
             "adgroups": []
         },
         "links": {
-            "instances": "http://localhost:6969/mockapi/applicationinstances?application=app2",
-            "self": "http://localhost:6969/mockapi/applications/app2",
-            "revisions": "http://localhost:6969/mockapi/applications/app2/revisions"
+            "instances": "http://localhost:6969/mockapi/applicationinstances?application=app5",
+            "self": "http://localhost:6969/mockapi/applications/app5",
+            "revisions": "http://localhost:6969/mockapi/applications/app5/revisions"
         }
     },
     {
@@ -65,6 +65,25 @@ const applications = [
         }
     },
     {
+        "name": "app2",
+        "groupid": "no.group.id",
+        "artifactid": "artifact2",
+        "portoffset": 0,
+        "id": 2,
+        "created": "2016-12-15T13:06:58.903",
+        "updated": "2016-12-15T14:12:13.46",
+        "lifecycle": {},
+        "accesscontrol": {
+            "environmentclass": "t",
+            "adgroups": []
+        },
+        "links": {
+            "instances": "http://localhost:6969/mockapi/applicationinstances?application=app2",
+            "self": "http://localhost:6969/mockapi/applications/app2",
+            "revisions": "http://localhost:6969/mockapi/applications/app2/revisions"
+        }
+    },
+    {
         "name": "app4",
         "groupid": "no.group.id",
         "artifactid": "artifact4",
@@ -80,25 +99,6 @@ const applications = [
             "instances": "http://localhost:6969/mockapi/applicationinstances?application=app4",
             "self": "http://localhost:6969/mockapi/applications/app4",
             "revisions": "http://localhost:6969/mockapi/applications/app4/revisions"
-        }
-    },
-    {
-        "name": "superawesomeapp",
-        "groupid": "no.group.id",
-        "artifactid": "artifact5",
-        "portoffset": 0,
-        "id": 5,
-        "created": "2015-08-21T14:02:29.426",
-        "updated": "2015-08-21T14:05:59.041",
-        "lifecycle": {},
-        "accesscontrol": {
-            "environmentclass": "t",
-            "adgroups": []
-        },
-        "links": {
-            "instances": "http://localhost:6969/mockapi/applicationinstances?application=app5",
-            "self": "http://localhost:6969/mockapi/applications/app5",
-            "revisions": "http://localhost:6969/mockapi/applications/app5/revisions"
         }
     }
 ]
