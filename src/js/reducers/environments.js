@@ -32,7 +32,6 @@ export default (state = initialState, action) => {
                 data: []
             })
         case ENVIRONMENTS_LIST_RECEIVED:
-            console.log("action", action)
             return Object.assign({}, state, {
                 isFetching: false,
                 data: action.page.data.sort(sortEnvironmentsNaturally),
