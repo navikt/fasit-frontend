@@ -31,9 +31,10 @@ export default (state = initialState, action) => {
             })
 
         case APPLICATIONS_LIST_RECEIVED:
+            const sorted = action.page.data.sort(sortLowerCase)
             return Object.assign({}, state, {
                 isFetching: false,
-                data: action.page.data,
+                data: sorted,
                 headers: action.page.headers
             })
 
@@ -59,4 +60,10 @@ export default (state = initialState, action) => {
         default:
             return state
     }
+}
+
+const sortLowerCase = (first, second) => {
+    if (first.name.toLowerCase() < second.name.toLowerCase()) return -1
+    if (first.name.toLowerCase() > second.name.toLowerCase()) return 1
+    return 0
 }
