@@ -1,9 +1,10 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router'
-import moment from 'moment'
-import {ResourcesList} from  '../Resources/ResourcesList'
-import {EnvironmentsList} from  '../Environments/EnvironmentsList'
-import {ApplicationsList} from '../Applications/ApplicationsList'
+import React, {Component} from "react";
+import {Link} from "react-router";
+import moment from "moment";
+import {ResourcesList} from "../Resources/ResourcesList";
+import {EnvironmentsList} from "../Environments/EnvironmentsList";
+import {ApplicationsList} from "../Applications/ApplicationsList";
+import {InstancesList} from "../Instances/InstancesList";
 
 
 export default class ElementList extends Component {
@@ -19,23 +20,6 @@ export default class ElementList extends Component {
                       activeClassName='element-list-item-active'>
                     <div>
                         <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.hostname}</h5>
-                        <i className="fa fa-globe fa-fw"></i> {item.environment} <b> | </b>
-                        {item.cluster ? item.cluster.name : ""}
-                    </div>
-                </Link>
-            )
-        })
-    }
-
-    generateInstancesList() {
-        const {data} = this.props
-        return data.data.map((item, index) => {
-            return (
-                <Link key={index} to={'/instances/' + item.id}
-                      className="element-list-item"
-                      activeClassName='element-list-item-active'>
-                    <div className="element-list-item">
-                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.application}</h5>
                         <i className="fa fa-globe fa-fw"></i> {item.environment} <b> | </b>
                         {item.cluster ? item.cluster.name : ""}
                     </div>
@@ -65,7 +49,7 @@ export default class ElementList extends Component {
                 case "applications":
                     return <ApplicationsList applications={this.props.data}/>
                 case "instances":
-                    return <div className="element-list">{this.generateInstancesList()}</div>
+                    return <InstancesList instances={this.props.data}/>
             }
         }
     }

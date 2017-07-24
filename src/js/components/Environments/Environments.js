@@ -1,11 +1,9 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-
-import ElementPaging from '../common/ElementPaging'
-import ElementList from '../common/ElementList'
-import Filters from '../Navigation/Filters'
-import Environment from './Environment'
-import {submitFilterString} from '../../actionCreators/element_lists'
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import ElementList from "../common/ElementList";
+import Filters from "../Navigation/Filters";
+import Environment from "./Environment";
+import {submitFilterString} from "../../actionCreators/element_lists";
 
 class Environments extends Component {
     constructor(props) {
@@ -35,9 +33,6 @@ class Environments extends Component {
                     <div className="row element-list-container">
                         <h4>{environments.headers.total_count} environments</h4>
                         <ElementList type="environments" data={environments}/>
-                        <div className="col-sm-2 pull-right">
-                            <ElementPaging />
-                        </div>
                     </div>
                 </div>
             </div>

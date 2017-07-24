@@ -1,17 +1,14 @@
-import {takeEvery} from 'redux-saga'
-import {put, fork, select} from 'redux-saga/effects'
-import {fetchUrl} from '../utils'
-import {
-    APPLICATION_NAMES_REQUEST,
-    APPLICATION_NAMES_RECEIVED
-} from '../actionTypes'
+import {takeEvery} from "redux-saga";
+import {fork, put, select} from "redux-saga/effects";
+import {fetchUrl} from "../utils";
+import {APPLICATION_NAMES_RECEIVED, APPLICATION_NAMES_REQUEST} from "../actionTypes";
 
 export function* fetchApplicationNames() {
     const url = yield select((state) => state.configuration.fasit_applications)
 
 
     try {
-        const payload = yield fetchUrl(url + "?pr_page=500")
+        const payload = yield fetchUrl(url + "?pr_page=1000")
         const applicationNames = payload
             .map(app => app.name)
             .sort(sortLowerCase)

@@ -1,23 +1,23 @@
-import {takeLatest} from 'redux-saga'
-import {put, fork, select} from 'redux-saga/effects'
-import {fetchPage} from '../utils'
+import {takeLatest} from "redux-saga";
+import {fork, put, select} from "redux-saga/effects";
+import {fetchPage} from "../utils";
 import {
-    SUBMIT_FILTER_SEARCH,
-    APPLICATIONS_LIST_RECEIVED,
     APPLICATIONS_LIST_FAILED,
-    ENVIRONMENTS_LIST_RECEIVED,
+    APPLICATIONS_LIST_RECEIVED,
     ENVIRONMENTS_LIST_FAILED,
-    INSTANCES_LIST_RECEIVED,
+    ENVIRONMENTS_LIST_RECEIVED,
     INSTANCES_LIST_FAILED,
-    NODES_LIST_RECEIVED,
+    INSTANCES_LIST_RECEIVED,
     NODES_LIST_FAILED,
-    RESOURCES_LIST_RECEIVED,
+    NODES_LIST_RECEIVED,
     RESOURCES_LIST_FAILED,
-} from '../actionTypes'
+    RESOURCES_LIST_RECEIVED,
+    SUBMIT_FILTER_SEARCH
+} from "../actionTypes";
 
 function* fetchEnvironmentsList(url) {
     try {
-        const page = yield fetchPage(url)
+        const page =  yield fetchPage(url)
         yield put({type: ENVIRONMENTS_LIST_RECEIVED, page})
     } catch (err) {
         const value = err.message
@@ -30,7 +30,9 @@ function* fetchInstancesList(url) {
         const page = yield fetchPage(url)
         yield put({type: INSTANCES_LIST_RECEIVED, page})
     } catch (err) {
+        console.error("Fetch instances failed", err)
         const value = err.message
+
         yield put({type: INSTANCES_LIST_FAILED, value})
     }
 }
@@ -88,10 +90,10 @@ export function* fetchAllLists(action) {
             yield fetchResourcesList(`${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${filters}`)
             return
         case "environments":
-            yield fetchEnvironmentsList(`${configuration.fasit_environments}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(filter.filters, filterConfig.environments)}`)
+            yield fetchEnvironmentsList(`${configuration.fasit_environments}?pr_page=1000&${buildFilterString(filter.filters, filterConfig.environments)}`)
             return
         case "applications":
-            yield fetchApplicationsList(`${configuration.fasit_applications}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(filter.filters, filterConfig.applications)}`)
+            yield fetchApplicationsList(`${configuration.fasit_applications}?pr_page=1000&${buildFilterString(filter.filters, filterConfig.applications)}`)
             return
         case "instances":
             yield fetchInstancesList(`${configuration.fasit_applicationinstances}?page=${action.page}&pr_page=${action.prPage}&${buildFilterString(filter.filters, filterConfig.instances)}`)

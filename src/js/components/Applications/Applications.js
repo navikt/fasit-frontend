@@ -1,11 +1,9 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-
-import ElementPaging from '../common/ElementPaging'
-import ElementList from '../common/ElementList'
-import Filters from '../Navigation/Filters'
-import Application from './Application'
-import {submitFilterString} from '../../actionCreators/element_lists'
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import ElementList from "../common/ElementList";
+import Filters from "../Navigation/Filters";
+import Application from "./Application";
+import {submitFilterString} from "../../actionCreators/element_lists";
 
 class Applications extends Component {
     constructor(props) {
@@ -37,9 +35,6 @@ class Applications extends Component {
                         <div className="row element-list-container">
                             <h4>{totalCount} applications</h4>
                             <ElementList type="applications" data={applications}/>
-                            <div className="col-sm-2 pull-right">
-                                <ElementPaging />
-                            </div>
                         </div>
                     </div>
                 </div>

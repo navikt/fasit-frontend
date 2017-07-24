@@ -1,10 +1,10 @@
-import React from 'react'
-import {LifecycleStatus} from '../common/'
-import FlatButton from 'material-ui/FlatButton'
+import React from "react";
+import {LifecycleStatus} from "../common/";
+import FlatButton from "material-ui/FlatButton";
 import {browserHistory} from "react-router";
-import {Card, CardHeader, CardActions} from 'material-ui/Card'
-import {styles, icons}  from '../../commonStyles/commonInlineStyles'
-import moment from 'moment'
+import {Card, CardActions, CardHeader} from "material-ui/Card";
+import {icons, styles} from "../../commonStyles/commonInlineStyles";
+import moment from "moment";
 
 export function ApplicationsList(props) {
     const applications = props.applications
@@ -28,7 +28,7 @@ function ApplicationCard(props) {
     const additionalCardInfo = (<div className="pull-right">
         <div className="text-muted">Changed {moment(application.updated).fromNow()}</div>
         <br/>
-        <LifecycleStatus status={application.lifecyclestatus}/>
+        <LifecycleStatus status={application.lifecycle.status}/>
     </div>)
 
     return (

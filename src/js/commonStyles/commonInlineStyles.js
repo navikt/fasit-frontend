@@ -1,5 +1,5 @@
 import React from "react";
-import {red400, green400, orange300} from "material-ui/styles/colors";
+import {green400, orange300, red400} from "material-ui/styles/colors";
 import GroupWork from "material-ui/svg-icons/action/group-work";
 import Description from "material-ui/svg-icons/action/description";
 import Timeline from "material-ui/svg-icons/action/timeline";
@@ -21,7 +21,9 @@ export const colors = {
     orange: orange300,
     green: green400,
     pink: '#d33682',
+    lightpink: '#F84099',
     grey:  '#aaa',
+    lightgrey: '#757575',
     toolbarBackground: '#515d66',
     black: 'rgba(0, 0, 0, 0.87)'
 }
@@ -31,6 +33,8 @@ export const styles = {
     white: {color: colors.white},
     red: {color: colors.red},
     button: {color: colors.toolbarBackground},
+    tabItem: {backgroundColor: colors.toolbarBackground},
+    inkBar: {backgroundColor: colors.lightpink},
     flatButton: {color: colors.avatarBackgroundColor},
     raisedButton: {backgroundColor: colors.avatarBackgroundColor},
     orange: {color: colors.orange},

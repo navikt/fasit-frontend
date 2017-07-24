@@ -1,12 +1,10 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router'
-
-import ElementPaging from '../common/ElementPaging'
-import ElementList from '../common/ElementList'
-import Filters from '../Navigation/Filters'
-import Instance from './Instance'
-import {submitFilterString} from '../../actionCreators/element_lists'
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import ElementPaging from "../common/ElementPaging";
+import ElementList from "../common/ElementList";
+import Filters from "../Navigation/Filters";
+import Instance from "./Instance";
+import {submitFilterString} from "../../actionCreators/element_lists";
 
 class Instances extends Component {
     constructor(props) {
@@ -19,7 +17,7 @@ class Instances extends Component {
     }
 
     render() {
-        const {instances} = this.props
+        const {instances, totalCount} = this.props
 
         if (this.props.params.instance)
             return <Instance id={this.props.params.instance} />
@@ -35,7 +33,7 @@ class Instances extends Component {
                 </div>
                 <div className="col-sm-10">
                     <div className="row element-list-container">
-                        <h4>{instances.headers.total_count} instances</h4>
+                        <h4>{totalCount} instances</h4>
                         <ElementList type="instances" data={instances}/>
                         <div className="col-sm-2 pull-right">
                             <ElementPaging />
@@ -50,7 +48,8 @@ class Instances extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        instances: state.instances,
+        instances: state.instances.data,
+        totalCount: state.instances.headers.total_count
     }
 }
 
