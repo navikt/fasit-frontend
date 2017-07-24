@@ -6,22 +6,7 @@ import {Card, CardActions, CardHeader} from "material-ui/Card";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import moment from "moment";
 
-export function EnvironmentsList(props) {
-    const environments = props.environments.data
-    return (
-        <div>{
-            environments.map((item, index)=> {
-                return <EnvironmentCard environment={item} key={index}/>
-            })
-        }   </div>
-    )
-}
-
-function navigateToEnvironment(name) {
-    browserHistory.push('/environments/' + name)
-}
-
-function EnvironmentCard(props) {
+export default function EnvironmentCard(props) {
     moment.locale("en")
     const environment =  props.environment
     const avatar = icons.environment
@@ -39,12 +24,12 @@ function EnvironmentCard(props) {
                             subtitle={`Environmentclass: ${environment.environmentclass}`}
                             avatar={avatar}
                             children={additionalCardInfo}
-                            onClick={() => navigateToEnvironment(environment.name)}
+                            onClick={() => browserHistory.push('/environments/' + environment.name)}
                 />
                 <CardActions>
                     <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => navigateToEnvironment(environment.name)}
+                        onTouchTap={() => browserHistory.push('/environments/' + environment.name)}
                         label="manage"
                         style={styles.flatButton}/>
                 </CardActions>

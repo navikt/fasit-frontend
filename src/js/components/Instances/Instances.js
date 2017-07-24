@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import ElementPaging from "../common/ElementPaging";
-import ElementList from "../common/ElementList";
+import InstanceCard from "./InstanceCard";
 import Filters from "../Navigation/Filters";
 import Instance from "./Instance";
 import {submitFilterString} from "../../actionCreators/element_lists";
@@ -17,7 +17,11 @@ class Instances extends Component {
     }
 
     render() {
-        const {instances, totalCount} = this.props
+        const {instances, totalCount, isFetching} = this.props
+
+        if (isFetching) {
+            return <div className="element-list"><i className="fa fa-spinner fa-pulse fa-2x"></i></div>
+        }
 
         if (this.props.params.instance)
             return <Instance id={this.props.params.instance} />
@@ -27,14 +31,11 @@ class Instances extends Component {
                     <div className="col-sm-6 col-xs-12">
                         <Filters />
                     </div>
-                    <div className="col-sm-3 col-sm-offset-1 col-xs-3">
-                        {/*<ElementPaging />*/}
-                    </div>
                 </div>
                 <div className="col-sm-10">
-                    <div className="row element-list-container">
+                    <div className="row">
                         <h4>{totalCount} instances</h4>
-                        <ElementList type="instances" data={instances}/>
+                        {instances.map((item, index)=> <InstanceCard instance={item} key={index}/>)}
                         <div className="col-sm-2 pull-right">
                             <ElementPaging />
                         </div>
@@ -49,7 +50,8 @@ class Instances extends Component {
 const mapStateToProps = (state) => {
     return {
         instances: state.instances.data,
-        totalCount: state.instances.headers.total_count
+        totalCount: state.instances.headers.toal_count,
+        isFetching: state.instances.isFetching
     }
 }
 

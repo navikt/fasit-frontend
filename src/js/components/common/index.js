@@ -2,7 +2,6 @@ import {CollapsibleList} from "./CollapsibleMenu";
 import {AuraTools} from "./AuraTools";
 import AccessControl from "./AccessControl";
 import {CurrentRevision} from "./CurrentRevision";
-import ElementList from "./ElementList";
 import ElementPaging from "./ElementPaging";
 import ErrorDialog from "./ErrorDialog";
 import {History} from "./History";
@@ -18,17 +17,17 @@ import SubmitFormStatus from "./SubmitFormStatus";
 import ToolButtons from "./ToolButtons";
 import DeleteElementForm from "./DeleteElementForm";
 import RescueElementForm from "./RescueElementForm";
-import WebsphereManagementConsole from "./WebsphereManagementConsole"
+import WebsphereManagementConsole from "./WebsphereManagementConsole";
 import {
-    FormListBox,
-    FormLink,
+    FormComment,
     FormCreatableList,
     FormDropDown,
+    FormLink,
+    FormLinkDropDown,
+    FormListBox,
     FormSecret,
     FormString,
-    FormComment,
-    FormTextArea,
-    FormLinkDropDown
+    FormTextArea
 } from "./Forms";
 
 export {
@@ -37,7 +36,6 @@ export {
     CollapsibleList,
     CurrentRevision,
 DeleteElementForm,
-    ElementList,
     ElementPaging,
     ErrorDialog,
     FormListBox,

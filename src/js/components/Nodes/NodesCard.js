@@ -8,18 +8,7 @@ import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import moment from "moment";
 import {capitalize} from "../../utils/";
 
-export function NodesList(props) {
-    const nodes = props.nodes
-    return (
-        <div>{
-            nodes.map((item, index)=> {
-                return <NodeCard node={item} key={index}/>
-            })
-        }   </div>
-    )
-}
-
-function NodeCard(props) {
+export default function NodeCard(props) {
     moment.locale("en")
     const node =  props.node
     const avatar = icons.node

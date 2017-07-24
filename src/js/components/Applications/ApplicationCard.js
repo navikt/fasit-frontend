@@ -6,22 +6,8 @@ import {Card, CardActions, CardHeader} from "material-ui/Card";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import moment from "moment";
 
-export function ApplicationsList(props) {
-    const applications = props.applications
-    return (
-        <div>{
-            applications.map((item, index)=> {
-                return <ApplicationCard application={item} key={index}/>
-            })
-        }   </div>
-    )
-}
 
-function navigateToApplication(name) {
-    browserHistory.push('/applications/' + name)
-}
-
-function ApplicationCard(props) {
+export default function ApplicationCard(props) {
     moment.locale("en")
     const application =  props.application
     const avatar = icons.application
@@ -39,12 +25,12 @@ function ApplicationCard(props) {
                             subtitle={<div>{`Group id ${application.groupid}`}<br/>{`Artifact id ${application.artifactid}`}<br/>{`Port offset ${application.portoffset}`}</div>}
                             avatar={avatar}
                             children={additionalCardInfo}
-                            onClick={() => navigateToApplication(application.name)}
+                            onClick={() => browserHistory.push('/applications/' + application.name)}
                 />
                 <CardActions>
                     <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => navigateToApplication(application.name)}
+                        onTouchTap={() =>  browserHistory.push('/applications/' + application.name)}
                         label="manage"
                         style={styles.flatButton}/>
                 </CardActions>

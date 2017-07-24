@@ -9,22 +9,7 @@ import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import moment from "moment";
 import {capitalize} from "../../utils/";
 
-export function InstancesList(props) {
-    const instances = props.instances
-    return (
-        <div>{
-            instances.map((item, index)=> {
-                return <InstanceCard instance={item} key={index}/>
-            })
-        }   </div>
-    )
-}
-
-function navigateTo(url) {
-    browserHistory.push(url)
-}
-
-function InstanceCard(props) {
+export default function InstanceCard(props) {
     moment.locale("en")
     const instance =  props.instance
     const avatar = icons.instance
@@ -64,12 +49,12 @@ function InstanceCard(props) {
                 <CardActions>
                     <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => navigateTo('/instances/' + id)}
+                        onTouchTap={() => browserHistory.push('/instances/' + id)}
                         label="details"
                         style={styles.flatButton}/>
                     {cluster.name && <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => navigateTo(`environments/${environment}/clusters/${cluster.name}`)}
+                        onTouchTap={() => browserHistory.push(`environments/${environment}/clusters/${cluster.name}`)}
                         label="cluster"
                         style={styles.flatButton}/>}
                 </CardActions>
@@ -87,7 +72,6 @@ function ResourceTable(props) {
                     <TableHeaderColumn>Type</TableHeaderColumn>
                     <TableHeaderColumn>Alias</TableHeaderColumn>
                     <TableHeaderColumn>Last change</TableHeaderColumn>
-                    <TableHeaderColumn>Changed by</TableHeaderColumn>
                 </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>

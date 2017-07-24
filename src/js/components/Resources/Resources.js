@@ -1,12 +1,10 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router'
-
-import ElementPaging from '../common/ElementPaging'
-import ElementList from '../common/ElementList'
-import Filters from '../Navigation/Filters'
-import Resource from './Resource'
-import {submitFilterString} from '../../actionCreators/element_lists'
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import ResourceCard from "./ResourceCard";
+import ElementPaging from "../common/ElementPaging";
+import Filters from "../Navigation/Filters";
+import Resource from "./Resource";
+import {submitFilterString} from "../../actionCreators/element_lists";
 
 class Resources extends Component {
     constructor(props) {
@@ -19,7 +17,11 @@ class Resources extends Component {
     }
 
     render() {
-        const {resources} = this.props
+        const {resources, totalCount, isFetching} = this.props
+
+        if (isFetching) {
+            return <div className="element-list"><i className="fa fa-spinner fa-pulse fa-2x"></i></div>
+        }
 
         if (this.props.params.resource) {
             return <Resource id={this.props.params.resource}/>
@@ -31,15 +33,13 @@ class Resources extends Component {
                         <Filters />
                     </div>
                 </div>
-                <div className="row col-md-11">
-                    <div className="col-md-3 col-sm-offset-1 col-xs-3 pull-right">
-                        {/*<ElementPaging />*/}
-                    </div>
-                </div>
-                <div className="col-sm-10">
-                    <div className="row element-list-container">
-                        <h4>{resources.headers.total_count} resources</h4>
-                        <ElementList type="resources" data={resources}/>
+                <div className="col-sm-12">
+                    <div className="row">
+                        <h4>{totalCount} resources</h4>
+                        {resources.map((item, index)=> {
+                                return <ResourceCard resource={item} key={index}/>
+                            })
+                        }
                         <div className="col-sm-2 pull-right">
                             <ElementPaging />
                         </div>
@@ -54,7 +54,9 @@ class Resources extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        resources: state.resources,
+        resources: state.resources.data,
+        totalCount: state.resources.headers.total_count,
+        isFetching: state.resources.isFetching
     }
 }
 

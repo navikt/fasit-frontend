@@ -1,30 +1,15 @@
-import React from 'react'
-import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
-import {LifecycleStatus, WebsphereManagementConsole} from '../common/'
-import {List, ListItem} from 'material-ui/List'
-import FlatButton from 'material-ui/FlatButton'
+import React from "react";
+import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
+import {LifecycleStatus, WebsphereManagementConsole} from "../common/";
+import {List, ListItem} from "material-ui/List";
+import FlatButton from "material-ui/FlatButton";
 import {browserHistory} from "react-router";
-import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
-import {styles}  from '../../commonStyles/commonInlineStyles'
-import {capitalize} from '../../utils/'
-import moment from 'moment'
+import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
+import {styles} from "../../commonStyles/commonInlineStyles";
+import {capitalize} from "../../utils/";
+import moment from "moment";
 
-export function ResourcesList(props) {
-    const resources = props.resources.data
-    return (
-        <div>{
-            resources.map((item, index)=> {
-                return <ResourceListElement resource={item} key={index}/>
-            })
-        }   </div>
-    )
-}
-
-function navigateToResource(id) {
-    browserHistory.push('/resources/' + id)
-}
-
-function ResourceListElement(props) {
+export  default  function ResourceCard(props) {
     moment.locale("en")
     const resource =  props.resource
     const avatar = resourceTypeIcon(resource.type)
@@ -55,10 +40,10 @@ function ResourceListElement(props) {
                             avatar={avatar}
                             style={{paddingBottom: '10px'}}
                             children={additionalCardInfo}
-                            onClick={() => navigateToResource(resource.id)}
+                            onClick={() =>  browserHistory.push('/resources/' + resource.id)}
                 />
 
-                <CardText style={{paddingTop: '0px', paddingBottom: '0px'}} onClick={() => navigateToResource(resource.id)}>
+                <CardText style={{paddingTop: '0px', paddingBottom: '0px'}} onClick={() =>  browserHistory.push('/resources/' + resource.id)}>
                     <List>
                         {properties.map((p, key) =>
                             <ListItem key={key} style={{paddingTop: '0px', paddingBottom: '14px'}}

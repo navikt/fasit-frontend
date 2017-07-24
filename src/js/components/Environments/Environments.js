@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import ElementList from "../common/ElementList";
+import EnvironmentCard from "./EnvironmentCard";
 import Filters from "../Navigation/Filters";
 import Environment from "./Environment";
 import {submitFilterString} from "../../actionCreators/element_lists";
@@ -16,8 +16,9 @@ class Environments extends Component {
     }
 
     render() {
-        const {environments, params} = this.props
-        if (this.props.params.environment)
+        const {environments, params, totalCount} = this.props
+
+        if (params.environment)
             return <Environment name={params.environment} clusterName={params.cluster} />
         return (
             <div className="main-content-container">
@@ -25,14 +26,13 @@ class Environments extends Component {
                     <div className="col-sm-6 col-xs-12">
                         <Filters />
                     </div>
-                    <div className="col-sm-3 col-sm-offset-1 col-xs-3">
-                        {/*<ElementPaging />*/}
-                    </div>
                 </div>
                 <div className="col-sm-10">
-                    <div className="row element-list-container">
-                        <h4>{environments.headers.total_count} environments</h4>
-                        <ElementList type="environments" data={environments}/>
+                    <div className="row">
+                        <h4>{totalCount} environments</h4>
+                        {environments.map((item, index)=> {
+                            return <EnvironmentCard environment={item} key={index}/>
+                        })}
                     </div>
                 </div>
             </div>
@@ -40,10 +40,10 @@ class Environments extends Component {
     }
 }
 
-
 const mapStateToProps = (state) => {
     return {
-        environments: state.environments,
+        environments: state.environments.data,
+        totalCount: state.environments.headers.total_count
     }
 }
 
