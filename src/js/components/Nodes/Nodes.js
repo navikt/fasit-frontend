@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router'
+import React, {Component} from "react";
+import {connect} from "react-redux";
 
-import ElementPaging from '../common/ElementPaging'
-import ElementList from '../common/ElementList'
-import Filters from '../Navigation/Filters'
-import Node from './Node'
-import {submitFilterString} from '../../actionCreators/element_lists'
+import ElementPaging from "../common/ElementPaging";
+import ElementList from "../common/ElementList";
+import Filters from "../Navigation/Filters";
+import Node from "./Node";
+import {submitFilterString} from "../../actionCreators/element_lists";
 
 class Nodes extends Component {
     constructor(props) {
@@ -19,7 +18,7 @@ class Nodes extends Component {
     }
 
     render() {
-        const {nodes} = this.props
+        const {nodes, totalCount} = this.props
 
         if (this.props.params.node)
             return <Node hostname={this.props.params.node} />
@@ -35,7 +34,7 @@ class Nodes extends Component {
                 </div>
                 <div className="col-sm-10">
                     <div className="row element-list-container">
-                        <h4>{nodes.headers.total_count} nodes</h4>
+                        <h4>{totalCount} nodes</h4>
                         <ElementList type="nodes" data={nodes}/>
                         <div className="col-sm-2 pull-right">
                             <ElementPaging />
@@ -50,7 +49,8 @@ class Nodes extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        nodes: state.nodes,
+        nodes: state.nodes.data,
+        totalCount: state.nodes.headers.total_count
     }
 }
 

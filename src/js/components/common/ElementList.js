@@ -1,31 +1,15 @@
 import React, {Component} from "react";
-import {Link} from "react-router";
 import moment from "moment";
 import {ResourcesList} from "../Resources/ResourcesList";
 import {EnvironmentsList} from "../Environments/EnvironmentsList";
 import {ApplicationsList} from "../Applications/ApplicationsList";
 import {InstancesList} from "../Instances/InstancesList";
+import {NodesList} from "../Nodes/NodesList";
 
 
 export default class ElementList extends Component {
     constructor(props) {
         super(props)
-    }
-
-    generateNodesList() {
-        const {data} = this.props
-        return data.data.map((item, index) => {
-            return (
-                <Link key={index} to={'/nodes/' + item.hostname} className="element-list-item"
-                      activeClassName='element-list-item-active'>
-                    <div>
-                        <h5><i className="fa fa-laptop fa-fw"></i> &nbsp;{item.hostname}</h5>
-                        <i className="fa fa-globe fa-fw"></i> {item.environment} <b> | </b>
-                        {item.cluster ? item.cluster.name : ""}
-                    </div>
-                </Link>
-            )
-        })
     }
 
     render() {
@@ -41,7 +25,7 @@ export default class ElementList extends Component {
         else {
             switch (type) {
                 case "nodes":
-                    return <div className="element-list">{this.generateNodesList()}</div>
+                    return <NodesList nodes={this.props.data}/>
                 case "resources":
                     return <ResourcesList resources={this.props.data}/>
                 case "environments":
