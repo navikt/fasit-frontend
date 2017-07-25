@@ -52,6 +52,18 @@ export const styles = {
         verticalAlign: 'top',
         paddingTop: '10px',
         paddingBottom: '5px'
+    },
+    textField: {
+
+        underlineStyle: {
+            borderColor: colors.avatarBackgroundColor,
+        },
+        floatingLabelStyle: {
+            color: colors.grey,
+        },
+        floatingLabelFocusStyle: {
+            color: colors.toolbarBackground,
+        },
     }
 }
 

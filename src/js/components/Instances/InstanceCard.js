@@ -1,7 +1,7 @@
 import React from "react";
 import {LifecycleStatus} from "../common/";
 import FlatButton from "material-ui/FlatButton";
-import {browserHistory} from "react-router";
+import {browserHistory, Link} from "react-router";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui/Table";
 import {Tab, Tabs} from "material-ui/Tabs";
@@ -78,13 +78,13 @@ function ResourceTable(props) {
                 {resources
                     .map((resource) => {
                         return (
-                            <TableRow key={resource.id}>
+                            <TableRow key={resource.id} >
                                 <TableRowColumn style={styles.tableCellPadding}
                                                 className={"col-sm-3"}>
                                     {capitalize(resource.type)}
                                 </TableRowColumn>
                                 <TableRowColumn style={styles.tableCellPadding} className="text-overflow">
-                                    {resource.alias}
+                                    <Link to={`/resources/${resource.id}?revision=${resource.revision}`}>{resource.alias}</Link>
                                 </TableRowColumn>
                                 <TableRowColumn style={styles.tableCellPadding} className="text-overflow">
                                     {moment(resource.lastchange).fromNow()} by {resource.lastupdateby}

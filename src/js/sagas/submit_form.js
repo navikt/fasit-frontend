@@ -1,25 +1,25 @@
 import {takeEvery} from "redux-saga";
-import {put, fork, select} from "redux-saga/effects";
+import {fork, put, select} from "redux-saga/effects";
 import {browserHistory} from "react-router";
 import {
+    APPLICATION_FASIT_REQUEST,
     APPLICATION_NAMES_REQUEST,
+    ENVIRONMENT_CLUSTER_FASIT_REQUEST,
+    ENVIRONMENT_FASIT_REQUEST,
     ENVIRONMENTS_REQUEST,
+    NODE_FASIT_REQUEST,
+    RESOURCE_FASIT_REQUEST,
     SHOW_NEW_APPLICATION_FORM,
     SHOW_NEW_CLUSTER_FORM,
     SHOW_NEW_ENVIRONMENT_FORM,
     SHOW_NEW_NODE_FORM,
     SHOW_NEW_RESOURCE_FORM,
+    SUBMIT_FILTER_SEARCH,
     SUBMIT_FORM,
-    SUBMIT_FORM_SUCCESS,
     SUBMIT_FORM_FAILED,
-    NODE_FASIT_REQUEST,
-    ENVIRONMENT_FASIT_REQUEST,
-    ENVIRONMENT_CLUSTER_FASIT_REQUEST,
-    RESOURCE_FASIT_REQUEST,
-    APPLICATION_FASIT_REQUEST,
-    SUBMIT_FILTER_SEARCH
+    SUBMIT_FORM_SUCCESS
 } from "../actionTypes";
-import {putUrl, postUrl, deleteUrl} from "../utils";
+import {deleteUrl, postUrl, putUrl} from "../utils";
 
 export function* submitForm(action) {
     const configuration = yield select((state) => state.configuration)
@@ -78,7 +78,7 @@ export function* submitForm(action) {
                 break
             case "deleteCluster":
                 url = `${configuration.fasit_environments}/${action.form.env}/clusters/${action.key}`
-                // to current environment
+                yield browserHistory.push(`/environments/${action.form.env}`)
                 yield deleteUrl(url, action.comment)
                 break
             case "deleteResource":
@@ -113,6 +113,7 @@ export function* submitForm(action) {
                 break
             case "resource":
                 url = `${configuration.fasit_resources}/${action.key}`
+                console.log("urling", url, action.form, action.comment)
                 yield putUrl(url, action.form, action.comment)
                 yield put({type: RESOURCE_FASIT_REQUEST, id: action.key})
                 break

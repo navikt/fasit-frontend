@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
-import {validAuthorization, oldRevision} from "../../utils";
-import {fetchFasitData, fetchResourceSecret, clearResourceSecret} from "../../actionCreators/resource";
+import {oldRevision, validAuthorization} from "../../utils";
+import {clearResourceSecret, fetchFasitData, fetchResourceSecret} from "../../actionCreators/resource";
 import {submitForm} from "../../actionCreators/common";
 import {resourceTypes} from "../../utils/resourceTypes";
 import {ResourceInstances} from "./ResourceInstances";
@@ -11,16 +11,16 @@ import NotFound from "../NotFound";
 import {
     AccessControl,
     CurrentRevision,
-    FormString,
+    DeleteElementForm,
     FormDropDown,
     FormLink,
     FormSecret,
+    FormString,
     FormTextArea,
+    History,
     Lifecycle,
     RescueElementForm,
     Security,
-    History,
-    DeleteElementForm,
     ToolButtons
 } from "../common/";
 import Scope from "./Scope";
@@ -178,7 +178,6 @@ class Resource extends Component {
 
 
     handleChange(field, value, parent) {
-
         if (parent) {
             const parentState = this.state[parent]
             parentState[field] = value
