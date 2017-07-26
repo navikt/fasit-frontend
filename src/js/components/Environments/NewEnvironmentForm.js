@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
-import {FormString, FormDropDown, FormComment, } from "../common/Forms";
+import {FormComment, FormDropDown, FormString} from "../common/Forms";
 import {capitalize} from "../../utils";
 import {displayModal, submitForm} from "../../actionCreators/common";
 
@@ -10,8 +10,7 @@ class NewEnvironmentForm extends Component {
         super(props)
         this.state = {
             name: "",
-            environmentclass: "",
-            displaySubmitFormWithDiff: false
+            environmentclass: ""
         }
     }
     componentWillReceiveProps(next){
@@ -21,6 +20,9 @@ class NewEnvironmentForm extends Component {
                 name,
                 environmentclass
             })
+        }
+        else {
+            this.resetLocalState()
         }
     }
 

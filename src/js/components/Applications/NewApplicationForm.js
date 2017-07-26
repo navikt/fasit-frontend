@@ -1,11 +1,10 @@
-import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
-import {connect} from 'react-redux'
+import React, {Component, PropTypes} from "react";
+import {Modal} from "react-bootstrap";
+import {connect} from "react-redux";
 
-import {FormString, FormDropDown, FormComment} from '../common/Forms'
-
-import {displayModal} from '../../actionCreators/common'
-import {submitForm} from '../../actionCreators/common'
+import {FormComment, FormString} from "../common/Forms";
+import {capitalize} from "../../utils";
+import {displayModal, submitForm} from "../../actionCreators/common";
 
 class NewApplicationForm extends Component {
     constructor(props) {
@@ -14,7 +13,24 @@ class NewApplicationForm extends Component {
             name: "",
             artifactid: "",
             groupid: "",
-            portoffset: ""
+            portoffset: "",
+            comment: ""
+        }
+    }
+
+    componentWillReceiveProps(next){
+        const {application} = this.props
+        const {name, groupid, artifactid, portoffset} = application
+        if (next.mode === "edit"  || next.mode === "copy"){
+            this.setState({
+                name,
+                groupid,
+                artifactid,
+                portoffset
+            })
+        }
+        else {
+            this.resetLocalState()
         }
     }
 
@@ -24,7 +40,8 @@ class NewApplicationForm extends Component {
             name: "",
             artifactid: "",
             groupid: "",
-            portoffset: ""
+            portoffset: "",
+            comment: ""
         })
     }
 
@@ -33,7 +50,7 @@ class NewApplicationForm extends Component {
     }
 
     handleSubmitForm() {
-        const {dispatch} = this.props
+        const {dispatch, mode} = this.props
         const {name, artifactid, groupid, portoffset, comment} = this.state
         const form = {
             name,
@@ -41,7 +58,13 @@ class NewApplicationForm extends Component {
             groupid,
             portoffset,
         }
-        dispatch(submitForm(form.name, form, comment, "newApplication"))
+
+        if(mode === "edit") {
+            dispatch(submitForm(this.props.application.name, form, comment, "application"))
+        }
+        else {
+            dispatch(submitForm(form.name, form, comment, "newApplication"))
+        }
     }
 
     closeForm() {
@@ -65,7 +88,7 @@ class NewApplicationForm extends Component {
     }
 
     render() {
-        const {showNewApplicationForm} = this.props
+        const {showNewApplicationForm, mode, application} = this.props
         return (
             <Modal show={showNewApplicationForm} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
@@ -74,7 +97,7 @@ class NewApplicationForm extends Component {
                             <i className="fa fa-circle fa-stack-2x"/>
                             <i className="fa fa-cube fa-stack-1x fa-inverse"/>
                         </span> &emsp;
-                        New application
+                        {mode && `${capitalize(mode)} application ${mode !== 'new' ? application.name : ''}` }
                         <button type="reset" className="btn btn-link pull-right"
                                 onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>
@@ -102,7 +125,7 @@ class NewApplicationForm extends Component {
                     <FormString
                         label="portoffset"
                         editMode={true}
-                        value={this.state.portoffset}
+                        value={this.state.portoffset.toString()}
                         handleChange={this.handleChange.bind(this)}
                     />
                     <div className="col-xs-12" style={{height: 15 + 'px'}}></div>
@@ -131,6 +154,9 @@ NewApplicationForm.propTypes = {
 const mapStateToProps = (state) => {
     return {
         showNewApplicationForm: state.applications.showNewApplicationForm,
+        application: state.application_fasit.data,
+        mode: state.applications.mode
+
     }
 }
 

@@ -4,21 +4,21 @@ import {connect} from "react-redux";
 import {
     AccessControl,
     CurrentRevision,
+    DeleteElementForm,
     History,
     Lifecycle,
+    RescueElementForm,
     Security,
-    DeleteElementForm,
-    ToolButtons,
-    RescueElementForm
+    ToolButtons
 } from "../common/";
-import {submitForm, displayModal} from "../../actionCreators/common";
-import {validAuthorization, oldRevision} from "../../utils/";
+import {displayModal, submitForm} from "../../actionCreators/common";
+import {oldRevision, validAuthorization} from "../../utils/";
 import EnvironmentClusters from "./EnvironmentClusters";
 import EnvironmentNodes from "./EnvironmentNodes";
 import EnvironmentInstances from "./EnvironmentInstances";
 import {fetchEnvironment} from "../../actionCreators/environment";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
-import {Card, CardActions, CardHeader} from "material-ui/Card";
+import {Card, CardActions, CardHeader, CardTitle} from "material-ui/Card";
 
 class Environment extends Component {
     constructor(props) {
@@ -120,8 +120,8 @@ class Environment extends Component {
                 <div className="col-md-6" style={styles.cardPadding}>
                     {showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
                     <Card>
-                        <CardHeader avatar={icons.environment} title={`Environment ${envName}`}
-                                    subtitle={`Environment class: ${envClass} `}/>
+                        <CardHeader avatar={icons.environment} title="Environment" titleStyle={styles.bold}/>
+                        <CardTitle title={`${envName}`}  subtitle={`Environment class: ${envClass} `}/>
                         <CardActions>
                             <ToolButtons
                                 disabled={showRevision || !authorized}

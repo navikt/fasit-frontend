@@ -41,6 +41,7 @@ export const styles = {
     green: {color: colors.green},
     marginTop25: {marginTop: '25px'},
     paddingTop5: {paddingTop: '5px'},
+    paddingBottom10: {paddingBottom: '10px'},
     cardPadding: {
         marginTop: '10px',
         marginBottom: '10px'},

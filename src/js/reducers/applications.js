@@ -1,10 +1,10 @@
 import {
+    APPLICATION_NAMES_RECEIVED,
+    APPLICATIONS_LIST_FAILED,
     APPLICATIONS_LIST_FETCHING,
     APPLICATIONS_LIST_RECEIVED,
-    APPLICATIONS_LIST_FAILED,
-    APPLICATION_NAMES_RECEIVED,
     SHOW_NEW_APPLICATION_FORM
-} from '../actionTypes'
+} from "../actionTypes";
 
 export const initialState = {
     isFetching: true,
@@ -13,7 +13,7 @@ export const initialState = {
     headers: {},
     applicationNames: [],
     showNewApplicationForm: false,
-    copy: false
+    mode: "new"
 }
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -45,15 +45,9 @@ export default (state = initialState, action) => {
             })
 
         case SHOW_NEW_APPLICATION_FORM:
-            if (action.copy){
-                return Object.assign({}, state, {
-                    showNewApplicationForm: action.value,
-                    copy: action.copy
-                })
-            }
             return Object.assign({}, state, {
                     showNewApplicationForm: action.value,
-                    copy: false
+                    mode: action.mode
                 }
             )
 

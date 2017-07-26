@@ -9,6 +9,7 @@ import {
     ENVIRONMENTS_REQUEST,
     NODE_FASIT_REQUEST,
     RESOURCE_FASIT_REQUEST,
+    REVISIONS_REQUEST,
     SHOW_NEW_APPLICATION_FORM,
     SHOW_NEW_CLUSTER_FORM,
     SHOW_NEW_ENVIRONMENT_FORM,
@@ -97,14 +98,18 @@ export function* submitForm(action) {
             case "application":
                 url = `${configuration.fasit_applications}/${action.key}`
                 yield putUrl(url, action.form, action.comment)
+                yield put({type: SHOW_NEW_APPLICATION_FORM, value: false})
+                yield browserHistory.push(`/applications/${action.form.name}`)
                 yield put({type:APPLICATION_FASIT_REQUEST, name:action.key})
+                yield put({type: REVISIONS_REQUEST, component: "application", key: action.key})
                 break
             case "environment":
                 url = `${configuration.fasit_environments}/${action.key}`
                 yield putUrl(url, action.form, action.comment)
                 yield put({type: SHOW_NEW_ENVIRONMENT_FORM, value: false})
                 yield browserHistory.push(`/environments/${action.form.name}`)
-                yield put({type:ENVIRONMENT_FASIT_REQUEST, id:action.key})
+                yield put({type:ENVIRONMENT_FASIT_REQUEST, id: action.form.name})
+                yield put({type: REVISIONS_REQUEST, component: "environment", key: action.form.name})
                 break
             case "cluster":
                 url = `${configuration.fasit_environments}/${action.form.environment}/clusters/${action.key}`
