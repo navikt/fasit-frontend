@@ -3,6 +3,7 @@ import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
 import {LifecycleStatus, WebsphereManagementConsole} from "../common/";
 import {List, ListItem} from "material-ui/List";
 import FlatButton from "material-ui/FlatButton";
+import {browserHistory} from "react-router";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import {styles} from "../../commonStyles/commonInlineStyles";
 import {capitalize} from "../../utils/";
@@ -53,7 +54,7 @@ export  default  function ResourceCard(props) {
                 <CardActions>
                     <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => navigateToResource(resource.id)}
+                        onTouchTap={() => browserHistory.push('/resources/' + resource.id)}
                         label="manage"
                         style={styles.flatButton}/>
                     {resource.type.toLowerCase() === 'deploymentmanager'
