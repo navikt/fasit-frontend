@@ -3,7 +3,6 @@ import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
 import {LifecycleStatus, WebsphereManagementConsole} from "../common/";
 import {List, ListItem} from "material-ui/List";
 import FlatButton from "material-ui/FlatButton";
-import {browserHistory} from "react-router";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import {styles} from "../../commonStyles/commonInlineStyles";
 import {capitalize} from "../../utils/";
@@ -40,10 +39,9 @@ export  default  function ResourceCard(props) {
                             avatar={avatar}
                             style={{paddingBottom: '10px'}}
                             children={additionalCardInfo}
-                            onClick={() =>  browserHistory.push('/resources/' + resource.id)}
                 />
 
-                <CardText style={{paddingTop: '0px', paddingBottom: '0px'}} onClick={() =>  browserHistory.push('/resources/' + resource.id)}>
+                <CardText style={{paddingTop: '0px', paddingBottom: '0px'}}>
                     <List>
                         {properties.map((p, key) =>
                             <ListItem key={key} style={{paddingTop: '0px', paddingBottom: '14px'}}

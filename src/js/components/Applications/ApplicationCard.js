@@ -25,7 +25,6 @@ export default function ApplicationCard(props) {
                             subtitle={<div>{`Group id ${application.groupid}`}<br/>{`Artifact id ${application.artifactid}`}<br/>{`Port offset ${application.portoffset}`}</div>}
                             avatar={avatar}
                             children={additionalCardInfo}
-                            onClick={() => browserHistory.push('/applications/' + application.name)}
                 />
                 <CardActions>
                     <FlatButton
