@@ -3,9 +3,9 @@ import {connect} from "react-redux";
 import {capitalize, oldRevision, validAuthorization} from "../../utils/";
 import {Card, CardActions, CardHeader} from "material-ui/Card";
 import {List, ListItem} from "material-ui/List";
-import {fetchFasitData} from "../../actionCreators/application";
+import {fetchApplicationInstances, fetchFasitData} from "../../actionCreators/application";
+import InstanceCard from "../Instances/InstanceCard";
 import {displayModal, submitForm} from "../../actionCreators/common";
-import ApplicationInstances from "./ApplicationInstances";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import {
     AccessControl,
@@ -36,6 +36,7 @@ class Application extends Component {
     componentDidMount() {
         const {dispatch, name, query} = this.props
         dispatch(fetchFasitData(name, query.revision))
+        dispatch(fetchApplicationInstances(name))
     }
 
     componentWillReceiveProps(nextProps) {
@@ -51,6 +52,7 @@ class Application extends Component {
         }
         if (nextProps.name != name) {
             dispatch(fetchFasitData(nextProps.name, nextProps.query.revision))
+            dispatch(fetchApplicationInstances(nextProps.name))
         }
     }
 
@@ -99,7 +101,7 @@ class Application extends Component {
     }
 
     render() {
-        const {name, application, user, dispatch, query, revisions} = this.props
+        const {name, application, user, dispatch, query, revisions, instances} = this.props
         const {comment, adgroups, editMode} = this.state
         const showRevision = oldRevision(revisions, query.revision)
         let lifecycle = {}
@@ -110,74 +112,77 @@ class Application extends Component {
             lifecycle = application.lifecycle
         }
         return (
-
-            <div className="row">
-                <div className="col-md-6" style={styles.cardPadding}>
-                    {showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
-                    {Object.keys(application).length > 0 && <Card>
-                        <CardHeader avatar={icons.application} title={`${capitalize(name)}`} titleStyle={styles.bold}  style={styles.paddingBottom10} subtitle={this.applicationInfo(application)}/>
-                        <CardActions>
-                            <ToolButtons
-                                disabled={showRevision || !authorized}
-                                onEditClick={() => dispatch(displayModal("application", true, "edit"))}
-                                onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                                onCopyClick={() => dispatch(displayModal("application", true, "copy"))}
-                                editMode={editMode}
-                            />
-                        </CardActions>
-                    </Card>}
-
-                    <Lifecycle lifecycle={lifecycle}
-                               rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
-                               authorized={authorized}/>
-                </div>
-
-
-                {/*Side menu*/}
-                <div className="col-md-4">
-                    <History id={name} currentRevision={query.revision} component="application"/>
-                    <Security accesscontrol={application.accesscontrol}
-                              displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
-                </div>
-
+            <div>
                 <div className="row">
-                    <ApplicationInstances name={name}/>
+                    <div className="col-md-6" style={styles.cardPadding}>
+                        {showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
+                        {Object.keys(application).length > 0 && <Card>
+                            <CardHeader avatar={icons.application} title={`${capitalize(name)}`}
+                                        titleStyle={styles.bold} style={styles.paddingBottom10}
+                                        subtitle={this.applicationInfo(application)}/>
+                            <CardActions>
+                                <ToolButtons
+                                    disabled={showRevision || !authorized}
+                                    onEditClick={() => dispatch(displayModal("application", true, "edit"))}
+                                    onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                                    onCopyClick={() => dispatch(displayModal("application", true, "copy"))}
+                                    editMode={editMode}
+                                />
+                            </CardActions>
+                        </Card>}
+
+                        <Lifecycle lifecycle={lifecycle}
+                                   rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
+                                   authorized={authorized}/>
+                    </div>
+
+
+                    {/*Side menu*/}
+                    <div className="col-md-4">
+                        <History id={name} currentRevision={query.revision} component="application"/>
+                        <Security accesscontrol={application.accesscontrol}
+                                  displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                    </div>
+
+
+                    {/* Misc. modals*/}
+                    <AccessControl
+                        displayAccessControlForm={this.state.displayAccessControlForm}
+                        onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
+                        onSubmit={() => this.handleSubmitForm(name, {
+                                name: application.name,
+                                groupid: application.groupid,
+                                artifactid: application.artifactid,
+                                portoffset: application.portoffset,
+                                accesscontrol: {adgroups}
+                            }
+                            , comment, "application")}
+                        id={name}
+                        value={adgroups}
+                        handleChange={this.handleChange.bind(this)}
+                        comment={comment}
+                    />
+
+                    <DeleteElementForm
+                        displayDeleteForm={this.state.displayDeleteForm}
+                        onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
+                        onSubmit={() => this.handleSubmitForm(name, null, comment, "deleteApplication")}
+                        id={name}
+                    />
+
+                    <RescueElementForm
+                        displayRescueForm={this.state.displayRescueForm}
+                        onClose={() => this.toggleComponentDisplay("displayRescueForm")}
+                        onSubmit={() => this.rescue()}
+                        id={name}
+                        handleChange={this.handleChange.bind(this)}
+                        comment={this.state.comment}
+                    />
                 </div>
-
-                {/* Misc. modals*/}
-                <AccessControl
-                    displayAccessControlForm={this.state.displayAccessControlForm}
-                    onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
-                    onSubmit={() => this.handleSubmitForm(name, {
-                            name: application.name,
-                            groupid: application.groupid,
-                            artifactid: application.artifactid,
-                            portoffset: application.portoffset,
-                            accesscontrol: {adgroups}
-                        }
-                        , comment, "application")}
-                    id={name}
-                    value={adgroups}
-                    handleChange={this.handleChange.bind(this)}
-                    comment={comment}
-                />
-
-                <DeleteElementForm
-                    displayDeleteForm={this.state.displayDeleteForm}
-                    onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-                    onSubmit={() => this.handleSubmitForm(name, null, comment, "deleteApplication")}
-                    id={name}
-
-                />
-
-                <RescueElementForm
-                    displayRescueForm={this.state.displayRescueForm}
-                    onClose={() => this.toggleComponentDisplay("displayRescueForm")}
-                    onSubmit={() => this.rescue()}
-                    id={name}
-                    handleChange={this.handleChange.bind(this)}
-                    comment={this.state.comment}
-                />
+                <div className="row col-md-12">
+                    <h3>Application instances</h3>
+                    {instances && instances.map((item, index) => <InstanceCard instance={item} key={index}/>)}
+                </div>
             </div>
         )
     }
@@ -188,7 +193,8 @@ const mapStateToProps = (state) => {
         user: state.user,
         config: state.configuration,
         revisions: state.revisions,
-        query: state.routing.locationBeforeTransitions.query
+        query: state.routing.locationBeforeTransitions.query,
+        instances: state.application_instances.data
     }
 }
 

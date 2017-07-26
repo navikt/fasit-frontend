@@ -1,11 +1,13 @@
 import {
+    ENVIRONMENTS_LIST_FAILED,
     ENVIRONMENTS_LIST_FETCHING,
     ENVIRONMENTS_LIST_RECEIVED,
-    ENVIRONMENTS_LIST_FAILED,
     ENVIRONMENTS_RECEIVED,
     SHOW_NEW_CLUSTER_FORM,
     SHOW_NEW_ENVIRONMENT_FORM
-} from '../actionTypes'
+} from "../actionTypes";
+
+import {sortEnvironmentsNaturally} from "../utils";
 
 export const initialState = {
     isFetching: false,
@@ -67,28 +69,3 @@ export default (state = initialState, action) => {
     }
 }
 
-function splitCharactersAndNumbers(name) {
-    return name.split(/(\d+)/)
-}
-
-// sort environments naturally, first by envclass, then by name and number. Ex p, q1, q2, q10, u1, u2, a12
-const sortEnvironmentsNaturally = (first, second) => {
-    const firstEnvClass = first.environmentclass.toLowerCase()
-    const secondEnvClass = second.environmentclass.toLowerCase()
-    const firstEnvName = splitCharactersAndNumbers(first.name.toLowerCase())
-    const secondEnvName = splitCharactersAndNumbers(second.name.toLowerCase())
-
-    if (firstEnvClass !== secondEnvClass) {
-        return firstEnvClass > secondEnvClass ? 1 : -1
-    }
-
-    for(let idx = 0; idx < firstEnvName.length; idx++) {
-        if(firstEnvName[idx] !== secondEnvName[idx]) {
-            if(!isNaN(firstEnvName[idx]) && !isNaN(secondEnvName[idx])) {
-                return parseInt(firstEnvName[idx]) > parseInt(secondEnvName[idx]) ? 1 : -1
-            }
-            return firstEnvName[idx] > secondEnvName[idx] ? 1 : -1
-        }
-    }
-    return 0
-}

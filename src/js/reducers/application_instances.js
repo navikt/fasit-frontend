@@ -2,7 +2,9 @@ import {
     APPLICATION_INSTANCES_FETCHING,
     APPLICATION_INSTANCES_RECEIVED,
     APPLICATION_INSTANCES_REQUEST_FAILED
-} from '../actionTypes'
+} from "../actionTypes";
+
+import {sortEnvironmentsNaturally} from "../utils";
 
 export default (state = {
     isFetching: true,
@@ -22,7 +24,7 @@ export default (state = {
         case APPLICATION_INSTANCES_RECEIVED:
             return Object.assign({}, state, {
                 isFetching: false,
-                data: action.value
+                data: action.value.sort(sortEnvironmentsNaturally)
             })
 
         case APPLICATION_INSTANCES_REQUEST_FAILED:
