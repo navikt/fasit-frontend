@@ -42,6 +42,7 @@ export const styles = {
     marginTop25: {marginTop: '25px'},
     paddingTop5: {paddingTop: '5px'},
     paddingBottom10: {paddingBottom: '10px'},
+    overflowEllipsis: {textOverflow: 'ellipsis', overflow: 'hidden'},
     cardPadding: {
         marginTop: '10px',
         marginBottom: '10px'},

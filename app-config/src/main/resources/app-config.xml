@@ -26,5 +26,4 @@
     <monitoring>
         <metric path="/metrics"/>
     </monitoring>
-
 </application>
