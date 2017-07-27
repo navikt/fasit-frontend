@@ -11,6 +11,10 @@ const search = [
         "type": "node",
         "info": "WAS",
         "lastchange": 1402912329491,
+        "lifecycle": {
+            "status": "stopped",
+            "issue": "AURAGC-5934"
+        },
         "detailedinfo": {
             "platformType": "WAS",
         }
@@ -22,6 +26,10 @@ const search = [
         "type": "cluster",
         "info": "u1 | Applications: 8 | nodes: 4",
         "lastchange": 1433246644739,
+        "lifecycle": {
+            "status": "alerted",
+            "issue": "AURAGC-5934"
+        },
         "detailedinfo": {
             "nodes": [
                 "enhost.com",
@@ -52,6 +60,7 @@ const search = [
         "type": "environment",
         "lastchange": 1492583778425,
         "info": "",
+        "lifecycle": {},
         "detailedinfo": {}
     },
     {
@@ -61,6 +70,7 @@ const search = [
         "type": "application",
         "info": "",
         "lastchange": 1491558188020,
+        "lifecycle": {},
         "detailedinfo": {
             "portOffset": "0",
             "artifactId": "appconfig-artifactid",
@@ -74,6 +84,7 @@ const search = [
         "type": "resource",
         "info": "DeploymentManager | u/FSS/u2/-",
         "lastchange": 1386574313728,
+        "lifecycle": {},
         "detailedinfo": {
             "hostname": "viswas.expensive.com",
             "scope": "u/FSS/u2/-",
@@ -88,6 +99,7 @@ const search = [
         "type": "instance",
         "info": "anapp:3.25.4.build_257",
         "lastchange": 1484561429096,
+        "lifecycle": {},
         "detailedinfo": {
             "cluster": "applikasjonsgruppe:reallyCoolClusterCluster",
             "application": "someapp",
@@ -102,6 +114,7 @@ const search = [
         "type": "resource",
         "info": "Queue | p/FSS/p/oppdrag",
         "lastchange": 1494493054426,
+        "lifecycle": {},
         "detailedinfo": {
             "queueName": "QA.DEV_THIS_IS_A_QUEUE",
             "scope": "p/FSS/p/oppdrag",
@@ -116,6 +129,7 @@ const search = [
         "type": "resource",
         "info": "ApplicationProperties | t/FSS/-/-",
         "lastchange": 1494493044426,
+        "lifecycle": {},
         "detailedinfo": {
             "scope": "t/FSS/-/-",
             "applicationProperties": "bisys-logging.performance.niva=INFO\r\nbisys-logging.system.niva=DEBUG\r\nbisys-logging.oppdrag.niva=INFO\r\nbisys-logging.sfe.niva=INFO\r\nbisys-logging.leselogg.niva=INFO\r\nbisys-logging.batch.niva=DEBUG\r\nbisys-logging.trygdeetaten.niva=WARN\r\nbisys-logging.org.apache.niva=ERROR\r\nbisys-logging.org.displaytag.niva=ERROR\r\nbisys-logging.org.hibernate.niva=ERROR\r\nbisys-logging.org.hibernate.jdbcexception.niva=OFF\r\nbisys-logging.sf.hibernate.niva=ERROR\r\nbisys-logging.org.springframework.niva=ERROR\r\nbisys-logging.sf.ehcache.niva=ERROR\r\nbisys-logging.ibm.ws.niva=ERROR",
@@ -129,6 +143,7 @@ const search = [
         "type": "resource",
         "info": "DB2DataSource | q/FSS/o1/-",
         "lastchange": 1464790636282,
+        "lifecycle": {},
         "detailedinfo": {
             "schema": "SCHEMANAME",
             "hostname": "dbserver.local",
@@ -145,6 +160,7 @@ const search = [
         "link": "http://localhost:6969/mockapi/environments/t1",
         "type": "environment",
         "info": "",
+        "lifecycle": {},
         "detailedinfo": {}
     },
     {
@@ -154,6 +170,7 @@ const search = [
         "type": "appconfig",
         "info": "anotherapp:0.1.491",
         "lastchange": 1498803889101,
+        "lifecycle": {},
         "detailedinfo": {
             "cluster": "veiledningarbeidssokerCluster",
             "appConfig": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ns2:application xmlns:ns2=\"http://appconfig.aura.nav.no\"><ns2:name>veiledningarbeidssoker</ns2:name><ns2:selftest><ns2:path>veiledearbeidssoker/internal/selftest.json</ns2:path><ns2:humanReadablePath>veiledearbeidssoker/internal/selftest</ns2:humanReadablePath></ns2:selftest><ns2:loadBalancer isAlive=\"/veiledearbeidssoker/internal/isAlive\"/><ns2:resources><ns2:baseUrl mapToProperty=\"appres.cms\" alias=\"appres.cms\"/><ns2:baseUrl mapToProperty=\"enonic.www.cms\" alias=\"enonic.www.cms\"/><ns2:fileLibrary mapToProperty=\"folder.ledetekster\" alias=\"veiledningarbeidssoker.ledetekster.v1\"/></ns2:resources><ns2:exposed-services/><ns2:artifacts><ns2:ear startUpOrder=\"10\" groupId=\"no.nav.sbl\" artifactId=\"veiledningarbeidssoker-ear\"/></ns2:artifacts><ns2:serverOptions><ns2:memoryParameters resourceAlias=\"brukerdialog-memparams\"/></ns2:serverOptions><ns2:security><ns2:logins><ns2:openAm><ns2:contextRoot>veiledearbeidssoker</ns2:contextRoot></ns2:openAm></ns2:logins></ns2:security></ns2:application>",

@@ -8,6 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import {Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
 import {APPCONFIG, APPLICATION, CLUSTER, ENVIRONMENT, INSTANCE, NODE, RESOURCE, destinationUrl} from '../Search/searchResultTypes'
 import {styles, colors, icons}  from '../../commonStyles/commonInlineStyles'
+import {LifecycleStatus} from "../common/";
 import {capitalize} from '../../utils/'
 import {WebsphereManagementConsole} from '../common'
 import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
@@ -60,6 +61,7 @@ class Search extends Component {
         return (<div className="pull-right">
             <div className="text-muted">Changed {moment(searchResult.lastchange).fromNow()}</div>
             <br/>
+            <LifecycleStatus status={searchResult.lifecycle.status}/>
         </div>)
     }
 

@@ -22,7 +22,12 @@ export default function ApplicationCard(props) {
             <Card>
                 <CardHeader title={application.name}
                             titleStyle={styles.bold}
-                            subtitle={<div>{`Group id ${application.groupid}`}<br/>{`Artifact id ${application.artifactid}`}<br/>{`Port offset ${application.portoffset}`}</div>}
+                            subtitle={(
+                                <div>
+                                    {`Group id ${application.groupid}`}<br/>
+                                    {`Artifact id ${application.artifactid}`}<br/>
+                                    {`Port offset ${application.portoffset}`}
+                                </div>)}
                             avatar={avatar}
                             children={additionalCardInfo}
                 />
