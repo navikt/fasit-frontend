@@ -8,6 +8,7 @@
 
     <resources>
         <rest alias="fasit:resources_v2" mapToProperty="fasit_resources"/>
+        <rest alias="jira" />
         <rest alias="fasit:environments_v2" mapToProperty="fasit_environments"/>
         <rest alias="fasit:applications_v2" mapToProperty="fasit_applications"/>
         <rest alias="fasit:applicationinstances_v2" mapToProperty="fasit_applicationinstances"/>
