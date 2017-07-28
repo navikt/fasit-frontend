@@ -1,20 +1,29 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, {Component} from "react";
+import {connect} from "react-redux";
 import {browserHistory} from "react-router";
-import {Card, CardHeader, CardActions, CardText} from 'material-ui/Card'
-import {Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator} from 'material-ui/Toolbar'
-import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from 'material-ui/RaisedButton'
-import {Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
-import {APPCONFIG, APPLICATION, CLUSTER, ENVIRONMENT, INSTANCE, NODE, RESOURCE, destinationUrl} from '../Search/searchResultTypes'
-import {styles, colors, icons}  from '../../commonStyles/commonInlineStyles'
+import {Card, CardHeader, CardActions, CardText} from "material-ui/Card";
+import {Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator} from "material-ui/Toolbar";
+import FlatButton from "material-ui/FlatButton";
+import RaisedButton from "material-ui/RaisedButton";
+import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
+import {
+    APPCONFIG,
+    APPLICATION,
+    CLUSTER,
+    ENVIRONMENT,
+    INSTANCE,
+    NODE,
+    RESOURCE,
+    destinationUrl
+} from "../Search/searchResultTypes";
+import {styles, colors, icons} from "../../commonStyles/commonInlineStyles";
 import {LifecycleStatus} from "../common/";
-import {capitalize} from '../../utils/'
-import {WebsphereManagementConsole} from '../common'
-import {getResourceTypeName, resourceTypeIcon} from '../../utils/resourceTypes'
-import {submitSearch, setSearchString} from '../../actionCreators/common'
-import PrettyXml from '../common/PrettyXml'
-import moment from 'moment'
+import {capitalize} from "../../utils/";
+import {WebsphereManagementConsole} from "../common";
+import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
+import {submitSearch, setSearchString} from "../../actionCreators/common";
+import PrettyXml from "../common/PrettyXml";
+import moment from "moment";
 
 class Search extends Component {
 
@@ -101,7 +110,7 @@ class Search extends Component {
                                     .sort()
                                     .map((di) => {
                                         return (
-                                            <TableRow key={di}>
+                                            <TableRow key={di} selectable={false}>
                                                 <TableRowColumn style={styles.tableCellPadding}
                                                                 className={"col-sm-2"}>
                                                     {capitalize(di)}
