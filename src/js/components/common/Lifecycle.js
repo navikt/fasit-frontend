@@ -48,7 +48,7 @@ class Lifecycle extends Component {
                 {displayRescueButton && <FlatButton
                     disableTouchRipple={true}
                     label="Rescue"
-                    style={this.props.authorized && styles.flatButton}
+                    style={this.props.authorized ? styles.flatButton : null}
                     onTouchTap={this.props.rescueAction}
                     disabled={!this.props.authorized}/>}
             </CardActions>

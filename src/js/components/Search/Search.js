@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {browserHistory} from "react-router";
+import {Link, browserHistory} from "react-router";
 import {Card, CardHeader, CardActions, CardText} from "material-ui/Card";
 import {Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator} from "material-ui/Toolbar";
-import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import {
@@ -68,9 +67,7 @@ class Search extends Component {
 
     additionalCardInfo(searchResult) {
         return (<div className="pull-right">
-            <div className="text-muted">Changed {moment(searchResult.lastchange).fromNow()}</div>
-            <br/>
-            <LifecycleStatus status={searchResult.lifecycle.status}/>
+            <div className="text-muted">Changed {moment(searchResult.lastchange).fromNow()}</div><LifecycleStatus status={searchResult.lifecycle.status}/>
         </div>)
     }
 
@@ -94,9 +91,9 @@ class Search extends Component {
         return (
             <div style={styles.paddingTop5} key={idx}>
                 <Card expandable={hasDetailedInfo} initiallyExpanded={false}>
-                    <CardHeader title={title}
-                                titleStyle={styles.bold}
+                    <CardHeader title={<Link to={destinationUrl(searchResult)}>{title}</Link>}
                                 subtitle={subtitle}
+                                style={{paddingTop: '7px', paddingBottom: '7px'}}
                                 avatar={avatar}
                                 showExpandableButton={false}
                                 actAsExpander={true}
@@ -124,23 +121,13 @@ class Search extends Component {
                             </TableBody>
                         </Table>
                     </CardText>}
-                    <CardActions actAsExpander={true}>
-                        <FlatButton
-                            disableTouchRipple={true}
-                            label="View"
-                            style={styles.flatButton}
-                            onTouchTap={() => this.navigate(searchResult)}
-                        />
-                        {searchResult.type === RESOURCE
-                        && searchResult.detailedinfo.type.toLowerCase() === 'deploymentmanager'
-                        && ( <WebsphereManagementConsole hostname={searchResult.detailedinfo.hostname}/>)}
-                    </CardActions>
+                    {searchResult.type === RESOURCE
+                    && searchResult.detailedinfo.type.toLowerCase() === 'deploymentmanager'
+                    && <CardActions actAsExpander={true} style={{paddingTop: '0px'}}>
+                         <WebsphereManagementConsole hostname={searchResult.detailedinfo.hostname}/>)
+                    </CardActions>}
                 </Card>
             </div>)
-    }
-
-    navigate(searchResult) {
-        browserHistory.push(destinationUrl(searchResult))
     }
 
     filterByType(type) {
