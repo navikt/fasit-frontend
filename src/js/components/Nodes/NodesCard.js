@@ -17,7 +17,6 @@ export default function NodeCard(props) {
 
     const additionalCardInfo = (<div className="pull-right">
         <div className="text-muted">Changed {moment(node.updated).fromNow()}</div>
-        <br/>
         <LifecycleStatus status={node.lifecycle.status}/>
     </div>)
 
@@ -41,7 +40,7 @@ export default function NodeCard(props) {
                     </List>
 
                 </CardText>
-                <CardActions>
+                <CardActions expandable={true}>
                     <FlatButton
                         disableTouchRipple={true}
                         onTouchTap={() => browserHistory.push(`/nodes/${node.hostname}`)}
