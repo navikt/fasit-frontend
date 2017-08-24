@@ -1,33 +1,32 @@
 import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
+import {List, ListItem} from "material-ui/List";
 import {oldRevision, validAuthorization} from "../../utils";
 import {clearResourceSecret, fetchFasitData, fetchResourceSecret} from "../../actionCreators/resource";
-import {submitForm} from "../../actionCreators/common";
-import {resourceTypes} from "../../utils/resourceTypes";
+import {displayModal, submitForm} from "../../actionCreators/common";
+import {resourceTypes, resourceTypeIcon} from "../../utils/resourceTypes";
 import {ResourceInstances} from "./ResourceInstances";
-import RaisedButton from "material-ui/RaisedButton";
+import {Card, CardActions, CardText, CardHeader} from "material-ui/Card";
+import FlatButton from "material-ui/FlatButton";
+import Chip from "material-ui/Chip";
+import {styles, icons} from "../../commonStyles/commonInlineStyles";
 import NotFound from "../NotFound";
 import {
     AccessControl,
     CurrentRevision,
     DeleteElementForm,
-    FormDropDown,
     FormLink,
-    FormSecret,
-    FormString,
-    FormTextArea,
     History,
     Lifecycle,
     RescueElementForm,
     Security,
     ToolButtons
 } from "../common/";
-import Scope from "./Scope";
 
 const initialState = {
     secretVisible: false,
-     editMode: false,
+    editMode: false,
     deleteMode: false,
     displaySubmitForm: false,
     displayDeleteForm: false,
@@ -59,9 +58,11 @@ class Resource extends Component {
 
         if (nextProps.id != id) {
             dispatch(fetchFasitData(nextProps.id))
+            dispatch(clearResourceSecret())
         }
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(id, nextProps.query.revision))
+            dispatch(clearResourceSecret())
         }
 
     }
@@ -73,7 +74,6 @@ class Resource extends Component {
 
     setNewState(newState) {
         // TODO, make generic?
-
         const adgroups = newState.accesscontrol ? newState.accesscontrol.adgroups : []
 
         this.setState({
@@ -86,7 +86,6 @@ class Resource extends Component {
             dodgy: newState.data.dodgy,
             created: newState.data.created,
             updated: newState.data.updated,
-            currentSecret: newState.currentSecret,
             adgroups: adgroups,
             comment: ""
         })
@@ -107,7 +106,6 @@ class Resource extends Component {
 
             const secretKey = this.getResourceType(type).properties.filter(p => p.type === "secret")[0].name
             form.secrets[secretKey] = {value: currentSecret}
-
         }
 
         if (Object.keys(files).length > 0) {
@@ -124,16 +122,6 @@ class Resource extends Component {
 
         form.lifecycle = {status: "rescued"}
         this.toggleComponentDisplay("displayRescueForm")
-        dispatch(submitForm(this.props.id, form, comment, "resource"))
-    }
-
-    saveResource() {
-        const {dispatch} = this.props
-        const {comment} = this.state
-        const form = this.buildFormData()
-
-        this.toggleComponentDisplay("editMode")
-        this.toggleComponentDisplay("displaySubmitForm")
         dispatch(submitForm(this.props.id, form, comment, "resource"))
     }
 
@@ -154,14 +142,7 @@ class Resource extends Component {
 
 
     toggleComponentDisplay(component) {
-        const {dispatch} = this.props
         this.setState({[component]: !this.state[component]})
-        if (component === "editMode" && this.state.editMode) {
-            this.setNewState(this.props.fasit)
-        }
-        if (component === "editMode" && !this.state.editMode && Object.keys(this.state.secrets).length) {
-            dispatch(fetchResourceSecret())
-        }
     }
 
     toggleDisplaySecret() {
@@ -188,62 +169,72 @@ class Resource extends Component {
     }
 
     renderResourceProperties() {
-        if (this.state.type) { // nødvendig??
-            const type = this.getResourceType(this.state.type)
-            return (
-                <div>
-                    {type.properties.map(this.renderProperty.bind(this))}
-                </div>
-            )
-        }
+        const {resource} = this.props
+        const type = this.getResourceType(resource.type)
+        return (
+            <List>
+                {type.properties.map((p, key) => this.renderProperty(p, resource))}
+            </List>
+        )
     }
 
-    renderProperty(property) {
-        const {user}  = this.props
+    renderProperty(property, resource) {
+        const {secretVisible} = this.state
+        const propertyName = property.displayName
         const key = property.name
-        const label = `${property.displayName}${property.required === true ? " *" : ""}`
-        const field = property.name
+        const {properties} = resource
 
         switch (property.type) {
             case "textbox":
-                return <FormString key={key}
-                                   label={label}
-                                   field={field}
-                                   editMode={this.state.editMode}
-                                   value={this.state.properties[property.name]}
-                                   parent="properties"
-                                   handleChange={this.handleChange.bind(this)}/>
+            case "dropdown":
+                return <ListItem
+                    key={key}
+                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                    disabled={true}
+                    className="text-overflow"
+                    primaryText={properties[key]}
+                    secondaryText={propertyName}
+                />
 
             case "textarea":
-                return <FormTextArea key={key}
-                                     label={label}
-                                     field={field}
-                                     editMode={this.state.editMode}
-                                     value={this.state.properties[property.name]}
-                                     parent="properties"
-                                     handleChange={this.handleChange.bind(this)}/>
-            case "dropdown":
-                return <FormDropDown key={key}
-                                     label={label}
-                                     field={field}
-                                     value={this.state.properties[property.name]}
-                                     editMode={this.state.editMode}
-                                     handleChange={this.handleChange.bind(this)}
-                                     options={property.options}/>
+                return <ListItem
+                    key={key}
+                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                    disabled={true}
+                    className="text-overflow"
+                    primaryText={<pre><code>{properties[key]}</code></pre>}
+                    secondaryText={propertyName}
+                />
             case "secret":
-                const authorized = validAuthorization(user, this.props.fasit.data.accesscontrol)
-                return <FormSecret key={key}
-                                   label={label}
-                                   field="currentSecret"
-                                   editMode={this.state.editMode}
-                                   value={this.state.currentSecret}
-                                   authorized={authorized}
-                                   handleChange={this.handleChange.bind(this)}
-                                   toggleDisplaySecret={this.toggleDisplaySecret.bind(this)}/>
+                return <ListItem
+                    key={key}
+                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                    disabled={true}
+                    className="text-overflow"
+                    primaryText={
+                        <div>{secretVisible ? this.props.currentSecret : "*********"} {this.showSecretButtonOrInfo()}</div>}
+                    secondaryText={propertyName}
+                />
             case "file":
                 break
-
         }
+    }
+
+    showSecretButtonOrInfo() {
+        const {user}  = this.props
+        const authorized = validAuthorization(user, this.props.fasit.data.accesscontrol)
+
+
+        if (authorized) {
+            return <FlatButton disableTouchRipple={true} style={styles.flatButton} className={"pull-right"}
+                               label={"View secret"}
+                               icon={icons.eye} onTouchTap={() => this.toggleDisplaySecret()}/>
+        } else {
+            return (<Chip className="pull-right">
+                {icons.lockAvatar} {!user.authenticated ? "Log in to view secrets" : "Secrets require superuser access"}
+            </Chip>)
+        }
+
     }
 
     exposedByApplication() {
@@ -257,9 +248,22 @@ class Resource extends Component {
         }
     }
 
-    formStringElement(label, value, editMode) {
-        return <FormString label={label} value={value} editMode={editMode} handleChange={this.handleChange.bind(this)}/>
+
+    scopeDisplayString(scope) {
+        const envClass = scope.environmentclass || '-'
+        const environment = scope.environment || '-'
+        const zone = scope.zone || '-'
+        const application = scope.application || '-'
+
+        return `${envClass} | ${zone} | ${environment} | ${application}`
     }
+
+    showModal(mode) {
+        const {dispatch} = this.props
+        dispatch(fetchResourceSecret())
+        dispatch(displayModal("resource", true, mode))
+    }
+
 
     render() {
         // handle isvalid() alt som er required
@@ -272,7 +276,7 @@ class Resource extends Component {
         // file upload
         // copy
 
-        const {id, fasit, user, query, revisions} = this.props
+        const {id, fasit, user, query, revisions, resource} = this.props
         const showRevision = oldRevision(revisions, query.revision)
 
         let authorized = false
@@ -288,72 +292,61 @@ class Resource extends Component {
             </div>
         }
 
-        if (fasit.isFetching || Object.keys(fasit.data).length === 0) {
+        if (fasit.isFetching || Object.keys(resource).length === 0) {
             return <i className="fa fa-spinner fa-pulse fa-2x"></i>
         }
 
-        if (Object.keys(fasit.data).length > 0) {
+        if (Object.keys(resource).length > 0) {
             authorized = validAuthorization(user, fasit.data.accesscontrol)
             lifecycle = fasit.data.lifecycle
         }
 
         return (
-            <div className="row">
-                { showRevision ? <CurrentRevision revisionId={query.revision} revisions={revisions}/>
-                    : <ToolButtons disabled={!authorized}
-                                   onEditClick={() => this.toggleComponentDisplay("editMode")}
-                                   onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                                   onCopyClick={() => console.log("Copy,copycopy!")}
-                                   editMode={this.state.editMode}
-                    />
+            <div>
+                <div className="row">
+                    <div className="col-md-6" style={styles.cardPadding}>
+                        { showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
 
-                }
+                        <Card>
+                            <CardHeader
+                                avatar={resourceTypeIcon(resource.type)}
+                                titleStyle={styles.bold}
+                                title={`${resource.type} ${resource.alias}`}
+                                subtitle={this.scopeDisplayString(resource.scope)}
+                            >
+                            </CardHeader>
+                            <CardText >
+                                {this.renderResourceProperties(resource.properties)}
+                            </CardText>
+                            <CardActions>
+                                <ToolButtons disabled={!authorized}
+                                             onEditClick={() => this.showModal("edit")}
+                                             onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                                             onCopyClick={() => this.showModal("copy")}
+                                             editMode={this.state.editMode}
+                                />
 
-                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
-                    {this.formStringElement("type", this.state.type, false)}
-                    {this.formStringElement("alias", this.state.alias, this.state.editMode)}
-                    {this.renderResourceProperties(this.state.properties)}
-
-
-                    <Scope editMode={this.state.editMode} scope={this.state.scope}
-                           handleChange={this.handleChange.bind(this)}/>
-
-                    {this.exposedByApplication()}
-
-                    {this.state.editMode ?
-                        <div className="pull-right">
-                            <RaisedButton
-                                style={{margin: '6'}}
-                                label="Submit"
-                                primary={true}
-                                onTouchTap={() => this.toggleComponentDisplay("displaySubmitForm")}
-                                disableTouchRipple={true}/>
-                            <RaisedButton
-                                style={{margin: '6'}}
-                                label="Cancel"
-                                default={true}
-                                onTouchTap={() => this.toggleComponentDisplay("editMode")} disableTouchRipple={true}/>
-                        </div>
-                        : ""
-                    }
-
-                    <div className="row">
+                            </CardActions>
+                        </Card>
                         <Lifecycle lifecycle={lifecycle}
                                    rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
                                    authorized={authorized}/>
                     </div>
 
-                    <div>
-                        <ResourceInstances instances={fasit.data.usedbyapplications}/>
+                    {this.exposedByApplication()}
+
+                    <div className="col-md-4">
+                        <History id={id} currentRevision={query.revision} component="resource"/>
+                        <Security accesscontrol={fasit.data.accesscontrol}
+                                  displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                     </div>
+
                 </div>
 
-
-                <div className="col-md-4">
-                    <History id={id} currentRevision={query.revision} component="resource"/>
-                    <Security accesscontrol={fasit.data.accesscontrol}
-                              displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                <div className="row col-md-12">
+                    <ResourceInstances instances={fasit.data.usedbyapplications}/>
                 </div>
+
 
                 <RescueElementForm
                     displayRescueForm={this.state.displayRescueForm}
@@ -378,7 +371,6 @@ class Resource extends Component {
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
                     onSubmit={() => this.deleteResource(id, this.state.comment)}
                 />
-                {this.renderSubmitForm()}
             </div>
         )
     }
@@ -389,46 +381,14 @@ class Resource extends Component {
             .filter(resourceType => resourceType.toLowerCase() === typeKey.toLowerCase())[0]
         return resourceTypes[key]
     }
-
-
-    renderSubmitForm() {
-        return (
-            <Modal show={this.state.displaySubmitForm} onHide={() => this.toggleComponentDisplay("displaySubmitForm")}
-                   dialogClassName="submitForm">
-                <Modal.Header>
-                    <Modal.Title>Commit changes
-                        <button type="reset" className="btn btn-link pull-right"
-                                onClick={() => this.toggleComponentDisplay("displaySubmitForm")}><strong>X</strong>
-                        </button>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Footer>
-                    <div className="col-xs-2 FormLabel"><b>Comment</b></div>
-                    <div className="col-xs-8">
-                        <textarea
-                            type="text"
-                            rows="4"
-                            className="TextAreaInputField FormString-value"
-                            value={this.state.comment}
-                            onChange={(e) => this.handleChange("comment", e.target.value)}
-                        />
-                    </div>
-                    <div className="col-xs-2 submit-button-placement">
-                            <RaisedButton label="Submit" primary={true} onTouchTap={this.saveResource.bind(this)} disableTouchRipple={true}/>
-                    </div>
-                </Modal.Footer>
-            </Modal>)
-    }
 }
 
 
 const mapStateToProps = (state) => {
     return {
         fasit: state.resource_fasit,
-        environmentClasses: state.environments.environmentClasses,
-        environments: state.environments.environments,
-        zones: state.environments.zones,
-        applications: state.applications.applicationNames,
+        resource: state.resource_fasit.data,
+        currentSecret: state.resource_fasit.currentSecret,
         user: state.user,
         config: state.configuration,
         query: state.routing.locationBeforeTransitions.query,

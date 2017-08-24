@@ -118,9 +118,11 @@ export function* submitForm(action) {
                 break
             case "resource":
                 url = `${configuration.fasit_resources}/${action.key}`
-                console.log("urling", url, action.form, action.comment)
                 yield putUrl(url, action.form, action.comment)
+                yield put({type: SHOW_NEW_RESOURCE_FORM, value: false})
+                yield browserHistory.push(`/resources/${action.key}`)
                 yield put({type: RESOURCE_FASIT_REQUEST, id: action.key})
+                yield put({type: REVISIONS_REQUEST, component: "resource", key: action.key})
                 break
             default:
                 throw new Error("Submit_form-saga: I don't know which component you're coming from")

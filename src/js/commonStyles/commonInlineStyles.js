@@ -6,6 +6,7 @@ import Timeline from "material-ui/svg-icons/action/timeline";
 import Link from "material-ui/svg-icons/content/link";
 import NewReleases from "material-ui/svg-icons/av/new-releases";
 import Error from "material-ui/svg-icons/alert/error";
+import Lock from "material-ui/svg-icons/action/lock";
 import Security from "material-ui/svg-icons/hardware/security";
 import Build from "material-ui/svg-icons/action/build";
 import Avatar from "material-ui/Avatar";
@@ -13,6 +14,7 @@ import Delete from "material-ui/svg-icons/action/delete";
 import Edit from "material-ui/svg-icons/editor/mode-edit";
 import Copy from "material-ui/svg-icons/content/content-copy";
 import Cancel from "material-ui/svg-icons/navigation/cancel";
+import Eye from "material-ui/svg-icons/image/remove-red-eye";
 
 export const colors = {
     white: '#ffffff',
@@ -78,6 +80,7 @@ export const icons = {
     appconfig: <Avatar backgroundColor={colors.avatarBackgroundColor} color={colors.white}><Description style={styles.white}/></Avatar>,
     cancel: <Cancel hoverColor={colors.pink}/>,
     edit: <Edit hoverColor={colors.pink}/>,
+    eye: <Eye/>,
     delete: <Delete hoverColor={colors.pink}/>,
     copy: <Copy hoverColor={colors.pink}/>,
     resource: <i className="fa fa-cogs"/>,
@@ -87,6 +90,7 @@ export const icons = {
     sensuStatusAvatar: <Avatar icon={<NewReleases/>}/>,
     hardwareAvatar: <Avatar icon={<Build/>}/>,
     grafanaAvatar: <Avatar icon={<i className="fa fa-area-chart"/>}/>,
-    errorAvatar: <Avatar icon={<Error/>} backgroundColor={colors.red} />
+    errorAvatar: <Avatar icon={<Error/>} backgroundColor={colors.red} />,
+    lockAvatar: <Avatar icon={<Lock/>} color={colors.white}  backgroundColor={colors.toolbarBackground}/>
 }
 

@@ -4,7 +4,7 @@ import {
     RESOURCES_LIST_RECEIVED,
     RESOURCES_LIST_FAILED,
     SHOW_NEW_RESOURCE_FORM
-} from '../actionTypes'
+} from "../actionTypes";
 
 export const initialState = {
     isFetching: true,
@@ -13,7 +13,7 @@ export const initialState = {
     headers: {},
     resourceTypes: [],
     showNewResourceForm: false,
-    copy: false,
+    mode: "new",
 }
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -45,16 +45,9 @@ export default (state = initialState, action) => {
             })
 
         case SHOW_NEW_RESOURCE_FORM:
-            if (action.copy) {
-                return Object.assign({}, state, {
-                        showNewResourceForm: action.value,
-                        copy: action.copy,
-                    }
-                )
-            }
             return Object.assign({}, state, {
                     showNewResourceForm: action.value,
-                    copy: false,
+                    mode: action.mode,
                 }
             )
 

@@ -11,8 +11,7 @@ import {
     REVISIONS_REQUEST,
     SUBMIT_NAV_SEARCH,
     SUBMIT_SEARCH
-
-} from '../actionTypes'
+} from "../actionTypes";
 
 export const submitForm = (key, form, comment, component) =>  {return {type:SUBMIT_FORM, key, form, comment, component}}
 export const clearFormError = () => {return {type: CLEAR_FORM_ERROR}}

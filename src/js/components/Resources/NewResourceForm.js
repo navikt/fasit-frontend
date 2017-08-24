@@ -1,14 +1,13 @@
-import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
-import {connect} from 'react-redux'
-import RaisedButton from 'material-ui/RaisedButton'
-
-import {FormString, FormDropDown, FormComment, FormTextArea} from '../common/Forms'
-import {colors} from '../../commonStyles/commonInlineStyles'
-import {displayModal} from '../../actionCreators/common'
-import {resourceTypes} from '../../utils/resourceTypes'
-import {submitForm} from '../../actionCreators/common'
-import Scope from './Scope'
+import React, {Component, PropTypes} from "react";
+import {Modal} from "react-bootstrap";
+import {connect} from "react-redux";
+import RaisedButton from "material-ui/RaisedButton";
+import {FormString, FormSecret, FormDropDown, FormComment, FormTextArea} from "../common/Forms";
+import {colors} from "../../commonStyles/commonInlineStyles";
+import {capitalize} from "../../utils";
+import {displayModal, submitForm} from "../../actionCreators/common";
+import {resourceTypes, getResourceTypeName} from "../../utils/resourceTypes";
+import Scope from "./Scope";
 
 class NewResourceForm extends Component {
     constructor(props) {
@@ -25,8 +24,29 @@ class NewResourceForm extends Component {
                 environmentclass: 'u'
             },
             files: {},
+            currentSecret: '',
             secrets: {},
             comment: ""
+        }
+    }
+
+    componentWillReceiveProps(next){
+        const {resource} = this.props
+        const {alias, type, properties, scope, files, secrets} = resource.data
+
+        if (next.mode === "edit"  || next.mode === "copy"){
+            this.setState({
+                alias,
+                type,
+                properties,
+                scope,
+                files,
+                secrets,
+                currentSecret: next.currentSecret
+            })
+        }
+        else {
+            this.resetLocalState()
         }
     }
 
@@ -54,8 +74,8 @@ class NewResourceForm extends Component {
     }
 
     handleSubmitForm() {
-        const {dispatch} = this.props
-        const {alias, type, properties, scope, secrets, files, comment} = this.state
+        const {dispatch, resource, mode} = this.props
+        const {alias, type, properties, scope, secrets, files, comment, currentSecret} = this.state
         const form = {
             alias,
             type,
@@ -66,18 +86,21 @@ class NewResourceForm extends Component {
         if(Object.keys(secrets).length > 0 ) {
             form.secrets = {}
             Object.keys(secrets).forEach(k => {
-                form.secrets[k] = {value: secrets[k]}
-
+                form.secrets[k] = {value: currentSecret}
             })
         }
 
         if(Object.keys(files).length > 0 ) {
             form.files = files
         }
-        dispatch(submitForm(form.alias, form, comment, "newResource"))
+
+        if(mode === "edit") {
+            dispatch(submitForm(resource.data.id, form, comment, "resource"))
+        }
+        else {
+            dispatch(submitForm(form.alias, form, comment, "newResource"))
+        }
     }
-
-
 
     closeForm() {
         this.initialState()
@@ -87,6 +110,7 @@ class NewResourceForm extends Component {
     renderProperty(property) {
         const key = property.name
         const label = `${property.displayName}${property.required === true ? " *" : ""}`
+        const {currentSecret} = this.state
         const field = property.name
 
         switch (property.type) {
@@ -116,11 +140,11 @@ class NewResourceForm extends Component {
                                      handleChange={this.handleChange.bind(this)}
                                      options={property.options}/>
             case "secret":
-                return <FormString key={key}
+                return <FormSecret key={key}
                                    label={label}
-                                   field={field}
+                                   field={'currentSecret'}
                                    editMode={true}
-                                   value={this.state.secrets[property.name]}
+                                   value={currentSecret}
                                    parent="secrets"
                                    handleChange={this.handleChange.bind(this)}/>
             case "file":
@@ -130,10 +154,20 @@ class NewResourceForm extends Component {
         }
     }
 
+    getResourceType(typeKey) {
+        if(!typeKey) {
+            return ""
+        }
+        const key = Object.keys(resourceTypes)
+            .filter(resourceType => resourceType.toLowerCase() === typeKey.toLowerCase())[0]
+
+        return resourceTypes[key]
+    }
+
     renderProperties() {
-        const type = this.state.type
-        if (type !== "") {
-            const properties = resourceTypes[type].properties
+        const resourceType = this.getResourceType(this.state.type)
+        if (resourceType !== "") {
+            const properties = resourceType.properties
             return (
                 <div>
                     <FormString label="alias*"
@@ -156,9 +190,10 @@ class NewResourceForm extends Component {
         if (!this.state.alias) {
             return false
         }
+        const resourceType = this.getResourceType(this.state.type)
 
         const currentProperties = keys(this.state.properties).concat(keys(this.state.secrets).concat(keys(this.state.files)))
-        const requiredProperties = resourceTypes[this.state.type].properties.filter(p => p.required).map(p => p.name)
+        const requiredProperties = resourceType.properties.filter(p => p.required).map(p => p.name)
         return requiredProperties.length === currentProperties.length
     }
 
@@ -182,8 +217,9 @@ class NewResourceForm extends Component {
     }
 
     render() {
-        const {showNewResourceForm, types, user} = this.props
+        const {showNewResourceForm, types, user, mode, resource} = this.props
         let authenticated = user.authenticated
+        const resourceType = getResourceTypeName(this.state.type)
 
         return (
             <Modal show={showNewResourceForm} onHide={this.closeForm.bind(this)} dialogClassName="newResourceForm">
@@ -192,7 +228,7 @@ class NewResourceForm extends Component {
                         <span className="fa-stack fa-lg">
                             <i className="fa fa-circle fa-stack-2x"/>
                             <i className="fa fa-cogs fa-stack-1x fa-inverse"/>
-                        </span> &emsp;New resource
+                        </span> &emsp;{mode && `${capitalize(mode)} resource ${mode !== 'new' ? resource.data.id : ''}` }
                         <button type="reset" className="btn btn-link pull-right"
                                 onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>
@@ -203,7 +239,7 @@ class NewResourceForm extends Component {
                     <FormDropDown
                         label="Type"
                         field="type"
-                        value={this.state.type}
+                        value={resourceType}
                         editMode={true}
                         handleChange={this.handleChange.bind(this)}
                         options={types}
@@ -235,11 +271,14 @@ const mapStateToProps = (state) => {
     return {
         showNewResourceForm: state.resources.showNewResourceForm,
         environmentClasses: state.environments.environmentClasses,
+        currentSecret: state.resource_fasit.currentSecret,
         applications: state.applications.applicationNames,
         types: Object.keys(resourceTypes).sort(),
         environments: state.environments.environments,
         zones: state.environments.zones,
-        user: state.user
+        user: state.user,
+        resource: state.resource_fasit,
+        mode: state.resources.mode
     }
 }
 
