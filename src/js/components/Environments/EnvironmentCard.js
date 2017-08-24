@@ -24,7 +24,7 @@ export default function EnvironmentCard(props) {
                             subtitle={`Environmentclass: ${environment.environmentclass}`}
                             avatar={avatar}
                             children={additionalCardInfo}
-                            onClick={() => browserHistory.push('/environments/' + environment.name)}
+                            onTouchTap={() => browserHistory.push('/environments/' + environment.name)}
                 />
                 <CardActions>
                     <FlatButton

@@ -19,7 +19,7 @@
         <baseUrl alias="fasit"/>
         <baseUrl alias="grafana"/>
         <rest alias="sera:servers_v1" mapToProperty="sera_servers"/>
-        <rest alias="sensu-api" mapToProperty="sensu_api"/>
+        <rest alias="sensu_api" mapToProperty="sensu_api"/>
         <applicationProperties alias="fasit-frontendProperties" />
     </resources>
 
