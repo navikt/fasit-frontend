@@ -82,7 +82,7 @@ class RevisionsView extends Component {
                             <OverlayTrigger
                                 placement="left"
                                 key={rev.revision}
-                                overlay={this.tooltip(rev.revisiontype === 'add' ? "Created " : rev.message || 'Changes made without a comment')}
+                                overlay={this.tooltip(rev.message || 'Changes made without a comment')}
                             >
                                 <li id={rev.revision}>
                                     <Link
