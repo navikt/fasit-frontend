@@ -30,10 +30,16 @@ export function* fetchFasit(action) {
 
 export function* fetchFasitResourceSecret() {
     try {
-        const secrets = yield  select((state) => state.resource_fasit.data.secrets)
-        const key = Object.keys(secrets)[0]
-        const value = yield call(fetchUrl, secrets[key].ref)
-        yield put({type: RESOURCE_FASIT_SECRET_RECEIVED, value: value})
+        const secretRefs = yield  select((state) => state.resource_fasit.data.secrets)
+        const keys = Object.keys(secretRefs)
+
+        let secrets = {}
+        for(let i = 0; i < keys.length; i++) {
+            let key = keys[i]
+            const secret = yield call(fetchUrl, secretRefs[key].ref)
+            secrets[key] = secret
+            yield put({type: RESOURCE_FASIT_SECRET_RECEIVED, secrets})
+        }
     }
     catch(error) {
             console.log("Error getting secret", error)

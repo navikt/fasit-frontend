@@ -1,14 +1,14 @@
-import React from 'react'
-import {redA700, green500, orange400, blueGrey800, deepPurple400} from 'material-ui/styles/colors'
-import {colors}  from '../commonStyles/commonInlineStyles'
-import Avatar from 'material-ui/Avatar'
+import React from "react";
+import {redA700, green500, orange400, blueGrey800, deepPurple400} from "material-ui/styles/colors";
+import {colors} from "../commonStyles/commonInlineStyles";
+import Avatar from "material-ui/Avatar";
 
 
 const DEFAULT_BACKGROUND_COLOR = colors.avatarBackgroundColor
 const DEFAULT_COLOR = colors.white
 
 export const getResourceTypeName = function (type) {
-    const filteredType = Object.keys(resourceTypes).filter(t => t.toLowerCase() === type)
+    const filteredType = Object.keys(resourceTypes).filter(t => t.toLowerCase() === type.toLowerCase())
     return filteredType[0] || "Unknown type"
 }
 

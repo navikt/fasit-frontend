@@ -1,9 +1,8 @@
-import React, {Component, PropTypes} from 'react'
-import Select, {Creatable} from 'react-select'
-import {Tooltip, OverlayTrigger} from 'react-bootstrap'
-import {Link} from 'react-router'
-import {capitalize} from '../../utils/'
-
+import React, {Component, PropTypes} from "react";
+import Select, {Creatable} from "react-select";
+import {Tooltip, OverlayTrigger} from "react-bootstrap";
+import {Link} from "react-router";
+import {capitalize} from "../../utils/";
 
 
 const copyToClipboard = (element) => {
@@ -205,7 +204,7 @@ export function FormTextArea(props) {
 }
 
 export function FormSecret(props) {
-    const {label, value, editMode, handleChange, disabled, toggleDisplaySecret, field, authorized} = props
+    const {label, value, editMode, handleChange, disabled, toggleDisplaySecret, field, authorized, parent} = props
     return (
         <div className="row">
             <div className="col-md-3 FormLabel"><b>{capitalize(label)}:</b></div>
@@ -214,7 +213,7 @@ export function FormSecret(props) {
                     <input type="text"
                            value={value || ""}
                            className="FormInputField FormString-value"
-                           onChange={(e) => handleChange(field || label, e.target.value)}
+                           onChange={(e) => handleChange(field || label, e.target.value, parent)}
                     /> :
                     <div>
                         <OverlayTrigger {...overlayProps}>

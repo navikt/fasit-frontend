@@ -10,12 +10,12 @@ export default (state = {
     data: {},
     isFetching: false,
     requestFailed: false,
+    currentSecrets: {}
 }, action) => {
     switch (action.type) {
-
         case CLEAR_RESOURCE_SECRET:
             return Object.assign({}, state, {
-                currentSecret: ""
+                currentSecrets: {}
             })
 
         case RESOURCE_FASIT_RECEIVED:
@@ -33,9 +33,9 @@ export default (state = {
             })
 
         case RESOURCE_FASIT_SECRET_RECEIVED:
-            return Object.assign({}, state, {
-                currentSecret: action.value,
 
+            return Object.assign({}, state, {
+                currentSecrets:  action.secrets
             })
 
         case RESOURCE_FASIT_REQUEST_FAILED:

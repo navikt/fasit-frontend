@@ -24,15 +24,14 @@ class NewResourceForm extends Component {
                 environmentclass: 'u'
             },
             files: {},
-            currentSecret: '',
-            secrets: {},
+            currentSecrets: {},
             comment: ""
         }
     }
 
     componentWillReceiveProps(next){
         const {resource} = this.props
-        const {alias, type, properties, scope, files, secrets} = resource.data
+        const {alias, type, properties, scope, files} = resource.data
 
         if (next.mode === "edit"  || next.mode === "copy"){
             this.setState({
@@ -41,8 +40,7 @@ class NewResourceForm extends Component {
                 properties,
                 scope,
                 files,
-                secrets,
-                currentSecret: next.currentSecret
+                currentSecrets: next.currentSecrets
             })
         }
         else {
@@ -75,7 +73,7 @@ class NewResourceForm extends Component {
 
     handleSubmitForm() {
         const {dispatch, resource, mode} = this.props
-        const {alias, type, properties, scope, secrets, files, comment, currentSecret} = this.state
+        const {alias, type, properties, scope, files, comment, currentSecrets} = this.state
         const form = {
             alias,
             type,
@@ -83,10 +81,10 @@ class NewResourceForm extends Component {
             scope,
         }
 
-        if(Object.keys(secrets).length > 0 ) {
+        if(Object.keys(currentSecrets).length > 0 ) {
             form.secrets = {}
-            Object.keys(secrets).forEach(k => {
-                form.secrets[k] = {value: currentSecret}
+            Object.keys(currentSecrets).forEach(k => {
+                form.secrets[k] = {value: currentSecrets[k]}
             })
         }
 
@@ -110,7 +108,7 @@ class NewResourceForm extends Component {
     renderProperty(property) {
         const key = property.name
         const label = `${property.displayName}${property.required === true ? " *" : ""}`
-        const {currentSecret} = this.state
+        const {currentSecrets} = this.state
         const field = property.name
 
         switch (property.type) {
@@ -142,10 +140,10 @@ class NewResourceForm extends Component {
             case "secret":
                 return <FormSecret key={key}
                                    label={label}
-                                   field={'currentSecret'}
+                                   field={key}
                                    editMode={true}
-                                   value={currentSecret}
-                                   parent="secrets"
+                                   value={currentSecrets[key]}
+                                   parent={'currentSecrets'}
                                    handleChange={this.handleChange.bind(this)}/>
             case "file":
                 break
@@ -191,9 +189,9 @@ class NewResourceForm extends Component {
             return false
         }
         const resourceType = this.getResourceType(this.state.type)
-
-        const currentProperties = keys(this.state.properties).concat(keys(this.state.secrets).concat(keys(this.state.files)))
+        const currentProperties = keys(this.state.properties).concat(keys(this.state.currentSecrets).concat(keys(this.state.files)))
         const requiredProperties = resourceType.properties.filter(p => p.required).map(p => p.name)
+
         return requiredProperties.length === currentProperties.length
     }
 
@@ -243,7 +241,7 @@ class NewResourceForm extends Component {
                         editMode={true}
                         handleChange={this.handleChange.bind(this)}
                         options={types}
-                        disabled={!authenticated}/>
+                        disabled={mode !== 'new' || !authenticated}/>
                     {this.renderProperties()}
                     <Scope editMode={true} scope={this.state.scope} handleChange={this.handleChange.bind(this)}/>
                 </Modal.Body>
@@ -271,7 +269,7 @@ const mapStateToProps = (state) => {
     return {
         showNewResourceForm: state.resources.showNewResourceForm,
         environmentClasses: state.environments.environmentClasses,
-        currentSecret: state.resource_fasit.currentSecret,
+        currentSecrets: state.resource_fasit.currentSecrets,
         applications: state.applications.applicationNames,
         types: Object.keys(resourceTypes).sort(),
         environments: state.environments.environments,

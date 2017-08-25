@@ -47,7 +47,7 @@ export default (state = initialState, action) => {
         case SHOW_NEW_RESOURCE_FORM:
             return Object.assign({}, state, {
                     showNewResourceForm: action.value,
-                    mode: action.mode,
+                    mode: action.mode || 'new',
                 }
             )
 

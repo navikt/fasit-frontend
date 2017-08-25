@@ -6,7 +6,6 @@ import {
     SHOW_NEW_CLUSTER_FORM,
     SHOW_NEW_ENVIRONMENT_FORM
 } from "../actionTypes";
-
 import {sortEnvironmentsNaturally} from "../utils";
 
 export const initialState = {
@@ -47,7 +46,7 @@ export default (state = initialState, action) => {
         case SHOW_NEW_ENVIRONMENT_FORM:
             return Object.assign({}, state, {
                     showNewEnvironmentForm: action.value,
-                    mode: action.mode
+                    mode: action.mode || 'new'
                 }
             )
         case SHOW_NEW_CLUSTER_FORM:

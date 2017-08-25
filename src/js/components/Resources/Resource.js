@@ -5,7 +5,7 @@ import {List, ListItem} from "material-ui/List";
 import {oldRevision, validAuthorization} from "../../utils";
 import {clearResourceSecret, fetchFasitData, fetchResourceSecret} from "../../actionCreators/resource";
 import {displayModal, submitForm} from "../../actionCreators/common";
-import {resourceTypes, resourceTypeIcon} from "../../utils/resourceTypes";
+import {resourceTypes, resourceTypeIcon, getResourceTypeName} from "../../utils/resourceTypes";
 import {ResourceInstances} from "./ResourceInstances";
 import {Card, CardActions, CardText, CardHeader} from "material-ui/Card";
 import FlatButton from "material-ui/FlatButton";
@@ -49,7 +49,6 @@ class Resource extends Component {
         } else {
             dispatch(fetchFasitData(id))
         }
-
     }
 
     componentWillReceiveProps(nextProps) {
@@ -64,7 +63,6 @@ class Resource extends Component {
             dispatch(fetchFasitData(id, nextProps.query.revision))
             dispatch(clearResourceSecret())
         }
-
     }
 
     componentWillUnmount() {
@@ -212,7 +210,7 @@ class Resource extends Component {
                     disabled={true}
                     className="text-overflow"
                     primaryText={
-                        <div>{secretVisible ? this.props.currentSecret : "*********"} {this.showSecretButtonOrInfo()}</div>}
+                        <div>{secretVisible ? this.props.currentSecrets[property.name] : "*********"} {this.showSecretButtonOrInfo()}</div>}
                     secondaryText={propertyName}
                 />
             case "file":
@@ -224,10 +222,9 @@ class Resource extends Component {
         const {user}  = this.props
         const authorized = validAuthorization(user, this.props.fasit.data.accesscontrol)
 
-
         if (authorized) {
             return <FlatButton disableTouchRipple={true} style={styles.flatButton} className={"pull-right"}
-                               label={"View secret"}
+                               label={this.state.secretVisible ? "Hide secret" : "View secret"}
                                icon={icons.eye} onTouchTap={() => this.toggleDisplaySecret()}/>
         } else {
             return (<Chip className="pull-right">
@@ -282,6 +279,7 @@ class Resource extends Component {
         let authorized = false
         let lifecycle = {}
 
+
         if (fasit.requestFailed) {
             if (fasit.requestFailed.startsWith("404")) {
                 return (<NotFound/>)
@@ -311,7 +309,7 @@ class Resource extends Component {
                             <CardHeader
                                 avatar={resourceTypeIcon(resource.type)}
                                 titleStyle={styles.bold}
-                                title={`${resource.type} ${resource.alias}`}
+                                title={`${getResourceTypeName(resource.type)} ${resource.alias}`}
                                 subtitle={this.scopeDisplayString(resource.scope)}
                             >
                             </CardHeader>
@@ -388,7 +386,7 @@ const mapStateToProps = (state) => {
     return {
         fasit: state.resource_fasit,
         resource: state.resource_fasit.data,
-        currentSecret: state.resource_fasit.currentSecret,
+        currentSecrets: state.resource_fasit.currentSecrets,
         user: state.user,
         config: state.configuration,
         query: state.routing.locationBeforeTransitions.query,

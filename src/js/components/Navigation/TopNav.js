@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router'
-import {Popover, OverlayTrigger} from 'react-bootstrap'
-import {connect} from 'react-redux'
-import {Login, AuraTools, NavSearch} from '../common/'
-import ContextMenu from './ContextMenu'
-import {logOut, getUser, displayLogin} from '../../actionCreators/authentication'
-import {toggleHelp, displayModal} from '../../actionCreators/common'
+import React, {Component} from "react";
+import {Link} from "react-router";
+import {Popover, OverlayTrigger} from "react-bootstrap";
+import {connect} from "react-redux";
+import {Login, AuraTools, NavSearch} from "../common/";
+import ContextMenu from "./ContextMenu";
+import {logOut, getUser, displayLogin} from "../../actionCreators/authentication";
+import {toggleHelp, displayModal} from "../../actionCreators/common";
 
 
 class TopNav extends Component {
@@ -142,7 +142,7 @@ class TopNav extends Component {
                     <li onClick={() => dispatch(displayModal("application", true))}><i
                         className="fa fa-cube"/> &nbsp;&nbsp; Create application
                     </li>
-                    <li onClick={() => dispatch(displayModal("environment", true, "new"))}><i
+                    <li onClick={() => dispatch(displayModal("environment", true))}><i
                         className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment
                     </li>
                     <li onClick={() => dispatch(displayModal("node", true))}><i
