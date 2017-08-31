@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {capitalize, oldRevision, validAuthorization} from "../../utils/";
+import {oldRevision, validAuthorization} from "../../utils/";
 import {Card, CardActions, CardHeader} from "material-ui/Card";
 import {List, ListItem} from "material-ui/List";
 import {fetchApplicationInstances, fetchFasitData} from "../../actionCreators/application";
@@ -115,7 +115,7 @@ class Application extends Component {
                     <div className="col-md-6" style={styles.cardPadding}>
                         {showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
                         {Object.keys(application).length > 0 && <Card>
-                            <CardHeader avatar={icons.application} title={`${capitalize(name)}`}
+                            <CardHeader avatar={icons.application} title={`${name}`}
                                         titleStyle={styles.bold} style={styles.paddingBottom0}
                                         subtitle={this.applicationInfo(application)}/>
                             <CardActions>

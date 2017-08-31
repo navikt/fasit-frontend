@@ -1,8 +1,8 @@
 import React from "react";
 import {LifecycleStatus} from "../common/";
 import FlatButton from "material-ui/FlatButton";
-import {browserHistory} from "react-router";
-import {Card, CardActions, CardHeader} from "material-ui/Card";
+import {browserHistory, Link} from "react-router";
+import {Card, CardActions, CardText, CardHeader} from "material-ui/Card";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import moment from "moment";
 
@@ -20,18 +20,20 @@ export default function ApplicationCard(props) {
     return (
         <div style={styles.cardPadding} >
             <Card>
-                <CardHeader title={application.name}
-                            titleStyle={styles.bold}
-                            subtitle={(
-                                <div>
-                                    {`Group id ${application.groupid}`}<br/>
-                                    {`Artifact id ${application.artifactid}`}<br/>
-                                    {`Port offset ${application.portoffset}`}
-                                </div>)}
-                            avatar={avatar}
-                            children={additionalCardInfo}
+                <CardHeader
+                    title={<Link to={`/applications/${application.name}`}>{application.name}</Link>}
+                    actAsExpander={true}
+                    avatar={avatar}
+                    children={additionalCardInfo}
                 />
-                <CardActions>
+                <CardText expandable={true}>
+                    <div>
+                    {`Group id ${application.groupid}`}<br/>
+                    {`Artifact id ${application.artifactid}`}<br/>
+                    {`Port offset ${application.portoffset}`}
+        </div>
+                </CardText>
+                <CardActions expandable={true}>
                     <FlatButton
                         disableTouchRipple={true}
                         onTouchTap={() =>  browserHistory.push('/applications/' + application.name)}
