@@ -12,17 +12,12 @@ import moment from "moment";
 export default function InstanceCard(props) {
     moment.locale("en")
 
-
     const instance = props.instance
     const avatar = icons.instance
     const id = instance.id
     const environment = instance.environment
     const usedResources = instance.usedresources
     const exposedResources = instance.exposedresources
-
-    console.log(environment, instance.application)
-    console.log("used", usedResources)
-    console.log("exposed", exposedResources)
 
     const hasUsedResources = usedResources.length > 0
     const cluster = instance.cluster
@@ -35,8 +30,7 @@ export default function InstanceCard(props) {
     return (
         <div style={styles.cardPadding}>
             <Card expandable={hasUsedResources} initiallyExpanded={false}>
-                <CardHeader title={`${instance.application} ${instance.version}`}
-                            titleStyle={styles.bold}
+                <CardHeader title={<Link to={`/instances/` + id}>{`${instance.application} ${instance.version}`}</Link>}
                             subtitle={environment}
                             showExpandableButton={false}
                             actAsExpander={true}
@@ -54,7 +48,7 @@ export default function InstanceCard(props) {
                         </Tab>
                     </Tabs>
                 </CardText>
-                <CardActions>
+                <CardActions expandable={true}>
                     <FlatButton
                         disableTouchRipple={true}
                         onTouchTap={() => browserHistory.push('/instances/' + id)}

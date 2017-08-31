@@ -93,10 +93,8 @@ class Application extends Component {
     applicationInfo(application) {
         return (
             <List>
-                <ListItem primaryText={application.groupid} disabled={true} secondaryText="Group id"/>
-                <ListItem primaryText={application.artifactid} disabled={true} secondaryText="Artifact id"/>
+                <ListItem primaryText={`${application.groupid}:${application.artifactid}`} disabled={true} secondaryText="Group id:artifact id"/>
                 <ListItem primaryText={application.portoffset.toString()} disabled={true} secondaryText="Port offset"/>
-
             </List>)
     }
 
@@ -118,7 +116,7 @@ class Application extends Component {
                         {showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
                         {Object.keys(application).length > 0 && <Card>
                             <CardHeader avatar={icons.application} title={`${capitalize(name)}`}
-                                        titleStyle={styles.bold} style={styles.paddingBottom10}
+                                        titleStyle={styles.bold} style={styles.paddingBottom0}
                                         subtitle={this.applicationInfo(application)}/>
                             <CardActions>
                                 <ToolButtons
