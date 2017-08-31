@@ -3,7 +3,7 @@ import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {List, ListItem} from "material-ui/List";
 import {oldRevision, validAuthorization} from "../../utils";
-import {clearResourceSecret, fetchFasitData, fetchResourceSecret} from "../../actionCreators/resource";
+import {fetchFasitData} from "../../actionCreators/resource";
 import {displayModal, submitForm} from "../../actionCreators/common";
 import {resourceTypes, resourceTypeIcon, getResourceTypeName} from "../../utils/resourceTypes";
 import {ResourceInstances} from "./ResourceInstances";
@@ -26,15 +26,11 @@ import {
 
 const initialState = {
     secretVisible: false,
-    editMode: false,
-    deleteMode: false,
-    displaySubmitForm: false,
     displayDeleteForm: false,
     displayRescueForm: false,
     adgroups: [],
     comment: ""
 }
-
 
 class Resource extends Component {
     constructor(props) {
@@ -46,6 +42,7 @@ class Resource extends Component {
         const {dispatch, id, query} = this.props
         if (query) {
             dispatch(fetchFasitData(id, query.revision))
+
         } else {
             dispatch(fetchFasitData(id))
         }
@@ -53,60 +50,38 @@ class Resource extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {dispatch, id, query} = this.props
-        this.setNewState(nextProps.fasit)
 
         if (nextProps.id != id) {
+            this.resetState(initialState)
             dispatch(fetchFasitData(nextProps.id))
-            dispatch(clearResourceSecret())
         }
+
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(id, nextProps.query.revision))
-            dispatch(clearResourceSecret())
         }
     }
 
-    componentWillUnmount() {
-        this.props.dispatch(clearResourceSecret())
-    }
-
-
-    setNewState(newState) {
-        // TODO, make generic?
-        const adgroups = newState.accesscontrol ? newState.accesscontrol.adgroups : []
-
-        this.setState({
-            alias: newState.data.alias,
-            type: newState.data.type,
-            scope: newState.data.scope,
-            properties: newState.data.properties,
-            secrets: newState.data.secrets,
-            files: newState.data.files,
-            dodgy: newState.data.dodgy,
-            created: newState.data.created,
-            updated: newState.data.updated,
-            adgroups: adgroups,
-            comment: ""
-        })
+    resetState() {
+        this.setState(initialState)
     }
 
     buildFormData() {
-        const {alias, type, properties, scope, currentSecret, files} = this.state
-
+        const {resource} = this.props
         const form = {
-            alias,
-            type,
-            properties,
-            scope
+            alias: resource.alias,
+            type: resource.type,
+            properties: resource.properties,
+            scope: resource.scope
         }
 
-        if (currentSecret && currentSecret.length > 0) {
+        if (Object.keys(this.props.currentSecrets).length > 0) {
             form.secrets = {}
-
-            const secretKey = this.getResourceType(type).properties.filter(p => p.type === "secret")[0].name
-            form.secrets[secretKey] = {value: currentSecret}
+            Object.keys(this.props.currentSecrets).forEach(k => {
+                form.secrets[k] = {value: this.props.currentSecrets[k]}
+            })
         }
 
-        if (Object.keys(files).length > 0) {
+        if (Object.keys(resource.files).length > 0) {
             form.files = files
         }
 
@@ -115,6 +90,7 @@ class Resource extends Component {
 
     rescueResource() {
         const {dispatch} = this.props
+
         const {comment} = this.state
         const form = this.buildFormData()
 
@@ -144,14 +120,6 @@ class Resource extends Component {
     }
 
     toggleDisplaySecret() {
-        const {dispatch} = this.props
-        if (this.state.secretVisible) {
-            dispatch(clearResourceSecret())
-        }
-        else {
-            dispatch(fetchResourceSecret())
-        }
-
         this.setState({secretVisible: !this.state.secretVisible})
     }
 
@@ -257,10 +225,8 @@ class Resource extends Component {
 
     showModal(mode) {
         const {dispatch} = this.props
-        dispatch(fetchResourceSecret())
         dispatch(displayModal("resource", true, mode))
     }
-
 
     render() {
         // handle isvalid() alt som er required
@@ -268,10 +234,8 @@ class Resource extends Component {
         // Sortere miljøer riktig i utils
         // sortere resource types i filter på ressurser
         // I resources element list hvis ressurstypen med riktig casing
-        // Få enter til å funke skikkelig i formene både ny, edit og comment
         // håndtere error i fetch secrets
         // file upload
-        // copy
 
         const {id, fasit, user, query, revisions, resource} = this.props
         const showRevision = oldRevision(revisions, query.revision)

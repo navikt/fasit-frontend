@@ -37,6 +37,10 @@ const hasRole = (user, roles) => {
     }
 }
 
+export const isEmptyObject = (obj) => {
+    return Object.keys(obj).length === 0
+}
+
 export function capitalize(label) {
     return "" + label.charAt(0).toUpperCase() + label.slice(1)
 }

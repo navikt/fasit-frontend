@@ -191,6 +191,7 @@ const applicationinstances = [
                 "ref": "http://localhost:6969/mockapi/resources/7"
             }
         ],
+        "usedresources": [],
         "missingresources": [],
         "id": 404,
         "revision": 69,

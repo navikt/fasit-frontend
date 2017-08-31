@@ -11,12 +11,19 @@ import moment from "moment";
 
 export default function InstanceCard(props) {
     moment.locale("en")
+
+
     const instance = props.instance
     const avatar = icons.instance
     const id = instance.id
     const environment = instance.environment
     const usedResources = instance.usedresources
     const exposedResources = instance.exposedresources
+
+    console.log(environment, instance.application)
+    console.log("used", usedResources)
+    console.log("exposed", exposedResources)
+
     const hasUsedResources = usedResources.length > 0
     const cluster = instance.cluster
     const additionalCardInfo = (<div className="pull-right">
