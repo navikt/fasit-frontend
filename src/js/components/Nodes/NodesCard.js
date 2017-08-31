@@ -1,7 +1,7 @@
 import React from "react";
 import {LifecycleStatus} from "../common/";
 import FlatButton from "material-ui/FlatButton";
-import {browserHistory} from "react-router";
+import {browserHistory, Link} from "react-router";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import {List, ListItem} from "material-ui/List";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
@@ -23,8 +23,7 @@ export default function NodeCard(props) {
     return (
         <div style={styles.cardPadding} >
             <Card>
-                <CardHeader title={`${node.hostname}`}
-                            titleStyle={styles.bold}
+                <CardHeader title={<Link to={`/nodes/${node.hostname}`}>{node.hostname}</Link>}
                             subtitle={`${node.environment} ${capitalize(node.type)}`}
                             avatar={avatar}
                             children={additionalCardInfo}

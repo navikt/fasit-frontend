@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {submitFilterString} from '../../actionCreators/element_lists'
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {submitFilterString} from "../../actionCreators/element_lists";
 
 export class ElementPaging extends Component {
     constructor(props) {
@@ -68,7 +68,7 @@ export class ElementPaging extends Component {
 }
 
 const calculateLastPage = (totalCount) => {
-    const PER_PAGE = 10
+    const PER_PAGE = 50
     if (!totalCount){
         return "?"
     } else if (totalCount <= PER_PAGE){
