@@ -16,13 +16,12 @@ import {
     destinationUrl
 } from "../Search/searchResultTypes";
 import {styles, colors, icons} from "../../commonStyles/commonInlineStyles";
-import {LifecycleStatus} from "../common/";
+import {CardInfo} from "../common/";
 import {capitalize} from "../../utils/";
 import {WebsphereManagementConsole} from "../common";
 import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
 import {submitSearch, setSearchString} from "../../actionCreators/common";
 import PrettyXml from "../common/PrettyXml";
-import moment from "moment";
 
 class Search extends Component {
 
@@ -66,9 +65,7 @@ class Search extends Component {
     }
 
     additionalCardInfo(searchResult) {
-        return (<div className="pull-right">
-            <div className="text-muted">Changed {moment(searchResult.lastchange).fromNow()}</div><LifecycleStatus status={searchResult.lifecycle.status}/>
-        </div>)
+        return (<CardInfo lastUpdated={searchResult.lastchange} lifecycle={searchResult.lifecycle}/>)
     }
 
     searchResultCard(searchResult, idx) {

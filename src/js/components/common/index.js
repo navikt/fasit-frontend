@@ -8,7 +8,7 @@ import {History} from "./History";
 import RevisionsView from "./RevisionsView";
 import KeyboardShortcuts from "./KeyboardShortcuts";
 import Login from "./Login";
-import {LifecycleStatus} from "./LifecycleStatus";
+import {CardInfo} from "./CardInfo";
 import Lifecycle from "./Lifecycle";
 import NavSearch from "./NavSearch";
 import SubmitForm from "./SubmitForm";
@@ -50,7 +50,7 @@ DeleteElementForm,
     FormString,
     History,
     KeyboardShortcuts,
-    LifecycleStatus,
+    CardInfo,
     Lifecycle,
     Login,
     NavSearch,

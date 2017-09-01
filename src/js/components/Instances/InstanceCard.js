@@ -1,16 +1,14 @@
 import React from "react";
-import {LifecycleStatus} from "../common/";
+import {CardInfo} from "../common/";
 import FlatButton from "material-ui/FlatButton";
 import {browserHistory, Link} from "react-router";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import {Tab, Tabs} from "material-ui/Tabs";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
-import moment from "moment";
-
 
 export default function InstanceCard(props) {
-    moment.locale("en")
+
 
     const instance = props.instance
     const avatar = icons.instance
@@ -21,11 +19,7 @@ export default function InstanceCard(props) {
 
     const hasUsedResources = usedResources.length > 0
     const cluster = instance.cluster
-    const additionalCardInfo = (<div className="pull-right">
-        <div className="text-muted">Changed {moment(instance.updated).fromNow()}</div>
-        <br/>
-        <LifecycleStatus status={instance.lifecycle.status}/>
-    </div>)
+    const additionalCardInfo = (<CardInfo lastUpdated={instance.updated} lifecycle={instance.lifecycle}/>)
 
     return (
         <div style={styles.cardPadding}>

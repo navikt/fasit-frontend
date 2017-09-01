@@ -1,21 +1,15 @@
 import React from "react";
-import {LifecycleStatus} from "../common/";
+import {CardInfo} from "../common/";
 import FlatButton from "material-ui/FlatButton";
 import {browserHistory, Link} from "react-router";
 import {Card, CardActions, CardText, CardHeader} from "material-ui/Card";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
-import moment from "moment";
 
 
 export default function ApplicationCard(props) {
-    moment.locale("en")
     const application =  props.application
     const avatar = icons.application
-    const additionalCardInfo = (<div className="pull-right">
-        <div className="text-muted">Changed {moment(application.updated).fromNow()}</div>
-        <br/>
-        <LifecycleStatus status={application.lifecycle.status}/>
-    </div>)
+    const additionalCardInfo = (<CardInfo lastUpdated={application.updated} lifecycle={application.lifecycle}/>)
 
     return (
         <div style={styles.cardPadding} >

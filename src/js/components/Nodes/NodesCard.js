@@ -1,27 +1,24 @@
 import React from "react";
-import {LifecycleStatus} from "../common/";
+import {CardInfo} from "../common/";
 import FlatButton from "material-ui/FlatButton";
 import {browserHistory, Link} from "react-router";
+import Subheader from "material-ui/Subheader";
+import Divider from "material-ui/Divider";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import {List, ListItem} from "material-ui/List";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
-import moment from "moment";
 import {capitalize} from "../../utils/";
 
 export default function NodeCard(props) {
-    moment.locale("en")
-    const node =  props.node
+    const node = props.node
     const avatar = icons.node
     const environment = node.environment
     const cluster = node.cluster
 
-    const additionalCardInfo = (<div className="pull-right">
-        <div className="text-muted">Changed {moment(node.updated).fromNow()}</div>
-        <LifecycleStatus status={node.lifecycle.status}/>
-    </div>)
+    const additionalCardInfo = (<CardInfo lastUpdated={node.updated} lifecycle={node.lifecycle}/>)
 
     return (
-        <div style={styles.cardPadding} >
+        <div style={styles.cardPadding}>
             <Card>
                 <CardHeader title={<Link to={`/nodes/${node.hostname}`}>{node.hostname}</Link>}
                             subtitle={`${node.environment} ${capitalize(node.type)}`}
@@ -30,12 +27,14 @@ export default function NodeCard(props) {
                             actAsExpander={true}
                 />
                 <CardText expandable={true} actAsExpander={false}>
-                    <List>
+                    <List >
+                        <Subheader>Applications</Subheader>
+                        <Divider/>
                         {node.applications
                             .map(application => <ListItem key={application}
-                                primaryText={application}
-                                onTouchTap={() => browserHistory.push(`/applications/${application}`)}></ListItem>
-                        )}
+                                                          primaryText={application}
+                                                          onTouchTap={() => browserHistory.push(`/applications/${application}`)}></ListItem>
+                            )}
                     </List>
 
                 </CardText>
