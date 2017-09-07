@@ -11,7 +11,7 @@ export function CardInfo(props) {
     const {lastUpdated, lifecycle} = props
     return (
         <div className="pull-right col-md-4">
-            <div className="col-md-4 text-muted pull-right" style={{paddingTop: "6px"}}>
+            <div className="col-md-5 text-muted pull-right" style={{paddingTop: "6px"}}>
                 Changed {moment(lastUpdated).fromNow()}</div>
             <LifecycleChip lifecycle={lifecycle}/>
         </div>
