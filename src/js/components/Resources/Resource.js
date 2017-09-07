@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {List, ListItem} from "material-ui/List";
+import {Link} from "react-router";
 import {oldRevision, validAuthorization} from "../../utils";
 import {fetchFasitData} from "../../actionCreators/resource";
 import {displayModal, submitForm} from "../../actionCreators/common";
@@ -12,11 +13,11 @@ import FlatButton from "material-ui/FlatButton";
 import Chip from "material-ui/Chip";
 import {styles, icons} from "../../commonStyles/commonInlineStyles";
 import NotFound from "../NotFound";
+import WebsphereManagementConsole from "../common/WebsphereManagementConsole";
 import {
     AccessControl,
     CurrentRevision,
     DeleteElementForm,
-    FormLink,
     History,
     Lifecycle,
     RescueElementForm,
@@ -161,7 +162,15 @@ class Resource extends Component {
                     primaryText={properties[key]}
                     secondaryText={propertyName}
                 />
-
+            case "link":
+                return <ListItem
+                    key={key}
+                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                    disabled={true}
+                    className="text-overflow"
+                    primaryText={<Link to={properties[key]} target="new">{property.linkTitle}</Link>}
+                    //secondaryText={propertyName}
+                />
             case "textarea":
                 return <ListItem
                     key={key}
@@ -206,10 +215,15 @@ class Resource extends Component {
         const exposedBy = this.props.fasit.data.exposedby
         if (exposedBy) {
             const displayString = `${exposedBy.application} (${exposedBy.version}) in ${exposedBy.environment}`
-            return <FormLink
-                label="Exposed by"
-                value={displayString}
-                linkTo={'/instances/' + exposedBy.id}/>
+            return (
+            <ListItem
+                key={exposedBy.id}
+                style={{paddingTop: '0px', paddingBottom: '14px'}}
+                disabled={true}
+                className="text-overflow"
+                primaryText={<Link to={`/instances/${exposedBy.id}`}>{displayString}</Link>}
+                secondaryText="Exposed by"
+            />)
         }
     }
 
@@ -266,9 +280,8 @@ class Resource extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-6" style={styles.cardPadding}>
+                    <div className="col-md-8" style={styles.cardPadding}>
                         { showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
-
                         <Card>
                             <CardHeader
                                 avatar={resourceTypeIcon(resource.type)}
@@ -279,6 +292,8 @@ class Resource extends Component {
                             </CardHeader>
                             <CardText >
                                 {this.renderResourceProperties(resource.properties)}
+                                {this.exposedByApplication()}
+                                {resource.type.toLowerCase() === "deploymentmanager" && <WebsphereManagementConsole hostname={resource.properties.hostname}/>}
                             </CardText>
                             <CardActions>
                                 <ToolButtons disabled={!authorized}
@@ -287,7 +302,6 @@ class Resource extends Component {
                                              onCopyClick={() => this.showModal("copy")}
                                              editMode={this.state.editMode}
                                 />
-
                             </CardActions>
                         </Card>
                         <Lifecycle lifecycle={lifecycle}
@@ -295,20 +309,16 @@ class Resource extends Component {
                                    authorized={authorized}/>
                     </div>
 
-                    {this.exposedByApplication()}
-
                     <div className="col-md-4">
                         <History id={id} currentRevision={query.revision} component="resource"/>
                         <Security accesscontrol={fasit.data.accesscontrol}
                                   displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                     </div>
-
                 </div>
 
-                <div className="row col-md-12">
+                <div className="row col-md-8">
                     <ResourceInstances instances={fasit.data.usedbyapplications}/>
                 </div>
-
 
                 <RescueElementForm
                     displayRescueForm={this.state.displayRescueForm}
@@ -336,7 +346,6 @@ class Resource extends Component {
             </div>
         )
     }
-
 
     getResourceType(typeKey) {
         const key = Object.keys(resourceTypes)

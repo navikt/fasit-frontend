@@ -29,11 +29,11 @@ class NewResourceForm extends Component {
         }
     }
 
-    componentWillReceiveProps(next){
+    componentWillReceiveProps(next) {
         const {resource} = this.props
         const {alias, type, properties, scope, files} = resource.data
 
-        if (next.mode === "edit"  || next.mode === "copy"){
+        if (next.mode === "edit" || next.mode === "copy") {
             this.setState({
                 alias,
                 type,
@@ -81,18 +81,18 @@ class NewResourceForm extends Component {
             scope,
         }
 
-        if(Object.keys(currentSecrets).length > 0 ) {
+        if (Object.keys(currentSecrets).length > 0) {
             form.secrets = {}
             Object.keys(currentSecrets).forEach(k => {
                 form.secrets[k] = {value: currentSecrets[k]}
             })
         }
 
-        if(Object.keys(files).length > 0 ) {
+        if (Object.keys(files).length > 0) {
             form.files = files
         }
 
-        if(mode === "edit") {
+        if (mode === "edit") {
             dispatch(submitForm(resource.data.id, form, comment, "resource"))
         }
         else {
@@ -122,6 +122,7 @@ class NewResourceForm extends Component {
                                    handleChange={this.handleChange.bind(this)}/>
 
             case "textarea":
+            case "link":
                 return <FormTextArea key={key}
                                      label={label}
                                      field={field}
@@ -153,7 +154,7 @@ class NewResourceForm extends Component {
     }
 
     getResourceType(typeKey) {
-        if(!typeKey) {
+        if (!typeKey) {
             return ""
         }
         const key = Object.keys(resourceTypes)
@@ -188,9 +189,13 @@ class NewResourceForm extends Component {
         if (!this.state.alias) {
             return false
         }
+
         const resourceType = this.getResourceType(this.state.type)
-        const currentProperties = keys(this.state.properties).concat(keys(this.state.currentSecrets).concat(keys(this.state.files)))
         const requiredProperties = resourceType.properties.filter(p => p.required).map(p => p.name)
+        const currentProperties = keys(this.state.properties)
+            .concat(keys(this.state.currentSecrets)
+            .concat(keys(this.state.files)))
+            .filter(prop => requiredProperties.includes(prop))
 
         return requiredProperties.length === currentProperties.length
     }
@@ -209,7 +214,7 @@ class NewResourceForm extends Component {
     }
 
     loginWarning(authenticated) {
-        if(!authenticated) {
+        if (!authenticated) {
             return <div className="alert alert-info">You need to log in before creating a resource</div>
         }
     }

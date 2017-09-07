@@ -10,10 +10,10 @@ export function CardInfo(props) {
     moment.locale("en")
     const {lastUpdated, lifecycle} = props
     return (
-        <div className="pull-right col-md-5">
-            <LifecycleChip lifecycle={lifecycle}/>
-            <div className="col-md-7 text-muted pull-right" style={{paddingTop: "6px"}}>
+        <div className="pull-right col-md-4">
+            <div className="col-md-4 text-muted pull-right" style={{paddingTop: "6px"}}>
                 Changed {moment(lastUpdated).fromNow()}</div>
+            <LifecycleChip lifecycle={lifecycle}/>
         </div>
     )
 }
@@ -42,7 +42,7 @@ function LifecycleChip(props) {
     }
 
     return (
-        <div className="col-md-5">
+        <div className="col-md-4 pull-right">
             <Chip backgroundColor={colors.white} labelColor={colors.grey}>
                 <Avatar backgroundColor={color} icon={<Restore />}/>
                 {capitalize(lifecycleStatus)}

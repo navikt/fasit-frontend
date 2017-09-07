@@ -1,8 +1,7 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router'
-
-import BreadCrumbs from './BreadCrumbs'
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {Link} from "react-router";
+import BreadCrumbs from "./BreadCrumbs";
 
 
 class ContexMenu extends Component {
@@ -19,7 +18,7 @@ class ContexMenu extends Component {
     render() {
         return (
             <div className="context-menu">
-                <div className="col-lg-9 col-lg-offset-2 col-md-11 col-md-offset-1 col-sm-12">
+                <div className="col-lg-11 col-lg-offset-1 col-md-11 col-md-offset-1 col-sm-12">
                     <BreadCrumbs />
                     <ul className="nav nav-tabs nav-tab-positioning">
                         <li className={this.isActive("search")}>

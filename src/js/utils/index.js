@@ -165,6 +165,15 @@ export const postUrl = (url, form, comment) => {
         })
 }
 
+export const sortBy = (property) => {
+    return function(a, b) {
+        if(a[property] === b[property]) {
+            return 0
+        }
+        return a[property] < b[property] ? -1 : 1
+    }
+}
+
 export const postForm = (url, body) => {
     return fetch(url, {
         headers: {"Content-Type": "application/x-www-form-urlencoded"},

@@ -126,8 +126,8 @@ export const resourceTypes = {
         icon: "fa fa-bookmark",
         properties: [
             textbox("endpointUrl", "Endpoint Url"),
-            textbox("wsdlUrl", "WSDL Url", false),
             dropdown("securityToken", "Security Token", ["NONE", "LTPA", "SAML", "USERNAME_TOKEN", "OTHER"]),
+            link("wsdlUrl", "WSDL Url", "WSDL artifact",  false),
             textbox("description", "Description", false)
         ]
     },
@@ -265,6 +265,10 @@ function capitalize(str) {
 
 function textbox(name, displayName, required = true) {
     return {name, displayName: displayName || capitalize(name), type: "textbox", required}
+}
+
+function link( name, displayName, linkTitle, required = true) {
+    return {name, displayName: displayName || capitalize(displayname), linkTitle , type: "link", required}
 }
 
 function textarea(name, displayName, required = true) {
