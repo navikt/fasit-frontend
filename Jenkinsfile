@@ -72,21 +72,17 @@ node {
                 }
         }
 
-        GString message = "${application}:${releaseVersion} now in production. See jenkins for more info ${env.BUILD_URL}\nLast commit ${changelog}"
-        mail body: message, from: "jenkins@aura.adeo.no", subject: "SUCCESSFULLY completed ${env.JOB_NAME}!", to: committerEmail
-        def successmessage = "Successfully deployed fasit-frontend:${releaseVersion} to prod\nhttps://fasit-frontend.adeo.no\nLast commit by ${committer}: ${changelog}"
+        def successmessage = "Successfully deployed fasit-frontend:${releaseVersion} to prod :partyparrot: \nhttps://fasit-frontend.adeo.no\nLast commit by ${committer}: ${changelog}"
         slackSend channel: '#nye_fasit', message: successmessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
 
     } catch(e) {
         currentBuild.result = "FAILED"
-        throw e
-
-        GString message = "AIAIAI! Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}"
+        GString message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}"
         mail body: message, from: "jenkins@aura.adeo.no", subject: "FAILED to complete ${env.JOB_NAME}", to: committerEmail
 
-        def errormessage = "see jenkins for more info ${env.BUILD_URL}\nLast commit ${changelog}"
-        slackSend channel: '#nye_fasit', message: errormessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
+        slackSend channel: '#nye_fasit', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
 
+        throw e
     }
 }
 
