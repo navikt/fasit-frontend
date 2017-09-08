@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from "react";
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
-
 import {FormComment, FormString} from "../common/Forms";
 import {capitalize} from "../../utils";
 import {displayModal, submitForm} from "../../actionCreators/common";
@@ -111,15 +110,15 @@ class NewApplicationForm extends Component {
                         handleChange={this.handleChange.bind(this)}
                     />
                     <FormString
-                        label="artifactid"
-                        editMode={true}
-                        value={this.state.artifactid}
-                        handleChange={this.handleChange.bind(this)}
-                    />
-                    <FormString
                         label="groupid"
                         editMode={true}
                         value={this.state.groupid}
+                        handleChange={this.handleChange.bind(this)}
+                    />
+                    <FormString
+                        label="artifactid"
+                        editMode={true}
+                        value={this.state.artifactid}
                         handleChange={this.handleChange.bind(this)}
                     />
                     <FormString

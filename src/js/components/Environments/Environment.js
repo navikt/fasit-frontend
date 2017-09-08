@@ -12,7 +12,7 @@ import {
     ToolButtons
 } from "../common/";
 import {displayModal, submitForm} from "../../actionCreators/common";
-import {oldRevision, validAuthorization} from "../../utils/";
+import {validAuthorization} from "../../utils/";
 import EnvironmentClusters from "./EnvironmentClusters";
 import EnvironmentNodes from "./EnvironmentNodes";
 import EnvironmentInstances from "./EnvironmentInstances";
@@ -108,7 +108,6 @@ class Environment extends Component {
         const envClass = environment.environmentclass
         let lifecycle = {}
 
-        const showRevision = oldRevision(revisions, query.revision)
         let authorized = false
         if (Object.keys(environment).length > 0) {
             authorized = validAuthorization(user, environment.accesscontrol)
@@ -118,13 +117,13 @@ class Environment extends Component {
         return (
             <div className="row">
                 <div className="col-md-6" style={styles.cardPadding}>
-                    {showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
+                    <CurrentRevision revisionId={query.revision} revisions={revisions}/>
                     <Card>
                         <CardHeader avatar={icons.environment} title="Environment" titleStyle={styles.bold}/>
                         <CardTitle title={`${envName}`}  subtitle={`Environment class: ${envClass} `}/>
                         <CardActions>
                             <ToolButtons
-                                disabled={showRevision || !authorized}
+                                disabled={!authorized}
                                 onEditClick={() => dispatch(displayModal("environment", true, "edit"))}
                                 onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                 onCopyClick={() => dispatch(displayModal("environment", true, "copy"))}

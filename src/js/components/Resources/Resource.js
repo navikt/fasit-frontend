@@ -3,7 +3,7 @@ import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {List, ListItem} from "material-ui/List";
 import {Link} from "react-router";
-import {oldRevision, validAuthorization} from "../../utils";
+import {validAuthorization} from "../../utils";
 import {fetchFasitData} from "../../actionCreators/resource";
 import {displayModal, submitForm} from "../../actionCreators/common";
 import {resourceTypes, resourceTypeIcon, getResourceTypeName} from "../../utils/resourceTypes";
@@ -43,7 +43,6 @@ class Resource extends Component {
         const {dispatch, id, query} = this.props
         if (query) {
             dispatch(fetchFasitData(id, query.revision))
-
         } else {
             dispatch(fetchFasitData(id))
         }
@@ -56,6 +55,7 @@ class Resource extends Component {
             this.resetState(initialState)
             dispatch(fetchFasitData(nextProps.id))
         }
+
 
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchFasitData(id, nextProps.query.revision))
@@ -169,7 +169,7 @@ class Resource extends Component {
                     disabled={true}
                     className="text-overflow"
                     primaryText={<Link to={properties[key]} target="new">{property.linkTitle}</Link>}
-                    //secondaryText={propertyName}
+                    secondaryText={propertyName}
                 />
             case "textarea":
                 return <ListItem
@@ -252,8 +252,6 @@ class Resource extends Component {
         // file upload
 
         const {id, fasit, user, query, revisions, resource} = this.props
-        const showRevision = oldRevision(revisions, query.revision)
-
         let authorized = false
         let lifecycle = {}
 
@@ -277,11 +275,12 @@ class Resource extends Component {
             lifecycle = fasit.data.lifecycle
         }
 
+
         return (
             <div>
                 <div className="row">
                     <div className="col-md-8" style={styles.cardPadding}>
-                        { showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
+                        { <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
                         <Card>
                             <CardHeader
                                 avatar={resourceTypeIcon(resource.type)}
@@ -360,6 +359,7 @@ const mapStateToProps = (state) => {
         fasit: state.resource_fasit,
         resource: state.resource_fasit.data,
         currentSecrets: state.resource_fasit.currentSecrets,
+        revisions: state.revisions,
         user: state.user,
         config: state.configuration,
         query: state.routing.locationBeforeTransitions.query,

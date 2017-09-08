@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {oldRevision, validAuthorization} from "../../utils/";
+import {validAuthorization} from "../../utils/";
 import {Card, CardActions, CardHeader} from "material-ui/Card";
 import {List, ListItem} from "material-ui/List";
 import {fetchApplicationInstances, fetchFasitData} from "../../actionCreators/application";
@@ -101,7 +101,6 @@ class Application extends Component {
     render() {
         const {name, application, user, dispatch, query, revisions, instances} = this.props
         const {comment, adgroups, editMode} = this.state
-        const showRevision = oldRevision(revisions, query.revision)
         let lifecycle = {}
         let authorized = false
 
@@ -113,14 +112,14 @@ class Application extends Component {
             <div>
                 <div className="row">
                     <div className="col-md-6" style={styles.cardPadding}>
-                        {showRevision && <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
+                        {<CurrentRevision revisionId={query.revision} revisions={revisions}/>}
                         {Object.keys(application).length > 0 && <Card>
                             <CardHeader avatar={icons.application} title={`${name}`}
                                         titleStyle={styles.bold} style={styles.paddingBottom0}
                                         subtitle={this.applicationInfo(application)}/>
                             <CardActions>
                                 <ToolButtons
-                                    disabled={showRevision || !authorized}
+                                    disabled={!authorized}
                                     onEditClick={() => dispatch(displayModal("application", true, "edit"))}
                                     onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                     onCopyClick={() => dispatch(displayModal("application", true, "copy"))}

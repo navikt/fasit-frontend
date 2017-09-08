@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {FormString, FormLink} from "../common/Forms";
-import {oldRevision} from "../../utils/";
 import {Tab, Tabs} from "material-ui/Tabs";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import Manifest from "./Manifest";
@@ -33,15 +32,13 @@ class Instance extends Component {
 
     render() {
         const {instance, revisions, query, id} = this.props
-        const showRevision = oldRevision(revisions, query.revision)
         const clusterName = instance.cluster ? instance.cluster.name : ""
 
         return (
             <div className="row">
-                {showRevision ?
-                    <CurrentRevision revisionId={query.revision} revisions={revisions}/> : null}
+                <CurrentRevision revisionId={query.revision} revisions={revisions}/>
                 <div className="col-xs-12" style={{height: 30 + "px"}}></div>
-                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
+                <div className= "col-md-6">
                     <FormLink
                         label="Application"
                         value={instance.application}

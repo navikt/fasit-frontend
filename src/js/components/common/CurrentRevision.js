@@ -9,8 +9,10 @@ export function CurrentRevision(props) {
     const {revisions, revisionId} = props
     const rev = revisions.data.filter(r => r.revision == revisionId)
 
+    if(!revisionId || rev.length === 0) {
+        return null
+    }
 
-    if (rev.length > 0) {
         const currentRevision = rev[0]
         return (
             <Card style={styles.cardPadding}>
@@ -20,8 +22,4 @@ export function CurrentRevision(props) {
                     subtitle={`${moment(currentRevision.timestamp).format('DD.MM YYYY, H:mm:ss')} by ${currentRevision.author} (${currentRevision.authorid})`}/>
                 {currentRevision.message && <CardText>{currentRevision.message}</CardText>}
             </Card>)
-    }
-    else{
-        return null
-    }
 }

@@ -14,11 +14,12 @@ import {
 
 export function* fetchFasit(action) {
     const resourcesConfig = yield select((state) => state.configuration.fasit_resources)
+
     yield put({type: RESOURCE_FASIT_FETCHING})
     try {
         let value = {}
         yield put({type: CLEAR_RESOURCE_SECRET})
-        if (action.revision) {
+        if (action.revision ) {
             value = yield call(fetchUrl, `${resourcesConfig}/${action.id}/revisions/${action.revision}`)
         } else {
             value = yield call(fetchUrl, `${resourcesConfig}/${action.id}`)
@@ -27,7 +28,6 @@ export function* fetchFasit(action) {
         yield put({type: RESOURCE_FASIT_SECRET_REQUEST})
     } catch (error) {
         yield put({type: RESOURCE_FASIT_REQUEST_FAILED, error})
-
     }
 }
 

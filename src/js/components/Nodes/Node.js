@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {validAuthorization, oldRevision} from "../../utils/";
+import {validAuthorization} from "../../utils/";
 import {fetchFasitData, fetchNodePassword, clearNodePassword} from "../../actionCreators/node";
 import {
     AccessControl,
@@ -129,7 +129,6 @@ class Node extends Component {
     render() {
         const {hostname, config, user, fasit, nodeTypes, query, revisions} = this.props
         const {comment, editMode, username, password, type, adgroups} = this.state
-        const showRevision = oldRevision(revisions, query.revision)
 
         let lifecycle = (Object.keys(fasit.data).length > 0) ? fasit.data.lifecycle : {}
         let authorized = (Object.keys(fasit.data).length > 0) ? validAuthorization(user, fasit.data.accesscontrol) : false
@@ -137,18 +136,18 @@ class Node extends Component {
         return (
             <div className="row">
                 {/*Heading*/}
-                {showRevision ? <CurrentRevision revisionId={query.revision} revisions={this.props.revisions}/>
-                    : <ToolButtons
+                <CurrentRevision revisionId={query.revision} revisions={this.props.revisions}/>
+                <ToolButtons
                     disabled={!authorized}
                     onEditClick={() => this.toggleComponentDisplay("editMode")}
                     onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                     onCopyClick={() => console.log("Copy,copycopy!")}
                     editMode={this.state.editMode}
-                    />
+                />
                 }
 
                 {/*Form*/}
-                <div className={showRevision ? "col-md-6 disabled-text-color" : "col-md-6"}>
+                <div className="col-md-6">
                     <FormString
                         label="hostname"
                         editMode={editMode}
@@ -192,7 +191,7 @@ class Node extends Component {
                             value={fasit.data.cluster.name}
                             linkTo={`/environments/${fasit.data.environment}/clusters/${fasit.data.cluster.name}`}
                         /> :
-                        <FormString label="Cluster" value="Orphaned node" />}
+                        <FormString label="Cluster" value="Orphaned node"/>}
 
 
                     {/*Submit / Cancel buttons*/}

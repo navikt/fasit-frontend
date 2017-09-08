@@ -56,48 +56,49 @@ class RevisionsView extends Component {
     }
 
     render() {
-            moment.locale("en")
-            const {revisions, routing, currentRevision} = this.props
+        moment.locale("en")
+        const {revisions, routing, currentRevision} = this.props
 
-            if (revisions.isFetching) {
-                return (
-                  <div>
-                        <i className="fa fa-spinner fa-pulse fa-2x"></i>
-                    </div>
-                )
-            }
-
-            else if (revisions.requestFailed)
-                return  <div key="1">Unable to fetch revisions</div>
-
-            let displayRevisions = revisions.data
-           
-            if (!this.state.displayAllRevisions)
-                displayRevisions = revisions.data.slice(0, 5)
+        if (revisions.isFetching) {
             return (
-                <ul className="revisionList">
-                    {displayRevisions.map(rev => {
-                        const className = rev.revision == currentRevision ? "revisionListItem currentRevision " : "revisionListItem"
-                        return (
-                            <OverlayTrigger
-                                placement="left"
-                                key={rev.revision}
-                                overlay={this.tooltip(rev.message || 'Changes made without a comment')}
-                            >
-                                <li id={rev.revision}>
-                                    <Link
-                                        onClick={() => browserHistory.push(routing.pathname + "?revision=" + rev.revision)}
-                                        className={className}>
-                                        {`${rev.revisiontype === 'add' ? 'Created ' : 'Modified '} ${moment(rev.timestamp).fromNow()}
-                                        by ${rev.author}`}</Link>
-                                </li>
-                            </OverlayTrigger>)
-                    })}
-
-                    {this.showRevisionsFooter()}
-                </ul>
+                <div>
+                    <i className="fa fa-spinner fa-pulse fa-2x"></i>
+                </div>
             )
         }
+
+        else if (revisions.requestFailed)
+            return <div key="1">Unable to fetch revisions</div>
+
+        let displayRevisions = revisions.data
+
+        if (!this.state.displayAllRevisions)
+            displayRevisions = revisions.data.slice(0, 5)
+        return (
+            <ul className="revisionList">
+                {displayRevisions.map((rev, idx) => {
+                    const revisionQuery = idx !== 0 ? `?revision=${rev.revision}` : ''
+                    const className = rev.revision == currentRevision ? "revisionListItem currentRevision " : "revisionListItem"
+                    return (
+                        <OverlayTrigger
+                            placement="left"
+                            key={rev.revision}
+                            overlay={this.tooltip(rev.message || 'Changes made without a comment')}
+                        >
+                            <li id={rev.revision}>
+                                <Link
+                                    onClick={() => browserHistory.push(routing.pathname + revisionQuery)}
+                                    className={className}>
+                                    {`${rev.revisiontype === 'add' ? 'Created ' : 'Modified '} ${moment(rev.timestamp).fromNow()}
+                                        by ${rev.author}`}</Link>
+                            </li>
+                        </OverlayTrigger>)
+                })}
+
+                {this.showRevisionsFooter()}
+            </ul>
+        )
+    }
 }
 
 const mapStateToProps = (state) => ({

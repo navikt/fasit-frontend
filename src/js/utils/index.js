@@ -3,7 +3,7 @@ import fetch from "isomorphic-fetch";
 export const validAuthorization = (user, accesscontrol) => {
     let group = true, role = false
     if (user.authenticated && typeof accesscontrol !== "undefined") {
-        if (accesscontrol.adgroups.length > 0){
+        if (accesscontrol.adgroups.length > 0) {
             group = hasGroup(user, accesscontrol.adgroups)
         }
         switch (accesscontrol.environmentclass) {
@@ -50,7 +50,7 @@ function splitCharactersAndNumbers(name) {
 }
 
 // sort environments naturally, first by envclass, then by name and number. Ex p, q1, q2, q10, u1, u2, a12
-export function sortEnvironmentsNaturally (first, second) {
+export function sortEnvironmentsNaturally(first, second) {
     const firstEnvClass = first.environmentclass.toLowerCase()
     const secondEnvClass = second.environmentclass.toLowerCase()
     // environment name can either be in field environment or name depending on payload
@@ -63,9 +63,9 @@ export function sortEnvironmentsNaturally (first, second) {
         return firstEnvClass > secondEnvClass ? 1 : -1
     }
 
-    for(let idx = 0; idx < firstEnvName.length; idx++) {
-        if(firstEnvName[idx] !== secondEnvName[idx]) {
-            if(!isNaN(firstEnvName[idx]) && !isNaN(secondEnvName[idx])) {
+    for (let idx = 0; idx < firstEnvName.length; idx++) {
+        if (firstEnvName[idx] !== secondEnvName[idx]) {
+            if (!isNaN(firstEnvName[idx]) && !isNaN(secondEnvName[idx])) {
                 return parseInt(firstEnvName[idx]) > parseInt(secondEnvName[idx]) ? 1 : -1
             }
             return firstEnvName[idx] > secondEnvName[idx] ? 1 : -1
@@ -166,8 +166,8 @@ export const postUrl = (url, form, comment) => {
 }
 
 export const sortBy = (property) => {
-    return function(a, b) {
-        if(a[property] === b[property]) {
+    return function (a, b) {
+        if (a[property] === b[property]) {
             return 0
         }
         return a[property] < b[property] ? -1 : 1
@@ -210,14 +210,4 @@ export const deleteUrl = (url, comment) => {
             }
             return text
         })
-}
-
-export const oldRevision = (revisions, revisionId) => {
-    if (!revisionId) {
-        return false
-    } else if (revisions.data[0]) {
-        if (revisions.data[0].revision != revisionId) {
-            return true
-        }
-    }
 }
