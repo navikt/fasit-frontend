@@ -74,8 +74,8 @@ node {
 
         GString message = "${application}:${releaseVersion} now in production. See jenkins for more info ${env.BUILD_URL}\nLast commit ${changelog}"
         mail body: message, from: "jenkins@aura.adeo.no", subject: "SUCCESSFULLY completed ${env.JOB_NAME}!", to: committerEmail
-        def successmessage = "Successfully deployed fasit-frontend:${releaseVersion} to prod\nhttps://fasit-frontend.adeo.no"
-        hipchatSend color: 'GREEN', message: successmessage, textFormat: true, room: 'AuraInternal', v2enabled: true
+        def successmessage = "Successfully deployed fasit-frontend:${releaseVersion} to prod\nhttps://fasit-frontend.adeo.no\nLast commit by ${committer}: ${changelog}"
+        slackSend channel: '#nye_fasit', message: successmessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
 
     } catch(e) {
         currentBuild.result = "FAILED"
@@ -85,7 +85,7 @@ node {
         mail body: message, from: "jenkins@aura.adeo.no", subject: "FAILED to complete ${env.JOB_NAME}", to: committerEmail
 
         def errormessage = "see jenkins for more info ${env.BUILD_URL}\nLast commit ${changelog}"
-        hipchatSend color: 'RED', message: "@all ${env.JOB_NAME} failed\n${errormessage}", textFormat: true, notify: true, room: 'AuraInternal', v2enabled: true
+        slackSend channel: '#nye_fasit', message: errormessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
 
     }
 }
