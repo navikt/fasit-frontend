@@ -42,6 +42,9 @@ export const isEmptyObject = (obj) => {
 }
 
 export function capitalize(label) {
+    if(!label) {
+        return ""
+    }
     return "" + label.charAt(0).toUpperCase() + label.slice(1)
 }
 

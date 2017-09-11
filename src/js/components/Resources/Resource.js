@@ -99,10 +99,10 @@ class Resource extends Component {
         dispatch(submitForm(this.props.id, form, comment, "resource"))
     }
 
-    deleteResource(key, comment) {
+    deleteResource(key) {
         const {dispatch} = this.props
         this.toggleComponentDisplay("displayDeleteForm")
-        dispatch(submitForm(key, null, comment, "deleteResource"))
+        dispatch(submitForm(key, null, null, "deleteResource"))
     }
 
     updateAccessControl() {
@@ -338,8 +338,9 @@ class Resource extends Component {
 
                 <DeleteElementForm
                     displayDeleteForm={this.state.displayDeleteForm}
+                    id={id}
                     onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-                    onSubmit={() => this.deleteResource(id, this.state.comment)}
+                    onSubmit={() => this.deleteResource(id)}
                 />
             </div>
         )

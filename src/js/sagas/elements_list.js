@@ -65,6 +65,7 @@ function* fetchNodesList(url) {
         yield put({type: NODES_LIST_RECEIVED, page})
     } catch (err) {
         const value = err.message
+        console.error("Error fetching nodes list", err)
         yield put({type: NODES_LIST_FAILED, value})
     }
 }
