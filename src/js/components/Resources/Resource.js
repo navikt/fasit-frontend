@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {List, ListItem} from "material-ui/List";
 import {Link} from "react-router";

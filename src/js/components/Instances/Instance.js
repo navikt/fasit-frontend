@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {FormString, FormLink} from "../common/Forms";
 import {Tab, Tabs} from "material-ui/Tabs";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
+import {Link} from "react-router";
 import Manifest from "./Manifest";
 import {CollapsibleList, CurrentRevision, History} from "../common/";
+import {Card, CardText, CardHeader} from "material-ui/Card"
+import {List, ListItem} from "material-ui/List"
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import {fetchInstance} from "../../actionCreators/instance";
 
@@ -36,27 +38,37 @@ class Instance extends Component {
 
         return (
             <div className="row">
-                <CurrentRevision revisionId={query.revision} revisions={revisions}/>
-                <div className="col-xs-12" style={{height: 30 + "px"}}></div>
-                <div className= "col-md-6">
-                    <FormLink
-                        label="Application"
-                        value={instance.application}
-                        linkTo={`/applications/${instance.application}`}/>
-                    <FormString
-                        label="version"
-                        value={instance.version}
-                    />
-                    <FormLink
-                        label="Environment"
-                        value={instance.environment}
-                        linkTo={`/environments/${instance.environment}`}
-                    />
-                    <FormLink
-                        label="Cluster"
-                        value={clusterName}
-                        linkTo={`/environments/${instance.environment}/clusters/${clusterName}`}
-                    />
+                <div className="col-md-8" style={styles.cardPadding}>
+                    <CurrentRevision revisionId={query.revision} revisions={revisions}/>
+
+                    <Card>
+                        <CardHeader
+                            avatar={icons.instance}
+                            titleStyle={styles.bold}
+                            title={<Link to={`/application/${instance.application}`}>{instance.application}</Link>}
+                            style={styles.paddingBottom0}
+                            subtitle={instance.version}
+                        />
+                        <CardText>
+                            <List>
+                                <ListItem
+                                    key='environment'
+                                    disabled={true}
+                                    primaryText={<Link
+                                        to={`/environment/${instance.environment}`}>{instance.environment}</Link>}
+                                    secondaryText="Environment"
+                                />
+                                <ListItem
+                                    key="cluster"
+                                    disabled={true}
+                                    primaryText={<Link
+                                        to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>}
+                                    secondaryText="Cluster"
+                                />
+                            </List>
+                        </CardText>
+
+                    </Card>
                 </div>
 
                 <div className="col-md-4">
@@ -73,18 +85,18 @@ class Instance extends Component {
                         <Tab
                             label={`Used resources ${instance.usedresources.length}`}
                             disableTouchRipple={true}>
-                                <SortableResourceTable resources={instance.usedresources}/>
+                            <SortableResourceTable resources={instance.usedresources}/>
                         </Tab>
                         <Tab
-                            label={`Exposed resources ${instance.exposedresources.length}` }
+                            label={`Exposed resources ${instance.exposedresources.length}`}
                             disableTouchRipple={true}
                             disabled={instance.exposedresources.length === 0}>
-                                <SortableResourceTable resources={instance.exposedresources}/>
+                            <SortableResourceTable resources={instance.exposedresources}/>
                         </Tab>
                         <Tab
                             label="Manifest"
                             disableTouchRipple={true}>
-                                <Manifest/>
+                            <Manifest/>
                         </Tab>
                     </Tabs>
                 </div>}
@@ -97,7 +109,6 @@ const mapStateToProps = (state) => {
     return {
         instance: state.instance_fasit.data,
         user: state.user,
-        editMode: state.nodes.showEditNodeForm,
         config: state.configuration,
         revisions: state.revisions,
         query: state.routing.locationBeforeTransitions.query
