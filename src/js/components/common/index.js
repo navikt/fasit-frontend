@@ -17,6 +17,7 @@ import SubmitFormStatus from "./SubmitFormStatus";
 import ToolButtons from "./ToolButtons";
 import DeleteElementForm from "./DeleteElementForm";
 import RescueElementForm from "./RescueElementForm";
+import SecretToggle from "./SecretToggle";
 import WebsphereManagementConsole from "./WebsphereManagementConsole";
 import {
     FormComment,
@@ -55,6 +56,7 @@ DeleteElementForm,
     Login,
     NavSearch,
     RescueElementForm,
+    SecretToggle,
     Security,
     SubmitFormStatus,
     SubmitForm,

@@ -3,8 +3,6 @@ import {connect} from "react-redux";
 import {validAuthorization} from "../../utils/";
 import {fetchFasitData, fetchNodePassword, clearNodePassword} from "../../actionCreators/node";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
-import Chip from "material-ui/Chip"
-import FlatButton from "material-ui/FlatButton"
 import {List, ListItem} from "material-ui/List"
 import {Link} from "react-router";
 
@@ -17,7 +15,8 @@ import {
     Security,
     History,
     ToolButtons,
-    DeleteElementForm
+    DeleteElementForm,
+SecretToggle
 } from "../common/";
 import {submitForm} from "../../actionCreators/common";
 import NodeEventsView from "./NodeEventsView";
@@ -31,18 +30,11 @@ class Node extends Component {
         super(props)
 
         this.state = {
-           // displayRevisions: false,
-            displaySecurity: false,
-            displayEvents: false,
-            displayPhysical: false,
-            displayGraphs: false,
             secretVisible: false,
-            displaySubmitForm: false,
             displayDeleteForm: false,
             displayRescueForm: false,
             displayAccessControlForm: false,
             adgroups: [],
-           // editMode: false,
             comment: ""
         }
     }
@@ -118,22 +110,6 @@ class Node extends Component {
         this.setState({secretVisible: !this.state.secretVisible})
     }
 
-    // move to separate component
-    showSecretButtonOrInfo() {
-        const {user}  = this.props
-        const authorized = validAuthorization(user, this.props.node.accesscontrol)
-        if (authorized) {
-            return <FlatButton disableTouchRipple={true} style={styles.flatButton} className={"pull-right"}
-                               label={this.state.secretVisible ? "Hide secret" : "View secret"}
-                               icon={icons.eye} onTouchTap={() => this.toggleDisplaySecret()}/>
-        } else {
-            return (<Chip className="pull-right">
-                {icons.lockAvatar} {!user.authenticated ? "Log in to view secrets" : "Secrets require superuser access"}
-            </Chip>)
-        }
-
-    }
-
     render() {
         const {hostname, config, user, node, query} = this.props
         const {secretVisible, adgroups, comment} = this.state
@@ -184,7 +160,15 @@ class Node extends Component {
                                     style={{paddingTop: '0px', paddingBottom: '14px'}}
                                     disabled={true}
                                     primaryText={
-                                        <div>{secretVisible ? this.props.currentPassword : "*********"} {this.showSecretButtonOrInfo()}</div>}
+                                        <div>
+                                            {secretVisible ? this.props.currentPassword : "*********"}
+                                            <SecretToggle
+                                                user={user}
+                                                accesscontrol={node.accesscontrol}
+                                                secretVisible={secretVisible}
+                                                toggleHandler={() => this.toggleDisplaySecret()}
+                                            />
+                                        </div>}
                                     secondaryText="Password"/>
                             </List>
                         </CardText>
