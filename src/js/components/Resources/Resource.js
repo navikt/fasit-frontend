@@ -8,9 +8,7 @@ import {displayModal, submitForm} from "../../actionCreators/common";
 import {resourceTypes, resourceTypeIcon, getResourceTypeName} from "../../utils/resourceTypes";
 import {ResourceInstances} from "./ResourceInstances";
 import {Card, CardActions, CardText, CardHeader} from "material-ui/Card";
-import FlatButton from "material-ui/FlatButton";
-import Chip from "material-ui/Chip";
-import {styles, icons} from "../../commonStyles/commonInlineStyles";
+import {styles} from "../../commonStyles/commonInlineStyles";
 import NotFound from "../NotFound";
 import WebsphereManagementConsole from "../common/WebsphereManagementConsole";
 import {
@@ -20,6 +18,7 @@ import {
     History,
     Lifecycle,
     RescueElementForm,
+    SecretToggle,
     Security,
     ToolButtons
 } from "../common/";
@@ -145,6 +144,7 @@ class Resource extends Component {
     }
 
     renderProperty(property, resource) {
+        const {user} = this.props
         const {secretVisible} = this.state
         const propertyName = property.displayName
         const key = property.name
@@ -185,29 +185,21 @@ class Resource extends Component {
                     style={{paddingTop: '0px', paddingBottom: '14px'}}
                     disabled={true}
                     className="text-overflow"
-                    primaryText={
-                        <div>{secretVisible ? this.props.currentSecrets[property.name] : "*********"} {this.showSecretButtonOrInfo()}</div>}
+                    primaryText=
+                        { <div>
+                            {secretVisible ? this.props.currentSecrets[key] : "*********"}
+                            <SecretToggle
+                                user={user}
+                                accesscontrol={resource.accesscontrol}
+                                secretVisible={secretVisible}
+                                toggleHandler={() => this.toggleDisplaySecret()}
+                            />
+                        </div>}
                     secondaryText={propertyName}
                 />
             case "file":
                 break
         }
-    }
-
-    showSecretButtonOrInfo() {
-        const {user}  = this.props
-        const authorized = validAuthorization(user, this.props.fasit.data.accesscontrol)
-
-        if (authorized) {
-            return <FlatButton disableTouchRipple={true} style={styles.flatButton} className={"pull-right"}
-                               label={this.state.secretVisible ? "Hide secret" : "View secret"}
-                               icon={icons.eye} onTouchTap={() => this.toggleDisplaySecret()}/>
-        } else {
-            return (<Chip className="pull-right">
-                {icons.lockAvatar} {!user.authenticated ? "Log in to view secrets" : "Secrets require superuser access"}
-            </Chip>)
-        }
-
     }
 
     exposedByApplication() {

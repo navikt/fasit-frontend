@@ -214,10 +214,7 @@ class Node extends Component {
                 <AccessControl
                     displayAccessControlForm={this.state.displayAccessControlForm}
                     onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
-                    onSubmit={() => this.handleSubmitForm(hostname, {
-
-                        }
-                        , comment, "node")}
+                    onSubmit={() => this.handleSubmitForm(hostname, {}, comment, "node")}
                     id={hostname}
                     value={adgroups}
                     handleChange={this.handleChange.bind(this)}
@@ -232,16 +229,11 @@ class Node extends Component {
                 <RescueElementForm
                     displayRescueForm={this.state.displayRescueForm}
                     onClose={() => this.toggleComponentDisplay("displayRescueForm")}
-                    onSubmit={() => this.handleSubmitForm(hostname, {
-
-                        }
-                        , comment, "node")}
+                    onSubmit={() => this.handleSubmitForm(hostname, {}, comment, "node")}
                     id={hostname}
                     handleChange={this.handleChange.bind(this)}
                     comment={comment}
-
                 />
-
             </div>
         )
     }
