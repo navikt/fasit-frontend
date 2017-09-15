@@ -18,7 +18,7 @@ import {
     DeleteElementForm,
 SecretToggle
 } from "../common/";
-import {submitForm} from "../../actionCreators/common";
+import {submitForm, displayModal} from "../../actionCreators/common";
 import NodeEventsView from "./NodeEventsView";
 import NodeGraph from "./NodeGraph";
 import NodeSeraView from "./NodeSeraView";
@@ -65,6 +65,11 @@ class Node extends Component {
         if (nextProps.hostname != hostname) {
             dispatch(fetchFasitData(nextProps.hostname, nextProps.revision))
         }
+    }
+
+    showModal(mode) {
+        const {dispatch} = this.props
+        dispatch(displayModal("node", true, mode))
     }
 
     deleteNode(hostname) {
@@ -144,6 +149,12 @@ class Node extends Component {
                                     primaryText={node.environment}
                                     secondaryText="Environment"/>
                                 <ListItem
+                                    key="zone"
+                                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                                    disabled={true}
+                                    primaryText={node.zone}
+                                    secondaryText="Zone"/>
+                                <ListItem
                                     key="cluster"
                                     style={{paddingTop: '0px', paddingBottom: '14px'}}
                                     disabled={true}
@@ -170,12 +181,13 @@ class Node extends Component {
                                             />
                                         </div>}
                                     secondaryText="Password"/>
+
                             </List>
                         </CardText>
                         <CardActions>
                             <ToolButtons
                                 disabled={!authorized}
-                                onEditClick={() => this.toggleComponentDisplay("editMode")}
+                                onEditClick={() => this.showModal("edit")}
                                 onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                 onCopyClick={() => console.log("Copy,copycopy!")}
                                 editMode={this.state.editMode}

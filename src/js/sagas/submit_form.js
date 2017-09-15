@@ -93,7 +93,10 @@ export function* submitForm(action) {
             case "node":
                 url = `${configuration.fasit_nodes}/${action.key}`
                 yield putUrl(url, action.form, action.comment)
+                yield put({type: SHOW_NEW_NODE_FORM, value: false})
+                yield browserHistory.push(`/nodes/${action.key}`)
                 yield put({type:NODE_FASIT_REQUEST, hostname:action.key})
+                yield put({type: REVISIONS_REQUEST, component: "node", key: action.key})
                 break
             case "application":
                 url = `${configuration.fasit_applications}/${action.key}`

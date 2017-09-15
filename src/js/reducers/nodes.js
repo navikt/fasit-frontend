@@ -5,6 +5,7 @@ import {
     NODES_LIST_FAILED,
     SHOW_NEW_NODE_FORM,
 } from '../actionTypes'
+
 export const initialState = {
     isFetching: true,
     requestFailed: false,
@@ -15,7 +16,7 @@ export const initialState = {
     showEditNodeForm: false,
     showNewNodeForm: false,
     showDeleteNodeForm: false,
-    copy: false,
+    mode: "new",
 }
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -60,7 +61,7 @@ export default (state = initialState, action) => {
             }
             return Object.assign({}, state, {
                     showNewNodeForm: action.value,
-                    copy: false,
+                    mode: action.mode || 'new',
                 }
             )
 

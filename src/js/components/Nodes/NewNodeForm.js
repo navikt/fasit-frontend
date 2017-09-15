@@ -10,6 +10,10 @@ import {submitForm} from '../../actionCreators/common'
 class NewNodeForm extends Component {
     constructor(props) {
         super(props)
+        this.initialState()
+    }
+
+    initialState() {
         this.state = {
             hostname: "",
             username: "",
@@ -21,17 +25,18 @@ class NewNodeForm extends Component {
         }
     }
 
+    componentWillReceiveProps(next) {
+        if (next.mode === "edit" || next.mode === "copy") {
+            const {hostname, username, type, environment, environmentclass, zone} = next.node.data
+            const password = next.node.currentPassword
 
-    resetLocalState() {
-        this.setState({
-            hostname: "",
-            username: "",
-            password: "",
-            type: "",
-            environment: "",
-            environmentclass: "",
-            zone: ""
-        })
+            this.setState({
+                hostname, username, type, environment, environmentclass, zone, password
+            })
+        }
+        else {
+            this.initialState()
+        }
     }
 
     handleChange(field, value) {
@@ -39,7 +44,7 @@ class NewNodeForm extends Component {
     }
 
     handleSubmitForm() {
-        const {dispatch} = this.props
+        const {dispatch, mode} = this.props
         const {hostname, username, password, type, environment, environmentclass, comment} = this.state
         const form = {
             hostname,
@@ -52,12 +57,19 @@ class NewNodeForm extends Component {
         if (!(environmentclass === 'u')) {
             form["zone"] = this.state.zone
         }
-        dispatch(submitForm(form.hostname, form, comment, "newNode"))
+
+        if (mode === "edit") {
+            dispatch(submitForm(form.hostname, form, comment, "node"))
+        }
+        else {
+            dispatch(submitForm(form.hostname, form, comment, "newNode"))
+        }
+
     }
 
     closeForm() {
         const {dispatch} = this.props
-        this.resetLocalState()
+        this.initialState()
         dispatch(displayModal("node", false))
     }
 
@@ -78,7 +90,7 @@ class NewNodeForm extends Component {
     }
 
     render() {
-        const {environmentClasses, showNewNodeForm, nodeTypes} = this.props
+        const {environmentClasses, showNewNodeForm, nodeTypes, mode} = this.props
         return (
             <Modal show={showNewNodeForm} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
@@ -91,7 +103,7 @@ class NewNodeForm extends Component {
                 <Modal.Body>
                     <FormString
                         label="hostname"
-                        editMode={true}
+                        editMode={this.props.mode === "new"}
                         value={this.state.hostname}
                         handleChange={this.handleChange.bind(this)}
                     />
@@ -130,7 +142,7 @@ class NewNodeForm extends Component {
                         value={this.state.comment}
                         handleChange={this.handleChange.bind(this)}
                     />
-                    <br />
+                    <br/>
                     <div className="row">
                         <div className="row col-lg-10 col-lg-offset-2">
                             {this.showSubmitButton()}
@@ -152,6 +164,8 @@ class NewNodeForm extends Component {
                     return env.environmentclass === environmentclass
                 }
             })
+
+            console.log(this.state.environment)
             return (
                 <FormDropDown
                     label="environment"
@@ -179,6 +193,7 @@ class NewNodeForm extends Component {
     }
 
 }
+
 NewNodeForm.propTypes = {
     dispatch: PropTypes.func.isRequired
 }
@@ -189,7 +204,9 @@ const mapStateToProps = (state) => {
         nodeTypes: state.nodes.nodeTypes,
         environmentClasses: state.environments.environmentClasses,
         environments: state.environments.environments,
-        zones: state.environments.zones
+        zones: state.environments.zones,
+        node: state.node_fasit,
+        mode: state.nodes.mode
     }
 }
 
