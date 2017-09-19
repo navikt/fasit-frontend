@@ -120,6 +120,7 @@ class Node extends Component {
         const cluster = node.cluster  ? <Link to={`/environments/${node.environment}/clusters/${node.cluster.name}`}>{node.cluster.name}</Link> : "Orphan node"
         let lifecycle = (Object.keys(node).length > 0) ? node.lifecycle : {}
         let authorized = (Object.keys(node).length > 0) ? validAuthorization(user, node.accesscontrol) : false
+        const password = this.props.currentPassword ? this.props.currentPassword : "No secret stored for this revision"
 
         return (
             <div className="row">
@@ -171,7 +172,7 @@ class Node extends Component {
                                     disabled={true}
                                     primaryText={
                                         <div>
-                                            {secretVisible ? this.props.currentPassword : "*********"}
+                                            {secretVisible ? password : "*********"}
                                             <SecretToggle
                                                 user={user}
                                                 accesscontrol={node.accesscontrol}
@@ -180,7 +181,6 @@ class Node extends Component {
                                             />
                                         </div>}
                                     secondaryText="Password"/>
-
                             </List>
                         </CardText>
                         <CardActions>

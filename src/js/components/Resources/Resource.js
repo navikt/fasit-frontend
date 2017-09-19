@@ -180,6 +180,8 @@ class Resource extends Component {
                     secondaryText={propertyName}
                 />
             case "secret":
+                const secretText = this.props.currentSecrets[key] ? this.props.currentSecrets[key] : "No secret stored for this revision"
+
                 return <ListItem
                     key={key}
                     style={{paddingTop: '0px', paddingBottom: '14px'}}
@@ -187,7 +189,7 @@ class Resource extends Component {
                     className="text-overflow"
                     primaryText=
                         { <div>
-                            {secretVisible ? this.props.currentSecrets[key] : "*********"}
+                            {secretVisible ? secretText : "*********"}
                             <SecretToggle
                                 user={user}
                                 accesscontrol={resource.accesscontrol}
