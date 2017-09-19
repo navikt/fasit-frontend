@@ -3,9 +3,8 @@ import {connect} from "react-redux";
 import {validAuthorization} from "../../utils/";
 import {fetchFasitData, fetchNodePassword, clearNodePassword} from "../../actionCreators/node";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
-import {List, ListItem} from "material-ui/List"
+import {List, ListItem} from "material-ui/List";
 import {Link} from "react-router";
-
 import {
     AccessControl,
     CurrentRevision,
@@ -16,14 +15,14 @@ import {
     History,
     ToolButtons,
     DeleteElementForm,
-SecretToggle
+    SecretToggle
 } from "../common/";
 import {submitForm, displayModal} from "../../actionCreators/common";
 import NodeEventsView from "./NodeEventsView";
 import NodeGraph from "./NodeGraph";
 import NodeSeraView from "./NodeSeraView";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
-import {capitalize} from "../../utils"
+import {capitalize} from "../../utils";
 
 class Node extends Component {
     constructor(props) {
@@ -189,7 +188,7 @@ class Node extends Component {
                                 disabled={!authorized}
                                 onEditClick={() => this.showModal("edit")}
                                 onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                                onCopyClick={() => console.log("Copy,copycopy!")}
+                                onCopyClick={() => this.showModal("copy")}
                                 editMode={this.state.editMode}
                             />
                         </CardActions>

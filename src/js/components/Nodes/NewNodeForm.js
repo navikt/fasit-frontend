@@ -1,11 +1,8 @@
-import React, {Component, PropTypes} from 'react'
-import {Modal} from 'react-bootstrap'
-import {connect} from 'react-redux'
-
-import {FormString, FormDropDown, FormComment} from '../common/Forms'
-
-import {displayModal} from '../../actionCreators/common'
-import {submitForm} from '../../actionCreators/common'
+import React, {Component, PropTypes} from "react";
+import {Modal} from "react-bootstrap";
+import {connect} from "react-redux";
+import {FormString, FormDropDown, FormComment} from "../common/Forms";
+import {displayModal, submitForm} from "../../actionCreators/common";
 
 class NewNodeForm extends Component {
     constructor(props) {
@@ -103,7 +100,7 @@ class NewNodeForm extends Component {
                 <Modal.Body>
                     <FormString
                         label="hostname"
-                        editMode={this.props.mode === "new"}
+                        editMode={mode !== "edit"}
                         value={this.state.hostname}
                         handleChange={this.handleChange.bind(this)}
                     />
@@ -128,7 +125,7 @@ class NewNodeForm extends Component {
                     />
                     <FormDropDown
                         label="environmentclass"
-                        editMode={true}
+                        editMode={mode !== "edit"}
                         value={this.state.environmentclass}
                         handleChange={this.handleChange.bind(this)}
                         options={environmentClasses}
@@ -154,7 +151,7 @@ class NewNodeForm extends Component {
     }
 
     environmentSelector() {
-        const {environments} = this.props
+        const {environments, mode} = this.props
         const {environmentclass} = this.state
         if (environmentclass) {
             const filteredEnvironments = environments.filter((env) => {
@@ -165,11 +162,10 @@ class NewNodeForm extends Component {
                 }
             })
 
-            console.log(this.state.environment)
             return (
                 <FormDropDown
                     label="environment"
-                    editMode={true}
+                    editMode={mode !== "edit"}
                     value={this.state.environment}
                     handleChange={this.handleChange.bind(this)}
                     options={filteredEnvironments.map((env) => env.name)}
@@ -178,13 +174,13 @@ class NewNodeForm extends Component {
     }
 
     zoneSelector() {
-        const {zones} = this.props
+        const {zones, mode} = this.props
         const {environmentclass} = this.state
         if (environmentclass && environmentclass !== 'u') {
             return (
                 <FormDropDown
                     label="zone"
-                    editMode={true}
+                    editMode={mode !== "edit"}
                     value={this.state.zone}
                     handleChange={this.handleChange.bind(this)}
                     options={zones}
