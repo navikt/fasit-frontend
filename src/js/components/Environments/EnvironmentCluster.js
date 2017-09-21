@@ -11,7 +11,8 @@ import {
     AccessControl,
     Security,
     SubmitForm,
-    ToolButtons
+    ToolButtons,
+    RescueElementForm
 } from "../common"
 import {validAuthorization} from '../../utils/'
 import {submitForm} from '../../actionCreators/common'
@@ -100,12 +101,30 @@ class EnvironmentCluster extends Component {
 
     }
 
+    buildFormData() {
+        let form = {}
+        form = Object.assign(form, this.props.cluster.data)
+        return form
+    }
+
+    rescueClusters() {
+        const {dispatch} = this.props
+        const {comment} = this.state
+        const form = this.buildFormData()
+        const id = form.clustername
+        form.lifecycle = {status: "rescued"}
+        this.toggleComponentDisplay("displayRescueForm")
+        dispatch(submitForm(id, form, comment, "rescueClusters"))
+    }
+
     render() {
         const {cluster, user, params, environments, applicationNames, environmentNodes} = this.props
         const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl, applications, nodes, adgroups} = this.state
         let nodeNames = (environmentNodes != undefined) ? environmentNodes.map(n => n.hostname) : []
         let authorized = (Object.keys(cluster).length > 0) ? validAuthorization(user, cluster.data.accesscontrol) : false
         let lifecycle = (Object.keys(cluster).length > 0) ? cluster.data.lifecycle : {}
+        const id = cluster.data.id
+
         return (cluster.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> :
             <div>
                 <div className="row">
@@ -167,13 +186,10 @@ class EnvironmentCluster extends Component {
                         </div>
                         : ""
                     }
-
                     {/*Lifecycle*/}
-                    <div className="col-xs-12" style={{height: 30 + "px"}}></div>
-
-                    <div className="row">
+                    <div className="row" style={{height: 30 + "px"}}>
                         <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => console.error("you need to do something about this")}
+                                   rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
                                    authorized={authorized}/>
                     </div>
                 </div>
@@ -187,6 +203,15 @@ class EnvironmentCluster extends Component {
                 </div>
 
                 {/*Misc. modals*/}
+                <RescueElementForm
+                    displayRescueForm={this.state.displayRescueForm}
+                    onClose={() => this.toggleComponentDisplay("displayRescueForm")}
+                    onSubmit={() => this.rescueClusters()}
+                    id={id}
+                    handleChange={this.handleChange.bind(this)}
+                    comment={this.state.comment}
+                />
+
                 <AccessControl
                     displayAccessControlForm={this.state.displayAccessControlForm}
                     onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
@@ -209,7 +234,7 @@ class EnvironmentCluster extends Component {
                     displayDeleteForm={this.state.displayDeleteForm}
                     onClose={() => this.setState({displayDeleteForm: false})}
                     onSubmit={() => this.handleSubmitForm(params.clusterName, {env: params.environment}, this.state.comment, "deleteCluster")}
-                    id={params.clusterName}
+                    id={id}
                     handleChange={(comment, value) => this.setState({comment: value})}
                     comment={this.state.comment}
                 />
