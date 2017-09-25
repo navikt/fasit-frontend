@@ -127,6 +127,12 @@ export function* submitForm(action) {
                 yield put({type: RESOURCE_FASIT_REQUEST, id: action.key})
                 yield put({type: REVISIONS_REQUEST, component: "resource", key: action.key})
                 break
+            case "rescueClusters":
+                url = `${configuration.fasit_environments}/${action.form.environment}/clusters/${action.key}`
+                yield putUrl(url, action.form, action.comment)
+                yield put({type:ENVIRONMENT_CLUSTER_FASIT_REQUEST, cluster:action.key, environment:action.form.environment})
+                yield browserHistory.push(`/environments/${action.form.environment}/clusters/${action.key}`)
+                break
 
             // Rescue
             case "rescue":
