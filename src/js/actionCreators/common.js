@@ -1,6 +1,7 @@
 import {
     CLEAR_FORM_ERROR,
-    SUBMIT_FORM,
+    RESCUE_ELEMENT,
+    REVISIONS_REQUEST,
     SET_NAVSEARCH_QUERY,
     SHOW_KEYBOARD_SHORTCUTS,
     SHOW_NEW_APPLICATION_FORM,
@@ -8,12 +9,13 @@ import {
     SHOW_NEW_ENVIRONMENT_FORM,
     SHOW_NEW_NODE_FORM,
     SHOW_NEW_RESOURCE_FORM,
-    REVISIONS_REQUEST,
+    SUBMIT_FORM,
     SUBMIT_NAV_SEARCH,
     SUBMIT_SEARCH
 } from "../actionTypes";
 
 export const submitForm = (key, form, comment, component) =>  {return {type:SUBMIT_FORM, key, form, comment, component}}
+export const rescueElement = (key, comment, elementType) => {return {type: RESCUE_ELEMENT, key, comment, elementType}}
 export const clearFormError = () => {return {type: CLEAR_FORM_ERROR}}
 export const fetchRevisions = (component, key) => {return {type: REVISIONS_REQUEST, component, key}}
 export const displayModal = (component, value, mode) => {

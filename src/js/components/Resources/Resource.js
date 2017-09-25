@@ -4,10 +4,10 @@ import {List, ListItem} from "material-ui/List";
 import {Link} from "react-router";
 import {validAuthorization} from "../../utils";
 import {fetchFasitData} from "../../actionCreators/resource";
-import {displayModal, submitForm} from "../../actionCreators/common";
-import {resourceTypes, resourceTypeIcon, getResourceTypeName} from "../../utils/resourceTypes";
+import {displayModal, rescueElement, submitForm} from "../../actionCreators/common";
+import {getResourceTypeName, resourceTypeIcon, resourceTypes} from "../../utils/resourceTypes";
 import {ResourceInstances} from "./ResourceInstances";
-import {Card, CardActions, CardText, CardHeader} from "material-ui/Card";
+import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import {styles} from "../../commonStyles/commonInlineStyles";
 import NotFound from "../NotFound";
 import WebsphereManagementConsole from "../common/WebsphereManagementConsole";
@@ -89,13 +89,9 @@ class Resource extends Component {
 
     rescueResource() {
         const {dispatch} = this.props
-
         const {comment} = this.state
-        const form = this.buildFormData()
-
-        form.lifecycle = {status: "rescued"}
         this.toggleComponentDisplay("displayRescueForm")
-        dispatch(submitForm(this.props.id, form, comment, "resource"))
+        dispatch(rescueElement(this.props.id, comment, "resource"))
     }
 
     deleteResource(key) {

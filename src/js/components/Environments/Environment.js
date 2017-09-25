@@ -11,7 +11,7 @@ import {
     Security,
     ToolButtons
 } from "../common/";
-import {displayModal, submitForm} from "../../actionCreators/common";
+import {displayModal, rescueElement, submitForm} from "../../actionCreators/common";
 import {validAuthorization} from "../../utils/";
 import EnvironmentClusters from "./EnvironmentClusters";
 import EnvironmentNodes from "./EnvironmentNodes";
@@ -53,12 +53,9 @@ class Environment extends Component {
 
     rescue() {
         const {dispatch, environment} = this.props
-        const name = environment.name
-        const environmentclass = environment.environmentclass
         const {comment} = this.state
-        const form = {name, environmentclass, lifecycle: {status: "rescued"}}
         this.toggleComponentDisplay("displayRescueForm")
-        dispatch(submitForm(this.props.name, form, comment, "environment"))
+        dispatch(rescueElement(environment.id, comment, "environment"))
     }
 
     handleChange(field, value) {
@@ -170,12 +167,7 @@ class Environment extends Component {
                 <AccessControl
                     displayAccessControlForm={this.state.displayAccessControlForm}
                     onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
-                    onSubmit={() => this.handleSubmitForm(name, {
-                            name: envName,
-                            environmentclass: envClass,
-                            accesscontrol: {adgroups}
-                        }
-                        , comment, "environment")}
+                    onSubmit={() => this.rescue()}
                     id={name}
                     value={adgroups}
                     handleChange={this.handleChange.bind(this)}

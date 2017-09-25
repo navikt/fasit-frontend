@@ -5,7 +5,7 @@ import {Card, CardActions, CardHeader} from "material-ui/Card";
 import {List, ListItem} from "material-ui/List";
 import {fetchApplicationInstances, fetchFasitData} from "../../actionCreators/application";
 import InstanceCard from "../Instances/InstanceCard";
-import {displayModal, submitForm} from "../../actionCreators/common";
+import {displayModal, rescueElement, submitForm} from "../../actionCreators/common";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import {
     AccessControl,
@@ -79,14 +79,9 @@ class Application extends Component {
 
     rescue() {
         const {dispatch, application} = this.props
-        const name = application.name
-        const groupid = application.groupid
-        const artifactid = application.artifactid
-        const portoffset = application.portoffset
         const {comment} = this.state
-        const form = {name, groupid, artifactid, portoffset, lifecycle: {status: "rescued"}}
         this.toggleComponentDisplay("displayRescueForm")
-        dispatch(submitForm(name, form, comment, "application"))
+        dispatch(rescueElement(application.id, comment, "application"))
     }
 
 

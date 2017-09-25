@@ -1,23 +1,23 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {validAuthorization} from "../../utils/";
-import {fetchFasitData, fetchNodePassword, clearNodePassword} from "../../actionCreators/node";
+import {clearNodePassword, fetchFasitData, fetchNodePassword} from "../../actionCreators/node";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import {List, ListItem} from "material-ui/List";
 import {Link} from "react-router";
 import {
     AccessControl,
-    CurrentRevision,
     CollapsibleList,
+    CurrentRevision,
+    DeleteElementForm,
+    History,
     Lifecycle,
     RescueElementForm,
+    SecretToggle,
     Security,
-    History,
-    ToolButtons,
-    DeleteElementForm,
-    SecretToggle
+    ToolButtons
 } from "../common/";
-import {submitForm, displayModal} from "../../actionCreators/common";
+import {displayModal, rescueElement, submitForm} from "../../actionCreators/common";
 import NodeEventsView from "./NodeEventsView";
 import NodeGraph from "./NodeGraph";
 import NodeSeraView from "./NodeSeraView";
@@ -77,6 +77,13 @@ class Node extends Component {
         dispatch(submitForm(hostname, null, null, "deleteNode"))
     }
 
+    rescueNode() {
+        const {dispatch, node} = this.props
+        const {comment} = this.state
+        this.toggleComponentDisplay("displayRescueForm")
+        dispatch(rescueElement(node.id, comment, "node"))
+    }
+
     handleSubmitForm(key, form, comment, component) {
         const {dispatch} = this.props
 
@@ -85,8 +92,6 @@ class Node extends Component {
             this.setState({comment: ""})
         } else if (component === "node" && this.state.displayAccessControlForm) {
             this.toggleComponentDisplay("displayAccessControlForm")
-        } else if (component === "node" && this.state.displayRescueForm) {
-            this.toggleComponentDisplay("displayRescueForm")
         }
         dispatch(submitForm(key, form, comment, component))
     }
@@ -240,7 +245,7 @@ class Node extends Component {
                 <RescueElementForm
                     displayRescueForm={this.state.displayRescueForm}
                     onClose={() => this.toggleComponentDisplay("displayRescueForm")}
-                    onSubmit={() => this.handleSubmitForm(hostname, {}, comment, "node")}
+                    onSubmit={() => this.rescueNode()}
                     id={hostname}
                     handleChange={this.handleChange.bind(this)}
                     comment={comment}

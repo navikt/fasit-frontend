@@ -127,6 +127,10 @@ export function* submitForm(action) {
                 yield put({type: RESOURCE_FASIT_REQUEST, id: action.key})
                 yield put({type: REVISIONS_REQUEST, component: "resource", key: action.key})
                 break
+
+            // Rescue
+            case "rescue":
+                action.key
             default:
                 throw new Error("Submit_form-saga: I don't know which component you're coming from")
         }
