@@ -1053,7 +1053,7 @@ const resources = [
         },
         "secrets": {
             "password": {
-                "ref": "https://fasit.adeo.no/api/v2/secrets/679729"
+                "ref": "http://localhost:6969/mockapi/secrets/679729"
             }
         },
         "files": {},
