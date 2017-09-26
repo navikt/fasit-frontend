@@ -1,26 +1,26 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Link, browserHistory} from "react-router";
-import {Card, CardHeader, CardActions, CardText} from "material-ui/Card";
-import {Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator} from "material-ui/Toolbar";
+import {browserHistory, Link} from "react-router";
+import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from "material-ui/Toolbar";
 import RaisedButton from "material-ui/RaisedButton";
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import {
     APPCONFIG,
     APPLICATION,
     CLUSTER,
+    destinationUrl,
     ENVIRONMENT,
     INSTANCE,
     NODE,
-    RESOURCE,
-    destinationUrl
+    RESOURCE
 } from "../Search/searchResultTypes";
-import {styles, colors, icons} from "../../commonStyles/commonInlineStyles";
+import {colors, icons, styles} from "../../commonStyles/commonInlineStyles";
 import {CardInfo} from "../common/";
 import {capitalize} from "../../utils/";
 import {WebsphereManagementConsole} from "../common";
 import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
-import {submitSearch, setSearchString} from "../../actionCreators/common";
+import {setSearchString, submitSearch} from "../../actionCreators/common";
 import PrettyXml from "../common/PrettyXml";
 
 class Search extends Component {
@@ -69,20 +69,22 @@ class Search extends Component {
     }
 
     searchResultCard(searchResult, idx) {
-        let title
-        let avatar
+        let title = searchResult.name
+        let avatar = icons[searchResult.type]
         let subtitle = capitalize(searchResult.type)
 
         const detailedInfo = searchResult.detailedinfo
         const hasDetailedInfo = Object.keys(detailedInfo).length > 0
 
-        if (searchResult.type === RESOURCE) {
-            title = `${getResourceTypeName(detailedInfo.type)} ${searchResult.name}`
-            subtitle = `${subtitle} ${searchResult.detailedinfo.scope}`
-            avatar = resourceTypeIcon(detailedInfo.type)
-        } else {
-            title = searchResult.name
-            avatar = icons[searchResult.type]
+        switch (searchResult.type) {
+            case RESOURCE:
+                title = `${getResourceTypeName(detailedInfo.type)} ${searchResult.name}`
+                subtitle = `${subtitle} ${searchResult.detailedinfo.scope}`
+                avatar = resourceTypeIcon(detailedInfo.type)
+                break
+            case CLUSTER:
+                subtitle = searchResult.info
+                break
         }
 
         return (

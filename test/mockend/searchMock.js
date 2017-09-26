@@ -24,7 +24,7 @@ const search = [
         "name": "jauKløsterJa",
         "link": "http://localhost:6969/mockapi/environments/p/clusters/jauKløsterJa",
         "type": "cluster",
-        "info": "u1 | Applications: 8 | nodes: 4",
+        "info": "u1",
         "lastchange": 1433246644739,
         "lifecycle": {
             "status": "alerted",
