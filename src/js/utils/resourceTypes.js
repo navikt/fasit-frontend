@@ -1,5 +1,5 @@
 import React from "react";
-import {redA700, green500, orange400, blueGrey800, deepPurple400} from "material-ui/styles/colors";
+import {blueGrey800, deepPurple400, green500, orange400, redA700} from "material-ui/styles/colors";
 import {colors} from "../commonStyles/commonInlineStyles";
 import Avatar from "material-ui/Avatar";
 
@@ -125,7 +125,7 @@ export const resourceTypes = {
     WebserviceEndpoint: {
         icon: "fa fa-bookmark",
         properties: [
-            textbox("endpointUrl", "Endpoint Url"),
+            link("endpointUrl", "Endpoint Url"),
             dropdown("securityToken", "Security Token", ["NONE", "LTPA", "SAML", "USERNAME_TOKEN", "OTHER"]),
             link("wsdlUrl", "WSDL Url", "WSDL artifact",  false),
             textbox("description", "Description", false)

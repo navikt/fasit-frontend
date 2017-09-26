@@ -163,7 +163,7 @@ class Resource extends Component {
                     style={{paddingTop: '0px', paddingBottom: '14px'}}
                     disabled={true}
                     className="text-overflow"
-                    primaryText={<Link to={properties[key]} target="new">{property.linkTitle}</Link>}
+                    primaryText={<Link to={properties[key]} target="new">{property.linkTitle || properties[key]}</Link>}
                     secondaryText={propertyName}
                 />
             case "textarea":
