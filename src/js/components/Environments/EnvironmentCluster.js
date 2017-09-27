@@ -12,7 +12,9 @@ import {
     Security,
     SubmitForm,
     ToolButtons,
-    RescueElementForm
+    RescueElementForm,
+    History,
+    CurrentRevision
 } from "../common"
 import {validAuthorization} from '../../utils/'
 import {submitForm} from '../../actionCreators/common'
@@ -40,7 +42,7 @@ class EnvironmentCluster extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, params, cluster} = this.props
+        const {dispatch, query, cluster} = this.props
         this.setState({
             clustername: cluster.data.clustername,
             zone: cluster.data.zone,
@@ -51,27 +53,35 @@ class EnvironmentCluster extends Component {
             nodes: this.flatten(cluster.data.nodes),
             comment: ""
         })
-        if (params.environment && params.clusterName)
-            dispatch(fetchEnvironmentCluster(params.environment, params.clusterName))
+        if (query.revision) {
+            dispatch(fetchEnvironmentCluster(this.props.params.environment, this.props.params.clusterName, query.revision))
+        } else {
+            dispatch(fetchEnvironmentCluster(this.props.params.environment, this.props.params.clusterName))
+        }
+
+
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, params} = this.props
+        const {dispatch, params, cluster, query} = this.props
         this.setState({
-            clustername: nextProps.cluster.data.clustername,
-            zone: nextProps.cluster.data.zone,
-            environmentclass: nextProps.cluster.data.environmentclass,
-            environment: nextProps.cluster.data.environment,
-            loadbalancerurl: nextProps.cluster.data.loadbalancerurl,
-            applications: this.flatten(nextProps.cluster.data.applications),
-            nodes: this.flatten(nextProps.cluster.data.nodes),
+            clustername: cluster.data.clustername,
+            zone: cluster.data.zone,
+            environmentclass: cluster.data.environmentclass,
+            environment: cluster.data.environment,
+            loadbalancerurl: cluster.data.loadbalancerurl,
+            applications: this.flatten(cluster.data.applications),
+            nodes: this.flatten(cluster.data.nodes),
             comment: ""
         })
-        if ((params.environment != nextProps.params.environment || params.clusterName != nextProps.params.clusterName) && nextProps.params.environment && nextProps.params.clusterName) {
-            dispatch(fetchEnvironmentCluster(nextProps.params.environment, nextProps.params.clusterName))
+        if ((params.environment !== nextProps.params.environment || params.clusterName !== nextProps.params.clusterName) && nextProps.params.environment && nextProps.params.clusterName) {
+            dispatch(fetchEnvironmentCluster(nextProps.params.environment, nextProps.params.clusterName, query.revision))
         }
         if (Object.keys(nextProps.cluster.data).length > 0) {
             this.setState({adgroups: nextProps.cluster.data.accesscontrol.adgroups})
+        }
+        if (nextProps.query.revision !== query.revision) {
+            dispatch(fetchEnvironmentCluster(this.props.params.environment, this.props.params.clusterName, nextProps.query.revision))
         }
     }
 
@@ -98,7 +108,6 @@ class EnvironmentCluster extends Component {
             this.resetLocalState()
         if (component === "editMode" && !this.state.editMode)
             dispatch(fetchEnvironmentNodes(cluster.data.environment))
-
     }
 
     buildFormData() {
@@ -118,16 +127,17 @@ class EnvironmentCluster extends Component {
     }
 
     render() {
-        const {cluster, user, params, environments, applicationNames, environmentNodes} = this.props
+        const {cluster, user, params, environments, applicationNames, environmentNodes, revisions, query} = this.props
         const {editMode, displaySubmitForm, clustername, zone, environmentclass, loadbalancerurl, applications, nodes, adgroups} = this.state
         let nodeNames = (environmentNodes != undefined) ? environmentNodes.map(n => n.hostname) : []
         let authorized = (Object.keys(cluster).length > 0) ? validAuthorization(user, cluster.data.accesscontrol) : false
         let lifecycle = (Object.keys(cluster).length > 0) ? cluster.data.lifecycle : {}
         const id = cluster.data.id
 
-        return (cluster.isFetching) ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> :
+        return (cluster.isFetching || !cluster.data.clustername) ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> :
             <div>
                 <div className="row">
+
                     {/*Heading*/}
                     <ToolButtons
                         disabled={!authorized}
@@ -136,8 +146,10 @@ class EnvironmentCluster extends Component {
                         onCopyClick={() => console.log("Copy,copycopy!")}
                     />
                 </div>
+
                 {/*Form*/}
                 <div className="col-md-6 row">
+                    <CurrentRevision revisionId={query.revision} revisions={revisions}/>
                     <FormString
                         label="name"
                         editMode={editMode}
@@ -196,15 +208,15 @@ class EnvironmentCluster extends Component {
 
                 {/*Side menu*/}
                 <div className="col-md-4">
-                    {/* Disabled for now as revisions is not working properly for clusters
-                     <History id={clustername} currentRevision={query.revision} component="clusters"/>*/}
+                    {/*Disabled for now as revisions is not working properly for clusters*/}
+                    <History id={params.clusterName} currentRevision={query.revision} component="cluster"/>
                     <Security accesscontrol={cluster.data.accesscontrol}
                               displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
                 </div>
 
                 {/*Misc. modals*/}
                 <RescueElementForm
-                    displayRescueForm={this.state.displayRescueForm}
+                    displayRescueForm={this.state.displayRescueForm || false}
                     onClose={() => this.toggleComponentDisplay("displayRescueForm")}
                     onSubmit={() => this.rescueClusters()}
                     id={id}
@@ -334,7 +346,9 @@ const mapStateToProps = (state) => {
         cluster: state.environment_cluster_fasit,
         user: state.user,
         applicationNames: state.applications.applicationNames,
-        environmentNodes: state.environment_nodes_fasit.data
+        environmentNodes: state.environment_nodes_fasit.data,
+        revisions: state.revisions,
+        query: state.routing.locationBeforeTransitions.query
     }
 }
 
