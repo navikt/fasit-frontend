@@ -31,7 +31,7 @@ export function* fetchEnvironment(action) {
 
     yield put({type: ENVIRONMENT_FASIT_FETCHING})
     try {
-        if (action.revision){
+        if (action.revision) {
             value = yield call(fetchUrl, `${environmentsApi}/${action.id}/revisions/${action.revision}`)
         } else {
             value = yield call(fetchUrl, `${environmentsApi}/${action.id}`)
@@ -56,10 +56,16 @@ export function* fetchEnvironmentClusters(action) {
 
 export function* fetchEnvironmentCluster(action) {
     const environmentsApi = yield select((state) => state.configuration.fasit_environments)
-    const {environment, cluster} = action
+    const {environment, cluster, revision} = action
+    let value = {}
+
     yield put({type: ENVIRONMENT_CLUSTER_FASIT_FETCHING})
     try {
-        const value = yield call(fetchUrl, `${environmentsApi}/${environment}/clusters/${cluster}`)
+        if (action.revision) {
+            value = yield call(fetchUrl, `${environmentsApi}/${environment}/clusters/${cluster}/revisions/${action.revision}`)
+        } else {
+            value = yield call(fetchUrl, `${environmentsApi}/${environment}/clusters/${cluster}`)
+        }
         yield put({type: ENVIRONMENT_CLUSTER_FASIT_RECEIVED, value})
     } catch (error) {
         yield put({type: ENVIRONMENT_CLUSTER_FASIT_REQUEST_FAILED, error})

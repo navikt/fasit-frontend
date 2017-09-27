@@ -25,6 +25,10 @@ export function* fetchRevisions(action) {
             case "environment":
                 url = `${configuration.fasit_environments}/${action.key}/revisions`
                 break
+            case "cluster":
+                const clusterEnvironment = yield select((state) => state.environment_cluster_fasit.data.environment)
+                url = `${configuration.fasit_environments}/${clusterEnvironment}/clusters/${action.key}/revisions/`
+                break
             default:
                 throw new Error("Revisions Saga has no clue where you want to go, specify which component you're coming from")
         }
