@@ -44,7 +44,7 @@ export const styles = {
     marginTop25: {marginTop: '25px'},
     paddingTop5: {paddingTop: '5px'},
     paddingBottom0: {paddingBottom: '0px'},
-    overflowEllipsis: {textOverflow: 'ellipsis', overflow: 'hidden'},
+    tableData: {textOverflow: 'ellipsis', overflow: 'hidden', height: '30px'},
     cardPadding: {
         marginTop: '10px',
         marginBottom: '10px'},
@@ -86,7 +86,7 @@ export const icons = {
     resource: <i className="fa fa-cogs"/>,
     historyAvatar: <Avatar  icon={<Timeline/>}/>,
     securityAvatar: <Avatar icon={<Security/>}/>,
-    linkAvatar: <Avatar icon={<Link/>}/>,
+    linkAvatar: <Avatar icon={<Link/>} backgroundColor={colors.avatarBackgroundColor}/>,
     sensuStatusAvatar: <Avatar icon={<NewReleases/>}/>,
     hardwareAvatar: <Avatar icon={<Build/>}/>,
     grafanaAvatar: <Avatar icon={<i className="fa fa-area-chart"/>}/>,

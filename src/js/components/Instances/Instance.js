@@ -5,8 +5,8 @@ import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import {Link} from "react-router";
 import Manifest from "./Manifest";
 import {CollapsibleList, CurrentRevision, History} from "../common/";
-import {Card, CardText, CardHeader} from "material-ui/Card"
-import {List, ListItem} from "material-ui/List"
+import {Card, CardHeader, CardText} from "material-ui/Card";
+import {List, ListItem} from "material-ui/List";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import {fetchInstance} from "../../actionCreators/instance";
 
@@ -37,11 +37,10 @@ class Instance extends Component {
         const clusterName = instance.cluster ? instance.cluster.name : ""
 
         return (
-            <div className="row">
-                <div className="col-md-8" style={styles.cardPadding}>
+            <div>
+                <div className="col-md-9">
                     <CurrentRevision revisionId={query.revision} revisions={revisions}/>
-
-                    <Card>
+                    <Card style={styles.cardPadding}>
                         <CardHeader
                             avatar={icons.instance}
                             titleStyle={styles.bold}
@@ -50,28 +49,51 @@ class Instance extends Component {
                             subtitle={instance.version}
                         />
                         <CardText>
-                            <List>
-                                <ListItem
-                                    key='environment'
-                                    disabled={true}
-                                    primaryText={<Link
-                                        to={`/environment/${instance.environment}`}>{instance.environment}</Link>}
-                                    secondaryText="Environment"
-                                />
-                                <ListItem
-                                    key="cluster"
-                                    disabled={true}
-                                    primaryText={<Link
-                                        to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>}
-                                    secondaryText="Cluster"
-                                />
-                            </List>
-                        </CardText>
+                            <div>
+                                <div>
+                                    <List>
+                                        <ListItem
+                                            key='environment'
+                                            disabled={true}
+                                            primaryText={<Link
+                                                to={`/environment/${instance.environment}`}>{instance.environment}</Link>}
+                                            secondaryText="Environment"
+                                        />
+                                        <ListItem
+                                            key="cluster"
+                                            disabled={true}
+                                            primaryText={<Link
+                                                to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>}
+                                            secondaryText="Cluster"
+                                        />
+                                    </List>
+                                </div>
+                            </div>
+                            {instance.usedresources &&
+                            <Tabs tabItemContainerStyle={styles.tabItem} inkBarStyle={styles.inkBar}>
+                                <Tab
+                                    label={`Used resources ${instance.usedresources.length}`}
+                                    disableTouchRipple={true}>
+                                    <SortableResourceTable resources={instance.usedresources}/>
+                                </Tab>
+                                <Tab
+                                    label={`Exposed resources ${instance.exposedresources.length}`}
+                                    disableTouchRipple={true}
+                                    disabled={instance.exposedresources.length === 0}>
+                                    <SortableResourceTable resources={instance.exposedresources}/>
+                                </Tab>
+                                <Tab
+                                    label="Manifest"
+                                    disableTouchRipple={true}>
+                                    <Manifest/>
+                                </Tab>
+                            </Tabs>
+                            }
 
+                        </CardText>
                     </Card>
                 </div>
-
-                <div className="col-md-4">
+                <div className="col-md-3">
                     {instance.selftesturls && <CollapsibleList
                         primaryText="Selftests"
                         leftAvatar={icons.linkAvatar}
@@ -79,27 +101,6 @@ class Instance extends Component {
                         nestedItems={<SelfTestLinks key={id} links={instance.selftesturls}/>}/>}
                     <History id={id} revision={query.revision} component="instance"/>
                 </div>
-
-                {instance.usedresources && <div className="row col-md-10">
-                    <Tabs tabItemContainerStyle={styles.tabItem} inkBarStyle={styles.inkBar}>
-                        <Tab
-                            label={`Used resources ${instance.usedresources.length}`}
-                            disableTouchRipple={true}>
-                            <SortableResourceTable resources={instance.usedresources}/>
-                        </Tab>
-                        <Tab
-                            label={`Exposed resources ${instance.exposedresources.length}`}
-                            disableTouchRipple={true}
-                            disabled={instance.exposedresources.length === 0}>
-                            <SortableResourceTable resources={instance.exposedresources}/>
-                        </Tab>
-                        <Tab
-                            label="Manifest"
-                            disableTouchRipple={true}>
-                            <Manifest/>
-                        </Tab>
-                    </Tabs>
-                </div>}
             </div>
         )
     }

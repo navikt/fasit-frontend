@@ -12,9 +12,9 @@ export default function SortableResourceTable(props) {
             let first = a[key]
             let second = b[key]
 
-            if(typeof first === 'string' && typeof second === 'string') {
-                    first = first.toLowerCase()
-                    second = second.toLowerCase()
+            if (typeof first === 'string' && typeof second === 'string') {
+                first = first.toLowerCase()
+                second = second.toLowerCase()
             }
 
             if (first === second) {
@@ -38,7 +38,8 @@ export default function SortableResourceTable(props) {
             key: 'alias',
             label: "Alias",
             sortable: true,
-            render: (alias,resource) => <Link to={`/resources/${resource.id}?revision=${resource.revision}`}>{alias}</Link>
+            render: (alias, resource) => <Link
+                to={`/resources/${resource.id}?revision=${resource.revision}`}>{alias}</Link>
         },
         {
             key: 'lastchange',
@@ -49,12 +50,13 @@ export default function SortableResourceTable(props) {
     ]
 
     return (
-            <DataTables
+        <DataTables
             height='auto'
             selectable={true}
             showRowHover={true}
             columns={columns}
-            tableRowColumnStyle={styles.overflowEllipsis}
+            tableRowColumnStyle={styles.tableData}
+            tableRowStyle={styles.tableData}
             data={resources}
             showFooterToolbar={false}
             onSortOrderChange={onSortOrderChange }
