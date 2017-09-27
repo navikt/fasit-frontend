@@ -43,7 +43,6 @@ class EnvironmentCluster extends Component {
 
     componentDidMount() {
         const {dispatch, query, cluster} = this.props
-        console.log("props", this.props)
         this.setState({
             clustername: cluster.data.clustername,
             zone: cluster.data.zone,
@@ -55,10 +54,8 @@ class EnvironmentCluster extends Component {
             comment: ""
         })
         if (query.revision) {
-            console.log("Henter spesifik revision")
             dispatch(fetchEnvironmentCluster(this.props.params.environment, this.props.params.clusterName, query.revision))
         } else {
-            console.log("Henter siste revision")
             dispatch(fetchEnvironmentCluster(this.props.params.environment, this.props.params.clusterName))
         }
 
@@ -84,7 +81,6 @@ class EnvironmentCluster extends Component {
             this.setState({adgroups: nextProps.cluster.data.accesscontrol.adgroups})
         }
         if (nextProps.query.revision !== query.revision) {
-            console.log("Henter revisjon")
             dispatch(fetchEnvironmentCluster(this.props.params.environment, this.props.params.clusterName, nextProps.query.revision))
         }
     }
@@ -220,7 +216,7 @@ class EnvironmentCluster extends Component {
 
                 {/*Misc. modals*/}
                 <RescueElementForm
-                    displayRescueForm={this.state.displayRescueForm}
+                    displayRescueForm={this.state.displayRescueForm || false}
                     onClose={() => this.toggleComponentDisplay("displayRescueForm")}
                     onSubmit={() => this.rescueClusters()}
                     id={id}
