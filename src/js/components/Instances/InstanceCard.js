@@ -24,7 +24,7 @@ export default function InstanceCard(props) {
     return (
         <div style={styles.cardPadding}>
             <Card expandable={hasUsedResources} initiallyExpanded={false}>
-                <CardHeader title={<Link to={`/instances/` + id}>{`${instance.application} ${instance.version}`}</Link>}
+                <CardHeader title={<Link to={`/instances/` + id}>{`${instance.application} ${instance.version ? instance.version : 'Not deployed'}`}</Link>}
                             subtitle={environment}
                             showExpandableButton={false}
                             actAsExpander={true}
