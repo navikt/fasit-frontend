@@ -126,7 +126,7 @@ class Search extends Component {
                     {searchResult.type === RESOURCE
                     && searchResult.detailedinfo.type.toLowerCase() === 'deploymentmanager'
                     && <CardActions actAsExpander={true} style={{paddingTop: '0px'}}>
-                         <WebsphereManagementConsole hostname={searchResult.detailedinfo.hostname}/>)
+                        <WebsphereManagementConsole hostname={searchResult.detailedinfo.hostname}/>)
                     </CardActions>}
                 </Card>
             </div>)
@@ -142,29 +142,22 @@ class Search extends Component {
     resultTypeFilters() {
         const {searchResults} = this.props
         const filter = searchResults.filter
-        return  <Toolbar>
+
+        const resultTypes = toUniqeSortedArray(searchResults.data.map(result => result.type));
+        return (
+            resultTypes.length > 0 &&
+            <Toolbar>
                 <ToolbarGroup>
                     <ToolbarTitle text="Filter"/>
-                    <FilterButton activeFilter={filter} type={APPCONFIG}
-                                  onClickHandler={() => this.filterByType(APPCONFIG)}/>
-                    <FilterButton activeFilter={filter} type={APPLICATION}
-                                  onClickHandler={() => this.filterByType(APPLICATION)}/>
-                    <FilterButton activeFilter={filter} type={ENVIRONMENT}
-                                  onClickHandler={() => this.filterByType(ENVIRONMENT)}/>
-                    <FilterButton activeFilter={filter} type={CLUSTER}
-                                  onClickHandler={() => this.filterByType(CLUSTER)}/>
-                    <FilterButton activeFilter={filter} type={INSTANCE}
-                                  onClickHandler={() => this.filterByType(INSTANCE)}/>
-                    <FilterButton activeFilter={filter} type={NODE} onClickHandler={() => this.filterByType(NODE)}/>
-                    <FilterButton activeFilter={filter} type={RESOURCE}
-                                  onClickHandler={() => this.filterByType(RESOURCE)}/>
+                    {resultTypes.map(type => {
+                        return <FilterButton
+                            key={type}
+                            activeFilter={filter}
+                            type={type}
+                            onCLickHandler={() => this.filterByType(type)}/>
+                    })}
                 </ToolbarGroup>
-                <ToolbarGroup>
-                    <ToolbarSeparator/>
-                    <RaisedButton label='clear' disabled={!searchResults.filter} disableTouchRipple={true} backgroundColor={colors.toolbarBackground} labelColor={colors.white} style={styles.raisedButton}
-                                  onTouchTap={() => this.filterByType()}/>
-                </ToolbarGroup>
-            </Toolbar>
+            </Toolbar>)
     }
 
     render() {
@@ -177,6 +170,10 @@ class Search extends Component {
             </div>
         </div>)
     }
+}
+
+const toUniqeSortedArray = (array) => {
+    return Array.from(new Set(array)).sort()
 }
 
 const mapStateToProps = (state) => {
