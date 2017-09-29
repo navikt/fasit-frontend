@@ -85,6 +85,9 @@ class Search extends Component {
             case CLUSTER:
                 subtitle = searchResult.info
                 break
+            case INSTANCE:
+                subtitle = searchResult.detailedinfo.environment
+                break
         }
 
         return (
