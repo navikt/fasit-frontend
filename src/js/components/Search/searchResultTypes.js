@@ -8,6 +8,8 @@ export const INSTANCE = "instance"
 export const NODE = "node"
 export const RESOURCE = "resource"
 
+export const SEARCH_RESULT_TYPES = [APPCONFIG, APPLICATION, CLUSTER, ENVIRONMENT, INSTANCE, NODE, RESOURCE]
+
 export function destinationUrl(searchResult) {
     switch (searchResult.type) {
         case NODE:
