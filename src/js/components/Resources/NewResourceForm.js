@@ -100,7 +100,7 @@ class NewResourceForm extends Component {
         }
     }
 
-    closeForm() {
+    closeForm() {hor
         this.initialState()
         this.props.dispatch(displayModal("resource", false))
     }

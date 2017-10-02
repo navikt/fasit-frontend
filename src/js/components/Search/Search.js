@@ -10,6 +10,7 @@ import {
     APPLICATION,
     CLUSTER,
     destinationUrl,
+    SEARCH_RESULT_TYPES,
     ENVIRONMENT,
     INSTANCE,
     NODE,
@@ -144,20 +145,27 @@ class Search extends Component {
         const filter = searchResults.filter
 
         const resultTypes = toUniqeSortedArray(searchResults.data.map(result => result.type));
-        return (
-            resultTypes.length > 0 &&
-            <Toolbar>
-                <ToolbarGroup>
-                    <ToolbarTitle text="Filter"/>
-                    {resultTypes.map(type => {
-                        return <FilterButton
-                            key={type}
-                            activeFilter={filter}
-                            type={type}
-                            onCLickHandler={() => this.filterByType(type)}/>
-                    })}
-                </ToolbarGroup>
-            </Toolbar>)
+
+        return (<Toolbar>
+            <ToolbarGroup>
+                <ToolbarTitle text="Filter"/>
+                {SEARCH_RESULT_TYPES.map(type => {
+                    return (!searchResults.filter && resultTypes.includes(type) ) && <FilterButton
+                        key={type}
+                        activeFilter={filter}
+                        type={type}
+                        onCLickHandler={() => this.filterByType(type)}/>
+                })}
+            </ToolbarGroup>
+            <ToolbarGroup>
+                <ToolbarSeparator/>
+                <RaisedButton label='clear' disabled={!searchResults.filter} disableTouchRipple={true}
+                              backgroundColor={colors.toolbarBackground} labelColor={colors.white}
+                              style={styles.raisedButton}
+                              onTouchTap={() => this.filterByType()}/>
+            </ToolbarGroup>
+        </Toolbar>)
+
     }
 
     render() {
