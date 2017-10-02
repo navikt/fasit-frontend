@@ -5,17 +5,7 @@ import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from "material-ui/Toolbar";
 import RaisedButton from "material-ui/RaisedButton";
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
-import {
-    APPCONFIG,
-    APPLICATION,
-    CLUSTER,
-    destinationUrl,
-    SEARCH_RESULT_TYPES,
-    ENVIRONMENT,
-    INSTANCE,
-    NODE,
-    RESOURCE
-} from "../Search/searchResultTypes";
+import {CLUSTER, destinationUrl, INSTANCE, RESOURCE, SEARCH_RESULT_TYPES} from "../Search/searchResultTypes";
 import {colors, icons, styles} from "../../commonStyles/commonInlineStyles";
 import {CardInfo} from "../common/";
 import {capitalize} from "../../utils/";
@@ -143,29 +133,31 @@ class Search extends Component {
     resultTypeFilters() {
         const {searchResults} = this.props
         const filter = searchResults.filter
-
         const resultTypes = toUniqeSortedArray(searchResults.data.map(result => result.type));
 
-        return (<Toolbar>
-            <ToolbarGroup>
-                <ToolbarTitle text="Filter"/>
-                {SEARCH_RESULT_TYPES.map(type => {
-                    return (!searchResults.filter && resultTypes.includes(type) ) && <FilterButton
-                        key={type}
-                        activeFilter={filter}
-                        type={type}
-                        onCLickHandler={() => this.filterByType(type)}/>
-                })}
-            </ToolbarGroup>
-            <ToolbarGroup>
-                <ToolbarSeparator/>
-                <RaisedButton label='clear' disabled={!searchResults.filter} disableTouchRipple={true}
-                              backgroundColor={colors.toolbarBackground} labelColor={colors.white}
-                              style={styles.raisedButton}
-                              onTouchTap={() => this.filterByType()}/>
-            </ToolbarGroup>
-        </Toolbar>)
+        return (
+            <Toolbar>
+                <ToolbarGroup>
+                    <ToolbarTitle text="Filter"/>
+                    {SEARCH_RESULT_TYPES.map((type) => {
+                            return (
+                                <FilterButton
+                                key={type}
+                                disabled={!resultTypes.includes(type)}
+                                activeFilter={filter}
+                                type={type}
+                                onClickHandler={() => this.filterByType(type)}/>)
+                    })}
 
+                </ToolbarGroup>
+                <ToolbarGroup>
+                    <ToolbarSeparator/>
+                    <RaisedButton label='clear' disabled={!searchResults.filter} disableTouchRipple={true}
+                                  backgroundColor={colors.toolbarBackground} labelColor={colors.white}
+                                  style={styles.raisedButton}
+                                  onTouchTap={() => this.filterByType()}/>
+                </ToolbarGroup>
+            </Toolbar>)
     }
 
     render() {
@@ -192,11 +184,12 @@ const mapStateToProps = (state) => {
 }
 
 function FilterButton(props) {
-    const {type, onClickHandler, activeFilter} = props
+    const {type, onClickHandler, activeFilter, disabled} = props
     return (<RaisedButton
         key={type}
         label={type}
         disableTouchRipple={true}
+        disabled={disabled}
         backgroundColor={activeFilter === type ? colors.toolbarBackground : colors.white}
         labelColor={activeFilter === type ? colors.white : colors.black}
         onTouchTap={onClickHandler}/>)
