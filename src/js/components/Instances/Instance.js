@@ -44,9 +44,9 @@ class Instance extends Component {
                         <CardHeader
                             avatar={icons.instance}
                             titleStyle={styles.bold}
-                            title={<Link to={`/application/${instance.application}`}>{instance.application}</Link>}
+                            title={<Link to={`/application/${instance.application}`}>{`${instance.application}`}</Link>}
                             style={styles.paddingBottom0}
-                            subtitle={instance.version}
+                            subtitle={`${instance.application}:${instance.version}`}
                         />
                         <CardText>
                             <div>
