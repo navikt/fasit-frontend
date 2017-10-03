@@ -5,7 +5,7 @@ import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from "material-ui/Toolbar";
 import RaisedButton from "material-ui/RaisedButton";
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
-import {CLUSTER, destinationUrl, INSTANCE, RESOURCE, SEARCH_RESULT_TYPES} from "../Search/searchResultTypes";
+import {APPCONFIG, CLUSTER, destinationUrl, INSTANCE, RESOURCE, SEARCH_RESULT_TYPES} from "../Search/searchResultTypes";
 import {colors, icons, styles} from "../../commonStyles/commonInlineStyles";
 import {CardInfo} from "../common/";
 import {capitalize} from "../../utils/";
@@ -77,7 +77,8 @@ class Search extends Component {
                 subtitle = searchResult.info
                 break
             case INSTANCE:
-                subtitle = searchResult.detailedinfo.environment
+            case APPCONFIG:
+                subtitle = capitalize(searchResult.detailedinfo.environment)
                 break
         }
 
