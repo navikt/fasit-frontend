@@ -4,6 +4,7 @@ import moment from "moment";
 import {Link} from "react-router";
 import {capitalize} from "../../utils/";
 import {styles} from "../../commonStyles/commonInlineStyles";
+
 export default function SortableResourceTable(props) {
     const resources = props.resources
 
@@ -32,20 +33,20 @@ export default function SortableResourceTable(props) {
             key: 'type',
             label: "Type",
             sortable: true,
-            render: (type) => capitalize(type)
+            render: (type, resource) => resource.deleted  ? <div style={styles.red}>Deleted</div> : capitalize(type)
         },
         {
             key: 'alias',
             label: "Alias",
             sortable: true,
-            render: (alias, resource) => <Link
+            render: (alias, resource) => resource.deleted ? <div>{alias}</div> : <Link
                 to={`/resources/${resource.id}?revision=${resource.revision}`}>{alias}</Link>
         },
         {
             key: 'lastchange',
             label: "Last change",
             sortable: true,
-            render: (lastchange, resource) => `${moment(lastchange).fromNow()} (${resource.lastupdateby})`
+            render: (lastchange, resource) => lastchange ?`${moment(resource.deleted).fromNow()} (${resource.lastupdateby})` : 'N/A'
         }
     ]
 
