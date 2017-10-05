@@ -8,7 +8,7 @@ if (process.env['NODE_ENV'] === 'production' || process.env ['NODE_ENV'] === 'st
         fasit_applicationinstances: process.env['fasit_applicationinstances_url'],
         fasit_secrets: process.env['fasit_secrets_url'],
         fasit_nodes: process.env['fasit_nodes_url'],
-        fasit_lifecycle: process.env['fasit_lifecycle'],
+        fasit_lifecycle: process.env['fasit_lifecycle_url'],
         fasit_navsearch: process.env['fasit_navsearch_url'],
         fasit_search: process.env['fasit_search_url'],
         fasit_baseurl: process.env['fasit_url'],
