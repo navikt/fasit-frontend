@@ -91,7 +91,7 @@ class NewResourceForm extends Component {
         if (Object.keys(files).length > 0) {
             form.files = files
         }
-
+        console.log("form:", form)
         if (mode === "edit") {
             dispatch(submitForm(resource.data.id, form, comment, "resource"))
         }
@@ -100,7 +100,7 @@ class NewResourceForm extends Component {
         }
     }
 
-    closeForm() {hor
+    closeForm() {
         this.initialState()
         this.props.dispatch(displayModal("resource", false))
     }
