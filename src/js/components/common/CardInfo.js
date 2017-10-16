@@ -12,7 +12,8 @@ export function CardInfo(props) {
     return (
         <div className="pull-right col-md-4">
             <div className="col-md-5 text-muted pull-right" style={{paddingTop: "6px"}}>
-                Changed {moment(lastUpdated).fromNow()}</div>
+                {lastUpdated ? `Changed ${moment(lastUpdated).fromNow()}` : ''}
+            </div>
             <LifecycleChip lifecycle={lifecycle}/>
         </div>
     )
@@ -44,7 +45,7 @@ function LifecycleChip(props) {
     return (
         <div className="col-md-4 pull-right">
             <Chip backgroundColor={colors.white} labelColor={colors.grey}>
-                <Avatar backgroundColor={color} icon={<Restore />}/>
+                <Avatar backgroundColor={color} icon={<Restore/>}/>
                 {capitalize(lifecycleStatus)}
             </Chip>
         </div>
