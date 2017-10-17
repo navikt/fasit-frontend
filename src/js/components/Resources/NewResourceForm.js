@@ -62,10 +62,16 @@ class NewResourceForm extends Component {
         if (field === "type" && this.state.type !== value) {
             this.resetLocalState()
         }
+
         if (parent) {
             const parentState = this.state[parent]
             parentState[field] = value
-            this.setState({parent: parentState})
+            if (field === "environmentclass") {
+                delete parentState.environment
+                this.setState({parent: parentState})
+            } else {
+                this.setState({parent: parentState})
+            }
         } else {
             this.setState({[field]: value})
         }
