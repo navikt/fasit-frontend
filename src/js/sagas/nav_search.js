@@ -1,6 +1,6 @@
 import {takeLatest} from "redux-saga";
 import {fork, put, select} from "redux-saga/effects";
-import {fetchUrl} from "../utils";
+import {fetchUrl, sortSearchResults} from "../utils";
 import {
     CLEAR_SEARCH_QUERY,
     NAVSEARCH_REQUEST_FAILED,
@@ -16,7 +16,8 @@ export function* submitNavSearch(action) {
     try {
         yield put({type: SET_NAVSEARCH_QUERY, value: action.query})
         const payload = yield fetchUrl(url + "?q=" + action.query + "&maxCount=10")
-        yield put({type: NAVSEARCH_RESULTS_RECEIVED, value: payload})
+        const sortedPayload = yield sortSearchResults(payload)
+        yield put({type: NAVSEARCH_RESULTS_RECEIVED, value: sortedPayload})
     } catch (err) {
         yield put({type: NAVSEARCH_REQUEST_FAILED, value: err.message})
     }
