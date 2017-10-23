@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
-import {browserHistory} from 'react-router'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { browserHistory } from 'react-router'
+import { connect } from 'react-redux'
 import Mousetrap from 'mousetrap'
-import {submitNavSearch} from '../../actionCreators/common'
-import {destinationUrl} from '../Search/searchResultTypes'
-import {capitalize} from '../../utils/'
+import { submitNavSearch } from '../../actionCreators/common'
+import { destinationUrl } from '../Search/searchResultTypes'
+import { capitalize } from '../../utils/'
 
 class NavSearch extends Component {
     constructor(props) {
@@ -17,10 +17,13 @@ class NavSearch extends Component {
 
     componentDidMount() {
         this.navSearch.focus()
-        Mousetrap.bind('g g', (e) => {e.preventDefault(); this.navSearch.focus()})
+        Mousetrap.bind('g g', (e) => {
+            e.preventDefault();
+            this.navSearch.focus()
+        })
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         Mousetrap.unbind('g g')
     }
 
@@ -58,6 +61,7 @@ class NavSearch extends Component {
                 this.changeSelectedOption("next")
                 break
             case 'Enter': // enter
+                this.navSearch.blur()
                 e.preventDefault()
                 this.navigate()
                 break
@@ -77,9 +81,10 @@ class NavSearch extends Component {
             if (!(location.pathname === "/search")) {
                 browserHistory.push("/search")
             }
-           browserHistory.push(`search/${navSearch.query}`)
+            browserHistory.push(`search/${navSearch.query}`)
             this.setState({visible: false})
         } else {
+
             dispatch(submitNavSearch(""))
             browserHistory.push(destinationUrl(navItem))
         }
@@ -135,37 +140,40 @@ class NavSearch extends Component {
                         }}><i className="fa fa-search"/></button>
                 </form>
                 {query && visible ? isFetching ?
-                        <div className="navSearchDropdown loadingDots"/> :
-                        <div className="navSearchDropdown">
-                            {(data.length > 0) ? types.map((type, i) => { // Returnerer en blokk for hver elementtype
-                                    return (
-                                        <div key={i}>
-                                            <b><i>
-                                                <small>{capitalize(type)}{data.filter(itemsByType => itemsByType.type === type).length > 1 ? "s" : null}:</small>
-                                            </i></b>
-                                            <div>
-                                                {data.filter(itemsByType => itemsByType.type === type) // filtrerer ut resultater per type
-                                                    .map((navItem, i) => { // returnerer en lenke til resultatet
-                                                        const active = navItem.id === options[selectedOption]
-                                                        return (
-                                                            <div
-                                                                key={i}
-                                                                onMouseEnter={() => this.handleMouseOver(navItem)}
-                                                                onClick={(e) => this.handleMouseClick(e)}
-                                                                className={ active ? "navOption selectedNavOption row" : "navOption row"}
-                                                                style={{marginLeft:-10, marginRight:-20}}
-                                                            >
-                                                                    <div className="col-md-5 text-overflow">{navItem.name}</div>
-                                                                    <div className="col-md-6 text-overflow"><small style={active ? {color: "#f5f5f5"} : {color: "#777"}}>{navItem.info}</small></div>
-                                                            </div>)
-                                                    })
-                                                }
-                                            </div>
-                                        </div>
-                                    )
-                                }) : "No results found"
-                            }
-                        </div> :
+                    <div className="navSearchDropdown loadingDots"/> :
+                    <div className="navSearchDropdown">
+                        {(data.length > 0) ? types.map((type, i) => { // Returnerer en blokk for hver elementtype
+                            return (
+                                <div key={i}>
+                                    <b><i>
+                                        <small>{capitalize(type)}{data.filter(itemsByType => itemsByType.type === type).length > 1 ? "s" : null}:</small>
+                                    </i></b>
+                                    <div>
+                                        {data.filter(itemsByType => itemsByType.type === type) // filtrerer ut resultater per type
+                                            .map((navItem, i) => { // returnerer en lenke til resultatet
+                                                const active = navItem.id === options[selectedOption]
+                                                return (
+                                                    <div
+                                                        key={i}
+                                                        onMouseEnter={() => this.handleMouseOver(navItem)}
+                                                        onClick={(e) => this.handleMouseClick(e)}
+                                                        className={active ? "navOption selectedNavOption row" : "navOption row"}
+                                                        style={{marginLeft: -10, marginRight: -20}}
+                                                    >
+                                                        <div className="col-md-5 text-overflow">{navItem.name}</div>
+                                                        <div className="col-md-6 text-overflow">
+                                                            <small
+                                                                style={active ? {color: "#f5f5f5"} : {color: "#777"}}>{navItem.info}</small>
+                                                        </div>
+                                                    </div>)
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            )
+                        }) : "No results found"
+                        }
+                    </div> :
                     null}
 
             </ div>)
