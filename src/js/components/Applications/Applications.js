@@ -5,7 +5,7 @@ import Application from "./Application";
 import ApplicationCard from "./ApplicationCard";
 import {submitFilterString} from "../../actionCreators/element_lists";
 
-class Applications extends Component {
+export class Applications extends Component {
     constructor(props) {
         super(props)
     }

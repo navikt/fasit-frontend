@@ -19,7 +19,7 @@ import {
     ToolButtons
 } from "../common/";
 
-class Application extends Component {
+export class Application extends Component {
     constructor(props) {
         super(props)
 
@@ -94,6 +94,7 @@ class Application extends Component {
     }
 
     render() {
+        // console.log(this.props)
         const {name, application, user, dispatch, query, revisions, instances} = this.props
         const {comment, adgroups, editMode} = this.state
         let lifecycle = {}
