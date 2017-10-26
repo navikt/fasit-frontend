@@ -9,9 +9,9 @@ node {
     def distDir = "${dockerDir}/dist"
 
     try {
-        stage("checkout") {
-                git url: "ssh://git@stash.devillo.no:7999/aura/${application}.git"
-        }
+        //stage("checkout") {
+          //      git url: "ssh://git@stash.devillo.no:7999/aura/${application}.git"
+        //}
 
         stage("initialize") {
             //mvnHome = tool "maven-3.3.9"
