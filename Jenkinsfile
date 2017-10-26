@@ -1,6 +1,8 @@
 
 node {
-    def mvnHome, mvn, npm, node // tools
+    def npm, node // tools
+    def groupId = "nais"
+    def appConfig = "app-config.yaml"
     def committer, committerEmail, changelog, releaseVersion // metadata
     def application = "fasit-frontend"
     def dockerDir = "./docker"
@@ -12,15 +14,15 @@ node {
         }
 
         stage("initialize") {
-            mvnHome = tool "maven-3.3.9"
-            mvn = "${mvnHome}/bin/mvn"
+            //mvnHome = tool "maven-3.3.9"
+            //mvn = "${mvnHome}/bin/mvn"
             npm = "/usr/bin/npm"
             node = "/usr/bin/node"
 			changelog = sh(script: 'git log `git describe --tags --abbrev=0`..HEAD --oneline', returnStdout: true)
             releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
 
              // aborts pipeline if releaseVersion already is released
-             sh "if [ \$(curl -s -o /dev/null -I -w \"%{http_code}\" http://maven.adeo.no/m2internal/no/nav/aura/${application}/${application}/${releaseVersion}) != 404 ]; then echo \"this version is somehow already released, manually update to a unreleased SNAPSHOT version\"; exit 1; fi"
+             //sh "if [ \$(curl -s -o /dev/null -I -w \"%{http_code}\" http://maven.adeo.no/m2internal/no/nav/aura/${application}/${application}/${releaseVersion}) != 404 ]; then echo \"this version is somehow already released, manually update to a unreleased SNAPSHOT version\"; exit 1; fi"
              committer = sh(script: 'git log -1 --pretty=format:"%ae (%an)"', returnStdout: true).trim()
              committerEmail = sh(script: 'git log -1 --pretty=format:"%ae"', returnStdout: true).trim()
         }
@@ -50,9 +52,15 @@ node {
                     sh "sudo docker push ${imageName}"
         }
 
-        stage("publish app-config artifact") {
-                sh "${mvn} clean deploy -f app-config/pom.xml -DskipTests -B -e"
-        }
+       // stage("publish app-config artifact") {
+         //       sh "${mvn} clean deploy -f app-config/pom.xml -DskipTests -B -e"
+        //}
+
+        stage("publish yaml") {
+              withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                 sh "curl -s -F r=m2internal -F hasPom=false -F e=yaml -F g=${groupId} -F a=${application} -F v=${releaseVersion} -F p=yaml -F file=@${appConfig} -u ${env.USERNAME}:${env.PASSWORD} http://maven.adeo.no/nexus/service/local/artifact/maven/content"
+                        }
+            	}
 
         stage("jilease") {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jiraServiceUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
@@ -62,25 +70,25 @@ node {
 
         stage("deploy to cd-u1") {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    sh "${mvn} aura:deploy -Dapps=${application}:${releaseVersion} -Denv=cd-u1 -Dusername=${env.USERNAME} -Dpassword=${env.PASSWORD} -Dorg.slf4j.simpleLogger.log.no.nav=debug -B -Ddebug=true -e"
+                    sh "curl -k -d \'{\"application\": \"${application}\", \"version\": \"${releaseVersion}\", \"environment\": \"cd-u1\", \"zone\": \"fss\", \"namespace\": \"default\", \"username\": \"${env.USERNAME}\", \"password\": \"${env.PASSWORD}\"}\' https://daemon.nais.preprod.local/deploy"
                 }
         }
 
-        stage("deploy to production") {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    sh "${mvn} aura:deploy -Dapps=${application}:${releaseVersion} -Denv=p -Dusername=${env.USERNAME} -Dpassword=${env.PASSWORD} -Dorg.slf4j.simpleLogger.log.no.nav=debug -B -Ddebug=true -e"
-                }
-        }
+       // stage("deploy to production") {
+         //       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+           //         sh "${mvn} aura:deploy -Dapps=${application}:${releaseVersion} -Denv=p -Dusername=${env.USERNAME} -Dpassword=${env.PASSWORD} -Dorg.slf4j.simpleLogger.log.no.nav=debug -B -Ddebug=true -e"
+             //   }
+       // }
 
-        def successmessage = "Successfully deployed fasit-frontend:${releaseVersion} to prod :partyparrot: \nhttps://fasit-frontend.adeo.no\nLast commit by ${committer}: ${changelog}"
-        slackSend channel: '#nye_fasit', message: successmessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
+        //def successmessage = "Successfully deployed fasit-frontend:${releaseVersion} to prod :partyparrot: \nhttps://fasit-frontend.adeo.no\nLast commit by ${committer}: ${changelog}"
+        //slackSend channel: '#nye_fasit', message: successmessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
 
     } catch(e) {
-        currentBuild.result = "FAILED"
-        GString message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}"
-        mail body: message, from: "jenkins@aura.adeo.no", subject: "FAILED to complete ${env.JOB_NAME}", to: committerEmail
+        //currentBuild.result = "FAILED"
+        //GString message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}"
+        //mail body: message, from: "jenkins@aura.adeo.no", subject: "FAILED to complete ${env.JOB_NAME}", to: committerEmail
 
-        slackSend channel: '#nye_fasit', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
+       // slackSend channel: '#nye_fasit', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
 
         throw e
     }

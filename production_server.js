@@ -15,6 +15,11 @@ app.use(express.static(__dirname + "/dist"))
 app.get('/config', (req, res) => {
     res.json(config.externalResources)
 })
+
+app.get('/isalive', (req, res) => {
+    res.send(200)
+})
+
 app.get('/selftest', selftest.selftest)
 
 app.get('*', (req, res) => {
