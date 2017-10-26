@@ -2,7 +2,7 @@
 node {
     def npm, node // tools
     def groupId = "nais"
-    def appConfig = "app-config.yaml"
+    def appConfig = "nais.yaml"
     def committer, committerEmail, changelog, releaseVersion // metadata
     def application = "fasit-frontend"
     def dockerDir = "./docker"
