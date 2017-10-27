@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const proxy = require('proxy-middleware')
 const fs = require('fs')
-const https = require('https')
+//const http = require('http')
 
 
 const config = require('./config')
@@ -25,12 +25,12 @@ app.get('/selftest', selftest.selftest)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
 })
-const httpsServer = https.createServer({
-    key: fs.readFileSync(config.server.tlsPrivateKey),
-    cert: fs.readFileSync(config.server.tlsCert)
-}, app);
+// const httpServer = http.createServer({
+//     key: fs.readFileSync(config.server.tlsPrivateKey),
+//     cert: fs.readFileSync(config.server.tlsCert)
+// }, app);
 
-httpsServer.listen(config.server.port, function () {
+app.listen(config.server.port, function () {
     console.log('running on port %d', config.server.port)
 })
 

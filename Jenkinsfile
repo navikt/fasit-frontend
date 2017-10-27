@@ -7,7 +7,7 @@ node {
     def application = "fasit-frontend"
     def dockerDir = "./docker"
     def distDir = "${dockerDir}/dist"
-    def releaseVersion = "196.0.0"
+    def releaseVersion //= "197.0.0"
 
     try {
         stage("checkout") {
@@ -20,7 +20,7 @@ node {
             npm = "/usr/bin/npm"
             node = "/usr/bin/node"
 			changelog = sh(script: 'git log `git describe --tags --abbrev=0`..HEAD --oneline', returnStdout: true)
-            //releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
+            releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
 
              // aborts pipeline if releaseVersion already is released
              //sh "if [ \$(curl -s -o /dev/null -I -w \"%{http_code}\" http://maven.adeo.no/m2internal/no/nav/aura/${application}/${application}/${releaseVersion}) != 404 ]; then echo \"this version is somehow already released, manually update to a unreleased SNAPSHOT version\"; exit 1; fi"
@@ -30,38 +30,38 @@ node {
 
         stage("create version") {
                     //sh "${mvn} versions:set -f app-config/pom.xml -DgenerateBackupPoms=false -B -DnewVersion=${releaseVersion}"
-                    //sh "git commit -am \"set version to ${releaseVersion} (from Jenkins pipeline)\""
-                    //sh "git push origin master"
+                    sh "git commit -am \"set version to ${releaseVersion} (from Jenkins pipeline)\""
+                    sh "git push origin master"
 
         }
 
         stage("build frontend bundle") {
                 withEnv(['HTTP_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
-                       // sh "mkdir -p ${distDir}"
-                        //sh "cp production_server.js config.js selftest.js ${distDir}"
-                        //sh "cd ${distDir} && cp ../../package.json . && npm install --production && cd -"
-                        // getting required node_modules for production
-                       // sh "npm install && npm run build || exit 1" // Creating frontend bundle
-                       // sh "cp -r dist ${distDir}" // Copying frontend bundle
-                        // sh "cp Dockerfile ${dockerDir}"
+                        sh "mkdir -p ${distDir}"
+                        sh "cp production_server.js config.js selftest.js ${distDir}"
+                        sh "cd ${distDir} && cp ../../package.json . && npm install --production && cd -"
+                         getting required node_modules for production
+                        sh "npm install && npm run build || exit 1" // Creating frontend bundle
+                        sh "cp -r dist ${distDir}" // Copying frontend bundle
+                        sh "cp Dockerfile ${dockerDir}"
                 }
         }
 
         stage("build and publish docker image") {
-                   // def imageName = "docker.adeo.no:5000/${application}:${releaseVersion}"
-                    //sh "sudo docker build -t ${imageName} ./docker"
-                    //sh "sudo docker push ${imageName}"
+                    def imageName = "docker.adeo.no:5000/${application}:${releaseVersion}"
+                    sh "sudo docker build -t ${imageName} ./docker"
+                    sh "sudo docker push ${imageName}"
         }
 
        // stage("publish app-config artifact") {
          //       sh "${mvn} clean deploy -f app-config/pom.xml -DskipTests -B -e"
         //}
 
-      //  stage("publish yaml") {
-        //      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-          //       sh "curl -s -F r=m2internal -F hasPom=false -F e=yaml -F g=${groupId} -F a=${application} -F v=${releaseVersion} -F p=yaml -F file=@${appConfig} -u ${env.USERNAME}:${env.PASSWORD} http://maven.adeo.no/nexus/service/local/artifact/maven/content"
-            //            }
-            //	}
+        stage("publish yaml") {
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+             sh "curl -s -F r=m2internal -F hasPom=false -F e=yaml -F g=${groupId} -F a=${application} -F v=${releaseVersion} -F p=yaml -F file=@${appConfig} -u ${env.USERNAME}:${env.PASSWORD} http://maven.adeo.no/nexus/service/local/artifact/maven/content"
+                 }
+           	}
 
        // stage("jilease") {
          //       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jiraServiceUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {

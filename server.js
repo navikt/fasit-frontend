@@ -1,9 +1,9 @@
 const path = require('path')
 const express = require('express')
-const request = require('request')
-const proxy = require('proxy-middleware')
-const fs = require('fs')
-const https = require('https')
+// const request = require('request')
+// const proxy = require('proxy-middleware')
+// const fs = require('fs')
+// const https = require('https')
 
 const environmentsMock = require('./test/mockend/environmentsMock')
 const resourcesMock = require('./test/mockend/resourcesMock')
@@ -22,8 +22,6 @@ const loginMock = require('./test/mockend/loginMock')
 const config = require('./config')
 console.log("ext", config.externalResources)
 const selftest = require('./selftest')
-
-
 
 
 const app = new express();

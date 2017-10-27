@@ -4,6 +4,6 @@ MAINTAINER Frode Sundby <frode.sundby@nav.no>
 WORKDIR /src
 ADD ./dist .
 
-EXPOSE 8443
+EXPOSE 8080
 
 CMD ["node", "production_server.js"]
