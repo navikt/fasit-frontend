@@ -24,6 +24,8 @@ console.log("ext", config.externalResources)
 const selftest = require('./selftest')
 
 
+
+
 const app = new express();
 
 const webpack = require('webpack');

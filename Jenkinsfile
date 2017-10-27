@@ -40,33 +40,33 @@ node {
                         sh "cp production_server.js config.js selftest.js ${distDir}"
                         sh "cd ${distDir} && cp ../../package.json . && npm install --production && cd -"
                         // getting required node_modules for production
-                        sh "npm install && npm run build || exit 1" // Creating frontend bundle
-                        sh "cp -r dist ${distDir}" // Copying frontend bundle
-                        sh "cp Dockerfile ${dockerDir}"
+                       // sh "npm install && npm run build || exit 1" // Creating frontend bundle
+                       // sh "cp -r dist ${distDir}" // Copying frontend bundle
+                        // sh "cp Dockerfile ${dockerDir}"
                 }
         }
 
         stage("build and publish docker image") {
-                    def imageName = "docker.adeo.no:5000/${application}:${releaseVersion}"
-                    sh "sudo docker build -t ${imageName} ./docker"
-                    sh "sudo docker push ${imageName}"
+                   // def imageName = "docker.adeo.no:5000/${application}:${releaseVersion}"
+                    //sh "sudo docker build -t ${imageName} ./docker"
+                    //sh "sudo docker push ${imageName}"
         }
 
        // stage("publish app-config artifact") {
          //       sh "${mvn} clean deploy -f app-config/pom.xml -DskipTests -B -e"
         //}
 
-        stage("publish yaml") {
-              withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                 sh "curl -s -F r=m2internal -F hasPom=false -F e=yaml -F g=${groupId} -F a=${application} -F v=${releaseVersion} -F p=yaml -F file=@${appConfig} -u ${env.USERNAME}:${env.PASSWORD} http://maven.adeo.no/nexus/service/local/artifact/maven/content"
-                        }
-            	}
+      //  stage("publish yaml") {
+        //      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+          //       sh "curl -s -F r=m2internal -F hasPom=false -F e=yaml -F g=${groupId} -F a=${application} -F v=${releaseVersion} -F p=yaml -F file=@${appConfig} -u ${env.USERNAME}:${env.PASSWORD} http://maven.adeo.no/nexus/service/local/artifact/maven/content"
+            //            }
+            //	}
 
-        stage("jilease") {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jiraServiceUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    sh "/usr/bin/jilease -jiraUrl https://jira.adeo.no -project AURA -application ${application} -version $releaseVersion -username $env.USERNAME -password $env.PASSWORD"
-                }
-        }
+       // stage("jilease") {
+         //       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jiraServiceUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+           //         sh "/usr/bin/jilease -jiraUrl https://jira.adeo.no -project AURA -application ${application} -version $releaseVersion -username $env.USERNAME -password $env.PASSWORD"
+             //   }
+        //}
 
         stage("deploy to cd-u1") {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
