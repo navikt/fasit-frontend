@@ -3,10 +3,11 @@ node {
     def npm, node // tools
     def groupId = "nais"
     def appConfig = "nais.yaml"
-    def committer, committerEmail, changelog, releaseVersion // metadata
+    def committer, committerEmail, changelog // metadata
     def application = "fasit-frontend"
     def dockerDir = "./docker"
     def distDir = "${dockerDir}/dist"
+    def releaseVersion = "196.0.0"
 
     try {
         stage("checkout") {
@@ -19,7 +20,7 @@ node {
             npm = "/usr/bin/npm"
             node = "/usr/bin/node"
 			changelog = sh(script: 'git log `git describe --tags --abbrev=0`..HEAD --oneline', returnStdout: true)
-            releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
+            //releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
 
              // aborts pipeline if releaseVersion already is released
              //sh "if [ \$(curl -s -o /dev/null -I -w \"%{http_code}\" http://maven.adeo.no/m2internal/no/nav/aura/${application}/${application}/${releaseVersion}) != 404 ]; then echo \"this version is somehow already released, manually update to a unreleased SNAPSHOT version\"; exit 1; fi"
@@ -36,9 +37,9 @@ node {
 
         stage("build frontend bundle") {
                 withEnv(['HTTP_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
-                        sh "mkdir -p ${distDir}"
-                        sh "cp production_server.js config.js selftest.js ${distDir}"
-                        sh "cd ${distDir} && cp ../../package.json . && npm install --production && cd -"
+                       // sh "mkdir -p ${distDir}"
+                        //sh "cp production_server.js config.js selftest.js ${distDir}"
+                        //sh "cd ${distDir} && cp ../../package.json . && npm install --production && cd -"
                         // getting required node_modules for production
                        // sh "npm install && npm run build || exit 1" // Creating frontend bundle
                        // sh "cp -r dist ${distDir}" // Copying frontend bundle
