@@ -2,20 +2,20 @@
 if (process.env['NODE_ENV'] === 'production' || process.env ['NODE_ENV'] === 'standalone') {
 
     exports.externalResources = {
-        fasit_resources: process.env['fasit_resources_v2_url'],
-        fasit_environments: process.env['fasit_environments_v2_url'],
-        fasit_applications: process.env['fasit_applications_v2_url'],
-        fasit_applicationinstances: process.env['fasit_applicationinstances_v2_url'],
-        fasit_secrets: process.env['fasit_secrets_v2_url'],
-        fasit_nodes: process.env['fasit_nodes_v2_url'],
-        fasit_lifecycle: process.env['fasit_lifecycle_v1_url'],
-        fasit_navsearch: process.env['fasit_navsearch_v1_url'],
-        fasit_search: process.env['fasit_search_v1_url'],
-        fasit_baseurl: process.env['fasit_url'],
-        grafana: process.env['grafana_url'],
-        jira: process.env['jira_url'],
-        sera_servers: process.env['sera_servers_url'],
-        sensu_api: process.env['sensu_api_url']
+        fasit_resources: process.env['FASIT_RESOURCES_V2_URL'],
+        fasit_environments: process.env['FASIT_ENVIRONMENTS_V2_URL'],
+        fasit_applications: process.env['FASIT_APPLICATIONS_V2_URL'],
+        fasit_applicationinstances: process.env['FASIT_APPLICATIONINSTANCES_V2_URL'],
+        fasit_secrets: process.env['FASIT_SECRETS_V2_URL'],
+        fasit_nodes: process.env['FASIT_NODES_V2_URL'],
+        fasit_lifecycle: process.env['FASIT_LIFECYCLE_V1_URL'],
+        fasit_navsearch: process.env['FASIT_NAVSEARCH_V1_URL'],
+        fasit_search: process.env['FASIT_SEARCH_V1_URL'],
+        fasit_baseurl: process.env['FASIT_URL'],
+        grafana: process.env['GRAFANA_URL'],
+        jira: process.env['JIRA_URL'],
+        sera_servers: process.env['SERA_SERVERS_URL'],
+        sensu_api: process.env['SENSU_API_URL']
     }
 }
 else {
