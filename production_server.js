@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
-const proxy = require('proxy-middleware')
-const fs = require('fs')
+//const proxy = require('proxy-middleware')
+//const fs = require('fs')
 //const http = require('http')
 
 
@@ -32,6 +32,7 @@ app.get('*', (req, res) => {
 
 app.listen(config.server.port, function () {
     console.log('running on port %d', config.server.port)
+    console.log('config', config.externalResources)
 })
 
 
