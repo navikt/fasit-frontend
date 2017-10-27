@@ -30,7 +30,7 @@ node {
 
         stage("create version") {
                     //sh "${mvn} versions:set -f app-config/pom.xml -DgenerateBackupPoms=false -B -DnewVersion=${releaseVersion}"
-                    sh "git commit -am \"set version to ${releaseVersion} (from Jenkins pipeline)\""
+                    //sh "git commit -am \"set version to ${releaseVersion} (from Jenkins pipeline)\""
                     sh "git push origin master"
 
         }
