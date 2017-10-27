@@ -40,7 +40,7 @@ node {
                         sh "mkdir -p ${distDir}"
                         sh "cp production_server.js config.js selftest.js ${distDir}"
                         sh "cd ${distDir} && cp ../../package.json . && npm install --production && cd -"
-                         getting required node_modules for production
+                     //    getting required node_modules for production
                         sh "npm install && npm run build || exit 1" // Creating frontend bundle
                         sh "cp -r dist ${distDir}" // Copying frontend bundle
                         sh "cp Dockerfile ${dockerDir}"
