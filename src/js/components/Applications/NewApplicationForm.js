@@ -5,7 +5,7 @@ import {FormComment, FormString} from "../common/Forms";
 import {capitalize} from "../../utils";
 import {displayModal, submitForm} from "../../actionCreators/common";
 
-class NewApplicationForm extends Component {
+export class NewApplicationForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -97,7 +97,7 @@ class NewApplicationForm extends Component {
                             <i className="fa fa-cube fa-stack-1x fa-inverse"/>
                         </span> &emsp;
                         {mode && `${capitalize(mode)} application ${mode !== 'new' ? application.name : ''}` }
-                        <button type="reset" className="btn btn-link pull-right"
+                        <button id="resetBtn" type="reset" className="btn btn-link pull-right"
                                 onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>
                     </Modal.Title>

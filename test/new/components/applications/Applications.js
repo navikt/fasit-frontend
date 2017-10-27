@@ -1,7 +1,9 @@
 import React from "react"
 import { shallow } from "enzyme"
 import { expect } from "chai"
-import { Applications } from "../../../../src/js/components/Applications/Applications.js"
+import sinon from "sinon"
+import { Applications } from "../../../../src/js/components/Applications/Applications"
+import ApplicationCard from "../../../../src/js/components/Applications/ApplicationCard"
 
 
 describe('(Component) Applications', () => {
@@ -9,6 +11,25 @@ describe('(Component) Applications', () => {
     it('renders "Applications" without exploding', () => {
         const wrapper = shallow(<Applications {...props}/>)
         expect(wrapper).to.have.length(1)
+    })
+
+    it('renders "Application" and fetches correct data', () => {
+        const dispatch = sinon.spy()
+        const wrapper = shallow(<Applications {...props} dispatch={dispatch}/>)
+        wrapper.instance().componentDidMount()
+        expect(dispatch.args[0][0].type).to.equal("SUBMIT_FILTER_SEARCH")
+        expect(dispatch.args[0][0].location).to.equal("applications")
+    })
+
+    it('renders "Application" with loading animation if isFetching', () => {
+        const wrapper = shallow(<Applications {...props} isFetching={true}/>)
+        expect(wrapper.find('div.element-list')).to.have.length(1)
+    })
+
+    it('renders "Application" and returns list of applications', () => {
+        const wrapper = shallow(<Applications {...props} params={{...props.params, application: ""}}/>)
+        expect(wrapper.find('div.main-content-container')).to.have.length(1)
+        expect(wrapper.find(ApplicationCard)).to.have.length(3)
     })
 })
 
