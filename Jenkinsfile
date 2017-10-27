@@ -28,12 +28,12 @@ node {
              committerEmail = sh(script: 'git log -1 --pretty=format:"%ae"', returnStdout: true).trim()
         }
 
-        stage("create version") {
+        //stage("create version") {
                     //sh "${mvn} versions:set -f app-config/pom.xml -DgenerateBackupPoms=false -B -DnewVersion=${releaseVersion}"
                     //sh "git commit -am \"set version to ${releaseVersion} (from Jenkins pipeline)\""
-                    sh "git push origin master"
+                    //sh "git push origin master"
 
-        }
+       // }
 
         stage("build frontend bundle") {
                 withEnv(['HTTP_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
