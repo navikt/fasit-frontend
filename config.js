@@ -1,7 +1,7 @@
 
 if (process.env['NODE_ENV'] === 'production' || process.env ['NODE_ENV'] === 'standalone') {
 
-
+console.log("getting configuration", process.env)
     exports.externalResources = {
         fasit_resources: process.env['FASIT_RESOURCES_V2_URL'],
         fasit_environments: process.env['FASIT_ENVIRONMENTS_V2_URL'],
