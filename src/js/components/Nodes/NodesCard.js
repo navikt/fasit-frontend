@@ -44,7 +44,7 @@ export default function NodeCard(props) {
                         onTouchTap={() => browserHistory.push(`/nodes/${node.hostname}`)}
                         label="manage"
                         style={styles.flatButton}/>
-                    {cluster.name && <FlatButton
+                    {cluster && <FlatButton
                         disableTouchRipple={true}
                         onTouchTap={() => browserHistory.push(`environments/${environment}/clusters/${cluster.name}`)}
                         label="cluster"
