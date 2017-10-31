@@ -120,7 +120,7 @@ class Node extends Component {
     }
 
     render() {
-        const {hostname, config, user, node, query} = this.props
+        const {hostname, config, user, node, query, dispatch} = this.props
         const {secretVisible, adgroups, comment} = this.state
         const cluster = node.cluster  ? <Link to={`/environments/${node.environment}/clusters/${node.cluster.name}`}>{node.cluster.name}</Link> : "Orphan node"
         let lifecycle = (Object.keys(node).length > 0) ? node.lifecycle : {}
@@ -183,6 +183,7 @@ class Node extends Component {
                                                 accesscontrol={node.accesscontrol}
                                                 secretVisible={secretVisible}
                                                 toggleHandler={() => this.toggleDisplaySecret()}
+                                                dispatch={dispatch}
                                             />
                                         </div>}
                                     secondaryText="Password"/>

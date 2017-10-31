@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {browserHistory, Link} from "react-router";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { browserHistory, Link } from "react-router";
+import { connect } from "react-redux";
 import {
     AccessControl,
     CurrentRevision,
@@ -11,14 +11,14 @@ import {
     Security,
     ToolButtons
 } from "../common/";
-import {displayModal, rescueElement, submitForm} from "../../actionCreators/common";
-import {validAuthorization} from "../../utils/";
+import { displayModal, rescueElement, submitForm } from "../../actionCreators/common";
+import { validAuthorization } from "../../utils/";
 import EnvironmentClusters from "./EnvironmentClusters";
 import EnvironmentNodes from "./EnvironmentNodes";
 import EnvironmentInstances from "./EnvironmentInstances";
-import {fetchEnvironment} from "../../actionCreators/environment";
-import {icons, styles} from "../../commonStyles/commonInlineStyles";
-import {Card, CardActions, CardHeader, CardTitle} from "material-ui/Card";
+import { fetchEnvironment } from "../../actionCreators/environment";
+import { icons, styles } from "../../commonStyles/commonInlineStyles";
+import { Card, CardActions, CardHeader, CardTitle } from "material-ui/Card";
 
 class Environment extends Component {
     constructor(props) {
@@ -46,28 +46,28 @@ class Environment extends Component {
     }
 
     toggleComponentDisplay(component) {
-        this.setState({[component]: !this.state[component]})
+        this.setState({ [component]: !this.state[component] })
         if (component === "editMode" && this.state.editMode)
             this.resetLocalState()
     }
 
     rescue() {
-        const {dispatch, environment} = this.props
-        const {comment} = this.state
+        const { dispatch, environment } = this.props
+        const { comment } = this.state
         this.toggleComponentDisplay("displayRescueForm")
         dispatch(rescueElement(environment.id, comment, "environment"))
     }
 
     handleChange(field, value) {
-        this.setState({[field]: value})
+        this.setState({ [field]: value })
     }
 
     handleSubmitForm(id, form, comment, component) {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
 
         if (component === "deleteEnvironment") {
             this.toggleComponentDisplay("displayDeleteForm")
-            this.setState({comment: ""})
+            this.setState({ comment: "" })
         } else if (component === "environment" && this.state.displayAccessControlForm) {
             this.toggleComponentDisplay("displayAccessControlForm")
         }
@@ -78,17 +78,17 @@ class Environment extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, name, query} = this.props
+        const { dispatch, name, query } = this.props
         dispatch(fetchEnvironment(name, query.revision))
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, name, query} = this.props
+        const { dispatch, name, query } = this.props
         this.setState({
             comment: ""
         })
         if (Object.keys(nextProps.environment).length > 0) {
-            this.setState({adgroups: nextProps.environment.accesscontrol.adgroups})
+            this.setState({ adgroups: nextProps.environment.accesscontrol.adgroups })
         }
         if (nextProps.query.revision != query.revision) {
             dispatch(fetchEnvironment(name, nextProps.query.revision))
@@ -99,8 +99,8 @@ class Environment extends Component {
     }
 
     render() {
-        const {environment, user, query, revisions, dispatch} = this.props
-        const {displayClusters, displayInstances, displayNodes, comment, adgroups, editMode} = this.state
+        const { environment, user, query, revisions, dispatch } = this.props
+        const { displayClusters, displayInstances, displayNodes, comment, adgroups, editMode } = this.state
         const envName = environment.name
         const envClass = environment.environmentclass
         let lifecycle = {}
@@ -114,10 +114,10 @@ class Environment extends Component {
         return (
             <div className="row">
                 <div className="col-md-6" style={styles.cardPadding}>
-                    <CurrentRevision revisionId={query.revision} revisions={revisions}/>
+                    <CurrentRevision revisionId={query.revision} revisions={revisions} />
                     <Card>
-                        <CardHeader avatar={icons.environment} title="Environment" titleStyle={styles.bold}/>
-                        <CardTitle title={`${envName}`}  subtitle={`Environment class: ${envClass} `}/>
+                        <CardHeader avatar={icons.environment} title="Environment" titleStyle={styles.bold} />
+                        <CardTitle title={`${envName}`} subtitle={`Environment class: ${envClass} `} />
                         <CardActions>
                             <ToolButtons
                                 disabled={!authorized}
@@ -130,15 +130,15 @@ class Environment extends Component {
                     </Card>
 
                     <Lifecycle lifecycle={lifecycle}
-                               rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
-                               authorized={authorized}/>
+                        rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
+                        authorized={authorized} />
                 </div>
 
 
                 <div className="col-md-4">
-                    <History id={this.props.name} currentRevision={query.revision} component="environment"/>
+                    <History id={this.props.name} currentRevision={query.revision} component="environment" />
                     <Security accesscontrol={environment.accesscontrol}
-                              displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                        displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")} />
                 </div>
 
                 {/*Content view*/}
@@ -146,21 +146,21 @@ class Environment extends Component {
                     <ul className="nav nav-tabs">
                         <li className={displayClusters ? "active" : ""}>
                             <Link to={`/environments/${envName}/clusters`}
-                                  onClick={() => this.selectTab("clusters")}>Clusters</Link></li>
+                                onClick={() => this.selectTab("clusters")}>Clusters</Link></li>
                         <li className={displayNodes ? "active" : ""}>
                             <Link to={`/environments/${envName}/nodes`}
-                                  onClick={() => this.selectTab("nodes")}>Nodes</Link></li>
+                                onClick={() => this.selectTab("nodes")}>Nodes</Link></li>
                         <li className={displayInstances ? "active" : ""}>
                             <Link to={`/environments/${envName}/instances`}
-                                  onClick={() => this.selectTab("instances")}>Instances</Link>
+                                onClick={() => this.selectTab("instances")}>Instances</Link>
                         </li>
                     </ul>
                 </div>
                 <div className="col-xs-12">
-                    <div className="col-xs-12" style={{height: 20 + "px"}}></div>
-                    {displayClusters ? <EnvironmentClusters environment={envName}/> : null}
-                    {displayNodes ? <EnvironmentNodes environment={envName}/> : ''}
-                    {displayInstances ? <EnvironmentInstances environment={envName}/> : ''}
+                    <div className="col-xs-12" style={{ height: 20 + "px" }}></div>
+                    {displayClusters ? <EnvironmentClusters environment={envName} /> : null}
+                    {displayNodes ? <EnvironmentNodes environment={envName} /> : ''}
+                    {displayInstances ? <EnvironmentInstances environment={envName} /> : ''}
                 </div>
 
                 {/* Misc. modals*/}
@@ -197,25 +197,25 @@ class Environment extends Component {
         switch (tab) {
             case "clusters":
                 this.setState({
-                        displayClusters: true,
-                        displayNodes: false,
-                        displayInstances: false
-                    }
+                    displayClusters: true,
+                    displayNodes: false,
+                    displayInstances: false
+                }
                 )
                 return
             case "nodes":
                 return this.setState({
-                        displayClusters: false,
-                        displayNodes: true,
-                        displayInstances: false
-                    }
+                    displayClusters: false,
+                    displayNodes: true,
+                    displayInstances: false
+                }
                 )
             case "instances":
                 return this.setState({
-                        displayClusters: false,
-                        displayNodes: false,
-                        displayInstances: true
-                    }
+                    displayClusters: false,
+                    displayNodes: false,
+                    displayInstances: true
+                }
                 )
         }
     }
