@@ -3,6 +3,7 @@ import { shallow } from "enzyme"
 import { expect } from "chai"
 import sinon from "sinon"
 import { Modal } from "react-bootstrap";
+import {FormComment, FormString} from "../../../../src/js/components/common/Forms";
 import { NewApplicationForm } from "../../../../src/js/components/Applications/NewApplicationForm"
 
 
@@ -90,7 +91,7 @@ describe('(Component) NewApplicationForm', () => {
         expect(wrapper.find('button').nodes[1].props.className).to.equal('btn btn-primary pull-right')
     })
 
-    it('renders Modal if showNewApplicationForm = true', () => {
+    it('renders "Modal" if showNewApplicationForm = true', () => {
         const wrapper = shallow(<NewApplicationForm {...props}/>)
         expect(wrapper.find(Modal)).to.have.length(1)
         expect(wrapper.find(Modal).props().show).to.equal(true)
@@ -101,8 +102,27 @@ describe('(Component) NewApplicationForm', () => {
         })
         let wrapper = shallow(<NewApplicationForm {...props} dispatch={dispatch}/>)
         wrapper.find('#resetBtn').simulate('click')
-        console.log(dispatch.args)
+        expect(dispatch.args[0][0].type).to.equal('SHOW_NEW_APPLICATION_FORM')
+        expect(dispatch.args[0][0].value).to.equal(false)
     })
+
+    it('renders "FormString" correctly with props', () => {
+        const wrapper = shallow(<NewApplicationForm {...props}/>)
+        expect(wrapper.find(FormString)).to.have.length(4)
+        expect(wrapper.find('[label="name"]')).to.have.length(1)
+        expect(wrapper.find('[label="name"]').props().handleChange).to.be.instanceof(Function)
+        wrapper.setState({name: "mikke mus"})
+        expect(wrapper.find('[label="name"]').props().value).to.equal("mikke mus")
+    })
+
+    it('renders "FormComment" correctly with props', () => {
+        const wrapper = shallow(<NewApplicationForm {...props}/>)
+        expect(wrapper.find(FormComment)).to.have.length(1)
+        expect(wrapper.find(FormComment).props().handleChange).to.be.instanceof(Function)
+        wrapper.setState({comment: "mikke mus was here"})
+        expect(wrapper.find(FormComment).props().value).to.equal("mikke mus was here")
+    })
+
 })
 
 const props = {

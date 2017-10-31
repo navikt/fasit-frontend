@@ -20,7 +20,7 @@ import { fetchEnvironment } from "../../actionCreators/environment";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";
 import { Card, CardActions, CardHeader, CardTitle } from "material-ui/Card";
 
-class Environment extends Component {
+export class Environment extends Component {
     constructor(props) {
         super(props)
 
@@ -99,7 +99,7 @@ class Environment extends Component {
     }
 
     render() {
-        const { environment, user, query, revisions, dispatch } = this.props
+        const { name,environment, user, query, revisions, dispatch } = this.props
         const { displayClusters, displayInstances, displayNodes, comment, adgroups, editMode } = this.state
         const envName = environment.name
         const envClass = environment.environmentclass
