@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from "react";
-import {Link} from "react-router";
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui/Table";
-import {sortBy} from "../../utils/";
+import React, { Component, PropTypes } from "react";
+import { Link } from "react-router";
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from "material-ui/Table";
+import { sortBy } from "../../utils/";
 
 
 export function ResourceInstances(props) {
@@ -15,7 +15,7 @@ export function ResourceInstances(props) {
                         <TableHeaderColumn>Instance</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
-                <TableBody displayRowCheckbox={false}>
+                {props.instances && <TableBody displayRowCheckbox={false}>
                     {props.instances
                         .sort(sortBy("application"))
                         .map(instance => {
@@ -28,7 +28,7 @@ export function ResourceInstances(props) {
                                 </TableRow>
                             )
                         })}
-                </TableBody>
+                </TableBody>}
             </Table>
         </div>
     )
