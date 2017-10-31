@@ -17,7 +17,7 @@ app.get('/config', (req, res) => {
 })
 
 app.get('/isalive', (req, res) => {
-    res.send(200)
+    res.sendStatus(200)
 })
 
 app.get('/selftest', selftest.selftest)

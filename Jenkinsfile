@@ -21,6 +21,7 @@ node {
             node = "/usr/bin/node"
 			changelog = sh(script: 'git log `git describe --tags --abbrev=0`..HEAD --oneline', returnStdout: true)
             releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
+            sh "git push origin master"
 
              // aborts pipeline if releaseVersion already is released
              //sh "if [ \$(curl -s -o /dev/null -I -w \"%{http_code}\" http://maven.adeo.no/m2internal/no/nav/aura/${application}/${application}/${releaseVersion}) != 404 ]; then echo \"this version is somehow already released, manually update to a unreleased SNAPSHOT version\"; exit 1; fi"
@@ -31,7 +32,7 @@ node {
         //stage("create version") {
                     //sh "${mvn} versions:set -f app-config/pom.xml -DgenerateBackupPoms=false -B -DnewVersion=${releaseVersion}"
                     //sh "git commit -am \"set version to ${releaseVersion} (from Jenkins pipeline)\""
-                    //sh "git push origin master"
+
 
        // }
 
