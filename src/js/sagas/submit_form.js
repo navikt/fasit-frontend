@@ -9,6 +9,7 @@ import {
     ENVIRONMENTS_REQUEST,
     NODE_FASIT_REQUEST,
     RESOURCE_FASIT_REQUEST,
+    RESOURCE_FASIT_URL_REQUEST,
     REVISIONS_REQUEST,
     SHOW_NEW_APPLICATION_FORM,
     SHOW_NEW_CLUSTER_FORM,
@@ -54,8 +55,10 @@ export function* submitForm(action) {
                 break
             case "newResource":
                 url = `${configuration.fasit_resources}`
-                yield postUrl(url, action.form, action.comment)
+                const newresource = yield postUrl(url, action.form, action.comment)
+                const newResourceLocation = newresource.headers.get("Location")
                 yield put({type: SHOW_NEW_RESOURCE_FORM, value: false})
+                yield put({type: RESOURCE_FASIT_URL_REQUEST, url: newResourceLocation})
                 break
 
             // Delete

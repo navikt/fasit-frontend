@@ -165,7 +165,7 @@ export const postUrl = (url, form, comment) => {
 
                 })
             }
-            return text
+            return res
         })
 }
 
