@@ -4,7 +4,7 @@ module.exports = {
     },
 
     findApplicationInstanceByApp: (app) => {
-        return applicationinstances.filter(a => a.application === app )
+        return applicationinstances.filter(a => a.application === app)
     },
 
     findApplicationInstanceByEnv: (env) => {
@@ -12,7 +12,7 @@ module.exports = {
     },
 
     getInstance: (id) => {
-        const instance = applicationinstances.filter(a => (a.id == id ))
+        const instance = applicationinstances.filter(a => (a.id == id))
         return instance.length === 1 ? instance[0] : applicationinstances[0]
     }
 }
@@ -70,7 +70,9 @@ const applicationinstances = [
                     "environment": "p",
                     "application": "app1"
                 },
-                "ref": "http://localhost:6969/mockapi/resources/1732173"
+                "ref": "http://localhost:6969/mockapi/resources/1732173",
+                "lastchange": 1495572976067,
+                "lastupdateby": "Jeffafah (j123321)"
             },
             {
                 "id": 1732170,
