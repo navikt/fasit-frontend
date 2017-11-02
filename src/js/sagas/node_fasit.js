@@ -1,9 +1,11 @@
 import {takeEvery} from 'redux-saga'
 import {select, put, fork, call} from 'redux-saga/effects'
+import {browserHistory} from "react-router";
 import {fetchUrl, isEmptyObject, validAuthorization} from '../utils'
 import {
     LOGIN_SUCCESS,
     NODE_FASIT_REQUEST,
+    NODE_FASIT_URL_REQUEST,
     NODE_FASIT_FETCHING,
     NODE_FASIT_RECEIVED,
     NODE_FASIT_REQUEST_FAILED,
@@ -26,6 +28,18 @@ export function* fetchFasitPassword() {
             const value = err.message
             yield put({type: NODE_FASIT_PASSWORD_REQUEST_FAILED, value})
         }
+    }
+}
+
+export function* fetchFasitUrl(action) {
+    yield put({type: NODE_FASIT_FETCHING})
+    try {
+        const value = yield call(fetchUrl, action.url)
+        yield browserHistory.push(`/nodes/${value.hostname}`)
+        yield put({type: NODE_FASIT_RECEIVED, value})
+        yield put({type: NODE_FASIT_PASSWORD_REQUEST})
+    } catch (error) {
+        yield put({type: NODE_FASIT_REQUEST_FAILED, error})
     }
 }
 
@@ -53,6 +67,7 @@ export function* rescueNode(action) {
 }
 
 export function* watchNodeFasit() {
+    yield fork(takeEvery, NODE_FASIT_URL_REQUEST, fetchFasitUrl)
     yield fork(takeEvery, NODE_FASIT_REQUEST, fetchFasit)
     yield fork(takeEvery, NODE_FASIT_PASSWORD_REQUEST, fetchFasitPassword)
     yield fork(takeEvery, LOGIN_SUCCESS, fetchFasitPassword)

@@ -1,12 +1,15 @@
 import {takeEvery} from 'redux-saga'
 import {select, put, fork, call} from 'redux-saga/effects'
+import {browserHistory} from "react-router";
 import {fetchUrl} from '../utils'
 import {
     ENVIRONMENT_FASIT_REQUEST,
     ENVIRONMENT_FASIT_FETCHING,
     ENVIRONMENT_FASIT_RECEIVED,
+    ENVIRONMENT_FASIT_URL_REQUEST,
     ENVIRONMENT_FASIT_REQUEST_FAILED,
     ENVIRONMENT_CLUSTERS_REQUEST,
+    CLUSTER_FASIT_URL_REQUEST,
     ENVIRONMENT_CLUSTERS_FETCHING,
     ENVIRONMENT_CLUSTERS_RECEIVED,
     ENVIRONMENT_CLUSTERS_REQUEST_FAILED,
@@ -42,6 +45,30 @@ export function* fetchEnvironment(action) {
     }
 }
 
+export function* fetchFasitEnvironmentUrl(action) {
+    yield put({type: ENVIRONMENT_FASIT_FETCHING})
+    try {
+        console.log("fetching")
+        const value = yield call(fetchUrl, action.url)
+        console.log("done")
+        yield browserHistory.push(`/environments/${value.name}`)
+        yield put({type: ENVIRONMENT_FASIT_RECEIVED, value})
+    } catch (error) {
+        yield put({type: ENVIRONMENT_FASIT_REQUEST_FAILED, error})
+    }
+}
+
+export function* fetchFasitClusterUrl(action) {
+    yield put({type: ENVIRONMENT_CLUSTER_FASIT_FETCHING})
+    try {
+        const value = yield call(fetchUrl, action.url)
+        yield browserHistory.push(`/environments/${value.environment}/clusters/${value.clustername}`)
+        yield put({type: ENVIRONMENT_CLUSTER_FASIT_RECEIVED, value})
+    } catch (error) {
+        yield put({type: ENVIRONMENT_CLUSTER_FASIT_REQUEST_FAILED, error})
+    }
+}
+
 export function* fetchEnvironmentClusters(action) {
     const environmentsApi = yield select((state) => state.configuration.fasit_environments)
     const environment = action.environment
@@ -62,7 +89,7 @@ export function* fetchEnvironmentCluster(action) {
     yield put({type: ENVIRONMENT_CLUSTER_FASIT_FETCHING})
     try {
         if (action.revision) {
-            value = yield call(fetchUrl, `${environmentsApi}/${environment}/clusters/${cluster}/revisions/${action.revision}`)
+            value = yield call(fetchUrl, `${environmentsApi}/${environment}/clusters/${cluster}/revisions/${revision}`)
         } else {
             value = yield call(fetchUrl, `${environmentsApi}/${environment}/clusters/${cluster}`)
         }
@@ -95,6 +122,8 @@ export function* fetchEnvironmentInstances(action) {
 }
 
 export function* watchEnvironmentFasit() {
+    yield fork(takeEvery, CLUSTER_FASIT_URL_REQUEST, fetchFasitClusterUrl)
+    yield fork(takeEvery, ENVIRONMENT_FASIT_URL_REQUEST, fetchFasitEnvironmentUrl)
     yield fork(takeEvery, ENVIRONMENT_FASIT_REQUEST, fetchEnvironment)
     yield fork(takeEvery, ENVIRONMENT_CLUSTER_FASIT_REQUEST, fetchEnvironmentCluster)
     yield fork(takeEvery, ENVIRONMENT_CLUSTERS_REQUEST, fetchEnvironmentClusters)

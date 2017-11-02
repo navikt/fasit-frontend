@@ -3,11 +3,15 @@ import {fork, put, select} from "redux-saga/effects";
 import {browserHistory} from "react-router";
 import {
     APPLICATION_FASIT_REQUEST,
+    APPLICATION_FASIT_URL_REQUEST,
     APPLICATION_NAMES_REQUEST,
     ENVIRONMENT_CLUSTER_FASIT_REQUEST,
+    CLUSTER_FASIT_URL_REQUEST,
     ENVIRONMENT_FASIT_REQUEST,
+    ENVIRONMENT_FASIT_URL_REQUEST,
     ENVIRONMENTS_REQUEST,
     NODE_FASIT_REQUEST,
+    NODE_FASIT_URL_REQUEST,
     RESOURCE_FASIT_REQUEST,
     RESOURCE_FASIT_URL_REQUEST,
     REVISIONS_REQUEST,
@@ -33,31 +37,39 @@ export function* submitForm(action) {
             // New
             case "newApplication":
                 url = `${configuration.fasit_applications}`
-                yield postUrl(url, action.form, action.comment)
-                yield put({type: APPLICATION_NAMES_REQUEST})
+                const newApplication = yield postUrl(url, action.form, action.comment)
                 yield put({type: SHOW_NEW_APPLICATION_FORM, value: false})
+                const newApplicationLocation = newApplication.headers.get("Location")
+                yield put({type: APPLICATION_FASIT_URL_REQUEST, url: newApplicationLocation})
+                yield put({type: APPLICATION_NAMES_REQUEST})
                 break
             case "newNode":
                 url = `${configuration.fasit_nodes}`
-                yield postUrl(url, action.form, action.comment)
+                const newNode = yield postUrl(url, action.form, action.comment)
                 yield put({type: SHOW_NEW_NODE_FORM, value: false})
+                const newNodeLocation = newNode.headers.get("Location")
+                yield put({type: NODE_FASIT_URL_REQUEST, url: newNodeLocation})
                 break
             case "newEnvironment":
                 url = `${configuration.fasit_environments}`
-                yield postUrl(url, action.form, action.comment)
-                yield put({type: ENVIRONMENTS_REQUEST})
+                const newEnvironment = yield postUrl(url, action.form, action.comment)
+                const newEnvironmentLocation = newEnvironment.headers.get("Location")
                 yield put({type: SHOW_NEW_ENVIRONMENT_FORM, value: false})
+                yield put({type: ENVIRONMENT_FASIT_URL_REQUEST, url: newEnvironmentLocation})
+                yield put({type: ENVIRONMENTS_REQUEST})
                 break
             case "newCluster":
                 url = `${configuration.fasit_environments}/${action.form.environment}/clusters`
-                yield postUrl(url, action.form, action.comment)
+                const newCluster = yield postUrl(url, action.form, action.comment)
                 yield put({type: SHOW_NEW_CLUSTER_FORM, value: false})
+                const newClusterLocation = newCluster.headers.get("Location")
+                yield put({type: CLUSTER_FASIT_URL_REQUEST, url: newClusterLocation})
                 break
             case "newResource":
                 url = `${configuration.fasit_resources}`
                 const newresource = yield postUrl(url, action.form, action.comment)
-                const newResourceLocation = newresource.headers.get("Location")
                 yield put({type: SHOW_NEW_RESOURCE_FORM, value: false})
+                const newResourceLocation = newresource.headers.get("Location")
                 yield put({type: RESOURCE_FASIT_URL_REQUEST, url: newResourceLocation})
                 break
 
