@@ -10,10 +10,7 @@ export const displayLogin = (value) => (dispatch) => dispatch({type: DISPLAY_LOG
 export const getUser = () => (dispatch) => dispatch({type: GET_USER})
 export const logOut = () => {return {type: LOGOUT}}
 export const logIn = (auth) => (dispatch) => {
-    let form = ""
-    for (let key in auth) {
-        form += key + "=" + auth[key] + "&"
-    }
+    const form = Object.keys(auth).map(key => key + "=" + encodeURIComponent(auth[key])).join("&")
     dispatch({type: LOGIN, form})
 }
 
