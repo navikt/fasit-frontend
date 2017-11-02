@@ -9,8 +9,8 @@ import moment from "moment";
 export function CardInfo(props) {
     const { lastUpdated, lifecycle } = props
     return (
-        <div className="pull-right col-md-6">
-            <div className="col-md-4 text-muted pull-right" style={{ paddingTop: "6px" }}>
+        <div className="pull-right col-md-4">
+            <div className="col-md-3 text-muted pull-right" style={{ paddingTop: "6px" }}>
                 {renderLastUpdated(lastUpdated)}
             </div>
             <LifecycleChip lifecycle={lifecycle} />
