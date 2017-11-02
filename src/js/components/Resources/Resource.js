@@ -240,7 +240,6 @@ class Resource extends Component {
         // I resources element list hvis ressurstypen med riktig casing
         // håndtere error i fetch secrets
         // file upload
-
         const { id, fasit, user, query, revisions, resource } = this.props
         let authorized = false
         let lifecycle = {}
