@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {fetchSeraData} from '../../actionCreators/node'
+import {List, ListItem} from 'material-ui/List'
 
 class NodeSeraView extends Component {
     constructor(props) {
@@ -39,6 +40,15 @@ class NodeSeraView extends Component {
         }
         return (
             <div className="collapsible-menu-content-container">
+                <List style={{fontSize: '14px'}}>
+                    <ListItem primaryText={sera.data.status ? "Running" : "Powered off"}/>
+                    <ListItem primaryText={`${sera.data.cpu} CPU` } />
+                    <ListItem primaryText={`${sera.data.memory} GB memory` }/>
+                    <ListItem primaryText={`${sera.data.disk} GB disk`}/>
+                    <ListItem primaryText={sera.data.site}/>
+                    <ListItem primaryText={sera.data.ipAddress}/>
+                    <ListItem primaryText={`${Object.values(sera.data.calculations).reduce((a, b) => a + b)},- pr year`}/>
+                </List>
                 <table>
                     <tbody>
                     <tr>
