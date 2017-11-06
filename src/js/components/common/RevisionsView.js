@@ -85,6 +85,7 @@ class RevisionsView extends Component {
                         <ListItem
                             key={idx}
                             onClick={() => browserHistory.push(routing.pathname + revisionQuery)}
+                            style={{ fontSize: '14px' }}
                             innerDivStyle={{ paddingBottom: '5px', paddingTop: '5px' }}
                             disableTouchRipple={true}
                             primaryText={moment(rev.timestamp).format('DD MMM YYYY HH:mm:ss')}
