@@ -17,6 +17,7 @@ const navSearchMock = require('./test/mockend/navSearchMock')
 const searchMock = require('./test/mockend/searchMock')
 const nodeRevisionsMock = require('./test/mockend/nodeRevisionsMock')
 const loginMock = require('./test/mockend/loginMock')
+const seraMock = require('./test/mockend/seraMock')
 
 
 const config = require('./config')
@@ -36,8 +37,8 @@ const serverOptions = {
     inline: true,
     lazy: false,
     publicPath: webpackConfig.output.publicPath,
-    headers: {'Access-Control-Allow-Origin': '*'},
-    stats: {colors: true},
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    stats: { colors: true },
     historyApiFallback: true
 }
 
@@ -51,8 +52,8 @@ app.use(express.static(__dirname + "/dist"))
 
 /* Useful for making mock function sleep when simulating slow apis
 * sleep(5000).then(() => {sendJson(res, resourcesMock.getResource(req.params.id))})*/
- function sleep(time) {
-     return new Promise(resolve => setTimeout(resolve, time))
+function sleep(time) {
+    return new Promise(resolve => setTimeout(resolve, time))
 }
 
 app.get('/config', (req, res) => {
@@ -153,7 +154,7 @@ app.get('/mockapi/resources/:id/revisions', (req, res) => {
 })
 
 app.get('/mockapi/resources/:id/revisions/:revision', (req, res) => {
-  sendJson(res, resourceRevisionMock.getResourceRevision(req.params))
+    sendJson(res, resourceRevisionMock.getResourceRevision(req.params))
 })
 
 app.delete('/mockapi/resources/:id', (req, res) => {
@@ -187,8 +188,8 @@ app.post('/mockapi/nodes/:hostname', (req, res) => {
 })
 
 app.delete('/mockapi/nodes/:hostname', (req, res) => {
-        nodesMock.deleteNode(req.params.hostname)
-        res.sendStatus(200)
+    nodesMock.deleteNode(req.params.hostname)
+    res.sendStatus(200)
 })
 
 app.get('/mockapi/nodes/:hostname/revisions', (req, res) => {
@@ -207,6 +208,11 @@ app.get("/mockapi/secrets/*", (req, res) => {
     res.send("th151s4M0ck53cr3t")
 })
 
+app.get("/mockapi/seramock", (req, res) => {
+    sendJson(res, seraMock.getNodeInfo
+        ())
+})
+
 if (process.env["NODE_ENV"] === "standalone") {
     app.post("/api/login", (req, res) => {
         sendJson(res, loginMock.getLogin())
@@ -219,6 +225,8 @@ if (process.env["NODE_ENV"] === "standalone") {
     })
 }
 app.get('/selftest', selftest.selftest)
+
+
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
