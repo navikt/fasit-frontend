@@ -208,18 +208,20 @@ class Node extends Component {
                 {/*Side menu*/}
                 <div className="col-md-4">
                     <History id={hostname} currentRevision={query.revision} component="node" />
+                    <CollapsibleList
+                    primaryText="Hardware"
+                    leftAvatar={icons.hardwareAvatar}
+                    initiallyOpen={true}
+                    nestedItems={<NodeSeraView key={hostname} hostname={hostname} />} />
                     <Security accesscontrol={node.accesscontrol}
                         displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")} />
+                    
                     <CollapsibleList
                         primaryText="Sensu status"
                         leftAvatar={icons.sensuStatusAvatar}
                         initiallyOpen={false}
                         nestedItems={<NodeEventsView key={hostname} />} />
-                    <CollapsibleList
-                        primaryText="Hardware"
-                        leftAvatar={icons.hardwareAvatar}
-                        initiallyOpen={true}
-                        nestedItems={<NodeSeraView key={hostname} hostname={hostname} />} />
+
                     <CollapsibleList
                         primaryText="Grafana graph"
                         leftAvatar={icons.grafanaAvatar}
