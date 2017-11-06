@@ -1,9 +1,11 @@
-import React, {Component} from "react";
-import {Link, browserHistory} from "react-router";
+import React, { Component } from "react";
+import { Link, browserHistory } from "react-router";
 import moment from "moment";
-import {connect} from "react-redux";
-import {fetchRevisions} from "../../actionCreators/common";
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import { connect } from "react-redux";
+import { List, ListItem } from "material-ui/List"
+import { fetchRevisions } from "../../actionCreators/common";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { styles } from "../../commonStyles/commonInlineStyles"
 
 class RevisionsView extends Component {
     constructor(props) {
@@ -14,12 +16,12 @@ class RevisionsView extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, id, component} = this.props
+        const { dispatch, id, component } = this.props
         dispatch(fetchRevisions(component, id))
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, id, component} = nextProps
+        const { dispatch, id, component } = nextProps
 
         if (this.props.id !== nextProps.id) {
             dispatch(fetchRevisions(component, id))
@@ -34,13 +36,13 @@ class RevisionsView extends Component {
     }
 
     showRevisionsFooter() {
-        const {revisions} = this.props
+        const { revisions } = this.props
         if (revisions.data.length > 5 && !this.state.displayAllRevisions) {
             return (
                 <div className="information-box-footer">
                     <a className="text-right arrow cursor-pointer"
-                       onClick={() => this.setState({displayAllRevisions: true})}>Show all ({revisions.data.length}) <i
-                        className="fa fa-angle-double-down"/></a>
+                        onClick={() => this.setState({ displayAllRevisions: true })}>Show all ({revisions.data.length}) <i
+                            className="fa fa-angle-double-down" /></a>
                 </div>
             )
         }
@@ -48,8 +50,8 @@ class RevisionsView extends Component {
             return (
                 <div className="information-box-footer">
                     <a className="text-right arrow cursor-pointer"
-                       onClick={() => this.setState({displayAllRevisions: false})}>Show less <i
-                        className="fa fa-angle-double-up"/></a>
+                        onClick={() => this.setState({ displayAllRevisions: false })}>Show less <i
+                            className="fa fa-angle-double-up" /></a>
                 </div>
             )
         }
@@ -57,7 +59,7 @@ class RevisionsView extends Component {
 
     render() {
         moment.locale("en")
-        const {revisions, routing, currentRevision} = this.props
+        const { revisions, routing, currentRevision } = this.props
 
         if (revisions.isFetching) {
             return (
@@ -75,30 +77,33 @@ class RevisionsView extends Component {
         if (!this.state.displayAllRevisions)
             displayRevisions = revisions.data.slice(0, 5)
         return (
-            <ul className="revisionList">
+            <List style={{ paddingTop: '0px', padding: '0px' }}>
                 {displayRevisions.map((rev, idx) => {
-                    const revisionQuery = idx !== 0 ? `?revision=${rev.revision}` : ''
+                    const revisionQuery = `?revision=${rev.revision}`
                     const className = rev.revision == currentRevision ? "revisionListItem currentRevision " : "revisionListItem"
                     return (
-                        <OverlayTrigger
-                            placement="left"
-                            key={rev.revision}
-                            overlay={this.tooltip(rev.message || 'Changes made without a comment')}
-                        >
-                            <li id={rev.revision}>
-                                <Link
-                                    onClick={() => browserHistory.push(routing.pathname + revisionQuery)}
-                                    className={className}>
-                                    {`${rev.revisiontype === 'add' ? 'Created ' : 'Modified '} ${moment(rev.timestamp).fromNow()}
-                                        by ${rev.author}`}</Link>
-                            </li>
-                        </OverlayTrigger>)
+                        <ListItem
+                            key={idx}
+                            onClick={() => browserHistory.push(routing.pathname + revisionQuery)}
+                            innerDivStyle={{ paddingBottom: '5px', paddingTop: '5px' }}
+                            disableTouchRipple={true}
+                            primaryText={moment(rev.timestamp).format('DD MMM YYYY HH:mm:ss')}
+                            secondaryText={renderSecondaryText(rev)}
+                            secondaryTextLines={rev.message ? 2 : 1} />
+                    )
                 })}
 
                 {this.showRevisionsFooter()}
-            </ul>
+            </List>
         )
     }
+}
+
+function renderSecondaryText(revision) {
+    return (<div>
+        {revision.author}
+        {revision.message && <div> <i className="fa fa-angle-double-right fa-fw" />{revision.message}</div>}
+    </div>)
 }
 
 const mapStateToProps = (state) => ({

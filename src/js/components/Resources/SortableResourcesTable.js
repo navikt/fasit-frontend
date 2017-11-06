@@ -32,12 +32,7 @@ export default function SortableResourceTable(props) {
         if (lastchange) {
             moment.locale("en")
             const momentTime = moment(lastchange)
-            return (
-                <div>
-                    {momentTime.format('DD MMM YYYY')}
-                    <i className="fa fa-clock-o fa-fw" />{momentTime.format('HH:mm:ss')}
-                </div>
-            )
+            return momentTime.format('DD MMM YYYY HH:mm:ss')
         }
         return "N/A"
     }
