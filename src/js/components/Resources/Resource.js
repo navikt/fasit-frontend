@@ -233,7 +233,6 @@ class Resource extends Component {
     }
 
     render() {
-        // handle isvalid() alt som er required
         // Fikse resource types slik at vi slipper å håndtere casing. For eksempel lage felt for display name
         // Sortere miljøer riktig i utils
         // sortere resource types i filter på ressurser

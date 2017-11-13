@@ -1,7 +1,8 @@
 import React from "react";
-import {blueGrey800, deepPurple400, green500, orange400, redA700} from "material-ui/styles/colors";
-import {colors} from "../commonStyles/commonInlineStyles";
+import { blueGrey800, deepPurple400, green500, orange400, redA700 } from "material-ui/styles/colors";
+import { colors } from "../commonStyles/commonInlineStyles";
 import Avatar from "material-ui/Avatar";
+import ResourceTypeProperty from "./ResourceTypeProperty"
 
 
 const DEFAULT_BACKGROUND_COLOR = colors.avatarBackgroundColor
@@ -12,20 +13,20 @@ export const getResourceTypeName = function (type) {
     return filteredType[0] || "Unknown type"
 }
 
-export const resourceTypeIcon = function(type) {
+export const resourceTypeIcon = function (type) {
     const resourceType = getResourceType(type)
     return (<Avatar
         backgroundColor={resourceType.backgroundColor || DEFAULT_BACKGROUND_COLOR}
         color={resourceType.color || DEFAULT_COLOR}>
-            {resourceType.texticon ? resourceType.texticon : getIcon(resourceType)}
+        {resourceType.texticon ? resourceType.texticon : getIcon(resourceType)}
     </Avatar>)
 }
 
 const getIcon = function (resourceType) {
-    return <i className={resourceType.icon || "fa fa-cogs"}/>
+    return <i className={resourceType.icon || "fa fa-cogs"} />
 }
 
-const getResourceType = function(type) {
+const getResourceType = function (type) {
     const filteredType = Object.keys(resourceTypes).filter(t => t.toLowerCase() === type)
     return resourceTypes[filteredType];
 }
@@ -66,7 +67,11 @@ export const resourceTypes = {
         properties: [
             textbox("url"),
             textbox("username"),
-            secret("password")]
+            secret("password"),
+            textbox("domain", "Domain", false),
+            textbox("base DN", "Base DN", false).hintText("eg. dc=test,dc=local"),
+            textbox("user.basedn", "User base DN", false).hintText("eg. ou=NAV,ou=BusinessUnits,dc=test,dc=local"),
+            textbox("serviceuser.basedn", "Serviceuser base DN", false).hintText("eg. ou=ServiceAccounts,dc=test,dc=local")]
     },
     BaseUrl: {
         icon: "fa fa-link",
@@ -127,7 +132,7 @@ export const resourceTypes = {
         properties: [
             link("endpointUrl", "Endpoint Url"),
             dropdown("securityToken", "Security Token", ["NONE", "LTPA", "SAML", "USERNAME_TOKEN", "OTHER"]),
-            link("wsdlUrl", "WSDL Url", "WSDL artifact",  false),
+            link("wsdlUrl", "WSDL Url", "WSDL artifact", false),
             textbox("description", "Description", false)
         ]
     },
@@ -161,7 +166,7 @@ export const resourceTypes = {
         properties: [
             textbox("adminurl", "Admin Url"),
             textbox("adminweburl", "Admin Web Url"),
-            textbox("username",),
+            textbox("username", ),
 
             secret("password")]
     },
@@ -175,7 +180,7 @@ export const resourceTypes = {
         icon: "fa fa-server",
         properties: [
             textbox("host", "Hostname"),
-            textbox("port",)
+            textbox("port", )
         ]
     },
     Queue: {
@@ -252,38 +257,40 @@ export const resourceTypes = {
         color: colors.white,
         icon: "fa fa-exchange",
         properties: [
-            textbox("name", "Channel name"),
+            textbox("name", "Channel name").hintText("ENVNAME_APPNAME"),
             textbox("queueManager", "Queue manager", false)
         ]
     }
 }
-
 
 function capitalize(str) {
     return "" + str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 function textbox(name, displayName, required = true) {
-    return {name, displayName: displayName || capitalize(name), type: "textbox", required}
+    return new ResourceTypeProperty("textbox", name, displayName || capitalize(name), required)
 }
 
-function link( name, displayName, linkTitle, required = true) {
-    return {name, displayName: displayName || capitalize(displayname), linkTitle , type: "link", required}
+function link(name, displayName, linkTitle, required = true) {
+    const property = new ResourceTypeProperty("link", name, displayName || capitalize(name), required)
+    property.linktTitle = linkTitle
+    return property
 }
 
 function textarea(name, displayName, required = true) {
-    return {name, displayName: displayName || capitalize(name), type: "textarea", required}
+    return new ResourceTypeProperty("textarea", name, displayName || capitalize(name), required)
 }
 
 function secret(name, displayName, required = true) {
-
-    return {name, displayName: displayName || capitalize(name), type: "secret", required}
+    return new ResourceTypeProperty("secret", name, displayName || capitalize(name), required)
 }
 
 function dropdown(name, displayName, options) {
-    return {name, displayName: displayName || capitalize(name), type: "dropdown", options: options.sort()}
+    const property = new ResourceTypeProperty("dropdown", name, displayName || capitalize(name))
+    property.options = options
+    return property
 }
 
 function file(name, displayName, required = true) {
-    return {name, displayName: displayName || capitalize(name), type: "file", required}
+    return new ResourceTypeProperty("file", name, displayName || capitalize(name), required)
 }

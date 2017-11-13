@@ -17,57 +17,6 @@ class NodeSeraView extends Component {
         }
     }
 
-    /*getPowerIcon(status) {
-        if (status === 'poweredOn') {
-            return <i className="fa fa-power-off powered-on" aria-hidden="true" />
-        }
-        return <i className="fa fa-power-off powered-off" aria-hidden="true" />
-
-    }
-    
-     {/*<table>
-                    <tbody>
-                        <tr>
-                            <td>{this.getPowerIcon(sera.data.status)}</td>
-                            <td colSpan="2">{sera.data.status ? "Running" : "Powered off"}</td>
-                        </tr>
-                        <tr>
-                            <td width="30"><i className="fa fa-cogs" aria-hidden="true" /></td>
-                            <td width="30">{sera.data.cpu}</td>
-                            <td>CPU</td>
-                        </tr>
-                        <tr>
-                            <td><i className="fa fa-archive" aria-hidden="true" /></td>
-                            <td>{sera.data.memory}</td>
-                            <td>GB RAM</td>
-                        </tr>
-                        <tr>
-                            <td><i className="fa fa-hdd-o" aria-hidden="true" /></td>
-                            <td>{sera.data.disk}</td>
-                            <td>GB HDD</td>
-                        </tr>
-                        <tr>
-                            <td><i className="fa fa-university" aria-hidden="true" /></td>
-                            <td>{sera.data.site}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><i className="fa fa-location-arrow" aria-hidden="true" /></td>
-                            <td colSpan="2">{sera.data.ipAddress}</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><i className="fa fa-usd" aria-hidden="true" /></td>
-                            <td colSpan="2">{Object.values(sera.data.calculations).reduce((a, b) => a + b)},- /år</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>}
-
-    */
-
-
-
     render() {
         moment.locale("en")
         const { sera } = this.props
