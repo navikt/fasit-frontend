@@ -48,9 +48,7 @@ export function* fetchEnvironment(action) {
 export function* fetchFasitEnvironmentUrl(action) {
     yield put({type: ENVIRONMENT_FASIT_FETCHING})
     try {
-        console.log("fetching")
         const value = yield call(fetchUrl, action.url)
-        console.log("done")
         yield browserHistory.push(`/environments/${value.name}`)
         yield put({type: ENVIRONMENT_FASIT_RECEIVED, value})
     } catch (error) {

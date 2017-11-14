@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Card, CardHeader, CardTitle, CardText } from "material-ui/Card"
 import { MaterialDropDown } from '../common/Forms'
 
 class Scope extends Component {

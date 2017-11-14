@@ -68,8 +68,8 @@ export const resourceTypes = {
             textbox("url"),
             textbox("username"),
             secret("password"),
-            textbox("domain", "Domain", false),
-            textbox("base DN", "Base DN", false).hintText("eg. dc=test,dc=local"),
+            textbox("domain", "Domain", false).hintText("eg. TEST.LOCAL"),
+            textbox("basedn", "Base DN", false).hintText("eg. dc=test,dc=local"),
             textbox("user.basedn", "User base DN", false).hintText("eg. ou=NAV,ou=BusinessUnits,dc=test,dc=local"),
             textbox("serviceuser.basedn", "Serviceuser base DN", false).hintText("eg. ou=ServiceAccounts,dc=test,dc=local")]
     },

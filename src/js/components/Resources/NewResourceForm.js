@@ -3,16 +3,12 @@ import { Modal } from "react-bootstrap";
 import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
-import Dialog from "material-ui/Dialog"
-import { Card, CardHeader, CardTitle, CardText, CardActions } from "material-ui/Card"
 import { MaterialDropDown, MaterialTextBox, MaterialTextArea } from "../common/Forms";
-import Divider from "material-ui/Divider"
 import { colors } from "../../commonStyles/commonInlineStyles";
 import { capitalize } from "../../utils";
 import { displayModal, submitForm } from "../../actionCreators/common";
 import { resourceTypes, getResourceTypeName } from "../../utils/resourceTypes";
 import Scope from "./Scope";
-import { styles } from "../../commonStyles/commonInlineStyles"
 
 class NewResourceForm extends Component {
     constructor(props) {
@@ -99,7 +95,7 @@ class NewResourceForm extends Component {
 
     handleSubmitForm() {
         const { dispatch, resource, mode } = this.props
-        const { alias, type, properties, files, comment, currentSecrets, validationErrors } = this.state
+        const { alias, type, properties, files, comment, currentSecrets } = this.state
 
         if (!this.isValid()) {
             this.setState({ validationErrors: true })
@@ -129,7 +125,7 @@ class NewResourceForm extends Component {
             }
             else {
                 dispatch(submitForm(form.alias, form, comment, "newResource"))
-                this.initialState()
+                //this.initialState()
             }
         }
     }
@@ -142,7 +138,7 @@ class NewResourceForm extends Component {
     renderProperty(property) {
         const key = property.name
         const label = `${property.displayName}${property.required === true ? " *" : ""}`
-        const { currentSecrets, validationErrors } = this.state
+        const { validationErrors } = this.state
 
         switch (property.type) {
             case "textbox":

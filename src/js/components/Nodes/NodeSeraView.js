@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchSeraData } from '../../actionCreators/node'
 import { List, ListItem } from 'material-ui/List'
-import { icons } from '../../commonStyles/commonInlineStyles'
 import moment from 'moment'
 
 class NodeSeraView extends Component {
