@@ -146,18 +146,19 @@ class NewResourceForm extends Component {
                     <MaterialTextBox
                         key={key}
                         field={key}
-                        errorText={validationErrors && property.required && !this.state.properties[key] ? "Required property " : null}
+                        errorText={validationErrors && property.required && !this.state.properties[key] && this.state.properties[key] !== '' ? "Required property " : null}
                         hintText={property.hint}
                         value={this.state.properties[key]}
                         label={label}
                         onChange={(field, newValue) => this.handleChange(field, newValue, "properties")} />)
             case "textarea":
             case "link":
+                console.log("pepsi23asdasd2", this.state.properties[key], this.state.properties[key] !== '')
                 return (
                     <MaterialTextArea
                         key={key}
                         field={key}
-                        errorText={validationErrors && property.required && !this.state.properties[key] ? "Required property " : null}
+                        errorText={validationErrors && property.required && !this.state.properties[key] && this.state.properties[key] !== '' ? "Required property " : null}
                         value={this.state.properties[key]}
                         label={label}
                         onChange={(field, newValue) => this.handleChange(field, newValue, "properties")} />)
@@ -175,7 +176,7 @@ class NewResourceForm extends Component {
                     <MaterialTextBox
                         key={key}
                         field={key}
-                        errorText={validationErrors && property.required && !this.state.currentSecrets[key] ? "Required secret " : null}
+                        errorText={validationErrors && property.required && !this.state.currentSecrets[key] && this.state.properties[key] !== '' ? "Required secret " : null}
                         value={this.state.currentSecrets[key]}
                         label={label}
                         onChange={(field, newValue) => this.handleChange(field, newValue, "currentSecrets")} />)
@@ -227,7 +228,7 @@ class NewResourceForm extends Component {
         const currentProperties = keys(this.state.properties)
             .concat(keys(this.state.currentSecrets)
                 .concat(keys(this.state.files)))
-            .filter(prop => requiredProperties.includes(prop))
+            .filter(prop => requiredProperties.includes(prop) && currentProperties[prop] !== "")
 
         return requiredProperties.length === currentProperties.length
     }
