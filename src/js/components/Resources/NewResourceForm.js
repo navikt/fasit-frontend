@@ -1,13 +1,13 @@
-import React, { Component, PropTypes } from "react";
-import { Modal } from "react-bootstrap";
-import { connect } from "react-redux";
+import React, {Component, PropTypes} from "react";
+import {Modal} from "react-bootstrap";
+import {connect} from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
-import { MaterialDropDown, MaterialTextBox, MaterialTextArea } from "../common/Forms";
-import { colors } from "../../commonStyles/commonInlineStyles";
-import { capitalize } from "../../utils";
-import { displayModal, submitForm } from "../../actionCreators/common";
-import { resourceTypes, getResourceTypeName } from "../../utils/resourceTypes";
+import {MaterialDropDown, MaterialTextArea, MaterialTextBox} from "../common/Forms";
+import {colors} from "../../commonStyles/commonInlineStyles";
+import {capitalize} from "../../utils";
+import {displayModal, submitForm} from "../../actionCreators/common";
+import {getResourceTypeName, resourceTypes} from "../../utils/resourceTypes";
 import Scope from "./Scope";
 
 class NewResourceForm extends Component {
@@ -37,8 +37,8 @@ class NewResourceForm extends Component {
 
     componentWillReceiveProps(next) {
         if (next.mode === "edit" || next.mode === "copy") {
-            const { resource } = this.props
-            const { alias, type, properties, scope, files } = resource.data
+            const {resource} = this.props
+            const {alias, type, properties, scope, files} = resource.data
 
             this.setState({
                 alias,
@@ -75,16 +75,16 @@ class NewResourceForm extends Component {
         if (parent) {
             const parentState = this.state[parent]
             parentState[field] = newValue
-            this.setState({ parent: parentState })
+            this.setState({parent: parentState})
         }
         else {
-            this.setState({ [field]: newValue })
+            this.setState({[field]: newValue})
         }
     }
 
 
     removeEmpty(obj) {
-        const cleanObj = { ...obj }
+        const cleanObj = {...obj}
         Object.keys(cleanObj).forEach(key => {
             if (!cleanObj[key]) {
                 delete cleanObj[key]
@@ -94,11 +94,11 @@ class NewResourceForm extends Component {
     }
 
     handleSubmitForm() {
-        const { dispatch, resource, mode } = this.props
-        const { alias, type, properties, files, comment, currentSecrets } = this.state
+        const {dispatch, resource, mode} = this.props
+        const {alias, type, properties, files, comment, currentSecrets} = this.state
 
         if (!this.isValid()) {
-            this.setState({ validationErrors: true })
+            this.setState({validationErrors: true})
         }
 
         else {
@@ -113,7 +113,7 @@ class NewResourceForm extends Component {
             if (Object.keys(currentSecrets).length > 0) {
                 form.secrets = {}
                 Object.keys(currentSecrets).forEach(k => {
-                    form.secrets[k] = { value: currentSecrets[k] }
+                    form.secrets[k] = {value: currentSecrets[k]}
                 })
             }
 
@@ -135,10 +135,18 @@ class NewResourceForm extends Component {
         this.props.dispatch(displayModal("resource", false))
     }
 
+    displayValidationError(prop, isRequired) {
+        const {validationErrors} = this.state
+        return validationErrors
+            && isRequired &&
+            (!prop || prop === "")
+    }
+
     renderProperty(property) {
         const key = property.name
         const label = `${property.displayName}${property.required === true ? " *" : ""}`
-        const { validationErrors } = this.state
+        const {properties, currentSecrets} = this.state
+
 
         switch (property.type) {
             case "textbox":
@@ -146,22 +154,21 @@ class NewResourceForm extends Component {
                     <MaterialTextBox
                         key={key}
                         field={key}
-                        errorText={validationErrors && property.required && !this.state.properties[key] && this.state.properties[key] !== '' ? "Required property " : null}
+                        errorText={this.displayValidationError(properties[key], property.required) ? "Required property " : null}
                         hintText={property.hint}
                         value={this.state.properties[key]}
                         label={label}
-                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")} />)
+                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")}/>)
             case "textarea":
             case "link":
-                console.log("pepsi23asdasd2", this.state.properties[key], this.state.properties[key] !== '')
                 return (
                     <MaterialTextArea
                         key={key}
                         field={key}
-                        errorText={validationErrors && property.required && !this.state.properties[key] && this.state.properties[key] !== '' ? "Required property " : null}
+                        errorText={this.displayValidationError(properties[key], property.required) ? "Required property " : null}
                         value={this.state.properties[key]}
                         label={label}
-                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")} />)
+                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")}/>)
             case "dropdown":
                 return (
                     <MaterialDropDown
@@ -170,16 +177,16 @@ class NewResourceForm extends Component {
                         value={this.state.properties[key]}
                         label={label}
                         options={property.options}
-                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")} />)
+                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")}/>)
             case "secret":
                 return (
                     <MaterialTextBox
                         key={key}
                         field={key}
-                        errorText={validationErrors && property.required && !this.state.currentSecrets[key] && this.state.properties[key] !== '' ? "Required secret " : null}
+                        errorText={this.displayValidationError(currentSecrets[key], property.required) ? "Required secret " : null}
                         value={this.state.currentSecrets[key]}
                         label={label}
-                        onChange={(field, newValue) => this.handleChange(field, newValue, "currentSecrets")} />)
+                        onChange={(field, newValue) => this.handleChange(field, newValue, "currentSecrets")}/>)
             case "file":
                 break
             default:
@@ -207,7 +214,7 @@ class NewResourceForm extends Component {
                         value={this.state.alias}
                         errorText={this.state.validationErrors && !this.state.alias ? "Required property " : null}
                         label="Alias*"
-                        onChange={this.handleChange.bind(this)} />
+                        onChange={this.handleChange.bind(this)}/>
                     {properties.map((property) => this.renderProperty(property))}
                 </div>
             )
@@ -228,7 +235,7 @@ class NewResourceForm extends Component {
         const currentProperties = keys(this.state.properties)
             .concat(keys(this.state.currentSecrets)
                 .concat(keys(this.state.files)))
-            .filter(prop => requiredProperties.includes(prop) && currentProperties[prop] !== "")
+            .filter(prop => requiredProperties.includes(prop) && this.state.properties[prop] !== "")
 
         return requiredProperties.length === currentProperties.length
     }
@@ -240,19 +247,20 @@ class NewResourceForm extends Component {
     }
 
     render() {
-        const { showNewResourceForm, types, user, mode, resource } = this.props
+        const {showNewResourceForm, types, user, mode, resource} = this.props
         let authenticated = user.authenticated
         const resourceType = getResourceTypeName(this.state.type)
 
         return (
 
-            <Modal show={showNewResourceForm} animation={false} keyboard={true} onHide={this.closeForm.bind(this)} dialogClassName="newResourceForm">
+            <Modal show={showNewResourceForm} animation={false} keyboard={true} onHide={this.closeForm.bind(this)}
+                   dialogClassName="newResourceForm">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
                         <div>
                             <span className="fa-stack fa-lg">
-                                <i className="fa fa-circle fa-stack-2x" />
-                                <i className="fa fa-cogs fa-stack-1x fa-inverse" />
+                                <i className="fa fa-circle fa-stack-2x"/>
+                                <i className="fa fa-cogs fa-stack-1x fa-inverse"/>
                             </span> &emsp;{mode && `${capitalize(mode)} resource ${mode !== 'new' ? resource.data.id : ''}`}
                         </div>
                     </Modal.Title>
@@ -260,16 +268,17 @@ class NewResourceForm extends Component {
                 <Modal.Body>
 
                     {this.loginWarning(authenticated)}
-                    <MaterialDropDown field="type" value={resourceType} label="Type" options={types} onChange={this.handleChange.bind(this)} fullWidth={false} />
+                    <MaterialDropDown field="type" value={resourceType} label="Type" options={types}
+                                      onChange={this.handleChange.bind(this)} fullWidth={false}/>
 
                     {this.renderProperties()}
                     <br />
-                    <Scope editMode={true} scope={this.state.scope} handleChange={this.handleChange.bind(this)} />
+                    <Scope editMode={true} scope={this.state.scope} handleChange={this.handleChange.bind(this)}/>
                     <MaterialTextBox
                         field="comment"
                         value={this.state.comment}
                         label={"Comment"}
-                        onChange={this.handleChange.bind(this)} />
+                        onChange={this.handleChange.bind(this)}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="row col-md-12">
@@ -279,12 +288,12 @@ class NewResourceForm extends Component {
                             disableTouchRipple={true}
                             disabled={!this.state.type || this.state.type === ""}
                             label="submit"
-                            onTouchTap={this.handleSubmitForm.bind(this, true)} />
+                            onTouchTap={this.handleSubmitForm.bind(this, true)}/>
 
                         <FlatButton
                             disableTouchRipple={true}
                             label="cancel"
-                            onTouchTap={this.closeForm.bind(this)} />
+                            onTouchTap={this.closeForm.bind(this)}/>
                     </div>
                 </Modal.Footer>
             </Modal>)
