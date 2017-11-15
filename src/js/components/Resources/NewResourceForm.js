@@ -4,10 +4,11 @@ import {connect} from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
 import {MaterialDropDown, MaterialTextArea, MaterialTextBox} from "../common/Forms";
-import {colors} from "../../commonStyles/commonInlineStyles";
+import {colors, icons, styles} from "../../commonStyles/commonInlineStyles";
 import {capitalize} from "../../utils";
 import {displayModal, submitForm} from "../../actionCreators/common";
 import {getResourceTypeName, resourceTypes} from "../../utils/resourceTypes";
+import Chip  from "material-ui/Chip"
 import Scope from "./Scope";
 
 class NewResourceForm extends Component {
@@ -28,7 +29,7 @@ class NewResourceForm extends Component {
                 application: null
 
             },
-            files: {},
+            currentFiles: {},
             currentSecrets: {},
             validationErrors: null,
             comment: ""
@@ -188,6 +189,35 @@ class NewResourceForm extends Component {
                         label={label}
                         onChange={(field, newValue) => this.handleChange(field, newValue, "currentSecrets")}/>)
             case "file":
+                return (
+                    <div >
+                    <RaisedButton style={styles.button} containerElement='label' label={label} icon={icons.fileUpload} onChange={(e) => {
+
+             //           console.log("javel", e.target.files[0])
+                        const FILE = e.target.files[0]
+               //         console.log("name", e.target.files[0].name)
+                        const reader = new FileReader()
+                        reader.onload = (upload) => {
+                            const base64 = upload.target.result
+                            console.log("sånn")
+                            const files = {}
+                            files[key] = {name: FILE.name, data: base64}
+                            this.setState({files: files})
+                        }
+
+                        reader.readAsDataURL(FILE)
+                        const files = {}
+                        files[key] = {name: "Uploading " + FILE.name }
+
+                        this.setState({files: files})
+
+
+                    }}>
+                        <input type="file" style={{display: 'none'}} multiple={false}/>
+                    </RaisedButton>
+                        {this.state.files[key] && <Chip>{icons.fileAvatar}{ this.state.files[key].name}</Chip>}
+                    </div>
+                )
                 break
             default:
         }
@@ -253,7 +283,7 @@ class NewResourceForm extends Component {
 
         return (
 
-            <Modal show={showNewResourceForm} animation={false} keyboard={true} onHide={this.closeForm.bind(this)}
+            <Modal show={true} animation={false} keyboard={true} onHide={this.closeForm.bind(this)}
                    dialogClassName="newResourceForm">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>

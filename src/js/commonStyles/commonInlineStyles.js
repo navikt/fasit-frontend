@@ -15,6 +15,8 @@ import Edit from "material-ui/svg-icons/editor/mode-edit";
 import Copy from "material-ui/svg-icons/content/content-copy";
 import Cancel from "material-ui/svg-icons/navigation/cancel";
 import Eye from "material-ui/svg-icons/image/remove-red-eye";
+import FileUpload from "material-ui/svg-icons/file/file-upload"
+import File from "material-ui/svg-icons/editor/insert-drive-file"
 
 export const colors = {
     white: '#ffffff',
@@ -81,6 +83,8 @@ export const icons = {
     cancel: <Cancel hoverColor={colors.pink}/>,
     edit: <Edit hoverColor={colors.pink}/>,
     eye: <Eye/>,
+    fileUpload: <FileUpload/>,
+    fileAvatar: <Avatar icon={<File/>}/>,
     delete: <Delete hoverColor={colors.pink}/>,
     copy: <Copy hoverColor={colors.pink}/>,
     resource: <i className="fa fa-cogs"/>,
@@ -92,5 +96,6 @@ export const icons = {
     grafanaAvatar: <Avatar icon={<i className="fa fa-area-chart"/>}/>,
     errorAvatar: <Avatar icon={<Error/>} backgroundColor={colors.red} />,
     lockAvatar: <Avatar icon={<Lock/>} color={colors.white}  backgroundColor={colors.toolbarBackground}/>
+
 }
 
