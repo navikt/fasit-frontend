@@ -9,7 +9,7 @@ import moment from "moment";
 export function CardInfo(props) {
     const { lastUpdated, lifecycle } = props
     return (
-        <div className="pull-right col-md-4">
+        <div className="pull-right col-md-4" style={{ position: "absolute", top: "10px", right: "10px" }}>
             <div className="col-md-3 text-muted pull-right" style={{ paddingTop: "6px" }}>
                 {renderLastUpdated(lastUpdated)}
             </div>
@@ -49,9 +49,9 @@ function LifecycleChip(props) {
     switch (lifecycleStatus) {
         case 'alerted':
             color = colors.orange
+            break
         case 'stopped':
             color = colors.red
-
             break;
         case 'rescued':
             color = colors.green
@@ -59,7 +59,7 @@ function LifecycleChip(props) {
     }
 
     return (
-        <div className="col-md-4 pull-right">
+        <div className="col-md-4 pull-right" style={{ paddingTop: "6px" }}>
             <Chip backgroundColor={colors.white} labelColor={colors.grey}>
                 <Avatar backgroundColor={color} icon={<Restore />} />
                 {capitalize(lifecycleStatus)}
