@@ -1,6 +1,6 @@
 import React from "react";
-import { blueGrey800, deepPurple400, green500, orange400, redA700 } from "material-ui/styles/colors";
-import { colors } from "../commonStyles/commonInlineStyles";
+import {blueGrey800, deepPurple400, green500, orange400, redA700} from "material-ui/styles/colors";
+import {colors} from "../commonStyles/commonInlineStyles";
 import Avatar from "material-ui/Avatar";
 import ResourceTypeProperty from "./ResourceTypeProperty"
 
@@ -90,7 +90,7 @@ export const resourceTypes = {
         properties: [
             textbox("keystorealias", "Alias in keystore"),
             secret("keystorepassword", "Keystore password"),
-            file("keystore")]
+            file("keystore", "Keystore file")]
     },
     OpenAM: {
         backgroundColor: blueGrey800,

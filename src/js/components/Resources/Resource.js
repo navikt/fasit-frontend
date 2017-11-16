@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { List, ListItem } from "material-ui/List";
-import { Link } from "react-router";
-import { validAuthorization } from "../../utils";
-import { fetchFasitData } from "../../actionCreators/resource";
-import { displayModal, rescueElement, submitForm } from "../../actionCreators/common";
-import { getResourceTypeName, resourceTypeIcon, resourceTypes } from "../../utils/resourceTypes";
-import { ResourceInstances } from "./ResourceInstances";
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
-import { styles } from "../../commonStyles/commonInlineStyles";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {List, ListItem} from "material-ui/List";
+import {Link} from "react-router";
+import {validAuthorization} from "../../utils";
+import {fetchFasitData} from "../../actionCreators/resource";
+import {displayModal, rescueElement, submitForm} from "../../actionCreators/common";
+import {getResourceTypeName, resourceTypeIcon, resourceTypes} from "../../utils/resourceTypes";
+import {ResourceInstances} from "./ResourceInstances";
+import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
+import {styles} from "../../commonStyles/commonInlineStyles";
 import NotFound from "../NotFound";
 import WebsphereManagementConsole from "../common/WebsphereManagementConsole";
 import {
@@ -144,7 +144,7 @@ class Resource extends Component {
         const { secretVisible } = this.state
         const propertyName = property.displayName
         const key = property.name
-        const { properties } = resource
+        const { properties, files } = resource
 
         switch (property.type) {
             case "textbox":
@@ -197,6 +197,14 @@ class Resource extends Component {
                     secondaryText={propertyName}
                 />
             case "file":
+                return <ListItem
+                    key={key}
+                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
+                    disabled={true}
+                    className="text-overflow"
+                    primaryText={<Link to={files[key].ref} target="new"><i className={"fa fa-file-o fa-fw"}/>{files[key].filename}</Link>}
+                    secondaryText={propertyName}
+                />
                 break
         }
     }
