@@ -1,14 +1,14 @@
-import React, {Component, PropTypes} from "react";
-import {Modal} from "react-bootstrap";
-import {connect} from "react-redux";
+import React, { Component, PropTypes } from "react";
+import { Modal } from "react-bootstrap";
+import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
-import {MaterialDropDown, MaterialTextArea, MaterialTextBox} from "../common/Forms";
-import {colors, icons, styles} from "../../commonStyles/commonInlineStyles";
-import {capitalize} from "../../utils";
-import {displayModal, submitForm} from "../../actionCreators/common";
-import {getResourceTypeName, resourceTypes} from "../../utils/resourceTypes";
-import Chip  from "material-ui/Chip"
+import { MaterialDropDown, MaterialTextArea, MaterialTextBox } from "../common/Forms";
+import { colors, icons, styles, styleSet } from "../../commonStyles/commonInlineStyles";
+import { capitalize } from "../../utils";
+import { displayModal, submitForm } from "../../actionCreators/common";
+import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes";
+import Chip from "material-ui/Chip"
 import Scope from "./Scope";
 
 class NewResourceForm extends Component {
@@ -38,8 +38,8 @@ class NewResourceForm extends Component {
 
     componentWillReceiveProps(next) {
         if (next.mode === "edit" || next.mode === "copy") {
-            const {resource} = this.props
-            const {alias, type, properties, scope, files} = resource.data
+            const { resource } = this.props
+            const { alias, type, properties, scope, files } = resource.data
 
             this.setState({
                 alias,
@@ -61,6 +61,7 @@ class NewResourceForm extends Component {
             properties: {},
             files: {},
             currentSecrets: {},
+            currentFiles: {},
             comment: "",
             validationErrors: null
         })
@@ -76,16 +77,16 @@ class NewResourceForm extends Component {
         if (parent) {
             const parentState = this.state[parent]
             parentState[field] = newValue
-            this.setState({parent: parentState})
+            this.setState({ parent: parentState })
         }
         else {
-            this.setState({[field]: newValue})
+            this.setState({ [field]: newValue })
         }
     }
 
 
     removeEmpty(obj) {
-        const cleanObj = {...obj}
+        const cleanObj = { ...obj }
         Object.keys(cleanObj).forEach(key => {
             if (!cleanObj[key]) {
                 delete cleanObj[key]
@@ -95,11 +96,11 @@ class NewResourceForm extends Component {
     }
 
     handleSubmitForm() {
-        const {dispatch, resource, mode} = this.props
-        const {alias, type, properties, files, comment, currentSecrets} = this.state
+        const { dispatch, resource, mode } = this.props
+        const { alias, type, properties, files, comment, currentSecrets, currentFiles } = this.state
 
         if (!this.isValid()) {
-            this.setState({validationErrors: true})
+            this.setState({ validationErrors: true })
         }
 
         else {
@@ -114,12 +115,18 @@ class NewResourceForm extends Component {
             if (Object.keys(currentSecrets).length > 0) {
                 form.secrets = {}
                 Object.keys(currentSecrets).forEach(k => {
-                    form.secrets[k] = {value: currentSecrets[k]}
+                    form.secrets[k] = { value: currentSecrets[k] }
                 })
             }
 
-            if (Object.keys(files).length > 0) {
-                form.files = files
+            if (Object.keys(currentFiles).length > 0) {
+                form.files = {}
+                Object.keys(currentFiles).forEach(k => {
+                    form.files[k] = {
+                        filename: currentFiles[k].name,
+                        filecontent: currentFiles[k].data
+                    }
+                })
             }
             if (mode === "edit") {
                 dispatch(submitForm(resource.data.id, form, comment, "resource"))
@@ -131,13 +138,28 @@ class NewResourceForm extends Component {
         }
     }
 
+    handleFileUpload(field, event) {
+        const FILE = event.target.files[0]
+        const reader = new FileReader()
+        reader.onload = (upload) => {
+            const base64 = upload.target.result
+            const files = {}
+            files[field] = { name: FILE.name, data: base64 }
+            this.setState({ currentFiles: files })
+        }
+
+        reader.readAsDataURL(FILE)
+    }
+
     closeForm() {
         this.initialState()
         this.props.dispatch(displayModal("resource", false))
     }
 
     displayValidationError(prop, isRequired) {
-        const {validationErrors} = this.state
+        const { validationErrors } = this.state
+        //console.log('prop', prop);
+
         return validationErrors
             && isRequired &&
             (!prop || prop === "")
@@ -146,7 +168,7 @@ class NewResourceForm extends Component {
     renderProperty(property) {
         const key = property.name
         const label = `${property.displayName}${property.required === true ? " *" : ""}`
-        const {properties, currentSecrets} = this.state
+        const { properties, currentSecrets, currentFiles } = this.state
 
 
         switch (property.type) {
@@ -159,7 +181,7 @@ class NewResourceForm extends Component {
                         hintText={property.hint}
                         value={this.state.properties[key]}
                         label={label}
-                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")}/>)
+                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")} />)
             case "textarea":
             case "link":
                 return (
@@ -169,7 +191,7 @@ class NewResourceForm extends Component {
                         errorText={this.displayValidationError(properties[key], property.required) ? "Required property " : null}
                         value={this.state.properties[key]}
                         label={label}
-                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")}/>)
+                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")} />)
             case "dropdown":
                 return (
                     <MaterialDropDown
@@ -178,7 +200,7 @@ class NewResourceForm extends Component {
                         value={this.state.properties[key]}
                         label={label}
                         options={property.options}
-                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")}/>)
+                        onChange={(field, newValue) => this.handleChange(field, newValue, "properties")} />)
             case "secret":
                 return (
                     <MaterialTextBox
@@ -187,35 +209,20 @@ class NewResourceForm extends Component {
                         errorText={this.displayValidationError(currentSecrets[key], property.required) ? "Required secret " : null}
                         value={this.state.currentSecrets[key]}
                         label={label}
-                        onChange={(field, newValue) => this.handleChange(field, newValue, "currentSecrets")}/>)
+                        onChange={(field, newValue) => this.handleChange(field, newValue, "currentSecrets")} />)
             case "file":
                 return (
-                    <div >
-                    <RaisedButton style={styles.button} containerElement='label' label={label} icon={icons.fileUpload} onChange={(e) => {
-
-             //           console.log("javel", e.target.files[0])
-                        const FILE = e.target.files[0]
-               //         console.log("name", e.target.files[0].name)
-                        const reader = new FileReader()
-                        reader.onload = (upload) => {
-                            const base64 = upload.target.result
-                            console.log("sånn")
-                            const files = {}
-                            files[key] = {name: FILE.name, data: base64}
-                            this.setState({files: files})
-                        }
-
-                        reader.readAsDataURL(FILE)
-                        const files = {}
-                        files[key] = {name: "Uploading " + FILE.name }
-
-                        this.setState({files: files})
-
-
-                    }}>
-                        <input type="file" style={{display: 'none'}} multiple={false}/>
-                    </RaisedButton>
-                        {this.state.files[key] && <Chip>{icons.fileAvatar}{ this.state.files[key].name}</Chip>}
+                    <div className="row" key={key} style={{ display: 'flex', paddingTop: '10px', marginLeft: '2px' }}>
+                        <RaisedButton
+                            backgroundColor={colors.avatarBackgroundColor}
+                            labelColor={colors.white}
+                            containerElement='label'
+                            disableTouchRipple={true}
+                            label={`Upload ${label}`} icon={icons.fileUpload} onChange={event => this.handleFileUpload(key, event)}>
+                            <input type="file" style={{ display: 'none' }} multiple={false} />
+                        </RaisedButton>
+                        {this.displayValidationError(currentFiles[key], property.required) ? <div style={styleSet([styles.marginLeft5, styles.red, styles.paddingTop5])}>Required file</div> : null}
+                        {this.state.currentFiles[key] && <Chip style={styles.marginLeft5}>{icons.fileAvatar}{this.state.currentFiles[key].name}</Chip>}
                     </div>
                 )
                 break
@@ -244,7 +251,7 @@ class NewResourceForm extends Component {
                         value={this.state.alias}
                         errorText={this.state.validationErrors && !this.state.alias ? "Required property " : null}
                         label="Alias*"
-                        onChange={this.handleChange.bind(this)}/>
+                        onChange={this.handleChange.bind(this)} />
                     {properties.map((property) => this.renderProperty(property))}
                 </div>
             )
@@ -264,7 +271,7 @@ class NewResourceForm extends Component {
         const requiredProperties = resourceType.properties.filter(p => p.required).map(p => p.name)
         const currentProperties = keys(this.state.properties)
             .concat(keys(this.state.currentSecrets)
-                .concat(keys(this.state.files)))
+                .concat(keys(this.state.currentFiles)))
             .filter(prop => requiredProperties.includes(prop) && this.state.properties[prop] !== "")
 
         return requiredProperties.length === currentProperties.length
@@ -277,20 +284,20 @@ class NewResourceForm extends Component {
     }
 
     render() {
-        const {showNewResourceForm, types, user, mode, resource} = this.props
+        const { showNewResourceForm, types, user, mode, resource } = this.props
         let authenticated = user.authenticated
         const resourceType = getResourceTypeName(this.state.type)
 
         return (
 
             <Modal show={true} animation={false} keyboard={true} onHide={this.closeForm.bind(this)}
-                   dialogClassName="newResourceForm">
+                dialogClassName="newResourceForm">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
                         <div>
                             <span className="fa-stack fa-lg">
-                                <i className="fa fa-circle fa-stack-2x"/>
-                                <i className="fa fa-cogs fa-stack-1x fa-inverse"/>
+                                <i className="fa fa-circle fa-stack-2x" />
+                                <i className="fa fa-cogs fa-stack-1x fa-inverse" />
                             </span> &emsp;{mode && `${capitalize(mode)} resource ${mode !== 'new' ? resource.data.id : ''}`}
                         </div>
                     </Modal.Title>
@@ -299,16 +306,16 @@ class NewResourceForm extends Component {
 
                     {this.loginWarning(authenticated)}
                     <MaterialDropDown field="type" value={resourceType} label="Type" options={types}
-                                      onChange={this.handleChange.bind(this)} fullWidth={false}/>
+                        onChange={this.handleChange.bind(this)} fullWidth={false} />
 
                     {this.renderProperties()}
                     <br />
-                    <Scope editMode={true} scope={this.state.scope} handleChange={this.handleChange.bind(this)}/>
+                    <Scope editMode={true} scope={this.state.scope} handleChange={this.handleChange.bind(this)} />
                     <MaterialTextBox
                         field="comment"
                         value={this.state.comment}
                         label={"Comment"}
-                        onChange={this.handleChange.bind(this)}/>
+                        onChange={this.handleChange.bind(this)} />
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="row col-md-12">
@@ -318,12 +325,12 @@ class NewResourceForm extends Component {
                             disableTouchRipple={true}
                             disabled={!this.state.type || this.state.type === ""}
                             label="submit"
-                            onTouchTap={this.handleSubmitForm.bind(this, true)}/>
+                            onTouchTap={this.handleSubmitForm.bind(this, true)} />
 
                         <FlatButton
                             disableTouchRipple={true}
                             label="cancel"
-                            onTouchTap={this.closeForm.bind(this)}/>
+                            onTouchTap={this.closeForm.bind(this)} />
                     </div>
                 </Modal.Footer>
             </Modal>)
