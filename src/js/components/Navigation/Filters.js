@@ -25,6 +25,8 @@ class Filters extends Component {
 
     handleChangeFilter(filterName, filterValue) {
         const { dispatch, filter } = this.props
+        console.log('filtering', filterName, filterValue);
+        
         dispatch(changeFilter(filterName, filterValue))
         dispatch(submitFilterString(filter.context, 0))
     }
