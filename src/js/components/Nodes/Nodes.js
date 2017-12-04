@@ -17,14 +17,11 @@ class Nodes extends Component {
     }
 
     render() {
-        const {nodes, totalCount, isFetching} = this.props
+        const {nodes, totalCount, isFetching, params} = this.props
 
-        if (isFetching) {
-            return <div className="element-list"><i className="fa fa-spinner fa-pulse fa-2x"></i></div>
-        }
-
-        if (this.props.params.node) {
-            return <Node hostname={this.props.params.node}/>
+      
+        if (params.node) {
+            return <Node hostname={params.node}/>
         }
 
         return (
