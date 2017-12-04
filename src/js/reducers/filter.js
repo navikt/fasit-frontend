@@ -2,6 +2,8 @@ import {
     SET_FILTER_CONTEXT,
     CHANGE_FILTER,
     CHANGE_PAGE,
+    CLEAR_FILTERS,
+    SET_FILTER
 } from '../actionTypes'
 export const initialState = {
     activePage: 0,
@@ -35,6 +37,11 @@ export default (state = initialState, action) => {
                 filters
             })
         }
+        case SET_FILTER: {
+            return Object.assign({}, state, { filters: action.filter })
+        }
+        case CLEAR_FILTERS:
+            return Object.assign({}, state, { filters: initialState.filters })
         default:
             return state
     }

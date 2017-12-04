@@ -17,14 +17,10 @@ class Resources extends Component {
     }
 
     render() {
-        const {resources, totalCount, isFetching} = this.props
+        const {resources, totalCount, isFetching, params} = this.props
 
-        if (isFetching) {
-            return <div className="element-list"><i className="fa fa-spinner fa-pulse fa-2x"></i></div>
-        }
-
-        if (this.props.params.resource) {
-            return <Resource id={this.props.params.resource}/>
+        if (params.resource) {
+            return <Resource id={params.resource}/>
         }
         return (
             <div className="main-content-container">
