@@ -3,6 +3,7 @@ import Select from 'react-select'
 import { connect } from 'react-redux'
 import { browserHistory, Link } from "react-router";
 import { changeFilter, submitFilterString, clearFilters, setFilter } from '../../actionCreators/element_lists'
+import {isEmptyObject} from '../../utils'
 
 
 class Filters extends Component {
@@ -15,18 +16,13 @@ class Filters extends Component {
         const { dispatch, params, location } = this.props
         dispatch(clearFilters())
 
-
-
-
-        if (location.query) {
+        if (!isEmptyObject(location.query)) {
             dispatch(setFilter(location.query))
         }
     }
 
     handleChangeFilter(filterName, filterValue) {
         const { dispatch, filter } = this.props
-        console.log('filtering', filterName, filterValue);
-        
         dispatch(changeFilter(filterName, filterValue))
         dispatch(submitFilterString(filter.context, 0))
     }
