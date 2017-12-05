@@ -83,14 +83,18 @@ class NavSearch extends Component {
     navigate() {
         const { dispatch, navSearch, location } = this.props
         const navItem = navSearch.data[this.state.selectedOption]
+
         if (!navItem) {
             if (!(location.pathname === "/search")) {
                 browserHistory.push("/search")
             }
             browserHistory.push(`search/${navSearch.query}`)
             this.setState({ visible: false })
+        }
+        else if (navItem.type === "Quick navigation") {
+            this.setState({ visible: false })
+            browserHistory.push(`/resources?alias=${navSearch.query}`)
         } else {
-
             dispatch(submitNavSearch(""))
             browserHistory.push(destinationUrl(navItem))
         }
@@ -133,11 +137,11 @@ class NavSearch extends Component {
     }
 
     render() {
-        const { dispatch, navSearch } = this.props
+        const { dispatch, navSearch, } = this.props
         const { visible, selectedOption } = this.state
-        const { query, data, isFetching } = navSearch
-        const types = [...new Set(data.map(item => item.type))]
+        const { query, data, isFetching, searchResultTypes } = navSearch
         const options = [...new Set(data.map(item => item.id))]
+        
         return (
             <div onKeyDown={(e) => this.handleKeyDown(e)} className="navSearchContainer">
                 <form className="navSearchForm">
@@ -160,12 +164,13 @@ class NavSearch extends Component {
                 {query && visible ? isFetching ?
                     <div className="navSearchDropdown loadingDots" ref={this.setWrapperRef} /> :
                     <div className="navSearchDropdown" ref={this.setWrapperRef}>
-                        {(data.length > 0) ? types.map((type, i) => { // Returnerer en blokk for hver elementtype
+                        {(data.length > 0) ? searchResultTypes.map((type, i) => { // Returnerer en blokk for hver elementtype
                             return (
                                 <div key={i}>
                                     <b><i>
                                         <small>{capitalize(type)}{data.filter(itemsByType => itemsByType.type === type).length > 1 ? "s" : null}:</small>
                                     </i></b>
+
                                     <div >
                                         {data.filter(itemsByType => itemsByType.type === type) // filtrerer ut resultater per type
                                             .map((navItem, i) => { // returnerer en lenke til resultatet

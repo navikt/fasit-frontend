@@ -1,6 +1,6 @@
-import {takeLatest} from "redux-saga";
-import {fork, put, select} from "redux-saga/effects";
-import {fetchUrl, sortSearchResults} from "../utils";
+import { takeLatest } from "redux-saga";
+import { fork, put, select } from "redux-saga/effects";
+import { fetchUrl, sortSearchResults } from "../utils";
 import {
     CLEAR_SEARCH_QUERY,
     NAVSEARCH_REQUEST_FAILED,
@@ -12,19 +12,18 @@ import {
 
 export function* submitNavSearch(action) {
     const url = yield select((state) => state.configuration.fasit_navsearch)
-    yield put({type: NAVSEARCH_RESULTS_FETCHING})
+    yield put({ type: NAVSEARCH_RESULTS_FETCHING })
     try {
-        yield put({type: SET_NAVSEARCH_QUERY, value: action.query})
+        yield put({ type: SET_NAVSEARCH_QUERY, value: action.query })
         const payload = yield fetchUrl(url + "?q=" + action.query + "&maxCount=10")
-        const sortedPayload = yield sortSearchResults(payload)
-        yield put({type: NAVSEARCH_RESULTS_RECEIVED, value: sortedPayload})
+        yield put({ type: NAVSEARCH_RESULTS_RECEIVED, value: payload })
     } catch (err) {
-        yield put({type: NAVSEARCH_REQUEST_FAILED, value: err.message})
+        yield put({ type: NAVSEARCH_REQUEST_FAILED, value: err.message })
     }
 }
 
 export function* clearSearchQuery() {
-    yield put({type: SET_NAVSEARCH_QUERY, value: ""})
+    yield put({ type: SET_NAVSEARCH_QUERY, value: "" })
 }
 
 export function* watchNavSearchQueries() {
