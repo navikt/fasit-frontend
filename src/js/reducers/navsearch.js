@@ -1,11 +1,10 @@
 import {
-    NAVSEARCH_RESULTS_RECEIVED,
     NAVSEARCH_REQUEST_FAILED,
     NAVSEARCH_RESULTS_FETCHING,
+    NAVSEARCH_RESULTS_RECEIVED,
     SET_NAVSEARCH_QUERY,
-
 } from '../actionTypes'
-import { sortSearchResults } from "../utils"
+import {sortSearchResults} from "../utils"
 
 export const initialState = {
     data: [],
@@ -14,9 +13,6 @@ export const initialState = {
     isFetching: false,
     query: ""
 }
-
-
-const sortOrder = ["quick navigation", "resources",]
 
 export default (state = initialState, action) => {
     switch (action.type) {

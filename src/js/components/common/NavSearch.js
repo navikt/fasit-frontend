@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {browserHistory} from 'react-router'
+import {connect} from 'react-redux'
 import Mousetrap from 'mousetrap'
-import { submitNavSearch } from '../../actionCreators/common'
-import { destinationUrl } from '../Search/searchResultTypes'
-import { capitalize } from '../../utils/'
-import { colors } from '../../commonStyles/commonInlineStyles';
+import {submitNavSearch} from '../../actionCreators/common'
+import {destinationUrl} from '../Search/searchResultTypes'
+import {capitalize} from '../../utils/'
+import {changeFilter, submitFilterString} from '../../actionCreators/element_lists'
 
 class NavSearch extends Component {
     constructor(props) {
@@ -92,8 +92,11 @@ class NavSearch extends Component {
             this.setState({ visible: false })
         }
         else if (navItem.type === "Quick navigation") {
-            this.setState({ visible: false })
+            dispatch(submitNavSearch(""))
+            dispatch(changeFilter("alias", navSearch.query))
+            dispatch(submitFilterString("resources", 0))
             browserHistory.push(`/resources?alias=${navSearch.query}`)
+
         } else {
             dispatch(submitNavSearch(""))
             browserHistory.push(destinationUrl(navItem))

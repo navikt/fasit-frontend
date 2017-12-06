@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Select from 'react-select'
-import { connect } from 'react-redux'
-import { browserHistory, Link } from "react-router";
-import { changeFilter, submitFilterString, clearFilters, setFilter } from '../../actionCreators/element_lists'
+import {connect} from 'react-redux'
+import {changeFilter, clearFilters, setFilter, submitFilterString} from '../../actionCreators/element_lists'
 import {isEmptyObject} from '../../utils'
 
 
@@ -13,13 +12,14 @@ class Filters extends Component {
 
 
     componentDidMount() {
-        const { dispatch, params, location } = this.props
+        const { dispatch, location } = this.props
         dispatch(clearFilters())
 
         if (!isEmptyObject(location.query)) {
             dispatch(setFilter(location.query))
         }
     }
+
 
     handleChangeFilter(filterName, filterValue) {
         const { dispatch, filter } = this.props
@@ -32,6 +32,8 @@ class Filters extends Component {
             return { value, label: value }
         })
     }
+
+
 
     environmentFilter() {
         // if environmentclass is set, display only environments in that environmentclass

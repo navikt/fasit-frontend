@@ -16,8 +16,9 @@ class Resources extends Component {
         dispatch(submitFilterString("resources", 0))
     }
 
+
     render() {
-        const {resources, totalCount, isFetching, params} = this.props
+        const {resources, totalCount, params} = this.props
 
         if (params.resource) {
             return <Resource id={params.resource}/>
@@ -52,7 +53,8 @@ const mapStateToProps = (state) => {
     return {
         resources: state.resources.data,
         totalCount: state.resources.headers.total_count,
-        isFetching: state.resources.isFetching
+        isFetching: state.resources.isFetching,
+        location: state.routing.locationBeforeTransitions
     }
 }
 
