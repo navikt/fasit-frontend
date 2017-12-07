@@ -1,7 +1,7 @@
-import { takeLatest } from "redux-saga";
-import { fork, put, select } from "redux-saga/effects";
-import { browserHistory } from 'react-router'
-import { fetchPage, isEmptyObject } from "../utils";
+import {takeLatest} from "redux-saga";
+import {fork, put, select} from "redux-saga/effects";
+import {browserHistory} from 'react-router'
+import {fetchPage} from "../utils";
 import {
     APPLICATIONS_LIST_FAILED,
     APPLICATIONS_LIST_RECEIVED,
@@ -15,7 +15,6 @@ import {
     RESOURCES_LIST_RECEIVED,
     SUBMIT_FILTER_SEARCH
 } from "../actionTypes";
-import { colors } from "../commonStyles/commonInlineStyles";
 
 function* fetchEnvironmentsList(url) {
     try {
@@ -83,6 +82,8 @@ export function* fetchAllLists(action) {
 
     const configuration = yield select((state) => state.configuration)
     const filter = yield select((state) => state.filter)
+
+    console.log("calling fetch all list 69", action.location)
 
     let filterString = ""
 

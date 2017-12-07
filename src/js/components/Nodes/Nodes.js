@@ -12,12 +12,15 @@ class Nodes extends Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props
-        dispatch(submitFilterString("nodes", 0))
+        const {dispatch, params} = this.props
+        if(!params.node) {
+            dispatch(submitFilterString("nodes", 0))
+        }
+
     }
 
     render() {
-        const {nodes, totalCount, isFetching, params} = this.props
+        const {nodes, totalCount, params} = this.props
 
       
         if (params.node) {

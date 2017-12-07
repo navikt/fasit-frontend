@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {Component} from "react";
+import {connect} from "react-redux";
 import EnvironmentCard from "./EnvironmentCard";
 import Filters from "../Navigation/Filters";
 import Environment from "./Environment";
-import { submitFilterString } from "../../actionCreators/element_lists";
+import {submitFilterString} from "../../actionCreators/element_lists";
 
 class Environments extends Component {
     constructor(props) {
@@ -11,15 +11,19 @@ class Environments extends Component {
     }
 
     componentDidMount() {
-        const { dispatch } = this.props
-        dispatch(submitFilterString("environments", 0))
+        const { dispatch, params } = this.props
+        if(!params.environment) {
+            dispatch(submitFilterString("environments", 0))
+        }
     }
 
     render() {
         const { environments, params, totalCount } = this.props
 
-        if (params.environment)
-            return <Environment name={params.environment} clusterName={params.cluster} />
+        if (params.environment) {
+            return <Environment name={params.environment} clusterName={params.cluster}/>
+        }
+
         return (
             <div className="main-content-container">
                 <div className="row">

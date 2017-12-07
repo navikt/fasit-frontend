@@ -12,8 +12,10 @@ class Resources extends Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props
-        dispatch(submitFilterString("resources", 0))
+        const {dispatch, params} = this.props
+        if(!params.resource) {
+            dispatch(submitFilterString("resources", 0))
+        }
     }
 
 
