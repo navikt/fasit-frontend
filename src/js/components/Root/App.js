@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from "react";
-import {connect} from "react-redux";
-import {browserHistory} from "react-router";
+import React, { Component, PropTypes } from "react";
+import { connect } from "react-redux";
+import { browserHistory } from "react-router";
 import Mousetrap from "mousetrap";
 import {
     fetchEnvironments,
@@ -8,15 +8,15 @@ import {
     fetchResourceTypes,
     fetchNodeTypes
 } from "../../actionCreators/fasit_initialize_data";
-import {displayModal, toggleHelp} from "../../actionCreators/common";
-import {displayLogin, logOut} from "../../actionCreators/authentication";
+import { displayModal, toggleHelp } from "../../actionCreators/common";
+import { displayLogin, logOut } from "../../actionCreators/authentication";
 import TopNav from "../Navigation/TopNav";
 import NewNodeForm from "../Nodes/NewNodeForm";
 import NewApplicationForm from "../Applications/NewApplicationForm";
 import NewEnvironmentForm from "../Environments/NewEnvironmentForm";
 import NewClusterForm from "../Environments/NewClusterForm";
 import NewResourceForm from "../Resources/NewResourceForm";
-import {SubmitFormStatus, KeyboardShortcuts, ErrorDialog} from "../common/";
+import { SubmitFormStatus, KeyboardShortcuts, ErrorDialog } from "../common/";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 class App extends Component {
@@ -26,7 +26,7 @@ class App extends Component {
 
     componentDidMount() {
         // pre-load fasit data
-        const {dispatch} = this.props
+        const { dispatch } = this.props
         dispatch(fetchEnvironments())
         dispatch(fetchApplicationNames())
         dispatch(fetchResourceTypes())
@@ -67,7 +67,7 @@ class App extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {user} = this.props
+        const { user } = this.props
         if (nextProps.user.authenticated && !user.authenticated) {
             this.protectedShortcuts()
         } else if (!nextProps.user.authenticated && user.authenticated) {
@@ -78,7 +78,7 @@ class App extends Component {
     render() {
         return (
             <MuiThemeProvider>
-                <div style={{outline: "none"}}>
+                <div style={{ outline: "none" }}>
                     <TopNav />
                     <div className="col-lg-11 col-lg-offset-1 col-md-11 col-md-offset-1 col-sm-12" >
                         {this.props.children}
@@ -90,15 +90,15 @@ class App extends Component {
                     <ErrorDialog />
                     <NewClusterForm />
                     <NewApplicationForm />
-                    <NewResourceForm/>
-                    <KeyboardShortcuts/>
+                    <NewResourceForm />
+                    <KeyboardShortcuts />
                 </div>
             </MuiThemeProvider>
         )
     }
 
     protectedShortcuts() {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
         Mousetrap.bind('n r', (e) => {
             e.preventDefault();
             dispatch(displayModal("resource", true))

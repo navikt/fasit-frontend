@@ -20,7 +20,6 @@ export default (state = initialState, action) => {
                 activePage: action.value
             })
         case SET_FILTER_CONTEXT:
-            console.log("setting filter ctx", action.value)
             return Object.assign({}, state, {
                 context: action.value
             })

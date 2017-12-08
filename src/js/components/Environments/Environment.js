@@ -99,7 +99,7 @@ export class Environment extends Component {
     }
 
     render() {
-        const { name,environment, user, query, revisions, dispatch } = this.props
+        const { name,environment, user, query, revisions, dispatch, resourceModalVisible } = this.props
         const { displayClusters, displayInstances, displayNodes, comment, adgroups, editMode } = this.state
         const envName = environment.name
         const envClass = environment.environmentclass
@@ -120,7 +120,7 @@ export class Environment extends Component {
                         <CardTitle title={`${envName}`} subtitle={`Environment class: ${envClass} `} />
                         <CardActions>
                             <ToolButtons
-                                disabled={!authorized}
+                                disabled={!authorized || resourceModalVisible }
                                 onEditClick={() => dispatch(displayModal("environment", true, "edit"))}
                                 onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                 onCopyClick={() => dispatch(displayModal("environment", true, "copy"))}
@@ -227,7 +227,8 @@ const mapStateToProps = (state) => {
         environment: state.environment_fasit.data,
         environmentClasses: state.environments.environmentClasses,
         revisions: state.revisions,
-        query: state.routing.locationBeforeTransitions.query
+        query: state.routing.locationBeforeTransitions.query,
+        resourceModalVisible: state.resources.showNewResourceForm
     }
 }
 

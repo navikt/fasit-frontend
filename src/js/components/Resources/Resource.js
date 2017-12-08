@@ -246,8 +246,7 @@ class Resource extends Component {
         // sortere resource types i filter på ressurser
         // I resources element list hvis ressurstypen med riktig casing
         // håndtere error i fetch secrets
-        // file upload
-        const { id, fasit, user, query, revisions, resource } = this.props
+        const { id, fasit, user, query, revisions, resource, resourceModalVisible } = this.props
         let authorized = false
         let lifecycle = {}
 
@@ -291,7 +290,7 @@ class Resource extends Component {
                                 {resource.type.toLowerCase() === "deploymentmanager" && <WebsphereManagementConsole hostname={resource.properties.hostname} />}
                             </CardText>
                             <CardActions>
-                                <ToolButtons disabled={!authorized}
+                                <ToolButtons disabled={!authorized || resourceModalVisible}
                                     onEditClick={() => this.showModal("edit")}
                                     onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                     onCopyClick={() => this.showModal("copy")}
@@ -360,7 +359,8 @@ const mapStateToProps = (state) => {
         user: state.user,
         config: state.configuration,
         query: state.routing.locationBeforeTransitions.query,
-        revisions: state.revisions
+        revisions: state.revisions,
+        resourceModalVisible: state.resources.showNewResourceForm
     }
 }
 

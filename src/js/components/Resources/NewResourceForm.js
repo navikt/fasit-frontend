@@ -1,13 +1,13 @@
-import React, {Component, PropTypes} from "react";
-import {Modal} from "react-bootstrap";
-import {connect} from "react-redux";
+import React, { Component, PropTypes } from "react";
+import { Modal } from "react-bootstrap";
+import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
-import {MaterialDropDown, MaterialTextArea, MaterialTextBox} from "../common/Forms";
-import {colors, icons, styles, styleSet} from "../../commonStyles/commonInlineStyles";
-import {capitalize} from "../../utils";
-import {displayModal, submitForm} from "../../actionCreators/common";
-import {getResourceTypeName, resourceTypes} from "../../utils/resourceTypes";
+import { MaterialDropDown, MaterialTextArea, MaterialTextBox } from "../common/Forms";
+import { colors, icons, styles, styleSet } from "../../commonStyles/commonInlineStyles";
+import { capitalize } from "../../utils";
+import { displayModal, submitForm } from "../../actionCreators/common";
+import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes";
 import Chip from "material-ui/Chip"
 import Scope from "./Scope";
 
