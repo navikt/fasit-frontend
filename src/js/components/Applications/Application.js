@@ -95,7 +95,7 @@ export class Application extends Component {
 
     render() {
         // console.log(this.props)
-        const {name, application, user, dispatch, query, revisions, instances} = this.props
+        const {name, application, user, dispatch, query, revisions, instances, resourceModalVisible} = this.props
         const {comment, adgroups, editMode} = this.state
         let lifecycle = {}
         let authorized = false
@@ -115,7 +115,7 @@ export class Application extends Component {
                                         subtitle={this.applicationInfo(application)}/>
                             <CardActions>
                                 <ToolButtons
-                                    disabled={!authorized}
+                                    disabled={!authorized || resourceModalVisible}
                                     onEditClick={() => dispatch(displayModal("application", true, "edit"))}
                                     onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                     onCopyClick={() => dispatch(displayModal("application", true, "copy"))}
@@ -187,7 +187,8 @@ const mapStateToProps = (state) => {
         config: state.configuration,
         revisions: state.revisions,
         query: state.routing.locationBeforeTransitions.query,
-        instances: state.application_instances.data
+        instances: state.application_instances.data,
+        resourceModalVisible: state.resources.showNewResourceForm
     }
 }
 

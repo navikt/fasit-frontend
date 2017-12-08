@@ -120,7 +120,7 @@ class Node extends Component {
     }
 
     render() {
-        const { hostname, config, user, node, query, dispatch } = this.props
+        const { hostname, config, user, node, query, dispatch, resourceModalVisible } = this.props
         const { secretVisible, adgroups, comment } = this.state
         const cluster = node.cluster ? <Link to={`/environments/${node.environment}/clusters/${node.cluster.name}`}>{node.cluster.name}</Link> : "Orphan node"
         let lifecycle = (Object.keys(node).length > 0) ? node.lifecycle : {}
@@ -191,7 +191,7 @@ class Node extends Component {
                         </CardText>
                         <CardActions>
                             <ToolButtons
-                                disabled={!authorized}
+                                disabled={!authorized || resourceModalVisible}
                                 onEditClick={() => this.showModal("edit")}
                                 onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                 onCopyClick={() => this.showModal("copy")}
@@ -209,13 +209,13 @@ class Node extends Component {
                 <div className="col-md-4">
                     <History id={hostname} currentRevision={query.revision} component="node" />
                     <CollapsibleList
-                    primaryText="Hardware"
-                    leftAvatar={icons.hardwareAvatar}
-                    initiallyOpen={true}
-                    nestedItems={<NodeSeraView key={hostname} hostname={hostname} />} />
+                        primaryText="Hardware"
+                        leftAvatar={icons.hardwareAvatar}
+                        initiallyOpen={true}
+                        nestedItems={<NodeSeraView key={hostname} hostname={hostname} />} />
                     <Security accesscontrol={node.accesscontrol}
                         displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")} />
-                    
+
                     <CollapsibleList
                         primaryText="Sensu status"
                         leftAvatar={icons.sensuStatusAvatar}
@@ -267,7 +267,8 @@ const mapStateToProps = (state, ownProps) => {
         hostname: ownProps.hostname,
         config: state.configuration,
         revisions: state.revisions,
-        query: state.routing.locationBeforeTransitions.query
+        query: state.routing.locationBeforeTransitions.query,
+        resourceModalVisible: state.resources.showNewResourceForm
     }
 }
 
