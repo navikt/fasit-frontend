@@ -4,7 +4,7 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { List, ListItem } from "material-ui/List"
 import { fetchRevisions } from "../../actionCreators/common";
-import { styles } from "../../commonStyles/commonInlineStyles"
+import { styles, icons } from "../../commonStyles/commonInlineStyles"
 
 class RevisionsView extends Component {
     constructor(props) {
@@ -73,13 +73,12 @@ class RevisionsView extends Component {
             <List style={{ paddingTop: '0px', padding: '0px' }}>
                 {displayRevisions.map((rev, idx) => {
                     const revisionQuery = `?revision=${rev.revision}`
-                    const style = rev.revision == currentRevision ? { fontSize: '14px', color: 'darken(#757575,90%)' } : { fontSize: '14px' }
-                    const className = rev.revision == currentRevision ? "revisionListItem currentRevision " : "revisionListItem"
                     return (
                         <ListItem
                             key={idx}
                             onClick={() => browserHistory.push(routing.pathname + revisionQuery)}
-                            style={{ fontSize: '14px', color: 'darken(#757575,90%)' }}
+                            style={{ fontSize: '14px' }}
+                            leftIcon={rev.revision == currentRevision ? icons.rightArrow : null}
                             insetChildren={true}
                             innerDivStyle={{ paddingBottom: '5px', paddingTop: '5px' }}
                             disableTouchRipple={true}

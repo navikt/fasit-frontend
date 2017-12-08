@@ -17,6 +17,7 @@ import Cancel from "material-ui/svg-icons/navigation/cancel";
 import Eye from "material-ui/svg-icons/image/remove-red-eye";
 import FileUpload from "material-ui/svg-icons/file/file-upload"
 import File from "material-ui/svg-icons/editor/insert-drive-file"
+import RightArrow from "material-ui/svg-icons/hardware/keyboard-arrow-right"
 
 export const colors = {
     white: '#ffffff',
@@ -97,6 +98,7 @@ export const icons = {
     resource: <i className="fa fa-cogs" />,
     historyAvatar: <Avatar icon={<Timeline />} />,
     securityAvatar: <Avatar icon={<Security />} />,
+    rightArrow: <RightArrow/>,
     linkAvatar: <Avatar icon={<Link />} backgroundColor={colors.avatarBackgroundColor} />,
     sensuStatusAvatar: <Avatar icon={<NewReleases />} />,
     hardwareAvatar: <Avatar icon={<Build />} />,
