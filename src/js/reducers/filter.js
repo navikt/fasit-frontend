@@ -1,10 +1,5 @@
-import {
-    SET_FILTER_CONTEXT,
-    CHANGE_FILTER,
-    CHANGE_PAGE,
-    CLEAR_FILTERS,
-    SET_FILTER
-} from '../actionTypes'
+import {CHANGE_FILTER, CHANGE_PAGE, CLEAR_FILTERS, SET_FILTER, SET_FILTER_CONTEXT} from '../actionTypes'
+
 export const initialState = {
     activePage: 0,
     context: '',
@@ -25,6 +20,7 @@ export default (state = initialState, action) => {
                 activePage: action.value
             })
         case SET_FILTER_CONTEXT:
+            console.log("setting filter ctx", action.value)
             return Object.assign({}, state, {
                 context: action.value
             })

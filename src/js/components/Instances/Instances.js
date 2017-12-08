@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {Component} from "react";
+import {connect} from "react-redux";
 import ElementPaging from "../common/ElementPaging";
 import InstanceCard from "./InstanceCard";
 import Filters from "../Navigation/Filters";
 import Instance from "./Instance";
-import { submitFilterString } from "../../actionCreators/element_lists";
+import {submitFilterString} from "../../actionCreators/element_lists";
 
 class Instances extends Component {
     constructor(props) {
@@ -12,12 +12,14 @@ class Instances extends Component {
     }
 
     componentDidMount() {
-        const { dispatch } = this.props
-        dispatch(submitFilterString("instances", 0))
+        const { dispatch, params } = this.props
+        if(!params.instance) {
+            dispatch(submitFilterString("instances", 0))
+        }
     }
 
     render() {
-        const { instances, totalCount, isFetching , params } = this.props
+        const { instances, totalCount , params } = this.props
 
         if (params.instance)
             return <Instance id={params.instance} />
