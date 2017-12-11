@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import {Link} from "react-router";
-import {Popover, OverlayTrigger} from "react-bootstrap";
-import {connect} from "react-redux";
-import {Login, AuraTools, NavSearch} from "../common/";
+import React, { Component } from "react";
+import { Link } from "react-router";
+import { Popover, OverlayTrigger } from "react-bootstrap";
+import { connect } from "react-redux";
+import { Login, AuraTools, NavSearch } from "../common/";
 import ContextMenu from "./ContextMenu";
-import {logOut, getUser, displayLogin} from "../../actionCreators/authentication";
-import {toggleHelp, displayModal} from "../../actionCreators/common";
+import { logOut, getUser, displayLogin } from "../../actionCreators/authentication";
+import { toggleHelp, displayModal } from "../../actionCreators/common";
 
 
 class TopNav extends Component {
@@ -19,49 +19,49 @@ class TopNav extends Component {
 
 
     showLogin(root) {
-        const {user, dispatch} = this.props
+        const { user, dispatch } = this.props
         return (
             <ul className="nav navbar-nav navbar-right">
                 {/* Nytt element*/}
                 {user.authenticated ? (
-                        <li>
-                            <OverlayTrigger
-                                trigger="focus"
-                                placement="bottom"
-                                id="toolsOverlay"
-                                overlay={this.toolsOverlay()}
-                            >
-                                <button
-                                    type="button"
-                                    className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
-                                    style={{marginTop: 8, marginRight: 10}}>
-                                    <span className="fa-stack" style={{marginRight: 5, marginBottom: 3}}><i
-                                        className="fa fa-circle fa-stack-2x user-icon"/><i
-                                        className="fa fa-plus fa-stack-1x fa-inverse" style={{marginTop: 1}}/></span>
-                                    New
+                    <li>
+                        <OverlayTrigger
+                            trigger="focus"
+                            placement="bottom"
+                            id="toolsOverlay"
+                            overlay={this.toolsOverlay()}
+                        >
+                            <button
+                                type="button"
+                                className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
+                                style={{ marginTop: 8, marginRight: 10 }}>
+                                <span className="fa-stack" style={{ marginRight: 5, marginBottom: 3 }}><i
+                                    className="fa fa-circle fa-stack-2x user-icon" /><i
+                                        className="fa fa-plus fa-stack-1x fa-inverse" style={{ marginTop: 1 }} /></span>
+                                New
                                 </button>
-                            </OverlayTrigger>
-                        </li>
-                    ) : null
+                        </OverlayTrigger>
+                    </li>
+                ) : null
                 }
 
                 {/* Logg inn eller brukermeny*/}
                 {!user.authenticated ? (
-                        <li>
-                            <button
-                                type="button"
-                                className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
-                                onClick={() => dispatch(displayLogin(true))}
-                                style={{marginTop: 8, marginRight: 10}}
-                            >
-                                <span className="fa-stack" style={{marginRight: 5, marginBottom: 3}}><i
-                                    className="fa fa-circle fa-stack-2x user-icon"/><i
-                                    className="fa fa-unlock-alt fa-stack-1x fa-inverse"/></span>
-                                Log in
+                    <li>
+                        <button
+                            type="button"
+                            className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
+                            onClick={() => dispatch(displayLogin(true))}
+                            style={{ marginTop: 8, marginRight: 10 }}
+                        >
+                            <span className="fa-stack" style={{ marginRight: 5, marginBottom: 3 }}><i
+                                className="fa fa-circle fa-stack-2x user-icon" /><i
+                                    className="fa fa-unlock-alt fa-stack-1x fa-inverse" /></span>
+                            Log in
                             </button>
-                        </li>
+                    </li>
 
-                    ) : (
+                ) : (
                         <li>
                             <OverlayTrigger
                                 trigger="click"
@@ -71,11 +71,11 @@ class TopNav extends Component {
                                 overlay={this.loginInformationOverlay()}
                             >
                                 <button type="button"
-                                        className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
-                                        style={{marginTop: 8}}>
-                            <span className="fa-stack" style={{marginRight: 5, marginBottom: 3}}><i
-                                className="fa fa-circle fa-stack-2x user-icon"/><i
-                                className="fa fa-user fa-stack-1x fa-inverse"/></span>{user.displayname}
+                                    className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
+                                    style={{ marginTop: 8 }}>
+                                    <span className="fa-stack" style={{ marginRight: 5, marginBottom: 3 }}><i
+                                        className="fa fa-circle fa-stack-2x user-icon" /><i
+                                            className="fa fa-user fa-stack-1x fa-inverse" /></span>{user.displayname}
                                 </button>
                             </OverlayTrigger>
                         </li>
@@ -91,8 +91,8 @@ class TopNav extends Component {
                     >
                         <img
                             src="/images/aura-ikoner/aurabot.png"
-                            style={{width: 30, marginTop: 11, marginRight: 30, marginLeft: 12, cursor: "pointer"}}
-                            className="topnavIcon"/>
+                            style={{ width: 30, marginTop: 11, marginRight: 30, marginLeft: 12, cursor: "pointer" }}
+                            className="topnavIcon" />
 
                     </OverlayTrigger>
                 </li>
@@ -100,10 +100,10 @@ class TopNav extends Component {
                 {/* Shortcuts */}
                 <li>
                     <button type="button"
-                            className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
-                            onClick={() => dispatch(toggleHelp())}
-                            style={{marginTop: 8}}>
-                        <i className="fa fa-2x fa-keyboard-o"/>
+                        className={root ? "btn btn-sm  btn-link topnav-buttons-inverse" : "btn btn-sm  btn-link topnav-buttons"}
+                        onClick={() => dispatch(toggleHelp())}
+                        style={{ marginTop: 8 }}>
+                        <i className="fa fa-2x fa-keyboard-o" />
                     </button>
                 </li>
             </ul>
@@ -111,7 +111,7 @@ class TopNav extends Component {
     }
 
     loginInformationOverlay() {
-        const {dispatch, user} = this.props
+        const { dispatch, user } = this.props
         return (
             <Popover id="login">
                 <h5>Roles</h5>
@@ -120,7 +120,7 @@ class TopNav extends Component {
                 </ul>
                 <hr />
                 <button
-                    style={{outline: "none"}}
+                    style={{ outline: "none" }}
                     type="button"
                     className="btn btn-info btn-sm"
                     onClick={() => dispatch(logOut())}
@@ -132,24 +132,24 @@ class TopNav extends Component {
     }
 
     toolsOverlay() {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
         return (
             <Popover id="tools">
                 <ul className="topnav-menu topnav-menu-selector">
                     <li onClick={() => dispatch(displayModal("resource", true))}><i
-                        className="fa fa-cogs"/> &nbsp;&nbsp; Create resource
+                        className="fa fa-cogs" /> &nbsp;&nbsp; Create resource
                     </li>
                     <li onClick={() => dispatch(displayModal("application", true))}><i
-                        className="fa fa-cube"/> &nbsp;&nbsp; Create application
+                        className="fa fa-cube" /> &nbsp;&nbsp; Create application
                     </li>
                     <li onClick={() => dispatch(displayModal("environment", true))}><i
-                        className="fa fa-sitemap"/> &nbsp;&nbsp; Create environment
+                        className="fa fa-sitemap" /> &nbsp;&nbsp; Create environment
                     </li>
                     <li onClick={() => dispatch(displayModal("node", true))}><i
-                        className="fa fa-server"/> &nbsp;&nbsp;Create node
+                        className="fa fa-server" /> &nbsp;&nbsp;Create node
                     </li>
                     <li onClick={() => dispatch(displayModal("cluster", true))}><i
-                        className="fa fa-braille"/> &nbsp;&nbsp; Create cluster
+                        className="fa fa-braille" /> &nbsp;&nbsp; Create cluster
                     </li>
                 </ul>
             </Popover>
@@ -157,7 +157,7 @@ class TopNav extends Component {
     }
 
     render() {
-        const {location} = this.props
+        const { location } = this.props
         return (location.pathname !== "/") ?
             (
                 <div>
@@ -165,12 +165,12 @@ class TopNav extends Component {
                         <div className="col-sm-1 col-md-2 hidden-xs">
                             <div className="topnav-brand-logo-container">
                                 <Link to="/">
-                                    <img src="/images/aura-ikoner/fasit-white.png" className="topnav-brand-logo"/>
+                                    <img src="/images/aura-ikoner/fasit-white.png" className="topnav-brand-logo" />
                                 </Link>
                             </div>
                         </div>
 
-                        <div className="col-xs-7 col-sm-6 col-md-4">
+                        <div className="col-xs-7 col-sm-6 col-md-6">
                             <NavSearch />
 
                         </div>
@@ -181,6 +181,12 @@ class TopNav extends Component {
                 </div>
             ) : (
                 <div className="topnav">
+                    <div style={{ backgroundColor: '#515d66', textAlign: 'center', color: 'white', width: '100%', height: '30px', paddingTop: '5px', verticalAlign: 'middle' }}>
+                        Velkommen til fasit med helt nytt utseende.
+
+                            <a href="https://fasit.adeo.no/fasut"> Gamle fasit</a> er tilgjengelig i en kort periode.
+                    &nbsp;<a href="https://confluence.adeo.no/display/AURA/Fasit+i+ny+drakt" target={"new"}> Mer informasjon</a>
+                    </div>
                     {this.showLogin("root")}
                     <Login />
                 </div>)

@@ -5,7 +5,7 @@ import Application from "./Application";
 import ApplicationCard from "./ApplicationCard";
 import {submitFilterString} from "../../actionCreators/element_lists";
 
-class Applications extends Component {
+export class Applications extends Component {
     constructor(props) {
         super(props)
     }
@@ -17,11 +17,9 @@ class Applications extends Component {
 
     render() {
         const {applications, totalCount, isFetching} = this.props
-
         if (isFetching) {
             return <div className="element-list"><i className="fa fa-spinner fa-pulse fa-2x"></i></div>
         }
-
         if (this.props.params.application) {
             return <Application name={this.props.params.application}/>
         } else {

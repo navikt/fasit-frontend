@@ -1,15 +1,16 @@
 import {
-    NAVSEARCH_RESULTS_RECEIVED,
     NAVSEARCH_REQUEST_FAILED,
     NAVSEARCH_RESULTS_FETCHING,
+    NAVSEARCH_RESULTS_RECEIVED,
     SET_NAVSEARCH_QUERY,
-
 } from '../actionTypes'
+import {sortSearchResults} from "../utils"
 
 export const initialState = {
     data: [],
+    searchResultTypes: [],
     requestFailed: false,
-    isFetching:false,
+    isFetching: false,
     query: ""
 }
 
@@ -21,23 +22,33 @@ export default (state = initialState, action) => {
                 requestFailed: false
             })
         case NAVSEARCH_RESULTS_RECEIVED:
-            return Object.assign({}, state, {
-                data: action.value,
-                requestFailed: false,
-                isFetching:false
-            })
+            return enrichAndSortSearchResults(state, action)
         case NAVSEARCH_RESULTS_FETCHING:
             return Object.assign({}, state, {
-                data: [],
                 isFetching: true
             })
         case NAVSEARCH_REQUEST_FAILED:
+            console.error("failed fetching navsearch", action)
             return Object.assign({}, state, {
                 requestFailed: action.error.message,
                 data: [],
-                isFetching:false
+                searchResultTypes: [],
+                isFetching: false
             })
         default:
             return state
     }
+}
+
+function enrichAndSortSearchResults(state, action) {
+    const navigationResult = { id: 0, name: `Search resources for ${state.query}`, type: "Quick navigation" }
+    const searchResultsWithQuickNav = [navigationResult, ...sortSearchResults(action.value)]
+    const types = [...new Set(searchResultsWithQuickNav.map(item => item.type))]
+
+    return Object.assign({}, state, {
+        data: searchResultsWithQuickNav,
+        searchResultTypes: types,
+        requestFailed: false,
+        isFetching: false
+    })
 }

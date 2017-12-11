@@ -1,17 +1,17 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {browserHistory, Link} from "react-router";
-import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from "material-ui/Toolbar";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { browserHistory, Link } from "react-router";
+import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from "material-ui/Toolbar";
 import RaisedButton from "material-ui/RaisedButton";
-import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
-import {APPCONFIG, CLUSTER, destinationUrl, INSTANCE, RESOURCE, SEARCH_RESULT_TYPES} from "../Search/searchResultTypes";
-import {colors, icons, styles} from "../../commonStyles/commonInlineStyles";
-import {CardInfo} from "../common/";
-import {capitalize} from "../../utils/";
-import {WebsphereManagementConsole} from "../common";
-import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
-import {setSearchString, submitSearch} from "../../actionCreators/common";
+import { Table, TableBody, TableRow, TableRowColumn } from "material-ui/Table";
+import { APPCONFIG, CLUSTER, destinationUrl, INSTANCE, RESOURCE, SEARCH_RESULT_TYPES } from "../Search/searchResultTypes";
+import { colors, icons, styles } from "../../commonStyles/commonInlineStyles";
+import { CardInfo } from "../common/";
+import { capitalize } from "../../utils/";
+import { WebsphereManagementConsole } from "../common";
+import { getResourceTypeName, resourceTypeIcon } from "../../utils/resourceTypes";
+import { setSearchString, submitSearch } from "../../actionCreators/common";
 import PrettyXml from "../common/PrettyXml";
 
 class Search extends Component {
@@ -22,7 +22,7 @@ class Search extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, params, location} = this.props
+        const { dispatch, params, location } = this.props
         if (params.query) {
             dispatch(setSearchString(params.query))
             dispatch(submitSearch(params.query, location.query.type))
@@ -30,7 +30,7 @@ class Search extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, params} = this.props
+        const { dispatch, params } = this.props
 
         if (nextProps.params.query && params.query != nextProps.params.query) {
             dispatch(submitSearch(nextProps.params.query))
@@ -39,24 +39,24 @@ class Search extends Component {
 
     // eget card element
     cellContents(key, value) {
-        const {params} = this.props
+        const { params } = this.props
 
         if (Array.isArray(value)) {
-            return value.map((v, idx) => (<span key={idx}>{v}<br/></span>))
+            return value.map((v, idx) => (<span key={idx}>{v}<br /></span>))
         }
 
         switch (key.toLowerCase()) {
             case "appconfig":
-                return <PrettyXml xml={value} filter={params.query}/>
+                return <PrettyXml xml={value} filter={params.query} />
             case "applicationproperties":
-                return value.split('\n').map((v, idx) => (<span key={idx}>{v}<br/></span>))
+                return value.split('\n').map((v, idx) => (<span key={idx}>{v}<br /></span>))
             default:
                 return value
         }
     }
 
     additionalCardInfo(searchResult) {
-        return (<CardInfo lastUpdated={searchResult.lastchange} lifecycle={searchResult.lifecycle}/>)
+        return (<CardInfo lastUpdated={searchResult.lastchange} lifecycle={searchResult.lifecycle} />)
     }
 
     searchResultCard(searchResult, idx) {
@@ -86,12 +86,12 @@ class Search extends Component {
             <div style={styles.paddingTop5} key={idx}>
                 <Card expandable={hasDetailedInfo} initiallyExpanded={false}>
                     <CardHeader title={<Link to={destinationUrl(searchResult)}>{title}</Link>}
-                                subtitle={subtitle}
-                                style={{paddingTop: '7px', paddingBottom: '7px'}}
-                                avatar={avatar}
-                                showExpandableButton={false}
-                                actAsExpander={true}
-                                children={this.additionalCardInfo(searchResult)}/>
+                        subtitle={subtitle}
+                        style={{ paddingTop: '7px', paddingBottom: '7px' }}
+                        avatar={avatar}
+                        showExpandableButton={false}
+                        actAsExpander={true}
+                        children={this.additionalCardInfo(searchResult)} />
 
                     {hasDetailedInfo && <CardText expandable={true} actAsExpander={true}>
                         <Table>
@@ -103,11 +103,11 @@ class Search extends Component {
                                         return (
                                             <TableRow key={di} selectable={false}>
                                                 <TableRowColumn style={styles.tableCellPadding}
-                                                                className={"col-sm-2"}>
+                                                    className={"col-sm-2"}>
                                                     {capitalize(di)}
                                                 </TableRowColumn>
                                                 <TableRowColumn style={styles.tableCellPadding}
-                                                                className="text-overflow">
+                                                    className="text-overflow">
                                                     {this.cellContents(di, detailedInfo[di])}
                                                 </TableRowColumn>
                                             </TableRow>)
@@ -116,47 +116,47 @@ class Search extends Component {
                         </Table>
                     </CardText>}
                     {searchResult.type === RESOURCE
-                    && searchResult.detailedinfo.type.toLowerCase() === 'deploymentmanager'
-                    && <CardActions actAsExpander={true} style={{paddingTop: '0px'}}>
-                        <WebsphereManagementConsole hostname={searchResult.detailedinfo.hostname}/>)
+                        && searchResult.detailedinfo.type.toLowerCase() === 'deploymentmanager'
+                        && <CardActions actAsExpander={true} style={{ paddingTop: '0px' }}>
+                            <WebsphereManagementConsole hostname={searchResult.detailedinfo.hostname} />)
                     </CardActions>}
                 </Card>
             </div>)
     }
 
     filterByType(type) {
-        const {searchQuery, dispatch} = this.props
+        const { searchQuery, dispatch } = this.props
         dispatch(submitSearch(searchQuery, type))
         const newPath = type ? `/search/${searchQuery}?type=${type}` : `/search/${searchQuery}`
         browserHistory.push(newPath)
     }
 
     resultTypeFilters() {
-        const {searchResults} = this.props
+        const { searchResults } = this.props
         const filter = searchResults.filter
         const resultTypes = toUniqeSortedArray(searchResults.data.map(result => result.type));
 
         return (
             <Toolbar>
                 <ToolbarGroup>
-                    <ToolbarTitle text="Filter"/>
+                    <ToolbarTitle text="Filter" />
                     {SEARCH_RESULT_TYPES.map((type) => {
-                            return (
-                                <FilterButton
+                        return (
+                            <FilterButton
                                 key={type}
                                 disabled={!resultTypes.includes(type)}
                                 activeFilter={filter}
                                 type={type}
-                                onClickHandler={() => this.filterByType(type)}/>)
+                                onClickHandler={() => this.filterByType(type)} />)
                     })}
 
                 </ToolbarGroup>
                 <ToolbarGroup>
-                    <ToolbarSeparator/>
+                    <ToolbarSeparator />
                     <RaisedButton label='clear' disabled={!searchResults.filter} disableTouchRipple={true}
-                                  backgroundColor={colors.toolbarBackground} labelColor={colors.white}
-                                  style={styles.raisedButton}
-                                  onTouchTap={() => this.filterByType()}/>
+                        backgroundColor={colors.toolbarBackground} labelColor={colors.white}
+                        style={styles.raisedButton}
+                        onTouchTap={() => this.filterByType()} />
                 </ToolbarGroup>
             </Toolbar>)
     }
@@ -185,7 +185,7 @@ const mapStateToProps = (state) => {
 }
 
 function FilterButton(props) {
-    const {type, onClickHandler, activeFilter, disabled} = props
+    const { type, onClickHandler, activeFilter, disabled } = props
     return (<RaisedButton
         key={type}
         label={type}
@@ -193,7 +193,7 @@ function FilterButton(props) {
         disabled={disabled}
         backgroundColor={activeFilter === type ? colors.toolbarBackground : colors.white}
         labelColor={activeFilter === type ? colors.white : colors.black}
-        onTouchTap={onClickHandler}/>)
+        onTouchTap={onClickHandler} />)
 }
 
 export default connect(mapStateToProps)(Search)

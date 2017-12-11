@@ -1,6 +1,6 @@
 module.exports = {
-    getResource:  function (id) {
-        return  resources.filter(r => r.id == id)[0]
+    getResource: function (id) {
+        return resources.filter(r => r.id == id)[0]
     },
 
     createResource: function (resource) {
@@ -12,7 +12,7 @@ module.exports = {
         const typeFilter = queryParams.type
 
         function byType(r) {
-            return  (typeFilter) ? r.type.toLowerCase() === typeFilter.toLowerCase() : true
+            return (typeFilter) ? r.type.toLowerCase() === typeFilter.toLowerCase() : true
         }
 
         function byScope(r) {
@@ -339,7 +339,7 @@ const resources = [
             "application": "joark"
         },
         "properties": {
-            "app.props.something": "some kins of value"
+            "applicationProperties": "app.props.something=some kins of value"
         },
         "secrets": {},
         "files": {},

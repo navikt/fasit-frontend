@@ -11,27 +11,31 @@ class Environments extends Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props
-        dispatch(submitFilterString("environments", 0))
+        const { dispatch, params } = this.props
+        if(!params.environment) {
+            dispatch(submitFilterString("environments", 0))
+        }
     }
 
     render() {
-        const {environments, params, totalCount} = this.props
+        const { environments, params, totalCount } = this.props
 
-        if (params.environment)
-            return <Environment name={params.environment} clusterName={params.cluster} />
+        if (params.environment) {
+            return <Environment name={params.environment} clusterName={params.cluster}/>
+        }
+
         return (
             <div className="main-content-container">
                 <div className="row">
                     <div className="col-sm-6 col-xs-12">
-                        <Filters />
+                        <Filters  />
                     </div>
                 </div>
                 <div className="col-sm-10">
                     <div className="row">
                         <h4>{totalCount} environments</h4>
-                        {environments.map((item, index)=> {
-                            return <EnvironmentCard environment={item} key={index}/>
+                        {environments.map((item, index) => {
+                            return <EnvironmentCard environment={item} key={index} />
                         })}
                     </div>
                 </div>

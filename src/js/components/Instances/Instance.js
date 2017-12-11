@@ -87,7 +87,7 @@ class Instance extends Component {
                                             key='environment'
                                             disabled={true}
                                             primaryText={<Link
-                                                to={`/environment/${instance.environment}`}>{instance.environment}</Link>}
+                                                to={`/environments/${instance.environment}`}>{instance.environment}</Link>}
                                             secondaryText="Environment"
                                         />
                                         <ListItem

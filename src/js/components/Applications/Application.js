@@ -19,7 +19,7 @@ import {
     ToolButtons
 } from "../common/";
 
-class Application extends Component {
+export class Application extends Component {
     constructor(props) {
         super(props)
 
@@ -94,7 +94,8 @@ class Application extends Component {
     }
 
     render() {
-        const {name, application, user, dispatch, query, revisions, instances} = this.props
+        // console.log(this.props)
+        const {name, application, user, dispatch, query, revisions, instances, resourceModalVisible} = this.props
         const {comment, adgroups, editMode} = this.state
         let lifecycle = {}
         let authorized = false
@@ -114,7 +115,7 @@ class Application extends Component {
                                         subtitle={this.applicationInfo(application)}/>
                             <CardActions>
                                 <ToolButtons
-                                    disabled={!authorized}
+                                    disabled={!authorized || resourceModalVisible}
                                     onEditClick={() => dispatch(displayModal("application", true, "edit"))}
                                     onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                     onCopyClick={() => dispatch(displayModal("application", true, "copy"))}
@@ -186,7 +187,8 @@ const mapStateToProps = (state) => {
         config: state.configuration,
         revisions: state.revisions,
         query: state.routing.locationBeforeTransitions.query,
-        instances: state.application_instances.data
+        instances: state.application_instances.data,
+        resourceModalVisible: state.resources.showNewResourceForm
     }
 }
 

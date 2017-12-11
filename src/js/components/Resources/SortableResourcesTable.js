@@ -1,9 +1,9 @@
 import React from "react";
 import DataTables from "material-ui-datatables";
 import moment from "moment";
-import {Link} from "react-router";
-import {capitalize} from "../../utils/";
-import {styles} from "../../commonStyles/commonInlineStyles";
+import { Link } from "react-router";
+import { capitalize } from "../../utils/";
+import { styles } from "../../commonStyles/commonInlineStyles";
 
 export default function SortableResourceTable(props) {
     const resources = props.resources
@@ -28,12 +28,21 @@ export default function SortableResourceTable(props) {
         })
     }
 
+    function renderLastChanged(lastchange) {
+        if (lastchange) {
+            moment.locale("en")
+            const momentTime = moment(lastchange)
+            return momentTime.format('DD MMM YYYY HH:mm:ss')
+        }
+        return "N/A"
+    }
+
     const columns = [
         {
             key: 'type',
             label: "Type",
             sortable: true,
-            render: (type, resource) => resource.deleted  ? <div style={styles.red}>Deleted</div> : capitalize(type)
+            render: (type, resource) => resource.deleted ? <div style={styles.red}>Deleted</div> : capitalize(type)
         },
         {
             key: 'alias',
@@ -46,8 +55,15 @@ export default function SortableResourceTable(props) {
             key: 'lastchange',
             label: "Last change",
             sortable: true,
-            render: (lastchange, resource) => lastchange ?`${moment(resource.deleted).fromNow()} (${resource.lastupdateby})` : 'N/A'
+            render: (lastchange) => renderLastChanged(lastchange)
+        },
+        {
+            key: 'lastupdateby',
+            label: "Changed by",
+            sortable: true,
+            render: (lastupdateby) => lastupdateby ? <div>{lastupdateby}</div> : "N/A"
         }
+
     ]
 
     return (
@@ -60,6 +76,6 @@ export default function SortableResourceTable(props) {
             tableRowStyle={styles.tableData}
             data={resources}
             showFooterToolbar={false}
-            onSortOrderChange={onSortOrderChange }
+            onSortOrderChange={onSortOrderChange}
         />)
 }

@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {validAuthorization} from "../../utils/";
-import {clearNodePassword, fetchFasitData, fetchNodePassword} from "../../actionCreators/node";
-import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
-import {List, ListItem} from "material-ui/List";
-import {Link} from "react-router";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { validAuthorization } from "../../utils/";
+import { clearNodePassword, fetchFasitData, fetchNodePassword } from "../../actionCreators/node";
+import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
+import { List, ListItem } from "material-ui/List";
+import { Link } from "react-router";
 import {
     AccessControl,
     CollapsibleList,
@@ -17,12 +17,12 @@ import {
     Security,
     ToolButtons
 } from "../common/";
-import {displayModal, rescueElement, submitForm} from "../../actionCreators/common";
+import { displayModal, rescueElement, submitForm } from "../../actionCreators/common";
 import NodeEventsView from "./NodeEventsView";
 import NodeGraph from "./NodeGraph";
 import NodeSeraView from "./NodeSeraView";
-import {icons, styles} from "../../commonStyles/commonInlineStyles";
-import {capitalize} from "../../utils";
+import { icons, styles } from "../../commonStyles/commonInlineStyles";
+import { capitalize } from "../../utils";
 
 class Node extends Component {
     constructor(props) {
@@ -39,7 +39,7 @@ class Node extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, hostname, query} = this.props
+        const { dispatch, hostname, query } = this.props
         dispatch(fetchFasitData(hostname, query.revision))
     }
 
@@ -48,12 +48,12 @@ class Node extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, hostname, query} = this.props
+        const { dispatch, hostname, query } = this.props
         this.setState({
             comment: ""
         })
         if (Object.keys(nextProps.node).length > 0) {
-            this.setState({adgroups: nextProps.node.accesscontrol.adgroups})
+            this.setState({ adgroups: nextProps.node.accesscontrol.adgroups })
         }
 
         if (nextProps.query.revision != query.revision) {
@@ -67,29 +67,29 @@ class Node extends Component {
     }
 
     showModal(mode) {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
         dispatch(displayModal("node", true, mode))
     }
 
     deleteNode(hostname) {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
         this.toggleComponentDisplay("displayDeleteForm")
         dispatch(submitForm(hostname, null, null, "deleteNode"))
     }
 
     rescueNode() {
-        const {dispatch, node} = this.props
-        const {comment} = this.state
+        const { dispatch, node } = this.props
+        const { comment } = this.state
         this.toggleComponentDisplay("displayRescueForm")
         dispatch(rescueElement(node.id, comment, "node"))
     }
 
     handleSubmitForm(key, form, comment, component) {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
 
-          if (component === "deleteNode") {
+        if (component === "deleteNode") {
             this.toggleComponentDisplay("displayDeleteForm")
-            this.setState({comment: ""})
+            this.setState({ comment: "" })
         } else if (component === "node" && this.state.displayAccessControlForm) {
             this.toggleComponentDisplay("displayAccessControlForm")
         }
@@ -103,8 +103,8 @@ class Node extends Component {
         })
     }
     toggleComponentDisplay(component) {
-        const {dispatch} = this.props
-        this.setState({[component]: !this.state[component]})
+        const { dispatch } = this.props
+        this.setState({ [component]: !this.state[component] })
         if (component === "editMode" && this.state.editMode)
             this.resetLocalState()
         if (component === "editMode" && !this.state.editMode)
@@ -112,17 +112,17 @@ class Node extends Component {
     }
 
     handleChange(field, value) {
-        this.setState({[field]: value})
+        this.setState({ [field]: value })
     }
 
     toggleDisplaySecret() {
-        this.setState({secretVisible: !this.state.secretVisible})
+        this.setState({ secretVisible: !this.state.secretVisible })
     }
 
     render() {
-        const {hostname, config, user, node, query} = this.props
-        const {secretVisible, adgroups, comment} = this.state
-        const cluster = node.cluster  ? <Link to={`/environments/${node.environment}/clusters/${node.cluster.name}`}>{node.cluster.name}</Link> : "Orphan node"
+        const { hostname, config, user, node, query, dispatch, resourceModalVisible } = this.props
+        const { secretVisible, adgroups, comment } = this.state
+        const cluster = node.cluster ? <Link to={`/environments/${node.environment}/clusters/${node.cluster.name}`}>{node.cluster.name}</Link> : "Orphan node"
         let lifecycle = (Object.keys(node).length > 0) ? node.lifecycle : {}
         let authorized = (Object.keys(node).length > 0) ? validAuthorization(user, node.accesscontrol) : false
         const password = this.props.currentPassword ? this.props.currentPassword : "No secret stored for this revision"
@@ -130,50 +130,50 @@ class Node extends Component {
         return (
             <div className="row">
                 <div className="col-md-6" style={styles.cardPadding}>
-                    <CurrentRevision revisionId={query.revision} revisions={this.props.revisions}/>
+                    <CurrentRevision revisionId={query.revision} revisions={this.props.revisions} />
 
                     <Card>
                         <CardHeader
-                        avatar={icons.node}
-                        title={hostname}
-                        titleStyle={styles.bold}
-                        subtitle={capitalize(node.type)}
+                            avatar={icons.node}
+                            title={hostname}
+                            titleStyle={styles.bold}
+                            subtitle={capitalize(node.type)}
                         />
                         <CardText>
                             <List>
                                 <ListItem
                                     key="environmentclass"
-                                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
                                     disabled={true}
                                     primaryText={node.environmentclass}
-                                    secondaryText="Environment class"/>
+                                    secondaryText="Environment class" />
                                 <ListItem
                                     key="environment"
-                                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
                                     disabled={true}
                                     primaryText={node.environment}
-                                    secondaryText="Environment"/>
+                                    secondaryText="Environment" />
                                 <ListItem
                                     key="zone"
-                                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
                                     disabled={true}
                                     primaryText={node.zone}
-                                    secondaryText="Zone"/>
+                                    secondaryText="Zone" />
                                 <ListItem
                                     key="cluster"
-                                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
                                     disabled={true}
                                     primaryText={cluster}
-                                    secondaryText="Cluster"/>
+                                    secondaryText="Cluster" />
                                 <ListItem
-                                key="username"
-                                style={{paddingTop: '0px', paddingBottom: '14px'}}
-                                disabled={true}
-                                primaryText={node.username}
-                                secondaryText="Username"/>
+                                    key="username"
+                                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
+                                    disabled={true}
+                                    primaryText={node.username}
+                                    secondaryText="Username" />
                                 <ListItem
                                     key="password"
-                                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
                                     disabled={true}
                                     primaryText={
                                         <div>
@@ -183,14 +183,15 @@ class Node extends Component {
                                                 accesscontrol={node.accesscontrol}
                                                 secretVisible={secretVisible}
                                                 toggleHandler={() => this.toggleDisplaySecret()}
+                                                dispatch={dispatch}
                                             />
                                         </div>}
-                                    secondaryText="Password"/>
+                                    secondaryText="Password" />
                             </List>
                         </CardText>
                         <CardActions>
                             <ToolButtons
-                                disabled={!authorized}
+                                disabled={!authorized || resourceModalVisible}
                                 onEditClick={() => this.showModal("edit")}
                                 onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                                 onCopyClick={() => this.showModal("copy")}
@@ -199,31 +200,33 @@ class Node extends Component {
                         </CardActions>
                     </Card>
                     <Lifecycle lifecycle={lifecycle}
-                               rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
-                               authorized={authorized}/>
+                        rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
+                        authorized={authorized} />
 
                 </div>
 
                 {/*Side menu*/}
                 <div className="col-md-4">
-                    <History id={hostname} currentRevision={query.revision} component="node"/>
+                    <History id={hostname} currentRevision={query.revision} component="node" />
+                    <CollapsibleList
+                        primaryText="Hardware"
+                        leftAvatar={icons.hardwareAvatar}
+                        initiallyOpen={true}
+                        nestedItems={<NodeSeraView key={hostname} hostname={hostname} />} />
                     <Security accesscontrol={node.accesscontrol}
-                              displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                        displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")} />
+
                     <CollapsibleList
                         primaryText="Sensu status"
                         leftAvatar={icons.sensuStatusAvatar}
                         initiallyOpen={false}
-                        nestedItems={<NodeEventsView key={hostname}/>}/>
-                    <CollapsibleList
-                        primaryText="Hardware"
-                        leftAvatar={icons.hardwareAvatar}
-                        initiallyOpen={false}
-                        nestedItems={<NodeSeraView key={hostname} hostname={hostname}/>}/>
+                        nestedItems={<NodeEventsView key={hostname} />} />
+
                     <CollapsibleList
                         primaryText="Grafana graph"
                         leftAvatar={icons.grafanaAvatar}
                         initiallyOpen={false}
-                        nestedItems={<NodeGraph key={hostname} url={config.grafana} hostname={hostname}/>}/>
+                        nestedItems={<NodeGraph key={hostname} url={config.grafana} hostname={hostname} />} />
                 </div>
 
                 {/* Misc. modals*/}
@@ -264,7 +267,8 @@ const mapStateToProps = (state, ownProps) => {
         hostname: ownProps.hostname,
         config: state.configuration,
         revisions: state.revisions,
-        query: state.routing.locationBeforeTransitions.query
+        query: state.routing.locationBeforeTransitions.query,
+        resourceModalVisible: state.resources.showNewResourceForm
     }
 }
 

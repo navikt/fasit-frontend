@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {FormDropDown} from '../common/Forms'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { MaterialDropDown } from '../common/Forms'
 
 class Scope extends Component {
 
@@ -8,65 +8,57 @@ class Scope extends Component {
         super(props)
     }
 
+    handleChange(field, newValue) {
+        const { scope, handleChange } = this.props
+        const newScope = { ...scope }
+        newScope[field] = newValue
 
-    render() {
-        const {editMode, scope, environmentClasses, environments, applications, zones} = this.props
-
-        if(!scope) {
-           return null
+        if (field === "environmentclass") {
+            newScope.environment = null
         }
 
-        if (!editMode) {
-            const envClass = scope.environmentclass ? scope.environmentclass : '-'
-            const environment = scope.environment ? scope.environment : '-'
-            const zone = scope.zone ? scope.zone : '-'
-            const application = scope.application ? scope.application : '-'
-
-
-
-            return (<div className="row">
-                <div className="col-md-3 FormLabel"><b>Scope:</b></div>
-                <div className="col-md-9 FormValue">{`${envClass} | ${zone} | ${environment} | ${application}`}</div>
-            </div>)
-        }
-        else {
-            return (<div className="well well-lg" style={{marginTop: "5px", paddingTop: "5px"}}>
-                    <div className="row FormLabel"><b>Scope:</b></div>
-                    <div className="row">
-                        {this.formListElement(
-                            "environmentclass",
-                            scope.environmentclass,
-                            environmentClasses
-                        )}
-                        {this.formListElement(
-                            "zone",
-                            scope.zone,
-                            zones
-                        )}
-                        {this.formListElement(
-                            "environment",
-                            scope.environment,
-                            environments.filter(e => scope.environmentclass === e.environmentclass).map(e => e.name)
-                        )}
-                        {this.formListElement(
-                            "application",
-                            scope.application,
-                            applications
-                        )}
-                    </div>
-                    <div className="col-xs-12" style={{height: 15 + 'px'}}></div>
-                </div>
-            )
-        }
+        handleChange("scope", newScope)
     }
 
-    formListElement(label, value, options) {
-        return <FormDropDown label={label}
-                             value={value ? value : '-'}
-                             editMode={this.props.editMode}
-                             handleChange={this.props.handleChange}
-                             options={options}
-                             parent="scope"/>
+    render() {
+        const { scope, environmentClasses, environments, applications, zones } = this.props
+
+        if (!scope) {
+            return null
+        }
+
+        return (
+            <div className="scope-well">
+                <div><b>Scope</b></div>
+                <MaterialDropDown
+                    field="environmentclass"
+                    value={scope.environmentclass}
+                    label="Environment class"
+                    options={environmentClasses}
+                    onChange={this.handleChange.bind(this)}
+                    fullWidth={false} />
+                <MaterialDropDown
+                    field="environment"
+                    value={scope.environment}
+                    label="Environment"
+                    options={[null].concat(environments.filter(e => scope.environmentclass === e.environmentclass).map(e => e.name))}
+                    onChange={this.handleChange.bind(this)} fullWidth={false} /><br />
+                <MaterialDropDown
+                    field="zone"
+                    value={scope.zone}
+                    label="Zone"
+                    options={[null].concat(zones)}
+                    onChange={this.handleChange.bind(this)}
+                    fullWidth={false} />
+                <MaterialDropDown
+                    field="application"
+                    value={scope.application}
+                    label="Application"
+                    options={[null].concat(applications)}
+                    onChange={this.handleChange.bind(this)}
+                    fullWidth={false} />
+            </div>
+        )
     }
 }
 

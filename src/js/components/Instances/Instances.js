@@ -12,19 +12,17 @@ class Instances extends Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props
-        dispatch(submitFilterString("instances", 0))
+        const { dispatch, params } = this.props
+        if(!params.instance) {
+            dispatch(submitFilterString("instances", 0))
+        }
     }
 
     render() {
-        const {instances, totalCount, isFetching} = this.props
+        const { instances, totalCount , params } = this.props
 
-        if (isFetching) {
-            return <div className="element-list"><i className="fa fa-spinner fa-pulse fa-2x"></i></div>
-        }
-
-        if (this.props.params.instance)
-            return <Instance id={this.props.params.instance} />
+        if (params.instance)
+            return <Instance id={params.instance} />
         return (
             <div className="main-content-container">
                 <div className="row">
@@ -35,7 +33,7 @@ class Instances extends Component {
                 <div className="col-sm-10">
                     <div className="row">
                         <h4>{totalCount} instances</h4>
-                        {instances.map((item, index)=> <InstanceCard instance={item} key={index}/>)}
+                        {instances.map((item, index) => <InstanceCard instance={item} key={index} />)}
                         <div className="col-sm-2 pull-right">
                             <ElementPaging />
                         </div>

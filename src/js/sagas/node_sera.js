@@ -1,6 +1,6 @@
-import {takeLatest} from 'redux-saga'
-import {call, put, fork, select} from 'redux-saga/effects'
-import {fetchUrl} from '../utils'
+import { takeLatest } from 'redux-saga'
+import { call, put, fork, select } from 'redux-saga/effects'
+import { fetchUrl } from '../utils'
 import {
     NODE_SERA_REQUEST,
     NODE_SERA_FETCHING,
@@ -9,16 +9,17 @@ import {
 } from '../actionTypes'
 
 export function* fetchSera(action) {
-    yield put({type: NODE_SERA_FETCHING})
+    yield put({ type: NODE_SERA_FETCHING })
 
     const configuration = yield select((state) => state.configuration)
     const url = `${configuration.sera_servers}?hostname=${action.hostname}`
 
     try {
         const value = yield fetchUrl(url, true)
-        yield put({type: NODE_SERA_RECEIVED, value})
+        yield put({ type: NODE_SERA_RECEIVED, value })
     } catch (error) {
-        yield put({type: NODE_SERA_REQUEST_FAILED, error})
+        console.log(error)
+        yield put({ type: NODE_SERA_REQUEST_FAILED, error })
 
     }
 }

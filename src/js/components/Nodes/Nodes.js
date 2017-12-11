@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import NodeCard from "./NodesCard";
 import ElementPaging from "../common/ElementPaging";
 import Filters from "../Navigation/Filters";
 import Node from "./Node";
-import {submitFilterString} from "../../actionCreators/element_lists";
+import { submitFilterString } from "../../actionCreators/element_lists";
 
 class Nodes extends Component {
     constructor(props) {
@@ -12,19 +12,18 @@ class Nodes extends Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props
-        dispatch(submitFilterString("nodes", 0))
+        const { dispatch, params } = this.props
+        if (!params.node) {
+            dispatch(submitFilterString("nodes", 0))
+        }
     }
 
     render() {
-        const {nodes, totalCount, isFetching} = this.props
+        const { nodes, totalCount, params } = this.props
 
-        if (isFetching) {
-            return <div className="element-list"><i className="fa fa-spinner fa-pulse fa-2x"></i></div>
-        }
 
-        if (this.props.params.node) {
-            return <Node hostname={this.props.params.node}/>
+        if (params.node) {
+            return <Node hostname={params.node} />
         }
 
         return (
@@ -37,7 +36,7 @@ class Nodes extends Component {
                 <div className="col-sm-10">
                     <div className="row">
                         <h4>{totalCount} nodes</h4>
-                        {nodes.map((item, index) => <NodeCard node={item} key={index}/>)}
+                        {nodes.map((item, index) => <NodeCard node={item} key={index} />)}
                         <div className="col-sm-2 pull-right">
                             <ElementPaging />
                         </div>

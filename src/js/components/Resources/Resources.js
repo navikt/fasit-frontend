@@ -12,19 +12,18 @@ class Resources extends Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props
-        dispatch(submitFilterString("resources", 0))
+        const {dispatch, params} = this.props
+        if(!params.resource) {
+            dispatch(submitFilterString("resources", 0))
+        }
     }
 
+
     render() {
-        const {resources, totalCount, isFetching} = this.props
+        const {resources, totalCount, params} = this.props
 
-        if (isFetching) {
-            return <div className="element-list"><i className="fa fa-spinner fa-pulse fa-2x"></i></div>
-        }
-
-        if (this.props.params.resource) {
-            return <Resource id={this.props.params.resource}/>
+        if (params.resource) {
+            return <Resource id={params.resource}/>
         }
         return (
             <div className="main-content-container">
@@ -56,7 +55,8 @@ const mapStateToProps = (state) => {
     return {
         resources: state.resources.data,
         totalCount: state.resources.headers.total_count,
-        isFetching: state.resources.isFetching
+        isFetching: state.resources.isFetching,
+        location: state.routing.locationBeforeTransitions
     }
 }
 

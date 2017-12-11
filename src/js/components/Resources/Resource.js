@@ -38,7 +38,7 @@ class Resource extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, id, query} = this.props
+        const { dispatch, id, query } = this.props
         if (query) {
             dispatch(fetchFasitData(id, query.revision))
         } else {
@@ -47,7 +47,7 @@ class Resource extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {dispatch, id, query} = this.props
+        const { dispatch, id, query } = this.props
 
         if (nextProps.id != id) {
             this.resetState(initialState)
@@ -65,7 +65,7 @@ class Resource extends Component {
     }
 
     buildFormData() {
-        const {resource} = this.props
+        const { resource } = this.props
         const form = {
             alias: resource.alias,
             type: resource.type,
@@ -76,7 +76,7 @@ class Resource extends Component {
         if (Object.keys(this.props.currentSecrets).length > 0) {
             form.secrets = {}
             Object.keys(this.props.currentSecrets).forEach(k => {
-                form.secrets[k] = {value: this.props.currentSecrets[k]}
+                form.secrets[k] = { value: this.props.currentSecrets[k] }
             })
         }
 
@@ -88,34 +88,34 @@ class Resource extends Component {
     }
 
     rescueResource() {
-        const {dispatch} = this.props
-        const {comment} = this.state
+        const { dispatch } = this.props
+        const { comment } = this.state
         this.toggleComponentDisplay("displayRescueForm")
         dispatch(rescueElement(this.props.id, comment, "resource"))
     }
 
     deleteResource(key) {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
         this.toggleComponentDisplay("displayDeleteForm")
         dispatch(submitForm(key, null, null, "deleteResource"))
     }
 
     updateAccessControl() {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
         const comment = "Changed accesscontrol rules"
         const form = this.buildFormData()
-        form.accesscontrol = {adgroups: this.state.adgroups}
+        form.accesscontrol = { adgroups: this.state.adgroups }
         this.toggleComponentDisplay("displayAccessControlForm")
         dispatch(submitForm(this.props.id, form, comment, "resource"))
     }
 
 
     toggleComponentDisplay(component) {
-        this.setState({[component]: !this.state[component]})
+        this.setState({ [component]: !this.state[component] })
     }
 
     toggleDisplaySecret() {
-        this.setState({secretVisible: !this.state.secretVisible})
+        this.setState({ secretVisible: !this.state.secretVisible })
     }
 
 
@@ -123,14 +123,14 @@ class Resource extends Component {
         if (parent) {
             const parentState = this.state[parent]
             parentState[field] = value
-            this.setState({parent: parentState})
+            this.setState({ parent: parentState })
         } else {
-            this.setState({[field]: value})
+            this.setState({ [field]: value })
         }
     }
 
     renderResourceProperties() {
-        const {resource} = this.props
+        const { resource } = this.props
         const type = this.getResourceType(resource.type)
         return (
             <List>
@@ -140,18 +140,18 @@ class Resource extends Component {
     }
 
     renderProperty(property, resource) {
-        const {user} = this.props
-        const {secretVisible} = this.state
+        const { user, dispatch } = this.props
+        const { secretVisible } = this.state
         const propertyName = property.displayName
         const key = property.name
-        const {properties} = resource
+        const { properties, files } = resource
 
         switch (property.type) {
             case "textbox":
             case "dropdown":
                 return <ListItem
                     key={key}
-                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
                     disabled={true}
                     className="text-overflow"
                     primaryText={properties[key]}
@@ -160,7 +160,7 @@ class Resource extends Component {
             case "link":
                 return <ListItem
                     key={key}
-                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
                     disabled={true}
                     className="text-overflow"
                     primaryText={<Link to={properties[key]} target="new">{property.linkTitle || properties[key]}</Link>}
@@ -169,7 +169,7 @@ class Resource extends Component {
             case "textarea":
                 return <ListItem
                     key={key}
-                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
                     disabled={true}
                     className="text-overflow"
                     primaryText={<pre><code>{properties[key]}</code></pre>}
@@ -180,22 +180,31 @@ class Resource extends Component {
 
                 return <ListItem
                     key={key}
-                    style={{paddingTop: '0px', paddingBottom: '14px'}}
+                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
                     disabled={true}
                     className="text-overflow"
                     primaryText=
-                        { <div>
-                            {secretVisible ? secretText : "*********"}
-                            <SecretToggle
-                                user={user}
-                                accesscontrol={resource.accesscontrol}
-                                secretVisible={secretVisible}
-                                toggleHandler={() => this.toggleDisplaySecret()}
-                            />
-                        </div>}
+                    {<div>
+                        {secretVisible ? secretText : "*********"}
+                        <SecretToggle
+                            user={user}
+                            accesscontrol={resource.accesscontrol}
+                            secretVisible={secretVisible}
+                            toggleHandler={() => this.toggleDisplaySecret()}
+                            dispatch={dispatch}
+                        />
+                    </div>}
                     secondaryText={propertyName}
                 />
             case "file":
+                return <ListItem
+                    key={key}
+                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
+                    disabled={true}
+                    className="text-overflow"
+                    primaryText={<Link to={files[key].ref} target="new"><i className={"fa fa-file-o fa-fw"}/>{files[key].filename}</Link>}
+                    secondaryText={propertyName}
+                />
                 break
         }
     }
@@ -205,14 +214,14 @@ class Resource extends Component {
         if (exposedBy) {
             const displayString = `${exposedBy.application} (${exposedBy.version}) in ${exposedBy.environment}`
             return (
-            <ListItem
-                key={exposedBy.id}
-                style={{paddingTop: '0px', paddingBottom: '14px'}}
-                disabled={true}
-                className="text-overflow"
-                primaryText={<Link to={`/instances/${exposedBy.id}`}>{displayString}</Link>}
-                secondaryText="Exposed by"
-            />)
+                <ListItem
+                    key={exposedBy.id}
+                    style={{ paddingTop: '0px', paddingBottom: '14px' }}
+                    disabled={true}
+                    className="text-overflow"
+                    primaryText={<Link to={`/instances/${exposedBy.id}`}>{displayString}</Link>}
+                    secondaryText="Exposed by"
+                />)
         }
     }
 
@@ -227,27 +236,24 @@ class Resource extends Component {
     }
 
     showModal(mode) {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
         dispatch(displayModal("resource", true, mode))
     }
 
     render() {
-        // handle isvalid() alt som er required
         // Fikse resource types slik at vi slipper å håndtere casing. For eksempel lage felt for display name
         // Sortere miljøer riktig i utils
         // sortere resource types i filter på ressurser
         // I resources element list hvis ressurstypen med riktig casing
         // håndtere error i fetch secrets
-        // file upload
-
-        const {id, fasit, user, query, revisions, resource} = this.props
+        const { id, fasit, user, query, revisions, resource, resourceModalVisible } = this.props
         let authorized = false
         let lifecycle = {}
 
 
         if (fasit.requestFailed) {
             if (fasit.requestFailed.startsWith("404")) {
-                return (<NotFound/>)
+                return (<NotFound />)
             }
             return <div>Retrieving resource {id} failed with the following message:
                 <br />
@@ -269,7 +275,7 @@ class Resource extends Component {
             <div>
                 <div className="row">
                     <div className="col-md-8" style={styles.cardPadding}>
-                        { <CurrentRevision revisionId={query.revision} revisions={revisions}/>}
+                        {<CurrentRevision revisionId={query.revision} revisions={revisions} />}
                         <Card>
                             <CardHeader
                                 avatar={resourceTypeIcon(resource.type)}
@@ -281,31 +287,31 @@ class Resource extends Component {
                             <CardText >
                                 {this.renderResourceProperties(resource.properties)}
                                 {this.exposedByApplication()}
-                                {resource.type.toLowerCase() === "deploymentmanager" && <WebsphereManagementConsole hostname={resource.properties.hostname}/>}
+                                {resource.type.toLowerCase() === "deploymentmanager" && <WebsphereManagementConsole hostname={resource.properties.hostname} />}
                             </CardText>
                             <CardActions>
-                                <ToolButtons disabled={!authorized}
-                                             onEditClick={() => this.showModal("edit")}
-                                             onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                                             onCopyClick={() => this.showModal("copy")}
-                                             editMode={this.state.editMode}
+                                <ToolButtons disabled={!authorized || resourceModalVisible}
+                                    onEditClick={() => this.showModal("edit")}
+                                    onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
+                                    onCopyClick={() => this.showModal("copy")}
+                                    editMode={this.state.editMode}
                                 />
                             </CardActions>
                         </Card>
                         <Lifecycle lifecycle={lifecycle}
-                                   rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
-                                   authorized={authorized}/>
+                            rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
+                            authorized={authorized} />
                     </div>
 
                     <div className="col-md-4">
-                        <History id={id} currentRevision={query.revision} component="resource"/>
+                        <History id={id} currentRevision={query.revision} component="resource" />
                         <Security accesscontrol={fasit.data.accesscontrol}
-                                  displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")}/>
+                            displayAccessControlForm={() => this.toggleComponentDisplay("displayAccessControlForm")} />
                     </div>
                 </div>
 
                 <div className="row col-md-8">
-                    <ResourceInstances instances={fasit.data.usedbyapplications}/>
+                    <ResourceInstances instances={fasit.data.usedbyapplications} />
                 </div>
 
                 <RescueElementForm
@@ -353,7 +359,8 @@ const mapStateToProps = (state) => {
         user: state.user,
         config: state.configuration,
         query: state.routing.locationBeforeTransitions.query,
-        revisions: state.revisions
+        revisions: state.revisions,
+        resourceModalVisible: state.resources.showNewResourceForm
     }
 }
 

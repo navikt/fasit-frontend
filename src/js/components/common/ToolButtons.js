@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Mousetrap from 'mousetrap'
 import IconButton from 'material-ui/IconButton'
-import {styles, icons} from '../../commonStyles/commonInlineStyles'
+import { styles, icons } from '../../commonStyles/commonInlineStyles'
 
 export default class ToolButtons extends Component {
     constructor(props) {
@@ -9,7 +9,7 @@ export default class ToolButtons extends Component {
     }
 
     componentDidMount() {
-        const {disabled, onEditClick, onDeleteClick, onCopyClick} = this.props
+        const { disabled, onEditClick, onDeleteClick, onCopyClick } = this.props
         if (!disabled) {
             Mousetrap.bind('c', onCopyClick)
             Mousetrap.bind('d', onDeleteClick)
@@ -18,7 +18,7 @@ export default class ToolButtons extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {onEditClick, onDeleteClick, onCopyClick, editMode} = this.props
+        const { onEditClick, onDeleteClick, onCopyClick, editMode } = this.props
         if (!nextProps.disabled) {
             Mousetrap.bind('c', onCopyClick)
             Mousetrap.bind('d', onDeleteClick)
@@ -39,7 +39,7 @@ export default class ToolButtons extends Component {
 
 
     render() {
-        const {disabled, onEditClick, onDeleteClick, onCopyClick} = this.props
+        const { disabled, onEditClick, onDeleteClick, onCopyClick } = this.props
         const disabledString = 'Log in or make sure you have access'
         return (
 

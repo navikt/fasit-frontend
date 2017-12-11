@@ -43,7 +43,7 @@ export const isEmptyObject = (obj) => {
 }
 
 export function capitalize(label) {
-    if(!label) {
+    if (!label) {
         return ""
     }
     return "" + label.charAt(0).toUpperCase() + label.slice(1)
@@ -121,9 +121,9 @@ export const fetchPage = (url) => {
 }
 
 export const putUrl = (url, content, comment) => {
-    let headers = {"Content-Type": "application/json"}
+    let headers = { "Content-Type": "application/json" }
     if (comment && comment.length > 0) {
-        headers = Object.assign({}, headers, {"X-Comment": comment})
+        headers = Object.assign({}, headers, { "X-Comment": comment })
     }
     return fetch(url, {
         headers,
@@ -145,9 +145,9 @@ export const putUrl = (url, content, comment) => {
 }
 
 export const postUrl = (url, form, comment) => {
-    let headers = {"Content-Type": "application/json"}
+    let headers = { "Content-Type": "application/json" }
     if (comment && comment.length > 0) {
-        headers = Object.assign({}, headers, {"X-Comment": comment})
+        headers = Object.assign({}, headers, { "X-Comment": comment })
     }
     return fetch(url, {
         headers,
@@ -165,7 +165,7 @@ export const postUrl = (url, form, comment) => {
 
                 })
             }
-            return text
+            return res
         })
 }
 
@@ -180,7 +180,7 @@ export const sortBy = (property) => {
 
 export const postForm = (url, body) => {
     return fetch(url, {
-        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
         credentials: 'include',
         method: 'POST',
         body
@@ -194,9 +194,9 @@ export const postForm = (url, body) => {
         })
 }
 export const deleteUrl = (url, comment) => {
-    let headers = {"Content-Type": "application/json"}
+    let headers = { "Content-Type": "application/json" }
     if (comment && comment.length > 0) {
-        headers = Object.assign({}, headers, {"X-Comment": comment})
+        headers = Object.assign({}, headers, { "X-Comment": comment })
     }
     return fetch(url, {
         headers,

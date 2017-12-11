@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import Select from 'react-select'
 import {connect} from 'react-redux'
-import {changeFilter, submitFilterString} from '../../actionCreators/element_lists'
+import {changeFilter, clearFilters, setFilter, submitFilterString} from '../../actionCreators/element_lists'
+import {isEmptyObject} from '../../utils'
 
 
 class Filters extends Component {
@@ -9,23 +10,36 @@ class Filters extends Component {
         super(props)
     }
 
+
+    componentDidMount() {
+        const { dispatch, location } = this.props
+        dispatch(clearFilters())
+
+        if (!isEmptyObject(location.query)) {
+            dispatch(setFilter(location.query))
+        }
+    }
+
+
     handleChangeFilter(filterName, filterValue) {
-        const {dispatch, filter} = this.props
+        const { dispatch, filter } = this.props
         dispatch(changeFilter(filterName, filterValue))
         dispatch(submitFilterString(filter.context, 0))
     }
 
     convertToSelectObject(values) {
         return values.map(value => {
-            return {value, label: value}
+            return { value, label: value }
         })
     }
 
+
+
     environmentFilter() {
         // if environmentclass is set, display only environments in that environmentclass
-        const {filter} = this.props
+        const { filter } = this.props
         const filteredEnvironments = this.props.environments.filter((env) => {
-            if (!filter.filters.environmentclass){
+            if (!filter.filters.environmentclass) {
                 return true
             } else {
                 return env.environmentclass === filter.filters.environmentclass
@@ -62,7 +76,7 @@ class Filters extends Component {
     }
 
     zoneFilter() {
-        const {filter} = this.props
+        const { filter } = this.props
         return (
             <div className="form-group Select-environmentclass">
                 <Select
@@ -87,7 +101,7 @@ class Filters extends Component {
                     name="form-field-name"
                     value={this.props.filter.filters.environmentclass}
                     options={this.convertToSelectObject(this.props.environmentClasses)}
-                    onChange={(e) => this.handleChangeFilter("environmentclass", e.value)}/>
+                    onChange={(e) => this.handleChangeFilter("environmentclass", e.value)} />
             </div>
         )
     }
@@ -128,7 +142,7 @@ class Filters extends Component {
                 <input
                     placeholder="Alias"
                     className="form-control"
-                    style={{height: "34px"}}
+                    style={{ height: "34px" }}
                     type="text"
                     value={this.props.filter.filters.alias}
                     onChange={(e) => this.handleChangeFilter("alias", e.target.value)}
@@ -138,14 +152,14 @@ class Filters extends Component {
     }
 
     generateFiltersFromContext() {
-        const {filter} = this.props
+        const { filter } = this.props
+
         switch (filter.context) {
             case "applications":
                 return (
                     <div className="form-inline filters">
                     </div>
                 )
-
             case "instances":
                 return (
                     <div className="form-inline filters">
@@ -180,22 +194,13 @@ class Filters extends Component {
 
                     </form>
                 )
-            default:
-                return (
-                    <div className="form-inline  filters">
-                        {this.classFilter()}
-                        {this.environmentFilter()}
-                        {this.nodeTypeFilter()}
-                        {this.applicationFilter()}
-                    </div>
-                )
         }
     }
 
     render() {
         return (<div>
-                {this.generateFiltersFromContext()}
-            </div>
+            {this.generateFiltersFromContext()}
+        </div>
         )
     }
 }
@@ -207,7 +212,8 @@ const mapStateToProps = (state) => {
         environmentClasses: state.environments.environmentClasses,
         nodeTypes: state.nodes.nodeTypes,
         zones: state.environments.zones,
-        resourceTypes: state.resources.resourceTypes.sort()
+        resourceTypes: state.resources.resourceTypes.sort(),
+        location: state.routing.locationBeforeTransitions
     }
 }
 
