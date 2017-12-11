@@ -15,7 +15,7 @@ console.log("getting configuration", process.env)
         fasit_baseurl: process.env['FASIT_URL'],
         grafana: process.env['GRAFANA_URL'],
         jira: process.env['JIRA_URL'],
-        sera_servers: process.env['SERA_SERVERS_URL'],
+        sera_servers: process.env['SERA_SERVERS_V1_URL'],
         sensu_api: process.env['SENSU_API_URL']
     }
 }
