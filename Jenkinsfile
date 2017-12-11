@@ -7,7 +7,7 @@ node {
     def application = "fasit-frontend"
     def dockerDir = "./docker"
     def distDir = "${dockerDir}/dist"
-    def releaseVersion //= "197.0.0"
+    def releaseVersion
 
     try {
         stage("checkout") {
@@ -15,26 +15,16 @@ node {
         }
 
         stage("initialize") {
-            //mvnHome = tool "maven-3.3.9"
-            //mvn = "${mvnHome}/bin/mvn"
             npm = "/usr/bin/npm"
             node = "/usr/bin/node"
 			changelog = sh(script: 'git log `git describe --tags --abbrev=0`..HEAD --oneline', returnStdout: true)
             releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
-            //sh "git push origin master"
 
-             // aborts pipeline if releaseVersion already is released
-             //sh "if [ \$(curl -s -o /dev/null -I -w \"%{http_code}\" http://maven.adeo.no/m2internal/no/nav/aura/${application}/${application}/${releaseVersion}) != 404 ]; then echo \"this version is somehow already released, manually update to a unreleased SNAPSHOT version\"; exit 1; fi"
+
              committer = sh(script: 'git log -1 --pretty=format:"%ae (%an)"', returnStdout: true).trim()
              committerEmail = sh(script: 'git log -1 --pretty=format:"%ae"', returnStdout: true).trim()
         }
 
-        //stage("create version") {
-                    //sh "${mvn} versions:set -f app-config/pom.xml -DgenerateBackupPoms=false -B -DnewVersion=${releaseVersion}"
-                    //sh "git commit -am \"set version to ${releaseVersion} (from Jenkins pipeline)\""
-
-
-       // }
 
         stage("build frontend bundle") {
                 withEnv(['HTTP_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
@@ -54,10 +44,6 @@ node {
                     sh "sudo docker push ${imageName}"
         }
 
-       // stage("publish app-config artifact") {
-         //       sh "${mvn} clean deploy -f app-config/pom.xml -DskipTests -B -e"
-        //}
-
         stage("publish yaml") {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nexusUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
              sh "curl -s -F r=m2internal -F hasPom=false -F e=yaml -F g=${groupId} -F a=${application} -F v=${releaseVersion} -F p=yaml -F file=@${appConfig} -u ${env.USERNAME}:${env.PASSWORD} http://maven.adeo.no/nexus/service/local/artifact/maven/content"
@@ -70,26 +56,32 @@ node {
             sh "git push --tags"
             sh "git push origin naisify"
         }
-       // stage("jilease") {
-         //       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jiraServiceUser', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-           //         sh "/usr/bin/jilease -jiraUrl https://jira.adeo.no -project AURA -application ${application} -version $releaseVersion -username $env.USERNAME -password $env.PASSWORD"
-             //   }
-        //}
 
-        stage("deploy to cd-u1") {
+        stage("deploy to !prod") {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                     sh "curl -k -d \'{\"application\": \"${application}\", \"version\": \"${releaseVersion}\", \"environment\": \"cd-u1\", \"zone\": \"fss\", \"namespace\": \"default\", \"username\": \"${env.USERNAME}\", \"password\": \"${env.PASSWORD}\"}\' https://daemon.nais.preprod.local/deploy"
                 }
         }
 
-       // stage("deploy to production") {
-         //       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-           //         sh "${mvn} aura:deploy -Dapps=${application}:${releaseVersion} -Denv=p -Dusername=${env.USERNAME} -Dpassword=${env.PASSWORD} -Dorg.slf4j.simpleLogger.log.no.nav=debug -B -Ddebug=true -e"
-             //   }
-       // }
+        stage("verify resources") {
+            retry(15) {
+                sleep 5
+                httpRequest consoleLogResponseBody: true,
+                        ignoreSslErrors: true,
+                        responseHandle: 'NONE',
+                        url: 'https://fasit-frontend.nais.preprod.local/isalive',
+                        validResponseCodes: '200'
+            }
+        }
 
-        //def successmessage = "Successfully deployed fasit-frontend:${releaseVersion} to prod :partyparrot: \nhttps://fasit-frontend.adeo.no\nLast commit by ${committer}: ${changelog}"
-        //slackSend channel: '#nye_fasit', message: successmessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
+        stage("deploy to prod") {
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                sh "curl -k -d \'{\"application\": \"${application}\", \"version\": \"${releaseVersion}\", \"environment\": \"p\", \"zone\": \"fss\", \"namespace\": \"default\", \"username\": \"${env.USERNAME}\", \"password\": \"${env.PASSWORD}\"}\' https://daemon.nais.adeo.no/deploy"
+            }
+        }
+
+        def successmessage = ":nais: Successfully deployed fasit-frontend:${releaseVersion} to prod :partyparrot: \nhttps://fasit-frontend.adeo.no\nLast commit by ${committer}: ${changelog}"
+        slackSend channel: '#nais_internal', message: successmessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
 
     } catch(e) {
         //currentBuild.result = "FAILED"
