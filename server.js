@@ -1,9 +1,5 @@
 const path = require('path')
 const express = require('express')
-// const request = require('request')
-// const proxy = require('proxy-middleware')
-// const fs = require('fs')
-// const https = require('https')
 
 const environmentsMock = require('./test/mockend/environmentsMock')
 const resourcesMock = require('./test/mockend/resourcesMock')

@@ -1,12 +1,9 @@
 const path = require('path');
 const express = require('express');
-//const proxy = require('proxy-middleware')
-//const fs = require('fs')
-//const http = require('http')
-
-
 const config = require('./config')
 const selftest = require('./selftest')
+const prometheus = require('prom-client')
+prometheus.collectDefaultMetrics()
 
 const app = new express();
 
@@ -22,13 +19,15 @@ app.get('/isalive', (req, res) => {
 
 app.get('/selftest', selftest.selftest)
 
+app.get('/metrics', (req, res) => {
+    res.set('Content-Type', prometheus.register.contentType);
+    res.end(prometheus.register.metrics());
+});
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
 })
-// const httpServer = http.createServer({
-//     key: fs.readFileSync(config.server.tlsPrivateKey),
-//     cert: fs.readFileSync(config.server.tlsCert)
-// }, app);
+
 
 app.listen(config.server.port, function () {
     console.log('running on port %d', config.server.port)
