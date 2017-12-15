@@ -11,4 +11,5 @@ tasks.json
 *.crt
 *.pem
 *.key
+*lock
 src/js/components/Environments/Environment.js
