@@ -81,15 +81,11 @@ node {
         }
 
         def successmessage = ":nais: Successfully deployed fasit-frontend:${releaseVersion} to prod :partyparrot: \nhttps://fasit-frontend.adeo.no\nLast commit by ${committer}: ${changelog}"
-        slackSend channel: '#nais-internal', message: successmessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
+        slackSend channel: '#nye_fasit', message: successmessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
 
     } catch(e) {
-        //currentBuild.result = "FAILED"
-        //GString message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}"
-        //mail body: message, from: "jenkins@aura.adeo.no", subject: "FAILED to complete ${env.JOB_NAME}", to: committerEmail
-
-       // slackSend channel: '#nye_fasit', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
-
+        def message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}"
+        slackSend channel: '#nais-internal', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
         throw e
     }
 }

@@ -18,6 +18,7 @@ import Eye from "material-ui/svg-icons/image/remove-red-eye";
 import FileUpload from "material-ui/svg-icons/file/file-upload"
 import File from "material-ui/svg-icons/editor/insert-drive-file"
 import RightArrow from "material-ui/svg-icons/hardware/keyboard-arrow-right"
+import Warning from "material-ui/svg-icons/alert/warning"
 
 export const colors = {
     white: '#ffffff',
@@ -95,10 +96,11 @@ export const icons = {
     fileAvatar: <Avatar color={colors.white} backgroundColor={colors.toolbarBackground} icon={<File />} />,
     delete: <Delete hoverColor={colors.pink} />,
     copy: <Copy hoverColor={colors.pink} />,
+    warning: <Warning color={colors.orange} />,
     resource: <i className="fa fa-cogs" />,
     historyAvatar: <Avatar icon={<Timeline />} />,
     securityAvatar: <Avatar icon={<Security />} />,
-    rightArrow: <RightArrow/>,
+    rightArrow: <RightArrow />,
     linkAvatar: <Avatar icon={<Link />} backgroundColor={colors.avatarBackgroundColor} />,
     sensuStatusAvatar: <Avatar icon={<NewReleases />} />,
     hardwareAvatar: <Avatar icon={<Build />} />,
