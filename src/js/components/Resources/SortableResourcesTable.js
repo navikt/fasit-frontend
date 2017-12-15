@@ -3,10 +3,16 @@ import DataTables from "material-ui-datatables";
 import moment from "moment";
 import { Link } from "react-router";
 import { capitalize } from "../../utils/";
-import { styles } from "../../commonStyles/commonInlineStyles";
+import { styles, icons } from "../../commonStyles/commonInlineStyles";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export default function SortableResourceTable(props) {
-    const resources = props.resources
+    const { resources, instanceLastChanged } = props
+
+    const tooltip = (
+        <Tooltip id="tooltip">
+            Resource was changed after appinstance was deployed<br /> {moment(instanceLastChanged).format('DD MMM YYYY HH:mm:ss')}
+        </Tooltip>)
 
     function onSortOrderChange(key, order) {
         return resources.sort((a, b) => {
@@ -62,10 +68,15 @@ export default function SortableResourceTable(props) {
             label: "Changed by",
             sortable: true,
             render: (lastupdateby) => lastupdateby ? <div>{lastupdateby}</div> : "N/A"
+        },
+        {
+            key: 'lastchange',
+            label: "Status",
+            style: { width: 100 },
+            render: (lastchange) => moment(lastchange).isAfter(moment(instanceLastChanged)) ? <OverlayTrigger placement="left" overlay={tooltip}><div>{icons.warning}</div></OverlayTrigger> : ""
         }
 
     ]
-
     return (
         <DataTables
             height='auto'

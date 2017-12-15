@@ -112,7 +112,7 @@ class Instance extends Component {
                                 <Tab
                                     label={`Used resources ${instance.usedresources.length}`}
                                     disableTouchRipple={true}>
-                                    <SortableResourceTable resources={instance.usedresources}/>
+                                    <SortableResourceTable resources={instance.usedresources} instanceLastChanged={instance.updated}/>
                                 </Tab>
                                 <Tab
                                     label={`Exposed resources ${instance.exposedresources.length}`}
