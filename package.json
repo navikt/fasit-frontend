@@ -30,7 +30,7 @@
         "FASIT_URL": "https://e34jbsl01655.devillo.no:8443",
         "GRAFANA_URL": "https://grafana.adeo.no",
         "JIRA_URL": "http://jira-q1.adeo.no",
-        "SERA_SERVERS_URL": "https://sera.adeo.no/api/v1/servers",
+        "SERA_SERVERS_V1_URL": "https://sera.adeo.no/api/v1/servers",
         "SENSU_API_URL": "https://sensu-api.adeo.no"
       }
     },
@@ -66,7 +66,7 @@
         "FASIT_URL": "http://localhost:6969",
         "GRAFANA_URL": "https://grafana.adeo.no",
         "JIRA_URL": "http://jira-q1.adeo.no",
-        "SERA_SERVERS_URL": "https://sera.adeo.no/api/v1/servers",
+        "SERA_SERVERS_V1_URL": "https://sera.adeo.no/api/v1/servers",
         "SENSU_API_URL": "https://sensu-api.adeo.no"
       }
     },
