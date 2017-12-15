@@ -54,7 +54,7 @@ node {
         stage("set version") {
             sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
             sh "git push --tags"
-            sh "git push origin master"
+          //  sh "git push origin master"
         }
 
         stage("deploy to !prod") {
