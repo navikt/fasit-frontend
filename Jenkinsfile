@@ -53,9 +53,11 @@ node {
 
 
         stage("set version") {
-            sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
-            sh "git push --tags"
-            sh "git push origin master"
+             withEnv(['HTTP_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
+                sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
+                sh "git push --tags"
+                sh "git push origin master"
+             }
         }
 
         stage("deploy to !prod") {
