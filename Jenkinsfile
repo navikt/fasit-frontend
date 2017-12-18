@@ -11,6 +11,7 @@ node {
 
     try {
         stage("checkout") {
+                sh "echo git url ${GIT_URL}"
                 git credentialsId: 'jenkins-github', url: "https://github.com/navikt/fasit-frontend.git"
 
         }
@@ -46,14 +47,14 @@ node {
         }
 
         stage("set version") {
-             //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                 withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
-                    //sh "echo ${env.USERNAME}:${env.PASSWORD}"
-                    sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
-                    sh "git push --tags"
-                    sh "git push"
+                    '${env.USERNAME}:${env.PASSWORD}'
+                    sh 'git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}'
+                    sh 'git push ${USERNAME}:${PASSWORD}@https://github.com/navikt/fasit-frontend.git --tags'
+                    sh 'git push push ${USERNAME}:${PASSWORD}@https://github.com/navikt/fasit-frontend.git'
                 }
-             //}
+             }
         }
 
         stage("publish yaml") {
