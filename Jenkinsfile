@@ -11,7 +11,7 @@ node {
 
     try {
         stage("checkout") {
-                git url: "https://github.com/navikt/fasit-frontend.git"
+                git  url: "https://github.com/navikt/fasit-frontend.git"
 
         }
 
@@ -48,6 +48,7 @@ node {
         stage("set version") {
              withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                 withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
+                    sh "echo ${env.USERNAME}:${env.PASSWORD}"
                     sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
                     sh "git push https://${env.USERNAME}:${env.PASSWORD}@github.com/navikt/fasit-frontend.git --tags"
                     sh "git push https://${env.USERNAME}:${env.PASSWORD}@github.com/navikt/fasit-frontend.git"
