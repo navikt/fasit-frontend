@@ -11,7 +11,7 @@ node {
 
     try {
         stage("checkout") {
-                git credentialsId: 'jenkins-github' url: "https://github.com/navikt/fasit-frontend.git"
+                git credentialsId: 'jenkins-github', url: "https://github.com/navikt/fasit-frontend.git"
 
         }
 
