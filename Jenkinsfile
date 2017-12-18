@@ -11,17 +11,16 @@ node {
 
     try {
         stage("checkout") {
-                git credentialsId: 'jenkins-github', url: "https://github.com/navikt/fasit-frontend.git"
-
+            git credentialsId: 'jenkins-github', url: "https://github.com/navikt/fasit-frontend.git"
         }
 
         stage("initialize") {
             npm = "/usr/bin/npm"
             node = "/usr/bin/node"
 
-            def lastCommit = sh(script: 'git log -1 --pretty=format:%B', returnStdout: true) 
+            def lastCommitter = sh(script: 'git log -1 --pretty=format:%an', returnStdout: true) 
             
-            if (lastCommit.contains('[skip ci]')) {
+            if (lastCommitter.equals('AURA Jenkins')) {
                 currentBuild.result = 'ABORTED'
                 error('Skipping build')
             }   
