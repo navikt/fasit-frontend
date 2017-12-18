@@ -11,7 +11,7 @@ node {
 
     try {
         stage("checkout") {
-                git url: "ssh://git@stash.devillo.no:7999/aura/${application}.git",  branch: "naisify"
+                git url: "ssh://git@stash.devillo.no:7999/aura/${application}.git"
         }
 
         stage("initialize") {
