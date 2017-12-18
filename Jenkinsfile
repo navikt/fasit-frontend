@@ -18,6 +18,14 @@ node {
         stage("initialize") {
             npm = "/usr/bin/npm"
             node = "/usr/bin/node"
+
+            def lastCommit = git log -1 --pretty=format:%B  
+            
+            if (lastCommit.contains('[skip ci]')) {
+                currentBuild.result = 'ABORTED'
+                error('Skipping build')
+            }   
+
 			changelog = sh(script: 'git log `git describe --tags --abbrev=0`..HEAD --oneline', returnStdout: true)
             releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
 
@@ -88,9 +96,12 @@ node {
         slackSend channel: '#nye_fasit', message: successmessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
 
     } catch(e) {
-        def message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}"
-        slackSend channel: '#nais-internal', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
-        throw e
+        if(!e.message.contains('Skipping build')) {
+            def message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}\nError message: ${e.message}"
+            slackSend channel: '#nais-internal', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
+            throw e
+        }
+        
     }
 }
 
