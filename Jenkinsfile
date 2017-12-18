@@ -11,7 +11,7 @@ node {
 
     try {
         stage("checkout") {
-                git credentialsId: 'jenkins-github', url: "https://github.com/navikt/fasit-frontend.git"
+                git url: "https://github.com/navikt/fasit-frontend.git"
 
         }
 
@@ -53,10 +53,12 @@ node {
 
 
         stage("set version") {
-             withEnv(['HTTP_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
-                sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
-                sh "git push --tags"
-                sh "git push origin master"
+             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                withEnv(['HTTP_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
+                    sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
+                    sh "git push https://${env.USERNAME}:${env.PASSWORD}@github.com/navikt/fasit-frontend.git --tags"
+                    sh "git push https://${env.USERNAME}:${env.PASSWORD}@github.com/navikt/fasit-frontend.git"
+                }
              }
         }
 
@@ -88,7 +90,7 @@ node {
 
     } catch(e) {
         def message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}"
-        slackSend channel: '#nais-internal', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
+       // slackSend channel: '#nais-internal', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
         throw e
     }
 }
