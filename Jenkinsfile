@@ -89,7 +89,7 @@ node {
 
     } catch(e) {
         def message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}"
-       // slackSend channel: '#nais-internal', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
+        slackSend channel: '#nais-internal', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
         throw e
     }
 }
