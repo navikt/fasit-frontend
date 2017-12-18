@@ -49,8 +49,8 @@ node {
              withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                 withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
                     sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
-                    sh "git push ${USERNAME}:${PASSWORD}@https://github.com/navikt/fasit-frontend.git --tags"
-                    sh "git push push ${USERNAME}:${PASSWORD}@https://github.com/navikt/fasit-frontend.git"
+                    sh "git push https://${USERNAME}:${PASSWORD}@github.com/navikt/fasit-frontend.git --tags"
+                    sh "git push push https://${USERNAME}:${PASSWORD}@github.com/navikt/fasit-frontend.git"
                 }
              }
         }
