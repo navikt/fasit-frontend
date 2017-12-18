@@ -19,7 +19,7 @@ node {
             npm = "/usr/bin/npm"
             node = "/usr/bin/node"
 
-            def lastCommit = git log -1 --pretty=format:%B  
+            def lastCommit = sh(script: 'git log -1 --pretty=format:%B', returnStdout: true) 
             
             if (lastCommit.contains('[skip ci]')) {
                 currentBuild.result = 'ABORTED'
@@ -56,7 +56,7 @@ node {
         stage("set version") {
              withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jenkins-github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                 withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
-                    sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
+                    sh "git tag -a ${application}-${releaseVersion} -m '${application}-${releaseVersion} [skip ci]'"
                     sh "git push  --set-upstream https://${USERNAME}:${PASSWORD}@github.com/navikt/fasit-frontend.git --tags"
                     sh "git push  --set-upstream https://${USERNAME}:${PASSWORD}@github.com/navikt/fasit-frontend.git master"
                 }
