@@ -12,13 +12,20 @@ node {
 
     try {
         stage("checkout") {
-                git credentialsId: 'jenkins-github', url: "https://github.com/navikt/fasit-frontend.git"
-
+            git credentialsId: 'jenkins-github', url: "https://github.com/navikt/fasit-frontend.git"
         }
 
         stage("initialize") {
             npm = "/usr/bin/npm"
             node = "/usr/bin/node"
+
+            def lastCommitter = sh(script: 'git log -1 --pretty=format:%an', returnStdout: true) 
+            
+            if (lastCommitter.equals('AURA Jenkins')) {
+                currentBuild.result = 'ABORTED'
+                error('Skipping build')
+            }   
+
 			changelog = sh(script: 'git log `git describe --tags --abbrev=0`..HEAD --oneline', returnStdout: true)
             releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
              committer = sh(script: 'git log -1 --pretty=format:"%ae (%an)"', returnStdout: true).trim()
@@ -45,14 +52,13 @@ node {
         }
 
         stage("set version") {
-             //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'srvauraautodeploy', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jenkins-github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                 withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
-                    //sh "echo ${env.USERNAME}:${env.PASSWORD}"
-                    sh "git tag -a ${application}-${releaseVersion} -m ${application}-${releaseVersion}"
-                    sh "git push --tags"
-                    sh "git push"
+                    sh "git tag -a ${application}-${releaseVersion} -m '${application}-${releaseVersion}'"
+                    sh "git push  --set-upstream https://${USERNAME}:${PASSWORD}@github.com/navikt/fasit-frontend.git --tags"
+                    sh "git push  --set-upstream https://${USERNAME}:${PASSWORD}@github.com/navikt/fasit-frontend.git master"
                 }
-             //}
+             }
         }
 
         stage("publish yaml") {
@@ -88,9 +94,12 @@ node {
         slackSend channel: '#nye_fasit', message: successmessage, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
 
     } catch(e) {
-        def message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}"
-       // slackSend channel: '#nais-internal', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
-        throw e
+        if(!e.message.contains('Skipping build')) {
+            def message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}\nError message: ${e.message}"
+            slackSend channel: '#nais-internal', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
+            throw e
+        }
+        
     }
 }
 

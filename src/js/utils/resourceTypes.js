@@ -82,7 +82,7 @@ export const resourceTypes = {
     Credential: {
         icon: "fa fa-key",
         properties: [
-            textbox("username"),
+            textbox("username", "Username", false),
             secret("password")]
     },
     Certificate: {
