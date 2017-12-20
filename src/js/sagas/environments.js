@@ -1,13 +1,13 @@
 import {takeEvery} from "redux-saga";
-import {put, fork, select} from "redux-saga/effects";
+import {fork, put, select} from "redux-saga/effects";
 import {fetchUrl} from "../utils";
-import {ENVIRONMENTS_REQUEST, ENVIRONMENTS_RECEIVED} from "../actionTypes";
+import {ENVIRONMENTS_RECEIVED, ENVIRONMENTS_REQUEST} from "../actionTypes";
 
 export function* fetchEnvironments() {
     const url = yield select((state) => state.configuration.fasit_environments)
 
     try {
-        const environmentNames = yield fetchUrl(url)
+        const environmentNames = yield fetchUrl(url + "?pr_page=1000");
         const value = environmentNames.map(env => {
             return {name: env.name, environmentclass: env.environmentclass}
         })
