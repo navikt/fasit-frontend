@@ -1,7 +1,7 @@
 
-if (process.env['NODE_ENV'] === 'production' || process.env['NODE_ENV'] === 'standalone') {
+if (process.env['NODE_ENV'] === 'production' || process.env ['NODE_ENV'] === 'standalone') {
 
-    console.log("getting configuration", process.env)
+console.log("getting configuration", process.env)
     exports.externalResources = {
         fasit_resources: process.env['FASIT_RESOURCES_V2_URL'],
         fasit_environments: process.env['FASIT_ENVIRONMENTS_V2_URL'],
@@ -15,7 +15,7 @@ if (process.env['NODE_ENV'] === 'production' || process.env['NODE_ENV'] === 'sta
         fasit_baseurl: process.env['FASIT_URL'],
         grafana: process.env['GRAFANA_URL'],
         jira: process.env['JIRA_URL'],
-        sera_servers: "http://sera",
+        sera_servers: "process.env['SERA_SERVERS_V1_URL']",
         sensu_api: process.env['SENSU_API_URL']
     }
 }
