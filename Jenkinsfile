@@ -1,6 +1,7 @@
 
 node {
     def npm, node // tools
+
     def groupId = "nais"
     def appConfig = "nais.yaml"
     def committer, committerEmail, changelog // metadata
@@ -27,8 +28,6 @@ node {
 
 			changelog = sh(script: 'git log `git describe --tags --abbrev=0`..HEAD --oneline', returnStdout: true)
             releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
-
-
              committer = sh(script: 'git log -1 --pretty=format:"%ae (%an)"', returnStdout: true).trim()
              committerEmail = sh(script: 'git log -1 --pretty=format:"%ae"', returnStdout: true).trim()
         }
