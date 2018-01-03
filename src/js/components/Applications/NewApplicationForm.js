@@ -1,9 +1,9 @@
-import React, {Component, PropTypes} from "react";
-import {Modal} from "react-bootstrap";
-import {connect} from "react-redux";
-import {FormComment, FormString} from "../common/Forms";
-import {capitalize} from "../../utils";
-import {displayModal, submitForm} from "../../actionCreators/common";
+import React, { Component, PropTypes } from "react";
+import { Modal } from "react-bootstrap";
+import { connect } from "react-redux";
+import { FormComment, FormString } from "../common/Forms";
+import { capitalize } from "../../utils";
+import { displayModal, submitForm } from "../../actionCreators/common";
 
 export class NewApplicationForm extends Component {
     constructor(props) {
@@ -17,10 +17,10 @@ export class NewApplicationForm extends Component {
         }
     }
 
-    componentWillReceiveProps(next){
-        const {application} = this.props
-        const {name, groupid, artifactid, portoffset} = application
-        if (next.mode === "edit"  || next.mode === "copy"){
+    componentWillReceiveProps(next) {
+        const { application } = this.props
+        const { name, groupid, artifactid, portoffset } = application
+        if (next.mode === "edit" || next.mode === "copy") {
             this.setState({
                 name,
                 groupid,
@@ -45,12 +45,12 @@ export class NewApplicationForm extends Component {
     }
 
     handleChange(field, value) {
-        this.setState({[field]: value})
+        this.setState({ [field]: value })
     }
 
     handleSubmitForm() {
-        const {dispatch, mode} = this.props
-        const {name, artifactid, groupid, portoffset, comment} = this.state
+        const { dispatch, mode } = this.props
+        const { name, artifactid, groupid, portoffset, comment } = this.state
         const form = {
             name,
             artifactid,
@@ -58,7 +58,7 @@ export class NewApplicationForm extends Component {
             portoffset,
         }
 
-        if(mode === "edit") {
+        if (mode === "edit") {
             dispatch(submitForm(this.props.application.name, form, comment, "application"))
         }
         else {
@@ -67,18 +67,19 @@ export class NewApplicationForm extends Component {
     }
 
     closeForm() {
-        const {dispatch} = this.props
+        const { dispatch } = this.props
         this.resetLocalState()
         dispatch(displayModal("application", false))
     }
 
     showSubmitButton() {
-        const {name, artifactid, groupid, portoffset} = this.state
-        if (name && artifactid && groupid && portoffset) {
+        const { name, artifactid, groupid, portoffset } = this.state
+
+        if (name && artifactid && groupid && !isNaN(portoffset)) {
             return (
                 <button type="submit"
-                        className="btn btn-primary pull-right"
-                        onClick={this.handleSubmitForm.bind(this, true)}>Submit
+                    className="btn btn-primary pull-right"
+                    onClick={this.handleSubmitForm.bind(this, true)}>Submit
                 </button>
             )
         }
@@ -87,18 +88,18 @@ export class NewApplicationForm extends Component {
     }
 
     render() {
-        const {showNewApplicationForm, mode, application} = this.props
+        const { showNewApplicationForm, mode, application } = this.props
         return (
             <Modal show={showNewApplicationForm} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
                     <Modal.Title>
                         <span className="fa-stack fa-lg">
-                            <i className="fa fa-circle fa-stack-2x"/>
-                            <i className="fa fa-cube fa-stack-1x fa-inverse"/>
+                            <i className="fa fa-circle fa-stack-2x" />
+                            <i className="fa fa-cube fa-stack-1x fa-inverse" />
                         </span> &emsp;
-                        {mode && `${capitalize(mode)} application ${mode !== 'new' ? application.name : ''}` }
+                        {mode && `${capitalize(mode)} application ${mode !== 'new' ? application.name : ''}`}
                         <button id="resetBtn" type="reset" className="btn btn-link pull-right"
-                                onClick={this.closeForm.bind(this)}><strong>X</strong>
+                            onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>
                     </Modal.Title>
                 </Modal.Header>
@@ -127,7 +128,7 @@ export class NewApplicationForm extends Component {
                         value={this.state.portoffset.toString()}
                         handleChange={this.handleChange.bind(this)}
                     />
-                    <div className="col-xs-12" style={{height: 15 + 'px'}}></div>
+                    <div className="col-xs-12" style={{ height: 15 + 'px' }}></div>
                 </Modal.Body>
                 <Modal.Footer>
                     <FormComment
