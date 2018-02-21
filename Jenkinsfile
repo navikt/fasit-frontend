@@ -52,7 +52,7 @@ node {
         }
 
         stage("set version") {
-             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jenkins-github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'navikt-ci', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                 withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
                     sh "git tag -a ${application}-${releaseVersion} -m '${application}-${releaseVersion}'"
                     sh "git push  --set-upstream https://${USERNAME}:${PASSWORD}@github.com/navikt/fasit-frontend.git --tags"
