@@ -118,6 +118,22 @@ module.exports = [
         }
     },
     {
+        "type": "OpenIdConnect",
+        "requiredproperties": [
+            "username",
+            "hostUrl",
+            "issuerUrl",
+            "jwksUrl"
+        ],
+        "requiredsecrets": [
+            "password"
+        ],
+        "documentation": {
+            "doc": "Applikasjonen kan konfigurere OpenIdConnect som sikkerhetsmodul som vil opprette ISSO agent i OpenAM. Denne ressursen vil så kunne brukes for å hente ut tokens fra OpenAM",
+            "appconfiglink": "https://confluence.adeo.no/x/8iBaD"
+        }
+    },
+    {
         "type": "Cics",
         "requiredproperties": [
             "cicsname",
