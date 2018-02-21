@@ -103,6 +103,17 @@ export const resourceTypes = {
             textbox("username"),
             secret("password")]
     },
+    OpenIdConnect: {
+        backgroundColor: blueGrey800,
+        color: orange400,
+        icon: "fa fa-sign-in",
+        properties: [
+            textbox("agentname", "Agent name"),
+            secret("password"),
+            textbox("hosturl", "Host URL"),
+            textbox("issuerurl", "Issuer URL"),
+            textbox("jwksurl", "JWKS URL")]
+    },
     Cics: {
         icon: "fa fa-tty",
         properties: [
