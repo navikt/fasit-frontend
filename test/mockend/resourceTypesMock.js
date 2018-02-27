@@ -373,5 +373,20 @@ module.exports = [
             "doc": "For kanal \n\nScoping: Defineres typisk innenfor miljø, domene, miljøklasse og applikasjon.\nNavne-konvensjon for name: Miljønavn_Applikasjonsnavn. \n",
             "appconfiglink": "http://confluence.adeo.no/x/glhPCg"
         }
-    }
+    },
+    {
+        "type": "SoapService",
+        "requiredproperties": [
+          "endpointUrl",
+          "securityToken"
+        ],
+        "optionalproperties": [
+          "description",
+          "wsdlUrl"
+        ],
+        "documentation": {
+          "doc": "Brukes til å definere opp web-tjenester som benyttes i applikasjonen. Disse vil bli automatisk opprettet i env-config ved deploy av en applikasjon som har definert \"exposed-services\". \n\nForskjellen på denne ressurstypen kontra Webservice endpoint er at denne ikke plukkes opp av provisjoneringen av tjenester til service gateway\nEksponering: System properties \nScoping: Defineres typisk innenfor miljø, domene og miljøklasse.\nNavnestandard alias:  Kortnavn på tjenesten. Se linker under:",
+          "appconfiglink": "http://confluence.adeo.no/x/4YsfB"
+        }
+      }
 ]

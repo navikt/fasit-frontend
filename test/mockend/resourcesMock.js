@@ -696,6 +696,34 @@ const resources = [
         }
     },
     {
+        "type": "soapservice",
+        "alias": "somekindofsoapservice",
+        "scope": {
+            "environmentclass": "q"
+        },
+        "properties": {
+            "securityToken": "NONE",
+            "endpointUrl": "https://thisissoap.com",
+            "wsdlUrl": "http://maven.com/path.to.artifact.zip"
+        },
+        "secrets": {},
+        "files": {},
+        "dodgy": false,
+        "id": 43,
+        "created": "2013-08-09T12:36:11.306",
+        "updated": "2013-08-09T12:36:11.306",
+        "lifecycle": {},
+        "accesscontrol": {
+            "environmentclass": "q",
+            "adgroups": []
+        },
+        "usedbyapplications": [],
+        "links": {
+            "self": "http://localhost:9696/resources/43",
+            "revisions": "http://localhost:9696/resources/43/revisions"
+        }
+    },
+    {
         "type": "queue",
         "alias": "A_COOL_QUEUE_NAME",
         "scope": {

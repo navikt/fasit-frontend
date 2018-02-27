@@ -1,6 +1,6 @@
 import React from "react";
-import {blueGrey800, deepPurple400, green500, orange400, redA700} from "material-ui/styles/colors";
-import {colors} from "../commonStyles/commonInlineStyles";
+import { blueGrey800, deepPurple400, green500, orange400, redA700 } from "material-ui/styles/colors";
+import { colors } from "../commonStyles/commonInlineStyles";
 import Avatar from "material-ui/Avatar";
 import ResourceTypeProperty from "./ResourceTypeProperty"
 
@@ -139,6 +139,15 @@ export const resourceTypes = {
         ]
     },
     WebserviceEndpoint: {
+        icon: "fa fa-bookmark",
+        properties: [
+            link("endpointUrl", "Endpoint Url"),
+            dropdown("securityToken", "Security Token", ["NONE", "LTPA", "SAML", "USERNAME_TOKEN", "OTHER"]),
+            link("wsdlUrl", "WSDL Url", "WSDL artifact", false),
+            textbox("description", "Description", false)
+        ]
+    },
+    SoapService: {
         icon: "fa fa-bookmark",
         properties: [
             link("endpointUrl", "Endpoint Url"),
