@@ -13,3 +13,4 @@ tasks.json
 *.key
 *lock
 src/js/components/Environments/Environment.js
+.DS_Store
