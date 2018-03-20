@@ -14,7 +14,8 @@
     "mockserver": "better-npm-run mockserver",
     "mocked": "better-npm-run mocked",
     "test": "better-npm-run test",
-    "test:watch": "npm test -- --watch"
+    "test:watch": "npm test -- --watch",
+    "precommit": "pretty-quick --staged"
   },
   "betterScripts": {
     "start": {
@@ -137,7 +138,9 @@
     "mousetrap": "^1.6.0",
     "ncp": "^2.0.0",
     "postcss-loader": "^0.13.0",
+    "prettier": "^1.11.1",
     "pretty-data": "^0.40.0",
+    "pretty-quick": "^1.4.1",
     "react": "^15.3.2",
     "react-addons-test-utils": "^15.4.2",
     "react-bootstrap": "^0.30.3",
