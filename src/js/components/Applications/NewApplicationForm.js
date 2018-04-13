@@ -12,7 +12,7 @@ export class NewApplicationForm extends Component {
       name: "",
       artifactid: "",
       groupid: "",
-      portoffset: "",
+      portoffset: "0",
       comment: ""
     };
   }
@@ -37,7 +37,7 @@ export class NewApplicationForm extends Component {
       name: "",
       artifactid: "",
       groupid: "",
-      portoffset: "",
+      portoffset: "0",
       comment: ""
     });
   }
@@ -74,7 +74,14 @@ export class NewApplicationForm extends Component {
   showSubmitButton() {
     const { name, artifactid, groupid, portoffset } = this.state;
 
-    if (name && artifactid && groupid && !isNaN(portoffset)) {
+    if (
+      name &&
+      artifactid &&
+      groupid &&
+      portoffset !== undefined &&
+      portoffset !== "" &&
+      !isNaN(portoffset)
+    ) {
       return (
         <button
           type="submit"
