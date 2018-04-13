@@ -181,12 +181,6 @@ class TopNav extends Component {
                 </div>
             ) : (
                 <div className="topnav">
-                    <div style={{ backgroundColor: '#515d66', textAlign: 'center', color: 'white', width: '100%', height: '30px', paddingTop: '5px', verticalAlign: 'middle' }}>
-                        Velkommen til fasit med helt nytt utseende.
-
-                            <a href="https://fasit.adeo.no/fasut"> Gamle fasit</a> er tilgjengelig i en kort periode.
-                    &nbsp;<a href="https://confluence.adeo.no/display/AURA/Fasit+i+ny+drakt" target={"new"}> Mer informasjon</a>
-                    </div>
                     {this.showLogin("root")}
                     <Login />
                 </div>)
