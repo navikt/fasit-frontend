@@ -114,8 +114,8 @@ export const resourceTypes = {
     color: orange400,
     icon: "fa fa-sign-in",
     properties: [
-      textbox("resturl", "Rest URL"),
-      textbox("logouturl", "Logout URL"),
+      textbox("restUrl", "Rest URL"),
+      textbox("logoutUrl", "Logout URL"),
       textbox("hostname"),
       textbox("username"),
       secret("password")
@@ -126,11 +126,11 @@ export const resourceTypes = {
     color: orange400,
     icon: "fa fa-sign-in",
     properties: [
-      textbox("agentname", "Agent name"),
+      textbox("agentName", "Agent name"),
       secret("password"),
-      textbox("hosturl", "Host URL"),
-      textbox("issuerurl", "Issuer URL"),
-      textbox("jwksurl", "JWKS URL")
+      textbox("hostUrl", "Host URL"),
+      textbox("issuerUrl", "Issuer URL"),
+      textbox("jwksUrl", "JWKS URL")
     ]
   },
   Cics: {
