@@ -290,7 +290,7 @@ class NewResourceForm extends Component {
         return (
 
             <Modal show={showNewResourceForm} animation={false} keyboard={true} onHide={this.closeForm.bind(this)}
-                dialogClassName="newResourceForm">
+                dialogClassName="wideModal">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
                         <div>
