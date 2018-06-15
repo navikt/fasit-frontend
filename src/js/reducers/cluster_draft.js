@@ -48,8 +48,8 @@ export default (state = initialState, action) => {
           environmentclass,
           zone,
           loadbalancerurl,
-          applications: applications.map(a => a.name),
-          nodes: nodes.map(n => n.name),
+          applications,
+          nodes,
           showNewClusterForm: action.value,
           mode: "edit"
         })

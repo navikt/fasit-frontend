@@ -24,10 +24,6 @@ class NewClusterForm extends Component {
     super(props)
   }
 
-  
-
-  
-
   handleChange(field, value) {
     this.props.dispatch(updateClusterDraft(field, value))
   }
@@ -73,7 +69,6 @@ class NewClusterForm extends Component {
   }
 
   render() {
-
     const {
       showNewClusterForm,
       mode,
@@ -128,14 +123,14 @@ class NewClusterForm extends Component {
           <FormListBox
             label="applications"
             editMode={true}
-            value={cluster.applications.sort()}
+            value={cluster.applications.map(a => a.name).sort()}
             handleChange={this.handleChange.bind(this)}
             options={applicationNames}
           />
           <FormListBox
             label="nodes"
             editMode={true}
-            value={cluster.nodes}
+            value={cluster.nodes.map(n => n.name)}
             handleChange={this.handleChange.bind(this)}
             options={nodeNames}
           />
