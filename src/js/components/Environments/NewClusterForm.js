@@ -36,8 +36,8 @@ class NewClusterForm extends Component {
 
   mapStringToPayloadObj(string) {
     return {
-        name: string
-      }
+      name: string
+    }
   }
 
   handleSubmitForm() {
@@ -48,12 +48,15 @@ class NewClusterForm extends Component {
       environment: cluster.environment,
       environmentclass: cluster.environmentclass,
       zone: cluster.zone,
+      loadbalancerurl: cluster.loadbalancerurl,
       applications: cluster.applications.map(this.mapStringToPayloadObj),
       nodes: cluster.nodes.map(this.mapStringToPayloadObj),
       comment: cluster.comment
     }
     if (mode === "edit") {
-      dispatch(submitForm(form.clustername, form, comment, "cluster"))
+      dispatch(
+        submitForm(cluster.originalClustername, form, comment, "cluster")
+      )
     } else {
       dispatch(submitForm(form.clustername, form, comment, "newCluster"))
     }
@@ -99,7 +102,7 @@ class NewClusterForm extends Component {
             <div>
               {icons.cluster} &emsp;{mode &&
                 `${capitalize(mode)} cluster ${
-                  mode !== "new" ? cluster.clustername : ""
+                  mode !== "new" ? cluster.originalClustername : ""
                 }`}
             </div>
           </Modal.Title>

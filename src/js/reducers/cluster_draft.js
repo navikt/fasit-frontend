@@ -1,10 +1,10 @@
 import {
   SHOW_NEW_CLUSTER_FORM,
-  EDIT_CLUSTER,
   UPDATE_CLUSTER_DRAFT
 } from "../actionTypes"
 
 const initialState = {
+    originalClustername: "",
   clustername: "",
   environment: "",
   environmentclass: "",
@@ -23,12 +23,7 @@ export default (state = initialState, action) => {
       const updatedField = {}
       updatedField[action.field] = action.value
       return Object.assign({}, state, updatedField)
-    case EDIT_CLUSTER:
-      return Object.assign({}, state, {
-        data: [],
-        isFetching: true,
-        requestFailed: false
-      })
+    
     case SHOW_NEW_CLUSTER_FORM:
       if (action.existingData) {
         const {
@@ -41,6 +36,7 @@ export default (state = initialState, action) => {
           nodes
         } = action.existingData
         return Object.assign({}, initialState, {
+            originalClustername: clustername,
           clustername,
           environment,
           environmentclass,
