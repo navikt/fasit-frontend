@@ -34,6 +34,12 @@ class NewClusterForm extends Component {
     this.props.dispatch(fetchEnvironmentNodes(value))
   }
 
+  mapStringToPayloadObj(string) {
+    return {
+        name: string
+      }
+  }
+
   handleSubmitForm() {
     const { dispatch, cluster, mode } = this.props
 
@@ -42,8 +48,8 @@ class NewClusterForm extends Component {
       environment: cluster.environment,
       environmentclass: cluster.environmentclass,
       zone: cluster.zone,
-      applications: cluster.applications,
-      nodes: cluster.nodes,
+      applications: cluster.applications.map(this.mapStringToPayloadObj),
+      nodes: cluster.nodes.map(this.mapStringToPayloadObj),
       comment: cluster.comment
     }
     if (mode === "edit") {
@@ -123,14 +129,14 @@ class NewClusterForm extends Component {
           <FormListBox
             label="applications"
             editMode={true}
-            value={cluster.applications.map(a => a.name).sort()}
+            value={cluster.applications.sort()}
             handleChange={this.handleChange.bind(this)}
             options={applicationNames}
           />
           <FormListBox
             label="nodes"
             editMode={true}
-            value={cluster.nodes.map(n => n.name)}
+            value={cluster.nodes}
             handleChange={this.handleChange.bind(this)}
             options={nodeNames}
           />

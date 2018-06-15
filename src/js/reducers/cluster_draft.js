@@ -20,8 +20,6 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_CLUSTER_DRAFT:
-      console.log("updating ", action.field, action.value)
-
       const updatedField = {}
       updatedField[action.field] = action.value
       return Object.assign({}, state, updatedField)
@@ -48,8 +46,8 @@ export default (state = initialState, action) => {
           environmentclass,
           zone,
           loadbalancerurl,
-          applications,
-          nodes,
+          applications: applications.map(a => a.name),
+          nodes: nodes.map(n => n.name),
           showNewClusterForm: action.value,
           mode: "edit"
         })
