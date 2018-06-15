@@ -179,19 +179,21 @@ export function* submitForm(action) {
         }/clusters/${action.key}`
         yield putUrl(url, action.form, action.comment)
         yield put({ type: SHOW_NEW_CLUSTER_FORM, value: false })
-        yield browserHistory.push(`/environments/${action.form.environment}/clusters/${action.form.key}`)
+        yield browserHistory.push(
+          `/environments/${action.form.environment}/clusters/${action.key}`
+        )
         yield put({
           type: ENVIRONMENT_CLUSTER_FASIT_REQUEST,
           cluster: action.form.clustername,
           environment: action.form.environment
         })
-        
-       // yield put({ type: RESOURCE_FASIT_REQUEST, id: action.key })
-      //  yield put({
-       //   type: REVISIONS_REQUEST,
-       //  component: "cluster",
-      //   key: action.key
-      //  })
+
+        // yield put({ type: RESOURCE_FASIT_REQUEST, id: action.key })
+        //  yield put({
+        //   type: REVISIONS_REQUEST,
+        //  component: "cluster",
+        //   key: action.key
+        //  })
         break
       case "resource":
         url = `${configuration.fasit_resources}/${action.key}`
