@@ -2,7 +2,6 @@ import {
   CLEAR_ENVIRONMENT_CLUSTERS,
   ENVIRONMENT_CLUSTERS_FETCHING,
   ENVIRONMENT_CLUSTERS_RECEIVED,
-  SHOW_NEW_CLUSTER_FORM,
   ENVIRONMENT_CLUSTERS_REQUEST_FAILED
 } from "../actionTypes"
 
@@ -40,11 +39,6 @@ export default (
         requestFailed: action.error.message,
         data: [],
         isFetching: false
-      })
-    case SHOW_NEW_CLUSTER_FORM:
-      return Object.assign({}, state, {
-        showNewClusterForm: action.value,
-        mode: action.mode || "new"
       })
     default:
       return state

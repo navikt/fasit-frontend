@@ -11,108 +11,76 @@ import {
 import RaisedButton from "material-ui/RaisedButton"
 import FlatButton from "material-ui/FlatButton"
 import { MaterialTextBox } from "../common/Forms"
-import { displayModal, submitForm } from "../../actionCreators/common"
+import {
+  displayModal,
+  submitForm,
+  updateClusterDraft
+} from "../../actionCreators/common"
 import { fetchEnvironmentNodes } from "../../actionCreators/environment"
 import { colors, icons } from "../../commonStyles/commonInlineStyles"
 
 class NewClusterForm extends Component {
   constructor(props) {
     super(props)
-    this.initialState()
   }
 
-  initialState() {
-    this.state = {
-      editMode: false,
-      clustername: "",
-      environment: "",
-      environmentclass: "",
-      zone: "fss",
-      applications: [],
-      nodes: [],
-      comment: ""
-    }
-  }
+  
 
-  componentWillReceiveProps(nextProps) {
-    if (!this.state.editMode) {
-      if (nextProps.mode === "edit") {
-        const {
-          clustername,
-          environment,
-          environmentclass,
-          zone,
-          applications,
-          nodes
-        } = nextProps.cluster
-
-        this.setState({
-          editMode: true,
-          clustername,
-          environment,
-          environmentclass,
-          zone,
-          applications: applications.map(a => a.name),
-          nodes: nodes.map(n => n.name)
-        })
-      } else {
-        this.initialState()
-      }
-    }
-  }
+  
 
   handleChange(field, value) {
-    this.setState({ [field]: value })
+    this.props.dispatch(updateClusterDraft(field, value))
   }
 
   changeEnvironment(field, value) {
-    this.setState({ environment: value, nodes: [] })
+    this.props.dispatch(updateClusterDraft(field, value))
+    this.props.dispatch(updateClusterDraft("nodes", []))
     this.props.dispatch(fetchEnvironmentNodes(value))
   }
 
   handleSubmitForm() {
-    const { dispatch } = this.props
-    const {
-      clustername,
-      environment,
-      environmentclass,
-      zone,
-      applications,
-      nodes,
-      comment
-    } = this.state
+    const { dispatch, cluster, mode } = this.props
+
     const form = {
-      clustername,
-      environment,
-      environmentclass,
-      zone,
-      applications,
-      nodes,
-      comment
+      clustername: cluster.clustername,
+      environment: cluster.environment,
+      environmentclass: cluster.environmentclass,
+      zone: cluster.zone,
+      applications: cluster.applications,
+      nodes: cluster.nodes,
+      comment: cluster.comment
     }
-    dispatch(submitForm(form.clustername, form, comment, "newCluster"))
+    if (mode === "edit") {
+      dispatch(submitForm(form.clustername, form, comment, "cluster"))
+    } else {
+      dispatch(submitForm(form.clustername, form, comment, "newCluster"))
+    }
   }
 
   closeForm() {
     const { dispatch } = this.props
-    this.initialState()
     dispatch(displayModal("cluster", false))
   }
 
   enableSubmitButton() {
-    const { clustername, environment, environmentclass, zone } = this.state
-
-    return clustername && clustername !== "" && environment && environmentclass
+    const { cluster } = this.props
+    return (
+      cluster.clustername &&
+      cluster.clustername !== "" &&
+      cluster.environment &&
+      cluster.environmentclass
+    )
   }
 
   render() {
+
     const {
       showNewClusterForm,
       mode,
       environments,
-      applications,
       environmentNodes,
-      applicationNames
+      applicationNames,
+      cluster
     } = this.props
     let nodeNames =
       environmentNodes != undefined ? environmentNodes.map(n => n.hostname) : []
@@ -130,7 +98,7 @@ class NewClusterForm extends Component {
             <div>
               {icons.cluster} &emsp;{mode &&
                 `${capitalize(mode)} cluster ${
-                  mode !== "new" ? this.state.clustername : ""
+                  mode !== "new" ? cluster.clustername : ""
                 }`}
             </div>
           </Modal.Title>
@@ -139,35 +107,41 @@ class NewClusterForm extends Component {
           <FormString
             label="clustername"
             editMode={true}
-            value={this.state.clustername}
+            value={cluster.clustername}
             handleChange={this.handleChange.bind(this)}
           />
           <FormDropDown
             label="environmentclass"
             editMode={true}
-            value={this.state.environmentclass}
+            value={cluster.environmentclass}
             handleChange={this.handleChange.bind(this)}
             options={environments.environmentClasses}
           />
           {this.environmentSelector()}
           {this.zoneSelector()}
+          <FormString
+            label="loadbalancerurl"
+            editMode={true}
+            value={cluster.loadbalancerurl}
+            handleChange={this.handleChange.bind(this)}
+          />
           <FormListBox
             label="applications"
             editMode={true}
-            value={this.state.applications.sort()}
+            value={cluster.applications.sort()}
             handleChange={this.handleChange.bind(this)}
             options={applicationNames}
           />
           <FormListBox
             label="nodes"
             editMode={true}
-            value={this.state.nodes}
+            value={cluster.nodes}
             handleChange={this.handleChange.bind(this)}
             options={nodeNames}
           />
           <MaterialTextBox
             field="comment"
-            value={this.state.comment}
+            value={cluster.comment}
             label={"Comment"}
             onChange={this.handleChange.bind(this)}
           />
@@ -196,16 +170,16 @@ class NewClusterForm extends Component {
 
   environmentSelector() {
     const { environments } = this.props
-    const { environmentclass } = this.state
-    if (environmentclass) {
+    const { cluster } = this.props
+    if (cluster.environmentclass) {
       const filteredEnvironments = environments.environments.filter(env => {
-        return env.environmentclass === environmentclass
+        return env.environmentclass === cluster.environmentclass
       })
       return (
         <FormDropDown
           label="environment"
           editMode={true}
-          value={this.state.environment}
+          value={cluster.environment}
           handleChange={this.changeEnvironment.bind(this)}
           options={filteredEnvironments.map(env => env.name)}
         />
@@ -214,15 +188,14 @@ class NewClusterForm extends Component {
   }
 
   zoneSelector() {
-    const { environments } = this.props
-    const { environmentclass } = this.state
+    const { environments, cluster } = this.props
 
-    if (environmentclass && environmentclass !== "u") {
+    if (cluster.environmentclass && cluster.environmentclass !== "u") {
       return (
         <FormDropDown
           label="zone"
           editMode={true}
-          value={this.state.zone}
+          value={cluster.zone}
           handleChange={this.handleChange.bind(this)}
           options={environments.zones}
         />
@@ -240,9 +213,9 @@ const mapStateToProps = state => {
     environments: state.environments,
     applicationNames: state.applications.applicationNames,
     environmentNodes: state.environment_nodes_fasit.data,
-    showNewClusterForm: state.environment_clusters.showNewClusterForm,
-    cluster: state.environment_cluster_fasit.data,
-    mode: state.environment_clusters.mode
+    showNewClusterForm: state.cluster_draft.showNewClusterForm,
+    mode: state.cluster_draft.mode,
+    cluster: state.cluster_draft
   }
 }
 

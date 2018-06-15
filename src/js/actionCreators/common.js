@@ -12,7 +12,8 @@ import {
   SUBMIT_FORM,
   SUBMIT_NAV_SEARCH,
   SUBMIT_SEARCH,
-  SET_FILTER_CONTEXT
+  SET_FILTER_CONTEXT,
+  UPDATE_CLUSTER_DRAFT
 } from "../actionTypes"
 
 export const submitForm = (key, form, comment, component) => {
@@ -27,19 +28,19 @@ export const clearFormError = () => {
 export const fetchRevisions = (component, key) => {
   return { type: REVISIONS_REQUEST, component, key }
 }
-export const displayModal = (component, value, mode) => {
+export const displayModal = (component, value, mode, existingData) => {
   switch (component) {
     case "application":
       return { type: SHOW_NEW_APPLICATION_FORM, value, mode }
       break
     case "cluster":
-      return { type: SHOW_NEW_CLUSTER_FORM, value, mode }
+      return { type: SHOW_NEW_CLUSTER_FORM, value, mode, existingData }
       break
     case "environment":
       return { type: SHOW_NEW_ENVIRONMENT_FORM, value, mode }
       break
     case "node":
-      return { type: SHOW_NEW_NODE_FORM, value, mode }
+      return { type: SHOW_NEW_NODE_FORM, value }
       break
     case "resource":
       return { type: SHOW_NEW_RESOURCE_FORM, value, mode }
@@ -49,6 +50,11 @@ export const displayModal = (component, value, mode) => {
 export const submitNavSearch = query => {
   return { type: SUBMIT_NAV_SEARCH, query }
 }
+
+export const updateClusterDraft = (field, value) => {
+    return {type: UPDATE_CLUSTER_DRAFT, field, value}
+}
+
 export const setSearchString = query => {
   return { type: SET_NAVSEARCH_QUERY, value: query }
 }

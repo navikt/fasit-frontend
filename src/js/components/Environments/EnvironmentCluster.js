@@ -91,6 +91,7 @@ class EnvironmentCluster extends Component {
   }
 
   render() {
+    
     const {
       cluster,
       isFetching,
@@ -227,7 +228,7 @@ class EnvironmentCluster extends Component {
 
   showModal(mode) {
     const { dispatch } = this.props
-    dispatch(displayModal("cluster", true, mode))
+    dispatch(displayModal("cluster", true, mode, this.props.cluster))
   }
 
   deleteCluster(clusterName) {

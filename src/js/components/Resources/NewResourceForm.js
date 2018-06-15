@@ -84,7 +84,6 @@ class NewResourceForm extends Component {
         }
     }
 
-
     removeEmpty(obj) {
         const cleanObj = { ...obj }
         Object.keys(cleanObj).forEach(key => {
