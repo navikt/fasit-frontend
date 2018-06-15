@@ -180,7 +180,7 @@ export function* submitForm(action) {
         yield putUrl(url, action.form, action.comment)
         yield put({
           type: ENVIRONMENT_CLUSTER_FASIT_REQUEST,
-          cluster: action.key,
+          cluster: action.form.clustername,
           environment: action.form.environment
         })
         break
