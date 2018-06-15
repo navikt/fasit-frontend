@@ -180,7 +180,7 @@ export function* submitForm(action) {
         yield putUrl(url, action.form, action.comment)
         yield put({ type: SHOW_NEW_CLUSTER_FORM, value: false })
         yield browserHistory.push(
-          `/environments/${action.form.environment}/clusters/${action.key}`
+          `/environments/${action.form.environment}/clusters/${action.form.clustername}`
         )
         yield put({
           type: ENVIRONMENT_CLUSTER_FASIT_REQUEST,
