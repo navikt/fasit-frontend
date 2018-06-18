@@ -17,7 +17,7 @@ export default () => {
   return (
     <Route path="/" component={App}>
       <IndexRoute component={Home} />
-      <Route path="/search(/:query)" component={Search} />
+      <Route path="/search(/:query)" component={Search}  />
       <Route path="/nodes(/:node)" component={Nodes} />
       <Route path="/environments(/:environment)" component={Environments} />
       <Route

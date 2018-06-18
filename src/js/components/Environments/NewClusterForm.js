@@ -1,171 +1,226 @@
-import React, {Component, PropTypes} from "react";
-import {Modal} from "react-bootstrap";
-import {connect} from "react-redux";
-import {FormString, FormDropDown, FormComment} from "../common/Forms";
-import {displayModal, submitForm} from "../../actionCreators/common";
+import React, { Component, PropTypes } from "react"
+import { Modal } from "react-bootstrap"
+import { connect } from "react-redux"
+import { capitalize } from "../../utils"
+import {
+  FormString,
+  FormDropDown,
+  FormComment,
+  FormListBox
+} from "../common/Forms"
+import RaisedButton from "material-ui/RaisedButton"
+import FlatButton from "material-ui/FlatButton"
+import { MaterialTextBox } from "../common/Forms"
+import {
+  displayModal,
+  submitForm,
+  updateClusterDraft
+} from "../../actionCreators/common"
+import { fetchEnvironmentNodes } from "../../actionCreators/environment"
+import { colors, icons } from "../../commonStyles/commonInlineStyles"
 
 class NewClusterForm extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            clustername: "",
-            environment: "",
-            environmentclass: "",
-            zone: "fss",
-            comment: ""
-        }
+  constructor(props) {
+    super(props)
+  }
+
+  handleChange(field, value) {
+    this.props.dispatch(updateClusterDraft(field, value))
+  }
+
+  changeEnvironment(field, value) {
+    this.props.dispatch(updateClusterDraft(field, value))
+    this.props.dispatch(updateClusterDraft("nodes", []))
+    this.props.dispatch(fetchEnvironmentNodes(value))
+  }
+
+  mapStringToPayloadObj(string) {
+    return {
+      name: string
     }
+  }
 
-    componentWillReceiveProps(next) {
-        const {clustername, environment, environmentclass, zone} = this.props
-        if (next.copy) {
-            this.setState({
-                name,
-                environmentclass
-            })
+  handleSubmitForm() {
+    const { dispatch, cluster, mode } = this.props
 
-        }
+    const form = {
+      clustername: cluster.clustername,
+      environment: cluster.environment,
+      environmentclass: cluster.environmentclass,
+      zone: cluster.zone,
+      loadbalancerurl: cluster.loadbalancerurl,
+      applications: cluster.applications.map(this.mapStringToPayloadObj),
+      nodes: cluster.nodes.map(this.mapStringToPayloadObj),
+      comment: cluster.comment
     }
-
-
-    resetLocalState() {
-        this.setState({
-            clustername: "",
-            environment: "",
-            environmentclass: "",
-            zone: "fss",
-            comment: ""
-        })
+    if (mode === "edit") {
+      dispatch(
+        submitForm(cluster.originalClustername, form, comment, "cluster")
+      )
+    } else {
+      dispatch(submitForm(form.clustername, form, comment, "newCluster"))
     }
+  }
 
-    handleChange(field, value) {
-        this.setState({[field]: value})
+  closeForm() {
+    const { dispatch } = this.props
+    dispatch(displayModal("cluster", false))
+  }
+
+  enableSubmitButton() {
+    const { cluster } = this.props
+    return (
+      cluster.clustername &&
+      cluster.clustername !== "" &&
+      cluster.environment &&
+      cluster.environmentclass
+    )
+  }
+
+  render() {
+    const {
+      showNewClusterForm,
+      mode,
+      environments,
+      environmentNodes,
+      applicationNames,
+      cluster
+    } = this.props
+    let nodeNames =
+      environmentNodes != undefined ? environmentNodes.map(n => n.hostname) : []
+
+    return (
+      <Modal
+        show={showNewClusterForm}
+        animation={false}
+        keyboard={true}
+        dialogClassName="wideModal"
+        onHide={this.closeForm.bind(this)}
+      >
+        <Modal.Header closeButton={true}>
+          <Modal.Title>
+            <div>
+              {icons.cluster} &emsp;{mode &&
+                `${capitalize(mode)} cluster ${
+                  mode !== "new" ? cluster.originalClustername : ""
+                }`}
+            </div>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FormString
+            label="clustername"
+            editMode={true}
+            value={cluster.clustername}
+            handleChange={this.handleChange.bind(this)}
+          />
+          <FormDropDown
+            label="environmentclass"
+            editMode={true}
+            value={cluster.environmentclass}
+            handleChange={this.handleChange.bind(this)}
+            options={environments.environmentClasses}
+          />
+          {this.environmentSelector()}
+          {this.zoneSelector()}
+          <FormString
+            label="loadbalancerurl"
+            editMode={true}
+            value={cluster.loadbalancerurl}
+            handleChange={this.handleChange.bind(this)}
+          />
+          <FormListBox
+            label="applications"
+            editMode={true}
+            value={cluster.applications.sort()}
+            handleChange={this.handleChange.bind(this)}
+            options={applicationNames}
+          />
+          <FormListBox
+            label="nodes"
+            editMode={true}
+            value={cluster.nodes}
+            handleChange={this.handleChange.bind(this)}
+            options={nodeNames}
+          />
+          <MaterialTextBox
+            field="comment"
+            value={cluster.comment}
+            label={"Comment"}
+            onChange={this.handleChange.bind(this)}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="row col-md-12">
+            <RaisedButton
+              backgroundColor={colors.avatarBackgroundColor}
+              labelColor={colors.white}
+              disableTouchRipple={true}
+              disabled={!this.enableSubmitButton()}
+              label="submit"
+              onTouchTap={this.handleSubmitForm.bind(this, true)}
+            />
+
+            <FlatButton
+              disableTouchRipple={true}
+              label="cancel"
+              onTouchTap={this.closeForm.bind(this)}
+            />
+          </div>
+        </Modal.Footer>
+      </Modal>
+    )
+  }
+
+  environmentSelector() {
+    const { environments } = this.props
+    const { cluster } = this.props
+    if (cluster.environmentclass) {
+      const filteredEnvironments = environments.environments.filter(env => {
+        return env.environmentclass === cluster.environmentclass
+      })
+      return (
+        <FormDropDown
+          label="environment"
+          editMode={true}
+          value={cluster.environment}
+          handleChange={this.changeEnvironment.bind(this)}
+          options={filteredEnvironments.map(env => env.name)}
+        />
+      )
     }
+  }
 
-    handleSubmitForm() {
-        const {dispatch} = this.props
-        const {clustername, environment, environmentclass, zone, comment} = this.state
-        const form = {
-            clustername,
-            environment,
-            environmentclass,
-            zone,
-            comment
-        }
-        dispatch(submitForm(form.clustername, form, comment, "newCluster"))
+  zoneSelector() {
+    const { environments, cluster } = this.props
+
+    if (cluster.environmentclass && cluster.environmentclass !== "u") {
+      return (
+        <FormDropDown
+          label="zone"
+          editMode={true}
+          value={cluster.zone}
+          handleChange={this.handleChange.bind(this)}
+          options={environments.zones}
+        />
+      )
     }
-
-    closeForm() {
-        const {dispatch} = this.props
-        this.resetLocalState()
-        dispatch(displayModal("cluster", false))
-    }
-
-    showSubmitButton() {
-        const {clustername, environment, environmentclass, zone} = this.state
-        if (clustername && environment && environmentclass) {
-            if (environmentclass === "u" || zone) {
-                return (
-                    <button type="submit"
-                            className="btn btn-primary pull-right"
-                            onClick={this.handleSubmitForm.bind(this, true)}>Submit
-                    </button>
-                )
-            }
-        }
-        return <button type="submit" className="btn btn-primary pull-right disabled">Submit</button>
-
-    }
-
-    render() {
-        const {environments} = this.props
-        return (
-            <Modal show={environments.showNewClusterForm} onHide={this.closeForm.bind(this)}>
-                <Modal.Header>
-                    <Modal.Title>New cluster
-                        <button type="reset" className="btn btn-link pull-right"
-                                onClick={this.closeForm.bind(this)}><strong>X</strong>
-                        </button>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <FormString
-                        label="clustername"
-                        editMode={true}
-                        value={this.state.clustername}
-                        handleChange={this.handleChange.bind(this)}
-                    />
-                    <FormDropDown
-                        label="environmentclass"
-                        editMode={true}
-                        value={this.state.environmentclass}
-                        handleChange={this.handleChange.bind(this)}
-                        options={environments.environmentClasses}
-                    />
-                    {this.environmentSelector()}
-                    {this.zoneSelector()}
-                    <div className="col-xs-12" style={{height: 15}}></div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <FormComment
-                        value={this.state.comment}
-                        handleChange={this.handleChange.bind(this)}
-                    />
-                    <br />
-                    <div className="row">
-                        <div className="row col-lg-10 col-lg-offset-2">
-                            {this.showSubmitButton()}
-                        </div>
-                    </div>
-                </Modal.Footer>
-            </Modal>
-        )
-    }
-
-    environmentSelector() {
-        const {environments} = this.props
-        const {environmentclass} = this.state
-        if (environmentclass) {
-            const filteredEnvironments = environments.environments.filter((env) => {
-                return env.environmentclass === environmentclass
-            })
-            return (
-                <FormDropDown
-                    label="environment"
-                    editMode={true}
-                    value={this.state.environment}
-                    handleChange={this.handleChange.bind(this)}
-                    options={filteredEnvironments.map((env) => env.name)}
-                />)
-        }
-    }
-
-    zoneSelector() {
-        const {environments} = this.props
-        const {environmentclass} = this.state
-        if (environmentclass && environmentclass !== 'u') {
-            return (
-                <FormDropDown
-                    label="zone"
-                    editMode={true}
-                    value={this.state.zone}
-                    handleChange={this.handleChange.bind(this)}
-                    options={environments.zones}
-                />)
-        }
-    }
+  }
 }
-
 
 NewClusterForm.propTypes = {
-    dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => {
-    return {
-        environments: state.environments,
-        cluster: state.environment
-    }
+const mapStateToProps = state => {
+  return {
+    environments: state.environments,
+    applicationNames: state.applications.applicationNames,
+    environmentNodes: state.environment_nodes_fasit.data,
+    showNewClusterForm: state.cluster_draft.showNewClusterForm,
+    mode: state.cluster_draft.mode,
+    cluster: state.cluster_draft
+  }
 }
 
 export default connect(mapStateToProps)(NewClusterForm)

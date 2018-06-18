@@ -87,14 +87,12 @@
     "copy-html": {
       "command": "ncp src/index.html dist/index.html"
     },
-    "copy-appdynamics": {
-      "command": "ncp src/appdynamics.js dist/appdynamics.js"
-    },
+    
     "copy-images": {
       "command": "ncp src/images dist/images/"
     },
     "prebuild": {
-      "command": "better-npm-run clean && better-npm-run mkdir && better-npm-run copy-images &&  better-npm-run copy-html && better-npm-run copy-appdynamics"
+      "command": "better-npm-run clean && better-npm-run mkdir && better-npm-run copy-images &&  better-npm-run copy-html"
     }
   },
   "keywords": [

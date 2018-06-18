@@ -20,18 +20,6 @@ export default function RescueElementForm(props) {
     ]
 
     return (
-        <Dialog actions={actions} open={displayRescueForm} onRequestClose={onClose} title={`Confirm rescue of ${id}`}>
-            <TextField hintText="Why should this element be rescued?"
-                       floatingLabelText="Comment"
-                       floatingLabelFixed={true}
-                       value={comment}
-                       onChange={(e) => handleChange("comment", e.target.value)}
-                       fullWidth={true}
-                       floatingLabelStyle={styles.textField.floatingLabelStyle}
-                       floatingLabelFocusStyle={styles.textField.floatingLabelFocusStyle}
-                       underlineStyle={styles.textField.underlineStyle}
-                       underlineFocusStyle={styles.textField.underlineStyle}
-            />
-        </Dialog>
+        <Dialog actions={actions} open={displayRescueForm} onRequestClose={onClose} title={`Confirm rescue of ${id}`}/>
     )
 }

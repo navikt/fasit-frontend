@@ -37,7 +37,6 @@ export default (state = initialState, action) => {
                 headers: action.page.headers
             })
 
-
         case RESOURCES_LIST_FAILED:
             return Object.assign({}, state, {
                 isFetching: false,
