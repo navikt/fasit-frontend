@@ -50,8 +50,9 @@ export const resourceTypes = {
     color: colors.white,
     properties: [
       textbox("url"),
+      textbox("onsHosts", "ONS Hosts (Oracle DataGuard only)", false),
+      textbox("oemEndpoint", "OEM endpoint (Oracle PDB only)", false),
       textbox("username"),
-      textbox("oemEndpoint", "OEM endpoint (Oracle PDB Only)", false),
       secret("password")
     ]
   },

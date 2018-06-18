@@ -97,7 +97,7 @@ node {
     } catch(e) {
         if(!e.message.contains('Skipping build')) {
             def message = ":shit: Your last commit on ${application} didn't go through. See log for more info ${env.BUILD_URL}\nLast commit ${changelog}\nError message: ${e.message}"
-            slackSend channel: '#nais-internal', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
+            slackSend channel: '#nais-ci', message: message, teamDomain: 'nav-it', tokenCredentialId: 'slack_fasit_frontend'
             throw e
         }
         
