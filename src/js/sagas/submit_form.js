@@ -187,13 +187,6 @@ export function* submitForm(action) {
           cluster: action.form.clustername,
           environment: action.form.environment
         })
-
-        // yield put({ type: RESOURCE_FASIT_REQUEST, id: action.key })
-        //  yield put({
-        //   type: REVISIONS_REQUEST,
-        //  component: "cluster",
-        //   key: action.key
-        //  })
         break
       case "resource":
         url = `${configuration.fasit_resources}/${action.key}`
@@ -207,24 +200,6 @@ export function* submitForm(action) {
           key: action.key
         })
         break
-      case "rescueClusters":
-        url = `${configuration.fasit_environments}/${
-          action.form.environment
-        }/clusters/${action.key}`
-        yield putUrl(url, action.form, action.comment)
-        yield put({
-          type: ENVIRONMENT_CLUSTER_FASIT_REQUEST,
-          cluster: action.key,
-          environment: action.form.environment
-        })
-        yield browserHistory.push(
-          `/environments/${action.form.environment}/clusters/${action.key}`
-        )
-        break
-
-      // Rescue
-      case "rescue":
-        action.key
       default:
         throw new Error(
           "Submit_form-saga: I don't know which component you're coming from"
