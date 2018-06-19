@@ -53,9 +53,8 @@ export class Environment extends Component {
 
     rescue() {
         const { dispatch, environment } = this.props
-        const { comment } = this.state
         this.toggleComponentDisplay("displayRescueForm")
-        dispatch(rescueElement(environment.id, comment, "environment"))
+        dispatch(rescueElement(environment.id, "environment"))
     }
 
     handleChange(field, value) {
@@ -186,7 +185,6 @@ export class Environment extends Component {
                     onSubmit={() => this.rescue()}
                     id={envName}
                     handleChange={this.handleChange.bind(this)}
-                    comment={this.state.comment}
                 />
             </div>
         )

@@ -81,7 +81,7 @@ class Node extends Component {
         const { dispatch, node } = this.props
         const { comment } = this.state
         this.toggleComponentDisplay("displayRescueForm")
-        dispatch(rescueElement(node.id, comment, "node"))
+        dispatch(rescueElement(node.id, "node"))
     }
 
     handleSubmitForm(key, form, comment, component) {
@@ -251,7 +251,6 @@ class Node extends Component {
                     onSubmit={() => this.rescueNode()}
                     id={hostname}
                     handleChange={this.handleChange.bind(this)}
-                    comment={comment}
                 />
             </div>
         )

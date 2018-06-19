@@ -87,7 +87,7 @@ class EnvironmentCluster extends Component {
     const { dispatch, cluster } = this.props
     const id = cluster.id
     this.toggleComponentDisplay("displayRescueForm")
-    dispatch(rescueElement(id, "Rescued cluster", "cluster"))
+    dispatch(rescueElement(id, "cluster"))
   }
 
   render() {

@@ -51,7 +51,7 @@ class Instance extends Component {
         const {dispatch, instance} = this.props
         const {comment} = this.state
         this.toggleComponentDisplay("displayRescueForm")
-        dispatch(rescueElement(instance.id, comment, "applicationinstance"))
+        dispatch(rescueElement(instance.id, "applicationinstance"))
     }
 
     render() {
@@ -146,7 +146,6 @@ class Instance extends Component {
                     onSubmit={() => this.rescue()}
                     id={instance.application}
                     handleChange={this.handleChange.bind(this)}
-                    comment={this.state.comment}
                 />
             </div>
         )

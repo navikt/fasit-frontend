@@ -5,7 +5,7 @@ import {styles} from "../../commonStyles/commonInlineStyles";
 import TextField from "material-ui/TextField";
 
 export default function RescueElementForm(props) {
-    const {displayRescueForm, id, onClose, onSubmit, comment, handleChange} = props
+    const {displayRescueForm, id, onClose, onSubmit, handleChange} = props
     const actions = [
         <FlatButton
             disableTouchRipple={true}

@@ -19,7 +19,7 @@ export function* rescueElement(action) {
     const elementType = action.elementType
     const url = `${configuration.fasit_lifecycle}/${elementType}/${action.key}`
     const payload = { status: "rescued" }
-    yield putUrl(url, payload, action.comment)
+    yield putUrl(url, payload, "Rescued " + action.elementType)
 
     let elementId
     let actionType

@@ -91,7 +91,7 @@ class Resource extends Component {
         const { dispatch } = this.props
         const { comment } = this.state
         this.toggleComponentDisplay("displayRescueForm")
-        dispatch(rescueElement(this.props.id, comment, "resource"))
+        dispatch(rescueElement(this.props.id, "resource"))
     }
 
     deleteResource(key) {
@@ -320,7 +320,6 @@ class Resource extends Component {
                     onSubmit={() => this.rescueResource()}
                     id={id}
                     handleChange={this.handleChange.bind(this)}
-                    comment={this.state.comment}
                 />
 
                 <AccessControl
