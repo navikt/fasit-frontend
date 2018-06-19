@@ -1,6 +1,6 @@
 {
   "name": "fasit-frontend",
-  "version": "265.0.0",
+  "version": "266.0.0",
   "description": "Fasit frontend",
   "main": "server.js",
   "scripts": {
@@ -87,7 +87,6 @@
     "copy-html": {
       "command": "ncp src/index.html dist/index.html"
     },
-    
     "copy-images": {
       "command": "ncp src/images dist/images/"
     },
