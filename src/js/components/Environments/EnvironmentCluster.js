@@ -91,7 +91,6 @@ class EnvironmentCluster extends Component {
   }
 
   render() {
-    
     const {
       cluster,
       isFetching,
@@ -212,7 +211,7 @@ class EnvironmentCluster extends Component {
 
     return cluster.applications.map(app => (
       <ListItem key={app.name} style={styles.tighterList} disabled={true}>
-        <Link to={"/instances/${app.id}"}>{app.name}</Link>
+        <Link to={`/instances/${app.id}`}>{app.name}</Link>
       </ListItem>
     ))
   }
@@ -221,7 +220,7 @@ class EnvironmentCluster extends Component {
     const { cluster } = this.props
     return cluster.nodes.map(node => (
       <ListItem key={node.name} style={styles.tighterList} disabled={true}>
-        <Link to={"/nodes/${node.name}"}>{node.name}</Link>
+        <Link to={`/nodes/${node.name}`}>{node.name}</Link>
       </ListItem>
     ))
   }
