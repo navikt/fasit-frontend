@@ -87,10 +87,7 @@
     "copy-html": {
       "command": "ncp src/index.html dist/index.html"
     },
-<<<<<<< HEAD
     
-=======
->>>>>>> 3676f90b461e0968567277776aa9ad1552b9e1f9
     "copy-images": {
       "command": "ncp src/images dist/images/"
     },
