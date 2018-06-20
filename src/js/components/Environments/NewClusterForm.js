@@ -48,10 +48,13 @@ class NewClusterForm extends Component {
       environment: cluster.environment,
       environmentclass: cluster.environmentclass,
       zone: cluster.zone,
-      loadbalancerurl: cluster.loadbalancerurl,
       applications: cluster.applications.map(this.mapStringToPayloadObj),
       nodes: cluster.nodes.map(this.mapStringToPayloadObj),
       comment: cluster.comment
+    }
+
+    if (cluster.loadbalancerurl && cluster.loadbalancerurl !== "") {
+      form.loadbalancerurl = cluster.loadbalancerurl
     }
     if (mode === "edit") {
       dispatch(
