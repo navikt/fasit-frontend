@@ -1,16 +1,8 @@
+import FlatButton from "material-ui/FlatButton"
+import RaisedButton from "material-ui/RaisedButton"
 import React, { Component, PropTypes } from "react"
 import { Modal } from "react-bootstrap"
 import { connect } from "react-redux"
-import { capitalize } from "../../utils"
-import {
-  FormString,
-  FormDropDown,
-  FormComment,
-  FormListBox
-} from "../common/Forms"
-import RaisedButton from "material-ui/RaisedButton"
-import FlatButton from "material-ui/FlatButton"
-import { MaterialTextBox } from "../common/Forms"
 import {
   displayModal,
   submitForm,
@@ -18,6 +10,13 @@ import {
 } from "../../actionCreators/common"
 import { fetchEnvironmentNodes } from "../../actionCreators/environment"
 import { colors, icons } from "../../commonStyles/commonInlineStyles"
+import { capitalize } from "../../utils"
+import {
+  FormDropDown,
+  FormListBox,
+  FormString,
+  MaterialTextBox
+} from "../common/Forms"
 
 class NewClusterForm extends Component {
   constructor(props) {
@@ -58,7 +57,7 @@ class NewClusterForm extends Component {
     }
     if (mode === "edit") {
       dispatch(
-        submitForm(cluster.originalClustername, form, comment, "cluster")
+        submitForm(cluster.id, form, comment, "cluster")
       )
     } else {
       dispatch(submitForm(form.clustername, form, comment, "newCluster"))

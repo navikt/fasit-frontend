@@ -40,16 +40,11 @@ export function* rescueElement(action) {
         actionType = component = elementType
         break
       case "cluster":
-        const currentCluster = yield select(
-          state => state.environment_cluster_fasit.data
-        )
-        const clustername = currentCluster.clustername
-        const environment = currentCluster.environment
+        const id = currentCluster.id
         component = elementType
         yield put({
-          type: ENVIRONMENT_CLUSTER_FASIT_REQUEST,
-          environment: environment,
-          cluster: clustername
+          type: CLUSTER_FASIT_REQUEST,
+          key: id
         })
         break
       case "environment":

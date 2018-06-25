@@ -174,9 +174,7 @@ export function* submitForm(action) {
         })
         break
       case "cluster":
-        url = `${configuration.fasit_environments}/${
-          action.form.environment
-        }/clusters/${action.key}`
+        url = `${configuration.fasit_clusters}/${action.key}`
         yield putUrl(url, action.form, action.comment)
         yield put({ type: SHOW_NEW_CLUSTER_FORM, value: false })
         yield browserHistory.push(
@@ -185,9 +183,8 @@ export function* submitForm(action) {
           }`
         )
         yield put({
-          type: ENVIRONMENT_CLUSTER_FASIT_REQUEST,
-          cluster: action.form.clustername,
-          environment: action.form.environment
+          type: CLUSTER_FASIT_REQUEST,
+          url: url
         })
         yield put({
           type: REVISIONS_REQUEST,
