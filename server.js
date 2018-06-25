@@ -149,6 +149,18 @@ app.get(
 app.get("/mockapi/environments/:name/clusters/", (req, res) => {
   sendJson(res, environmentsMock.getClusters(req.params.name))
 })
+  
+app.get("/mockapi/clusters/:id/", (req, res) => {
+  sendJson(res, environmentsMock.getCluster("u1", "bpm"))
+})
+
+app.get("/mockapi/clusters/:id/revisions", (req, res) => {
+  sendJson(res, environmentsMock.getClusterRevisions())
+})
+
+app.get("/mockapi/clusters/:id/revisions/:revision", (req, res) => {
+  sendJson(res, environmentsMock.getClusterRevision())
+})
 
 app.get("/mockapi/environments/:name", (req, res) => {
   sendJson(res, environmentsMock.getEnvironment(req.params.name))

@@ -1,33 +1,24 @@
+import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
+import { List, ListItem } from "material-ui/List"
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router"
-import {
-  fetchEnvironmentCluster,
-  fetchEnvironmentNodes
-} from "../../actionCreators/environment"
-import {
-  DeleteElementForm,
-  FormListBox,
-  FormString,
-  FormDropDown,
-  FormLinkDropDown,
-  Lifecycle,
-  AccessControl,
-  SubmitForm,
-  ToolButtons,
-  RescueElementForm,
-  History,
-  CurrentRevision
-} from "../common"
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
-import { List, ListItem } from "material-ui/List"
-import { validAuthorization } from "../../utils/"
 import {
   displayModal,
   rescueElement,
   submitForm
 } from "../../actionCreators/common"
+import { fetchEnvironmentCluster } from "../../actionCreators/environment"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
+import { validAuthorization } from "../../utils/"
+import {
+  CurrentRevision,
+  DeleteElementForm,
+  History,
+  Lifecycle,
+  RescueElementForm,
+  ToolButtons
+} from "../common"
 
 class EnvironmentCluster extends Component {
   constructor(props) {
@@ -184,7 +175,7 @@ class EnvironmentCluster extends Component {
         {/*Side menu*/}
         <div className="col-md-4">
           <History
-            id={cluster.clustername}
+            id={cluster.id}
             currentRevision={query.revision}
             component="cluster"
           />

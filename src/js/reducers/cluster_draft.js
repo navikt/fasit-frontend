@@ -1,6 +1,7 @@
 import { SHOW_NEW_CLUSTER_FORM, UPDATE_CLUSTER_DRAFT } from "../actionTypes"
 
 const initialState = {
+  id: "",
   originalClustername: "",
   clustername: "",
   environment: "",
@@ -24,6 +25,7 @@ export default (state = initialState, action) => {
     case SHOW_NEW_CLUSTER_FORM:
       if (action.existingData) {
         const {
+          id,
           clustername,
           environment,
           environmentclass,
@@ -33,6 +35,7 @@ export default (state = initialState, action) => {
           nodes
         } = action.existingData
         return Object.assign({}, initialState, {
+          id,
           originalClustername: clustername,
           clustername,
           environment,
