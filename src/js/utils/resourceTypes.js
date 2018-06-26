@@ -1,27 +1,27 @@
-import React from "react";
+import React from "react"
 import {
   blueGrey800,
   deepPurple400,
   green500,
   orange400,
   redA700
-} from "material-ui/styles/colors";
-import { colors } from "../commonStyles/commonInlineStyles";
-import Avatar from "material-ui/Avatar";
-import ResourceTypeProperty from "./ResourceTypeProperty";
+} from "material-ui/styles/colors"
+import { colors } from "../commonStyles/commonInlineStyles"
+import Avatar from "material-ui/Avatar"
+import ResourceTypeProperty from "./ResourceTypeProperty"
 
-const DEFAULT_BACKGROUND_COLOR = colors.avatarBackgroundColor;
-const DEFAULT_COLOR = colors.white;
+const DEFAULT_BACKGROUND_COLOR = colors.avatarBackgroundColor
+const DEFAULT_COLOR = colors.white
 
 export const getResourceTypeName = function(type) {
   const filteredType = Object.keys(resourceTypes).filter(
     t => t.toLowerCase() === type.toLowerCase()
-  );
-  return filteredType[0] || "Unknown type";
-};
+  )
+  return filteredType[0] || "Unknown type"
+}
 
 export const resourceTypeIcon = function(type) {
-  const resourceType = getResourceType(type);
+  const resourceType = getResourceType(type)
   return (
     <Avatar
       backgroundColor={resourceType.backgroundColor || DEFAULT_BACKGROUND_COLOR}
@@ -29,19 +29,19 @@ export const resourceTypeIcon = function(type) {
     >
       {resourceType.texticon ? resourceType.texticon : getIcon(resourceType)}
     </Avatar>
-  );
-};
+  )
+}
 
 const getIcon = function(resourceType) {
-  return <i className={resourceType.icon || "fa fa-cogs"} />;
-};
+  return <i className={resourceType.icon || "fa fa-cogs"} />
+}
 
 const getResourceType = function(type) {
   const filteredType = Object.keys(resourceTypes).filter(
     t => t.toLowerCase() === type
-  );
-  return resourceTypes[filteredType];
-};
+  )
+  return resourceTypes[filteredType]
+}
 
 export const resourceTypes = {
   DataSource: {
@@ -130,8 +130,18 @@ export const resourceTypes = {
       textbox("agentName", "Agent name"),
       secret("password"),
       textbox("hostUrl", "Host URL"),
-      textbox("issuerUrl", "Issuer URL"),
-      textbox("jwksUrl", "JWKS URL")
+      textbox("issuerUrl", "Issuer URL")
+    ]
+  },
+  AzureOIDC: {
+    backgroundColor: blueGrey800,
+    color: orange400,
+    icon: "fa fa-microsoft",
+    properties: [
+      textbox("discoveryUri", "Discovery Uri"),
+      secret("clientSecret", "Client secret"),
+      textbox("clientId", "Client Id"),
+      textbox("callbackUri", "Callback Uri")
     ]
   },
   Cics: {
@@ -290,10 +300,10 @@ export const resourceTypes = {
       textbox("queueManager", "Queue manager", false)
     ]
   }
-};
+}
 
 function capitalize(str) {
-  return "" + str.charAt(0).toUpperCase() + str.slice(1);
+  return "" + str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 function textbox(name, displayName, required = true) {
@@ -302,7 +312,7 @@ function textbox(name, displayName, required = true) {
     name,
     displayName || capitalize(name),
     required
-  );
+  )
 }
 
 function link(name, displayName, linkTitle, required = true) {
@@ -311,9 +321,9 @@ function link(name, displayName, linkTitle, required = true) {
     name,
     displayName || capitalize(name),
     required
-  );
-  property.linktTitle = linkTitle;
-  return property;
+  )
+  property.linktTitle = linkTitle
+  return property
 }
 
 function textarea(name, displayName, required = true) {
@@ -322,7 +332,7 @@ function textarea(name, displayName, required = true) {
     name,
     displayName || capitalize(name),
     required
-  );
+  )
 }
 
 function secret(name, displayName, required = true) {
@@ -331,7 +341,7 @@ function secret(name, displayName, required = true) {
     name,
     displayName || capitalize(name),
     required
-  );
+  )
 }
 
 function dropdown(name, displayName, options) {
@@ -339,9 +349,9 @@ function dropdown(name, displayName, options) {
     "dropdown",
     name,
     displayName || capitalize(name)
-  );
-  property.options = options;
-  return property;
+  )
+  property.options = options
+  return property
 }
 
 function file(name, displayName, required = true) {
@@ -350,5 +360,5 @@ function file(name, displayName, required = true) {
     name,
     displayName || capitalize(name),
     required
-  );
+  )
 }
