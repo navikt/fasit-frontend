@@ -10,6 +10,8 @@ fasitResources:
   used:
   - alias: fasit:resources_v2
     resourceType: restservice
+  - alias: fasit:clusters_v2
+    resourceType: restservice
   - alias: fasit:lifecycle_v1
     resourceType: restservice
   - alias: jira
