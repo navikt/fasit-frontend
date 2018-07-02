@@ -9,6 +9,7 @@ import {
 import { colors } from "../commonStyles/commonInlineStyles"
 import Avatar from "material-ui/Avatar"
 import ResourceTypeProperty from "./ResourceTypeProperty"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const DEFAULT_BACKGROUND_COLOR = colors.avatarBackgroundColor
 const DEFAULT_COLOR = colors.white
@@ -33,7 +34,7 @@ export const resourceTypeIcon = function(type) {
 }
 
 const getIcon = function(resourceType) {
-  return <i className={resourceType.icon || "fa fa-cogs"} />
+  return <FontAwesomeIcon icon={resourceType.icon || "cogs"} />
 }
 
 const getResourceType = function(type) {
@@ -45,7 +46,7 @@ const getResourceType = function(type) {
 
 export const resourceTypes = {
   DataSource: {
-    icon: "fa fa-database",
+    icon: "database",
     backgroundColor: redA700,
     color: colors.white,
     properties: [
@@ -57,7 +58,7 @@ export const resourceTypes = {
     ]
   },
   MSSQLDataSource: {
-    icon: "fa fa-database",
+    icon: "database",
     properties: [
       textbox("url"),
       textbox("schema"),
@@ -68,7 +69,7 @@ export const resourceTypes = {
   DB2DataSource: {
     backgroundColor: green500,
     color: colors.white,
-    icon: "fa fa-database",
+    icon: "database",
     properties: [
       textbox("hostname"),
       textbox("port"),
@@ -79,7 +80,7 @@ export const resourceTypes = {
     ]
   },
   LDAP: {
-    icon: "fa fa-vcard",
+    icon: "id-card",
     properties: [
       textbox("url"),
       textbox("username"),
@@ -95,15 +96,15 @@ export const resourceTypes = {
     ]
   },
   BaseUrl: {
-    icon: "fa fa-link",
+    icon: "link",
     properties: [textbox("url")]
   },
   Credential: {
-    icon: "fa fa-key",
+    icon: "key",
     properties: [textbox("username", "Username", false), secret("password")]
   },
   Certificate: {
-    icon: "fa fa-drivers-license",
+    icon: "lock",
     properties: [
       textbox("keystorealias", "Alias in keystore"),
       secret("keystorepassword", "Keystore password"),
@@ -113,7 +114,7 @@ export const resourceTypes = {
   OpenAM: {
     backgroundColor: blueGrey800,
     color: orange400,
-    icon: "fa fa-sign-in",
+    icon: "sign-in-alt",
     properties: [
       textbox("restUrl", "Rest URL"),
       textbox("logoutUrl", "Logout URL"),
@@ -125,7 +126,7 @@ export const resourceTypes = {
   OpenIdConnect: {
     backgroundColor: blueGrey800,
     color: orange400,
-    icon: "fa fa-sign-in",
+    icon: "sign-in-alt",
     properties: [
       textbox("agentName", "Agent name"),
       secret("password"),
@@ -134,9 +135,7 @@ export const resourceTypes = {
     ]
   },
   AzureOIDC: {
-    backgroundColor: blueGrey800,
-    color: orange400,
-    icon: "fa fa-microsoft",
+    icon: ["fab", "microsoft"],
     properties: [
       textbox("discoveryUri", "Discovery Uri"),
       secret("clientSecret", "Client secret"),
@@ -145,7 +144,7 @@ export const resourceTypes = {
     ]
   },
   Cics: {
-    icon: "fa fa-tty",
+    icon: "tty",
     properties: [
       textbox("cicsname", "CICS name"),
       textbox("url"),
@@ -153,7 +152,7 @@ export const resourceTypes = {
     ]
   },
   RoleMapping: {
-    icon: "fa fa-users",
+    icon: "users",
     properties: [textarea("groups", "Users/Groups")]
   },
   QueueManager: {
@@ -163,7 +162,7 @@ export const resourceTypes = {
     properties: [textbox("name"), textbox("hostname"), textbox("port")]
   },
   WebserviceEndpoint: {
-    icon: "fa fa-bookmark",
+    icon: "bookmark",
     properties: [
       link("endpointUrl", "Endpoint Url"),
       dropdown("securityToken", "Security Token", [
@@ -178,7 +177,7 @@ export const resourceTypes = {
     ]
   },
   SoapService: {
-    icon: "fa fa-bookmark",
+    icon: "bookmark",
     properties: [
       link("endpointUrl", "Endpoint Url"),
       dropdown("securityToken", "Security Token", [
@@ -193,15 +192,15 @@ export const resourceTypes = {
     ]
   },
   RestService: {
-    icon: "fa fa-link",
+    icon: "link",
     properties: [textbox("url"), textbox("description", "Description", false)]
   },
   WebserviceGateway: {
-    icon: "fa fa-map-signs",
+    icon: "map-signs",
     properties: [textbox("url")]
   },
   EJB: {
-    icon: "fa fa-exclamation",
+    icon: "exclamation",
     properties: [
       textbox("providerUrl", "Provider Url"),
       textbox("jndi", "Jndi", false),
@@ -213,7 +212,7 @@ export const resourceTypes = {
   Datapower: {
     backgroundColor: deepPurple400,
     color: colors.white,
-    icon: "fa fa-money",
+    icon: "dollar-sign",
     properties: [
       textbox("adminurl", "Admin Url"),
       textbox("adminweburl", "Admin Web Url"),
@@ -223,11 +222,11 @@ export const resourceTypes = {
     ]
   },
   EmailAddress: {
-    icon: "fa fa-envelope",
+    icon: "envelope",
     properties: [textbox("address", "E-mail Addrress")]
   },
   SMTPServer: {
-    icon: "fa fa-server",
+    icon: "server",
     properties: [textbox("host", "Hostname"), textbox("port")]
   },
   Queue: {
@@ -251,15 +250,15 @@ export const resourceTypes = {
   DeploymentManager: {
     backgroundColor: deepPurple400,
     color: colors.white,
-    icon: "fa fa-dashboard",
+    icon: "tachometer-alt",
     properties: [textbox("hostname"), textbox("username"), secret("password")]
   },
   ApplicationProperties: {
-    icon: "fa fa-file-text",
+    icon: "file-alt",
     properties: [textarea("applicationProperties", "Properties")]
   },
   MemoryParameters: {
-    icon: "fa fa-microchip",
+    icon: "microchip",
     properties: [
       textbox("minMemory", "Initial memory"),
       textbox("maxMemory", "Maximum memory"),
@@ -280,7 +279,7 @@ export const resourceTypes = {
   LoadBalancerConfig: {
     backgroundColor: redA700,
     color: colors.white,
-    icon: "fa fa-balance-scale",
+    icon: "balance-scale",
     properties: [
       textbox("url"),
       textbox("poolName", "Pool name"),
@@ -288,13 +287,13 @@ export const resourceTypes = {
     ]
   },
   FileLibrary: {
-    icon: "fa fa-folder",
+    icon: "folder",
     properties: [textbox("path"), textbox("nodes", "On nodes")]
   },
   Channel: {
     backgroundColor: deepPurple400,
     color: colors.white,
-    icon: "fa fa-exchange",
+    icon: "exchange-alt",
     properties: [
       textbox("name", "Channel name").hintText("ENVNAME_APPNAME"),
       textbox("queueManager", "Queue manager", false)

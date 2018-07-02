@@ -17,7 +17,8 @@ import {
   History,
   Lifecycle,
   RescueElementForm,
-  ToolButtons
+  ToolButtons,
+  Spinner
 } from "../common"
 
 class EnvironmentCluster extends Component {
@@ -100,7 +101,7 @@ class EnvironmentCluster extends Component {
         : false
 
     return isFetching || !cluster.clustername ? (
-      <i className="fa fa-spinner fa-pulse fa-2x"> </i>
+      <Spinner/>
     ) : (
       <div className="row">
         <div className="col-md-6" style={styles.cardPadding}>

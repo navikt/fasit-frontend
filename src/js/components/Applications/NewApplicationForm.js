@@ -1,34 +1,36 @@
-import React, { Component, PropTypes } from "react";
-import { Modal } from "react-bootstrap";
-import { connect } from "react-redux";
-import { FormComment, FormString } from "../common/Forms";
-import { capitalize } from "../../utils";
-import { displayModal, submitForm } from "../../actionCreators/common";
+import React, { Component, PropTypes } from "react"
+import { Modal } from "react-bootstrap"
+import { connect } from "react-redux"
+import { FormComment, FormString } from "../common/Forms"
+import { capitalize } from "../../utils"
+import { displayModal, submitForm } from "../../actionCreators/common"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { icons, styles } from "../../commonStyles/commonInlineStyles"
 
 export class NewApplicationForm extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       name: "",
       artifactid: "",
       groupid: "",
       portoffset: "0",
       comment: ""
-    };
+    }
   }
 
   componentWillReceiveProps(next) {
-    const { application } = this.props;
-    const { name, groupid, artifactid, portoffset } = application;
+    const { application } = this.props
+    const { name, groupid, artifactid, portoffset } = application
     if (next.mode === "edit" || next.mode === "copy") {
       this.setState({
         name,
         groupid,
         artifactid,
         portoffset
-      });
+      })
     } else {
-      this.resetLocalState();
+      this.resetLocalState()
     }
   }
 
@@ -39,40 +41,40 @@ export class NewApplicationForm extends Component {
       groupid: "",
       portoffset: "0",
       comment: ""
-    });
+    })
   }
 
   handleChange(field, value) {
-    this.setState({ [field]: value });
+    this.setState({ [field]: value })
   }
 
   handleSubmitForm() {
-    const { dispatch, mode } = this.props;
-    const { name, artifactid, groupid, portoffset, comment } = this.state;
+    const { dispatch, mode } = this.props
+    const { name, artifactid, groupid, portoffset, comment } = this.state
     const form = {
       name,
       artifactid,
       groupid,
       portoffset
-    };
+    }
 
     if (mode === "edit") {
       dispatch(
         submitForm(this.props.application.name, form, comment, "application")
-      );
+      )
     } else {
-      dispatch(submitForm(form.name, form, comment, "newApplication"));
+      dispatch(submitForm(form.name, form, comment, "newApplication"))
     }
   }
 
   closeForm() {
-    const { dispatch } = this.props;
-    this.resetLocalState();
-    dispatch(displayModal("application", false));
+    const { dispatch } = this.props
+    this.resetLocalState()
+    dispatch(displayModal("application", false))
   }
 
   showSubmitButton() {
-    const { name, artifactid, groupid, portoffset } = this.state;
+    const { name, artifactid, groupid, portoffset } = this.state
 
     if (
       name &&
@@ -90,26 +92,22 @@ export class NewApplicationForm extends Component {
         >
           Submit
         </button>
-      );
+      )
     }
     return (
       <button type="submit" className="btn btn-primary pull-right disabled">
         Submit
       </button>
-    );
+    )
   }
 
   render() {
-    const { showNewApplicationForm, mode, application } = this.props;
+    const { showNewApplicationForm, mode, application } = this.props
     return (
       <Modal show={showNewApplicationForm} onHide={this.closeForm.bind(this)}>
         <Modal.Header>
           <Modal.Title>
-            <span className="fa-stack fa-lg">
-              <i className="fa fa-circle fa-stack-2x" />
-              <i className="fa fa-cube fa-stack-1x fa-inverse" />
-            </span>{" "}
-            &emsp;
+            {icons.application} &emsp;
             {mode &&
               `${capitalize(mode)} application ${
                 mode !== "new" ? application.name : ""
@@ -164,19 +162,19 @@ export class NewApplicationForm extends Component {
           </div>
         </Modal.Footer>
       </Modal>
-    );
+    )
   }
 }
 NewApplicationForm.propTypes = {
   dispatch: PropTypes.func.isRequired
-};
+}
 
 const mapStateToProps = state => {
   return {
     showNewApplicationForm: state.applications.showNewApplicationForm,
     application: state.application_fasit.data,
     mode: state.applications.mode
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps)(NewApplicationForm);
+export default connect(mapStateToProps)(NewApplicationForm)

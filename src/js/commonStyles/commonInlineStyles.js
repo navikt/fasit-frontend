@@ -1,24 +1,25 @@
-import React from "react";
-import { green400, orange300, red400 } from "material-ui/styles/colors";
-import GroupWork from "material-ui/svg-icons/action/group-work";
-import Description from "material-ui/svg-icons/action/description";
-import Timeline from "material-ui/svg-icons/action/timeline";
-import Link from "material-ui/svg-icons/content/link";
-import NewReleases from "material-ui/svg-icons/av/new-releases";
-import Error from "material-ui/svg-icons/alert/error";
-import Lock from "material-ui/svg-icons/action/lock";
-import Security from "material-ui/svg-icons/hardware/security";
-import Build from "material-ui/svg-icons/action/build";
-import Avatar from "material-ui/Avatar";
-import Delete from "material-ui/svg-icons/action/delete";
-import Edit from "material-ui/svg-icons/editor/mode-edit";
-import Copy from "material-ui/svg-icons/content/content-copy";
-import Cancel from "material-ui/svg-icons/navigation/cancel";
-import Eye from "material-ui/svg-icons/image/remove-red-eye";
-import FileUpload from "material-ui/svg-icons/file/file-upload";
-import File from "material-ui/svg-icons/editor/insert-drive-file";
-import RightArrow from "material-ui/svg-icons/hardware/keyboard-arrow-right";
-import Warning from "material-ui/svg-icons/alert/warning";
+import React from "react"
+import { green400, orange300, red400 } from "material-ui/styles/colors"
+import GroupWork from "material-ui/svg-icons/action/group-work"
+import Description from "material-ui/svg-icons/action/description"
+import Timeline from "material-ui/svg-icons/action/timeline"
+import Link from "material-ui/svg-icons/content/link"
+import NewReleases from "material-ui/svg-icons/av/new-releases"
+import Error from "material-ui/svg-icons/alert/error"
+import Lock from "material-ui/svg-icons/action/lock"
+import Security from "material-ui/svg-icons/hardware/security"
+import Build from "material-ui/svg-icons/action/build"
+import Avatar from "material-ui/Avatar"
+import Delete from "material-ui/svg-icons/action/delete"
+import Edit from "material-ui/svg-icons/editor/mode-edit"
+import Copy from "material-ui/svg-icons/content/content-copy"
+import Cancel from "material-ui/svg-icons/navigation/cancel"
+import Eye from "material-ui/svg-icons/image/remove-red-eye"
+import FileUpload from "material-ui/svg-icons/file/file-upload"
+import File from "material-ui/svg-icons/editor/insert-drive-file"
+import RightArrow from "material-ui/svg-icons/hardware/keyboard-arrow-right"
+import Warning from "material-ui/svg-icons/alert/warning"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export const colors = {
   white: "#ffffff",
@@ -32,11 +33,11 @@ export const colors = {
   lightgrey: "#757575",
   toolbarBackground: "#515d66",
   black: "rgba(0, 0, 0, 0.87)"
-};
+}
 
 export function styleSet(styles) {
-  const styleSet = Object.assign(...styles);
-  return styleSet;
+  const styleSet = Object.assign(...styles)
+  return styleSet
 }
 
 export const styles = {
@@ -81,27 +82,32 @@ export const styles = {
       color: colors.toolbarBackground
     }
   }
-};
+}
 
 export const icons = {
   environment: (
     <Avatar backgroundColor={colors.avatarBackgroundColor} color={colors.white}>
-      <i className="fa fa-sitemap" />
+      <FontAwesomeIcon icon="sitemap" />
     </Avatar>
   ),
   application: (
     <Avatar backgroundColor={colors.avatarBackgroundColor} color={colors.white}>
-      <i className="fa fa-home fa-cube" />
+      <FontAwesomeIcon icon="cube" />
+    </Avatar>
+  ),
+  resourceAvator: (
+    <Avatar backgroundColor={colors.avatarBackgroundColor} color={colors.white}>
+      <FontAwesomeIcon icon="cogs" />
     </Avatar>
   ),
   instance: (
     <Avatar backgroundColor={colors.avatarBackgroundColor} color={colors.white}>
-      <i className="fa fa-home fa-cubes" />
+      <FontAwesomeIcon icon="cubes" />
     </Avatar>
   ),
   node: (
     <Avatar backgroundColor={colors.avatarBackgroundColor} color={colors.white}>
-      <i className="fa fa-home fa-server" />
+      <FontAwesomeIcon icon="server" />
     </Avatar>
   ),
   cluster: (
@@ -112,6 +118,11 @@ export const icons = {
   appconfig: (
     <Avatar backgroundColor={colors.avatarBackgroundColor} color={colors.white}>
       <Description style={styles.white} />
+    </Avatar>
+  ),
+  new: (
+    <Avatar backgroundColor={colors.backgroundColor} color={colors.white}>
+      <FontAwesomeIcon icon="plus" />
     </Avatar>
   ),
   cancel: <Cancel hoverColor={colors.pink} />,
@@ -128,7 +139,7 @@ export const icons = {
   delete: <Delete hoverColor={colors.pink} />,
   copy: <Copy hoverColor={colors.pink} />,
   warning: <Warning color={colors.orange} />,
-  resource: <i className="fa fa-cogs" />,
+  resource: <FontAwesomeIcon icon="cogs" />,
   historyAvatar: <Avatar icon={<Timeline />} />,
   securityAvatar: <Avatar icon={<Security />} />,
   rightArrow: <RightArrow />,
@@ -137,7 +148,7 @@ export const icons = {
   ),
   sensuStatusAvatar: <Avatar icon={<NewReleases />} />,
   hardwareAvatar: <Avatar icon={<Build />} />,
-  grafanaAvatar: <Avatar icon={<i className="fa fa-area-chart" />} />,
+  grafanaAvatar: <Avatar icon={<FontAwesomeIcon icon="chart-area" />} />,
   errorAvatar: <Avatar icon={<Error />} backgroundColor={colors.red} />,
   lockAvatar: (
     <Avatar
@@ -146,4 +157,4 @@ export const icons = {
       backgroundColor={colors.toolbarBackground}
     />
   )
-};
+}

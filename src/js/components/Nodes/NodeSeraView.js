@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchSeraData } from '../../actionCreators/node'
 import { List, ListItem } from 'material-ui/List'
 import moment from 'moment'
+import { Spinner } from '../common';
 
 class NodeSeraView extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class NodeSeraView extends Component {
         const { sera } = this.props
         const listItemStyle = { fontSize: '14px', margin: '0px', paddingBottom: '5px', paddingTop: '5px' }
         if (sera.isFetching)
-            return (<i className="fa fa-spinner fa-pulse fa-2x"></i>)
+            return (<Spinner/>)
 
         else if (sera.requestFailed || !sera.data) {
             return (

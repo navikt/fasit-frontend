@@ -25,7 +25,7 @@ const webpack = require("webpack")
 const webpackConfig = require("./webpack.config.dev.js")
 
 const serverOptions = {
-  quiet: false,
+  quiet: true,
   noInfo: false,
   hot: true,
   inline: true,
@@ -149,7 +149,7 @@ app.get(
 app.get("/mockapi/environments/:name/clusters/", (req, res) => {
   sendJson(res, environmentsMock.getClusters(req.params.name))
 })
-  
+
 app.get("/mockapi/clusters/:id/", (req, res) => {
   sendJson(res, environmentsMock.getCluster("u1", "bpm"))
 })

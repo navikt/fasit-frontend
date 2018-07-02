@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 import {Link} from "react-router"
 import {fetchEnvironmentClusters, clearEnvironmentClusters} from "../../actionCreators/environment"
 import Select from 'react-select'
+import { Spinner } from "../common";
 
 class EnvironmentClusters extends Component {
     constructor(props) {
@@ -43,7 +44,7 @@ class EnvironmentClusters extends Component {
         const applicationNames = clusters.reduce((a, b) => a.concat(b.applications), []).map(a => a.name)
         const nodeNames = clusters.reduce((a, b) => a.concat(b.nodes), []).map(a => a.name)
 
-        return isFetching ? <i className="fa fa-spinner fa-pulse fa-2x"> </i> : (
+        return isFetching ? <Spinner/> : (
                 <div>
                     <div style={{width: 350, display: "inline-block"}}>
                         <Select

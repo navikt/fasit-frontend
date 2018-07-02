@@ -20,8 +20,10 @@ import {
     RescueElementForm,
     SecretToggle,
     Security,
-    ToolButtons
+    ToolButtons,
+    Spinner
 } from "../common/";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const initialState = {
     secretVisible: false,
@@ -89,7 +91,6 @@ class Resource extends Component {
 
     rescueResource() {
         const { dispatch } = this.props
-        const { comment } = this.state
         this.toggleComponentDisplay("displayRescueForm")
         dispatch(rescueElement(this.props.id, "resource"))
     }
@@ -202,10 +203,9 @@ class Resource extends Component {
                     style={{ paddingTop: '0px', paddingBottom: '14px' }}
                     disabled={true}
                     className="text-overflow"
-                    primaryText={<Link to={files[key].ref} target="new"><i className={"fa fa-file-o fa-fw"}/>{files[key].filename}</Link>}
+                    primaryText={<Link to={files[key].ref} target="new"><FontAwesomeIcon className="file" fixedWidth/>{files[key].filename}</Link>}
                     secondaryText={propertyName}
                 />
-                break
         }
     }
 
@@ -262,7 +262,7 @@ class Resource extends Component {
         }
 
         if (fasit.isFetching || Object.keys(resource).length === 0) {
-            return <i className="fa fa-spinner fa-pulse fa-2x"></i>
+            return <Spinner/>
         }
 
         if (Object.keys(resource).length > 0) {
