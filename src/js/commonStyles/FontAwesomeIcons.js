@@ -38,7 +38,16 @@ import {
   faExclamationTriangle,
   faQuestion,
   faRecycle,
-  faFile
+  faFile,
+  faUsers,
+  faExchangeAlt,
+  faDollarSign,
+  faEnvelope,
+  faFolder,
+  faIdCard,
+  faBalanceScale,
+  faMicrochip,
+  faSignInAlt
 } from "@fortawesome/free-solid-svg-icons/"
 import { faClock, faCalendar } from "@fortawesome/fontawesome-free-regular"
 import { faMicrosoft } from "@fortawesome/fontawesome-free-brands"
@@ -74,6 +83,7 @@ export default function buildFontAwesomeLibrary() {
     faEyeSlash,
     faTimes,
     faUser,
+    faUsers,
     faLock,
     faSearch,
     faAngleDoubleDown,
@@ -87,6 +97,14 @@ export default function buildFontAwesomeLibrary() {
     faExclamationTriangle,
     faQuestion,
     faRecycle,
-    faFile
+    faFile,
+    faExchangeAlt,
+    faDollarSign,
+    faEnvelope,
+    faFolder,
+    faIdCard,
+    faBalanceScale,
+    faMicrochip,
+    faSignInAlt
   )
 }
