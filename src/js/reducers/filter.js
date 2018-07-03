@@ -8,6 +8,7 @@ export const initialState = {
         environmentclass: '',
         type: '',
         resourcetype: '',
+        status: '', 
         application: '',
         zone: '',
         alias: ''
