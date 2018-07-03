@@ -9,13 +9,21 @@ module.exports = {
 
   findResources: function(queryParams) {
     const scopeFilter = Object.keys(queryParams).filter(
-      k => k !== "page" && k !== "pr_page" && k !== "type"
+      k => k !== "page" && k !== "pr_page" && k !== "type" && k !== "status"
     )
     const typeFilter = queryParams.type
+    const lifecycleFilter = queryParams.status
 
     function byType(r) {
       return typeFilter
         ? r.type.toLowerCase() === typeFilter.toLowerCase()
+        : true
+    }
+
+    function byLifecycleStatus(s) {
+      return lifecycleFilter
+        ? Object.keys(s.lifecycle).length > 0 &&
+            s.lifecycle.status.toLowerCase() === lifecycleFilter.toLowerCase()
         : true
     }
 
@@ -30,7 +38,12 @@ module.exports = {
       return result
     }
 
-    return resources.filter(byType).filter(byScope)
+    console.log("jau")
+
+    return resources
+      .filter(byLifecycleStatus)
+      .filter(byType)
+      .filter(byScope)
   },
 
   deleteresource: function(id) {
