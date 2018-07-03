@@ -38,8 +38,6 @@ module.exports = {
       return result
     }
 
-    console.log("jau")
-
     return resources
       .filter(byLifecycleStatus)
       .filter(byType)
