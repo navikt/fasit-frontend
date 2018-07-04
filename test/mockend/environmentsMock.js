@@ -23,28 +23,28 @@ module.exports = {
     environments.splice(environments.findIndex(e => e.name === environment), 1),
 
   findEnvironments: function(queryParams) {
-    const scopeFilter = Object.keys(queryParams).filter(
-      k => k !== "page" && k !== "pr_page" && k !== "type"
+    const filters = Object.keys(queryParams).filter(
+      k => k !== "status" && k !== "pr_page"
     )
+    const lifecycleFilter = queryParams.status
 
-    function byScope(e) {
+    function byQueryParams(e) {
       let result = true
-      scopeFilter.forEach(filter => {
-        const re = new RegExp(queryParams[filter], "g")
 
-        if (filter === "name") {
-          if (!e[filter].match(re) && e[filter] !== "") {
-            result = false
-          }
-        } else if (filter !== "name" && e[filter] !== queryParams[filter]) {
-          result = false
-        }
+      filters.forEach(filter => {
+        result = e[filter] === queryParams[filter]
       })
-
       return result
     }
 
-    return environments.filter(byScope)
+    function byLifecycleStatus(s) {
+      return lifecycleFilter
+        ? Object.keys(s.lifecycle).length > 0 &&
+            s.lifecycle.status.toLowerCase() === lifecycleFilter.toLowerCase()
+        : true
+    }
+
+    return environments.filter(byQueryParams).filter(byLifecycleStatus)
   }
 }
 

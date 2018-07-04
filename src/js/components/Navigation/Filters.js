@@ -186,6 +186,7 @@ class Filters extends Component {
             {this.classFilter()}
             {this.environmentFilter()}
             {this.applicationFilter()}
+            {this.lifecycleFilter()}
           </div>
         )
       case "nodes":
@@ -194,10 +195,16 @@ class Filters extends Component {
             {this.classFilter()}
             {this.environmentFilter()}
             {this.nodeTypeFilter()}
+            {this.lifecycleFilter()}
           </div>
         )
       case "environments":
-        return <div className="form-inline filters">{this.classFilter()}</div>
+        return (
+          <div className="form-inline filters">
+            {this.classFilter()}
+            {this.lifecycleFilter()}
+          </div>
+        )
       case "resources":
         return (
           <form className="form-inline filters">
