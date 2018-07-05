@@ -179,7 +179,9 @@ class Filters extends Component {
 
     switch (filter.context) {
       case "applications":
-        return <div className="form-inline filters" />
+        return (
+          <div className="form-inline filters">{this.lifecycleFilter()}</div>
+        )
       case "instances":
         return (
           <div className="form-inline filters">
