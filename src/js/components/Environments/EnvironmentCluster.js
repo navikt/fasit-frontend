@@ -3,6 +3,7 @@ import { List, ListItem } from "material-ui/List"
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router"
+import { fetchEnvironmentNodes } from "../../actionCreators/environment"
 import {
   displayModal,
   rescueElement,
@@ -101,7 +102,7 @@ class EnvironmentCluster extends Component {
         : false
 
     return isFetching || !cluster.clustername ? (
-      <Spinner/>
+      <Spinner />
     ) : (
       <div className="row">
         <div className="col-md-6" style={styles.cardPadding}>
@@ -219,6 +220,10 @@ class EnvironmentCluster extends Component {
 
   showModal(mode) {
     const { dispatch } = this.props
+
+    if (mode === "edit") {
+      dispatch(fetchEnvironmentNodes(this.props.cluster.environment))
+    }
     dispatch(displayModal("cluster", true, mode, this.props.cluster))
   }
 
