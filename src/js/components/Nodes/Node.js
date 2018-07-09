@@ -339,11 +339,11 @@ class Node extends Component {
           primaryText="Deployment manager"
           leftAvatar={icons.deploymentManagerAvatar}
           initiallyOpen={true}
+          style={{ padding: "0px" }}
           nestedItems={[
             <ListItem
               key={1}
               insetChildren={true}
-              innerDivStyle={{ paddingLeft: "50px", paddingBottom: "0px" }}
               disableTouchRipple={true}
               primaryText={
                 <Link
@@ -356,11 +356,11 @@ class Node extends Component {
                   <FontAwesomeIcon icon="external-link-alt" fixedWidth />
                 </Link>
               }
+              secondaryText={deploymentManager.properties.hostname}
             />,
             <ListItem
               key={2}
               insetChildren={true}
-              innerDivStyle={{ paddingLeft: "50px", paddingTop: "5px" }}
               disableTouchRipple={true}
               primaryText={
                 <Link to={`/resources/${deploymentManager.id}`}>
