@@ -1,5 +1,10 @@
 import React from "react"
-import { green400, orange300, red400 } from "material-ui/styles/colors"
+import {
+  green400,
+  orange300,
+  red400,
+  deepPurple400
+} from "material-ui/styles/colors"
 import GroupWork from "material-ui/svg-icons/action/group-work"
 import Description from "material-ui/svg-icons/action/description"
 import Timeline from "material-ui/svg-icons/action/timeline"
@@ -27,6 +32,7 @@ export const colors = {
   red: red400,
   orange: orange300,
   green: green400,
+  purple: deepPurple400,
   pink: "#d33682",
   lightpink: "#F84099",
   grey: "#aaa",
@@ -123,6 +129,11 @@ export const icons = {
   new: (
     <Avatar backgroundColor={colors.backgroundColor} color={colors.white}>
       <FontAwesomeIcon icon="plus" />
+    </Avatar>
+  ),
+  deploymentManagerAvatar: (
+    <Avatar backgroundColor={colors.purple} color={colors.white}>
+      <FontAwesomeIcon icon="tachometer-alt" />
     </Avatar>
   ),
   cancel: <Cancel hoverColor={colors.pink} />,

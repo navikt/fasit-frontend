@@ -9,10 +9,22 @@ module.exports = {
 
   findResources: function(queryParams) {
     const scopeFilter = Object.keys(queryParams).filter(
-      k => k !== "page" && k !== "pr_page" && k !== "type" && k !== "status"
+      k =>
+        k !== "page" &&
+        k !== "pr_page" &&
+        k !== "type" &&
+        k !== "status" &&
+        k !== "alias"
     )
     const typeFilter = queryParams.type
     const lifecycleFilter = queryParams.status
+    const aliasFilter = queryParams.alias
+
+    function byAlias(r) {
+      return aliasFilter
+        ? r.alias.toLowerCase() === aliasFilter.toLowerCase()
+        : true
+    }
 
     function byType(r) {
       return typeFilter
@@ -41,6 +53,7 @@ module.exports = {
     return resources
       .filter(byLifecycleStatus)
       .filter(byType)
+      .filter(byAlias)
       .filter(byScope)
   },
 
@@ -111,8 +124,8 @@ const resources = [
     alias: "wasDmgr",
     scope: {
       environmentclass: "t",
-      zone: "sbs",
-      environment: "t4"
+      zone: "fss",
+      environment: "t1"
     },
     properties: {
       hostname: "damager.no",

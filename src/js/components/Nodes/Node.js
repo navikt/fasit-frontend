@@ -1,10 +1,11 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { validAuthorization } from "../../utils/"
+import { validAuthorization, isEmptyObject } from "../../utils/"
 import {
   clearNodePassword,
   fetchFasitData,
-  fetchNodePassword
+  fetchNodePassword,
+  fetchDeploymentManagerResource
 } from "../../actionCreators/node"
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
 import { List, ListItem } from "material-ui/List"
@@ -20,7 +21,8 @@ import {
   SecretToggle,
   Security,
   ToolButtons,
-  Spinner
+  Spinner,
+  WebsphereManagementConsole
 } from "../common/"
 import {
   displayModal,
@@ -88,7 +90,6 @@ class Node extends Component {
 
   rescueNode() {
     const { dispatch, node } = this.props
-    const { comment } = this.state
     this.toggleComponentDisplay("displayRescueForm")
     dispatch(rescueElement(node.id, "node"))
   }
@@ -261,6 +262,7 @@ class Node extends Component {
         </div>
         {/*Side menu*/}
         <div className="col-md-4">
+          {this.renderDeploymentManagerSidePanel()}
           <History
             id={hostname}
             currentRevision={query.revision}
@@ -328,6 +330,27 @@ class Node extends Component {
     )
   }
 
+  renderDeploymentManagerSidePanel() {
+    const { deploymentManager } = this.props
+    const deploymentManagerReceived = !isEmptyObject(deploymentManager)
+
+    if (deploymentManagerReceived) {
+      return (
+        <CollapsibleList
+          primaryText="Deployment manager"
+          leftAvatar={icons.deploymentManagerAvatar}
+          initiallyOpen={true}
+          nestedItems={
+            <WebsphereManagementConsole
+              key={deploymentManager.id}
+              hostname={deploymentManager.properties.hostname}
+            />
+          }
+        />
+      )
+    }
+  }
+
   renderApplications() {
     const { node } = this.props
 
@@ -362,7 +385,11 @@ const mapStateToProps = (state, ownProps) => {
     config: state.configuration,
     revisions: state.revisions,
     query: state.routing.locationBeforeTransitions.query,
-    resourceModalVisible: state.resources.showNewResourceForm
+    resourceModalVisible: state.resources.showNewResourceForm,
+    deploymentManager: state.node_fasit.deploymentManager,
+    deploymentManagerIsFetching: state.node_fasit.deploymentManagerIsFetching,
+    deploymentManagerRequestFailed:
+      state.node_fasit.deploymentManagerRequestFailed
   }
 }
 
