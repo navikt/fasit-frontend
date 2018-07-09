@@ -4,8 +4,7 @@ import { validAuthorization, isEmptyObject } from "../../utils/"
 import {
   clearNodePassword,
   fetchFasitData,
-  fetchNodePassword,
-  fetchDeploymentManagerResource
+  fetchNodePassword
 } from "../../actionCreators/node"
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
 import { List, ListItem } from "material-ui/List"
@@ -21,8 +20,7 @@ import {
   SecretToggle,
   Security,
   ToolButtons,
-  Spinner,
-  WebsphereManagementConsole
+  Spinner
 } from "../common/"
 import {
   displayModal,
@@ -34,6 +32,7 @@ import NodeGraph from "./NodeGraph"
 import NodeSeraView from "./NodeSeraView"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
 import { capitalize } from "../../utils"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 class Node extends Component {
   constructor(props) {
@@ -340,12 +339,36 @@ class Node extends Component {
           primaryText="Deployment manager"
           leftAvatar={icons.deploymentManagerAvatar}
           initiallyOpen={true}
-          nestedItems={
-            <WebsphereManagementConsole
-              key={deploymentManager.id}
-              hostname={deploymentManager.properties.hostname}
+          nestedItems={[
+            <ListItem
+              key={1}
+              insetChildren={true}
+              innerDivStyle={{ paddingLeft: "50px", paddingBottom: "0px" }}
+              disableTouchRipple={true}
+              primaryText={
+                <Link
+                  to={`https://${
+                    deploymentManager.properties.hostname
+                  }:9043/ibm/console`}
+                  target="new"
+                >
+                  Deployment manager console{" "}
+                  <FontAwesomeIcon icon="external-link-alt" fixedWidth />
+                </Link>
+              }
+            />,
+            <ListItem
+              key={2}
+              insetChildren={true}
+              innerDivStyle={{ paddingLeft: "50px", paddingTop: "5px" }}
+              disableTouchRipple={true}
+              primaryText={
+                <Link to={`/resources/${deploymentManager.id}`}>
+                  Deployment manager resource
+                </Link>
+              }
             />
-          }
+          ]}
         />
       )
     }

@@ -72,31 +72,31 @@ class RevisionsView extends Component {
     if (!this.state.displayAllRevisions)
       displayRevisions = revisions.data.slice(0, 5)
     return (
-      <List style={{ paddingTop: "0px", padding: "0px" }}>
-        {displayRevisions.map((rev, idx) => {
-          const revisionQuery = `?revision=${rev.revision}`
-          return (
-            <ListItem
-              key={idx}
-              onClick={() =>
-                browserHistory.push(routing.pathname + revisionQuery)
-              }
-              style={{ fontSize: "14px" }}
-              leftIcon={
-                rev.revision == currentRevision ? icons.rightArrow : null
-              }
-              insetChildren={true}
-              innerDivStyle={{ paddingBottom: "5px", paddingTop: "5px" }}
-              disableTouchRipple={true}
-              primaryText={moment(rev.timestamp).format("DD MMM YYYY HH:mm:ss")}
-              secondaryText={renderSecondaryText(rev)}
-              secondaryTextLines={rev.message ? 2 : 1}
-            />
-          )
-        })}
+        <List style={{ paddingTop: "0px", padding: "0px" }}>
+          {displayRevisions.map((rev, idx) => {
+            const revisionQuery = `?revision=${rev.revision}`
+            return (
+              <ListItem
+                key={idx}
+                onClick={() =>
+                  browserHistory.push(routing.pathname + revisionQuery)
+                }
+                style={{ fontSize: "14px" }}
+                leftIcon={
+                  rev.revision == currentRevision ? icons.rightArrow : null
+                }
+                insetChildren={true}
+                innerDivStyle={{ paddingBottom: "5px", paddingTop: "5px" }}
+                disableTouchRipple={true}
+                primaryText={moment(rev.timestamp).format("DD MMM YYYY HH:mm:ss")}
+                secondaryText={renderSecondaryText(rev)}
+                secondaryTextLines={rev.message ? 2 : 1}
+              />
+            )
+          })}
 
-        {this.showRevisionsFooter()}
-      </List>
+          {this.showRevisionsFooter()}
+        </List>
     )
   }
 }

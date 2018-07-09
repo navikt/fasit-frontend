@@ -47,7 +47,8 @@ import {
   faIdCard,
   faBalanceScale,
   faMicrochip,
-  faSignInAlt
+  faSignInAlt,
+  faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons/"
 import { faClock, faCalendar } from "@fortawesome/fontawesome-free-regular"
 import { faMicrosoft } from "@fortawesome/fontawesome-free-brands"
@@ -105,6 +106,7 @@ export default function buildFontAwesomeLibrary() {
     faIdCard,
     faBalanceScale,
     faMicrochip,
-    faSignInAlt
+    faSignInAlt, 
+    faExternalLinkAlt
   )
 }
