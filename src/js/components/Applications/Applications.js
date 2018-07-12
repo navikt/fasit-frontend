@@ -20,13 +20,13 @@ export class Applications extends Component {
 
   render() {
     const { applications, totalCount, isFetching } = this.props
-    if (isFetching) {
-      return <Spinner />
-    }
+
     if (this.props.params.application) {
       return <Application name={this.props.params.application} />
     } else {
-      return (
+      return isFetching ? (
+        <Spinner />
+      ) : (
         <div className="main-content-container">
           <div className="row col-sm-10">
             <div className="col-sm-6 col-xs-12">
