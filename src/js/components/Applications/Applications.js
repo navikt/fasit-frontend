@@ -12,8 +12,10 @@ export class Applications extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(submitFilterString("applications", 0))
+    const { dispatch, params } = this.props
+    if (!params.application) {
+      dispatch(submitFilterString("applications", 0))
+    }
   }
 
   render() {
