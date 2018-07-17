@@ -79,9 +79,7 @@ export function* fetchAllLists(action) {
     case "nodes":
       filterString = buildFilterString(filter.filters)
       yield fetchNodesList(
-        `${configuration.fasit_nodes}?page=${action.page}&pr_page=${
-          action.prPage
-        }&${filterString}`
+        `${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${filterString}`
       )
       setFilterAsQueryParams("nodes", filterString)
       return
@@ -111,9 +109,9 @@ export function* fetchAllLists(action) {
     case "instances":
       filterString = buildFilterString(filter.filters)
       yield fetchInstancesList(
-        `${configuration.fasit_applicationinstances}?page=${
-          action.page
-        }&pr_page=${action.prPage}&${filterString}`
+        `${configuration.fasit_applicationinstances}?page=${action.page}&pr_page=${
+          action.prPage
+        }&${filterString}`
       )
       setFilterAsQueryParams("instances", filterString)
       break
@@ -132,8 +130,7 @@ const buildFilterString = filters => {
   const filterString = Object.keys(filters)
     .reduce((accumulator, current) => {
       if (filters[current]) {
-        const queryParam = current === "resourcetype" ? "type" : current // this is because there are multiple type properties in filters type name is taken by node
-        accumulator.push(`${queryParam}=${filters[current]}`)
+        accumulator.push(`${current}=${filters[current]}`)
       }
 
       return accumulator

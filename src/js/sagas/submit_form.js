@@ -26,6 +26,7 @@ import {
   SUBMIT_FORM_SUCCESS
 } from "../actionTypes"
 import { deleteUrl, postUrl, putUrl } from "../utils"
+import Filters from "../components/Navigation/Filters"
 
 export function* submitForm(action) {
   const configuration = yield select(state => state.configuration)
@@ -64,9 +65,7 @@ export function* submitForm(action) {
         yield put({ type: ENVIRONMENTS_REQUEST })
         break
       case "newCluster":
-        url = `${configuration.fasit_environments}/${
-          action.form.environment
-        }/clusters`
+        url = `${configuration.fasit_environments}/${action.form.environment}/clusters`
         const newCluster = yield postUrl(url, action.form, action.comment)
         yield put({ type: SHOW_NEW_CLUSTER_FORM, value: false })
         const newClusterLocation = newCluster.headers.get("Location")
@@ -118,9 +117,7 @@ export function* submitForm(action) {
         yield browserHistory.push("/environments")
         break
       case "deleteCluster":
-        url = `${configuration.fasit_environments}/${
-          action.form.env
-        }/clusters/${action.key}`
+        url = `${configuration.fasit_environments}/${action.form.env}/clusters/${action.key}`
         yield browserHistory.push(`/environments/${action.form.env}`)
         yield deleteUrl(url, action.comment)
         break
@@ -131,7 +128,8 @@ export function* submitForm(action) {
           type: SUBMIT_FILTER_SEARCH,
           location: "resources",
           prPage: 10,
-          page: filter.activePage
+          page: filter.activePage,
+          filters: filter.filters
         })
         yield browserHistory.push("/resources")
         break
@@ -178,9 +176,7 @@ export function* submitForm(action) {
         yield putUrl(url, action.form, action.comment)
         yield put({ type: SHOW_NEW_CLUSTER_FORM, value: false })
         yield browserHistory.push(
-          `/environments/${action.form.environment}/clusters/${
-            action.form.clustername
-          }`
+          `/environments/${action.form.environment}/clusters/${action.form.clustername}`
         )
         yield put({
           type: CLUSTER_FASIT_REQUEST,
@@ -205,9 +201,7 @@ export function* submitForm(action) {
         })
         break
       default:
-        throw new Error(
-          "Submit_form-saga: I don't know which component you're coming from"
-        )
+        throw new Error("Submit_form-saga: I don't know which component you're coming from")
     }
 
     yield put({ type: SUBMIT_FORM_SUCCESS })

@@ -55,9 +55,7 @@ class Filters extends Component {
           placeholder="Env."
           name="form-field-name"
           value={filter.filters.environment}
-          options={this.convertToSelectObject(
-            filteredEnvironments.map(env => env.name)
-          )}
+          options={this.convertToSelectObject(filteredEnvironments.map(env => env.name))}
           onChange={e => this.handleChangeFilter("environment", e.value)}
         />
       </div>
@@ -87,10 +85,7 @@ class Filters extends Component {
           resetValue=""
           placeholder="Zone"
           name="form-field-zone"
-          disabled={
-            filter.filters.environmentclass === "" &&
-            filter.filters.environment === ""
-          }
+          disabled={filter.filters.environmentclass === "" && filter.filters.environment === ""}
           value={filter.filters.zone}
           options={this.convertToSelectObject(this.props.zones)}
           onChange={e => this.handleChangeFilter("zone", e.value)}
@@ -136,9 +131,9 @@ class Filters extends Component {
           resetValue=""
           placeholder="Type"
           name="form-field-name"
-          value={this.props.filter.filters.resourcetype}
+          value={this.props.filter.filters.type}
           options={this.convertToSelectObject(this.props.resourceTypes)}
-          onChange={e => this.handleChangeFilter("resourcetype", e.value)}
+          onChange={e => this.handleChangeFilter("type", e.value)}
         />
       </div>
     )
@@ -179,9 +174,7 @@ class Filters extends Component {
 
     switch (filter.context) {
       case "applications":
-        return (
-          <div className="form-inline filters">{this.lifecycleFilter()}</div>
-        )
+        return <div className="form-inline filters">{this.lifecycleFilter()}</div>
       case "instances":
         return (
           <div className="form-inline filters">
