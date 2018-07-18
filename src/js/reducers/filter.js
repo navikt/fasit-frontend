@@ -1,7 +1,6 @@
 import {
   CHANGE_FILTER,
   CHANGE_PAGE,
-  CLEAR_FILTERS,
   SET_FILTER,
   SET_FILTER_CONTEXT
 } from "../actionTypes"
@@ -29,12 +28,10 @@ export default (state = initialState, action) => {
       })
     case SET_FILTER_CONTEXT:
       if (action.value !== state.context) {
-        const fjes = Object.assign({}, state, {
+        return Object.assign({}, state, {
           context: action.value,
           filters: initialFilter
         })
-
-        return fjes
       } else {
         return {
           ...state,
