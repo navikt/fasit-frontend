@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 class ContexMenu extends Component {
   constructor(props) {

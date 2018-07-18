@@ -6,18 +6,20 @@ import {
   SET_FILTER_CONTEXT
 } from "../actionTypes"
 
-export const initialState = {
+const initialFilter = {
+  environment: "",
+  environmentclass: "",
+  type: "",
+  status: "",
+  application: "",
+  zone: "",
+  alias: ""
+}
+
+const initialState = {
   activePage: 0,
   context: "",
-  filters: {
-    environment: "",
-    environmentclass: "",
-    type: "",
-    status: "",
-    application: "",
-    zone: "",
-    alias: ""
-  }
+  filters: initialFilter
 }
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -27,34 +29,34 @@ export default (state = initialState, action) => {
       })
     case SET_FILTER_CONTEXT:
       if (action.value !== state.context) {
-        console.log("Restting filter ", action.value, state.context)
-
-        return {
-          ...state,
+        const fjes = Object.assign({}, state, {
           context: action.value,
-          filters: initialState.filters
-        }
+          filters: initialFilter
+        })
+
+        return fjes
       } else {
         return {
           ...state,
           context: action.value
         }
       }
-   
-    case CHANGE_FILTER: {
-      const filters = Object.assign({}, state.filters, {
-        [action.filterName]: action.filterValue
-      })
 
+    case CHANGE_FILTER: {
+      const filters = { ...state.filters, [action.filterName]: action.filterValue }
       return Object.assign({}, state, {
         filters
       })
     }
     case SET_FILTER: {
-      return Object.assign({}, state, { filters: action.filter })
+      let filters = Object.assign({}, initialFilter)
+      Object.keys(action.filter).forEach(key => {
+        filters[key] = action.filter[key]
+      })
+
+      return Object.assign({}, state, { filters: filters })
     }
-    case CLEAR_FILTERS:
-      return Object.assign({}, state, { filters: initialState.filters })
+
     default:
       return state
   }

@@ -18,7 +18,6 @@ class Filters extends Component {
 
   componentDidMount() {
     const { dispatch, location } = this.props
-    dispatch(clearFilters())
 
     if (!isEmptyObject(location.query)) {
       dispatch(setFilter(location.query))
