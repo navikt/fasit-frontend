@@ -354,7 +354,7 @@ function dropdown(name, displayName, options) {
   return property
 }
 
-function file(name, displayName, required = true) {
+function file(name, displayName, required = false) {
   return new ResourceTypeProperty(
     "file",
     name,
