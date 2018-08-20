@@ -9,27 +9,18 @@ module.exports = {
 
   findResources: function(queryParams) {
     const scopeFilter = Object.keys(queryParams).filter(
-      k =>
-        k !== "page" &&
-        k !== "pr_page" &&
-        k !== "type" &&
-        k !== "status" &&
-        k !== "alias"
+      k => k !== "page" && k !== "pr_page" && k !== "type" && k !== "status" && k !== "alias"
     )
     const typeFilter = queryParams.type
     const lifecycleFilter = queryParams.status
     const aliasFilter = queryParams.alias
 
     function byAlias(r) {
-      return aliasFilter
-        ? r.alias.toLowerCase() === aliasFilter.toLowerCase()
-        : true
+      return aliasFilter ? r.alias.toLowerCase() === aliasFilter.toLowerCase() : true
     }
 
     function byType(r) {
-      return typeFilter
-        ? r.type.toLowerCase() === typeFilter.toLowerCase()
-        : true
+      return typeFilter ? r.type.toLowerCase() === typeFilter.toLowerCase() : true
     }
 
     function byLifecycleStatus(s) {
@@ -483,14 +474,15 @@ const resources = [
   },
   {
     type: "datasource",
-    alias: "yrkesveileder.datasource",
+    alias: "skikkelig.lang.url.til.datasource",
     scope: {
       environmentclass: "q",
       zone: "sbs",
       application: "yrkesveileder"
     },
     properties: {
-      url: "jdbc:oracle:thin:@dbhost.com:dbschema",
+      url:
+        "jdbc:oracle:thin:@(DESCRIPTION=(FAILOVER=on)(CONNECT_TIMEOUT= 15)(RETRY_COUNT=20)(RETRY_DELAY=3)(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=databaseserver.com)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=databaserserver2.com)(PORT=1522)))(CONNECT_DATA=(SERVICE_NAME=testdb_ha)))",
       username: "db_user"
     },
     secrets: {
