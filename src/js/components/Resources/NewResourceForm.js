@@ -45,19 +45,29 @@ class NewResourceForm extends Component {
   }
 
   componentWillReceiveProps(next) {
-    if (next.mode === "edit" || next.mode === "copy") {
-      const { resource } = this.props
-      const { alias, type, properties, scope, files } = resource.data
+    const { resource } = this.props
+    const { alias, type, properties, scope, files } = resource.data
+    if (next.mode === "edit") {
+        this.setState({
+            alias,
+            type,
+            properties,
+            scope,
+            files,
+            currentSecrets: next.currentSecrets
+        })
+    }
+    else if (next.mode === "copy") {
+        this.setState({
+            alias,
+            type,
+            properties,
+            scope,
+            files
+        })
+    }
 
-      this.setState({
-        alias,
-        type,
-        properties,
-        scope,
-        files,
-        currentSecrets: next.currentSecrets
-      })
-    } else {
+    else {
       this.resetLocalState()
     }
   }
