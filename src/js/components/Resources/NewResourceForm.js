@@ -125,7 +125,7 @@ class NewResourceForm extends Component {
     } else {
       const scope = this.removeEmpty(this.state.scope)
       const form = {
-        alias,
+        alias: alias.trim(),
         type,
         properties,
         scope
