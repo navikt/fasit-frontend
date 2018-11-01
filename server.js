@@ -25,7 +25,7 @@ const webpack = require("webpack")
 const webpackConfig = require("./webpack.config.dev.js")
 
 const serverOptions = {
-  quiet: true,
+  quiet: false,
   noInfo: false,
   hot: true,
   inline: true,
@@ -90,61 +90,32 @@ app.get("/mockapi/applicationinstances/:id", (req, res) => {
 })
 
 app.get("/mockapi/applicationinstances/:id/revisions", (req, res) => {
-  sendJson(
-    res,
-    applicationinstancesRevisionsMock.getApplicationInstanceRevisions()
-  )
+  sendJson(res, applicationinstancesRevisionsMock.getApplicationInstanceRevisions())
 })
 
-app.get(
-  "/mockapi/applicationinstances/environment/:environment",
-  (req, res) => {
-    sendJson(
-      res,
-      applicationinstances.findApplicationInstanceByEnv(req.params.environment)
-    )
-  }
-)
+app.get("/mockapi/applicationinstances/environment/:environment", (req, res) => {
+  sendJson(res, applicationinstances.findApplicationInstanceByEnv(req.params.environment))
+})
 
-app.get(
-  "/mockapi/applicationinstances/application/:application",
-  (req, res) => {
-    sendJson(
-      res,
-      applicationinstances.findApplicationInstanceByApp(req.params.application)
-    )
-  }
-)
+app.get("/mockapi/applicationinstances/application/:application", (req, res) => {
+  sendJson(res, applicationinstances.findApplicationInstanceByApp(req.params.application))
+})
 
-app.get(
-  "/mockapi/applicationinstances/1/revisions/69/appconfig",
-  (req, res) => {
-    res.send(
-      "<this><is><real><nested><xml>69</xml></nested></real></is></this>"
-    )
-  }
-)
+app.get("/mockapi/applicationinstances/1/revisions/69/appconfig", (req, res) => {
+  res.send("<this><is><real><nested><xml>69</xml></nested></real></is></this>")
+})
 
 app.get("/mockapi/environments/:name/clusters/:clustername", (req, res) => {
-  sendJson(
-    res,
-    environmentsMock.getCluster(req.params.name, req.params.clustername)
-  )
+  sendJson(res, environmentsMock.getCluster(req.params.name, req.params.clustername))
 })
 
-app.get(
-  "/mockapi/environments/:name/clusters/:clustername/revisions",
-  (req, res) => {
-    sendJson(res, environmentsMock.getClusterRevisions())
-  }
-)
+app.get("/mockapi/environments/:name/clusters/:clustername/revisions", (req, res) => {
+  sendJson(res, environmentsMock.getClusterRevisions())
+})
 
-app.get(
-  "/mockapi/environments/:name/clusters/:clustername/revisions/:revision",
-  (req, res) => {
-    sendJson(res, environmentsMock.getClusterRevision())
-  }
-)
+app.get("/mockapi/environments/:name/clusters/:clustername/revisions/:revision", (req, res) => {
+  sendJson(res, environmentsMock.getClusterRevision())
+})
 
 app.get("/mockapi/environments/:name/clusters/", (req, res) => {
   sendJson(res, environmentsMock.getClusters(req.params.name))
