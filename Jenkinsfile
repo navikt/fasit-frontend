@@ -1,7 +1,6 @@
 
 node {
     def npm, node // tools
-
     def groupId = "nais"
     def appConfig = "nais.yaml"
     def committer, committerEmail, changelog // metadata
@@ -22,15 +21,10 @@ node {
 
             def lastCommitter = sh(script: 'git log -1 --pretty=format:%an', returnStdout: true) 
             
-            if (lastCommitter.equals('AURA Jenkins')) {
-                currentBuild.result = 'ABORTED'
-                error('Skipping build')
-            }   
-
 			changelog = sh(script: 'git log `git describe --tags --abbrev=0`..HEAD --oneline', returnStdout: true)
-            releaseVersion = sh(script: 'npm version major | cut -d"v" -f2', returnStdout: true).trim()
-             committer = sh(script: 'git log -1 --pretty=format:"%ae (%an)"', returnStdout: true).trim()
-             committerEmail = sh(script: 'git log -1 --pretty=format:"%ae"', returnStdout: true).trim()
+            releaseVersion = sh(script: 'echo $(date "+%Y-%m-%d")-$(git --no-pager log -1 --pretty=%h)', returnStdout: true).trim()
+            committer = sh(script: 'git log -1 --pretty=format:"%ae (%an)"', returnStdout: true).trim()
+            committerEmail = sh(script: 'git log -1 --pretty=format:"%ae"', returnStdout: true).trim()
         }
 
 
@@ -50,16 +44,6 @@ node {
                     def imageName = "docker.adeo.no:5000/${application}:${releaseVersion}"
                     sh "sudo docker build -t ${imageName} ./docker"
                     sh "sudo docker push ${imageName}"
-        }
-
-        stage("set version") {
-             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'navikt-ci', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
-                    sh "git tag -a ${application}-${releaseVersion} -m '${application}-${releaseVersion}'"
-                    sh "git push  --set-upstream https://${USERNAME}:${PASSWORD}@github.com/navikt/fasit-frontend.git --tags"
-                    sh "git push  --set-upstream https://${USERNAME}:${PASSWORD}@github.com/navikt/fasit-frontend.git master"
-                }
-             }
         }
 
         stage("publish yaml") {
