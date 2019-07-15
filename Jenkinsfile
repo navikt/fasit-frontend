@@ -32,9 +32,9 @@ node {
                 withEnv(['HTTP_PROXY=http://webproxy-utvikler.nav.no:8088', 'NO_PROXY=adeo.no']) {
                         sh "mkdir -p ${distDir}"
                         sh "cp production_server.js config.js selftest.js ${distDir}"
-                        sh "cd ${distDir} && cp ../../package.json . && npm install --production && cd -"
+                        sh "cd ${distDir} && cp ../../package.json . && npm ci --production && cd -"
                      //    getting required node_modules for production
-                        sh "npm install && npm run build || exit 1" // Creating frontend bundle
+                        sh "npm ci && npm run test && npm run build || exit 1" // Creating frontend bundle
                         sh "cp -r dist ${distDir}" // Copying frontend bundle
                         sh "cp Dockerfile ${dockerDir}"
                 }
