@@ -5,7 +5,6 @@ import sinon from "sinon"
 import { Applications } from "../../../../src/js/components/Applications/Applications"
 import ApplicationCard from "../../../../src/js/components/Applications/ApplicationCard"
 
-
 describe('(Component) Applications', () => {
 
     it('renders "Applications" without exploding', () => {
@@ -14,16 +13,30 @@ describe('(Component) Applications', () => {
     })
 
     it('renders "Application" and fetches correct data', () => {
-        const dispatch = sinon.spy()
-        const wrapper = shallow(<Applications {...props} dispatch={dispatch}/>)
+        const dispatch = sinon.spy(() => {})
+        const propsWithoutApplication = {
+            ...props,
+            params: {
+                ...props.params,
+                application: null
+            }
+        }
+        const wrapper = shallow(<Applications {...propsWithoutApplication} dispatch={dispatch}/>)
         wrapper.instance().componentDidMount()
         expect(dispatch.args[0][0].type).to.equal("SUBMIT_FILTER_SEARCH")
         expect(dispatch.args[0][0].location).to.equal("applications")
     })
 
     it('renders "Application" with loading animation if isFetching', () => {
-        const wrapper = shallow(<Applications {...props} isFetching={true}/>)
-        expect(wrapper.find('div.element-list')).to.have.length(1)
+        const propsWithoutApplication = {
+            ...props,
+            params: {
+                ...props.params,
+                application: null
+            }
+        }
+        const wrapper = shallow(<Applications {...propsWithoutApplication} isFetching={true}/>)
+        expect(wrapper.find('Spinner')).to.have.length(1)
     })
 
     it('renders "Application" and returns list of applications', () => {

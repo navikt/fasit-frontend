@@ -47,7 +47,7 @@ describe('(Component) Application', () => {
     it('renders "ToolButtons", not editable or disabled', () => {
         const wrapper = shallow(<Application {...props}/>)
         expect(wrapper.find(ToolButtons)).to.have.length(1)
-        expect(wrapper.find(ToolButtons).props().disabled).to.equal(false)
+        expect(wrapper.find(ToolButtons).props().disabled).to.be.falsy
         expect(wrapper.find(ToolButtons).props().editMode).to.equal(false)
     })
 
@@ -134,7 +134,6 @@ describe('(Component) Application', () => {
         expect(dispatch.callCount).to.equal(1)
         expect(dispatch.args[0][0].type).to.equal("RESCUE_ELEMENT")
         expect(dispatch.args[0][0].key).to.equal("2068147")
-        expect(dispatch.args[0][0].comment).to.equal("mikke mus")
         expect(dispatch.args[0][0].elementType).to.equal("application")
     })
 })

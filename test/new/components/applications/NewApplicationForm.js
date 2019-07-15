@@ -19,7 +19,7 @@ describe('(Component) NewApplicationForm', () => {
         expect(wrapper.state().name).to.equal('')
         expect(wrapper.state().artifactid).to.equal('')
         expect(wrapper.state().groupid).to.equal('')
-        expect(wrapper.state().portoffset).to.equal('')
+        expect(wrapper.state().portoffset).to.equal("0")
         expect(wrapper.state().comment).to.equal('')
     })
 
