@@ -1,5 +1,5 @@
 node_modules/
-.iml
+*.iml
 .idea/
 npm-debug*
 ./DS_Store
