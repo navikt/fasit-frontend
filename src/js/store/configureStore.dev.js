@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga'
-import DevTools from '../components/DevTools/DevTools';
 
 import rootSaga from '../sagas'
 import rootReducer from '../reducers';
@@ -14,9 +13,14 @@ const middlewares = [
     sagaMiddleware
 ]
 
-const finalCreateStore = compose(
+const composeEnhancers =
+    typeof window === 'object' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        }) : compose;
+
+const finalCreateStore = composeEnhancers(
     applyMiddleware(...middlewares),
-    DevTools.instrument()
 )(createStore);
 
 module.exports = function configureStore() {
