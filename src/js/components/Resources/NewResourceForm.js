@@ -132,10 +132,7 @@ class NewResourceForm extends Component {
       }
 
       if (Object.keys(currentSecrets).length > 0) {
-        form.secrets = {}
-        Object.keys(currentSecrets).forEach(k => {
-          form.secrets[k] = { value: currentSecrets[k] }
-        })
+        form.secrets = currentSecrets;
       }
 
       if (Object.keys(currentFiles).length > 0) {
@@ -186,6 +183,41 @@ class NewResourceForm extends Component {
       property.required === true ? " *" : ""
     }`
     const { properties, currentSecrets, currentFiles } = this.state
+
+    const SecretInput = ({ value }) =>
+      <MaterialTextBox
+          field={key}
+          errorText={
+            this.displayValidationError(
+                currentSecrets[key],
+                property.required
+            )
+                ? "Required secret "
+                : null
+          }
+          value={value}
+          label={label}
+          onChange={(field, newValue) =>
+              this.handleChange(field, { value: newValue }, "currentSecrets")
+          }
+      />
+
+    const VaultPathInput = ({ value }) =>
+      <MaterialTextArea
+          field={key}
+          errorText={
+            this.displayValidationError(properties[key], property.required)
+                ? "Required property "
+                : null
+          }
+          value={value}
+          label={`${label} (Vault Path)`}
+          onChange={(field, newValue) =>
+              this.handleChange(field, { vaultpath: newValue }, "currentSecrets")
+          }
+      />
+
+    const currentSecret = this.state.currentSecrets[key]
 
     switch (property.type) {
       case "textbox":
@@ -238,25 +270,20 @@ class NewResourceForm extends Component {
           />
         )
       case "secret":
-        return (
-          <MaterialTextBox
-            key={key}
-            field={key}
-            errorText={
-              this.displayValidationError(
-                currentSecrets[key],
-                property.required
-              )
-                ? "Required secret "
-                : null
-            }
-            value={this.state.currentSecrets[key]}
-            label={label}
-            onChange={(field, newValue) =>
-              this.handleChange(field, newValue, "currentSecrets")
-            }
-          />
-        )
+      case "vaultPath":
+        if (currentSecret == null) {
+          if (key == "vaultPath") {
+            return <VaultPathInput key={key} value="" />
+          } else {
+            return <SecretInput key={key} value="" />
+          }
+        } else if (currentSecret.vaultpath != null) {
+          return <VaultPathInput key={key} value={currentSecret.vaultpath} />
+        } else if (currentSecret.value != null) {
+          return <SecretInput key={key} value={currentSecret.value} />
+        } else {
+          return <div>Error: Unknown secret format. (Bug in fasit or fasit-frontend)</div>
+        }
       case "file":
         return (
           <div
@@ -299,6 +326,9 @@ class NewResourceForm extends Component {
         )
         break
       default:
+        return (
+            <div>Unknown resource type {property.type}</div>
+        )
     }
   }
 

@@ -58,9 +58,17 @@ export function* fetchFasitResourceSecret() {
 
             let secrets = {}
             for (let i = 0; i < keys.length; i++) {
-                let key = keys[i]
-                const secret = yield call(fetchUrl, secretRefs[key].ref)
-                secrets[key] = secret
+                const key = keys[i]
+                if (secretRefs[key].vaultpath != null) {
+                    secrets[key] = secretRefs[key]
+                } else {
+                    const secret = yield call(fetchUrl, secretRefs[key].ref)
+                    secrets[key] = {
+                        ...secretRefs[key],
+                        value: secret
+                    }
+                }
+
                 yield put({ type: RESOURCE_FASIT_SECRET_RECEIVED, secrets })
             }
         }
