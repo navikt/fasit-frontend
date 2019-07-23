@@ -274,7 +274,7 @@ class NewResourceForm extends Component {
       case "secret":
       case "vaultPath":
         if (currentSecret == null) {
-          if (key == "vaultPath") {
+          if (property.type == "vaultPath") {
             return VaultPathInput({ key, value: "" })
           } else {
             return SecretInput({ key, value: "" })
