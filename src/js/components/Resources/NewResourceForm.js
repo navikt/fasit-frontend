@@ -184,8 +184,9 @@ class NewResourceForm extends Component {
     }`
     const { properties, currentSecrets, currentFiles } = this.state
 
-    const SecretInput = ({ value }) =>
+    const SecretInput = ({ key, value }) =>
       <MaterialTextBox
+          key={key}
           field={key}
           errorText={
             this.displayValidationError(
@@ -202,8 +203,9 @@ class NewResourceForm extends Component {
           }
       />
 
-    const VaultPathInput = ({ value }) =>
+    const VaultPathInput = ({ key, value }) =>
       <MaterialTextArea
+          key={key}
           field={key}
           errorText={
             this.displayValidationError(properties[key], property.required)
@@ -272,15 +274,15 @@ class NewResourceForm extends Component {
       case "secret":
       case "vaultPath":
         if (currentSecret == null) {
-          if (key == "vaultPath") {
-            return <VaultPathInput key={key} value="" />
+          if (property.type == "vaultPath") {
+            return VaultPathInput({ key, value: "" })
           } else {
-            return <SecretInput key={key} value="" />
+            return SecretInput({ key, value: "" })
           }
         } else if (currentSecret.vaultpath != null) {
-          return <VaultPathInput key={key} value={currentSecret.vaultpath} />
+          return VaultPathInput({ key, value: currentSecret.vaultpath })
         } else if (currentSecret.value != null) {
-          return <SecretInput key={key} value={currentSecret.value} />
+          return SecretInput({key, value: currentSecret.value })
         } else {
           return <div>Error: Unknown secret format. (Bug in fasit or fasit-frontend)</div>
         }
