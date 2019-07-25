@@ -40,7 +40,7 @@ export const displayModal = (component, value, mode, existingData) => {
       return { type: SHOW_NEW_ENVIRONMENT_FORM, value, mode }
       break
     case "node":
-      return { type: SHOW_NEW_NODE_FORM, value }
+      return { type: SHOW_NEW_NODE_FORM, value, mode }
       break
     case "resource":
       return { type: SHOW_NEW_RESOURCE_FORM, value, mode }
@@ -52,7 +52,7 @@ export const submitNavSearch = query => {
 }
 
 export const updateClusterDraft = (field, value) => {
-    return {type: UPDATE_CLUSTER_DRAFT, field, value}
+  return { type: UPDATE_CLUSTER_DRAFT, field, value }
 }
 
 export const setSearchString = query => {
