@@ -137,7 +137,7 @@ commands:
                 name: deploy to << parameters.environment >> 
                 command: deployment-cli deploy create 
                     --cluster=<< parameters.environment >>  
-                    --repository=navikt/basta-frontend 
+                    --repository=navikt/fasit-frontend
                     --team aura 
                     --resource=aura-infra/templates/fasit-frontend.yaml 
                     --vars=<< parameters.placeholder-values >>
