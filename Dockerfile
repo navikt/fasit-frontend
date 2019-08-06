@@ -1,5 +1,5 @@
-FROM docker.adeo.no:5000/alpine-node:base-6.9
-MAINTAINER Frode Sundby <frode.sundby@nav.no>
+FROM node:9-alpine
+MAINTAINER Mats Byfuglien <mats.byfuglien@nav.no>
 
 WORKDIR /src
 ADD ./dist .
