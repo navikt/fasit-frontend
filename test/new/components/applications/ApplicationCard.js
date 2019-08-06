@@ -69,7 +69,6 @@ const props = {
     config: {
         fasit_applicationinstances: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances",
         fasit_applications: "https://e34jbsl01655.devillo.no:8443/api/v2/applications",
-        fasit_baseurl: "https://e34jbsl01655.devillo.no:8443",
         fasit_environments: "https://e34jbsl01655.devillo.no:8443/api/v2/environments",
         fasit_lifecycle: "https://e34jbsl01655.devillo.no:8443/api/v1/lifecycle",
         fasit_navsearch: "https://e34jbsl01655.devillo.no:8443/api/v1/navsearch",
