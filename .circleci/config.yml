@@ -13,6 +13,8 @@ references:
 
 workspace_root: &workspace_root /tmp/workspace
 
+docker_dist: &docker_dist /tmp/docker
+
 restore_source: &restore_source
     restore_cache:
         keys:
@@ -26,6 +28,10 @@ restore_node_modules: &restore_node_modules
 attach_workspace: &attach_workspace
     attach_workspace:
         at: *workspace_root
+
+attach_docker_dist: &attach_docker_dist
+    attach_workspace:
+        at: *docker_dist
 
 read_environment_variables: &read_environment_variables
     run:
@@ -50,16 +56,16 @@ jobs:
             - run:
                 name: 'Test and bundle'
                 command: | 
-                  mkdir -p docker/dist
-                  cp production_server.js config.js selftest.js docker/dist
-                  cd docker/dist && cp ../../package.json . && npm ci --production && cd -
+                  mkdir -p /tmp/docker/dist
+                  cp production_server.js config.js selftest.js package.json package-lock.json /tmp/docker/dist
+                  cd /tmp/docker/dist && npm ci --production && cd -
                   npm ci && npm run test && npm run build || exit 1 # Creating frontend bundle
-                  cp -r dist docker/dist
-                  cp Dockerfile docker
-            - save_cache:
-                key: v1-dependencies-node-{{ checksum "package.json" }}
+                  cp -r dist /tmp/docker/dist
+                  cp Dockerfile /tmp/docker
+            - persist_to_workspace: 
+                root: *docker_dist
                 paths:
-                    - node_modules
+                  - .
 
     generate_version_number:
         <<: *container_config
@@ -79,10 +85,9 @@ jobs:
     release:
         <<: *container_config
         steps:
-            - *restore_source
-            - *restore_node_modules
             - *attach_workspace
             - *read_environment_variables
+            - *attach_docker_dist
             - setup_remote_docker:
                 docker_layer_caching: true
             - run:
