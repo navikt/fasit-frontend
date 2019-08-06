@@ -190,7 +190,7 @@ class Resource extends Component {
       case "vaultPath":
       case "secret":
         const secret = resource.secrets[key]
-        if (secret.vaultpath != null) {
+        if (secret != null && secret.vaultpath != null) {
           return (
             <ListItem
                 key={key}
