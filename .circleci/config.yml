@@ -178,6 +178,7 @@ workflows:
                         only: master
                 requires:
                     - build_and_test
+                    - generate_version_number
             - deploy_to_dev:
                 filters:
                     branches:
