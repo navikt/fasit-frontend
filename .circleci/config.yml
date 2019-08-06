@@ -81,9 +81,6 @@ jobs:
             root: *workspace_root
             paths:
                 - properties.env
-        - run:
-            name: 'ls'
-            command: ls -la /tmp/workspace
 
     release:
         <<: *container_config
@@ -93,12 +90,6 @@ jobs:
             - *attach_docker_dist
             - setup_remote_docker:
                 docker_layer_caching: true
-            - run:
-                name: 'ls'
-                command: ls -la /tmp/
-            - run:
-                name: 'ls2'
-                command: ls -la /tmp/docker
             - run:
                 name: Login to GPR
                 command: echo "$GPR_PASSWORD" | docker login -u "$GPR_USER" --password-stdin docker.pkg.github.com
@@ -136,7 +127,7 @@ commands:
             - checkout
             - add_ssh_keys:
                 fingerprints: 
-                    - '01:47:91:7b:1c:26:c3:bb:de:ac:1f:3b:78:94:c6:55'
+                    - '78:cf:a1:12:62:b6:f2:32:64:f2:01:ec:39:b8:60:98'
             - run:
                 name: 'Checkout aura-infra repo'
                 command: git clone git@github.com:navikt/aura-infra.git
