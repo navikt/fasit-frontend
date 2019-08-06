@@ -99,7 +99,7 @@ jobs:
             - run:
                 name: Build and push docker image
                 command: |
-                    docker build -t docker.pkg.github.com/navikt/fasit-frontend/fasit-frontend:${VERSION} ./docker
+                    docker build -t docker.pkg.github.com/navikt/fasit-frontend/fasit-frontend:${VERSION} ./tmp/docker
                     docker push docker.pkg.github.com/navikt/fasit-frontend/fasit-frontend:${VERSION}
     
      
