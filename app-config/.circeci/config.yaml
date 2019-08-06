@@ -1,0 +1,184 @@
+version: 2.1
+
+executors:
+  deployment-cli:
+    docker:
+      - image: navikt/deployment-cli:v0.2.0
+
+references:
+    container_config: &container_config
+        docker:
+            - image: circleci/node:10.9
+        working_directory: ~/frontend
+
+workspace_root: &workspace_root /tmp/workspace
+
+restore_source: &restore_source
+    restore_cache:
+        keys:
+            - v1-repo-{{ .Branch }}-{{ .Revision }}
+
+restore_node_modules: &restore_node_modules
+    restore_cache:
+        keys:
+        - v1-dependencies-node-{{ checksum "package.json" }}
+
+attach_workspace: &attach_workspace
+    attach_workspace:
+        at: *workspace_root
+
+read_environment_variables: &read_environment_variables
+    run:
+        name: Set up environment variables
+        command: cat /tmp/workspace/properties.env >> $BASH_ENV
+
+
+jobs:
+    checkout_code:
+        <<: *container_config
+        steps:
+            - checkout
+            - save_cache:
+                key: v1-repo-{{ .Branch }}-{{ .Revision }}
+                paths:
+                    - .
+
+    build_and_test:
+        <<: *container_config
+        steps:
+            - *restore_source
+            - run:
+                name: 'Test and bundle'
+                command: | 
+                  mkdir -p docker/dist
+                  cp production_server.js config.js selftest.js docker/dist
+                  cd docker/dist && cp ../../package.json . && npm ci --production && cd -
+                  npm ci && npm run test && npm run build || exit 1 # Creating frontend bundle
+                  cp -r dist docker/dist
+                  cp Dockerfile docker
+            - save_cache:
+                key: v1-dependencies-node-{{ checksum "package.json" }}
+                paths:
+                    - node_modules
+
+    generate_version_number:
+        <<: *container_config
+        steps:
+        - *restore_source
+        - run:
+            name: 'Generate version number'
+            command: |
+                mkdir /tmp/workspace
+                export VERSION=$(date "+%Y-%m-%d")-$(git --no-pager log -1 --pretty=%h)
+                echo "export VERSION=\"$VERSION\"" >> /tmp/workspace/properties.env
+        - persist_to_workspace:
+            root: *workspace_root
+            paths:
+                - properties.env
+
+    release:
+        <<: *container_config
+        steps:
+            - *restore_source
+            - *restore_node_modules
+            - *attach_workspace
+            - *read_environment_variables
+            - setup_remote_docker:
+                docker_layer_caching: true
+            - run:
+                name: Login to GPR
+                command: echo "$GPR_PASSWORD" | docker login -u "$GPR_USER" --password-stdin docker.pkg.github.com
+            - run:
+                name: Build and push docker image
+                command: |
+                    docker build -t docker.pkg.github.com/navikt/fasit-frontend/fasit-frontend:${VERSION} ./docker
+                    docker push docker.pkg.github.com/navikt/fasit-frontend/fasit-frontend:${VERSION}
+    
+     
+    deploy_to_dev:
+        executor: deployment-cli
+        steps:
+            - deploy-to-nais:
+                environment: dev-fss
+                placeholder-values: aura-infra/vars/fasit-frontend-dev-fss.json
+
+    deploy_to_prod:
+        executor: deployment-cli
+        steps:
+             - deploy-to-nais:
+                environment: prod-fss
+                placeholder-values: aura-infra/vars/fasit-frontend-prod-fss.json
+
+commands:
+    deploy-to-nais:
+        parameters:
+            placeholder-values:
+                type: string
+            environment:
+                type: string
+        steps:
+            - *attach_workspace
+            - *read_environment_variables
+            - checkout
+            - add_ssh_keys:
+                fingerprints: 
+                    - '01:47:91:7b:1c:26:c3:bb:de:ac:1f:3b:78:94:c6:55'
+            - run:
+                name: 'Checkout aura-infra repo'
+                command: git clone git@github.com:navikt/aura-infra.git
+
+            - decrypt-private-key   
+            - run:
+                name: deploy to << parameters.environment >> 
+                command: deployment-cli deploy create 
+                    --cluster=<< parameters.environment >>  
+                    --repository=navikt/basta-frontend 
+                    --team aura 
+                    --resource=aura-infra/templates/fasit-frontend.yaml 
+                    --vars=<< parameters.placeholder-values >>
+                    --var version=${VERSION} 
+                    --appid=21324 
+                    --key=github.key.pem
+            - run:
+                name: cleanup
+                command: rm github.key.pem
+
+    decrypt-private-key:
+        steps:
+            - run:
+                name: "Decrypt private key"
+                command: |
+                    openssl aes-256-cbc -K $OPENSSL_KEY -iv $OPENSSL_IV -in aura-infra/deployment-keys/github.key.pem.enc -out github.key.pem -d
+                
+        
+workflows:
+    build_and_release:
+        jobs:
+            - checkout_code
+            - build_and_test:
+                requires:
+                    - checkout_code
+            - generate_version_number:
+                filters:
+                    branches:
+                        only: master
+                requires:
+                    - checkout_code
+            - release:
+                filters:
+                    branches:
+                        only: master
+                requires:
+                    - build_and_test
+            - deploy_to_dev:
+                filters:
+                    branches:
+                        only: master
+                requires:
+                    - release
+            #- deploy_to_prod:
+            #    filters:
+            #        branches: 
+            #            only: master
+            #    requires:
+            #        - deploy_to_dev
