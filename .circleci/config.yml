@@ -94,12 +94,18 @@ jobs:
             - setup_remote_docker:
                 docker_layer_caching: true
             - run:
+                name: 'ls'
+                command: ls -la /tmp/
+            - run:
+                name: 'ls2'
+                command: ls -la /tmp/docker
+            - run:
                 name: Login to GPR
                 command: echo "$GPR_PASSWORD" | docker login -u "$GPR_USER" --password-stdin docker.pkg.github.com
             - run:
                 name: Build and push docker image
                 command: |
-                    docker build -t docker.pkg.github.com/navikt/fasit-frontend/fasit-frontend:${VERSION} ./tmp/docker
+                    docker build -t docker.pkg.github.com/navikt/fasit-frontend/fasit-frontend:${VERSION}   /tmp/docker
                     docker push docker.pkg.github.com/navikt/fasit-frontend/fasit-frontend:${VERSION}
     
      
