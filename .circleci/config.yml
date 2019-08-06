@@ -81,6 +81,9 @@ jobs:
             root: *workspace_root
             paths:
                 - properties.env
+        - run:
+            name: 'ls'
+            command: ls -la /tmp/workspace
 
     release:
         <<: *container_config
