@@ -156,6 +156,7 @@ class EnvironmentCluster extends Component {
               <ToolButtons
                 disabled={!authorized}
                 hideCopyButton={true}
+                hideDeleteButton={true}
                 onEditClick={() => this.showModal("edit")}
                 onDeleteClick={() =>
                   this.toggleComponentDisplay("displayDeleteForm")

@@ -43,7 +43,8 @@ export default class ToolButtons extends Component {
       onEditClick,
       onDeleteClick,
       onCopyClick,
-      hideCopyButton
+      hideCopyButton,
+      hideDeleteButton
     } = this.props
     const disabledString = "Log in or make sure you have access"
     return (
@@ -88,25 +89,27 @@ export default class ToolButtons extends Component {
         >
           {icons.edit}
         </IconButton>
-        <IconButton
-          disabled={disabled}
-          touch={true}
-          disableTouchRipple={true}
-          onTouchTap={onDeleteClick}
-          iconStyle={styles.button}
-          tooltip={
-            disabled ? (
-              disabledString
-            ) : (
-              <div>
-                <u>D</u>elete
-              </div>
-            )
-          }
-          tooltipPosition="bottom-center"
-        >
-          {icons.delete}
-        </IconButton>
+        {!hideDeleteButton && (
+          <IconButton
+            disabled={disabled}
+            touch={true}
+            disableTouchRipple={true}
+            onTouchTap={onDeleteClick}
+            iconStyle={styles.button}
+            tooltip={
+              disabled ? (
+                disabledString
+              ) : (
+                <div>
+                  <u>D</u>elete
+                </div>
+              )
+            }
+            tooltipPosition="bottom-center"
+          >
+            {icons.delete}
+          </IconButton>
+        )}
       </div>
     )
   }
