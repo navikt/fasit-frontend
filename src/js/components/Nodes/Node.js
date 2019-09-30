@@ -29,7 +29,6 @@ import {
 } from "../../actionCreators/common"
 import NodeEventsView from "./NodeEventsView"
 import NodeGraph from "./NodeGraph"
-import NodeSeraView from "./NodeSeraView"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
 import { capitalize } from "../../utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -266,12 +265,6 @@ class Node extends Component {
             id={hostname}
             currentRevision={query.revision}
             component="node"
-          />
-          <CollapsibleList
-            primaryText="Hardware"
-            leftAvatar={icons.hardwareAvatar}
-            initiallyOpen={true}
-            nestedItems={<NodeSeraView key={hostname} hostname={hostname} />}
           />
           <Security
             accesscontrol={node.accesscontrol}

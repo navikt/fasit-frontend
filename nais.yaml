@@ -34,8 +34,6 @@ fasitResources:
     resourceType: baseUrl
   - alias: grafana
     resourceType: baseUrl
-  - alias: sera:servers_v1
-    resourceType: restservice
   - alias: sensu_api
     resourceType: restservice
   - alias: fasit-frontendProperties

@@ -47,7 +47,6 @@
         "FASIT_URL": "http://localhost:6969/mockapi",
         "GRAFANA_URL": "https://grafana.adeo.no",
         "JIRA_URL": "http://jira-q1.adeo.no",
-        "SERA_SERVERS_V1_URL": "https://sera.adeo.no/api/v1/servers",
         "SENSU_API_URL": "https://sensu-api.adeo.no"
       }
     },

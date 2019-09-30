@@ -16,7 +16,6 @@ import {watchRescueElement} from "./lifecycle_saga";
 //Nodes
 import {watchNodeEvents} from "./node_events";
 import {watchNodeFasit} from "./node_fasit";
-import {watchNodeSera} from "./node_sera";
 import {watchNodeTypes} from "./node_types";
 // Resources
 import {watchResourceTypes} from "./resource_types";
@@ -53,7 +52,6 @@ export default function*() {
         //Nodes
         call(watchNodeEvents),
         call(watchNodeFasit),
-        call(watchNodeSera),
         call(watchNodeTypes),
 
         // Resources

@@ -26,7 +26,6 @@ import nodes from "./nodes"
 import node_events from "./node_events"
 import node_fasit from "./node_fasit"
 import revisions from "./revisions"
-import node_sera from "./node_sera"
 
 var fasitReducer = combineReducers({
   routing: routerReducer,
@@ -54,8 +53,7 @@ var fasitReducer = combineReducers({
   user,
   nodes,
   node_events,
-  node_fasit,
-  node_sera
+  node_fasit
 })
 
 export default fasitReducer

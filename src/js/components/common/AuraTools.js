@@ -20,14 +20,6 @@ export function AuraTools() {
           <div className="app-label">Vera</div>
         </div>
       </a>
-      <a href="https://sera.adeo.no" target="Sera">
-        <div className="app-container">
-          <div className="app-icon">
-            <img src="/images/aura-ikoner/sera.png" className="app-icon" />
-          </div>
-          <div className="app-label">Sera</div>
-        </div>
-      </a>
     </Popover>
   )
 }

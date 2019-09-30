@@ -4,7 +4,6 @@ import {
   NODE_FASIT_REQUEST,
   DEPLOYMENTMANAGER_FASIT_REQUEST,
   NODE_FASIT_PASSWORD_REQUEST,
-  NODE_SERA_REQUEST,
   RESCUE_NODE
 } from "../actionTypes"
 
@@ -13,15 +12,8 @@ export const clearNodePassword = () => {
 }
 export const fetchEvents = fasitData => {
   const client = fasitData.cluster
-    ? fasitData.cluster.name +
-      "_" +
-      fasitData.environment +
-      "_" +
-      fasitData.hostname.split(".")[0]
-    : "unknown_" +
-      fasitData.environment +
-      "_" +
-      fasitData.hostname.split(".")[0]
+    ? fasitData.cluster.name + "_" + fasitData.environment + "_" + fasitData.hostname.split(".")[0]
+    : "unknown_" + fasitData.environment + "_" + fasitData.hostname.split(".")[0]
   return { type: NODE_EVENTS_REQUEST, client }
 }
 
@@ -33,9 +25,6 @@ export const fetchDeploymentManagerResource = node => {
 }
 export const fetchNodePassword = () => {
   return { type: NODE_FASIT_PASSWORD_REQUEST }
-}
-export const fetchSeraData = hostname => {
-  return { type: NODE_SERA_REQUEST, hostname }
 }
 export const rescueNode = hostname => {
   return { type: RESCUE_NODE, hostname }

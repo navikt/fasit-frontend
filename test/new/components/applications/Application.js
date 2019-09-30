@@ -185,8 +185,7 @@ const props = {
     fasit_secrets: "https://e34jbsl01655.devillo.no:8443/api/v2/secrets",
     grafana: "https://grafana.adeo.no",
     jira: "http://jira-q1.adeo.no",
-    sensu_api: "https://sensu-api.adeo.no",
-    sera_servers: "https://sera.adeo.no/api/v1/servers"
+    sensu_api: "https://sensu-api.adeo.no"
   },
   revisions: {
     data: [

@@ -13,7 +13,6 @@ const navSearchMock = require("./test/mockend/navSearchMock")
 const searchMock = require("./test/mockend/searchMock")
 const nodeRevisionsMock = require("./test/mockend/nodeRevisionsMock")
 const loginMock = require("./test/mockend/loginMock")
-const seraMock = require("./test/mockend/seraMock")
 
 const config = require("./config")
 console.log("ext", config.externalResources)
@@ -217,10 +216,6 @@ app.get("/mockapi/v2/nodes", (req, res) => {
 
 app.get("/mockapi/v2/secrets/*", (req, res) => {
   res.send("th151s4M0ck53cr3t")
-})
-
-app.get("/mockapi/seramock", (req, res) => {
-  sendJson(res, seraMock.getNodeInfo())
 })
 
 if (process.env["NODE_ENV"] === "standalone") {
