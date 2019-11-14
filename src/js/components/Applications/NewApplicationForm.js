@@ -4,8 +4,8 @@ import { connect } from "react-redux"
 import { FormComment, FormString } from "../common/Forms"
 import { capitalize } from "../../utils"
 import { displayModal, submitForm } from "../../actionCreators/common"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { icons, styles } from "../../commonStyles/commonInlineStyles"
+import { Card, CardHeader, CardText } from "material-ui/Card"
+import { icons, styles, colors } from "../../commonStyles/commonInlineStyles"
 
 export class NewApplicationForm extends Component {
   constructor(props) {
@@ -59,9 +59,7 @@ export class NewApplicationForm extends Component {
     }
 
     if (mode === "edit") {
-      dispatch(
-        submitForm(this.props.application.name, form, comment, "application")
-      )
+      dispatch(submitForm(this.props.application.name, form, comment, "application"))
     } else {
       dispatch(submitForm(form.name, form, comment, "newApplication"))
     }
@@ -101,6 +99,40 @@ export class NewApplicationForm extends Component {
     )
   }
 
+  showNewApplicationAlert() {
+    return (
+      <Card expandable={false} initiallyExpanded={true} style={styles.cardPadding}>
+        <CardHeader
+          title="Creation of new applications has been disabled"
+          titleStyle={styles.bold}
+          avatar={icons.warning}
+        />
+
+        <CardText expandable={false}>
+          <p>
+            New applications should be build for the{" "}
+            <a href="https://nais.io" target="new">
+              nais
+            </a>{" "}
+            plattform and deployed using naiserator which is not using fasit.
+          </p>
+          <p>
+            Did you know that you can create{" "}
+            <a href="https://basta-frontend.adeo.no/create/customcredential" target="new">
+              custom serviceusers
+            </a>{" "}
+            in{" "}
+            <a href="https://basta-frontend.adeo.no" target="new">
+              Basta
+            </a>{" "}
+            without having to create an application in fasit first.
+          </p>
+          <p>If you really need to create a new application, please contact us on Slack #aura</p>
+        </CardText>
+      </Card>
+    )
+  }
+
   render() {
     const { showNewApplicationForm, mode, application } = this.props
     return (
@@ -108,10 +140,7 @@ export class NewApplicationForm extends Component {
         <Modal.Header>
           <Modal.Title>
             {icons.application} &emsp;
-            {mode &&
-              `${capitalize(mode)} application ${
-                mode !== "new" ? application.name : ""
-              }`}
+            {mode && `${capitalize(mode)} application ${mode !== "new" ? application.name : ""}`}
             <button
               id="resetBtn"
               type="reset"
@@ -123,6 +152,7 @@ export class NewApplicationForm extends Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {this.showNewApplicationAlert()}
           <FormString
             label="name"
             editMode={true}
@@ -150,15 +180,10 @@ export class NewApplicationForm extends Component {
           <div className="col-xs-12" style={{ height: 15 + "px" }} />
         </Modal.Body>
         <Modal.Footer>
-          <FormComment
-            value={this.state.comment}
-            handleChange={this.handleChange.bind(this)}
-          />
+          <FormComment value={this.state.comment} handleChange={this.handleChange.bind(this)} />
           <br />
           <div className="row">
-            <div className="row col-lg-10 col-lg-offset-2">
-              {this.showSubmitButton()}
-            </div>
+            <div className="row col-lg-10 col-lg-offset-2">{this.showSubmitButton()}</div>
           </div>
         </Modal.Footer>
       </Modal>

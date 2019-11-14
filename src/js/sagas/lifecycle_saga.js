@@ -7,8 +7,7 @@ import {
   NODE_FASIT_REQUEST,
   RESCUE_ELEMENT,
   RESOURCE_FASIT_REQUEST,
-  REVISIONS_REQUEST,
-  ENVIRONMENT_CLUSTER_FASIT_REQUEST
+  REVISIONS_REQUEST
 } from "../actionTypes"
 import { putUrl } from "../utils"
 
