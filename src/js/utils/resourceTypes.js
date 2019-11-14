@@ -54,8 +54,7 @@ export const resourceTypes = {
       textbox("onsHosts", "ONS Hosts (Oracle DataGuard only)", false),
       textbox("oemEndpoint", "OEM endpoint (Oracle PDB only)", false),
       textbox("username"),
-      secret("password")
-      // vaultPath('password')
+      vaultPath('password')
     ]
   },
   MSSQLDataSource: {
@@ -85,7 +84,7 @@ export const resourceTypes = {
     properties: [
       textbox("url"),
       textbox("username"),
-      secret("password"),
+      vaultPath('password'),
       textbox("domain", "Domain", false).hintText("eg. TEST.LOCAL"),
       textbox("basedn", "Base DN", false).hintText("eg. dc=test,dc=local"),
       textbox("user.basedn", "User base DN", false).hintText(
@@ -102,7 +101,7 @@ export const resourceTypes = {
   },
   Credential: {
     icon: "key",
-    properties: [textbox("username", "Username", false), secret("password")]
+    properties: [textbox("username", "Username", false), vaultPath('password')]
   },
   Certificate: {
     icon: "lock",
