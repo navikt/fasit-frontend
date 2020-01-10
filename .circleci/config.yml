@@ -89,7 +89,7 @@ jobs:
             - *read_environment_variables
             - *attach_docker_dist
             - setup_remote_docker:
-                docker_layer_caching: true
+                docker_layer_caching: false
             - run:
                 name: Login to GPR
                 command: echo "$GPR_PASSWORD" | docker login -u "$GPR_USER" --password-stdin docker.pkg.github.com
