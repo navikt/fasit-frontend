@@ -239,15 +239,6 @@ export const resourceTypes = {
       textbox("queueManager", "Queue manager", false)
     ]
   },
-  Topic: {
-    backgroundColor: deepPurple400,
-    color: colors.white,
-    texticon: "T",
-    properties: [
-      textbox("topicString", "Topic string"),
-      textbox("queueManager", "Queue manager", false)
-    ]
-  },
   DeploymentManager: {
     backgroundColor: deepPurple400,
     color: colors.white,

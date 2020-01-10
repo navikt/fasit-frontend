@@ -266,20 +266,7 @@ module.exports = [
             "queueManager"
         ],
         "documentation": {
-            "doc": "Køer og topics konfigureres på serveren\nKøer, topics og kanaler bestilles slik at de eksisterer på MQ-serveren. Dette skjer ikke automatisk\n\nVed deploy av myApp til t1 blir følgende generert: \nChannelName: T1_MYAPP \n",
-            "appconfiglink": "http://confluence.adeo.no/x/NowfB"
-        }
-    },
-    {
-        "type": "Topic",
-        "requiredproperties": [
-            "topicString"
-        ],
-        "optionalproperties": [
-            "queueManager"
-        ],
-        "documentation": {
-            "doc": "Køer og topics konfigureres på serveren\nKøer, topics og kanaler bestilles slik at de eksisterer på MQ-serveren. Dette skjer ikke automatisk\n\nVed deploy av myApp til t1 blir følgende generert: \nChannelName: T1_MYAPP \n",
+            "doc": "Køer konfigureres på serveren\nKøer og kanaler bestilles slik at de eksisterer på MQ-serveren. Dette skjer ikke automatisk\n\nVed deploy av myApp til t1 blir følgende generert: \nChannelName: T1_MYAPP \n",
             "appconfiglink": "http://confluence.adeo.no/x/NowfB"
         }
     },
