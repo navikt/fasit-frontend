@@ -12,8 +12,7 @@ const search = [
         "info": "WAS",
         "lastchange": 1402912329491,
         "lifecycle": {
-            "status": "stopped",
-            "issue": "AURAGC-5934"
+            "status": "stopped"
         },
         "detailedinfo": {
             "platformType": "WAS",
@@ -27,8 +26,7 @@ const search = [
         "info": "u1",
         "lastchange": 1433246644739,
         "lifecycle": {
-            "status": "alerted",
-            "issue": "AURAGC-5934"
+            "status": "alerted"
         },
         "detailedinfo": {
             "nodes": [

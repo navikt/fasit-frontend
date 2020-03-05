@@ -1084,9 +1084,7 @@ const resources = [
     created: "2014-05-08T14:54:47.347",
     updated: "2016-11-10T09:40:42.029",
     lifecycle: {
-      status: "stopped",
-      nextactiondate: "2017-02-08T09:40:42.029",
-      issue: "AURAGC-5862"
+      status: "stopped"
     },
     accesscontrol: {
       environmentclass: "q",
@@ -1184,9 +1182,7 @@ const resources = [
     created: "2014-10-29T14:19:14.756",
     updated: "2017-03-15T10:16:42.555",
     lifecycle: {
-      status: "alerted",
-      nextactiondate: "2017-06-13T10:16:42.554",
-      issue: "AURAGC-7401"
+      status: "alerted"
     },
     accesscontrol: {
       environmentclass: "u",
@@ -1239,16 +1235,14 @@ const resources = [
       }
     },
     files: {},
-    lifecyclestatus: "rescued",
+    lifecyclestatus: "alerted",
     usedbyapplications: [],
     dodgy: false,
     id: 96,
     created: "2013-04-12T13:07:12.157",
     updated: "2016-12-20T10:47:00.627",
     lifecycle: {
-      status: "rescued",
-      nextactiondate: "2017-12-20T10:47:00.626",
-      issue: "AURAGC-6671"
+      status: "alerted"
     },
     accesscontrol: {
       environmentclass: "u",

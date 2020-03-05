@@ -4,20 +4,18 @@ import { Tab, Tabs } from "material-ui/Tabs";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";
 import { Link } from "react-router";
 import Manifest from "./Manifest";
-import { CollapsibleList, CurrentRevision, History, Lifecycle, RescueElementForm } from "../common/";
+import { CollapsibleList, CurrentRevision, History, Lifecycle } from "../common/";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import { fetchInstance } from "../../actionCreators/instance";
 import { validAuthorization } from "../../utils/";
-import { rescueElement } from "../../actionCreators/common";
 
 class Instance extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            displayRescueForm: false,
             comment: ""
         }
     }
@@ -45,13 +43,6 @@ class Instance extends Component {
 
     handleChange(field, value) {
         this.setState({[field]: value})
-    }
-
-    rescue() {
-        const {dispatch, instance} = this.props
-        const {comment} = this.state
-        this.toggleComponentDisplay("displayRescueForm")
-        dispatch(rescueElement(instance.id, "applicationinstance"))
     }
 
     render() {
@@ -102,9 +93,7 @@ class Instance extends Component {
                             </div>
                         </CardText>
                     </Card>
-                    <Lifecycle lifecycle={lifecycle}
-                               rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
-                               authorized={authorized}/>
+                    <Lifecycle lifecycle={lifecycle}/>
                     <Card style={styles.cardPadding}>
                         <CardText>
                             {instance.usedresources &&
@@ -140,13 +129,6 @@ class Instance extends Component {
                         nestedItems={<SelfTestLinks key={id} links={instance.selftesturls}/>}/>}
                     <History id={id} revision={query.revision} component="instance"/>
                 </div>
-                <RescueElementForm
-                    displayRescueForm={this.state.displayRescueForm}
-                    onClose={() => this.toggleComponentDisplay("displayRescueForm")}
-                    onSubmit={() => this.rescue()}
-                    id={instance.application}
-                    handleChange={this.handleChange.bind(this)}
-                />
             </div>
         )
     }

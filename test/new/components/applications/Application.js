@@ -6,12 +6,10 @@ import { Card } from "material-ui/Card"
 import { Application } from "../../../../src/js/components/Applications/Application.js"
 import InstanceCard from "../../../../src/js/components/Instances/InstanceCard"
 import {
-  AccessControl,
   CurrentRevision,
   DeleteElementForm,
   History,
   Lifecycle,
-  RescueElementForm,
   Security,
   ToolButtons
 } from "../../../../src/js/components/common/"
@@ -25,10 +23,7 @@ describe("(Component) Application", () => {
   it("sets initial state", () => {
     const wrapper = shallow(<Application {...props} />)
     expect(wrapper.state().displayDeleteForm).to.equal(false)
-    expect(wrapper.state().displayRescueForm).to.equal(false)
-    expect(wrapper.state().displayAccessControlForm).to.equal(false)
     expect(wrapper.state().editMode).to.equal(false)
-    expect(wrapper.state().adgroups).to.be.instanceof(Array)
   })
 
   it('renders "CurrentRevision" with props', () => {
@@ -53,11 +48,11 @@ describe("(Component) Application", () => {
     const wrapper = shallow(
       <Application
         {...props}
-        application={{ ...props.application, lifecycle: { status: "rescued" } }}
+        application={{ ...props.application, lifecycle: { status: "alerted" } }}
       />
     )
     expect(wrapper.find(Lifecycle)).to.have.length(1)
-    expect(wrapper.find(Lifecycle).props().lifecycle.status).to.equal("rescued")
+    expect(wrapper.find(Lifecycle).props().lifecycle.status).to.equal("alerted")
   })
 
   it('renders "History" with props', () => {
@@ -72,29 +67,12 @@ describe("(Component) Application", () => {
     expect(wrapper.find(Security).props().accesscontrol.environmentclass).to.equal("t")
   })
 
-  it('renders "AccessControl" with props', () => {
-    const wrapper = shallow(<Application {...props} />)
-    expect(wrapper.find(AccessControl)).to.have.length(1)
-    expect(wrapper.find(AccessControl).props().displayAccessControlForm).to.equal(false)
-    expect(wrapper.find(AccessControl).props().onClose).to.be.instanceof(Function)
-    expect(wrapper.find(AccessControl).props().onSubmit).to.be.instanceof(Function)
-  })
-
   it('renders "DeleteElementForm" with props', () => {
     const wrapper = shallow(<Application {...props} />)
     expect(wrapper.find(DeleteElementForm)).to.have.length(1)
     expect(wrapper.find(DeleteElementForm).props().displayDeleteForm).to.equal(false)
     expect(wrapper.find(DeleteElementForm).props().onClose).to.be.instanceof(Function)
     expect(wrapper.find(DeleteElementForm).props().onSubmit).to.be.instanceof(Function)
-  })
-
-  it('renders "RescueElementForm" with props', () => {
-    const wrapper = shallow(<Application {...props} />)
-    expect(wrapper.find(RescueElementForm)).to.have.length(1)
-    expect(wrapper.find(RescueElementForm).props().displayRescueForm).to.equal(false)
-    expect(wrapper.find(RescueElementForm).props().onClose).to.be.instanceof(Function)
-    expect(wrapper.find(RescueElementForm).props().onSubmit).to.be.instanceof(Function)
-    expect(wrapper.find(RescueElementForm).props().handleChange).to.be.instanceof(Function)
   })
 
   it('renders "InstanceCard" with props', () => {
@@ -126,18 +104,6 @@ describe("(Component) Application", () => {
     const wrapper = shallow(<Application {...props} />)
     wrapper.instance().handleChange("editMode", true)
     expect(wrapper.state().editMode).to.equal(true)
-  })
-
-  it('(function) "rescue" sets new state and dispatches action', () => {
-    const dispatch = sinon.spy(() => {})
-    const wrapper = shallow(<Application {...props} dispatch={dispatch} />)
-    wrapper.setState({ comment: "mikke mus" })
-    wrapper.instance().rescue()
-    expect(wrapper.state().displayRescueForm).to.equal(true)
-    expect(dispatch.callCount).to.equal(1)
-    expect(dispatch.args[0][0].type).to.equal("RESCUE_ELEMENT")
-    expect(dispatch.args[0][0].key).to.equal("2068147")
-    expect(dispatch.args[0][0].elementType).to.equal("application")
   })
 })
 
@@ -184,7 +150,6 @@ const props = {
     fasit_search: "https://e34jbsl01655.devillo.no:8443/api/v1/search",
     fasit_secrets: "https://e34jbsl01655.devillo.no:8443/api/v2/secrets",
     grafana: "https://grafana.adeo.no",
-    jira: "http://jira-q1.adeo.no",
     sensu_api: "https://sensu-api.adeo.no"
   },
   revisions: {

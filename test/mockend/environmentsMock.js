@@ -23,9 +23,7 @@ module.exports = {
     environments.splice(environments.findIndex(e => e.name === environment), 1),
 
   findEnvironments: function(queryParams) {
-    const filters = Object.keys(queryParams).filter(
-      k => k !== "status" && k !== "pr_page"
-    )
+    const filters = Object.keys(queryParams).filter(k => k !== "status" && k !== "pr_page")
     const lifecycleFilter = queryParams.status
 
     function byQueryParams(e) {
@@ -146,9 +144,7 @@ const environments = [
     created: "2016-04-15T13:04:09.251",
     updated: "2016-06-15T08:59:39.716",
     lifecycle: {
-      status: "rescued",
-      nextactiondate: "2017-06-15T08:59:39.711",
-      issue: "AURAGC-5335"
+      status: "alterted"
     },
     accesscontrol: {
       environmentclass: "q",
@@ -186,9 +182,7 @@ const environments = [
     created: "2016-04-15T13:04:09.251",
     updated: "2016-06-15T08:59:39.716",
     lifecycle: {
-      status: "rescued",
-      nextactiondate: "2017-06-15T08:59:39.711",
-      issue: "AURAGC-5335"
+      status: "running"
     },
     accesscontrol: {
       environmentclass: "p",
@@ -216,87 +210,73 @@ const clusters = [
         nodes: [
           {
             name: "host1.devillo.no",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/e34wasl00353.devillo.no"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/e34wasl00353.devillo.no"
           }
         ],
         applications: [
           {
             name: "esb-virksomhet",
             id: "1777086",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777086"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777086"
           },
           {
             name: "esb-auth-conf",
             id: "356929",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356929"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356929"
           },
           {
             name: "prosess-pensjon",
             id: "1777162",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777162"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777162"
           },
           {
             name: "esb",
             id: "356932",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356932"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356932"
           },
           {
             name: "esb-pensjon",
             id: "1777353",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777353"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777353"
           },
           {
             name: "empty-bpm",
             id: "1645874",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1645874"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1645874"
           },
           {
             name: "esb-nonenv-conf",
             id: "356930",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356930"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356930"
           },
           {
             name: "esb-env-conf",
             id: "356931",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356931"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/356931"
           },
           {
             name: "bpm",
             id: "357004",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/357004"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/357004"
           },
           {
             name: "esb-legacy",
             id: "1777277",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777277"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1777277"
           }
         ],
         id: 331415,
         created: "2014-03-13T10:59:38.913",
         updated: "2015-12-23T11:30:07.78",
         lifecycle: {
-          status: "alerted",
-          nextactiondate: "2016-11-20T08:32:53.559",
-          issue: "AURAGC-5878"
+          status: "alerted"
         },
         accesscontrol: {
           environmentclass: "u",
           adgroups: []
         },
         links: {
-          self:
-            "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/bpm",
+          self: "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/bpm",
           revisions:
             "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/bpm/revisions"
         }
@@ -317,8 +297,7 @@ const clusters = [
           adgroups: []
         },
         links: {
-          self:
-            "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster3",
+          self: "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster3",
           revisions:
             "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster3/revisions"
         }
@@ -331,8 +310,7 @@ const clusters = [
         nodes: [
           {
             name: "tullenode4.devillo.no",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/tullenode4.devillo.no"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/tullenode4.devillo.no"
           }
         ],
         applications: [],
@@ -345,8 +323,7 @@ const clusters = [
           adgroups: []
         },
         links: {
-          self:
-            "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster4",
+          self: "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster4",
           revisions:
             "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster4/revisions"
         }
@@ -359,8 +336,7 @@ const clusters = [
         nodes: [
           {
             name: "tullball.devillo.no",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/tullball.devillo.no"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/tullball.devillo.no"
           }
         ],
         applications: [],
@@ -373,8 +349,7 @@ const clusters = [
           adgroups: []
         },
         links: {
-          self:
-            "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster5",
+          self: "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster5",
           revisions:
             "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/cluster5/revisions"
         }
@@ -388,28 +363,24 @@ const clusters = [
         nodes: [
           {
             name: "e34wasl00116.devillo.no",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/e34wasl00116.devillo.no"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/nodes/e34wasl00116.devillo.no"
           }
         ],
         applications: [
           {
             name: "pensjon-tekster-pselv-fss",
             id: "1584219",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1584219"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/1584219"
           },
           {
             name: "pensjon-fss",
             id: "401502",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/401502"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/401502"
           },
           {
             name: "trafikanten-fss",
             id: "401503",
-            ref:
-              "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/401503"
+            ref: "https://e34jbsl01655.devillo.no:8443/api/v2/applicationinstances/401503"
           }
         ],
         id: 331201,
@@ -421,8 +392,7 @@ const clusters = [
           adgroups: []
         },
         links: {
-          self:
-            "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/pensjon-fss",
+          self: "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/pensjon-fss",
           revisions:
             "https://e34jbsl01655.devillo.no:8443/api/v2/environments/u15/clusters/pensjon-fss/revisions"
         }

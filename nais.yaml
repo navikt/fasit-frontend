@@ -14,8 +14,6 @@ fasitResources:
     resourceType: restservice
   - alias: fasit:lifecycle_v1
     resourceType: restservice
-  - alias: jira
-    resourceType: baseUrl
   - alias: fasit:environments_v2
     resourceType: restservice
   - alias: fasit:applications_v2

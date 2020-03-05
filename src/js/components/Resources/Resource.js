@@ -4,7 +4,7 @@ import { List, ListItem } from "material-ui/List"
 import { Link } from "react-router"
 import { validAuthorization } from "../../utils"
 import { fetchFasitData } from "../../actionCreators/resource"
-import { displayModal, rescueElement, submitForm } from "../../actionCreators/common"
+import { displayModal, submitForm } from "../../actionCreators/common"
 import { getResourceTypeName, resourceTypeIcon, resourceTypes } from "../../utils/resourceTypes"
 import { ResourceInstances } from "./ResourceInstances"
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
@@ -12,12 +12,10 @@ import { styles } from "../../commonStyles/commonInlineStyles"
 import NotFound from "../NotFound"
 import WebsphereManagementConsole from "../common/WebsphereManagementConsole"
 import {
-  AccessControl,
   CurrentRevision,
   DeleteElementForm,
   History,
   Lifecycle,
-  RescueElementForm,
   SecretToggle,
   Security,
   ToolButtons,
@@ -28,15 +26,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 const initialState = {
   secretVisible: false,
   displayDeleteForm: false,
-  displayRescueForm: false,
-  adgroups: [],
   comment: ""
 }
 
 function vaultUrl(vaultPath) {
-  const baseUrl = 'https://vault.adeo.no/ui/vault/secrets/';
-  const replaced = vaultPath.replace(/^([\w-]+)\/data\/(.*)\/[\w-]+$/, '$1/show/$2');
-  return baseUrl + replaced;
+  const baseUrl = "https://vault.adeo.no/ui/vault/secrets/"
+  const replaced = vaultPath.replace(/^([\w-]+)\/data\/(.*)\/[\w-]+$/, "$1/show/$2")
+  return baseUrl + replaced
 }
 
 class Resource extends Component {
@@ -94,25 +90,10 @@ class Resource extends Component {
     return form
   }
 
-  rescueResource() {
-    const { dispatch } = this.props
-    this.toggleComponentDisplay("displayRescueForm")
-    dispatch(rescueElement(this.props.id, "resource"))
-  }
-
   deleteResource(key) {
     const { dispatch } = this.props
     this.toggleComponentDisplay("displayDeleteForm")
     dispatch(submitForm(key, null, null, "deleteResource"))
-  }
-
-  updateAccessControl() {
-    const { dispatch } = this.props
-    const comment = "Changed accesscontrol rules"
-    const form = this.buildFormData()
-    form.accesscontrol = { adgroups: this.state.adgroups }
-    this.toggleComponentDisplay("displayAccessControlForm")
-    dispatch(submitForm(this.props.id, form, comment, "resource"))
   }
 
   toggleComponentDisplay(component) {
@@ -193,24 +174,22 @@ class Resource extends Component {
         if (secret != null && secret.vaultpath != null) {
           return (
             <ListItem
-                key={key}
-                style={{ paddingTop: "0px", paddingBottom: "14px" }}
-                disabled={true}
-                className="text-overflow"
-                primaryText={
-                  <span>
-                  <a href={vaultUrl(secret.vaultpath)}>
-                    {secret.vaultpath}
-                  </a>
-                  </span>
-                }
-                secondaryText={`${propertyName} (Vault Path)`}
+              key={key}
+              style={{ paddingTop: "0px", paddingBottom: "14px" }}
+              disabled={true}
+              className="text-overflow"
+              primaryText={
+                <span>
+                  <a href={vaultUrl(secret.vaultpath)}>{secret.vaultpath}</a>
+                </span>
+              }
+              secondaryText={`${propertyName} (Vault Path)`}
             />
           )
         } else {
           const secretText = this.props.currentSecrets[key]
-              ? this.props.currentSecrets[key].value
-              : "No secret stored for this revision"
+            ? this.props.currentSecrets[key].value
+            : "No secret stored for this revision"
 
           return (
             <ListItem
@@ -256,9 +235,7 @@ class Resource extends Component {
   exposedByApplication() {
     const exposedBy = this.props.fasit.data.exposedby
     if (exposedBy) {
-      const displayString = `${exposedBy.application} (${exposedBy.version}) in ${
-        exposedBy.environment
-      }`
+      const displayString = `${exposedBy.application} (${exposedBy.version}) in ${exposedBy.environment}`
       return (
         <ListItem
           key={exposedBy.id}
@@ -349,44 +326,18 @@ class Resource extends Component {
                 />
               </CardActions>
             </Card>
-            <Lifecycle
-              lifecycle={lifecycle}
-              rescueAction={() => this.toggleComponentDisplay("displayRescueForm")}
-              authorized={authorized}
-            />
+            <Lifecycle lifecycle={lifecycle} />
           </div>
 
           <div className="col-md-4">
             <History id={id} currentRevision={query.revision} component="resource" />
-            <Security
-              accesscontrol={fasit.data.accesscontrol}
-              displayAccessControlForm={() =>
-                this.toggleComponentDisplay("displayAccessControlForm")
-              }
-            />
+            <Security accesscontrol={fasit.data.accesscontrol} />
           </div>
         </div>
 
         <div className="row col-md-8">
           <ResourceInstances instances={fasit.data.usedbyapplications} />
         </div>
-
-        <RescueElementForm
-          displayRescueForm={this.state.displayRescueForm}
-          onClose={() => this.toggleComponentDisplay("displayRescueForm")}
-          onSubmit={() => this.rescueResource()}
-          id={id}
-          handleChange={this.handleChange.bind(this)}
-        />
-
-        <AccessControl
-          displayAccessControlForm={this.state.displayAccessControlForm}
-          onClose={() => this.toggleComponentDisplay("displayAccessControlForm")}
-          onSubmit={() => this.updateAccessControl()}
-          id={id}
-          value={this.state.adgroups}
-          handleChange={this.handleChange.bind(this)}
-        />
 
         <DeleteElementForm
           displayDeleteForm={this.state.displayDeleteForm}

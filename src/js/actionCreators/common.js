@@ -1,6 +1,5 @@
 import {
   CLEAR_FORM_ERROR,
-  RESCUE_ELEMENT,
   REVISIONS_REQUEST,
   SET_NAVSEARCH_QUERY,
   SHOW_KEYBOARD_SHORTCUTS,
@@ -18,9 +17,6 @@ import {
 
 export const submitForm = (key, form, comment, component) => {
   return { type: SUBMIT_FORM, key, form, comment, component }
-}
-export const rescueElement = (key, elementType) => {
-  return { type: RESCUE_ELEMENT, key, elementType }
 }
 export const clearFormError = () => {
   return { type: CLEAR_FORM_ERROR }

@@ -3,8 +3,7 @@ import {
   NODE_EVENTS_REQUEST,
   NODE_FASIT_REQUEST,
   DEPLOYMENTMANAGER_FASIT_REQUEST,
-  NODE_FASIT_PASSWORD_REQUEST,
-  RESCUE_NODE
+  NODE_FASIT_PASSWORD_REQUEST
 } from "../actionTypes"
 
 export const clearNodePassword = () => {
@@ -26,6 +25,4 @@ export const fetchDeploymentManagerResource = node => {
 export const fetchNodePassword = () => {
   return { type: NODE_FASIT_PASSWORD_REQUEST }
 }
-export const rescueNode = hostname => {
-  return { type: RESCUE_NODE, hostname }
-}
+

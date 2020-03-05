@@ -46,7 +46,6 @@
         "PORT": 6969,
         "FASIT_URL": "http://localhost:6969/mockapi",
         "GRAFANA_URL": "https://grafana.adeo.no",
-        "JIRA_URL": "http://jira-q1.adeo.no",
         "SENSU_API_URL": "https://sensu-api.adeo.no"
       }
     },

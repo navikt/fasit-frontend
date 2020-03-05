@@ -112,9 +112,6 @@ export const SEARCH_REQUEST_FAILED = "SEARCH_REQUEST_FAILED"
 export const SEARCH_RESULTS_FETCHING = "SEARCH_RESULTS_FETCHING"
 export const SET_SEARCH_FILTER = "SET_SEARCH_FILTER"
 
-// --------- LIFECYCLE ---------
-export const RESCUE_ELEMENT = "RESCUE_ELEMENT"
-
 // --------- REVISIONS ---------
 export const REVISIONS_REQUEST = "REVISIONS_REQUEST"
 export const REVISIONS_FETCHING = "REVISIONS_FETCHING"
@@ -189,9 +186,6 @@ export const SHOW_NODE_PASSWORD = "SHOW_NODE_PASSWORD"
 
 // Node - Create new Fasit node
 export const SHOW_NEW_NODE_FORM = "SHOW_NEW_NODE_FORM"
-
-// Node - Lifecycle - rescue node
-export const RESCUE_NODE = "RESCUE_NODE"
 
 // --------- RESOURCES ---------
 // Resources - list

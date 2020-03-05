@@ -60,9 +60,6 @@ function LifecycleChip(props) {
     case "stopped":
       color = colors.red
       break
-    case "rescued":
-      color = colors.green
-      break
   }
 
   return (

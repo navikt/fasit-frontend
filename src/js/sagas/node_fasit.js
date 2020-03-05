@@ -12,7 +12,6 @@ import {
   NODE_FASIT_PASSWORD_RECEIVED,
   NODE_FASIT_PASSWORD_REQUEST,
   NODE_FASIT_PASSWORD_REQUEST_FAILED,
-  RESCUE_NODE,
   DEPLOYMENTMANAGER_FASIT_REQUEST,
   DEPLOYMENTMANAGER_REQUEST_FAILED,
   DEPLOYMENTMANAGER_RECEIVED
@@ -98,15 +97,10 @@ export function* fetchDeploymentManager() {
   }
 }
 
-export function* rescueNode(action) {
-  console.log("I'm in the 'node_fasit'-saga with this action: ", action)
-}
-
 export function* watchNodeFasit() {
   yield fork(takeEvery, NODE_FASIT_URL_REQUEST, fetchFasitUrl)
   yield fork(takeEvery, NODE_FASIT_REQUEST, fetchFasit)
   yield fork(takeEvery, DEPLOYMENTMANAGER_FASIT_REQUEST, fetchDeploymentManager)
   yield fork(takeEvery, NODE_FASIT_PASSWORD_REQUEST, fetchFasitPassword)
   yield fork(takeEvery, LOGIN_SUCCESS, fetchFasitPassword)
-  yield fork(takeEvery, RESCUE_NODE, rescueNode)
 }

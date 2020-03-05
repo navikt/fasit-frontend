@@ -1,32 +1,22 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { validAuthorization, isEmptyObject } from "../../utils/"
-import {
-  clearNodePassword,
-  fetchFasitData,
-  fetchNodePassword
-} from "../../actionCreators/node"
+import { clearNodePassword, fetchFasitData, fetchNodePassword } from "../../actionCreators/node"
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
 import { List, ListItem } from "material-ui/List"
 import { Link } from "react-router"
 import {
-  AccessControl,
   CollapsibleList,
   CurrentRevision,
   DeleteElementForm,
   History,
   Lifecycle,
-  RescueElementForm,
   SecretToggle,
   Security,
   ToolButtons,
   Spinner
 } from "../common/"
-import {
-  displayModal,
-  rescueElement,
-  submitForm
-} from "../../actionCreators/common"
+import { displayModal, submitForm } from "../../actionCreators/common"
 import NodeEventsView from "./NodeEventsView"
 import NodeGraph from "./NodeGraph"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
@@ -40,9 +30,6 @@ class Node extends Component {
     this.state = {
       secretVisible: false,
       displayDeleteForm: false,
-      displayRescueForm: false,
-      displayAccessControlForm: false,
-      adgroups: [],
       comment: ""
     }
   }
@@ -61,9 +48,6 @@ class Node extends Component {
     this.setState({
       comment: ""
     })
-    if (Object.keys(nextProps.node).length > 0) {
-      this.setState({ adgroups: nextProps.node.accesscontrol.adgroups })
-    }
 
     if (nextProps.query.revision != query.revision) {
       dispatch(fetchFasitData(hostname, nextProps.query.revision))
@@ -86,27 +70,18 @@ class Node extends Component {
     dispatch(submitForm(hostname, null, null, "deleteNode"))
   }
 
-  rescueNode() {
-    const { dispatch, node } = this.props
-    this.toggleComponentDisplay("displayRescueForm")
-    dispatch(rescueElement(node.id, "node"))
-  }
-
   handleSubmitForm(key, form, comment, component) {
     const { dispatch } = this.props
 
     if (component === "deleteNode") {
       this.toggleComponentDisplay("displayDeleteForm")
       this.setState({ comment: "" })
-    } else if (component === "node" && this.state.displayAccessControlForm) {
-      this.toggleComponentDisplay("displayAccessControlForm")
     }
     dispatch(submitForm(key, form, comment, component))
   }
 
   resetLocalState() {
     this.setState({
-      adgroups: [],
       comment: ""
     })
   }
@@ -114,8 +89,7 @@ class Node extends Component {
     const { dispatch } = this.props
     this.setState({ [component]: !this.state[component] })
     if (component === "editMode" && this.state.editMode) this.resetLocalState()
-    if (component === "editMode" && !this.state.editMode)
-      dispatch(fetchNodePassword())
+    if (component === "editMode" && !this.state.editMode) dispatch(fetchNodePassword())
   }
 
   handleChange(field, value) {
@@ -141,9 +115,7 @@ class Node extends Component {
     const { secretVisible, adgroups, comment } = this.state
     let lifecycle = Object.keys(node).length > 0 ? node.lifecycle : {}
     let authorized =
-      Object.keys(node).length > 0
-        ? validAuthorization(user, node.accesscontrol)
-        : false
+      Object.keys(node).length > 0 ? validAuthorization(user, node.accesscontrol) : false
     const password = this.props.currentPassword
       ? this.props.currentPassword
       : "No secret stored for this revision"
@@ -153,10 +125,7 @@ class Node extends Component {
     ) : (
       <div className="row">
         <div className="col-md-6" style={styles.cardPadding}>
-          <CurrentRevision
-            revisionId={query.revision}
-            revisions={this.props.revisions}
-          />
+          <CurrentRevision revisionId={query.revision} revisions={this.props.revisions} />
 
           <Card>
             <CardHeader
@@ -242,36 +211,19 @@ class Node extends Component {
               <ToolButtons
                 disabled={!authorized || resourceModalVisible}
                 onEditClick={() => this.showModal("edit")}
-                onDeleteClick={() =>
-                  this.toggleComponentDisplay("displayDeleteForm")
-                }
+                onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
                 onCopyClick={() => this.showModal("copy")}
                 editMode={this.state.editMode}
               />
             </CardActions>
           </Card>
-          <Lifecycle
-            lifecycle={lifecycle}
-            rescueAction={() =>
-              this.toggleComponentDisplay("displayRescueForm")
-            }
-            authorized={authorized}
-          />
+          <Lifecycle lifecycle={lifecycle} />
         </div>
         {/*Side menu*/}
         <div className="col-md-4">
           {this.renderDeploymentManagerSidePanel()}
-          <History
-            id={hostname}
-            currentRevision={query.revision}
-            component="node"
-          />
-          <Security
-            accesscontrol={node.accesscontrol}
-            displayAccessControlForm={() =>
-              this.toggleComponentDisplay("displayAccessControlForm")
-            }
-          />
+          <History id={hostname} currentRevision={query.revision} component="node" />
+          <Security accesscontrol={node.accesscontrol} />
 
           <CollapsibleList
             primaryText="Sensu status"
@@ -284,39 +236,14 @@ class Node extends Component {
             primaryText="Grafana graph"
             leftAvatar={icons.grafanaAvatar}
             initiallyOpen={false}
-            nestedItems={
-              <NodeGraph
-                key={hostname}
-                url={config.grafana}
-                hostname={hostname}
-              />
-            }
+            nestedItems={<NodeGraph key={hostname} url={config.grafana} hostname={hostname} />}
           />
         </div>
-        {/* Misc. modals*/}
-        <AccessControl
-          displayAccessControlForm={this.state.displayAccessControlForm}
-          onClose={() =>
-            this.toggleComponentDisplay("displayAccessControlForm")
-          }
-          onSubmit={() => this.handleSubmitForm(hostname, {}, comment, "node")}
-          id={hostname}
-          value={adgroups}
-          handleChange={this.handleChange.bind(this)}
-          comment={comment}
-        />
         <DeleteElementForm
           displayDeleteForm={this.state.displayDeleteForm}
           onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
           onSubmit={() => this.deleteNode(hostname)}
           id={hostname}
-        />
-        <RescueElementForm
-          displayRescueForm={this.state.displayRescueForm}
-          onClose={() => this.toggleComponentDisplay("displayRescueForm")}
-          onSubmit={() => this.rescueNode()}
-          id={hostname}
-          handleChange={this.handleChange.bind(this)}
         />
       </div>
     )
@@ -340,13 +267,10 @@ class Node extends Component {
               disableTouchRipple={true}
               primaryText={
                 <Link
-                  to={`https://${
-                    deploymentManager.properties.hostname
-                  }:9043/ibm/console`}
+                  to={`https://${deploymentManager.properties.hostname}:9043/ibm/console`}
                   target="new"
                 >
-                  Deployment manager console{" "}
-                  <FontAwesomeIcon icon="external-link-alt" fixedWidth />
+                  Deployment manager console <FontAwesomeIcon icon="external-link-alt" fixedWidth />
                 </Link>
               }
               secondaryText={deploymentManager.properties.hostname}
@@ -356,9 +280,7 @@ class Node extends Component {
               insetChildren={true}
               disableTouchRipple={true}
               primaryText={
-                <Link to={`/resources/${deploymentManager.id}`}>
-                  Deployment manager resource
-                </Link>
+                <Link to={`/resources/${deploymentManager.id}`}>Deployment manager resource</Link>
               }
             />
           ]}
@@ -382,9 +304,7 @@ class Node extends Component {
 
     return node.cluster.map(c => (
       <ListItem key={c.name} style={styles.tighterList} disabled={true}>
-        <Link to={`/environments/${node.environment}/clusters/${c.name}`}>
-          {c.name}
-        </Link>
+        <Link to={`/environments/${node.environment}/clusters/${c.name}`}>{c.name}</Link>
       </ListItem>
     ))
   }
@@ -404,8 +324,7 @@ const mapStateToProps = (state, ownProps) => {
     resourceModalVisible: state.resources.showNewResourceForm,
     deploymentManager: state.node_fasit.deploymentManager,
     deploymentManagerIsFetching: state.node_fasit.deploymentManagerIsFetching,
-    deploymentManagerRequestFailed:
-      state.node_fasit.deploymentManagerRequestFailed
+    deploymentManagerRequestFailed: state.node_fasit.deploymentManagerRequestFailed
   }
 }
 

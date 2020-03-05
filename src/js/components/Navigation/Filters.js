@@ -9,7 +9,7 @@ import {
 } from "../../actionCreators/element_lists"
 import { isEmptyObject } from "../../utils"
 
-const LIFECYCLE_STATUSES = ["stopped", "alerted", "rescued"]
+const LIFECYCLE_STATUSES = ["stopped", "alerted"]
 
 class Filters extends Component {
   constructor(props) {

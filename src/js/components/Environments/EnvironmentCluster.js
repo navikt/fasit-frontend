@@ -6,7 +6,6 @@ import { Link } from "react-router"
 import { fetchEnvironmentNodes } from "../../actionCreators/environment"
 import {
   displayModal,
-  rescueElement,
   submitForm
 } from "../../actionCreators/common"
 import { fetchEnvironmentCluster } from "../../actionCreators/environment"
@@ -17,7 +16,6 @@ import {
   DeleteElementForm,
   History,
   Lifecycle,
-  RescueElementForm,
   ToolButtons,
   Spinner
 } from "../common"
@@ -27,8 +25,7 @@ class EnvironmentCluster extends Component {
     super(props)
 
     this.state = {
-      displayDeleteForm: false,
-      displayRescueForm: false
+      displayDeleteForm: false
     }
   }
 
@@ -74,13 +71,6 @@ class EnvironmentCluster extends Component {
   toggleComponentDisplay(component) {
     const { dispatch, cluster } = this.props
     this.setState({ [component]: !this.state[component] })
-  }
-
-  rescueClusters() {
-    const { dispatch, cluster } = this.props
-    const id = cluster.id
-    this.toggleComponentDisplay("displayRescueForm")
-    dispatch(rescueElement(id, "cluster"))
   }
 
   render() {
@@ -168,10 +158,6 @@ class EnvironmentCluster extends Component {
 
           <Lifecycle
             lifecycle={cluster.lifecycle}
-            rescueAction={() =>
-              this.toggleComponentDisplay("displayRescueForm")
-            }
-            authorized={authorized}
           />
         </div>
 
@@ -188,12 +174,6 @@ class EnvironmentCluster extends Component {
           displayDeleteForm={this.state.displayDeleteForm}
           onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
           onSubmit={() => this.deleteCluster(cluster.clustername)}
-          id={cluster.clustername}
-        />
-        <RescueElementForm
-          displayRescueForm={this.state.displayRescueForm || false}
-          onClose={() => this.toggleComponentDisplay("displayRescueForm")}
-          onSubmit={() => this.rescueClusters()}
           id={cluster.clustername}
         />
       </div>

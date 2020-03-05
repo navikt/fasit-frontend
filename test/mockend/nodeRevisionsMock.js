@@ -471,9 +471,7 @@ revisions = [
         "id": 1584991,
         "revision": 2,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -531,9 +529,7 @@ revisions = [
         "id": 1584991,
         "revision": 4,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -591,9 +587,7 @@ revisions = [
         "id": 1584991,
         "revision": 6,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -623,9 +617,7 @@ revisions = [
         "id": 1584991,
         "revision": 7,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -684,9 +676,7 @@ revisions = [
         "id": 1584991,
         "revision": 2,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -745,9 +735,7 @@ revisions = [
         "id": 1584991,
         "revision": 4,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -806,9 +794,7 @@ revisions = [
         "id": 1584991,
         "revision": 6,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -838,9 +824,7 @@ revisions = [
         "id": 1584991,
         "revision": 7,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -899,9 +883,7 @@ revisions = [
         "id": 1584991,
         "revision": 2,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "q",
@@ -960,9 +942,7 @@ revisions = [
         "id": 1584991,
         "revision": 4,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "q",
@@ -1021,9 +1001,7 @@ revisions = [
         "id": 1584991,
         "revision": 6,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "q",
@@ -1053,9 +1031,7 @@ revisions = [
         "id": 1584991,
         "revision": 7,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "q",
@@ -1114,9 +1090,7 @@ revisions = [
         "id": 1584991,
         "revision": 2,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -1175,9 +1149,7 @@ revisions = [
         "id": 1584991,
         "revision": 4,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -1236,9 +1208,7 @@ revisions = [
         "id": 1584991,
         "revision": 6,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -1268,9 +1238,7 @@ revisions = [
         "id": 1584991,
         "revision": 7,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -1329,9 +1297,7 @@ revisions = [
         "id": 1584991,
         "revision": 2,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -1390,9 +1356,7 @@ revisions = [
         "id": 1584991,
         "revision": 4,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -1451,9 +1415,7 @@ revisions = [
         "id": 1584991,
         "revision": 6,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",
@@ -1483,9 +1445,7 @@ revisions = [
         "id": 1584991,
         "revision": 7,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2016-11-20T08:32:53.559",
-            "issue": "AURAGC-5878"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "t",

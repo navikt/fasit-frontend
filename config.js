@@ -14,7 +14,6 @@ exports.externalResources = {
   fasit_login: process.env["FASIT_URL"] + "/login",
   fasit_logout: process.env["FASIT_URL"] + "/logout",
   grafana: process.env["GRAFANA_URL"],
-  jira: process.env["JIRA_URL"],
   sensu_api: process.env["SENSU_API_URL"]
 }
 

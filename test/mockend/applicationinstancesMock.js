@@ -406,20 +406,6 @@ const applicationinstances = [
                 "lastupdateby": "Roger Bjørnstad (b123034)"
             },
             {
-                "id": 647436,
-                "revision": 2523809,
-                "alias": "jira",
-                "type": "baseurl",
-                "scope": {
-                    "environmentclass": "p",
-                    "zone": "fss",
-                    "environment": "p"
-                },
-                "ref": "https://fasit.adeo.no/api/v2/resources/647436",
-                "lastchange": 1413540746217,
-                "lastupdateby": "Roger Dybdal (D113507)"
-            },
-            {
                 "id": 1363402,
                 "revision": 1363404,
                 "alias": "bigip",
@@ -500,20 +486,6 @@ const applicationinstances = [
                 "ref": "https://fasit.adeo.no/api/v2/resources/238560",
                 "lastchange": 1381123240641,
                 "lastupdateby": "Roger Dybdal"
-            },
-            {
-                "id": 647433,
-                "revision": 647435,
-                "alias": "fasit.jira.user",
-                "type": "credential",
-                "scope": {
-                    "environmentclass": "p",
-                    "zone": "fss",
-                    "environment": "p"
-                },
-                "ref": "https://fasit.adeo.no/api/v2/resources/647433",
-                "lastchange": 1413540662122,
-                "lastupdateby": "Roger Dybdal (D113507)"
             },
             {
                 "id": 647419,

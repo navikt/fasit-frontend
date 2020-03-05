@@ -11,8 +11,6 @@ import {watchEnvironments} from "./environments";
 import {watchEnvironmentFasit} from "./environment_fasit";
 // Instances
 import {watchInstanceFasit} from "./instance_fasit";
-// Lifecycle
-import {watchRescueElement} from "./lifecycle_saga";
 //Nodes
 import {watchNodeEvents} from "./node_events";
 import {watchNodeFasit} from "./node_fasit";
@@ -45,9 +43,6 @@ export default function*() {
 
         // Instances
         call(watchInstanceFasit),
-
-        // Lifecycle
-        call(watchRescueElement),
 
         //Nodes
         call(watchNodeEvents),

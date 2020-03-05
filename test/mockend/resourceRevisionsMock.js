@@ -145,9 +145,7 @@ const revisions = [
         "id": 69,
         "revision": 3,
         "lifecycle": {
-            "status": "alerted",
-            "nextactiondate": "2017-06-13T10:16:42.554",
-            "issue": "AURAGC-7401"
+            "status": "alerted"
         },
         "accesscontrol": {
             "environmentclass": "u",

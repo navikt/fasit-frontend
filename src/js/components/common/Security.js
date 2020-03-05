@@ -23,18 +23,14 @@ class Security extends Component {
 }
 
 function SecurityView(props) {
-  const { accesscontrol, user, displayAccessControlForm } = props
+  const { accesscontrol, user } = props
   const authorized = validAuthorization(user, accesscontrol)
   return typeof accesscontrol !== "undefined" ? (
     <div className="collapsible-menu-content-container">
       {authorized ? (
         <h3 style={{ marginTop: 1 + "px" }}>
           <small>
-            <FontAwesomeIcon
-              icon="unlock"
-              className="text-success"
-              fixedWidth
-            />
+            <FontAwesomeIcon icon="unlock" className="text-success" fixedWidth />
 
             {"You've got access"}
           </small>
@@ -62,15 +58,6 @@ function SecurityView(props) {
             : null}
         </ul>
       </pre>
-      {authorized ? (
-        <button
-          className="btn btn-sm btn-default"
-          onClick={displayAccessControlForm}
-        >
-          <FontAwesomeIcon icon="user" style={{ marginRight: 5 }} />
-          Access control
-        </button>
-      ) : null}
     </div>
   ) : null
 }

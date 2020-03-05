@@ -39,12 +39,4 @@ describe('(Component) ElementPaging', () => {
         const wrapper = shallow(<ElementPaging instances={instances} search={searchWithContext}/>)
         expect(wrapper).to.have.length(1)
     });
-    it('should call changePage when first is clicked', () => {
-        const first = chai.spy(() => {})
-        const props = {displayAccessControlForm: true, onClose}
-        const wrapper = shallow(<AccessControl {...props}/>)
-        wrapper.find("#close").simulate('click')
-        expect(onClose).to.have.been.called()
-
-    });
 });
