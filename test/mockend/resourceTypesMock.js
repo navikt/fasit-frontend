@@ -122,6 +122,7 @@ module.exports = [
         "requiredproperties": [
             "username",
             "hostUrl",
+            "issuerUrl",
             "jwksUrl"
         ],
         "requiredsecrets": [
