@@ -35,7 +35,7 @@ jobs:
            cp -r dist /tmp/docker/dist
            cp Dockerfile /tmp/docker
       - name: Build docker image
-        run: docker build . --tag $IMAGE /tmp/docker
+        run: docker build --tag $IMAGE /tmp/docker
       - name: Login to Github package registry
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
