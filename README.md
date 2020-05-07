@@ -2,7 +2,7 @@ fasit frontend
 =====
 
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
-[![Known Vulnerabilities](https://snyk.io/test/github/navikt/fasit-frontend/badge.svg?targetFile=package.json)](https://snyk.io/test/github/navikt/fasit-frontend?targetFile=package.json)
+
 
 
 ## Basic Usage
