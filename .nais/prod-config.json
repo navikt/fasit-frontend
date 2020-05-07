@@ -1,0 +1,5 @@
+{
+    "fasit_url": "https://fasit.adeo.no/api",
+    "ingress": "https://fasit.adeo.no",
+    "node_env": "production"
+}

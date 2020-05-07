@@ -1,0 +1,34 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: fasit-frontend
+  namespace: default
+  labels:
+    team: aura
+spec:
+  image: {{ image }}
+  port: 8080 
+  liveness:
+    path: /isalive
+  readiness:
+    path: /isalive
+  prometheus:
+    path: /metrics
+  replicas:
+    min: 2
+    max: 2
+  ingresses: 
+    - {{ingress}}
+  env:
+    - name: FASIT_URL
+      value: {{fasit_url}}
+    - name: NODE_ENV
+      value: {{node_env}}
+  skipCaBundle: true
+  resources:
+    limits:
+      cpu: 500m 
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi

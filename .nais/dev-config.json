@@ -1,0 +1,5 @@
+{
+    "fasit_url": "https://fasit.nais.preprod.local/api",
+    "ingress": "https://fasit.nais.preprod.local",
+    "node_env": "development"
+}
