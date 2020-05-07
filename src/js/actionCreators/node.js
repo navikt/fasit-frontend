@@ -1,6 +1,5 @@
 import {
   CLEAR_NODE_PASSWORD,
-  NODE_EVENTS_REQUEST,
   NODE_FASIT_REQUEST,
   DEPLOYMENTMANAGER_FASIT_REQUEST,
   NODE_FASIT_PASSWORD_REQUEST
@@ -8,12 +7,6 @@ import {
 
 export const clearNodePassword = () => {
   return { type: CLEAR_NODE_PASSWORD }
-}
-export const fetchEvents = fasitData => {
-  const client = fasitData.cluster
-    ? fasitData.cluster.name + "_" + fasitData.environment + "_" + fasitData.hostname.split(".")[0]
-    : "unknown_" + fasitData.environment + "_" + fasitData.hostname.split(".")[0]
-  return { type: NODE_EVENTS_REQUEST, client }
 }
 
 export const fetchFasitData = (hostname, revision) => {

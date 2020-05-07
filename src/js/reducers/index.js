@@ -23,7 +23,6 @@ import search from "./search"
 import submit_form from "./submit_form"
 import user from "./user"
 import nodes from "./nodes"
-import node_events from "./node_events"
 import node_fasit from "./node_fasit"
 import revisions from "./revisions"
 
@@ -52,7 +51,6 @@ var fasitReducer = combineReducers({
   submit_form,
   user,
   nodes,
-  node_events,
   node_fasit
 })
 

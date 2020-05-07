@@ -157,9 +157,7 @@ export const icons = {
   linkAvatar: (
     <Avatar icon={<Link />} backgroundColor={colors.avatarBackgroundColor} />
   ),
-  sensuStatusAvatar: <Avatar icon={<NewReleases />} />,
   hardwareAvatar: <Avatar icon={<Build />} />,
-  grafanaAvatar: <Avatar icon={<FontAwesomeIcon icon="chart-area" />} />,
   errorAvatar: <Avatar icon={<Error />} backgroundColor={colors.red} />,
   lockAvatar: (
     <Avatar

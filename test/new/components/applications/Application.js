@@ -148,9 +148,7 @@ const props = {
     fasit_nodes: "https://e34jbsl01655.devillo.no:8443/api/v2/nodes",
     fasit_resources: "https://e34jbsl01655.devillo.no:8443/api/v2/resources",
     fasit_search: "https://e34jbsl01655.devillo.no:8443/api/v1/search",
-    fasit_secrets: "https://e34jbsl01655.devillo.no:8443/api/v2/secrets",
-    grafana: "https://grafana.adeo.no",
-    sensu_api: "https://sensu-api.adeo.no"
+    fasit_secrets: "https://e34jbsl01655.devillo.no:8443/api/v2/secrets"
   },
   revisions: {
     data: [

@@ -12,9 +12,7 @@ exports.externalResources = {
   fasit_search: process.env["FASIT_URL"] + "/v1/search",
   fasit_current_user: process.env["FASIT_URL"] + "/v2/currentuser",
   fasit_login: process.env["FASIT_URL"] + "/login",
-  fasit_logout: process.env["FASIT_URL"] + "/logout",
-  grafana: process.env["GRAFANA_URL"],
-  sensu_api: process.env["SENSU_API_URL"]
+  fasit_logout: process.env["FASIT_URL"] + "/logout"
 }
 
 exports.server = {

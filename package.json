@@ -44,9 +44,7 @@
         "NODE_ENV": "standalone",
         "NODE_PATH": "./src",
         "PORT": 6969,
-        "FASIT_URL": "http://localhost:6969/mockapi",
-        "GRAFANA_URL": "https://grafana.adeo.no",
-        "SENSU_API_URL": "https://sensu-api.adeo.no"
+        "FASIT_URL": "http://localhost:6969/mockapi"
       }
     },
     "test": {

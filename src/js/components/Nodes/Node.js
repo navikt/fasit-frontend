@@ -17,8 +17,6 @@ import {
   Spinner
 } from "../common/"
 import { displayModal, submitForm } from "../../actionCreators/common"
-import NodeEventsView from "./NodeEventsView"
-import NodeGraph from "./NodeGraph"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
 import { capitalize } from "../../utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -224,20 +222,6 @@ class Node extends Component {
           {this.renderDeploymentManagerSidePanel()}
           <History id={hostname} currentRevision={query.revision} component="node" />
           <Security accesscontrol={node.accesscontrol} />
-
-          <CollapsibleList
-            primaryText="Sensu status"
-            leftAvatar={icons.sensuStatusAvatar}
-            initiallyOpen={false}
-            nestedItems={<NodeEventsView key={hostname} />}
-          />
-
-          <CollapsibleList
-            primaryText="Grafana graph"
-            leftAvatar={icons.grafanaAvatar}
-            initiallyOpen={false}
-            nestedItems={<NodeGraph key={hostname} url={config.grafana} hostname={hostname} />}
-          />
         </div>
         <DeleteElementForm
           displayDeleteForm={this.state.displayDeleteForm}

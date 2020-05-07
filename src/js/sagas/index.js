@@ -12,7 +12,6 @@ import {watchEnvironmentFasit} from "./environment_fasit";
 // Instances
 import {watchInstanceFasit} from "./instance_fasit";
 //Nodes
-import {watchNodeEvents} from "./node_events";
 import {watchNodeFasit} from "./node_fasit";
 import {watchNodeTypes} from "./node_types";
 // Resources
@@ -45,7 +44,6 @@ export default function*() {
         call(watchInstanceFasit),
 
         //Nodes
-        call(watchNodeEvents),
         call(watchNodeFasit),
         call(watchNodeTypes),
 
