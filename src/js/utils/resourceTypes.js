@@ -131,6 +131,7 @@ export const resourceTypes = {
       textbox("agentName", "Agent name"),
       secret("password"),
       textbox("hostUrl", "Host URL"),
+      textbox("issuerUrl", "Issuer URL"),
       textbox("jwksUrl", "JWKS URL")
     ]
   },
