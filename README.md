@@ -3,6 +3,7 @@ fasit frontend
 
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
+![Build and deploy nfasit-frontend](https://github.com/navikt/fasit-frontend/workflows/Build%20and%20deploy%20nfasit-frontend/badge.svg?branch=master)
 
 
 ## Basic Usage
