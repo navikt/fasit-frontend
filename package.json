@@ -150,7 +150,6 @@
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.24.0",
     "prom-client": "^10.2.2",
-    "proxy-middleware": "^0.15.0",
     "request": "^2.84.0"
   }
 }
