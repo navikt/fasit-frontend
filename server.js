@@ -16,7 +16,6 @@ const loginMock = require("./test/mockend/loginMock")
 
 const config = require("./config")
 console.log("ext", config.externalResources)
-const selftest = require("./selftest")
 
 const app = new express()
 
@@ -229,7 +228,6 @@ if (process.env["NODE_ENV"] === "standalone") {
     sendJson(res, loginMock.getUser())
   })
 }
-app.get("/selftest", selftest.selftest)
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./dist/index.html"))

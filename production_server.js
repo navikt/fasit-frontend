@@ -1,7 +1,6 @@
 const path = require('path');
 const express = require('express');
 const config = require('./config')
-const selftest = require('./selftest')
 const prometheus = require('prom-client')
 prometheus.collectDefaultMetrics()
 
@@ -16,8 +15,6 @@ app.get('/config', (req, res) => {
 app.get('/isalive', (req, res) => {
     res.sendStatus(200)
 })
-
-app.get('/selftest', selftest.selftest)
 
 app.get('/metrics', (req, res) => {
     res.set('Content-Type', prometheus.register.contentType);
