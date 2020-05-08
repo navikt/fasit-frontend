@@ -18,7 +18,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '10.9.x'
+          node-version: '12.16.x'
       - name: Cache NPM dependencies
         uses: actions/cache@v1
         with:
@@ -26,16 +26,12 @@ jobs:
           key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-cache-
-      - name: build and test
-        run: |
-           mkdir -p /tmp/docker/dist
-           cp production_server.js config.js selftest.js package.json package-lock.json /tmp/docker/dist
-           cd /tmp/docker/dist && npm ci --production && cd -
-           npm ci && npm run test && npm run build || exit 1 # Creating frontend bundle
-           cp -r dist /tmp/docker/dist
-           cp Dockerfile /tmp/docker
+      - name: Download dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test
       - name: Build docker image
-        run: docker build --tag $IMAGE /tmp/docker
+        run: docker build . --tag $IMAGE 
       - name: Login to Github package registry
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -44,7 +40,7 @@ jobs:
         run: docker push $IMAGE
 
   deploy-dev:
-    name: Deploy to dev-gcp
+    name: Deploy to dev-fss
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -57,17 +53,17 @@ jobs:
           VARS: .nais/dev-config.json
           OWNER: navikt
           REPOSITORY: fasit-frontend
-  deploy-prod:
-    name: Deploy to prod-gcp
-    needs: deploy-dev
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: prod-fss
-          RESOURCE: .nais/naiserator.yaml
-          VARS: .nais/prod-config.json
-          OWNER: navikt
-          REPOSITORY: nais-deploy
+ # deploy-prod:
+  #  name: Deploy to prod-fss
+  #  needs: deploy-dev
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v1
+  #    - uses: nais/deploy/actions/deploy@v1
+  #      env:
+  #        APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+  #        CLUSTER: prod-fss
+  #        RESOURCE: .nais/naiserator.yaml
+  #        VARS: .nais/prod-config.json
+  #        OWNER: navikt
+  #        REPOSITORY: nais-deploy
