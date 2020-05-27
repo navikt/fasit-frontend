@@ -1,29 +1,28 @@
-import React, { Component } from "react"
-import { Link } from "react-router"
-import { Popover, OverlayTrigger } from "react-bootstrap"
-import { connect } from "react-redux"
-import { Login, AuraTools, NavSearch } from "../common/"
-import ContextMenu from "./ContextMenu"
-import GroupWork from "material-ui/svg-icons/action/group-work"
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { Popover, OverlayTrigger } from "react-bootstrap";
+import { connect } from "react-redux";
+import { Login, NavSearch } from "../common/";
+import ContextMenu from "./ContextMenu";
 import {
   logOut,
   getUser,
-  displayLogin
-} from "../../actionCreators/authentication"
-import { toggleHelp, displayModal } from "../../actionCreators/common"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+  displayLogin,
+} from "../../actionCreators/authentication";
+import { displayModal } from "../../actionCreators/common";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class TopNav extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   componentDidMount() {
-    this.props.dispatch(getUser())
+    this.props.dispatch(getUser());
   }
 
   showLogin(root) {
-    const { user, dispatch } = this.props
+    const { user, dispatch } = this.props;
     return (
       <ul className="nav navbar-nav navbar-right">
         {/* Nytt element*/}
@@ -128,50 +127,12 @@ class TopNav extends Component {
             </OverlayTrigger>
           </li>
         )}
-
-        {/* Aurabot */}
-        <li>
-          <OverlayTrigger
-            trigger={"click"}
-            rootClose={true}
-            placement="bottom"
-            overlay={AuraTools()}
-          >
-            <img
-              src="/images/aura-ikoner/aurabot.png"
-              style={{
-                width: 30,
-                marginTop: 11,
-                marginRight: 30,
-                marginLeft: 12,
-                cursor: "pointer"
-              }}
-              className="topnavIcon"
-            />
-          </OverlayTrigger>
-        </li>
-
-        {/* Shortcuts */}
-        <li>
-          <button
-            type="button"
-            className={
-              root
-                ? "btn btn-sm  btn-link topnav-buttons-inverse"
-                : "btn btn-sm  btn-link topnav-buttons"
-            }
-            onClick={() => dispatch(toggleHelp())}
-            style={{ marginTop: 8 }}
-          >
-            <FontAwesomeIcon icon="keyboard" size="2x" />
-          </button>
-        </li>
       </ul>
-    )
+    );
   }
 
   loginInformationOverlay() {
-    const { dispatch, user } = this.props
+    const { dispatch, user } = this.props;
     return (
       <Popover id="login">
         <h5>Roles</h5>
@@ -190,11 +151,11 @@ class TopNav extends Component {
           Log out
         </button>
       </Popover>
-    )
+    );
   }
 
   toolsOverlay() {
-    const { dispatch } = this.props
+    const { dispatch } = this.props;
     return (
       <Popover id="tools">
         <ul className="topnav-menu topnav-menu-selector">
@@ -214,17 +175,19 @@ class TopNav extends Component {
             <FontAwesomeIcon icon="server" fixedWidth /> &nbsp;&nbsp;Create node
           </li>
           <li onClick={() => dispatch(displayModal("cluster", true))}>
-            <FontAwesomeIcon icon="braille" fixedWidth />&nbsp;&nbsp; Create
-            cluster
+            <FontAwesomeIcon icon="braille" fixedWidth />
+            &nbsp;&nbsp; Create cluster
           </li>
         </ul>
       </Popover>
-    )
+    );
   }
 
   render() {
-    const { location } = this.props
-    return location.pathname !== "/" ? (
+    const location = window.location.pathname;
+    //const { location } = this.props
+    // console.log("Location", location)
+    return (
       <div>
         <div className="topnav topnav-active">
           <div className="col-sm-1 col-md-2 hidden-xs">
@@ -246,19 +209,14 @@ class TopNav extends Component {
         </div>
         <ContextMenu />
       </div>
-    ) : (
-      <div className="topnav">
-        {this.showLogin("root")}
-        <Login />
-      </div>
-    )
+    );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.user,
-    location: state.routing.locationBeforeTransitions
-  }
-}
+    //location: state.routing.locationBeforeTransitions,
+  };
+};
 
-export default connect(mapStateToProps)(TopNav)
+export default connect(mapStateToProps)(TopNav);

@@ -11,7 +11,6 @@ import environment_clusters from "./environment_clusters";
 import environment_cluster_fasit from "./environment_cluster_fasit";
 import environment_nodes_fasit from "./environment_nodes_fasit";
 import environment_instances_fasit from "./environment_instances_fasit";
-import hotkeys from "./hotkeys";
 import instances from "./instances";
 import instance_fasit from "./instance_fasit";
 import resources from "./resources";
@@ -38,7 +37,6 @@ var fasitReducer = combineReducers({
   environment_cluster_fasit,
   environment_nodes_fasit,
   environment_instances_fasit,
-  hotkeys,
   instances,
   instance_fasit,
   resources,

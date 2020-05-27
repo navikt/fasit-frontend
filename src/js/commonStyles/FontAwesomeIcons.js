@@ -1,4 +1,4 @@
-import { library } from "@fortawesome/fontawesome-svg-core"
+import { library } from "@fortawesome/fontawesome-svg-core";
 
 import {
   faLink,
@@ -32,7 +32,6 @@ import {
   faAngleDoubleUp,
   faUnlock,
   faPlus,
-  faKeyboard,
   faBraille,
   faCheck,
   faExclamationTriangle,
@@ -48,10 +47,10 @@ import {
   faBalanceScale,
   faMicrochip,
   faSignInAlt,
-  faExternalLinkAlt
-} from "@fortawesome/free-solid-svg-icons/"
-import { faClock, faCalendar } from "@fortawesome/fontawesome-free-regular"
-import { faMicrosoft } from "@fortawesome/fontawesome-free-brands"
+  faExternalLinkAlt,
+} from "@fortawesome/free-solid-svg-icons/";
+import { faClock, faCalendar } from "@fortawesome/fontawesome-free-regular";
+import { faMicrosoft } from "@fortawesome/fontawesome-free-brands";
 
 export default function buildFontAwesomeLibrary() {
   library.add(
@@ -92,7 +91,6 @@ export default function buildFontAwesomeLibrary() {
     faUnlock,
     faCircle,
     faPlus,
-    faKeyboard,
     faBraille,
     faCheck,
     faExclamationTriangle,
@@ -106,7 +104,7 @@ export default function buildFontAwesomeLibrary() {
     faIdCard,
     faBalanceScale,
     faMicrochip,
-    faSignInAlt, 
+    faSignInAlt,
     faExternalLinkAlt
-  )
+  );
 }
