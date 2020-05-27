@@ -1,148 +1,130 @@
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
-import { List, ListItem } from "material-ui/List"
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import { Link } from "react-router"
-import { fetchEnvironmentNodes } from "../../actionCreators/environment"
-import {
-  displayModal,
-  submitForm
-} from "../../actionCreators/common"
-import { fetchEnvironmentCluster } from "../../actionCreators/environment"
-import { icons, styles } from "../../commonStyles/commonInlineStyles"
-import { validAuthorization } from "../../utils/"
+import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchEnvironmentNodes } from "../../actionCreators/environment";
+import { displayModal, submitForm } from "../../actionCreators/common";
+import { fetchEnvironmentCluster } from "../../actionCreators/environment";
+import { styles } from "../../commonStyles/commonInlineStyles";
+import { validAuthorization } from "../../utils/";
+import { Card, CardItem, CardLinkItem, CardList } from "../common/Card";
+import { getQueryParam } from "../../utils";
+
 import {
   CurrentRevision,
   DeleteElementForm,
-  History,
-  Lifecycle,
   ToolButtons,
-  Spinner
-} from "../common"
+  Spinner,
+  RevisionsView,
+} from "../common";
 
 class EnvironmentCluster extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      displayDeleteForm: false
-    }
+      displayDeleteForm: false,
+    };
   }
 
   componentDidMount() {
-    const { dispatch, query } = this.props
-    if (query.revision) {
+    const { dispatch, location, match } = this.props;
+
+    const revision = getQueryParam(location.search, "revision");
+    if (revision) {
       dispatch(
         fetchEnvironmentCluster(
-          this.props.params.environment,
-          this.props.params.clusterName,
-          query.revision
+          match.params.environment,
+          match.params.clusterName,
+          revision
         )
-      )
+      );
     } else {
       dispatch(
         fetchEnvironmentCluster(
-          this.props.params.environment,
-          this.props.params.clusterName
+          match.params.environment,
+          match.params.clusterName
         )
-      )
+      );
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { dispatch, params, query } = this.props
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { dispatch, params, location } = this.props;
+    const revision = getQueryParam(location.search, "revision");
+    const nextPropsRevision = getQueryParam(
+      nextProps.location.search,
+      "revision"
+    );
 
     if (Object.keys(nextProps.cluster).length > 0) {
       this.setState({
-        adgroups: nextProps.cluster.accesscontrol.adgroups
-      })
+        adgroups: nextProps.cluster.accesscontrol.adgroups,
+      });
     }
-    if (nextProps.query.revision !== query.revision) {
+    if (nextPropsRevision !== revision) {
       dispatch(
         fetchEnvironmentCluster(
-          this.props.params.environment,
-          this.props.params.clusterName,
-          nextProps.query.revision
+          this.props.match.params.environment,
+          this.props.match.params.clusterName,
+          nextPropsRevision
         )
-      )
+      );
     }
   }
 
   toggleComponentDisplay(component) {
-    const { dispatch, cluster } = this.props
-    this.setState({ [component]: !this.state[component] })
+    const { dispatch, cluster } = this.props;
+    this.setState({ [component]: !this.state[component] });
   }
 
   render() {
-    const {
-      cluster,
-      isFetching,
-      user,
-      params,
-      environments,
-      applicationNames,
-      environmentNodes,
-      revisions,
-      query
-    } = this.props
+    const { cluster, isFetching, user } = this.props;
+
+    const revision = getQueryParam(location.search, "revision");
 
     let authorized =
       Object.keys(cluster).length > 0
         ? validAuthorization(user, cluster.accesscontrol)
-        : false
+        : false;
 
     return isFetching || !cluster.clustername ? (
       <Spinner />
     ) : (
-      <div className="row">
-        <div className="col-md-6" style={styles.cardPadding}>
-          <CurrentRevision
-            revisionId={query.revision}
-            revisions={this.props.revisions}
-          />
-
-          <Card>
-            <CardHeader
-              avatar={icons.cluster}
-              title={`Cluster ${cluster.clustername}`}
-              titleStyle={styles.bold}
-              subtitle={`${cluster.environment} - ${cluster.zone}`}
+      <React.Fragment>
+        <div className="row">
+          {
+            <CurrentRevision
+              revisionId={revision}
+              revisions={this.props.revisions}
             />
-
-            <CardText>
-              <List>
-                {cluster.loadbalancerurl && (
-                  <ListItem
-                    key="loadbalancerurl"
-                    style={styles.tightList}
-                    disabled={true}
-                    primaryText={cluster.loadbalancerurl}
-                    secondaryText="Loadbalancer URL"
+          }
+          <div className="col-md-6" style={styles.cardPadding}>
+            <Card
+              title={`Cluster ${cluster.clustername}`}
+              subtitle={`${cluster.environment} - ${cluster.zone}`}
+            >
+              <CardItem
+                label="Loadbalancer URL"
+                value={cluster.loadbalancerurl}
+              />
+              <CardList label="Applications">
+                {cluster.applications.map((app, idx) => (
+                  <CardLinkItem
+                    key={idx}
+                    label={app.name}
+                    linkTo={`/applications/${app.name}`}
                   />
-                )}
-                <ListItem
-                  key="applications"
-                  style={styles.tightList}
-                  disabled={true}
-                  initiallyOpen={true}
-                  autoGenerateNestedIndicator={false}
-                  primaryText="Applications"
-                  nestedListStyle={styles.tightList}
-                  nestedItems={this.renderApplications()}
-                />
-                <ListItem
-                  key="nodes"
-                  style={styles.tightList}
-                  disabled={true}
-                  initiallyOpen={true}
-                  autoGenerateNestedIndicator={false}
-                  primaryText="Nodes"
-                  nestedListStyle={styles.tightList}
-                  nestedItems={this.renderNodes()}
-                />
-              </List>
-            </CardText>
-            <CardActions>
+                ))}
+              </CardList>
+              <CardList label="Nodes">
+                {cluster.nodes.map((node, idx) => (
+                  <CardLinkItem
+                    key={idx}
+                    label={node.name}
+                    linkTo={`/nodes/${node.name}`}
+                  />
+                ))}
+              </CardList>
               <ToolButtons
                 disabled={!authorized}
                 hideCopyButton={true}
@@ -153,64 +135,43 @@ class EnvironmentCluster extends Component {
                 }
                 editMode={this.state.editMode}
               />
-            </CardActions>
-          </Card>
+            </Card>
+          </div>
+          {/*Side menu*/}
+          <div className="col-md-4" style={styles.cardPadding}>
+            {
+              <RevisionsView
+                id={cluster.id}
+                currentRevision={revision}
+                component="cluster"
+                location={location}
+              />
+            }
+          </div>
 
-          <Lifecycle
-            lifecycle={cluster.lifecycle}
-          />
-        </div>
-
-        {/*Side menu*/}
-        <div className="col-md-4">
-          <History
-            id={cluster.id}
-            currentRevision={query.revision}
-            component="cluster"
-          />
-        </div>
-
-        <DeleteElementForm
+          {/*<DeleteElementForm
           displayDeleteForm={this.state.displayDeleteForm}
           onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
           onSubmit={() => this.deleteCluster(cluster.clustername)}
           id={cluster.clustername}
-        />
-      </div>
-    )
-  }
-
-  renderApplications() {
-    const { cluster } = this.props
-
-    return cluster.applications.map(app => (
-      <ListItem key={app.name} style={styles.tighterList} disabled={true}>
-        <Link to={`/instances/${app.id}`}>{app.name}</Link>
-      </ListItem>
-    ))
-  }
-
-  renderNodes() {
-    const { cluster } = this.props
-    return cluster.nodes.map(node => (
-      <ListItem key={node.name} style={styles.tighterList} disabled={true}>
-        <Link to={`/nodes/${node.name}`}>{node.name}</Link>
-      </ListItem>
-    ))
+        />*/}
+        </div>
+      </React.Fragment>
+    );
   }
 
   showModal(mode) {
-    const { dispatch } = this.props
+    const { dispatch } = this.props;
 
     if (mode === "edit") {
-      dispatch(fetchEnvironmentNodes(this.props.cluster.environment))
+      dispatch(fetchEnvironmentNodes(this.props.cluster.environment));
     }
-    dispatch(displayModal("cluster", true, mode, this.props.cluster))
+    dispatch(displayModal("cluster", true, mode, this.props.cluster));
   }
 
   deleteCluster(clusterName) {
-    const { dispatch, params } = this.props
-    this.toggleComponentDisplay("displayDeleteForm")
+    const { dispatch, params } = this.props;
+    this.toggleComponentDisplay("displayDeleteForm");
     dispatch(
       submitForm(
         clusterName,
@@ -218,18 +179,17 @@ class EnvironmentCluster extends Component {
         null,
         "deleteCluster"
       )
-    )
+    );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     cluster: state.environment_cluster_fasit.data,
     isFetching: state.environment_cluster_fasit.isFetching,
     user: state.user,
     revisions: state.revisions,
-    query: state.routing.locationBeforeTransitions.query
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(EnvironmentCluster)
+export default connect(mapStateToProps)(EnvironmentCluster);

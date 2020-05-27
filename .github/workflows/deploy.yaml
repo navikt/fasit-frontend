@@ -1,8 +1,8 @@
-name: Build and deploy nfasit-frontend
+name: Build and deploy fasit-frontend
 
-on: 
+on:
   push:
-    branches: 
+    branches:
       - master
 
 env:
@@ -13,12 +13,13 @@ jobs:
     name: Checkout code and setup node
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v1
+
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '12.16.x'
+          node-version: "12.16.x"
       - name: Cache NPM dependencies
         uses: actions/cache@v1
         with:
@@ -31,7 +32,7 @@ jobs:
       - name: Run tests
         run: npm run test
       - name: Build docker image
-        run: docker build . --tag $IMAGE 
+        run: docker build . --tag $IMAGE
       - name: Login to Github package registry
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -54,16 +55,16 @@ jobs:
           OWNER: navikt
           REPOSITORY: fasit-frontend
   deploy-prod:
-   name: Deploy to prod-fss
-   needs: deploy-dev
-   runs-on: ubuntu-latest
-   steps:
-     - uses: actions/checkout@v1
-     - uses: nais/deploy/actions/deploy@v1
-       env:
-        APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-        CLUSTER: prod-fss
-        RESOURCE: .nais/naiserator.yaml
-        VARS: .nais/prod-config.json
-        OWNER: navikt
-        REPOSITORY: nais-deploy
+    name: Deploy to prod-fss
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-fss
+          RESOURCE: .nais/naiserator.yaml
+          VARS: .nais/prod-config.json
+          OWNER: navikt
+          REPOSITORY: nais-deploy

@@ -4,152 +4,84 @@
   "description": "Fasit frontend",
   "main": "server.js",
   "scripts": {
-    "start": "better-npm-run start",
-    "clean": "better-npm-run clean",
-    "prebuild": "better-npm-run prebuild",
-    "premocked": "better-npm-run prebuild",
-    "predev": "better-npm-run prebuild",
-    "dev": "better-npm-run dev",
-    "build": "better-npm-run build",
-    "mockserver": "better-npm-run mockserver",
-    "mocked": "better-npm-run mocked",
-    "test": "better-npm-run test",
-    "test:watch": "npm test -- --watch",
-    "precommit": "pretty-quick --staged"
+    "build-watch": "parcel watch src/index.html",
+    "start-watch": "NODE_ENV=standalone PORT=6969  FASIT_URL=http://localhost:6969/mockapi node server.js",
+    "dev": "concurrently --kill-others \"npm run start-watch\" \"npm run build-watch\"",
+    "build": "parcel build src/index.html",
+    "test": "NODE_ENV=production NODE_PATH=./src mocha --compilers js:babel-register --recursive ./test/new"
   },
-  "betterScripts": {
-    "start": {
-      "command": "node production_server.js",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "build": {
-      "command": "webpack --verbose --devtool source-map --colors --display-error-details --progress --config webpack.config.prod.js",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "dev": {
-      "command": "node ./server.js",
-      "env": {
-        "NODE_PATH": "./src",
-        "NODE_ENV": "development",
-        "PORT": 4242
-      }
-    },
-    "mocked": {
-      "command": "node ./server.js",
-      "env": {
-        "NODE_ENV": "standalone",
-        "NODE_PATH": "./src",
-        "PORT": 6969,
-        "FASIT_URL": "http://localhost:6969/mockapi"
-      }
-    },
-    "test": {
-      "command": "mocha --compilers js:babel-register --recursive ./test/new",
-      "env": {
-        "NODE_ENV": "production",
-        "NODE_PATH": "./src"
-      }
-    },
-    "clean": {
-      "command": "rimraf dist/*"
-    },
-    "mkdir": {
-      "command": "mkdirp dist"
-    },
-    "copy-html": {
-      "command": "ncp src/index.html dist/index.html"
-    },
-    "copy-images": {
-      "command": "ncp src/images dist/images/"
-    },
-    "prebuild": {
-      "command": "better-npm-run clean && better-npm-run mkdir && better-npm-run copy-images &&  better-npm-run copy-html"
-    }
-  },
-  "keywords": [
-    "node",
-    "express",
-    "react",
-    "redux",
-    "fasit"
-  ],
-  "author": "Frode Sundby",
-  "license": "ISC",
+  "author": "Mats Byfuglien",
+  "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.9.0",
     "@fortawesome/fontawesome-free": "^5.9.0",
     "@fortawesome/fontawesome-free-brands": "^5.1.0-3",
     "@fortawesome/fontawesome-free-regular": "^5.1.0-3",
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@fortawesome/react-fontawesome": "0.1.0-11",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^6.4.1",
+    "@material-ui/core": "^4.0.0",
+    "@material-ui/icons": "^4.9.1",
+    "@types/react": "^16.8.6",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-es2015": "^6.14.0",
-    "babel-preset-react": "^6.11.1",
-    "babel-preset-react-hmre": "^1.1.1",
-    "babel-register": "^6.14.0",
-    "babelify": "^7.3.0",
-    "better-npm-run": "0.0.11",
-    "body-parser": "^1.19.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "bootstrap": "^3.4.1",
-    "bootswatch": "^3.4.1",
-    "chai": "^3.5.0",
-    "chai-spies": "^0.7.1",
+    "bootswatch": "^4.5.0",
+    "chai": "^4.2.0",
+    "chai-spies": "^1.0.0",
+    "concurrently": "^5.2.0",
     "cors": "^2.8.5",
-    "css-loader": "^0.25.0",
-    "enzyme": "^2.9.1",
-    "es6-promise": "^3.2.1",
-    "eventsource-polyfill": "^0.9.6",
+    "enzyme": "^3.11.0",
     "fetch": "^1.1.0",
-    "file-loader": "^0.9.0",
+    "history": "^4.10.1",
+    "husky": "^4.2.3",
     "jsdom": "^9.11.0",
-    "less": "^2.7.3",
-    "less-loader": "^2.2.3",
-    "less-plugin-clean-css": "^1.5.1",
-    "material-ui": "^0.18.7",
-    "material-ui-datatables": "^0.18.1",
-    "mkdirp": "^0.5.1",
+    "less": "^3.11.1",
     "mocha": "^5.2.0",
-    "mousetrap": "^1.6.3",
-    "ncp": "^2.0.0",
-    "postcss-loader": "^0.13.0",
+    "moment": "^2.24.0",
+    "nodemon": "^2.0.4",
+    "parcel": "^1.12.4",
     "prettier": "^1.18.2",
     "pretty-data": "^0.40.0",
-    "pretty-quick": "^1.11.1",
-    "react": "^15.6.2",
-    "react-addons-test-utils": "^15.6.2",
-    "react-bootstrap": "^0.30.10",
+    "prop-types": "^15.5.10",
+    "react": "^15.4.0 || ^16.0.0",
+    "react-bootstrap": "^1.0.1",
     "react-classset": "0.0.2",
-    "react-dom": "^15.6.2",
-    "react-redux": "^4.4.10",
-    "react-router": "^2.8.1",
-    "react-router-redux": "^4.0.8",
-    "react-select": "^1.3.0",
-    "react-tap-event-plugin": "^2.0.1",
-    "redux": "^3.7.2",
-    "redux-logger": "^2.10.2",
-    "redux-mock-store": "^1.5.3",
+    "react-dom": "^15.4.0 || ^16.0.0",
+    "react-redux": "^7.2.0",
+    "react-router": "^5.2.0",
+    "react-select": "^3.1.0",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-mock-store": "^1.5.4",
     "redux-saga": "^0.11.1",
-    "redux-thunk": "^2.3.0",
-    "rimraf": "^2.6.3",
-    "sinon": "^4.5.0",
-    "style-loader": "^0.13.2",
-    "url-loader": "^0.5.7",
-    "webpack": "^1.15.0",
-    "webpack-dev-middleware": "^1.12.2",
-    "webpack-hot-middleware": "^2.25.0"
+    "sinon": "^4.5.0"
   },
   "dependencies": {
     "express": "^4.17.1",
     "isomorphic-fetch": "^2.2.1",
-    "moment": "^2.24.0",
-    "prom-client": "^10.2.2",
-    "request": "^2.84.0"
+    "material-ui": "^0.20.2",
+    "prom-client": "^12.0.0",
+    "r": "^0.0.5",
+    "reac": "^0.0.0",
+    "react-router-dom": "^5.2.0",
+    "redux-thunk": "^2.3.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "dist/*",
+      "src/*"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

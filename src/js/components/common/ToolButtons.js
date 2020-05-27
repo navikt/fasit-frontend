@@ -1,40 +1,12 @@
-import React, { Component } from "react"
-import Mousetrap from "mousetrap"
-import IconButton from "material-ui/IconButton"
-import { styles, icons } from "../../commonStyles/commonInlineStyles"
+import React, { Component } from "react";
+import Button from "@material-ui/core/Button";
+import DeleteIcon from "@material-ui/icons/Delete";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
+import EditIcon from "@material-ui/icons/Edit";
 
 export default class ToolButtons extends Component {
   constructor(props) {
-    super(props)
-  }
-
-  componentDidMount() {
-    const { disabled, onEditClick, onDeleteClick, onCopyClick } = this.props
-    if (!disabled) {
-      Mousetrap.bind("c", onCopyClick)
-      Mousetrap.bind("d", onDeleteClick)
-      Mousetrap.bind("e", onEditClick)
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { onEditClick, onDeleteClick, onCopyClick, editMode } = this.props
-    if (!nextProps.disabled) {
-      Mousetrap.bind("c", onCopyClick)
-      Mousetrap.bind("d", onDeleteClick)
-      Mousetrap.bind("e", onEditClick)
-      if (nextProps.editMode && nextProps.editMode != editMode) {
-        Mousetrap.bind("esc", onEditClick)
-      }
-    } else if (nextProps.disabled) {
-      Mousetrap.unbind(["c", "e", "d", "esc"])
-    } else if (!nextProps.editMode) {
-      Mousetrap.unbind("esc", onEditClick)
-    }
-  }
-
-  componentWillUnmount() {
-    Mousetrap.unbind(["c", "e", "d", "esc"])
+    super(props);
   }
 
   render() {
@@ -44,73 +16,45 @@ export default class ToolButtons extends Component {
       onDeleteClick,
       onCopyClick,
       hideCopyButton,
-      hideDeleteButton
-    } = this.props
-    const disabledString = "Log in or make sure you have access"
+      hideEditButton,
+      hideDeleteButton,
+    } = this.props;
     return (
-      <div>
+      <div className="buttonSpacing">
         {!hideCopyButton && (
-          <IconButton
+          <Button
             disabled={disabled}
-            touch={true}
-            disableTouchRipple={true}
-            onTouchTap={onCopyClick}
-            iconStyle={styles.button}
-            tooltip={
-              disabled ? (
-                disabledString
-              ) : (
-                <div>
-                  <u>C</u>opy
-                </div>
-              )
-            }
-            tooltipPosition="bottom-center"
+            size="small"
+            variant="outlined"
+            onClick={onCopyClick}
+            startIcon={<FileCopyIcon />}
           >
-            {icons.copy}
-          </IconButton>
+            Copy
+          </Button>
         )}
-        <IconButton
-          disabled={disabled}
-          touch={true}
-          disableTouchRipple={true}
-          onTouchTap={onEditClick}
-          iconStyle={styles.button}
-          tooltip={
-            disabled ? (
-              disabledString
-            ) : (
-              <div>
-                <u>E</u>dit
-              </div>
-            )
-          }
-          tooltipPosition="bottom-center"
-        >
-          {icons.edit}
-        </IconButton>
-        {!hideDeleteButton && (
-          <IconButton
+        {!hideEditButton && (
+          <Button
+            variant="outlined"
+            size="small"
             disabled={disabled}
-            touch={true}
-            disableTouchRipple={true}
-            onTouchTap={onDeleteClick}
-            iconStyle={styles.button}
-            tooltip={
-              disabled ? (
-                disabledString
-              ) : (
-                <div>
-                  <u>D</u>elete
-                </div>
-              )
-            }
-            tooltipPosition="bottom-center"
+            onClick={onEditClick}
+            startIcon={<EditIcon />}
           >
-            {icons.delete}
-          </IconButton>
+            Edit
+          </Button>
+        )}
+        {!hideDeleteButton && (
+          <Button
+            variant="outlined"
+            size="small"
+            disabled={disabled}
+            onClick={onDeleteClick}
+            startIcon={<DeleteIcon />}
+          >
+            Delete
+          </Button>
         )}
       </div>
-    )
+    );
   }
 }

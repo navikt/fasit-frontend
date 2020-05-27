@@ -1,30 +1,35 @@
 import React from "react"
-import {
-  green400,
-  orange300,
-  red400,
-  deepPurple400
-} from "material-ui/styles/colors"
-import GroupWork from "material-ui/svg-icons/action/group-work"
-import Description from "material-ui/svg-icons/action/description"
-import Timeline from "material-ui/svg-icons/action/timeline"
-import Link from "material-ui/svg-icons/content/link"
-import NewReleases from "material-ui/svg-icons/av/new-releases"
-import Error from "material-ui/svg-icons/alert/error"
-import Lock from "material-ui/svg-icons/action/lock"
-import Security from "material-ui/svg-icons/hardware/security"
-import Build from "material-ui/svg-icons/action/build"
-import Avatar from "material-ui/Avatar"
-import Delete from "material-ui/svg-icons/action/delete"
-import Edit from "material-ui/svg-icons/editor/mode-edit"
-import Copy from "material-ui/svg-icons/content/content-copy"
-import Cancel from "material-ui/svg-icons/navigation/cancel"
-import Eye from "material-ui/svg-icons/image/remove-red-eye"
-import FileUpload from "material-ui/svg-icons/file/file-upload"
-import File from "material-ui/svg-icons/editor/insert-drive-file"
-import RightArrow from "material-ui/svg-icons/hardware/keyboard-arrow-right"
-import Warning from "material-ui/svg-icons/alert/warning"
+import { makeStyles } from "@material-ui/core/styles"
+import green from "@material-ui/core/colors/green"
+import orange from "@material-ui/core/colors/orange"
+import red from "@material-ui/core/colors/red"
+import deepPurple from "@material-ui/core/colors/deepPurple"
+
+import GroupWorkIcon from "@material-ui/icons/GroupWork"
+import DescriptionIcon from "@material-ui/icons/Description"
+import TimelineIcon from "@material-ui/icons/Timeline"
+import LinkIcon from "@material-ui/icons/Link"
+//import NewReleases from "material-ui/svg-icons/av/new-releases"
+import ErrorIcon from "@material-ui/icons/Error"
+import LockIcon from "@material-ui/icons/Lock"
+import SecurityIcon from "@material-ui/icons/Security"
+import BuildIcon from "@material-ui/icons/Build"
+import Avatar from "@material-ui/core/Avatar"
+import DeleteIcon from "@material-ui/icons/Delete"
+import EditIcon from "@material-ui/icons/Edit"
+import FileCopyIcon from "@material-ui/icons/FileCopy"
+import CancelIcon from "@material-ui/icons/Cancel"
+import VisibilityIcon from "@material-ui/icons/Visibility"
+import AttachFileIcon from "@material-ui/icons/AttachFile"
+import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile"
+import DoubleArrowIcon from "@material-ui/icons/DoubleArrow"
+import WarningIcon from "@material-ui/icons/Warning"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
+const green400 = green[400]
+const orange300 = orange[300]
+const red400 = red[400]
+const deepPurple400 = deepPurple[400]
 
 export const colors = {
   white: "#ffffff",
@@ -36,15 +41,18 @@ export const colors = {
   pink: "#d33682",
   lightpink: "#F84099",
   grey: "#aaa",
+  darkgrey: "#888",
   lightgrey: "#757575",
   toolbarBackground: "#515d66",
-  black: "rgba(0, 0, 0, 0.87)"
+  black: "rgba(0, 0, 0, 0.87)",
 }
 
 export function styleSet(styles) {
   const styleSet = Object.assign(...styles)
   return styleSet
 }
+
+
 
 export const styles = {
   bold: { fontWeight: "bold" },
@@ -66,33 +74,33 @@ export const styles = {
   tableData: { textOverflow: "ellipsis", overflow: "hidden", height: "30px" },
   cardPadding: {
     marginTop: "10px",
-    marginBottom: "10px"
+    marginBottom: "10px",
   },
   valign: {
     display: "inline-flex",
-    verticalAlign: "middle"
+    verticalAlign: "middle",
   },
   tableCellPadding: {
     verticalAlign: "top",
     paddingTop: "10px",
-    paddingBottom: "5px"
+    paddingBottom: "5px",
   },
   textField: {
     underlineStyle: {
-      borderColor: colors.avatarBackgroundColor
+      borderColor: colors.avatarBackgroundColor,
     },
     floatingLabelStyle: {
-      color: colors.grey
+      color: colors.grey,
     },
     floatingLabelFocusStyle: {
-      color: colors.toolbarBackground
-    }
-  }
+      color: colors.toolbarBackground,
+    },
+  },
 }
 
 export const icons = {
   environment: (
-    <Avatar backgroundColor={colors.avatarBackgroundColor} color={colors.white}>
+    <Avatar /*className={} backgroundColor={colors.avatarBackgroundColor} color={colors.white}*/>
       <FontAwesomeIcon icon="sitemap" />
     </Avatar>
   ),
@@ -118,12 +126,12 @@ export const icons = {
   ),
   cluster: (
     <Avatar backgroundColor={colors.avatarBackgroundColor} color={colors.white}>
-      <GroupWork style={styles.white} />
+      <GroupWorkIcon style={styles.white} />
     </Avatar>
   ),
   appconfig: (
     <Avatar backgroundColor={colors.avatarBackgroundColor} color={colors.white}>
-      <Description style={styles.white} />
+      <DescriptionIcon style={styles.white} />
     </Avatar>
   ),
   new: (
@@ -136,34 +144,28 @@ export const icons = {
       <FontAwesomeIcon icon="tachometer-alt" />
     </Avatar>
   ),
-  cancel: <Cancel hoverColor={colors.pink} />,
-  edit: <Edit hoverColor={colors.pink} />,
-  eye: <Eye />,
-  fileUpload: <FileUpload />,
+  cancel: <CancelIcon hoverColor={colors.pink} />,
+  edit: <EditIcon hoverColor={colors.pink} />,
+  eye: <VisibilityIcon />,
+  fileUpload: <AttachFileIcon />,
   fileAvatar: (
     <Avatar
       color={colors.white}
       backgroundColor={colors.toolbarBackground}
-      icon={<File />}
+      icon={<InsertDriveFileIcon />}
     />
   ),
-  delete: <Delete hoverColor={colors.pink} />,
-  copy: <Copy hoverColor={colors.pink} />,
-  warning: <Warning color={colors.orange} />,
+  delete: <DeleteIcon hoverColor={colors.pink} />,
+  copy: <FileCopyIcon hoverColor={colors.pink} />,
+  warning: <WarningIcon color={colors.orange} />,
   resource: <FontAwesomeIcon icon="cogs" />,
-  historyAvatar: <Avatar icon={<Timeline />} />,
-  securityAvatar: <Avatar icon={<Security />} />,
-  rightArrow: <RightArrow />,
-  linkAvatar: (
-    <Avatar icon={<Link />} backgroundColor={colors.avatarBackgroundColor} />
-  ),
-  hardwareAvatar: <Avatar icon={<Build />} />,
-  errorAvatar: <Avatar icon={<Error />} backgroundColor={colors.red} />,
+  historyAvatar: <Avatar icon={<TimelineIcon />} />,
+  securityAvatar: <Avatar icon={<SecurityIcon />} />,
+  rightArrow: <DoubleArrowIcon />,
+  linkAvatar: <Avatar icon={<LinkIcon />} backgroundColor={colors.avatarBackgroundColor} />,
+  hardwareAvatar: <Avatar icon={<BuildIcon />} />,
+  errorAvatar: <Avatar icon={<ErrorIcon />} backgroundColor={colors.red} />,
   lockAvatar: (
-    <Avatar
-      icon={<Lock />}
-      color={colors.white}
-      backgroundColor={colors.toolbarBackground}
-    />
-  )
+    <Avatar icon={<LockIcon />} color={colors.white} backgroundColor={colors.toolbarBackground} />
+  ),
 }

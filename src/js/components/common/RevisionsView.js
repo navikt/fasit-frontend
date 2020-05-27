@@ -1,36 +1,35 @@
-import React, { Component } from "react"
-import { Link, browserHistory } from "react-router"
-import moment from "moment"
-import { connect } from "react-redux"
-import { List, ListItem } from "material-ui/List"
-import { fetchRevisions } from "../../actionCreators/common"
-import { styles, icons } from "../../commonStyles/commonInlineStyles"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Spinner } from "."
+import React, { Component } from "react";
+import moment from "moment";
+import { Card, CardLinkItem, CardList } from "../common/Card";
+import { connect } from "react-redux";
+import { fetchRevisions } from "../../actionCreators/common";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Spinner } from ".";
 
 class RevisionsView extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      displayAllRevisions: false
-    }
+      displayAllRevisions: false,
+    };
   }
 
   componentDidMount() {
-    const { dispatch, id, component } = this.props
-    dispatch(fetchRevisions(component, id))
+    const { dispatch, id, component } = this.props;
+
+    dispatch(fetchRevisions(component, id));
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { dispatch, id, component } = nextProps
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { dispatch, id, component } = nextProps;
 
     if (this.props.id !== nextProps.id) {
-      dispatch(fetchRevisions(component, id))
+      dispatch(fetchRevisions(component, id));
     }
   }
 
   showRevisionsFooter() {
-    const { revisions } = this.props
+    const { revisions } = this.props;
     if (revisions.data.length > 5 && !this.state.displayAllRevisions) {
       return (
         <div className="information-box-footer">
@@ -42,7 +41,7 @@ class RevisionsView extends Component {
             <FontAwesomeIcon icon="angle-double-down" />
           </a>
         </div>
-      )
+      );
     }
     if (revisions.data.length > 5 && this.state.displayAllRevisions) {
       return (
@@ -54,71 +53,47 @@ class RevisionsView extends Component {
             Show less <FontAwesomeIcon icon="angle-double-up" />
           </a>
         </div>
-      )
+      );
     }
   }
 
   render() {
-    moment.locale("en")
-    const { revisions, routing, currentRevision } = this.props
+    moment.locale("en");
+    const { revisions, location } = this.props;
 
     if (revisions.isFetching) {
-      return <Spinner />
+      return <Spinner />;
     } else if (revisions.requestFailed)
-      return <div key="1">Unable to fetch revisions</div>
+      return <div key="1">Unable to fetch revisions</div>;
 
-    let displayRevisions = revisions.data
+    let displayRevisions = revisions.data;
 
     if (!this.state.displayAllRevisions)
-      displayRevisions = revisions.data.slice(0, 5)
+      displayRevisions = revisions.data.slice(0, 5);
     return (
-        <List style={{ paddingTop: "0px", padding: "0px" }}>
+      <Card title="History">
+        <CardList>
           {displayRevisions.map((rev, idx) => {
-            const revisionQuery = `?revision=${rev.revision}`
             return (
-              <ListItem
+              <CardLinkItem
                 key={idx}
-                onClick={() =>
-                  browserHistory.push(routing.pathname + revisionQuery)
-                }
-                style={{ fontSize: "14px" }}
-                leftIcon={
-                  rev.revision == currentRevision ? icons.rightArrow : null
-                }
-                insetChildren={true}
-                innerDivStyle={{ paddingBottom: "5px", paddingTop: "5px" }}
-                disableTouchRipple={true}
-                primaryText={moment(rev.timestamp).format("DD MMM YYYY HH:mm:ss")}
-                secondaryText={renderSecondaryText(rev)}
-                secondaryTextLines={rev.message ? 2 : 1}
+                label={`${moment(rev.timestamp).format("DD MM YY HH:mm")} by ${
+                  rev.author
+                }`}
+                linkTo={`${location.pathname}?revision=${rev.revision}`}
+                secondaryText={rev.message}
               />
-            )
+            );
           })}
-
-          {this.showRevisionsFooter()}
-        </List>
-    )
+        </CardList>
+        {this.showRevisionsFooter()}
+      </Card>
+    );
   }
 }
 
-function renderSecondaryText(revision) {
-  return (
-    <div>
-      {revision.author}
-      {revision.message && (
-        <div>
-          {" "}
-          <FontAwesomeIcon icon="angle-double-right" fixedWidth />
-          {revision.message}
-        </div>
-      )}
-    </div>
-  )
-}
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   revisions: state.revisions,
-  routing: state.routing.locationBeforeTransitions
-})
+});
 
-export default connect(mapStateToProps)(RevisionsView)
+export default connect(mapStateToProps)(RevisionsView);

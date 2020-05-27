@@ -1,4 +1,4 @@
-.navSearchContainer{
+.navSearchContainer {
   width: 100%;
   position: inherit;
   display: inline-block;
@@ -7,7 +7,7 @@
 .navSearchForm {
   outline: none !important;
   margin-bottom: -14px;
-  width:100%
+  width: 100%;
 }
 .navSearchTextInput {
   height: 50px;
@@ -23,20 +23,22 @@
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   animation-iteration-count: 2;
-  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -webkit-transition: border-color ease-in-out 0.15s,
+    box-shadow ease-in-out 0.15s;
+  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
-.navSearchTextInput:focus{
-    border-color: @fasit-primary;
-    outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 4px 4px rgba(102, 175, 233, 0.6);
+.navSearchTextInput:focus {
+  border-color: @fasit-primary;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    0 0 4px 4px rgba(102, 175, 233, 0.6);
 }
 
 .navSearchButton {
   border: 1px solid #ccc;
   background-color: #f2f2f2;
-  color: #033C73;
+  color: #033c73;
   position: relative;
   height: 48px;
   width: 55px;
@@ -56,7 +58,7 @@
   outline: none;
 }
 
-.navSearchDropdown{
+.navSearchDropdown {
   border: 1px solid #ccc;
   border-top: 0px;
   position: absolute;
@@ -66,11 +68,11 @@
   padding-right: 20px;
   border-radius: 0px 0px 4px 4px;
   box-shadow: 4px 4px 10px #ddd;
-  width: 100%;;
+  width: 100%;
   top: 50px;
-
 }
-.navOption > div, .navOption >div:hover{
+.navOption > div,
+.navOption > div:hover {
   margin-left: 30px !important;
   margin-right: -20px;
   color: #000;
@@ -78,17 +80,27 @@
   text-decoration: none;
 }
 
-.selectedNavOption, .selectedNavOption:hover, selectedNavOption:focus{
+.selectedNavOption,
+.selectedNavOption:hover,
+selectedNavOption:focus {
   background-color: @blue;
 }
-.selectedNavOption >div, .selectedNavOption >div:hover, selectedNavOption >div:focus{
+.selectedNavOption > div,
+.selectedNavOption > div:hover,
+selectedNavOption > div:focus {
   color: #fff;
   text-decoration: none;
-
 }
 
-.main-content-container{
+.environments-container {
   margin-top: 20px;
+  margin-left: 100px;
+  max-width: 400px;
+}
+
+.main-content-container {
+  margin-top: 20px;
+  margin-left: 40px;
 }
 
 .element-list-paging {
@@ -96,7 +108,7 @@
   padding: 10px 2px 0px 2px;
 }
 
-.element-list-paging-number{
+.element-list-paging-number {
   position: relative;
   width: 3px;
   display: table-cell;
@@ -105,27 +117,32 @@
   text-align: center;
 }
 
-.singInButton{
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+.singInButton {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
 
 @keyframes shake {
-  10%, 90% {
+  10%,
+  90% {
     transform: translate3d(-1px, 0, 0);
   }
 
-  20%, 80% {
+  20%,
+  80% {
     transform: translate3d(2px, 0, 0);
   }
 
-  30%, 50%, 70% {
+  30%,
+  50%,
+  70% {
     transform: translate3d(-4px, 0, 0);
   }
 
-  40%, 60% {
+  40%,
+  60% {
     transform: translate3d(4px, 0, 0);
   }
 }
@@ -135,8 +152,8 @@
   overflow: hidden;
   display: inline-block;
   vertical-align: bottom;
-  -webkit-animation: ellipsis steps(4,end) 900ms infinite;
-  animation: ellipsis steps(4,end) 900ms infinite;
+  -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+  animation: ellipsis steps(4, end) 900ms infinite;
   content: "\2026"; /* ascii code for the ellipsis character */
   width: 0px;
 }
@@ -153,15 +170,14 @@
   }
 }
 
-
-.keyboardButton{
-  position:absolute;
+.keyboardButton {
+  position: absolute;
   width: 50px;
   height: 50px;
   display: inline-block;
   background: #93a1a1;
   color: #fff;
   vertical-align: middle;
-  text-align:center;
+  text-align: center;
   border-radius: 10px;
 }

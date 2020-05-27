@@ -1,15 +1,25 @@
-/**
- * Based on the current environment variable, we need to make sure
- * to exclude any DevTools-related code from the production builds.
- * The code is envify'd - using 'DefinePlugin' in Webpack.
- */
+import { createStore, applyMiddleware, compose } from "redux";
+import createSagaMiddleware from "redux-saga";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-let loadedStore = null;
+import apiKeysSaga from "../sagas";
+import rootReducer from "../reducers";
 
-if (process.env.NODE_ENV === 'production') {
-    loadedStore = require('./configureStore.prod');
-} else {
-    loadedStore = require('./configureStore.dev');
+export default function configureStore() {
+  const sagaMiddleware = createSagaMiddleware();
+
+  let composedMiddleware;
+
+  if (process.env.NODE_ENV !== "production") {
+    console.log(
+      "WARNING: Running Redux with devTools extension. This should only be used in development and not in production."
+    );
+    composedMiddleware = composeWithDevTools(applyMiddleware(sagaMiddleware));
+  } else {
+    composedMiddleware = compose(applyMiddleware(sagaMiddleware));
+  }
+
+  const store = createStore(rootReducer, composedMiddleware);
+  sagaMiddleware.run(apiKeysSaga);
+  return store;
 }
-
-export const configureStore = loadedStore;

@@ -1,210 +1,142 @@
-import React, { Component } from "react"
-import { browserHistory, Link } from "react-router"
-import { connect } from "react-redux"
+import React, { Component } from "react";
+import { Card } from "../common/Card";
+import history from "../../utils/browserHistory";
+import { connect } from "react-redux";
 import {
-  CurrentRevision,
-  DeleteElementForm,
-  History,
-  Lifecycle,
-  Security,
-  ToolButtons
-} from "../common/"
-import { displayModal, submitForm } from "../../actionCreators/common"
-import { validAuthorization } from "../../utils/"
-import EnvironmentClusters from "./EnvironmentClusters"
-import EnvironmentNodes from "./EnvironmentNodes"
-import EnvironmentInstances from "./EnvironmentInstances"
-import { fetchEnvironment } from "../../actionCreators/environment"
-import { icons, styles } from "../../commonStyles/commonInlineStyles"
-import { Card, CardActions, CardHeader, CardTitle } from "material-ui/Card"
+  //  DeleteElementForm,
+  ToolButtons,
+} from "../common/";
+import { displayModal, submitForm } from "../../actionCreators/common";
+import { validAuthorization } from "../../utils/";
+import EnvironmentClusters from "./EnvironmentClusters";
+import { fetchEnvironment } from "../../actionCreators/environment";
+import { styles } from "../../commonStyles/commonInlineStyles";
 
 export class Environment extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      displayClusters: true,
-      displayNodes: false,
-      displayInstances: false,
       displaySubmitForm: false,
       displayDeleteForm: false,
       editMode: false,
-      comment: ""
-    }
+      comment: "",
+    };
   }
 
   resetLocalState() {
     this.setState({
       adgroups: [],
-      comment: ""
-    })
+      comment: "",
+    });
   }
 
   toggleComponentDisplay(component) {
-    this.setState({ [component]: !this.state[component] })
-    if (component === "editMode" && this.state.editMode) this.resetLocalState()
+    this.setState({ [component]: !this.state[component] });
+    if (component === "editMode" && this.state.editMode) this.resetLocalState();
   }
 
   handleChange(field, value) {
-    this.setState({ [field]: value })
+    this.setState({ [field]: value });
   }
 
   handleSubmitForm(id, form, comment, component) {
-    const { dispatch } = this.props
+    const { dispatch } = this.props;
 
     if (component === "deleteEnvironment") {
-      this.toggleComponentDisplay("displayDeleteForm")
-      this.setState({ comment: "" })
+      this.toggleComponentDisplay("displayDeleteForm");
+      this.setState({ comment: "" });
     }
-    dispatch(submitForm(id, form, comment, component))
+    dispatch(submitForm(id, form, comment, component));
     if (component === "deleteEnvironment") {
-      browserHistory.push("/environments")
+      history.push("/environments");
     }
   }
 
   componentDidMount() {
-    const { dispatch, name, query } = this.props
-    dispatch(fetchEnvironment(name, query.revision))
+    const { dispatch, name } = this.props;
+    dispatch(fetchEnvironment(name));
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { dispatch, name, query } = this.props
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { dispatch, name } = this.props;
+
     this.setState({
-      comment: ""
-    })
+      comment: "",
+    });
     if (Object.keys(nextProps.environment).length > 0) {
-      this.setState({ adgroups: nextProps.environment.accesscontrol.adgroups })
-    }
-    if (nextProps.query.revision != query.revision) {
-      dispatch(fetchEnvironment(name, nextProps.query.revision))
+      this.setState({ adgroups: nextProps.environment.accesscontrol.adgroups });
     }
     if (nextProps.name != name) {
-      dispatch(fetchEnvironment(nextProps.name, nextProps.query.revision))
+      dispatch(fetchEnvironment(nextProps.name));
     }
   }
 
   render() {
-    const { name, environment, user, query, revisions, dispatch, resourceModalVisible } = this.props
+    console.log("In environment " + this.props.environment.name);
     const {
-      displayClusters,
-      displayInstances,
-      displayNodes,
-      comment,
-      adgroups,
-      editMode
-    } = this.state
-    const envName = environment.name
-    const envClass = environment.environmentclass
-    let lifecycle = {}
+      name,
+      environment,
+      user,
+      dispatch,
+      resourceModalVisible,
+    } = this.props;
 
-    let authorized = false
+    const { comment, editMode } = this.state;
+    const envName = environment.name;
+    const envClass = environment.environmentclass;
+    let lifecycle = {};
+
+    let authorized = false;
     if (Object.keys(environment).length > 0) {
-      authorized = validAuthorization(user, environment.accesscontrol)
-      lifecycle = environment.lifecycle
+      authorized = validAuthorization(user, environment.accesscontrol);
+      lifecycle = environment.lifecycle;
     }
 
     return (
-      <div className="row">
+      <div>
         <div className="col-md-6" style={styles.cardPadding}>
-          <CurrentRevision revisionId={query.revision} revisions={revisions} />
-          <Card>
-            <CardHeader avatar={icons.environment} title="Environment" titleStyle={styles.bold} />
-            <CardTitle title={`${envName}`} subtitle={`Environment class: ${envClass} `} />
-            <CardActions>
-              <ToolButtons
-                disabled={!authorized || resourceModalVisible}
-                onEditClick={() => dispatch(displayModal("environment", true, "edit"))}
-                onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                onCopyClick={() => dispatch(displayModal("environment", true, "copy"))}
-                editMode={editMode}
-              />
-            </CardActions>
+          <Card
+            title={`${envName ? envName.toUpperCase() : ""}`}
+            subtitle={`Environment class: ${envClass}`}
+          >
+            <ToolButtons
+              disabled={!authorized || resourceModalVisible}
+              hideEditButton={true}
+              hideCopyButton={true}
+              onEditClick={() =>
+                dispatch(displayModal("environment", true, "edit"))
+              }
+              onDeleteClick={() =>
+                this.toggleComponentDisplay("displayDeleteForm")
+              }
+              onCopyClick={() =>
+                dispatch(displayModal("environment", true, "copy"))
+              }
+              editMode={editMode}
+            />
           </Card>
-
-          <Lifecycle lifecycle={lifecycle} authorized={authorized} />
-        </div>
-
-        <div className="col-md-4">
-          <History id={this.props.name} currentRevision={query.revision} component="environment" />
-          <Security accesscontrol={environment.accesscontrol} />
-        </div>
-
-        {/*Content view*/}
-        <div className="col-xs-12">
-          <ul className="nav nav-tabs">
-            <li className={displayClusters ? "active" : ""}>
-              <Link
-                to={`/environments/${envName}/clusters`}
-                onClick={() => this.selectTab("clusters")}
-              >
-                Clusters
-              </Link>
-            </li>
-            <li className={displayNodes ? "active" : ""}>
-              <Link to={`/environments/${envName}/nodes`} onClick={() => this.selectTab("nodes")}>
-                Nodes
-              </Link>
-            </li>
-            <li className={displayInstances ? "active" : ""}>
-              <Link
-                to={`/environments/${envName}/instances`}
-                onClick={() => this.selectTab("instances")}
-              >
-                Instances
-              </Link>
-            </li>
-          </ul>
         </div>
         <div className="col-xs-12">
-          <div className="col-xs-12" style={{ height: 20 + "px" }}></div>
-          {displayClusters ? <EnvironmentClusters environment={envName} /> : null}
-          {displayNodes ? <EnvironmentNodes environment={envName} /> : ""}
-          {displayInstances ? <EnvironmentInstances environment={envName} /> : ""}
+          <EnvironmentClusters environment={envName} />
         </div>
-        <DeleteElementForm
+        {/*<DeleteElementForm
           displayDeleteForm={this.state.displayDeleteForm}
           onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
           onSubmit={() => this.handleSubmitForm(envName, null, comment, "deleteEnvironment")}
-          id={envName}
-        />
+        id={envName}*/}
       </div>
-    )
-  }
-
-  selectTab(tab) {
-    switch (tab) {
-      case "clusters":
-        this.setState({
-          displayClusters: true,
-          displayNodes: false,
-          displayInstances: false
-        })
-        return
-      case "nodes":
-        return this.setState({
-          displayClusters: false,
-          displayNodes: true,
-          displayInstances: false
-        })
-      case "instances":
-        return this.setState({
-          displayClusters: false,
-          displayNodes: false,
-          displayInstances: true
-        })
-    }
+    );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.user,
     environment: state.environment_fasit.data,
     environmentClasses: state.environments.environmentClasses,
-    revisions: state.revisions,
-    query: state.routing.locationBeforeTransitions.query,
-    resourceModalVisible: state.resources.showNewResourceForm
-  }
-}
+    resourceModalVisible: state.resources.showNewResourceForm,
+  };
+};
 
-export default connect(mapStateToProps)(Environment)
+export default connect(mapStateToProps)(Environment);
