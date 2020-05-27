@@ -1,58 +1,53 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import Filters from "../Navigation/Filters"
-import Application from "./Application"
-import ApplicationCard from "./ApplicationCard"
-import { submitFilterString } from "../../actionCreators/element_lists"
-import Spinner from "../common/Spinner"
+import React, { Component } from "react";
+import { connect } from "react-redux";
+//import Filters from "../Navigation/Filters"
+import { submitFilterString } from "../../actionCreators/element_lists";
+import Spinner from "../common/Spinner";
+import { Card } from "../common/Card";
+import { styles } from "../../commonStyles/commonInlineStyles";
 
 export class Applications extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   componentDidMount() {
-    const { dispatch, params } = this.props
-    if (!params.application) {
-      dispatch(submitFilterString("applications", 0))
-    }
+    const { dispatch } = this.props;
+    dispatch(submitFilterString("applications", 0));
   }
 
   render() {
-    const { applications, totalCount, isFetching } = this.props
+    const { applications, totalCount, isFetching } = this.props;
 
-    if (this.props.params.application) {
-      return <Application name={this.props.params.application} />
-    } else {
-      return isFetching ? (
-        <Spinner />
-      ) : (
-        <div className="main-content-container">
-          <div className="row col-sm-10">
-            <div className="col-sm-6 col-xs-12">
-              <Filters />
-            </div>
-          </div>
-          <div className="col-sm-10">
-            <div className="row">
-              <h4>{totalCount} applications</h4>
-              {applications.map((item, index) => {
-                return <ApplicationCard application={item} key={index} />
-              })}
-            </div>
-          </div>
+    return isFetching ? (
+      <Spinner />
+    ) : (
+      <div className="col-md-6">
+        <div>
+          <h4>{totalCount} Aplications</h4>
         </div>
-      )
-    }
+        {applications.map((application, index) => {
+          return (
+            <div style={styles.cardPadding} key={index}>
+              <Card
+                title={application.name}
+                linkTo={`/applications/${application.name}`}
+                subtitle={`Group id: ${application.groupid} Artifact id: ${application.artifactid}`}
+              ></Card>
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     applications: state.applications.data,
     totalCount: state.applications.headers.total_count,
-    isFetching: state.applications.isFetching
-  }
-}
+    isFetching: state.applications.isFetching,
+  };
+};
 
-export default connect(mapStateToProps)(Applications)
+export default connect(mapStateToProps)(Applications);
