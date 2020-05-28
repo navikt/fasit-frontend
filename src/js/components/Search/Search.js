@@ -1,33 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { browserHistory, Link } from "react-router";
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
-import {
-  Toolbar,
-  ToolbarGroup,
-  ToolbarSeparator,
-  ToolbarTitle,
-} from "material-ui/Toolbar";
-import RaisedButton from "material-ui/RaisedButton";
-import { Table, TableBody, TableRow, TableRowColumn } from "material-ui/Table";
+import browserHistory from "../../utils/browserHistory";
+import { Card } from "../common/Card";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 import {
   APPCONFIG,
   CLUSTER,
   destinationUrl,
   INSTANCE,
   RESOURCE,
-  SEARCH_RESULT_TYPES,
 } from "../Search/searchResultTypes";
-import { colors, icons, styles } from "../../commonStyles/commonInlineStyles";
-import { CardInfo } from "../common/";
+import { styles } from "../../commonStyles/commonInlineStyles";
 import { capitalize } from "../../utils/";
-import { WebsphereManagementConsole } from "../common";
-import {
-  getResourceTypeName,
-  resourceTypeIcon,
-} from "../../utils/resourceTypes";
+import { getResourceTypeName } from "../../utils/resourceTypes";
 import { setSearchString, submitSearch } from "../../actionCreators/common";
-import PrettyXml from "../common/PrettyXml";
+import { getQueryParam } from "../../utils";
 
 class Search extends Component {
   constructor(props) {
@@ -36,65 +24,31 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, params, location } = this.props;
-    if (params.query) {
-      dispatch(setSearchString(params.query));
-      dispatch(submitSearch(params.query, location.query.type));
+    const { dispatch, location, match } = this.props;
+    if (match.params.query) {
+      dispatch(setSearchString(match.params.query));
+      dispatch(
+        submitSearch(match.params.query, getQueryParam(location.search, "type"))
+      );
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dispatch, params } = this.props;
+    const { dispatch, match } = this.props;
 
-    if (nextProps.params.query && params.query != nextProps.params.query) {
-      dispatch(submitSearch(nextProps.params.query));
+    if (
+      nextProps.match.params.query &&
+      match.params.query != nextProps.match.params.query
+    ) {
+      dispatch(submitSearch(nextProps.match.params.query));
     }
-  }
-
-  // eget card element
-  cellContents(key, value) {
-    const { params } = this.props;
-
-    if (Array.isArray(value)) {
-      return value.map((v, idx) => (
-        <span key={idx}>
-          {v}
-          <br />
-        </span>
-      ));
-    }
-
-    switch (key.toLowerCase()) {
-      case "appconfig":
-        return <PrettyXml xml={value} filter={params.query} />;
-      case "applicationproperties":
-        return value.split("\n").map((v, idx) => (
-          <span key={idx}>
-            {v}
-            <br />
-          </span>
-        ));
-      default:
-        return value;
-    }
-  }
-
-  additionalCardInfo(searchResult) {
-    return (
-      <CardInfo
-        lastUpdated={searchResult.lastchange}
-        lifecycle={searchResult.lifecycle}
-      />
-    );
   }
 
   searchResultCard(searchResult, idx) {
     let title = searchResult.name;
-    let avatar = icons[searchResult.type];
     let subtitle = capitalize(searchResult.type);
 
     const detailedInfo = searchResult.detailedinfo;
-    const hasDetailedInfo = Object.keys(detailedInfo).length > 0;
 
     switch (searchResult.type) {
       case RESOURCE:
@@ -102,7 +56,6 @@ class Search extends Component {
           searchResult.name
         }`;
         subtitle = `${subtitle} ${searchResult.detailedinfo.scope}`;
-        avatar = resourceTypeIcon(detailedInfo.type);
         break;
       case CLUSTER:
         subtitle = searchResult.info;
@@ -115,60 +68,11 @@ class Search extends Component {
 
     return (
       <div style={styles.paddingTop5} key={idx}>
-        <Card expandable={hasDetailedInfo} initiallyExpanded={false}>
-          <CardHeader
-            title={<Link to={destinationUrl(searchResult)}>{title}</Link>}
-            subtitle={subtitle}
-            style={{ paddingTop: "7px", paddingBottom: "7px" }}
-            avatar={avatar}
-            showExpandableButton={false}
-            actAsExpander={true}
-            children={this.additionalCardInfo(searchResult)}
-          />
-
-          {hasDetailedInfo && (
-            <CardText expandable={true} actAsExpander={true}>
-              <Table>
-                <TableBody displayRowCheckbox={false}>
-                  {Object.keys(detailedInfo)
-                    .filter(
-                      (di) =>
-                        detailedInfo[di] !== null && detailedInfo[di] !== ""
-                    )
-                    .sort()
-                    .map((di) => {
-                      return (
-                        <TableRow key={di} selectable={false}>
-                          <TableRowColumn
-                            style={styles.tableCellPadding}
-                            className={"col-sm-2"}
-                          >
-                            {capitalize(di)}
-                          </TableRowColumn>
-                          <TableRowColumn
-                            style={styles.tableCellPadding}
-                            className="text-overflow"
-                          >
-                            {this.cellContents(di, detailedInfo[di])}
-                          </TableRowColumn>
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </CardText>
-          )}
-          {searchResult.type === RESOURCE &&
-            searchResult.detailedinfo.type.toLowerCase() ===
-              "deploymentmanager" && (
-              <CardActions actAsExpander={true} style={{ paddingTop: "0px" }}>
-                <WebsphereManagementConsole
-                  hostname={searchResult.detailedinfo.hostname}
-                />
-                )
-              </CardActions>
-            )}
-        </Card>
+        <Card
+          title={title}
+          linkTo={destinationUrl(searchResult)}
+          subtitle={subtitle}
+        ></Card>
       </div>
     );
   }
@@ -182,42 +86,35 @@ class Search extends Component {
     browserHistory.push(newPath);
   }
 
+  filterButton(label, activeFilter) {
+    return (
+      <Button
+        onClick={() => this.filterByType(label)}
+        color={activeFilter === label ? "secondary" : "primary"}
+      >
+        {label}
+      </Button>
+    );
+  }
+
   resultTypeFilters() {
     const { searchResults } = this.props;
-    const filter = searchResults.filter;
-    const resultTypes = toUniqeSortedArray(
-      searchResults.data.map((result) => result.type)
-    );
+    const activeFilter = searchResults.filter;
 
     return (
-      <Toolbar>
-        <ToolbarGroup>
-          <ToolbarTitle text="Filter" />
-          {SEARCH_RESULT_TYPES.map((type) => {
-            return (
-              <FilterButton
-                key={type}
-                disabled={!resultTypes.includes(type)}
-                activeFilter={filter}
-                type={type}
-                onClickHandler={() => this.filterByType(type)}
-              />
-            );
-          })}
-        </ToolbarGroup>
-        <ToolbarGroup>
-          <ToolbarSeparator />
-          <RaisedButton
-            label="clear"
-            disabled={!searchResults.filter}
-            disableTouchRipple={true}
-            backgroundColor={colors.toolbarBackground}
-            labelColor={colors.white}
-            style={styles.raisedButton}
-            onTouchTap={() => this.filterByType()}
-          />
-        </ToolbarGroup>
-      </Toolbar>
+      <React.Fragment>
+        <div style={{ fontWeight: "bold" }}>Filters</div>
+        <ButtonGroup variant="outlined">
+          {this.filterButton("appconfig", activeFilter)}
+          {this.filterButton("application", activeFilter)}
+          {this.filterButton("cluster", activeFilter)}
+          {this.filterButton("environment", activeFilter)}
+          {this.filterButton("instance", activeFilter)}
+          {this.filterButton("node", activeFilter)}
+          {this.filterButton("resource", activeFilter)}
+          <Button onClick={() => this.filterByType()}>Clear</Button>
+        </ButtonGroup>
+      </React.Fragment>
     );
   }
 
@@ -226,7 +123,7 @@ class Search extends Component {
       <div className="main-content-container">
         {this.resultTypeFilters()}
         <div className="row">
-          <div className="col-sm-12">
+          <div className="col-sm-10">
             {this.props.searchResults.data.map((sr, idx) =>
               this.searchResultCard(sr, idx)
             )}
@@ -237,32 +134,11 @@ class Search extends Component {
   }
 }
 
-const toUniqeSortedArray = (array) => {
-  return Array.from(new Set(array)).sort();
-};
-
 const mapStateToProps = (state) => {
   return {
     searchResults: state.search,
     searchQuery: state.navsearch.query,
   };
 };
-
-function FilterButton(props) {
-  const { type, onClickHandler, activeFilter, disabled } = props;
-  return (
-    <RaisedButton
-      key={type}
-      label={type}
-      disableTouchRipple={true}
-      disabled={disabled}
-      backgroundColor={
-        activeFilter === type ? colors.toolbarBackground : colors.white
-      }
-      labelColor={activeFilter === type ? colors.white : colors.black}
-      onTouchTap={onClickHandler}
-    />
-  );
-}
 
 export default connect(mapStateToProps)(Search);
