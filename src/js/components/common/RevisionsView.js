@@ -16,7 +16,6 @@ class RevisionsView extends Component {
 
   componentDidMount() {
     const { dispatch, id, component } = this.props;
-
     dispatch(fetchRevisions(component, id));
   }
 
@@ -71,23 +70,25 @@ class RevisionsView extends Component {
     if (!this.state.displayAllRevisions)
       displayRevisions = revisions.data.slice(0, 5);
     return (
-      <Card title="History">
-        <CardList>
-          {displayRevisions.map((rev, idx) => {
-            return (
-              <CardLinkItem
-                key={idx}
-                label={`${moment(rev.timestamp).format("DD MM YY HH:mm")} by ${
-                  rev.author
-                }`}
-                linkTo={`${location.pathname}?revision=${rev.revision}`}
-                secondaryText={rev.message}
-              />
-            );
-          })}
-        </CardList>
-        {this.showRevisionsFooter()}
-      </Card>
+      <div className="col-md-3" style={{ marginTop: "1rem" }}>
+        <Card title="History">
+          <CardList>
+            {displayRevisions.map((rev, idx) => {
+              return (
+                <CardLinkItem
+                  key={idx}
+                  label={`${moment(rev.timestamp).format(
+                    "DD.MM.YY HH:mm"
+                  )} by ${rev.author}`}
+                  linkTo={`${location.pathname}?revision=${rev.revision}`}
+                  secondaryText={rev.message}
+                />
+              );
+            })}
+          </CardList>
+          {this.showRevisionsFooter()}
+        </Card>
+      </div>
     );
   }
 }

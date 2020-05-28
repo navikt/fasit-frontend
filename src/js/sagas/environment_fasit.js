@@ -1,6 +1,6 @@
 import { takeEvery } from "redux-saga";
 import { call, fork, put, select } from "redux-saga/effects";
-import { browserHistory } from "react-router";
+import browserHistory from "../utils/browserHistory";
 import { fetchUrl } from "../utils";
 import {
   CLUSTER_FASIT_URL_REQUEST,
@@ -24,12 +24,12 @@ import {
   ENVIRONMENT_NODES_FASIT_FETCHING,
   ENVIRONMENT_NODES_FASIT_RECEIVED,
   ENVIRONMENT_NODES_FASIT_REQUEST,
-  ENVIRONMENT_NODES_FASIT_REQUEST_FAILED
+  ENVIRONMENT_NODES_FASIT_REQUEST_FAILED,
 } from "../actionTypes";
 
 export function* fetchEnvironment(action) {
   const environmentsApi = yield select(
-    state => state.configuration.fasit_environments
+    (state) => state.configuration.fasit_environments
   );
   let value = {};
 
@@ -75,7 +75,7 @@ export function* fetchFasitClusterUrl(action) {
 
 export function* fetchEnvironmentClusters(action) {
   const environmentsApi = yield select(
-    state => state.configuration.fasit_environments
+    (state) => state.configuration.fasit_environments
   );
   const environment = action.environment;
   yield put({ type: ENVIRONMENT_CLUSTERS_FETCHING });
@@ -92,7 +92,7 @@ export function* fetchEnvironmentClusters(action) {
 
 export function* fetchEnvironmentCluster(action) {
   const environmentsApi = yield select(
-    state => state.configuration.fasit_environments
+    (state) => state.configuration.fasit_environments
   );
   const { environment, cluster, revision } = action;
   let value = {};
@@ -117,7 +117,7 @@ export function* fetchEnvironmentCluster(action) {
 }
 
 export function* fetchEnvironmentNodes(action) {
-  const nodesApi = yield select(state => state.configuration.fasit_nodes);
+  const nodesApi = yield select((state) => state.configuration.fasit_nodes);
   yield put({ type: ENVIRONMENT_NODES_FASIT_FETCHING });
   try {
     const value = yield call(
@@ -132,7 +132,7 @@ export function* fetchEnvironmentNodes(action) {
 
 export function* fetchEnvironmentInstances(action) {
   const instancesApi = yield select(
-    state => state.configuration.fasit_applicationinstances
+    (state) => state.configuration.fasit_applicationinstances
   );
   yield put({ type: ENVIRONMENT_INSTANCES_FASIT_FETCHING });
   try {

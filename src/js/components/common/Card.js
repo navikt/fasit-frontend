@@ -59,9 +59,9 @@ export function Card(props) {
   return (
     <div style={cardStyle}>
       <div style={{ padding: "2px 16px" }}>
-        <h4>
+        <h5>
           <b>{linkTo ? <Link to={linkTo}>{title}</Link> : title}</b>
-        </h4>
+        </h5>
         <h5 style={{ color: colors.grey }}>{subtitle}</h5>
         {content && <p>{content}</p>}
         {props.children}

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-//import Filters from "../Navigation/Filters"
 import { submitFilterString } from "../../actionCreators/element_lists";
 import Spinner from "../common/Spinner";
 import { Card } from "../common/Card";
