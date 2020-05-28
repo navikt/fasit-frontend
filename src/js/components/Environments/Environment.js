@@ -54,12 +54,14 @@ export class Environment extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, name } = this.props;
-    dispatch(fetchEnvironment(name));
+    const { dispatch, match } = this.props;
+    const envName = match.params.environment;
+    dispatch(fetchEnvironment(envName));
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dispatch, name } = this.props;
+    const { dispatch, match } = this.props;
+    const envName = match.params.environment;
 
     this.setState({
       comment: "",
@@ -67,20 +69,13 @@ export class Environment extends Component {
     if (Object.keys(nextProps.environment).length > 0) {
       this.setState({ adgroups: nextProps.environment.accesscontrol.adgroups });
     }
-    if (nextProps.name != name) {
+    if (nextProps.match.params.environment != envName) {
       dispatch(fetchEnvironment(nextProps.name));
     }
   }
 
   render() {
-    console.log("In environment " + this.props.environment.name);
-    const {
-      name,
-      environment,
-      user,
-      dispatch,
-      resourceModalVisible,
-    } = this.props;
+    const { environment, user, dispatch, resourceModalVisible } = this.props;
 
     const { comment, editMode } = this.state;
     const envName = environment.name;

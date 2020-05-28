@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Environment from "./Environment";
 import { submitFilterString } from "../../actionCreators/element_lists";
 import { Card } from "../common/Card";
-import List from "@material-ui/core/List";
-
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 
 class Environments extends Component {
   constructor(props) {
@@ -14,28 +9,15 @@ class Environments extends Component {
   }
 
   componentDidMount() {
-    console.log("Environments CDM");
-    const { dispatch, match } = this.props;
-    if (!match.params.environment) {
-      dispatch(submitFilterString("environments", 0));
-    }
+    const { dispatch } = this.props;
+    dispatch(submitFilterString("environments", 0));
   }
 
   render() {
-    const { environments, match, totalCount, location } = this.props;
-
-    if (match.params.environment) {
-      return (
-        <Environment
-          name={match.params.environment}
-          location={location}
-          clusterName={match.params.cluster}
-        />
-      );
-    }
+    const { environments, totalCount } = this.props;
 
     return (
-      <div className="environments-container">
+      <div className="col-md-6">
         <div>
           <h4>{totalCount} environments</h4>
         </div>
