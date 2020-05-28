@@ -38,6 +38,11 @@ app.put("/mockapi/v1/lifecycle/:entityTyp/:id", (req, res) => {
 app.get("/mockapi/v2/applications/:application", (req, res) => {
   sendJson(res, applicationsMock.getApplication(req.params.application));
 });
+
+app.get("/mockapi/v2/applications/:application/revisions", (req, res) => {
+  sendJson(res, applicationsMock.getApplicatonRevisons());
+});
+
 app.put("/mockapi/v2/applications/:application", (req, res) => {
   sendJson(res, applicationsMock.putApplication(req.params.application));
 });
