@@ -16,13 +16,11 @@ const cardItemStyle = {
 };
 
 export function CardItem(props) {
-  const { label, value } = props;
+  const { label, value, linkTo } = props;
   return (
-    <div>
-      <div>
-        <p style={cardItemStyle}>{label}</p>
-        <p>{value ? value : "-"}</p>
-      </div>
+    <div style={{ paddingBottom: "0.5rem" }}>
+      <p style={cardItemStyle}>{label}</p>
+      {linkTo ? <Link to={linkTo}>{value}</Link> : <p>{value ? value : "-"}</p>}
     </div>
   );
 }
@@ -59,10 +57,12 @@ export function Card(props) {
   return (
     <div style={cardStyle}>
       <div style={{ padding: "2px 16px" }}>
-        <h5>
-          <b>{linkTo ? <Link to={linkTo}>{title}</Link> : title}</b>
-        </h5>
-        <h5 style={{ color: colors.grey }}>{subtitle}</h5>
+        <div style={{ paddingBottom: "1rem" }}>
+          <h5>
+            <b>{linkTo ? <Link to={linkTo}>{title}</Link> : title}</b>
+          </h5>
+          <h5 style={{ color: colors.grey }}>{subtitle}</h5>
+        </div>
         {content && <p>{content}</p>}
         {props.children}
       </div>

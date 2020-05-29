@@ -1,30 +1,34 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {
-    fetchManifest
-} from "../../actionCreators/instance"
-import PrettyXml from '../common/PrettyXml'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchManifest } from "../../actionCreators/instance";
+import XMLViewer from "react-xml-viewer";
 
 class Manifest extends Component {
-    constructor(props) {
-        super(props)
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    componentDidMount() {
-        const {dispatch} = this.props
-        dispatch(fetchManifest())
-    }
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchManifest());
+  }
 
-    render() {
-        return (<PrettyXml xml={this.props.manifest}/>)
-    }
+  render() {
+    const xml = String(this.props.manifest).replace(/ns2:/g, ""); // remove namespace noise
+    return (
+      <pre style={{ width: "100%" }}>
+        <code>
+          <XMLViewer xml={xml} />
+        </code>
+      </pre>
+    );
+  }
 }
-
 
 const mapStateToProps = (state) => {
-    return {
-        manifest: state.instance_fasit.manifest
-    }
-}
+  return {
+    manifest: state.instance_fasit.manifest,
+  };
+};
 
-export default connect(mapStateToProps)(Manifest)
+export default connect(mapStateToProps)(Manifest);

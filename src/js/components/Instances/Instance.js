@@ -1,126 +1,115 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Tab, Tabs } from "material-ui/Tabs";
-import { icons, styles } from "../../commonStyles/commonInlineStyles";
-import { Link } from "react-router";
+import { Card, CardItem } from "../common/Card";
+import { styles } from "../../commonStyles/commonInlineStyles";
 import Manifest from "./Manifest";
-import { CollapsibleList, CurrentRevision, History, Lifecycle } from "../common/";
-import { Card, CardHeader, CardText } from "material-ui/Card";
-import { List, ListItem } from "material-ui/List";
-import SortableResourceTable from "../Resources/SortableResourcesTable";
+import { CurrentRevision, History } from "../common/";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { fetchInstance } from "../../actionCreators/instance";
-import { validAuthorization } from "../../utils/";
+import Spinner from "../common/Spinner";
+import { getQueryParam, isEmptyObject } from "../../utils/";
+import CollapsibleResourcePanel from "./CollapsibleResourcePanel";
 
 class Instance extends Component {
-    constructor(props) {
-        super(props)
+  constructor(props) {
+    super(props);
+  }
 
-        this.state = {
-            comment: ""
-        }
+  componentDidMount() {
+    const { dispatch, location, match } = this.props;
+    const revision = getQueryParam(location.search, "revision");
+    dispatch(fetchInstance(match.params.instance, revision));
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { dispatch, id, location, match } = this.props;
+    const instanceId = match.params.instance;
+    const revision = getQueryParam(location.search, "revision");
+    const nextPropsInstanceId = nextProps.match.params.instance;
+    const nextPropsRevision = getQueryParam(
+      nextProps.location.search,
+      "revision"
+    );
+
+    // Fetch data from backend if revision changes
+    if (nextPropsRevision != revision) {
+      dispatch(fetchInstance(instanceId, nextPropsRevision));
     }
-
-    componentDidMount() {
-        const {dispatch, id, query} = this.props
-        dispatch(fetchInstance(id, query.revision))
+    // Fetch data from backend if id changes
+    if (nextProps.id != id) {
+      dispatch(fetchInstance(nextPropsInstanceId, nextPropsRevision));
     }
+  }
 
-    componentWillReceiveProps(nextProps) {
-        const {dispatch, id, query} = this.props
-        // Fetch data from backend if revision changes
-        if (nextProps.query.revision != query.revision) {
-            dispatch(fetchInstance(id, nextProps.query.revision))
-        }
-        // Fetch data from backend if id changes
-        if (nextProps.id != id) {
-            dispatch(fetchInstance(nextProps.id, nextProps.query.revision))
-        }
-    }
+  render() {
+    const {
+      instance,
+      revisions,
+      query,
+      id,
+      isFetching,
+      location,
+      match,
+    } = this.props;
+    const instanceId = match.params.instance;
+    const clusterName = instance.cluster ? instance.cluster.name : "";
+    const revision = getQueryParam(location.search, "revision");
 
-    toggleComponentDisplay(component) {
-        this.setState({[component]: !this.state[component]})
-    }
+    return isEmptyObject(instance) || isFetching ? (
+      <Spinner />
+    ) : (
+      <div>
+        <div className="row">
+          <CurrentRevision revisionId={revision} revisions={revisions} />
+          <div className="col-md-8" style={styles.cardPadding}>
+            <Card
+              title={instance.application}
+              linkTo={`/applications/${instance.application}`}
+              subtitle={`${instance.application}:${instance.version}`}
+            >
+              <CardItem
+                label="Environment"
+                value={instance.environment}
+                linkTo={`/environments/${instance.environment}`}
+              />
+              <CardItem
+                label="Cluster"
+                value={`/environments/${instance.environment}/clusters/${clusterName}`}
+                linkTo={clusterName}
+              ></CardItem>
+              <div style={{ paddingTop: "1rem", paddingBottom: "1rem" }}>
+                <CollapsibleResourcePanel
+                  title={`Used resources (${instance.usedresources.length})`}
+                  resourceList={instance.usedresources}
+                />
+                <CollapsibleResourcePanel
+                  title={`Exposed resources (${instance.exposedresources.length})`}
+                  resourceList={instance.exposedresources}
+                />
 
-    handleChange(field, value) {
-        this.setState({[field]: value})
-    }
+                <ExpansionPanel>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    id="appconfig"
+                  >
+                    <b>App-config</b>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <Manifest />
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
 
-    render() {
-        const {instance, revisions, query, id, user} = this.props
-        const clusterName = instance.cluster ? instance.cluster.name : ""
-        let lifecycle = {}
-        let authorized = false
-
-        if (Object.keys(instance).length > 0) {
-            let accesscontrol = instance.accesscontrol.adgroups
-            if (!accesscontrol) accesscontrol = ({...instance.accesscontrol, "adgroups": {}})
-            authorized = validAuthorization(user, accesscontrol)
-            lifecycle = instance.lifecycle
-        }
-
-        return (
-            <div>
-                <div className="col-md-9">
-                    <CurrentRevision revisionId={query.revision} revisions={revisions}/>
-                    <Card style={styles.cardPadding}>
-                        <CardHeader
-                            avatar={icons.instance}
-                            titleStyle={styles.bold}
-                            title={<Link to={`/applications/${instance.application}`}>{`${instance.application}`}</Link>}
-                            style={styles.paddingBottom0}
-                            subtitle={`${instance.application}:${instance.version}`}
-                        />
-                        <CardText>
-                            <div>
-                                <div>
-                                    <List>
-                                        <ListItem
-                                            key='environment'
-                                            disabled={true}
-                                            primaryText={<Link
-                                                to={`/environments/${instance.environment}`}>{instance.environment}</Link>}
-                                            secondaryText="Environment"
-                                        />
-                                        <ListItem
-                                            key="cluster"
-                                            disabled={true}
-                                            primaryText={<Link
-                                                to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>}
-                                            secondaryText="Cluster"
-                                        />
-                                    </List>
-                                </div>
-                            </div>
-                        </CardText>
-                    </Card>
-                    <Lifecycle lifecycle={lifecycle}/>
-                    <Card style={styles.cardPadding}>
-                        <CardText>
-                            {instance.usedresources &&
-                            <Tabs tabItemContainerStyle={styles.tabItem} inkBarStyle={styles.inkBar}>
-                                <Tab
-                                    label={`Used resources ${instance.usedresources.length}`}
-                                    disableTouchRipple={true}>
-                                    <SortableResourceTable resources={instance.usedresources} instanceLastChanged={instance.updated}/>
-                                </Tab>
-                                <Tab
-                                    label={`Exposed resources ${instance.exposedresources.length}`}
-                                    disableTouchRipple={true}
-                                    disabled={instance.exposedresources.length === 0}>
-                                    <SortableResourceTable resources={instance.exposedresources}/>
-                                </Tab>
-                                <Tab
-                                    label="Manifest"
-                                    disableTouchRipple={true}>
-                                    <Manifest/>
-                                </Tab>
-                            </Tabs>
-                            }
-
-                        </CardText>
-                    </Card>
-
-                </div>
+    {
+      /*   </div>
                 <div className="col-md-3">
                     {instance.selftesturls && <CollapsibleList
                         primaryText="Selftests"
@@ -129,29 +118,33 @@ class Instance extends Component {
                         nestedItems={<SelfTestLinks key={id} links={instance.selftesturls}/>}/>}
                     <History id={id} revision={query.revision} component="instance"/>
                 </div>
-            </div>
-        )
+                    </div>*/
     }
+  }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        instance: state.instance_fasit.data,
-        user: state.user,
-        config: state.configuration,
-        revisions: state.revisions,
-        query: state.routing.locationBeforeTransitions.query
-    }
-}
+  return {
+    instance: state.instance_fasit.data,
+    isFetching: state.instance_fasit.isFetching,
+    user: state.user,
+    config: state.configuration,
+    revisions: state.revisions,
+  };
+};
 
 function SelfTestLinks(props) {
-    return (<ul key="1" className="revisionList">
-        {props.links.sort()
-            .map(link =>
-                <li key={link}>
-                    <a href={link} className="revisionListItem" target="_blank">{link.split("/")[2]}</a>
-                </li>)}
-    </ul>)
+  return (
+    <ul key="1" className="revisionList">
+      {props.links.sort().map((link) => (
+        <li key={link}>
+          <a href={link} className="revisionListItem" target="_blank">
+            {link.split("/")[2]}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
-export default connect(mapStateToProps)(Instance)
+export default connect(mapStateToProps)(Instance);
