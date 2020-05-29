@@ -2,8 +2,8 @@ import {
   CHANGE_FILTER,
   CHANGE_PAGE,
   SET_FILTER,
-  SET_FILTER_CONTEXT
-} from "../actionTypes"
+  SET_FILTER_CONTEXT,
+} from "../actionTypes";
 
 const initialFilter = {
   environment: "",
@@ -12,49 +12,52 @@ const initialFilter = {
   status: "",
   application: "",
   zone: "",
-  alias: ""
-}
+  alias: "",
+};
 
 const initialState = {
   activePage: 0,
   context: "",
-  filters: initialFilter
-}
+  filters: initialFilter,
+};
 export default (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_PAGE:
       return Object.assign({}, state, {
-        activePage: action.value
-      })
+        activePage: action.value,
+      });
     case SET_FILTER_CONTEXT:
       if (action.value !== state.context) {
         return Object.assign({}, state, {
           context: action.value,
-          filters: initialFilter
-        })
+          filters: initialFilter,
+        });
       } else {
         return {
           ...state,
-          context: action.value
-        }
+          context: action.value,
+        };
       }
 
     case CHANGE_FILTER: {
-      const filters = { ...state.filters, [action.filterName]: action.filterValue }
+      const filters = {
+        ...state.filters,
+        [action.filterName]: action.filterValue,
+      };
       return Object.assign({}, state, {
-        filters
-      })
+        filters,
+      });
     }
     case SET_FILTER: {
-      let filters = Object.assign({}, initialFilter)
-      Object.keys(action.filter).forEach(key => {
-        filters[key] = action.filter[key]
-      })
-
-      return Object.assign({}, state, { filters: filters })
+      const parsedParms = new URLSearchParams(action.filter);
+      let filters = Object.assign({}, initialFilter);
+      parsedParms.forEach((value, key) => {
+        filters[key] = value;
+      });
+      return Object.assign({}, state, { filters: filters });
     }
 
     default:
-      return state
+      return state;
   }
-}
+};

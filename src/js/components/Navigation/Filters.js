@@ -1,64 +1,74 @@
-import React, { Component } from "react"
-import Select from "react-select"
-import { connect } from "react-redux"
+import React, { Component } from "react";
+import Select from "react-select";
+import { connect } from "react-redux";
 import {
   changeFilter,
-  clearFilters,
+  //clearFilters,
   setFilter,
-  submitFilterString
-} from "../../actionCreators/element_lists"
-import { isEmptyObject } from "../../utils"
+  submitFilterString,
+} from "../../actionCreators/element_lists";
+import { isEmptyString } from "../../utils";
+//import { getQueryParam } from "../../utils"
 
-const LIFECYCLE_STATUSES = ["stopped", "alerted"]
+//const LIFECYCLE_STATUSES = ["stopped", "alerted"]
 
 class Filters extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   componentDidMount() {
-    const { dispatch, location } = this.props
+    const { dispatch, location } = this.props;
 
-    if (!isEmptyObject(location.query)) {
-      dispatch(setFilter(location.query))
+    if (!isEmptyString(location.search)) {
+      dispatch(setFilter(location.search));
     }
   }
 
   handleChangeFilter(filterName, filterValue) {
-    const { dispatch, filter } = this.props
-    dispatch(changeFilter(filterName, filterValue))
-    dispatch(submitFilterString(filter.context, 0))
+    const { dispatch, filter } = this.props;
+    dispatch(changeFilter(filterName, filterValue));
+    dispatch(submitFilterString(filter.context, 0));
   }
 
   convertToSelectObject(values) {
-    return values.map(value => {
-      return { value, label: value }
-    })
+    return values.map((value) => {
+      return { value, label: value };
+    });
+  }
+
+  mapToValueObject(value) {
+    return value ? { label: value, value } : null;
   }
 
   environmentFilter() {
     // if environmentclass is set, display only environments in that environmentclass
-    const { filter } = this.props
-    const filteredEnvironments = this.props.environments.filter(env => {
+    const { filter } = this.props;
+    const filteredEnvironments = this.props.environments.filter((env) => {
       if (!filter.filters.environmentclass) {
-        return true
+        return true;
       } else {
-        return env.environmentclass === filter.filters.environmentclass
+        return env.environmentclass === filter.filters.environmentclass;
       }
-    })
+    });
 
     return (
       <div className="form-group Select-environment">
         <Select
           resetValue=""
+          isClearable={true}
           placeholder="Env."
           name="form-field-name"
-          value={filter.filters.environment}
-          options={this.convertToSelectObject(filteredEnvironments.map(env => env.name))}
-          onChange={e => this.handleChangeFilter("environment", e.value)}
+          value={this.mapToValueObject(filter.filters.environment)}
+          options={this.convertToSelectObject(
+            filteredEnvironments.map((env) => env.name)
+          )}
+          onChange={(e) =>
+            this.handleChangeFilter("environment", e ? e.value : null)
+          }
         />
       </div>
-    )
+    );
   }
 
   applicationFilter() {
@@ -66,31 +76,38 @@ class Filters extends Component {
       <div className="form-group Select-application">
         <Select
           resetValue=""
+          isClearable={true}
           placeholder="App."
           name="form-field-name"
-          value={this.props.filter.filters.application}
+          value={this.mapToValueObject(this.props.filter.filters.application)}
           options={this.convertToSelectObject(this.props.applicationNames)}
-          onChange={e => this.handleChangeFilter("application", e.value)}
+          onChange={(e) =>
+            this.handleChangeFilter("application", e ? e.value : null)
+          }
         />
       </div>
-    )
+    );
   }
 
   zoneFilter() {
-    const { filter } = this.props
+    const { filter } = this.props;
     return (
       <div className="form-group Select-environmentclass">
         <Select
           resetValue=""
           placeholder="Zone"
+          isClearable={true}
           name="form-field-zone"
-          disabled={filter.filters.environmentclass === "" && filter.filters.environment === ""}
+          disabled={
+            filter.filters.environmentclass === "" &&
+            filter.filters.environment === ""
+          }
           value={filter.filters.zone}
           options={this.convertToSelectObject(this.props.zones)}
-          onChange={e => this.handleChangeFilter("zone", e.value)}
+          onChange={(e) => this.handleChangeFilter("zone", e ? e.value : null)}
         />
       </div>
-    )
+    );
   }
 
   classFilter() {
@@ -99,13 +116,18 @@ class Filters extends Component {
         <Select
           resetValue=""
           placeholder="Class"
+          isClearable={true}
           name="form-field-name"
-          value={this.props.filter.filters.environmentclass}
+          value={this.mapToValueObject(
+            this.props.filter.filters.environmentclass
+          )}
           options={this.convertToSelectObject(this.props.environmentClasses)}
-          onChange={e => this.handleChangeFilter("environmentclass", e.value)}
+          onChange={(e) =>
+            this.handleChangeFilter("environmentclass", e ? e.value : null)
+          }
         />
       </div>
-    )
+    );
   }
 
   nodeTypeFilter() {
@@ -117,10 +139,10 @@ class Filters extends Component {
           name="form-field-name"
           value={this.props.filter.filters.type}
           options={this.convertToSelectObject(this.props.nodeTypes)}
-          onChange={e => this.handleChangeFilter("type", e.value)}
+          onChange={(e) => this.handleChangeFilter("type", e ? e.value : null)}
         />
       </div>
-    )
+    );
   }
 
   resourceTypeFilter() {
@@ -130,15 +152,18 @@ class Filters extends Component {
           resetValue=""
           placeholder="Type"
           name="form-field-name"
-          value={this.props.filter.filters.type}
+          value={{
+            label: this.props.filter.filters.type,
+            value: this.props.filter.filters.type,
+          }}
           options={this.convertToSelectObject(this.props.resourceTypes)}
-          onChange={e => this.handleChangeFilter("type", e.value)}
+          onChange={(e) => this.handleChangeFilter("type", e ? e.value : null)}
         />
       </div>
-    )
+    );
   }
 
-  lifecycleFilter() {
+  /*lifecycleFilter() {
     return (
       <div className="form-group Select-resourcetype">
         <Select
@@ -147,11 +172,11 @@ class Filters extends Component {
           name="form-field-name"
           value={this.props.filter.filters.status}
           options={this.convertToSelectObject(LIFECYCLE_STATUSES)}
-          onChange={e => this.handleChangeFilter("status", e.value)}
+          onChange={(e) => this.handleChangeFilter("status", e.value)}
         />
       </div>
     )
-  }
+  }*/
 
   aliasFilter() {
     return (
@@ -162,43 +187,43 @@ class Filters extends Component {
           style={{ height: "34px" }}
           type="text"
           value={this.props.filter.filters.alias}
-          onChange={e => this.handleChangeFilter("alias", e.target.value)}
+          onChange={(e) => this.handleChangeFilter("alias", e.target.value)}
         />
       </div>
-    )
+    );
   }
 
   generateFiltersFromContext() {
-    const { filter } = this.props
+    const { filter } = this.props;
 
     switch (filter.context) {
-      case "applications":
-        return <div className="form-inline filters">{this.lifecycleFilter()}</div>
+      /*case "applications":
+        return <div className="form-inline filters">{this.lifecycleFilter()}</div>*/
       case "instances":
         return (
           <div className="form-inline filters">
             {this.classFilter()}
             {this.environmentFilter()}
             {this.applicationFilter()}
-            {this.lifecycleFilter()}
+            {/*this.lifecycleFilter()*/}
           </div>
-        )
+        );
       case "nodes":
         return (
           <div className="form-inline filters">
             {this.classFilter()}
             {this.environmentFilter()}
             {this.nodeTypeFilter()}
-            {this.lifecycleFilter()}
+            {/*this.lifecycleFilter()*/}
           </div>
-        )
-      case "environments":
+        );
+      /*case "environments":
         return (
           <div className="form-inline filters">
             {this.classFilter()}
             {this.lifecycleFilter()}
           </div>
-        )
+        )*/
       case "resources":
         return (
           <form className="form-inline filters">
@@ -208,17 +233,17 @@ class Filters extends Component {
             {this.applicationFilter()}
             {this.zoneFilter()}
             {this.resourceTypeFilter()}
-            {this.lifecycleFilter()}
+            {/*this.lifecycleFilter()*/}
           </form>
-        )
+        );
     }
   }
 
   render() {
-    return <div>{this.generateFiltersFromContext()}</div>
+    return <div>{this.generateFiltersFromContext()}</div>;
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     filter: state.filter,
     environments: state.environments.environments,
@@ -227,8 +252,7 @@ const mapStateToProps = state => {
     nodeTypes: state.nodes.nodeTypes,
     zones: state.environments.zones,
     resourceTypes: state.resources.resourceTypes.sort(),
-    location: state.routing.locationBeforeTransitions
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(Filters)
+export default connect(mapStateToProps)(Filters);

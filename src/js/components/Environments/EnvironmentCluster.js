@@ -90,73 +90,68 @@ class EnvironmentCluster extends Component {
     return isFetching || !cluster.clustername ? (
       <Spinner />
     ) : (
-      <React.Fragment>
-        <div className="row">
-          {
-            <CurrentRevision
-              revisionId={revision}
-              revisions={this.props.revisions}
+      <div className="row">
+        {
+          <CurrentRevision
+            revisionId={revision}
+            revisions={this.props.revisions}
+          />
+        }
+        <div className="col-md-6" style={styles.cardPadding}>
+          <Card
+            title={`Cluster ${cluster.clustername}`}
+            subtitle={`${cluster.environment} - ${cluster.zone}`}
+          >
+            <CardItem
+              label="Loadbalancer URL"
+              value={cluster.loadbalancerurl}
             />
-          }
-          <div className="col-md-6" style={styles.cardPadding}>
-            <Card
-              title={`Cluster ${cluster.clustername}`}
-              subtitle={`${cluster.environment} - ${cluster.zone}`}
-            >
-              <CardItem
-                label="Loadbalancer URL"
-                value={cluster.loadbalancerurl}
-              />
-              <CardList label="Applications">
-                {cluster.applications.map((app, idx) => (
-                  <CardLinkItem
-                    key={idx}
-                    label={app.name}
-                    linkTo={`/applications/${app.name}`}
-                  />
-                ))}
-              </CardList>
-              <CardList label="Nodes">
-                {cluster.nodes.map((node, idx) => (
-                  <CardLinkItem
-                    key={idx}
-                    label={node.name}
-                    linkTo={`/nodes/${node.name}`}
-                  />
-                ))}
-              </CardList>
-              <ToolButtons
-                disabled={!authorized}
-                hideCopyButton={true}
-                hideDeleteButton={true}
-                onEditClick={() => this.showModal("edit")}
-                onDeleteClick={() =>
-                  this.toggleComponentDisplay("displayDeleteForm")
-                }
-                editMode={this.state.editMode}
-              />
-            </Card>
-          </div>
-          {/*Side menu*/}
-          <div className="col-md-4" style={styles.cardPadding}>
-            {
-              <RevisionsView
-                id={cluster.id}
-                currentRevision={revision}
-                component="cluster"
-                location={location}
-              />
-            }
-          </div>
+            <CardList label="Applications">
+              {cluster.applications.map((app, idx) => (
+                <CardLinkItem
+                  key={idx}
+                  label={app.name}
+                  linkTo={`/applications/${app.name}`}
+                />
+              ))}
+            </CardList>
+            <CardList label="Nodes">
+              {cluster.nodes.map((node, idx) => (
+                <CardLinkItem
+                  key={idx}
+                  label={node.name}
+                  linkTo={`/nodes/${node.name}`}
+                />
+              ))}
+            </CardList>
+            <ToolButtons
+              disabled={!authorized}
+              hideCopyButton={true}
+              hideDeleteButton={true}
+              onEditClick={() => this.showModal("edit")}
+              onDeleteClick={() =>
+                this.toggleComponentDisplay("displayDeleteForm")
+              }
+              editMode={this.state.editMode}
+            />
+          </Card>
+        </div>
+        {/*Side menu*/}
 
-          {/*<DeleteElementForm
+        <RevisionsView
+          id={cluster.id}
+          currentRevision={revision}
+          component="cluster"
+          location={location}
+        />
+
+        {/*<DeleteElementForm
           displayDeleteForm={this.state.displayDeleteForm}
           onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
           onSubmit={() => this.deleteCluster(cluster.clustername)}
           id={cluster.clustername}
         />*/}
-        </div>
-      </React.Fragment>
+      </div>
     );
   }
 

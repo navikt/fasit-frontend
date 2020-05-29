@@ -1,53 +1,53 @@
-import React, { Component, PropTypes } from "react"
-import { connect } from "react-redux"
-import { submitFilterString } from "../../actionCreators/element_lists"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { submitFilterString } from "../../actionCreators/element_lists";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export class ElementPaging extends Component {
   constructor(props) {
-    super(props)
-    this.state = { page: 0 }
+    super(props);
+    this.state = { page: 0 };
   }
 
   // always reset to page 0 if search or filters have changed
-  componentWillReceiveProps(nextProps) {
-    const { filter } = this.props
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { filter } = this.props;
     if (filter.filters !== nextProps.filter.filters) {
-      this.setState({ page: 0 })
+      this.setState({ page: 0 });
     }
   }
 
   changePage(changeTo, lastPage) {
-    const { dispatch, filter } = this.props
-    const page = this.state.page
+    const { dispatch, context } = this.props;
+    const page = this.state.page;
     switch (changeTo) {
       case "first":
-        this.setState({ page: 0 })
-        dispatch(submitFilterString(filter.context, 0))
-        break
+        this.setState({ page: 0 });
+        dispatch(submitFilterString(context, 0));
+        break;
       case "last":
-        this.setState({ page: lastPage })
-        dispatch(submitFilterString(filter.context, lastPage))
-        break
+        this.setState({ page: lastPage });
+        dispatch(submitFilterString(context, lastPage));
+        break;
       case "next":
         if (page < lastPage) {
-          this.setState({ page: page + 1 })
-          dispatch(submitFilterString(filter.context, page + 1))
+          this.setState({ page: page + 1 });
+          dispatch(submitFilterString(context, page + 1));
         }
-        break
+        break;
       case "prev":
         if (page > 0) {
-          this.setState({ page: page - 1 })
-          dispatch(submitFilterString(filter.context, page - 1))
+          this.setState({ page: page - 1 });
+          dispatch(submitFilterString(context, page - 1));
         }
-        break
+        break;
     }
   }
 
   render() {
-    const { filter } = this.props
-    const total_count = this.props[filter.context].headers.total_count
-    const lastPage = calculateLastPage(total_count)
+    const { totalCount } = this.props;
+    const lastPage = calculateLastPage(totalCount);
     return (
       <div className="element-list-paging">
         <div className="btn-group btn-group-justified">
@@ -84,30 +84,36 @@ export class ElementPaging extends Component {
           </a>
         </div>
       </div>
-    )
+    );
   }
 }
 
-const calculateLastPage = totalCount => {
-  const PER_PAGE = 50
+const calculateLastPage = (totalCount) => {
+  const PER_PAGE = 50;
   if (!totalCount) {
-    return "?"
+    return "?";
   } else if (totalCount <= PER_PAGE) {
-    return 0
+    return 0;
   } else {
-    return Math.ceil(totalCount / PER_PAGE)
+    return Math.ceil(totalCount / PER_PAGE);
   }
-}
+};
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     filter: state.filter,
     nodes: state.nodes,
     resources: state.resources,
     environments: state.environments,
     applications: state.applications,
-    instances: state.instances
-  }
-}
+    instances: state.instances,
+  };
+};
 
-export default connect(mapStateToProps)(ElementPaging)
+ElementPaging.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  totalCount: PropTypes.string.isRequired,
+  context: PropTypes.string.isRequired,
+};
+
+export default connect(mapStateToProps)(ElementPaging);
