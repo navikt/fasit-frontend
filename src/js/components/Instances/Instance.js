@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { Card, CardItem } from "../common/Card";
 import { styles } from "../../commonStyles/commonInlineStyles";
 import Manifest from "./Manifest";
-import { CurrentRevision, History } from "../common/";
+import { CurrentRevision, RevisionsView } from "../common/";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -81,6 +82,23 @@ class Instance extends Component {
                 linkTo={clusterName}
               ></CardItem>
               <div style={{ paddingTop: "1rem", paddingBottom: "1rem" }}>
+                <ExpansionPanel>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    id="selftests"
+                  >
+                    <b>Selftest urls</b>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <ul style={{ listStyleType: "none" }}>
+                      {instance.selftesturls.map((selftest, idx) => (
+                        <li key={idx}>
+                          <Link to={selftest}>{selftest}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
                 <CollapsibleResourcePanel
                   title={`Used resources (${instance.usedresources.length})`}
                   resourceList={instance.usedresources}
@@ -104,22 +122,15 @@ class Instance extends Component {
               </div>
             </Card>
           </div>
+          <RevisionsView
+            id={id}
+            currentRevision={revision}
+            component="instance"
+            location={location}
+          />
         </div>
       </div>
     );
-
-    {
-      /*   </div>
-                <div className="col-md-3">
-                    {instance.selftesturls && <CollapsibleList
-                        primaryText="Selftests"
-                        leftAvatar={icons.linkAvatar}
-                        initiallyOpen={true}
-                        nestedItems={<SelfTestLinks key={id} links={instance.selftesturls}/>}/>}
-                    <History id={id} revision={query.revision} component="instance"/>
-                </div>
-                    </div>*/
-    }
   }
 }
 
