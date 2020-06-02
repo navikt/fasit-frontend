@@ -43,8 +43,8 @@ export default function* () {
     call(watchInstanceFasit),
 
     //Nodes
-    //call(watchNodeFasit),
-    //call(watchNodeTypes),
+    call(watchNodeFasit),
+    call(watchNodeTypes),
 
     // Resources
     //call(watchResourceTypes),

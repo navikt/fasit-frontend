@@ -1,59 +1,71 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import NodeCard from "./NodesCard";
 import ElementPaging from "../common/ElementPaging";
 import Filters from "../Navigation/Filters";
-import Node from "./Node";
+import { Card } from "../common/Card";
 import { submitFilterString } from "../../actionCreators/element_lists";
+import { styles } from "../../commonStyles/commonInlineStyles";
+import Spinner from "../common/Spinner";
+import { capitalize } from "../../utils/";
 
 class Nodes extends Component {
-    constructor(props) {
-        super(props)
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    componentDidMount() {
-        const { dispatch, params } = this.props
-        if (!params.node) {
-            dispatch(submitFilterString("nodes", 0))
-        }
-    }
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(submitFilterString("nodes", 0));
+  }
 
-    render() {
-        const { nodes, totalCount, params } = this.props
+  render() {
+    const { nodes, totalCount, isFetching, location } = this.props;
 
-
-        if (params.node) {
-            return <Node hostname={params.node} />
-        }
-
-        return (
-            <div className="main-content-container">
-                <div className="row">
-                    <div className="col-sm-6 col-xs-12">
-                        <Filters />
-                    </div>
-                </div>
-                <div className="col-sm-10">
-                    <div className="row">
-                        <h4>{totalCount} nodes</h4>
-                        {nodes.map((item, index) => <NodeCard node={item} key={index} />)}
-                        <div className="col-sm-2 pull-right">
-                            <ElementPaging />
-                        </div>
-                    </div>
-                </div>
+    return isFetching ? (
+      <Spinner />
+    ) : (
+      <div className="main-content-container">
+        <div className="row">
+          <div className="col-sm-6 col-xs-12">
+            <Filters location={location} context="nodes" />
+          </div>
+        </div>
+        <div className="col-sm-10">
+          <div className="row">
+            <h4>{totalCount} nodes</h4>
+          </div>
+          <div className="row">
+            {nodes.map((node, index) => (
+              <div
+                key={index}
+                className="col-md-10"
+                style={{ paddingLeft: "0px" }}
+              >
+                <Card
+                  title={node.hostname}
+                  linkTo={`/nodes/${node.hostname}`}
+                  subtitle={`${node.environment} ${capitalize(node.type)}`}
+                />
+              </div>
+            ))}
+            <div className="row">
+              <div className="col-sm-2 pull-right">
+                <ElementPaging totalCount={totalCount} context="nodes" />
+              </div>
             </div>
-        )
-    }
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
-
 
 const mapStateToProps = (state) => {
-    return {
-        nodes: state.nodes.data,
-        totalCount: state.nodes.headers.total_count,
-        isFetching: state.nodes.isFetching
-    }
-}
+  return {
+    nodes: state.nodes.data,
+    totalCount: state.nodes.headers.total_count,
+    isFetching: state.nodes.isFetching,
+  };
+};
 
-export default connect(mapStateToProps)(Nodes)
+export default connect(mapStateToProps)(Nodes);

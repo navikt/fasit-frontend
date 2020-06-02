@@ -26,9 +26,9 @@ class Filters extends Component {
   }
 
   handleChangeFilter(filterName, filterValue) {
-    const { dispatch, filter } = this.props;
+    const { dispatch, filter, context } = this.props;
     dispatch(changeFilter(filterName, filterValue));
-    dispatch(submitFilterString(filter.context, 0));
+    dispatch(submitFilterString(context, 0));
   }
 
   convertToSelectObject(values) {
@@ -194,9 +194,11 @@ class Filters extends Component {
   }
 
   generateFiltersFromContext() {
-    const { filter } = this.props;
+    const { filter, context } = this.props;
 
-    switch (filter.context) {
+    console.log("Fil", context);
+
+    switch (context) {
       /*case "applications":
         return <div className="form-inline filters">{this.lifecycleFilter()}</div>*/
       case "instances":

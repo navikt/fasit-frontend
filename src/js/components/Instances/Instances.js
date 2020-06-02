@@ -4,8 +4,7 @@ import ElementPaging from "../common/ElementPaging";
 import InstanceCard from "./InstanceCard";
 import Filters from "../Navigation/Filters";
 import {
-  submitFilterString,
-  setFilterContext,
+  submitFilterString /*, setFilterContext*/,
 } from "../../actionCreators/element_lists";
 import Spinner from "../common/Spinner";
 
@@ -28,7 +27,7 @@ class Instances extends Component {
       <div className="main-content-container">
         <div className="row">
           <div className="col-sm-6 col-xs-12">
-            <Filters location={location} />
+            <Filters location={location} context="instances" />
           </div>
         </div>
         <div className="col-sm-10">
