@@ -119,8 +119,6 @@ export const REVISIONS_REQUEST_FAILED = "REVISIONS_REQUEST_FAILED";
 // --------- SEARCH ---------
 export const SUBMIT_FILTER_SEARCH = "SUBMIT_FILTER_SEARCH";
 export const CHANGE_FILTER = "CHANGE_FILTER";
-export const SET_FILTER_CONTEXT = "SET_FILTER_CONTEXT";
-export const CLEAR_FILTERS = "CLEAR_FILTERS";
 export const SET_FILTER = "SET_FILTER";
 
 // --------- SUBMIT FORM ---------

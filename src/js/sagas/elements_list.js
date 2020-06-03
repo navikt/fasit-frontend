@@ -1,6 +1,5 @@
 import { takeLatest } from "redux-saga";
 import { fork, put, select } from "redux-saga/effects";
-//import { browserHistory } from "react-router-dom"
 import browserHistory from "../utils/browserHistory";
 import { fetchPage } from "../utils";
 import {

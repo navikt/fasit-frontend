@@ -1,9 +1,4 @@
-import {
-  CHANGE_FILTER,
-  CHANGE_PAGE,
-  SET_FILTER,
-  SET_FILTER_CONTEXT,
-} from "../actionTypes";
+import { CHANGE_FILTER, CHANGE_PAGE, SET_FILTER } from "../actionTypes";
 
 const initialFilter = {
   environment: "",
@@ -17,7 +12,6 @@ const initialFilter = {
 
 const initialState = {
   activePage: 0,
-  context: "",
   filters: initialFilter,
 };
 export default (state = initialState, action) => {
@@ -26,18 +20,6 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         activePage: action.value,
       });
-    case SET_FILTER_CONTEXT:
-      if (action.value !== state.context) {
-        return Object.assign({}, state, {
-          context: action.value,
-          filters: initialFilter,
-        });
-      } else {
-        return {
-          ...state,
-          context: action.value,
-        };
-      }
 
     case CHANGE_FILTER: {
       const filters = {

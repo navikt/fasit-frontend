@@ -102,7 +102,7 @@ export class Application extends Component {
     ) : (
       <div>
         <div className="row">
-          {<CurrentRevision revisionId={revision} revisions={revisions} />}
+          <CurrentRevision revisionId={revision} revisions={revisions} />
           <div className="col-md-6" style={styles.cardPadding}>
             <Card title={application.name}>
               <CardItem label="Group id" value={application.groupid} />
