@@ -57,9 +57,7 @@ class Node extends Component {
 
   render() {
     const { node, isFetching, location, revisions } = this.props;
-
     const revision = getQueryParam(location.search, "revision");
-    console.log("node", node);
 
     return isFetching || !node.hostname ? (
       <Spinner />
