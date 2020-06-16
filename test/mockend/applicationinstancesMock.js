@@ -47,7 +47,7 @@ const applicationinstances = [
     },
     appconfig: {
       ref:
-        "http://localhost:6969/mockapi/applicationinstances/1/revisions/69/appconfig",
+        "http://localhost:6969/mockapi/v2/applicationinstances/1/revisions/69/appconfig",
     },
     exposedresources: [
       {
@@ -90,6 +90,22 @@ const applicationinstances = [
           application: "app1",
         },
         ref: "http://localhost:6969/mockapi/resources/1732170",
+      },
+      {
+        id: 1732173,
+        revison: 1732174,
+        alias: "appProps",
+        type: "applicationproperties",
+        scope: {
+          environmentclass: "p",
+          zone: "fss",
+          environment: "p",
+          application: "app1",
+        },
+        ref: "http://localhost:6969/mockapi/resources/1732173",
+        lastchange: 1495572976067,
+        deleted: true,
+        lastupdateby: "Jeffafah (j123321)",
       },
     ],
     missingresources: [],
