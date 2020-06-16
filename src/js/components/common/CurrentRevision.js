@@ -15,7 +15,7 @@ export function CurrentRevision(props) {
 
   const currentRevision = rev[0];
   return (
-    <div className="col-md-6" style={styles.cardPadding}>
+    <div className="col-md-6" style={{ marginTop: "1rem", marginLeft: "1rem" }}>
       <Card
         title={`Revision ${currentRevision.revision} - ${
           currentRevision.revisiontype === "add" ? "Created" : "Modified"
