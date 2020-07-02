@@ -1,14 +1,15 @@
-import React, { Component, PropTypes } from "react"
-import Restore from "material-ui/svg-icons/action/restore"
-import { colors } from "../../commonStyles/commonInlineStyles"
-import Chip from "material-ui/Chip"
-import { capitalize } from "../../utils/"
-import Avatar from "material-ui/Avatar"
-import moment from "moment"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React from "react";
+import PropTypes from "prop-types";
+import RestoreIcon from "@material-ui/icons/Restore";
+import { colors } from "../../commonStyles/commonInlineStyles";
+import Chip from "@material-ui/core/Chip";
+import { capitalize } from "../../utils/";
+import Avatar from "@material-ui/core/Avatar";
+import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function CardInfo(props) {
-  const { lastUpdated, lifecycle } = props
+  const { lastUpdated, lifecycle } = props;
   return (
     <div
       className="pull-right col-md-4"
@@ -22,13 +23,13 @@ export function CardInfo(props) {
       </div>
       <LifecycleChip lifecycle={lifecycle} />
     </div>
-  )
+  );
 }
 
 function renderLastUpdated(lastUpdated) {
   if (lastUpdated) {
-    moment.locale("en")
-    const momentTime = moment(lastUpdated)
+    moment.locale("en");
+    const momentTime = moment(lastUpdated);
     return (
       <div>
         <div>
@@ -40,34 +41,34 @@ function renderLastUpdated(lastUpdated) {
           {momentTime.format("HH:mm:ss")}
         </div>
       </div>
-    )
+    );
   }
 }
 
 function LifecycleChip(props) {
-  const lifecycleStatus = props.lifecycle.status
+  const lifecycleStatus = props.lifecycle.status;
 
   if (!lifecycleStatus) {
-    return null
+    return null;
   }
 
-  let color
+  let color;
 
   switch (lifecycleStatus) {
     case "alerted":
-      color = colors.orange
-      break
+      color = colors.orange;
+      break;
     case "stopped":
-      color = colors.red
-      break
+      color = colors.red;
+      break;
   }
 
   return (
     <div className="col-md-4 pull-right" style={{ paddingTop: "6px" }}>
       <Chip backgroundColor={colors.white} labelColor={colors.grey}>
-        <Avatar backgroundColor={color} icon={<Restore />} />
+        <Avatar backgroundColor={color} icon={<RestoreIcon />} />
         {capitalize(lifecycleStatus)}
       </Chip>
     </div>
-  )
+  );
 }

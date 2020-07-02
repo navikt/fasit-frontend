@@ -71,43 +71,43 @@ function* fetchNodesList(url) {
 
 export function* fetchAllLists(action) {
   const configuration = yield select((state) => state.configuration);
-  const filter = yield select((state) => state.filter);
+  const filter = action.filter;
 
   let filterString = "";
 
-  switch (action.location) {
+  switch (action.restType) {
     case "nodes":
-      filterString = buildFilterString(filter.filters);
+      filterString = buildFilterString(filter);
       yield fetchNodesList(
-        `${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${filterString}`
+        `${configuration.fasit_nodes}?pr_page=${action.prPage}&${filterString}`
       );
       setFilterAsQueryParams("nodes", filterString);
       return;
     case "resources":
-      filterString = buildFilterString(filter.filters);
+      filterString = buildFilterString(filter);
       yield fetchResourcesList(
-        `${configuration.fasit_resources}?page=${action.page}&pr_page=${action.prPage}&${filterString}`
+        `${configuration.fasit_resources}?pr_page=${action.prPage}&${filterString}`
       );
       setFilterAsQueryParams("resources", filterString);
       break;
     case "environments":
-      filterString = buildFilterString(filter.filters);
+      filterString = buildFilterString(filter);
       yield fetchEnvironmentsList(
         `${configuration.fasit_environments}?pr_page=1000&${filterString}`
       );
       setFilterAsQueryParams("environments", filterString);
       break;
     case "applications":
-      filterString = buildFilterString(filter.filters);
+      filterString = buildFilterString(filter);
       yield fetchApplicationsList(
         `${configuration.fasit_applications}?pr_page=1000&${filterString}`
       );
       setFilterAsQueryParams("applications", filterString);
       break;
     case "instances":
-      filterString = buildFilterString(filter.filters);
+      filterString = buildFilterString(filter);
       yield fetchInstancesList(
-        `${configuration.fasit_applicationinstances}?page=${action.page}&pr_page=${action.prPage}&${filterString}`
+        `${configuration.fasit_applicationinstances}?pr_page=${action.prPage}&${filterString}`
       );
       setFilterAsQueryParams("instances", filterString);
       break;

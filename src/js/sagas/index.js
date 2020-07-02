@@ -47,7 +47,7 @@ export default function* () {
     call(watchNodeTypes),
 
     // Resources
-    //call(watchResourceTypes),
-    //call(watchResourceFasit)
+    call(watchResourceTypes),
+    call(watchResourceFasit),
   ];
 }

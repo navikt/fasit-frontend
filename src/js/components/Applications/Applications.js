@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { submitFilterString } from "../../actionCreators/element_lists";
+import { fetchRestResourceOfType } from "../../actionCreators/element_lists";
 import Spinner from "../common/Spinner";
 import { Card } from "../common/Card";
 import { styles } from "../../commonStyles/commonInlineStyles";
@@ -12,7 +12,7 @@ export class Applications extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(submitFilterString("applications", 0));
+    dispatch(fetchRestResourceOfType("applications", 0));
   }
 
   render() {

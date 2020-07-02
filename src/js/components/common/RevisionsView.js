@@ -3,7 +3,6 @@ import moment from "moment";
 import { Card, CardLinkItem, CardList } from "../common/Card";
 import { connect } from "react-redux";
 import { fetchRevisions } from "../../actionCreators/common";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Spinner } from ".";
 
 class RevisionsView extends Component {
@@ -37,7 +36,6 @@ class RevisionsView extends Component {
             onClick={() => this.setState({ displayAllRevisions: true })}
           >
             Show all ({revisions.data.length}){" "}
-            <FontAwesomeIcon icon="angle-double-down" />
           </a>
         </div>
       );
@@ -49,7 +47,7 @@ class RevisionsView extends Component {
             className="text-right arrow cursor-pointer"
             onClick={() => this.setState({ displayAllRevisions: false })}
           >
-            Show less <FontAwesomeIcon icon="angle-double-up" />
+            Show less
           </a>
         </div>
       );

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { submitFilterString } from "../../actionCreators/element_lists";
+import { fetchRestResourceOfType } from "../../actionCreators/element_lists";
 import { Card } from "../common/Card";
 
 class Environments extends Component {
@@ -10,7 +10,7 @@ class Environments extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(submitFilterString("environments", 0));
+    dispatch(fetchRestResourceOfType("environments"));
   }
 
   render() {

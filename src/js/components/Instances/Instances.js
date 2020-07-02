@@ -4,7 +4,7 @@ import ElementPaging from "../common/ElementPaging";
 import InstanceCard from "./InstanceCard";
 import Filters from "../Navigation/Filters";
 import {
-  submitFilterString /*, setFilterContext*/,
+  fetchRestResourceOfType /*, setFilterContext*/,
 } from "../../actionCreators/element_lists";
 import Spinner from "../common/Spinner";
 
@@ -14,12 +14,12 @@ class Instances extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, params } = this.props;
-    dispatch(submitFilterString("instances", 0));
+    const { dispatch } = this.props;
+    dispatch(fetchRestResourceOfType("instances"));
   }
 
   render() {
-    const { instances, totalCount, params, isFetching, location } = this.props;
+    const { instances, totalCount, isFetching, location } = this.props;
 
     return isFetching ? (
       <Spinner />
@@ -33,11 +33,13 @@ class Instances extends Component {
         <div className="col-sm-10">
           <div className="row">
             <h4>{totalCount} instances</h4>
+          </div>
+          <div className="row">
             {instances.map((item, index) => (
               <InstanceCard instance={item} key={index} />
             ))}
-            <div className="col-sm-2 pull-right">
-              <ElementPaging totalCount={totalCount} context="instances" />
+            <div className="col-sm-10">
+              <ElementPaging totalCount={totalCount} location={location} />
             </div>
           </div>
         </div>

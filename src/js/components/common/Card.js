@@ -30,7 +30,7 @@ export function CardLinkItem(props) {
 
   return (
     <div>
-      <div style={{ padding: "2px 16px" }}>
+      <div>
         <Link to={linkTo}>{label}</Link>
         {secondaryText && <p>{secondaryText}</p>}
       </div>
@@ -45,9 +45,7 @@ export function CardList(props) {
       <div>
         <p style={cardItemStyle}>{label}</p>
       </div>
-      <div style={{ marginLeft: "1rem", marginBottom: "1rem" }}>
-        {props.children}
-      </div>
+      <div style={{ marginBottom: "1rem" }}>{props.children}</div>
     </div>
   );
 }

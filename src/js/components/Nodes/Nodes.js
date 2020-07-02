@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import ElementPaging from "../common/ElementPaging";
 import Filters from "../Navigation/Filters";
 import { Card } from "../common/Card";
-import { submitFilterString } from "../../actionCreators/element_lists";
-import { styles } from "../../commonStyles/commonInlineStyles";
+import { fetchRestResourceOfType } from "../../actionCreators/element_lists";
 import Spinner from "../common/Spinner";
 import { capitalize } from "../../utils/";
 
@@ -14,8 +13,7 @@ class Nodes extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(submitFilterString("nodes", 0));
+    this.props.dispatch(fetchRestResourceOfType("nodes"));
   }
 
   render() {
@@ -26,7 +24,7 @@ class Nodes extends Component {
     ) : (
       <div className="main-content-container">
         <div className="row">
-          <div className="col-sm-6 col-xs-12">
+          <div className="col-xs-12">
             <Filters location={location} context="nodes" />
           </div>
         </div>
@@ -48,10 +46,8 @@ class Nodes extends Component {
                 />
               </div>
             ))}
-            <div className="row">
-              <div className="col-sm-2 pull-right">
-                <ElementPaging totalCount={totalCount} context="nodes" />
-              </div>
+            <div className="col-sm-10">
+              <ElementPaging totalCount={totalCount} location={location} />
             </div>
           </div>
         </div>
