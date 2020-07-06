@@ -46,16 +46,7 @@ class Instance extends Component {
   }
 
   render() {
-    const {
-      instance,
-      revisions,
-      query,
-      id,
-      isFetching,
-      location,
-      match,
-    } = this.props;
-    const instanceId = match.params.instance;
+    const { instance, revisions, id, isFetching, location, match } = this.props;
     const clusterName = instance.cluster ? instance.cluster.name : "";
     const revision = getQueryParam(location.search, "revision");
 
@@ -99,6 +90,7 @@ class Instance extends Component {
                     </ul>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
+
                 <CollapsibleResourcePanel
                   title={`Used resources (${instance.usedresources.length})`}
                   resourceList={instance.usedresources}

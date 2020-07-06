@@ -1,374 +1,333 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import { List, ListItem } from "material-ui/List"
-import { Link } from "react-router"
-import { validAuthorization } from "../../utils"
-import { fetchFasitData } from "../../actionCreators/resource"
-import { displayModal, submitForm } from "../../actionCreators/common"
-import { getResourceTypeName, resourceTypeIcon, resourceTypes } from "../../utils/resourceTypes"
-import { ResourceInstances } from "./ResourceInstances"
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
-import { styles } from "../../commonStyles/commonInlineStyles"
-import NotFound from "../NotFound"
-import WebsphereManagementConsole from "../common/WebsphereManagementConsole"
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { fetchFasitData } from "../../actionCreators/resource";
+import { displayModal, submitForm } from "../../actionCreators/common";
+import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes";
+import { Card, CardItem } from "../common/Card";
+import { styles } from "../../commonStyles/commonInlineStyles";
+import NotFound from "../NotFound";
 import {
   CurrentRevision,
+  RevisionsView,
   DeleteElementForm,
-  History,
-  Lifecycle,
-  SecretToggle,
-  Security,
   ToolButtons,
-  Spinner
-} from "../common/"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+  Spinner,
+} from "../common/";
 
+import { getQueryParam } from "../../utils/";
 const initialState = {
-  secretVisible: false,
   displayDeleteForm: false,
-  comment: ""
-}
+};
 
 function vaultUrl(vaultPath) {
-  const baseUrl = "https://vault.adeo.no/ui/vault/secrets/"
-  const replaced = vaultPath.replace(/^([\w-]+)\/data\/(.*)\/[\w-]+$/, "$1/show/$2")
-  return baseUrl + replaced
+  const baseUrl = "https://vault.adeo.no/ui/vault/secrets/";
+  const replaced = vaultPath.replace(
+    /^([\w-]+)\/data\/(.*)\/[\w-]+$/,
+    "$1/show/$2"
+  );
+  return baseUrl + replaced;
 }
 
 class Resource extends Component {
   constructor(props) {
-    super(props)
-    this.state = initialState
+    super(props);
+    this.state = initialState;
   }
 
   componentDidMount() {
-    const { dispatch, id, query } = this.props
-    if (query) {
-      dispatch(fetchFasitData(id, query.revision))
-    } else {
-      dispatch(fetchFasitData(id))
-    }
+    const { dispatch, location, match } = this.props;
+    const revision = getQueryParam(location.search, "revision");
+    dispatch(fetchFasitData(match.params.resource, revision));
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { dispatch, id, query } = this.props
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { dispatch, location, match } = this.props;
+    const resourceId = match.params.resource;
+    const revision = getQueryParam(location.search, "revision");
+    const nextPropsResourceId = nextProps.match.params.resource;
+    const nextPropsRevision = getQueryParam(
+      nextProps.location.search,
+      "revision"
+    );
 
-    if (nextProps.id != id) {
-      this.resetState(initialState)
-      dispatch(fetchFasitData(nextProps.id))
+    if (nextPropsResourceId != resourceId) {
+      dispatch(fetchFasitData(nextPropsResourceId));
     }
 
-    if (nextProps.query.revision != query.revision) {
-      dispatch(fetchFasitData(id, nextProps.query.revision))
+    if (nextPropsRevision != revision) {
+      dispatch(fetchFasitData(resourceId, nextPropsRevision));
     }
-  }
-
-  resetState() {
-    this.setState(initialState)
   }
 
   buildFormData() {
-    const { resource } = this.props
+    const { resource } = this.props;
     const form = {
       alias: resource.alias,
       type: resource.type,
       properties: resource.properties,
-      scope: resource.scope
-    }
+      scope: resource.scope,
+    };
 
     if (Object.keys(this.props.currentSecrets).length > 0) {
-      form.secrets = {}
-      Object.keys(this.props.currentSecrets).forEach(k => {
-        form.secrets[k] = { value: this.props.currentSecrets[k] }
-      })
+      form.secrets = {};
+      Object.keys(this.props.currentSecrets).forEach((k) => {
+        form.secrets[k] = { value: this.props.currentSecrets[k] };
+      });
     }
 
     if (Object.keys(resource.files).length > 0) {
-      form.files = files
+      form.files = files;
     }
 
-    return form
+    return form;
   }
 
   deleteResource(key) {
-    const { dispatch } = this.props
-    this.toggleComponentDisplay("displayDeleteForm")
-    dispatch(submitForm(key, null, null, "deleteResource"))
+    const { dispatch } = this.props;
+    this.toggleComponentDisplay("displayDeleteForm");
+    dispatch(submitForm(key, null, null, "deleteResource"));
   }
 
   toggleComponentDisplay(component) {
-    this.setState({ [component]: !this.state[component] })
-  }
-
-  toggleDisplaySecret() {
-    this.setState({ secretVisible: !this.state.secretVisible })
+    this.setState({ [component]: !this.state[component] });
   }
 
   handleChange(field, value, parent) {
     if (parent) {
-      const parentState = this.state[parent]
-      parentState[field] = value
-      this.setState({ parent: parentState })
+      const parentState = this.state[parent];
+      parentState[field] = value;
+      this.setState({ parent: parentState });
     } else {
-      this.setState({ [field]: value })
+      this.setState({ [field]: value });
     }
   }
 
   renderResourceProperties() {
-    const { resource } = this.props
-    const type = this.getResourceType(resource.type)
-    return <List>{type.properties.map((p, key) => this.renderProperty(p, resource))}</List>
+    const { resource } = this.props;
+    const type = this.getResourceType(resource.type);
+    return (
+      <React.Fragment>
+        {type.properties.map((p) => this.renderProperty(p, resource))}
+      </React.Fragment>
+    );
   }
 
   renderProperty(property, resource) {
-    const { user, dispatch } = this.props
-    const { secretVisible } = this.state
-    const propertyName = property.displayName
-    const key = property.name
-    const { properties, files } = resource
+    const propertyName = property.displayName;
+    const key = property.name;
+    const { properties, files } = resource;
 
     switch (property.type) {
       case "textbox":
       case "dropdown":
         return (
-          <ListItem
-            key={key}
-            style={{ paddingTop: "0px", paddingBottom: "14px" }}
-            disabled={true}
-            primaryText={properties[key]}
-            secondaryText={propertyName}
-          />
-        )
+          <CardItem key={key} label={propertyName} value={properties[key]} />
+        );
       case "link":
         return (
-          <ListItem
+          <CardItem
             key={key}
-            style={{ paddingTop: "0px", paddingBottom: "14px" }}
-            disabled={true}
-            primaryText={
-              <Link to={properties[key]} target="new">
-                {property.linkTitle || properties[key]}
-              </Link>
-            }
-            secondaryText={propertyName}
+            label={propertyName}
+            value={property.linkTitle || properties[key]}
+            linkTo={properties[key]}
           />
-        )
+        );
       case "textarea":
         return (
-          <ListItem
+          <CardItem
             key={key}
-            style={{ paddingTop: "0px", paddingBottom: "14px" }}
-            disabled={true}
             className="text-overflow"
-            primaryText={
-              <pre>
-                <code>{properties[key]}</code>
-              </pre>
-            }
-            secondaryText={propertyName}
+            label={propertyName}
+            value={properties[key]}
           />
-        )
+        );
       case "vaultPath":
       case "secret":
-        const secret = resource.secrets[key]
+        const secret = resource.secrets[key];
         if (secret != null && secret.vaultpath != null) {
           return (
-            <ListItem
+            <CardItem
               key={key}
-              style={{ paddingTop: "0px", paddingBottom: "14px" }}
-              disabled={true}
-              className="text-overflow"
-              primaryText={
-                <span>
-                  <a href={vaultUrl(secret.vaultpath)}>{secret.vaultpath}</a>
-                </span>
-              }
-              secondaryText={`${propertyName} (Vault Path)`}
+              value={secret.vaultpath}
+              linkTo={vaultUrl(secret.vaultpath)}
+              label={`${propertyName} (Vault Path)`}
             />
-          )
+          );
         } else {
-          const secretText = this.props.currentSecrets[key]
-            ? this.props.currentSecrets[key].value
-            : "No secret stored for this revision"
-
           return (
-            <ListItem
+            <CardItem
               key={key}
-              style={{ paddingTop: "0px", paddingBottom: "14px" }}
-              disabled={true}
-              className="text-overflow"
-              primaryText={
-                <div>
-                  {secretVisible ? secretText : "*********"}
-                  <SecretToggle
-                    user={user}
-                    accesscontrol={resource.accesscontrol}
-                    secretVisible={secretVisible}
-                    toggleHandler={() => this.toggleDisplaySecret()}
-                    dispatch={dispatch}
-                  />
-                </div>
-              }
-              secondaryText={propertyName}
+              label={propertyName}
+              value="Secrets are no longer visible in Fasit UI. All secrets should be moved to Vault and resource updated to point to Vault path."
             />
-          )
+          );
         }
       case "file":
         return (
-          <ListItem
+          <CardItem
             key={key}
-            style={{ paddingTop: "0px", paddingBottom: "14px" }}
-            disabled={true}
-            className="text-overflow"
-            primaryText={
-              <Link to={files[key].ref} target="new">
-                <FontAwesomeIcon className="file" fixedWidth />
-                {files[key].filename}
-              </Link>
-            }
-            secondaryText={propertyName}
+            label={propertyName}
+            value={files[key].filename}
+            linkTo={files[key].ref}
           />
-        )
+        );
     }
   }
 
   exposedByApplication() {
-    const exposedBy = this.props.fasit.data.exposedby
+    const exposedBy = this.props.fasit.data.exposedby;
     if (exposedBy) {
-      const displayString = `${exposedBy.application} (${exposedBy.version}) in ${exposedBy.environment}`
+      const displayString = `${exposedBy.application} (${exposedBy.version}) in ${exposedBy.environment}`;
       return (
-        <ListItem
+        <CardItem
           key={exposedBy.id}
-          style={{ paddingTop: "0px", paddingBottom: "14px" }}
-          disabled={true}
-          className="text-overflow"
-          primaryText={<Link to={`/instances/${exposedBy.id}`}>{displayString}</Link>}
-          secondaryText="Exposed by"
+          label="Exposed by"
+          value={displayString}
+          linkTo={`/instances/${exposedBy.id}`}
         />
-      )
+      );
     }
   }
 
   scopeDisplayString(scope) {
-    const envClass = scope.environmentclass || "-"
-    const environment = scope.environment || "-"
-    const zone = scope.zone || "-"
-    const application = scope.application || "-"
+    const envClass = scope.environmentclass || "-";
+    const environment = scope.environment || "-";
+    const zone = scope.zone || "-";
+    const application = scope.application || "-";
 
-    return `${envClass} | ${zone} | ${environment} | ${application}`
+    return `${envClass} | ${zone} | ${environment} | ${application}`;
   }
 
   showModal(mode) {
-    const { dispatch } = this.props
-    dispatch(displayModal("resource", true, mode))
+    const { dispatch } = this.props;
+    dispatch(displayModal("resource", true, mode));
   }
 
   render() {
-    // Fikse resource types slik at vi slipper å håndtere casing. For eksempel lage felt for display name
-    // Sortere miljøer riktig i utils
-    // sortere resource types i filter på ressurser
-    // I resources element list hvis ressurstypen med riktig casing
-    // håndtere error i fetch secrets
-    const { id, fasit, user, query, revisions, resource, resourceModalVisible } = this.props
-    let authorized = false
-    let lifecycle = {}
+    const { fasit, match, location, revisions, resource } = this.props;
+    const resourceId = match.params.resource;
+    const revision = getQueryParam(location.search, "revision");
 
     if (fasit.requestFailed) {
       if (fasit.requestFailed.startsWith("404")) {
-        return <NotFound />
+        return <NotFound />;
       }
       return (
         <div>
-          Retrieving resource {id} failed with the following message:
+          Retrieving resource {resourceId} failed with the following message:
           <br />
           <pre>
             <i>{fasit.requestFailed}</i>
           </pre>
         </div>
-      )
+      );
     }
 
     if (fasit.isFetching || Object.keys(resource).length === 0) {
-      return <Spinner />
-    }
-
-    if (Object.keys(resource).length > 0) {
-      authorized = validAuthorization(user, fasit.data.accesscontrol)
-      lifecycle = fasit.data.lifecycle
+      return <Spinner />;
     }
 
     return (
       <div>
         <div className="row">
+          <CurrentRevision revisionId={revision} revisions={revisions} />
           <div className="col-md-8" style={styles.cardPadding}>
-            {<CurrentRevision revisionId={query.revision} revisions={revisions} />}
-            <Card>
-              <CardHeader
-                avatar={resourceTypeIcon(resource.type)}
-                titleStyle={styles.bold}
-                title={`${getResourceTypeName(resource.type)} ${resource.alias}`}
-                subtitle={this.scopeDisplayString(resource.scope)}
-              />
-              <CardText>
-                {this.renderResourceProperties(resource.properties)}
-                {this.exposedByApplication()}
-                {resource.type.toLowerCase() === "deploymentmanager" && (
-                  <WebsphereManagementConsole hostname={resource.properties.hostname} />
-                )}
-              </CardText>
-              <CardActions>
-                <ToolButtons
-                  disabled={!authorized || resourceModalVisible}
-                  onEditClick={() => this.showModal("edit")}
-                  onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                  onCopyClick={() => this.showModal("copy")}
-                  editMode={this.state.editMode}
+            <Card
+              title={`${getResourceTypeName(resource.type)} ${resource.alias}`}
+              subtitle={this.scopeDisplayString(resource.scope)}
+            >
+              {this.renderResourceProperties()}
+              {this.exposedByApplication()}
+              {resource.type.toLowerCase() === "deploymentmanager" && (
+                <CardItem
+                  label="WebSphere admin console"
+                  value={resource.properties.hostname}
+                  linkTo={`https://${resource.properties.hostname}:9043/ibm/console`}
                 />
-              </CardActions>
+              )}
             </Card>
-            <Lifecycle lifecycle={lifecycle} />
           </div>
 
-          <div className="col-md-4">
-            <History id={id} currentRevision={query.revision} component="resource" />
-            <Security accesscontrol={fasit.data.accesscontrol} />
+          <RevisionsView
+            id={resourceId}
+            currentRevision={revision}
+            component="resource"
+            location={location}
+          />
+        </div>
+
+        <div className="row">
+          <div className="col-md-8" style={styles.cardPadding}>
+            <Card title="Used by">
+              {!fasit.data.usedbyapplications ||
+              fasit.data.usedbyapplications.length == 0 ? (
+                <CardItem value="No application instances are using this resource. " />
+              ) : (
+                <table className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Environment</th>
+                      <th>Instance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {fasit.data.usedbyapplications
+                      .sort((a, b) =>
+                        a.environment.localeCompare(b.environment)
+                      )
+                      .map((instance, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td>
+                              <Link
+                                to={`/environments/${instance.environment}`}
+                              >
+                                {instance.environment}
+                              </Link>
+                            </td>
+                            <td>
+                              <Link
+                                to={`/resources/${instance.id}`}
+                              >{`${instance.application}:${instance.version}`}</Link>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              )}
+            </Card>
           </div>
         </div>
 
-        <div className="row col-md-8">
-          <ResourceInstances instances={fasit.data.usedbyapplications} />
-        </div>
-
-        <DeleteElementForm
+        {/*<DeleteElementForm
           displayDeleteForm={this.state.displayDeleteForm}
           id={id}
           onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
           onSubmit={() => this.deleteResource(id)}
-        />
+        />*/}
       </div>
-    )
+    );
   }
 
   getResourceType(typeKey) {
     const key = Object.keys(resourceTypes).filter(
-      resourceType => resourceType.toLowerCase() === typeKey.toLowerCase()
-    )[0]
-    return resourceTypes[key]
+      (resourceType) => resourceType.toLowerCase() === typeKey.toLowerCase()
+    )[0];
+    return resourceTypes[key];
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     fasit: state.resource_fasit,
     resource: state.resource_fasit.data,
     currentSecrets: state.resource_fasit.currentSecrets,
     revisions: state.revisions,
-    user: state.user,
     config: state.configuration,
-    query: state.routing.locationBeforeTransitions.query,
     revisions: state.revisions,
-    resourceModalVisible: state.resources.showNewResourceForm
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(Resource)
+export default connect(mapStateToProps)(Resource);

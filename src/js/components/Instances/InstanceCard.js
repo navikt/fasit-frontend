@@ -7,7 +7,7 @@ export default function InstanceCard(props) {
   const environment = instance.environment;
 
   return (
-    <div className="col-md-12" style={{ paddingLeft: "0px" }}>
+    <div className="col-md-10" style={{ paddingLeft: "0px" }}>
       <Card
         title={`${instance.application}:${
           instance.version ? instance.version : "Not deployed"

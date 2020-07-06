@@ -1,35 +1,35 @@
-import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import green from "@material-ui/core/colors/green"
-import orange from "@material-ui/core/colors/orange"
-import red from "@material-ui/core/colors/red"
-import deepPurple from "@material-ui/core/colors/deepPurple"
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import green from "@material-ui/core/colors/green";
+import orange from "@material-ui/core/colors/orange";
+import red from "@material-ui/core/colors/red";
+import deepPurple from "@material-ui/core/colors/deepPurple";
 
-import GroupWorkIcon from "@material-ui/icons/GroupWork"
-import DescriptionIcon from "@material-ui/icons/Description"
-import TimelineIcon from "@material-ui/icons/Timeline"
-import LinkIcon from "@material-ui/icons/Link"
+import GroupWorkIcon from "@material-ui/icons/GroupWork";
+import DescriptionIcon from "@material-ui/icons/Description";
+import TimelineIcon from "@material-ui/icons/Timeline";
+import LinkIcon from "@material-ui/icons/Link";
 //import NewReleases from "material-ui/svg-icons/av/new-releases"
-import ErrorIcon from "@material-ui/icons/Error"
-import LockIcon from "@material-ui/icons/Lock"
-import SecurityIcon from "@material-ui/icons/Security"
-import BuildIcon from "@material-ui/icons/Build"
-import Avatar from "@material-ui/core/Avatar"
-import DeleteIcon from "@material-ui/icons/Delete"
-import EditIcon from "@material-ui/icons/Edit"
-import FileCopyIcon from "@material-ui/icons/FileCopy"
-import CancelIcon from "@material-ui/icons/Cancel"
-import VisibilityIcon from "@material-ui/icons/Visibility"
-import AttachFileIcon from "@material-ui/icons/AttachFile"
-import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile"
-import DoubleArrowIcon from "@material-ui/icons/DoubleArrow"
-import WarningIcon from "@material-ui/icons/Warning"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import ErrorIcon from "@material-ui/icons/Error";
+import LockIcon from "@material-ui/icons/Lock";
+import SecurityIcon from "@material-ui/icons/Security";
+import BuildIcon from "@material-ui/icons/Build";
+import Avatar from "@material-ui/core/Avatar";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
+import CancelIcon from "@material-ui/icons/Cancel";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import AttachFileIcon from "@material-ui/icons/AttachFile";
+import InsertDriveFileIcon from "@material-ui/icons/InsertDriveFile";
+import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
+import WarningIcon from "@material-ui/icons/Warning";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const green400 = green[400]
-const orange300 = orange[300]
-const red400 = red[400]
-const deepPurple400 = deepPurple[400]
+const green400 = green[400];
+const orange300 = orange[300];
+const red400 = red[400];
+const deepPurple400 = deepPurple[400];
 
 export const colors = {
   white: "#ffffff",
@@ -45,14 +45,12 @@ export const colors = {
   lightgrey: "#757575",
   toolbarBackground: "#515d66",
   black: "rgba(0, 0, 0, 0.87)",
-}
+};
 
 export function styleSet(styles) {
-  const styleSet = Object.assign(...styles)
-  return styleSet
+  const styleSet = Object.assign(...styles);
+  return styleSet;
 }
-
-
 
 export const styles = {
   bold: { fontWeight: "bold" },
@@ -73,8 +71,9 @@ export const styles = {
   paddingBottom0: { paddingBottom: "0px" },
   tableData: { textOverflow: "ellipsis", overflow: "hidden", height: "30px" },
   cardPadding: {
-    marginTop: "10px",
-    marginBottom: "10px",
+    marginTop: "1rem",
+    marginBottom: "1rem",
+    marginLeft: "1rem",
   },
   valign: {
     display: "inline-flex",
@@ -96,11 +95,12 @@ export const styles = {
       color: colors.toolbarBackground,
     },
   },
-}
+};
 
 export const icons = {
   environment: (
-    <Avatar /*className={} backgroundColor={colors.avatarBackgroundColor} color={colors.white}*/>
+    <Avatar /*className={} backgroundColor={colors.avatarBackgroundColor} color={colors.white}*/
+    >
       <FontAwesomeIcon icon="sitemap" />
     </Avatar>
   ),
@@ -162,10 +162,19 @@ export const icons = {
   historyAvatar: <Avatar icon={<TimelineIcon />} />,
   securityAvatar: <Avatar icon={<SecurityIcon />} />,
   rightArrow: <DoubleArrowIcon />,
-  linkAvatar: <Avatar icon={<LinkIcon />} backgroundColor={colors.avatarBackgroundColor} />,
+  linkAvatar: (
+    <Avatar
+      icon={<LinkIcon />}
+      backgroundColor={colors.avatarBackgroundColor}
+    />
+  ),
   hardwareAvatar: <Avatar icon={<BuildIcon />} />,
   errorAvatar: <Avatar icon={<ErrorIcon />} backgroundColor={colors.red} />,
   lockAvatar: (
-    <Avatar icon={<LockIcon />} color={colors.white} backgroundColor={colors.toolbarBackground} />
+    <Avatar
+      icon={<LockIcon />}
+      color={colors.white}
+      backgroundColor={colors.toolbarBackground}
+    />
   ),
-}
+};

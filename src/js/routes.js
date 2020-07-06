@@ -11,7 +11,7 @@ import Environments from "./components/Environments/Environments";
 import Environment from "./components/Environments/Environment";
 import EnvironmentCluster from "./components/Environments/EnvironmentCluster";
 import Resources from "./components/Resources/Resources";
-//import Resource from "./components/Resources/Resource"
+import Resource from "./components/Resources/Resource";
 import Instances from "./components/Instances/Instances";
 import Instance from "./components/Instances/Instance";
 import NotFound from "./components/NotFound";
@@ -32,7 +32,7 @@ export const Routes = () => {
       <Route exact path="/applications/" component={Applications} />
       <Route path="/applications/:application?" component={Application} />
       <Route exact path="/resources/" component={Resources} />
-      {/*<Route path="/resources/:resource" component={Resource} />*/}
+      <Route path="/resources/:resource" component={Resource} />
       <Route exact path="/instances/" component={Instances} />
       <Route path="/instances/:instance?" component={Instance} />
       <Route path="*" component={NotFound} />

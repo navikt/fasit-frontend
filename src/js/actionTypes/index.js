@@ -118,8 +118,8 @@ export const REVISIONS_REQUEST_FAILED = "REVISIONS_REQUEST_FAILED";
 
 // --------- SEARCH ---------
 export const SUBMIT_FILTER_SEARCH = "SUBMIT_FILTER_SEARCH";
-export const CHANGE_FILTER = "CHANGE_FILTER";
-export const SET_FILTER = "SET_FILTER";
+//export const CHANGE_FILTER = "CHANGE_FILTER";
+//export const SET_FILTER = "SET_FILTER";
 
 // --------- SUBMIT FORM ---------
 export const SUBMIT_FORM = "SUBMIT_FORM";
@@ -149,7 +149,6 @@ export const INSTANCE_MANIFEST_FASIT_REQUEST_FAILED =
 
 // --------- NODES ---------
 // Nodes - list
-export const CHANGE_PAGE = "CHANGE_PAGE";
 export const NODES_LIST_FETCHING = "NODES_LIST_FETCHING";
 export const NODES_LIST_RECEIVED = "NODES_LIST_RECEIVED";
 export const NODES_LIST_FAILED = "NODES_LIST_FAILED";
