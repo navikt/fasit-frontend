@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Select from "react-select";
 import { connect } from "react-redux";
 import {
-  changeFilter,
-  submitFilterString,
+  //  changeFilter,
+  // submitFilterString,
   fetchRestResourceOfType,
 } from "../../actionCreators/element_lists";
 import { isEmptyString } from "../../utils";
@@ -26,7 +26,6 @@ class Filters extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, location } = this.props;
     this.setFilter();
   }
 
@@ -92,6 +91,7 @@ class Filters extends Component {
           resetValue=""
           isClearable={true}
           placeholder="Env."
+          style={{ width: "134px" }}
           name="form-field-name"
           value={this.mapToValueObject(environment)}
           options={this.convertToSelectObject(
@@ -125,6 +125,7 @@ class Filters extends Component {
 
   zoneFilter() {
     const { environmentclass, environment, zone } = this.state;
+
     return (
       <div className="form-group Select-environmentclass">
         <Select
@@ -133,7 +134,7 @@ class Filters extends Component {
           isClearable={true}
           name="form-field-zone"
           disabled={environmentclass === "" && environment === ""}
-          value={zone}
+          value={this.mapToValueObject(zone)}
           options={this.convertToSelectObject(this.props.zones)}
           onChange={(e) => this.handleChangeFilter("zone", e ? e.value : null)}
         />
@@ -167,6 +168,7 @@ class Filters extends Component {
         <Select
           resetValue=""
           placeholder="Type"
+          isClearable={true}
           name="form-field-name"
           value={this.mapToValueObject(type)}
           options={this.convertToSelectObject(this.props.nodeTypes)}
@@ -183,6 +185,7 @@ class Filters extends Component {
         <Select
           resetValue=""
           placeholder="Type"
+          isClearable={true}
           name="form-field-name"
           value={this.mapToValueObject(type)}
           options={this.convertToSelectObject(this.props.resourceTypes)}
@@ -199,7 +202,7 @@ class Filters extends Component {
         <input
           placeholder="Alias"
           className="form-control"
-          style={{ height: "34px" }}
+          style={{ height: "36px", width: "200px" }}
           type="text"
           value={alias}
           onChange={(e) => this.handleChangeFilter("alias", e.target.value)}
