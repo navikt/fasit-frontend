@@ -1,30 +1,30 @@
-import { call } from "redux-saga/effects";
-import { watchAuthentication } from "./authentication";
-import { watchElementsList } from "./elements_list";
-import { watchNavSearchQueries } from "./nav_search";
-import { watchSearchQueries } from "./search";
+import { call } from "redux-saga/effects"
+import { watchAuthentication } from "./authentication"
+import { watchElementsList } from "./elements_list"
+import { watchNavSearchQueries } from "./nav_search"
+import { watchSearchQueries } from "./search"
 // Application
-import { watchApplicationNames } from "./application_names";
-import { watchApplicationFasit } from "./application_fasit";
+import { watchApplicationNames } from "./application_names"
+import { watchApplicationFasit } from "./application_fasit"
 // Environments
-import { watchEnvironments } from "./environments";
-import { watchEnvironmentFasit } from "./environment_fasit";
+import { watchEnvironments } from "./environments"
+import { watchEnvironmentFasit } from "./environment_fasit"
 // Instances
-import { watchInstanceFasit } from "./instance_fasit";
+import { watchInstanceFasit } from "./instance_fasit"
 //Nodes
-import { watchNodeFasit } from "./node_fasit";
-import { watchNodeTypes } from "./node_types";
+import { watchNodeFasit } from "./node_fasit"
+import { watchNodeTypes } from "./node_types"
 // Resources
-import { watchResourceTypes } from "./resource_types";
-import { watchResourceFasit } from "./resource_fasit";
+import { watchResourceTypes } from "./resource_types"
+import { watchResourceFasit } from "./resource_fasit"
 //Forms
-import { watchSubmitForm } from "./submit_form";
-import { watchRevisions } from "./revisions";
+import { watchSubmitForm } from "./submit_form"
+import { watchRevisions } from "./revisions"
 
 export default function* () {
   yield [
     // Common
-    //call(watchAuthentication),
+    call(watchAuthentication),
     call(watchElementsList),
     call(watchSubmitForm),
     call(watchRevisions),
@@ -49,5 +49,5 @@ export default function* () {
     // Resources
     call(watchResourceTypes),
     call(watchResourceFasit),
-  ];
+  ]
 }

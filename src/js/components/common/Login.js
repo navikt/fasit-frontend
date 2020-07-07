@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 import classString from "react-classset"
-import { Modal } from "react-bootstrap"
+import Modal from "react-bootstrap/Modal"
 import { connect } from "react-redux"
 import { displayLogin, logIn } from "../../actionCreators/authentication"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 class Login extends Component {
   constructor(props) {
@@ -24,40 +24,36 @@ class Login extends Component {
   }
 
   signInButtonClasses() {
-    const { user } = this.props
     return classString({
       btn: true,
       "btn-info": true,
-      singInButton: user.failedLogin
     })
   }
 
   render() {
     const { user, dispatch } = this.props
+
     return (
-      <Modal show={user.showLogin} onHide={() => dispatch(displayLogin(false))}>
-        <Modal.Header>
-          <Modal.Title>
-            Log in
-            <button
-              className="btn btn-xs btn-default pull-right"
-              onClick={() => dispatch(displayLogin(false))}
-            >
-              <FontAwesomeIcon icon="times" />
-            </button>
-          </Modal.Title>
+      <Modal
+        centered
+        show={user.showLogin}
+        onHide={() => dispatch(displayLogin(false))}
+        animation={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Log in</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="login-form">
             <form
               className="form-horizontal"
               id="loginForm"
-              onSubmit={e => {
+              onSubmit={(e) => {
                 e.preventDefault()
                 dispatch(
                   logIn({
                     password: this.state.password,
-                    username: this.state.username
+                    username: this.state.username,
                   })
                 )
               }}
@@ -67,15 +63,12 @@ class Login extends Component {
                   Adeo-ident
                 </label>
                 <div className="input-group">
-                  <span className="input-group-addon">
-                    <FontAwesomeIcon icon="user" />
-                  </span>
                   <input
-                    ref={input => (this.logIn = input)}
+                    ref={(input) => (this.logIn = input)}
                     type="text"
                     className="form-control"
                     placeholder="x123456"
-                    onChange={e =>
+                    onChange={(e) =>
                       this.handleChange("username", e.target.value)
                     }
                   />
@@ -87,14 +80,11 @@ class Login extends Component {
                   Password
                 </label>
                 <div className="input-group">
-                  <span className="input-group-addon">
-                    <FontAwesomeIcon icon="lock" />
-                  </span>
                   <input
                     type="password"
                     className="form-control"
                     placeholder="Password"
-                    onChange={e =>
+                    onChange={(e) =>
                       this.handleChange("password", e.target.value)
                     }
                   />
@@ -105,12 +95,12 @@ class Login extends Component {
                 <button
                   type="submit"
                   className={this.signInButtonClasses()}
-                  onClick={e => {
+                  onClick={(e) => {
                     e.preventDefault()
                     dispatch(
                       logIn({
                         password: this.state.password,
-                        username: this.state.username
+                        username: this.state.username,
                       })
                     )
                   }}
@@ -135,12 +125,12 @@ class Login extends Component {
   }
 }
 Login.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
   }
 }
 
