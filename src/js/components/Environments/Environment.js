@@ -1,91 +1,69 @@
-import React, { Component } from "react";
-import { Card } from "../common/Card";
-import history from "../../utils/browserHistory";
-import { connect } from "react-redux";
-import {
-  //  DeleteElementForm,
-  ToolButtons,
-} from "../common/";
-import { displayModal, submitForm } from "../../actionCreators/common";
-import { validAuthorization } from "../../utils/";
-import EnvironmentClusters from "./EnvironmentClusters";
-import { fetchEnvironment } from "../../actionCreators/environment";
-import { styles } from "../../commonStyles/commonInlineStyles";
+import React, { Component } from "react"
+import { Card } from "../common/Card"
+import { connect } from "react-redux"
+import { DeleteElementForm, ToolButtons } from "../common/"
+import { /*displayModal,*/ deleteElement } from "../../actionCreators/common"
+import { validAuthorization } from "../../utils/"
+import EnvironmentClusters from "./EnvironmentClusters"
+import { fetchEnvironment } from "../../actionCreators/environment"
+import { styles } from "../../commonStyles/commonInlineStyles"
 
 export class Environment extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       displaySubmitForm: false,
       displayDeleteForm: false,
       editMode: false,
-      comment: "",
-    };
-  }
-
-  resetLocalState() {
-    this.setState({
-      adgroups: [],
-      comment: "",
-    });
+    }
   }
 
   toggleComponentDisplay(component) {
-    this.setState({ [component]: !this.state[component] });
-    if (component === "editMode" && this.state.editMode) this.resetLocalState();
+    this.setState({ [component]: !this.state[component] })
   }
 
-  handleChange(field, value) {
-    this.setState({ [field]: value });
-  }
+  handleDelete(id, form, comment, component) {
+    const { dispatch } = this.props
 
-  handleSubmitForm(id, form, comment, component) {
-    const { dispatch } = this.props;
+    this.toggleComponentDisplay("displayDeleteForm")
 
-    if (component === "deleteEnvironment") {
-      this.toggleComponentDisplay("displayDeleteForm");
-      this.setState({ comment: "" });
-    }
-    dispatch(submitForm(id, form, comment, component));
-    if (component === "deleteEnvironment") {
-      history.push("/environments");
-    }
+    dispatch(deleteElement(id, "environment"))
   }
 
   componentDidMount() {
-    const { dispatch, match } = this.props;
-    const envName = match.params.environment;
-    dispatch(fetchEnvironment(envName));
+    const { dispatch, match } = this.props
+    const envName = match.params.environment
+    dispatch(fetchEnvironment(envName))
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dispatch, match } = this.props;
-    const envName = match.params.environment;
+    const { dispatch, match } = this.props
+    const envName = match.params.environment
 
     this.setState({
       comment: "",
-    });
+    })
     if (Object.keys(nextProps.environment).length > 0) {
-      this.setState({ adgroups: nextProps.environment.accesscontrol.adgroups });
+      this.setState({ adgroups: nextProps.environment.accesscontrol.adgroups })
     }
     if (nextProps.match.params.environment != envName) {
-      dispatch(fetchEnvironment(nextProps.name));
+      dispatch(fetchEnvironment(nextProps.name))
     }
   }
 
   render() {
-    const { environment, user, dispatch, resourceModalVisible } = this.props;
+    const { environment, user, dispatch, resourceModalVisible } = this.props
 
-    const { comment, editMode } = this.state;
-    const envName = environment.name;
-    const envClass = environment.environmentclass;
-    let lifecycle = {};
+    const { comment, editMode } = this.state
+    const envName = environment.name
+    const envClass = environment.environmentclass
+    let lifecycle = {}
 
-    let authorized = false;
+    let authorized = false
     if (Object.keys(environment).length > 0) {
-      authorized = validAuthorization(user, environment.accesscontrol);
-      lifecycle = environment.lifecycle;
+      authorized = validAuthorization(user, environment.accesscontrol)
+      lifecycle = environment.lifecycle
     }
 
     return (
@@ -97,31 +75,23 @@ export class Environment extends Component {
           >
             <ToolButtons
               disabled={!authorized || resourceModalVisible}
-              hideEditButton={true}
-              hideCopyButton={true}
-              onEditClick={() =>
-                dispatch(displayModal("environment", true, "edit"))
-              }
               onDeleteClick={() =>
                 this.toggleComponentDisplay("displayDeleteForm")
               }
-              onCopyClick={() =>
-                dispatch(displayModal("environment", true, "copy"))
-              }
-              editMode={editMode}
             />
           </Card>
         </div>
         <div className="col-xs-12">
           <EnvironmentClusters environment={envName} />
         </div>
-        {/*<DeleteElementForm
+        <DeleteElementForm
           displayDeleteForm={this.state.displayDeleteForm}
           onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-          onSubmit={() => this.handleSubmitForm(envName, null, comment, "deleteEnvironment")}
-        id={envName}*/}
+          onSubmit={() => this.handleDelete(envName)}
+          id={envName}
+        />
       </div>
-    );
+    )
   }
 }
 
@@ -131,7 +101,7 @@ const mapStateToProps = (state) => {
     environment: state.environment_fasit.data,
     environmentClasses: state.environments.environmentClasses,
     resourceModalVisible: state.resources.showNewResourceForm,
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps)(Environment);
+export default connect(mapStateToProps)(Environment)

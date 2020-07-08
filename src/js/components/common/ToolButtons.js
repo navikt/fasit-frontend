@@ -1,60 +1,35 @@
-import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
-import EditIcon from "@material-ui/icons/Edit";
+import React, { Component } from "react"
+//import Button from "@material-ui/core/Button"
+import Button from "react-bootstrap/Button"
 
 export default class ToolButtons extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
     const {
       disabled,
-      onEditClick,
+      //onEditClick,
       onDeleteClick,
-      onCopyClick,
-      hideCopyButton,
-      hideEditButton,
+      //onCopyClick,
+      //hideCopyButton,
+      //hideEditButton,
       hideDeleteButton,
-    } = this.props;
+    } = this.props
     return (
-      <div className="buttonSpacing">
-        {!hideCopyButton && (
-          <Button
-            disabled={disabled}
-            size="small"
-            variant="outlined"
-            onClick={onCopyClick}
-            startIcon={<FileCopyIcon />}
-          >
-            Copy
-          </Button>
-        )}
-        {!hideEditButton && (
-          <Button
-            variant="outlined"
-            size="small"
-            disabled={disabled}
-            onClick={onEditClick}
-            startIcon={<EditIcon />}
-          >
-            Edit
-          </Button>
-        )}
+      <div
+        /*className="buttonSpacing"*/ style={{
+          paddingBottom: "1rem",
+          //textAlign: "center"
+        }}
+      >
         {!hideDeleteButton && (
-          <Button
-            variant="outlined"
-            size="small"
-            disabled={disabled}
-            onClick={onDeleteClick}
-            startIcon={<DeleteIcon />}
-          >
+          <Button variant="danger" onClick={onDeleteClick} disabled={disabled}>
             Delete
           </Button>
         )}
       </div>
-    );
+    )
   }
 }
