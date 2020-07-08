@@ -1,13 +1,10 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import ElementPaging from "../common/ElementPaging"
-//import InstanceCard from "./InstanceCard"
 import Filters from "../Navigation/Filters"
-import {
-  fetchRestResourceOfType /*, setFilterContext*/,
-} from "../../actionCreators/element_lists"
+import { fetchRestResourceOfType } from "../../actionCreators/element_lists"
 import Spinner from "../common/Spinner"
-
+import { Card } from "../common/Card"
 class Instances extends Component {
   constructor(props) {
     super(props)
@@ -38,11 +35,12 @@ class Instances extends Component {
             <div className="col-md-10" style={{ paddingLeft: "0px" }}>
               {instances.map((instance, index) => (
                 <Card
+                  key={index}
                   title={`${instance.application}:${
                     instance.version ? instance.version : "Not deployed"
                   }`}
-                  linkTo={`/instances/` + id}
-                  subtitle={environment}
+                  linkTo={`/instances/` + instance.id}
+                  subtitle={instance.environment}
                 ></Card>
               ))}
             </div>

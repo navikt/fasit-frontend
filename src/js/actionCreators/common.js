@@ -1,5 +1,6 @@
 import {
   CLEAR_FORM_ERROR,
+  CLEAR_FORM_STATUS,
   REVISIONS_REQUEST,
   SET_NAVSEARCH_QUERY,
   SHOW_NEW_APPLICATION_FORM,
@@ -20,6 +21,10 @@ export const submitForm = (key, form, comment, component) => {
 
 export const deleteElement = (id, elementType) => {
   return { type: DELETE_ELEMENT, id, elementType }
+}
+
+export const resetFormStatus = () => {
+  return { type: CLEAR_FORM_STATUS }
 }
 
 export const clearFormError = () => {

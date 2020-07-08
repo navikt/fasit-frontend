@@ -1,54 +1,54 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { Card, CardItem } from "../common/Card";
-import { styles } from "../../commonStyles/commonInlineStyles";
-import Manifest from "./Manifest";
-import { CurrentRevision, RevisionsView } from "../common/";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { fetchInstance } from "../../actionCreators/instance";
-import Spinner from "../common/Spinner";
-import { getQueryParam, isEmptyObject } from "../../utils/";
-import CollapsibleResourcePanel from "./CollapsibleResourcePanel";
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Link } from "react-router-dom"
+import { Card, CardItem } from "../common/Card"
+import { styles } from "../../commonStyles/commonInlineStyles"
+import Manifest from "./Manifest"
+import { CurrentRevision, RevisionsView } from "../common/"
+import ExpansionPanel from "@material-ui/core/ExpansionPanel"
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import { fetchInstance } from "../../actionCreators/instance"
+import Spinner from "../common/Spinner"
+import { getQueryParam, isEmptyObject } from "../../utils/"
+import CollapsibleResourcePanel from "./CollapsibleResourcePanel"
 
 class Instance extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   componentDidMount() {
-    const { dispatch, location, match } = this.props;
-    const revision = getQueryParam(location.search, "revision");
-    dispatch(fetchInstance(match.params.instance, revision));
+    const { dispatch, location, match } = this.props
+    const revision = getQueryParam(location.search, "revision")
+    dispatch(fetchInstance(match.params.instance, revision))
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dispatch, id, location, match } = this.props;
-    const instanceId = match.params.instance;
-    const revision = getQueryParam(location.search, "revision");
-    const nextPropsInstanceId = nextProps.match.params.instance;
+    const { dispatch, id, location, match } = this.props
+    const instanceId = match.params.instance
+    const revision = getQueryParam(location.search, "revision")
+    const nextPropsInstanceId = nextProps.match.params.instance
     const nextPropsRevision = getQueryParam(
       nextProps.location.search,
       "revision"
-    );
+    )
 
     // Fetch data from backend if revision changes
     if (nextPropsRevision != revision) {
-      dispatch(fetchInstance(instanceId, nextPropsRevision));
+      dispatch(fetchInstance(instanceId, nextPropsRevision))
     }
     // Fetch data from backend if id changes
     if (nextProps.id != id) {
-      dispatch(fetchInstance(nextPropsInstanceId, nextPropsRevision));
+      dispatch(fetchInstance(nextPropsInstanceId, nextPropsRevision))
     }
   }
 
   render() {
-    const { instance, revisions, id, isFetching, location, match } = this.props;
-    const clusterName = instance.cluster ? instance.cluster.name : "";
-    const revision = getQueryParam(location.search, "revision");
+    const { instance, revisions, id, isFetching, location, match } = this.props
+    const clusterName = instance.cluster ? instance.cluster.name : ""
+    const revision = getQueryParam(location.search, "revision")
 
     return isEmptyObject(instance) || isFetching ? (
       <Spinner />
@@ -122,7 +122,7 @@ class Instance extends Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -133,21 +133,7 @@ const mapStateToProps = (state) => {
     user: state.user,
     config: state.configuration,
     revisions: state.revisions,
-  };
-};
-
-function SelfTestLinks(props) {
-  return (
-    <ul key="1" className="revisionList">
-      {props.links.sort().map((link) => (
-        <li key={link}>
-          <a href={link} className="revisionListItem" target="_blank">
-            {link.split("/")[2]}
-          </a>
-        </li>
-      ))}
-    </ul>
-  );
+  }
 }
 
-export default connect(mapStateToProps)(Instance);
+export default connect(mapStateToProps)(Instance)

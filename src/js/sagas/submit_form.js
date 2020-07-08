@@ -2,23 +2,14 @@ import { takeEvery } from "redux-saga"
 import { fork, put, select } from "redux-saga/effects"
 import browserHistory from "../utils/browserHistory"
 import {
-  APPLICATION_FASIT_REQUEST,
   APPLICATION_FASIT_URL_REQUEST,
   APPLICATION_NAMES_REQUEST,
-  CLUSTER_FASIT_REQUEST,
-  CLUSTER_FASIT_URL_REQUEST,
   DELETE_ELEMENT,
-  ENVIRONMENT_FASIT_REQUEST,
-  ENVIRONMENT_FASIT_URL_REQUEST,
-  ENVIRONMENTS_REQUEST,
   NODE_FASIT_REQUEST,
-  NODE_FASIT_URL_REQUEST,
   RESOURCE_FASIT_REQUEST,
   RESOURCE_FASIT_URL_REQUEST,
   REVISIONS_REQUEST,
   SHOW_NEW_APPLICATION_FORM,
-  SHOW_NEW_CLUSTER_FORM,
-  SHOW_NEW_ENVIRONMENT_FORM,
   SHOW_NEW_NODE_FORM,
   SHOW_NEW_RESOURCE_FORM,
   SUBMIT_FORM,
@@ -26,11 +17,9 @@ import {
   SUBMIT_FORM_SUCCESS,
 } from "../actionTypes"
 import { deleteUrl, postUrl, putUrl } from "../utils"
-//import { func } from "prop-types"
 
 export function* submitForm(action) {
   const configuration = yield select((state) => state.configuration)
-  //const filter = yield select((state) => state.filter);
   let url = ""
 
   try {
@@ -46,31 +35,6 @@ export function* submitForm(action) {
           url: newApplicationLocation,
         })
         yield put({ type: APPLICATION_NAMES_REQUEST })
-        break
-      case "newNode":
-        url = `${configuration.fasit_nodes}`
-        const newNode = yield postUrl(url, action.form, action.comment)
-        yield put({ type: SHOW_NEW_NODE_FORM, value: false })
-        const newNodeLocation = newNode.headers.get("Location")
-        yield put({ type: NODE_FASIT_URL_REQUEST, url: newNodeLocation })
-        break
-      case "newEnvironment":
-        url = `${configuration.fasit_environments}`
-        const newEnvironment = yield postUrl(url, action.form, action.comment)
-        const newEnvironmentLocation = newEnvironment.headers.get("Location")
-        yield put({ type: SHOW_NEW_ENVIRONMENT_FORM, value: false })
-        yield put({
-          type: ENVIRONMENT_FASIT_URL_REQUEST,
-          url: newEnvironmentLocation,
-        })
-        yield put({ type: ENVIRONMENTS_REQUEST })
-        break
-      case "newCluster":
-        url = `${configuration.fasit_environments}/${action.form.environment}/clusters`
-        const newCluster = yield postUrl(url, action.form, action.comment)
-        yield put({ type: SHOW_NEW_CLUSTER_FORM, value: false })
-        const newClusterLocation = newCluster.headers.get("Location")
-        yield put({ type: CLUSTER_FASIT_URL_REQUEST, url: newClusterLocation })
         break
       case "newResource":
         url = `${configuration.fasit_resources}`
@@ -93,47 +57,6 @@ export function* submitForm(action) {
         yield put({
           type: REVISIONS_REQUEST,
           component: "node",
-          key: action.key,
-        })
-        break
-      case "application":
-        url = `${configuration.fasit_applications}/${action.key}`
-        yield putUrl(url, action.form, action.comment)
-        yield put({ type: SHOW_NEW_APPLICATION_FORM, value: false })
-        yield browserHistory.push(`/applications/${action.form.name}`)
-        yield put({ type: APPLICATION_FASIT_REQUEST, name: action.key })
-        yield put({
-          type: REVISIONS_REQUEST,
-          component: "application",
-          key: action.key,
-        })
-        break
-      case "environment":
-        url = `${configuration.fasit_environments}/${action.key}`
-        yield putUrl(url, action.form, action.comment)
-        yield put({ type: SHOW_NEW_ENVIRONMENT_FORM, value: false })
-        yield browserHistory.push(`/environments/${action.form.name}`)
-        yield put({ type: ENVIRONMENT_FASIT_REQUEST, id: action.form.name })
-        yield put({
-          type: REVISIONS_REQUEST,
-          component: "environment",
-          key: action.form.name,
-        })
-        break
-      case "cluster":
-        url = `${configuration.fasit_clusters}/${action.key}`
-        yield putUrl(url, action.form, action.comment)
-        yield put({ type: SHOW_NEW_CLUSTER_FORM, value: false })
-        yield browserHistory.push(
-          `/environments/${action.form.environment}/clusters/${action.form.clustername}`
-        )
-        yield put({
-          type: CLUSTER_FASIT_REQUEST,
-          url: url,
-        })
-        yield put({
-          type: REVISIONS_REQUEST,
-          component: "cluster",
           key: action.key,
         })
         break

@@ -19,7 +19,7 @@ import NewEnvironmentForm from "../Environments/NewEnvironmentForm"
 import NewClusterForm from "../Environments/NewClusterForm"
 import NewResourceForm from "../Resources/NewResourceForm"*/
 
-//import { SubmitFormStatus, ErrorDialog } from "../common/"
+import { SubmitFormStatus, ErrorDialog } from "../common/"
 import "bootswatch/dist/cerulean/bootstrap.min.css"
 import "../../../stylesheets/index.less"
 import buildFontAwesomeLibrary from "../../commonStyles/FontAwesomeIcons"
@@ -48,10 +48,11 @@ class App extends Component {
           {this.props.children}
     </div>*/}
         {/* Misc. modals*/}
-        {/*<SubmitFormStatus />
-        <NewNodeForm />
-        <NewEnvironmentForm />
+        <SubmitFormStatus />
         <ErrorDialog />
+        {/*<NewNodeForm />
+        <NewEnvironmentForm />
+        <ErorDialog />
         <NewClusterForm />
         <NewApplicationForm />
         <NewResourceForm />

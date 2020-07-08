@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Card } from "../common/Card"
 import { connect } from "react-redux"
 import { DeleteElementForm, ToolButtons } from "../common/"
-import { /*displayModal,*/ deleteElement } from "../../actionCreators/common"
+import { deleteElement } from "../../actionCreators/common"
 import { validAuthorization } from "../../utils/"
 import EnvironmentClusters from "./EnvironmentClusters"
 import { fetchEnvironment } from "../../actionCreators/environment"
@@ -13,9 +13,7 @@ export class Environment extends Component {
     super(props)
 
     this.state = {
-      //displaySubmitForm: false,
       displayDeleteForm: false,
-      //editMode: false,
     }
   }
 

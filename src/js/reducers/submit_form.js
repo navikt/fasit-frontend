@@ -1,32 +1,42 @@
-import {SUBMIT_FORM_SUCCESS, SUBMIT_FORM_FAILED, CLEAR_FORM_ERROR} from "../actionTypes";
-export default (state = {
+import {
+  SUBMIT_FORM_SUCCESS,
+  SUBMIT_FORM_FAILED,
+  CLEAR_FORM_ERROR,
+  CLEAR_FORM_STATUS,
+} from "../actionTypes"
+export default (
+  state = {
     displaySnackbar: false,
     formError: false,
-    submitFormErrorMessage: ''
+    submitFormErrorMessage: "",
+  },
+  action
+) => {
+  switch (action.type) {
+    case SUBMIT_FORM_FAILED:
+      return Object.assign({}, state, {
+        formError: true,
+        displaySnackbar: false,
+        submitFormErrorMessage: `Error submitting ${action.value}`,
+      })
 
-}, action) => {
-
-    switch (action.type) {
-        case SUBMIT_FORM_FAILED:
-            return Object.assign({}, state, {
-                formError: true,
-                displaySnackbar: false,
-                submitFormErrorMessage: `Error submitting ${action.value}`
-
-            })
-
-        case SUBMIT_FORM_SUCCESS:
-            return Object.assign({}, state, {
-                displaySnackbar: true,
-                formError: false,
-                submitFormErrorMessage: ''
-            })
-        case CLEAR_FORM_ERROR:
-            return Object.assign({}, state, {
-                formError: false,
-                submitFormErrorMessage: ''
-            })
-        default:
-            return state
-    }
+    case SUBMIT_FORM_SUCCESS:
+      return Object.assign({}, state, {
+        displaySnackbar: true,
+        formError: false,
+        submitFormErrorMessage: "",
+      })
+    case CLEAR_FORM_STATUS:
+      return {
+        ...state,
+        displaySnackbar: false,
+      }
+    case CLEAR_FORM_ERROR:
+      return Object.assign({}, state, {
+        formError: false,
+        submitFormErrorMessage: "",
+      })
+    default:
+      return state
+  }
 }

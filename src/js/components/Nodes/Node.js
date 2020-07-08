@@ -1,63 +1,46 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { isEmptyObject, getQueryParam } from "../../utils/";
-import { fetchFasitData } from "../../actionCreators/node";
-import { CurrentRevision, RevisionsView, Spinner } from "../common/";
-import { Card, CardItem, CardList, CardLinkItem } from "../common/Card";
-import { styles } from "../../commonStyles/commonInlineStyles";
-import { capitalize } from "../../utils";
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { isEmptyObject, getQueryParam } from "../../utils/"
+import { fetchFasitData } from "../../actionCreators/node"
+import { CurrentRevision, RevisionsView, Spinner } from "../common/"
+import { Card, CardItem, CardList, CardLinkItem } from "../common/Card"
+import { styles } from "../../commonStyles/commonInlineStyles"
+import { capitalize } from "../../utils"
 
 class Node extends Component {
   constructor(props) {
-    super(props);
-
-    this.state = {
-      secretVisible: false,
-      displayDeleteForm: false,
-    };
+    super(props)
   }
 
   componentDidMount() {
-    const { dispatch, location, match } = this.props;
-    const revision = getQueryParam(location.search, "revision");
-    dispatch(fetchFasitData(match.params.node, revision));
+    const { dispatch, location, match } = this.props
+    const revision = getQueryParam(location.search, "revision")
+    dispatch(fetchFasitData(match.params.node, revision))
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dispatch, location, match } = this.props;
-    const nodeName = match.params.node;
-    const nextPropsNodeName = nextProps.match.params.node;
-    const revision = getQueryParam(location.search, "revision");
+    const { dispatch, location, match } = this.props
+    const nodeName = match.params.node
+    const nextPropsNodeName = nextProps.match.params.node
+    const revision = getQueryParam(location.search, "revision")
     const nextPropsRevision = getQueryParam(
       nextProps.location.search,
       "revision"
-    );
+    )
 
     if (nextPropsRevision != revision) {
-      dispatch(fetchFasitData(nodeName, nextPropsRevision));
+      dispatch(fetchFasitData(nodeName, nextPropsRevision))
     }
 
     // fetch new data from backend if hostname changes
     if (nextPropsNodeName != nodeName) {
-      dispatch(fetchFasitData(nextPropsNodeName, nextPropsRevision));
+      dispatch(fetchFasitData(nextPropsNodeName, nextPropsRevision))
     }
   }
 
-  showModal(mode) {
-    const { dispatch } = this.props;
-    dispatch(displayModal("node", true, mode));
-  }
-
-  toggleComponentDisplay(component) {
-    const { dispatch } = this.props;
-    this.setState({ [component]: !this.state[component] });
-    if (component === "editMode" && !this.state.editMode)
-      dispatch(fetchNodePassword());
-  }
-
   render() {
-    const { node, isFetching, location, revisions } = this.props;
-    const revision = getQueryParam(location.search, "revision");
+    const { node, isFetching, location, revisions } = this.props
+    const revision = getQueryParam(location.search, "revision")
 
     return isFetching || !node.hostname ? (
       <Spinner />
@@ -112,12 +95,12 @@ class Node extends Component {
           />
         </div>
       </div>
-    );
+    )
   }
 
   renderDeploymentManager() {
-    const { deploymentManager } = this.props;
-    const hasDeploymentManager = !isEmptyObject(deploymentManager);
+    const { deploymentManager } = this.props
+    const hasDeploymentManager = !isEmptyObject(deploymentManager)
 
     if (hasDeploymentManager) {
       return (
@@ -131,7 +114,7 @@ class Node extends Component {
             linkTo={`/resources/${deploymentManager.id}`}
           />
         </CardList>
-      );
+      )
     }
   }
 }
@@ -145,7 +128,7 @@ const mapStateToProps = (state) => {
     deploymentManagerIsFetching: state.node_fasit.deploymentManagerIsFetching,
     deploymentManagerRequestFailed:
       state.node_fasit.deploymentManagerRequestFailed,
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps)(Node);
+export default connect(mapStateToProps)(Node)
