@@ -1,129 +1,130 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { fetchFasitData } from "../../actionCreators/resource";
-import { displayModal, submitForm } from "../../actionCreators/common";
-import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes";
-import { Card, CardItem } from "../common/Card";
-import { styles } from "../../commonStyles/commonInlineStyles";
-import NotFound from "../NotFound";
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Link } from "react-router-dom"
+import { fetchFasitData } from "../../actionCreators/resource"
+import { displayModal, deleteElement } from "../../actionCreators/common"
+import { validAuthorization } from "../../utils/"
+import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes"
+import { Card, CardItem } from "../common/Card"
+import { styles } from "../../commonStyles/commonInlineStyles"
+import NotFound from "../NotFound"
 import {
   CurrentRevision,
   RevisionsView,
   DeleteElementForm,
   ToolButtons,
   Spinner,
-} from "../common/";
+} from "../common/"
 
-import { getQueryParam } from "../../utils/";
+import { getQueryParam } from "../../utils/"
 const initialState = {
   displayDeleteForm: false,
-};
+}
 
 function vaultUrl(vaultPath) {
-  const baseUrl = "https://vault.adeo.no/ui/vault/secrets/";
+  const baseUrl = "https://vault.adeo.no/ui/vault/secrets/"
   const replaced = vaultPath.replace(
     /^([\w-]+)\/data\/(.*)\/[\w-]+$/,
     "$1/show/$2"
-  );
-  return baseUrl + replaced;
+  )
+  return baseUrl + replaced
 }
 
 class Resource extends Component {
   constructor(props) {
-    super(props);
-    this.state = initialState;
+    super(props)
+    this.state = initialState
   }
 
   componentDidMount() {
-    const { dispatch, location, match } = this.props;
-    const revision = getQueryParam(location.search, "revision");
-    dispatch(fetchFasitData(match.params.resource, revision));
+    const { dispatch, location, match } = this.props
+    const revision = getQueryParam(location.search, "revision")
+    dispatch(fetchFasitData(match.params.resource, revision))
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dispatch, location, match } = this.props;
-    const resourceId = match.params.resource;
-    const revision = getQueryParam(location.search, "revision");
-    const nextPropsResourceId = nextProps.match.params.resource;
+    const { dispatch, location, match } = this.props
+    const resourceId = match.params.resource
+    const revision = getQueryParam(location.search, "revision")
+    const nextPropsResourceId = nextProps.match.params.resource
     const nextPropsRevision = getQueryParam(
       nextProps.location.search,
       "revision"
-    );
+    )
 
     if (nextPropsResourceId != resourceId) {
-      dispatch(fetchFasitData(nextPropsResourceId));
+      dispatch(fetchFasitData(nextPropsResourceId))
     }
 
     if (nextPropsRevision != revision) {
-      dispatch(fetchFasitData(resourceId, nextPropsRevision));
+      dispatch(fetchFasitData(resourceId, nextPropsRevision))
     }
   }
 
   buildFormData() {
-    const { resource } = this.props;
+    const { resource } = this.props
     const form = {
       alias: resource.alias,
       type: resource.type,
       properties: resource.properties,
       scope: resource.scope,
-    };
+    }
 
     if (Object.keys(this.props.currentSecrets).length > 0) {
-      form.secrets = {};
+      form.secrets = {}
       Object.keys(this.props.currentSecrets).forEach((k) => {
-        form.secrets[k] = { value: this.props.currentSecrets[k] };
-      });
+        form.secrets[k] = { value: this.props.currentSecrets[k] }
+      })
     }
 
     if (Object.keys(resource.files).length > 0) {
-      form.files = files;
+      form.files = files
     }
 
-    return form;
+    return form
   }
 
   deleteResource(key) {
-    const { dispatch } = this.props;
-    this.toggleComponentDisplay("displayDeleteForm");
-    dispatch(submitForm(key, null, null, "deleteResource"));
+    const { dispatch } = this.props
+    this.toggleComponentDisplay("displayDeleteForm")
+    dispatch(deleteElement(key, "resource"))
   }
 
   toggleComponentDisplay(component) {
-    this.setState({ [component]: !this.state[component] });
+    this.setState({ [component]: !this.state[component] })
   }
 
   handleChange(field, value, parent) {
     if (parent) {
-      const parentState = this.state[parent];
-      parentState[field] = value;
-      this.setState({ parent: parentState });
+      const parentState = this.state[parent]
+      parentState[field] = value
+      this.setState({ parent: parentState })
     } else {
-      this.setState({ [field]: value });
+      this.setState({ [field]: value })
     }
   }
 
   renderResourceProperties() {
-    const { resource } = this.props;
-    const type = this.getResourceType(resource.type);
+    const { resource } = this.props
+    const type = this.getResourceType(resource.type)
     return (
       <React.Fragment>
         {type.properties.map((p) => this.renderProperty(p, resource))}
       </React.Fragment>
-    );
+    )
   }
 
   renderProperty(property, resource) {
-    const propertyName = property.displayName;
-    const key = property.name;
-    const { properties, files } = resource;
+    const propertyName = property.displayName
+    const key = property.name
+    const { properties, files } = resource
 
     switch (property.type) {
       case "textbox":
       case "dropdown":
         return (
           <CardItem key={key} label={propertyName} value={properties[key]} />
-        );
+        )
       case "link":
         return (
           <CardItem
@@ -132,7 +133,7 @@ class Resource extends Component {
             value={property.linkTitle || properties[key]}
             linkTo={properties[key]}
           />
-        );
+        )
       case "textarea":
         return (
           <CardItem
@@ -141,10 +142,10 @@ class Resource extends Component {
             label={propertyName}
             value={properties[key]}
           />
-        );
+        )
       case "vaultPath":
       case "secret":
-        const secret = resource.secrets[key];
+        const secret = resource.secrets[key]
         if (secret != null && secret.vaultpath != null) {
           return (
             <CardItem
@@ -153,7 +154,7 @@ class Resource extends Component {
               linkTo={vaultUrl(secret.vaultpath)}
               label={`${propertyName} (Vault Path)`}
             />
-          );
+          )
         } else {
           return (
             <CardItem
@@ -161,7 +162,7 @@ class Resource extends Component {
               label={propertyName}
               value="Secrets are no longer visible in Fasit UI. All secrets should be moved to Vault and resource updated to point to Vault path."
             />
-          );
+          )
         }
       case "file":
         return (
@@ -171,14 +172,14 @@ class Resource extends Component {
             value={files[key].filename}
             linkTo={files[key].ref}
           />
-        );
+        )
     }
   }
 
   exposedByApplication() {
-    const exposedBy = this.props.fasit.data.exposedby;
+    const exposedBy = this.props.fasit.data.exposedby
     if (exposedBy) {
-      const displayString = `${exposedBy.application} (${exposedBy.version}) in ${exposedBy.environment}`;
+      const displayString = `${exposedBy.application} (${exposedBy.version}) in ${exposedBy.environment}`
       return (
         <CardItem
           key={exposedBy.id}
@@ -186,32 +187,32 @@ class Resource extends Component {
           value={displayString}
           linkTo={`/instances/${exposedBy.id}`}
         />
-      );
+      )
     }
   }
 
   scopeDisplayString(scope) {
-    const envClass = scope.environmentclass || "-";
-    const environment = scope.environment || "-";
-    const zone = scope.zone || "-";
-    const application = scope.application || "-";
+    const envClass = scope.environmentclass || "-"
+    const environment = scope.environment || "-"
+    const zone = scope.zone || "-"
+    const application = scope.application || "-"
 
-    return `${envClass} | ${zone} | ${environment} | ${application}`;
+    return `${envClass} | ${zone} | ${environment} | ${application}`
   }
 
   showModal(mode) {
-    const { dispatch } = this.props;
-    dispatch(displayModal("resource", true, mode));
+    const { dispatch } = this.props
+    dispatch(displayModal("resource", true, mode))
   }
 
   render() {
-    const { fasit, match, location, revisions, resource } = this.props;
-    const resourceId = match.params.resource;
-    const revision = getQueryParam(location.search, "revision");
+    const { fasit, match, location, revisions, resource, user } = this.props
+    const resourceId = match.params.resource
+    const revision = getQueryParam(location.search, "revision")
 
     if (fasit.requestFailed) {
       if (fasit.requestFailed.startsWith("404")) {
-        return <NotFound />;
+        return <NotFound />
       }
       return (
         <div>
@@ -221,12 +222,15 @@ class Resource extends Component {
             <i>{fasit.requestFailed}</i>
           </pre>
         </div>
-      );
+      )
     }
 
     if (fasit.isFetching || Object.keys(resource).length === 0) {
-      return <Spinner />;
+      return <Spinner />
     }
+
+    let authorized = false
+    authorized = validAuthorization(user, fasit.data.accesscontrol)
 
     return (
       <div>
@@ -246,6 +250,12 @@ class Resource extends Component {
                   linkTo={`https://${resource.properties.hostname}:9043/ibm/console`}
                 />
               )}
+              <ToolButtons
+                disabled={!authorized}
+                onDeleteClick={() =>
+                  this.toggleComponentDisplay("displayDeleteForm")
+                }
+              />
             </Card>
           </div>
 
@@ -292,7 +302,7 @@ class Resource extends Component {
                               >{`${instance.application}:${instance.version}`}</Link>
                             </td>
                           </tr>
-                        );
+                        )
                       })}
                   </tbody>
                 </table>
@@ -301,21 +311,23 @@ class Resource extends Component {
           </div>
         </div>
 
-        {/*<DeleteElementForm
-          displayDeleteForm={this.state.displayDeleteForm}
-          id={id}
-          onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-          onSubmit={() => this.deleteResource(id)}
-        />*/}
+        {
+          <DeleteElementForm
+            displayDeleteForm={this.state.displayDeleteForm}
+            id={resourceId}
+            onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
+            onSubmit={() => this.deleteResource(resourceId)}
+          />
+        }
       </div>
-    );
+    )
   }
 
   getResourceType(typeKey) {
     const key = Object.keys(resourceTypes).filter(
       (resourceType) => resourceType.toLowerCase() === typeKey.toLowerCase()
-    )[0];
-    return resourceTypes[key];
+    )[0]
+    return resourceTypes[key]
   }
 }
 
@@ -327,7 +339,8 @@ const mapStateToProps = (state) => {
     revisions: state.revisions,
     config: state.configuration,
     revisions: state.revisions,
-  };
-};
+    user: state.user,
+  }
+}
 
-export default connect(mapStateToProps)(Resource);
+export default connect(mapStateToProps)(Resource)

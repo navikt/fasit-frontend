@@ -1,35 +1,25 @@
-import { Link } from "react-router-dom";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fetchEnvironmentNodes } from "../../actionCreators/environment";
-import { displayModal, submitForm } from "../../actionCreators/common";
-import { fetchEnvironmentCluster } from "../../actionCreators/environment";
-import { styles } from "../../commonStyles/commonInlineStyles";
-import { validAuthorization } from "../../utils/";
-import { Card, CardItem, CardLinkItem, CardList } from "../common/Card";
-import { getQueryParam } from "../../utils";
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { fetchEnvironmentCluster } from "../../actionCreators/environment"
+import { styles } from "../../commonStyles/commonInlineStyles"
+import { Card, CardItem, CardLinkItem, CardList } from "../common/Card"
+import { getQueryParam } from "../../utils"
 
-import {
-  CurrentRevision,
-  DeleteElementForm,
-  ToolButtons,
-  Spinner,
-  RevisionsView,
-} from "../common";
+import { CurrentRevision, Spinner, RevisionsView } from "../common"
 
 class EnvironmentCluster extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       displayDeleteForm: false,
-    };
+    }
   }
 
   componentDidMount() {
-    const { dispatch, location, match } = this.props;
+    const { dispatch, location, match } = this.props
 
-    const revision = getQueryParam(location.search, "revision");
+    const revision = getQueryParam(location.search, "revision")
     if (revision) {
       dispatch(
         fetchEnvironmentCluster(
@@ -37,29 +27,29 @@ class EnvironmentCluster extends Component {
           match.params.clusterName,
           revision
         )
-      );
+      )
     } else {
       dispatch(
         fetchEnvironmentCluster(
           match.params.environment,
           match.params.clusterName
         )
-      );
+      )
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { dispatch, params, location } = this.props;
-    const revision = getQueryParam(location.search, "revision");
+    const { dispatch, location } = this.props
+    const revision = getQueryParam(location.search, "revision")
     const nextPropsRevision = getQueryParam(
       nextProps.location.search,
       "revision"
-    );
+    )
 
     if (Object.keys(nextProps.cluster).length > 0) {
       this.setState({
         adgroups: nextProps.cluster.accesscontrol.adgroups,
-      });
+      })
     }
     if (nextPropsRevision !== revision) {
       dispatch(
@@ -68,24 +58,13 @@ class EnvironmentCluster extends Component {
           this.props.match.params.clusterName,
           nextPropsRevision
         )
-      );
+      )
     }
   }
 
-  toggleComponentDisplay(component) {
-    const { dispatch, cluster } = this.props;
-    this.setState({ [component]: !this.state[component] });
-  }
-
   render() {
-    const { cluster, isFetching, user } = this.props;
-
-    const revision = getQueryParam(location.search, "revision");
-
-    let authorized =
-      Object.keys(cluster).length > 0
-        ? validAuthorization(user, cluster.accesscontrol)
-        : false;
+    const { cluster, isFetching, user } = this.props
+    const revision = getQueryParam(location.search, "revision")
 
     return isFetching || !cluster.clustername ? (
       <Spinner />
@@ -124,16 +103,6 @@ class EnvironmentCluster extends Component {
                 />
               ))}
             </CardList>
-            <ToolButtons
-              disabled={!authorized}
-              hideCopyButton={true}
-              hideDeleteButton={true}
-              onEditClick={() => this.showModal("edit")}
-              onDeleteClick={() =>
-                this.toggleComponentDisplay("displayDeleteForm")
-              }
-              editMode={this.state.editMode}
-            />
           </Card>
         </div>
         {/*Side menu*/}
@@ -144,37 +113,8 @@ class EnvironmentCluster extends Component {
           component="cluster"
           location={location}
         />
-
-        {/*<DeleteElementForm
-          displayDeleteForm={this.state.displayDeleteForm}
-          onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-          onSubmit={() => this.deleteCluster(cluster.clustername)}
-          id={cluster.clustername}
-        />*/}
       </div>
-    );
-  }
-
-  showModal(mode) {
-    const { dispatch } = this.props;
-
-    if (mode === "edit") {
-      dispatch(fetchEnvironmentNodes(this.props.cluster.environment));
-    }
-    dispatch(displayModal("cluster", true, mode, this.props.cluster));
-  }
-
-  deleteCluster(clusterName) {
-    const { dispatch, params } = this.props;
-    this.toggleComponentDisplay("displayDeleteForm");
-    dispatch(
-      submitForm(
-        clusterName,
-        { env: params.environment },
-        null,
-        "deleteCluster"
-      )
-    );
+    )
   }
 }
 
@@ -184,7 +124,7 @@ const mapStateToProps = (state) => {
     isFetching: state.environment_cluster_fasit.isFetching,
     user: state.user,
     revisions: state.revisions,
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps)(EnvironmentCluster);
+export default connect(mapStateToProps)(EnvironmentCluster)

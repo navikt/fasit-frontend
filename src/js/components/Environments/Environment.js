@@ -53,12 +53,10 @@ export class Environment extends Component {
 
     const envName = environment.name
     const envClass = environment.environmentclass
-    let lifecycle = {}
 
     let authorized = false
     if (Object.keys(environment).length > 0) {
       authorized = validAuthorization(user, environment.accesscontrol)
-      lifecycle = environment.lifecycle
     }
 
     return (
