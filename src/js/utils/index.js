@@ -1,84 +1,84 @@
-import fetch from "isomorphic-fetch";
+import fetch from "isomorphic-fetch"
 
 export const validAuthorization = (user, accesscontrol) => {
-  let group = true,
-    role = false;
+  // let group = true,
+  let role = false
 
   if (user.authenticated && typeof accesscontrol !== "undefined") {
-    if (accesscontrol.adgroups.length > 0) {
+    /*if (accesscontrol.adgroups.length > 0) {
       group = hasGroup(user, accesscontrol.adgroups);
-    }
+    }*/
     switch (accesscontrol.environmentclass) {
       case "p":
-        role = hasRole(user, ["ROLE_PROD_OPERATIONS"]);
-        break;
+        role = hasRole(user, ["ROLE_PROD_OPERATIONS"])
+        break
       case "q":
       case "t":
-        role = hasRole(user, ["ROLE_PROD_OPERATIONS", "ROLE_OPERATIONS"]);
-        break;
+        role = hasRole(user, ["ROLE_PROD_OPERATIONS", "ROLE_OPERATIONS"])
+        break
       case "u":
         role = hasRole(user, [
           "ROLE_USER",
           "ROLE_CI",
           "ROLE_PROD_OPERATIONS",
           "ROLE_OPERATIONS",
-        ]);
-        break;
+        ])
+        break
       default:
-        role = false;
-        break;
+        role = false
+        break
     }
   }
-  return group && role;
-};
+  return /*group &&*/ role
+}
 
 export const getQueryParam = (paramString, paramName) => {
-  return new URLSearchParams(paramString).get(paramName);
-};
+  return new URLSearchParams(paramString).get(paramName)
+}
 
-const hasGroup = (user, groups) => {
+/*const hasGroup = (user, groups) => {
   if (user.roles.indexOf("ROLE_SUPERUSER" > -1)) return true;
   for (let i = 0; i < user.groups.length; i++) {
     if (groups.indexOf(user.groups[i]) !== -1) return true;
   }
-};
+};*/
 const hasRole = (user, roles) => {
   for (let i = 0; i < user.roles.length; i++) {
-    if (roles.indexOf(user.roles[i]) !== -1) return true;
+    if (roles.indexOf(user.roles[i]) !== -1) return true
   }
-};
+}
 
 export const isEmptyObject = (obj) => {
-  return Object.keys(obj).length === 0;
-};
+  return Object.keys(obj).length === 0
+}
 
 export const isEmptyString = (string) => {
-  return !string || string.length === 0;
-};
+  return !string || string.length === 0
+}
 
 export function capitalize(label) {
   if (!label) {
-    return "";
+    return ""
   }
-  return "" + label.charAt(0).toUpperCase() + label.slice(1);
+  return "" + label.charAt(0).toUpperCase() + label.slice(1)
 }
 
 function splitCharactersAndNumbers(name) {
-  return name.split(/(\d+)/);
+  return name.split(/(\d+)/)
 }
 
 // sort environments naturally, first by envclass, then by name and number. Ex p, q1, q2, q10, u1, u2, a12
 export function sortEnvironmentsNaturally(first, second) {
-  const firstEnvClass = first.environmentclass.toLowerCase();
-  const secondEnvClass = second.environmentclass.toLowerCase();
+  const firstEnvClass = first.environmentclass.toLowerCase()
+  const secondEnvClass = second.environmentclass.toLowerCase()
   // environment name can either be in field environment or name depending on payload
-  const firstEnv = first.environment || first.name;
-  const secondEnv = second.environment || second.name;
-  const firstEnvName = splitCharactersAndNumbers(firstEnv.toLowerCase());
-  const secondEnvName = splitCharactersAndNumbers(secondEnv.toLowerCase());
+  const firstEnv = first.environment || first.name
+  const secondEnv = second.environment || second.name
+  const firstEnvName = splitCharactersAndNumbers(firstEnv.toLowerCase())
+  const secondEnvName = splitCharactersAndNumbers(secondEnv.toLowerCase())
 
   if (firstEnvClass !== secondEnvClass) {
-    return firstEnvClass > secondEnvClass ? 1 : -1;
+    return firstEnvClass > secondEnvClass ? 1 : -1
   }
 
   for (let idx = 0; idx < firstEnvName.length; idx++) {
@@ -86,58 +86,58 @@ export function sortEnvironmentsNaturally(first, second) {
       if (!isNaN(firstEnvName[idx]) && !isNaN(secondEnvName[idx])) {
         return parseInt(firstEnvName[idx]) > parseInt(secondEnvName[idx])
           ? 1
-          : -1;
+          : -1
       }
-      return firstEnvName[idx] > secondEnvName[idx] ? 1 : -1;
+      return firstEnvName[idx] > secondEnvName[idx] ? 1 : -1
     }
   }
-  return 0;
+  return 0
 }
 
 export const fetchUrl = (url, noCredentials) => {
-  let headers = {};
+  let headers = {}
   if (!noCredentials)
     headers = {
       credentials: "include",
       mode: "cors",
-    };
+    }
   return fetch(url, headers).then((res) => {
-    const contentType = res.headers.get("content-type");
+    const contentType = res.headers.get("content-type")
     if (res.status >= 400) {
-      const errorMessage = `${res.status}:${res.statusText}`;
-      throw new Error(errorMessage);
+      const errorMessage = `${res.status}:${res.statusText}`
+      throw new Error(errorMessage)
     }
     if (contentType && contentType.indexOf("application/json") !== -1) {
-      return res.json();
+      return res.json()
     }
-    return res.text();
-  });
-};
+    return res.text()
+  })
+}
 
 export const fetchPage = (url) => {
   return fetch(url).then((res) => {
     if (res.status >= 400) {
-      const errorMessage = `${res.status}:${res.statusText}`;
-      throw new Error(errorMessage);
+      const errorMessage = `${res.status}:${res.statusText}`
+      throw new Error(errorMessage)
     }
-    const headers = {};
+    const headers = {}
     for (let header of res.headers.entries()) {
-      headers[header[0]] = header[1];
+      headers[header[0]] = header[1]
     }
 
     return res.json().then((data) => {
       return {
         data,
         headers,
-      };
-    });
-  });
-};
+      }
+    })
+  })
+}
 
 export const putUrl = (url, content, comment) => {
-  let headers = { "Content-Type": "application/json" };
+  let headers = { "Content-Type": "application/json" }
   if (comment && comment.length > 0) {
-    headers = Object.assign({}, headers, { "X-Comment": comment });
+    headers = Object.assign({}, headers, { "X-Comment": comment })
   }
   return fetch(url, {
     headers,
@@ -146,21 +146,21 @@ export const putUrl = (url, content, comment) => {
     mode: "cors",
     body: JSON.stringify(content),
   }).then((res) => {
-    let text = res.text();
+    let text = res.text()
     if (res.status >= 400) {
       return text.then((err) => {
-        const errorMessage = `${res.status}:${res.statusText}\n${err}`;
-        throw new Error(errorMessage);
-      });
+        const errorMessage = `${res.status}:${res.statusText}\n${err}`
+        throw new Error(errorMessage)
+      })
     }
-    return text;
-  });
-};
+    return text
+  })
+}
 
 export const postUrl = (url, form, comment) => {
-  let headers = { "Content-Type": "application/json" };
+  let headers = { "Content-Type": "application/json" }
   if (comment && comment.length > 0) {
-    headers = Object.assign({}, headers, { "X-Comment": comment });
+    headers = Object.assign({}, headers, { "X-Comment": comment })
   }
   return fetch(url, {
     headers,
@@ -169,25 +169,25 @@ export const postUrl = (url, form, comment) => {
     mode: "cors",
     body: JSON.stringify(form),
   }).then((res) => {
-    let text = res.text();
+    let text = res.text()
     if (res.status >= 400) {
       return text.then((err) => {
-        const errorMessage = `${res.status}:${res.statusText}\n${err}`;
-        throw new Error(errorMessage);
-      });
+        const errorMessage = `${res.status}:${res.statusText}\n${err}`
+        throw new Error(errorMessage)
+      })
     }
-    return res;
-  });
-};
+    return res
+  })
+}
 
 export const sortBy = (property) => {
   return function (a, b) {
     if (a[property] === b[property]) {
-      return 0;
+      return 0
     }
-    return a[property] < b[property] ? -1 : 1;
-  };
-};
+    return a[property] < b[property] ? -1 : 1
+  }
+}
 
 export const postForm = (url, body) => {
   return fetch(url, {
@@ -197,40 +197,40 @@ export const postForm = (url, body) => {
     body,
   }).then((res) => {
     if (res.status >= 400) {
-      const errorMessage = `${res.status}:${res.statusText}`;
-      throw new Error(errorMessage);
+      const errorMessage = `${res.status}:${res.statusText}`
+      throw new Error(errorMessage)
     }
-    return res.text();
-  });
-};
+    return res.text()
+  })
+}
 export const deleteUrl = (url, comment) => {
-  let headers = { "Content-Type": "application/json" };
+  let headers = { "Content-Type": "application/json" }
   if (comment && comment.length > 0) {
-    headers = Object.assign({}, headers, { "X-Comment": comment });
+    headers = Object.assign({}, headers, { "X-Comment": comment })
   }
   return fetch(url, {
     headers,
     credentials: "include",
     method: "DELETE",
   }).then((res) => {
-    let text = res.text();
+    let text = res.text()
     if (res.status >= 400) {
       return text.then((err) => {
-        const errorMessage = `${res.status}:${res.statusText}\n${err}`;
-        throw new Error(errorMessage);
-      });
+        const errorMessage = `${res.status}:${res.statusText}\n${err}`
+        throw new Error(errorMessage)
+      })
     }
-    return text;
-  });
-};
+    return text
+  })
+}
 export const sortSearchResults = (results) => {
   return results.sort((a, b) => {
     if (a.type < b.type) {
-      return -1;
+      return -1
     }
     if (a.type > b.type) {
-      return 1;
+      return 1
     }
-    return 0;
-  });
-};
+    return 0
+  })
+}
