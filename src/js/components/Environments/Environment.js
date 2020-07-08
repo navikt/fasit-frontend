@@ -13,9 +13,9 @@ export class Environment extends Component {
     super(props)
 
     this.state = {
-      displaySubmitForm: false,
+      //displaySubmitForm: false,
       displayDeleteForm: false,
-      editMode: false,
+      //editMode: false,
     }
   }
 
@@ -23,11 +23,9 @@ export class Environment extends Component {
     this.setState({ [component]: !this.state[component] })
   }
 
-  handleDelete(id, form, comment, component) {
+  handleDelete(id) {
     const { dispatch } = this.props
-
     this.toggleComponentDisplay("displayDeleteForm")
-
     dispatch(deleteElement(id, "environment"))
   }
 
@@ -53,9 +51,8 @@ export class Environment extends Component {
   }
 
   render() {
-    const { environment, user, dispatch, resourceModalVisible } = this.props
+    const { environment, user, resourceModalVisible } = this.props
 
-    const { comment, editMode } = this.state
     const envName = environment.name
     const envClass = environment.environmentclass
     let lifecycle = {}
