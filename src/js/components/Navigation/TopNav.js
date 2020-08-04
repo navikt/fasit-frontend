@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import Popover from "react-bootstrap/Popover"
-import OverlayTrigger from "react-bootstrap/OverlayTrigger"
+import DropdownButton from "react-bootstrap/DropdownButton"
+import Dropdown from "react-bootstrap/Dropdown"
 import { connect } from "react-redux"
 import { Login, NavSearch } from "../common/"
 import ContextMenu from "./ContextMenu"
@@ -10,7 +10,6 @@ import {
   getUser,
   displayLogin,
 } from "../../actionCreators/authentication"
-import { displayModal } from "../../actionCreators/common"
 
 class TopNav extends Component {
   constructor(props) {
@@ -26,25 +25,7 @@ class TopNav extends Component {
     return (
       <ul className="nav  navbar-right">
         {/* Nytt element*/}
-        {user.authenticated ? (
-          <li>
-            <OverlayTrigger
-              trigger="click"
-              placement="bottom"
-              id="toolsOverlay"
-              overlay={this.toolsOverlay()}
-            >
-              <button
-                variant="success"
-                type="button"
-                className="btn btn-sm  btn-link topnav-buttons"
-                style={{ marginTop: 19, marginRight: 5 }}
-              >
-                New
-              </button>
-            </OverlayTrigger>
-          </li>
-        ) : null}
+        {user.authenticated ? this.toolsOverlay() : null}
 
         {/* Logg inn eller brukermeny*/}
         {!user.authenticated ? (
@@ -61,6 +42,9 @@ class TopNav extends Component {
         ) : (
           <React.Fragment>
             <li>
+              <div className="username">{user.displayname}</div>
+            </li>
+            <li>
               <button
                 type="button"
                 className={"btn btn-sm  btn-link topnav-buttons"}
@@ -69,9 +53,6 @@ class TopNav extends Component {
               >
                 Log out
               </button>
-            </li>
-            <li>
-              <div className="username">{user.displayname}</div>
             </li>
           </React.Fragment>
         )}
@@ -82,18 +63,16 @@ class TopNav extends Component {
   toolsOverlay() {
     const { dispatch } = this.props
     return (
-      <Popover id="tools" style={{ opacity: 1 }}>
-        <Popover.Content>
-          <ul className="topnav-menu topnav-menu-selector">
-            <li onClick={() => dispatch(displayModal("resource", true))}>
-              Create resource
-            </li>
-            <li onClick={() => dispatch(displayModal("application", true))}>
-              Create application
-            </li>
-          </ul>
-        </Popover.Content>
-      </Popover>
+      <li>
+        <DropdownButton
+          id="dropdown-basic-button"
+          title="New... "
+          style={{ marginTop: 19, marginRight: 5 }}
+        >
+          <Dropdown.Item href="/new/application">Application</Dropdown.Item>
+          <Dropdown.Item href="#/action-1">Resource</Dropdown.Item>
+        </DropdownButton>
+      </li>
     )
   }
 

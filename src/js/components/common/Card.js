@@ -1,7 +1,6 @@
 import React from "react"
 import { colors } from "../../commonStyles/commonInlineStyles"
 import { Link } from "react-router-dom"
-import { pink } from "@material-ui/core/colors"
 
 const cardStyle = {
   boxShadow: "0 1px 6px 0 rgba(0,0,0,0.2)",

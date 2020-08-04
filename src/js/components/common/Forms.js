@@ -1,14 +1,15 @@
-import React, { Component, PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import Select, { Creatable } from "react-select"
 import { Tooltip, OverlayTrigger } from "react-bootstrap"
 import { Link } from "react-router"
 import { capitalize } from "../../utils/"
-import SelectField from "material-ui/SelectField"
-import MenuItem from "material-ui/MenuItem"
-import TextField from "material-ui/TextField"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+//import SelectField from "material-ui/SelectField"
+//import MenuItem from "material-ui/MenuItem"
+//import TextField from "material-ui/TextField"
+//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-const copyToClipboard = element => {
+const copyToClipboard = (element) => {
   let el = document.getElementById(element)
   let range = document.createRange()
   range.selectNodeContents(el)
@@ -23,11 +24,11 @@ const overlayProps = {
   placement: "right",
   trigger: "click",
   rootClose: true,
-  overlay: <Tooltip id="copied">Copied to clipboard</Tooltip>
+  overlay: <Tooltip id="copied">Copied to clipboard</Tooltip>,
 }
 
 function convertToSelectObject(values) {
-  return values.map(value => {
+  return values.map((value) => {
     return { value: value, label: value }
   })
 }
@@ -36,7 +37,7 @@ const floatingLabelStyle = { color: "#757575", fontSize: "16px" }
 const underlineFocusStyle = { borderBottomColor: "#268bd2" }
 const floatingLabelFocusStyle = { color: "#268bd2", fontSize: "16px" }
 
-export function MaterialDropDown(props) {
+/*export function MaterialDropDown(props) {
   const { label, field, value, options, onChange, fullWidth } = props
 
   return (
@@ -58,9 +59,9 @@ export function MaterialDropDown(props) {
       ))}
     </SelectField>
   )
-}
+}*/
 
-export function MaterialTextBox(props) {
+/*export function MaterialTextBox(props) {
   const { label, field, value, onChange, fullWidth, hintText, ...other } = props
 
   return (
@@ -78,9 +79,9 @@ export function MaterialTextBox(props) {
       {...other}
     />
   )
-}
+}*/
 
-export function MaterialTextArea(props) {
+/*export function MaterialTextArea(props) {
   const { label, field, value, onChange, fullWidth, ...other } = props
 
   return (
@@ -98,7 +99,7 @@ export function MaterialTextArea(props) {
       {...other}
     />
   )
-}
+}*/
 
 export function FormCreatableList(props) {
   const { label, value, editMode, handleChange, parent } = props
@@ -116,8 +117,12 @@ export function FormCreatableList(props) {
             className="text-left"
             placeholder="Start typing..."
             value={convertToSelectObject(value)}
-            onChange={e =>
-              handleChange(label, e.map(item => item.value), parent)
+            onChange={(e) =>
+              handleChange(
+                label,
+                e.map((item) => item.value),
+                parent
+              )
             }
           />
         ) : (
@@ -152,8 +157,12 @@ export function FormListBox(props) {
             multi={true}
             value={convertToSelectObject(value)}
             options={convertToSelectObject(options)}
-            onChange={e =>
-              handleChange(field || label, e.map(item => item.value), parent)
+            onChange={(e) =>
+              handleChange(
+                field || label,
+                e.map((item) => item.value),
+                parent
+              )
             }
           />
         ) : value.length > 0 ? (
@@ -182,7 +191,7 @@ export function FormDropDown(props) {
     handleChange,
     options,
     field,
-    parent
+    parent,
   } = props
   return (
     <div className="row">
@@ -199,7 +208,7 @@ export function FormDropDown(props) {
             disabled={disabled}
             value={value}
             options={convertToSelectObject(options)}
-            onChange={e => handleChange(field || label, e.value, parent)}
+            onChange={(e) => handleChange(field || label, e.value, parent)}
           />
         ) : (
           <OverlayTrigger {...overlayProps}>
@@ -227,7 +236,7 @@ export function FormLinkDropDown(props) {
     options,
     field,
     parent,
-    linkTo
+    linkTo,
   } = props
   return (
     <div className="row">
@@ -244,7 +253,7 @@ export function FormLinkDropDown(props) {
             disabled={disabled}
             value={value}
             options={convertToSelectObject(options)}
-            onChange={e => handleChange(field || label, e.value, parent)}
+            onChange={(e) => handleChange(field || label, e.value, parent)}
           />
         ) : (
           <Link to={props.linkTo}>{value}</Link>
@@ -262,7 +271,7 @@ export function FormLink(props) {
     handleChange,
     disabled,
     field,
-    linkTo
+    linkTo,
   } = props
   return (
     <div className="row">
@@ -275,7 +284,9 @@ export function FormLink(props) {
             type="text"
             value={value || ""}
             className="FormInputField FormString-value"
-            onChange={e => handleChange(field || label, e.target.value, parent)}
+            onChange={(e) =>
+              handleChange(field || label, e.target.value, parent)
+            }
           />
         ) : (
           <span className="FormValue">
@@ -291,36 +302,22 @@ export function FormString(props) {
   const {
     label,
     value,
-    editMode,
+    // editMode,
     handleChange,
-    disabled,
+    //disabled,
     field,
-    parent
+    parent,
   } = props
   return (
-    <div className="row">
-      <div className="col-md-3 FormLabel">
-        <b>{capitalize(label)}:</b>
-      </div>
-      <div className="col-md-9">
-        {editMode && !disabled ? (
-          <input
-            type="text"
-            value={value || ""}
-            className="FormInputField FormString-value"
-            onChange={e => handleChange(field || label, e.target.value, parent)}
-          />
-        ) : (
-          <OverlayTrigger {...overlayProps}>
-            <span
-              className="FormValue"
-              id={label}
-              onClick={() => copyToClipboard(label)}
-            >
-              {value}
-            </span>
-          </OverlayTrigger>
-        )}
+    <div className="formPadding">
+      <div>{capitalize(label)}</div>
+      <div>
+        <input
+          type="text"
+          value={value || ""}
+          className="FormInputField FormString-value"
+          onChange={(e) => handleChange(field || label, e.target.value, parent)}
+        />
       </div>
     </div>
   )
@@ -330,36 +327,22 @@ export function FormTextArea(props) {
   const {
     label,
     value,
-    editMode,
+    // editMode,
     handleChange,
-    disabled,
+    // disabled,
     field,
-    parent
+    parent,
   } = props
   return (
-    <div className="row">
-      <div className="col-md-3 FormLabel">
-        <b>{capitalize(label)}:</b>
-      </div>
-      <div className="col-md-9">
-        {editMode && !disabled ? (
-          <textarea
-            value={value || ""}
-            rows="10"
-            className="TextAreaInputField FormString-value"
-            onChange={e => handleChange(field || label, e.target.value, parent)}
-          />
-        ) : (
-          <OverlayTrigger {...overlayProps}>
-            <span
-              className="FormValue"
-              id={label}
-              onClick={() => copyToClipboard(label)}
-            >
-              {value}
-            </span>
-          </OverlayTrigger>
-        )}
+    <div className="formPadding">
+      <div>{capitalize(label)}</div>
+      <div>
+        <textarea
+          value={value || ""}
+          rows="10"
+          className="TextAreaInputField FormString-value"
+          onChange={(e) => handleChange(field || label, e.target.value, parent)}
+        />
       </div>
     </div>
   )
@@ -368,17 +351,15 @@ export function FormTextArea(props) {
 export function FormComment(props) {
   const { value, handleChange } = props
   return (
-    <div className="row">
-      <div className="col-md-3 FormLabel text-left">
-        <b>Comment</b>
-      </div>
-      <div className="col-xs-9">
+    <div className="formPadding">
+      <div>Comment</div>
+      <div>
         <textarea
           type="text"
           className="TextAreaInputField FormString-value"
           style={{ height: 85 + "px" }}
           value={value}
-          onChange={e => handleChange("comment", e.target.value)}
+          onChange={(e) => handleChange("comment", e.target.value)}
         />
       </div>
     </div>
