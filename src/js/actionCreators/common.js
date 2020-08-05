@@ -7,7 +7,7 @@ import {
   DELETE_ELEMENT,
   SUBMIT_NAV_SEARCH,
   SUBMIT_SEARCH,
-  UPDATE_CLUSTER_DRAFT,
+  //UPDATE_CLUSTER_DRAFT,
 } from "../actionTypes"
 
 export const submitForm = (key, form, comment, component) => {
@@ -33,9 +33,9 @@ export const submitNavSearch = (query) => {
   return { type: SUBMIT_NAV_SEARCH, query }
 }
 
-export const updateClusterDraft = (field, value) => {
+/*export const updateClusterDraft = (field, value) => {
   return { type: UPDATE_CLUSTER_DRAFT, field, value }
-}
+}*/
 
 export const setSearchString = (query) => {
   return { type: SET_NAVSEARCH_QUERY, value: query }
