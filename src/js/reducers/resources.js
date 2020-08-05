@@ -3,7 +3,6 @@ import {
   RESOURCES_LIST_FETCHING,
   RESOURCES_LIST_RECEIVED,
   RESOURCES_LIST_FAILED,
-  SHOW_NEW_RESOURCE_FORM,
 } from "../actionTypes"
 
 export const initialState = {
