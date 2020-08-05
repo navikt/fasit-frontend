@@ -6,6 +6,7 @@ import Search from "./components/Search/Search"
 import Applications from "./components/Applications/Applications"
 import Application from "./components/Applications/Application"
 import NewApplicationForm from "./components/Applications/NewApplicationForm"
+import NewResourceForm from "./components/Resources/NewResourceForm"
 import Nodes from "./components/Nodes/Nodes"
 import Node from "./components/Nodes/Node"
 import Environments from "./components/Environments/Environments"
@@ -20,11 +21,17 @@ import NotFound from "./components/NotFound"
 export const Routes = () => {
   return (
     <Switch>
-      {<Route exact path="/" component={Search} />}
-      {<Route path="/search/:query?" component={Search} />}
-      {<Route exact path="/nodes/" component={Nodes} />}
-      {<Route exact path="/nodes/:node?" component={Node} />}
-      {<Route exact path="/new/application" component={NewApplicationForm} />}
+      <Route exact path="/" component={Search} />
+      <Route path="/search/:query?" component={Search} />
+      <Route exact path="/nodes/" component={Nodes} />
+      <Route exact path="/nodes/:node?" component={Node} />
+      <Route exact path="/new/application" component={NewApplicationForm} />
+      <Route exact path="/new/resource" component={NewResourceForm} />
+      <Route
+        exact
+        path="/modify/resource/:resource"
+        component={NewResourceForm}
+      />
       <Route
         path="/environments/:environment/clusters/:clusterName?"
         component={EnvironmentCluster}

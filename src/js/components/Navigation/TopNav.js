@@ -70,7 +70,7 @@ class TopNav extends Component {
           style={{ marginTop: 19, marginRight: 5 }}
         >
           <Dropdown.Item href="/new/application">Application</Dropdown.Item>
-          <Dropdown.Item href="#/action-1">Resource</Dropdown.Item>
+          <Dropdown.Item href="/new/resource">Resource</Dropdown.Item>
         </DropdownButton>
       </li>
     )

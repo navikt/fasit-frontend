@@ -33,53 +33,13 @@ function convertToSelectObject(values) {
   })
 }
 
+function mapToValueObject(value) {
+  return value ? { label: value, value } : null
+}
+
 const floatingLabelStyle = { color: "#757575", fontSize: "16px" }
 const underlineFocusStyle = { borderBottomColor: "#268bd2" }
 const floatingLabelFocusStyle = { color: "#268bd2", fontSize: "16px" }
-
-/*export function MaterialDropDown(props) {
-  const { label, field, value, options, onChange, fullWidth } = props
-
-  return (
-    <SelectField
-      fullWidth={fullWidth === undefined ? true : fullWidth}
-      value={value}
-      floatingLabelStyle={floatingLabelStyle}
-      floatingLabelFixed={true}
-      id={field}
-      onChange={(e, idx, newValue) => onChange(field, newValue)}
-      floatingLabelText={label}
-    >
-      {options.map((option, idx) => (
-        <MenuItem
-          key={idx}
-          value={option}
-          primaryText={option || `All ${field}s`}
-        />
-      ))}
-    </SelectField>
-  )
-}*/
-
-/*export function MaterialTextBox(props) {
-  const { label, field, value, onChange, fullWidth, hintText, ...other } = props
-
-  return (
-    <TextField
-      id={field}
-      floatingLabelText={label}
-      fullWidth={fullWidth === undefined ? true : fullWidth}
-      underlineFocusStyle={underlineFocusStyle}
-      floatingLabelFocusStyle={floatingLabelFocusStyle}
-      floatingLabelStyle={floatingLabelStyle}
-      floatingLabelFixed={hintText ? true : false}
-      hintText={hintText || null}
-      value={value || ""}
-      onChange={(event, newValue) => onChange(event.target.id, newValue)}
-      {...other}
-    />
-  )
-}*/
 
 /*export function MaterialTextArea(props) {
   const { label, field, value, onChange, fullWidth, ...other } = props
@@ -193,34 +153,21 @@ export function FormDropDown(props) {
     field,
     parent,
   } = props
+
   return (
-    <div className="row">
-      <div className="col-md-3 FormLabel">
-        <b>{capitalize(label)}:</b>
-      </div>
-      <div className="col-md-9 FormDropDown">
-        {editMode ? (
-          <Select
-            backspaceRemoves={false}
-            clearable={false}
-            type="text"
-            name="node-type"
-            disabled={disabled}
-            value={value}
-            options={convertToSelectObject(options)}
-            onChange={(e) => handleChange(field || label, e.value, parent)}
-          />
-        ) : (
-          <OverlayTrigger {...overlayProps}>
-            <span
-              className="FormValue"
-              id={label}
-              onClick={() => copyToClipboard(label)}
-            >
-              {value}
-            </span>
-          </OverlayTrigger>
-        )}
+    <div className="formPadding">
+      <div>{capitalize(label)}</div>
+      <div>
+        <Select
+          backspaceRemoves={false}
+          clearable={false}
+          type="text"
+          name="node-type"
+          disabled={disabled}
+          value={mapToValueObject(value)}
+          options={convertToSelectObject(options)}
+          onChange={(e) => handleChange(field || label, e.value, parent)}
+        />
       </div>
     </div>
   )
@@ -307,6 +254,7 @@ export function FormString(props) {
     //disabled,
     field,
     parent,
+    hintText,
   } = props
   return (
     <div className="formPadding">
@@ -316,6 +264,7 @@ export function FormString(props) {
           type="text"
           value={value || ""}
           className="FormInputField FormString-value"
+          placeholder={hintText}
           onChange={(e) => handleChange(field || label, e.target.value, parent)}
         />
       </div>
@@ -362,6 +311,27 @@ export function FormComment(props) {
           onChange={(e) => handleChange("comment", e.target.value)}
         />
       </div>
+    </div>
+  )
+}
+
+export function FormSubmitButton(props) {
+  const { disabled, handleChange } = props
+  return (
+    <div style={{ paddingTop: "1rem" }}>
+      {disabled ? (
+        <button type="submit" className="btn btn-primary pull-right disabled">
+          Submit
+        </button>
+      ) : (
+        <button
+          type="submit"
+          className="btn btn-primary pull-right"
+          onClick={() => handleChange()}
+        >
+          Submit
+        </button>
+      )}
     </div>
   )
 }

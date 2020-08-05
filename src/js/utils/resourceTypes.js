@@ -1,20 +1,20 @@
-import React from "react";
+import React from "react"
 
-import ResourceTypeProperty from "./ResourceTypeProperty";
+import ResourceTypeProperty from "./ResourceTypeProperty"
 
 export const getResourceTypeName = function (type) {
   const filteredType = Object.keys(resourceTypes).filter(
     (t) => t.toLowerCase() === type.toLowerCase()
-  );
-  return filteredType[0] || "Unknown type";
-};
+  )
+  return filteredType[0] || ""
+}
 
 const getResourceType = function (type) {
   const filteredType = Object.keys(resourceTypes).filter(
     (t) => t.toLowerCase() === type
-  );
-  return resourceTypes[filteredType];
-};
+  )
+  return resourceTypes[filteredType]
+}
 
 export const resourceTypes = {
   DataSource: {
@@ -215,10 +215,10 @@ export const resourceTypes = {
       textbox("queueManager", "Queue manager", false),
     ],
   },
-};
+}
 
 function capitalize(str) {
-  return "" + str.charAt(0).toUpperCase() + str.slice(1);
+  return "" + str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 function textbox(name, displayName, required = true) {
@@ -227,7 +227,7 @@ function textbox(name, displayName, required = true) {
     name,
     displayName || capitalize(name),
     required
-  );
+  )
 }
 
 function link(name, displayName, linkTitle, required = true) {
@@ -236,9 +236,9 @@ function link(name, displayName, linkTitle, required = true) {
     name,
     displayName || capitalize(name),
     required
-  );
-  property.linktTitle = linkTitle;
-  return property;
+  )
+  property.linktTitle = linkTitle
+  return property
 }
 
 function textarea(name, displayName, required = true) {
@@ -247,7 +247,7 @@ function textarea(name, displayName, required = true) {
     name,
     displayName || capitalize(name),
     required
-  );
+  )
 }
 
 function secret(name, displayName, required = true) {
@@ -256,7 +256,7 @@ function secret(name, displayName, required = true) {
     name,
     displayName || capitalize(name),
     required
-  );
+  )
 }
 
 function dropdown(name, displayName, options) {
@@ -264,9 +264,9 @@ function dropdown(name, displayName, options) {
     "dropdown",
     name,
     displayName || capitalize(name)
-  );
-  property.options = options;
-  return property;
+  )
+  property.options = options
+  return property
 }
 
 function file(name, displayName, required = false) {
@@ -275,9 +275,9 @@ function file(name, displayName, required = false) {
     name,
     displayName || capitalize(name),
     required
-  );
+  )
 }
 
 function vaultPath(name) {
-  return new ResourceTypeProperty("vaultPath", name, capitalize(name), true);
+  return new ResourceTypeProperty("vaultPath", name, capitalize(name), true)
 }

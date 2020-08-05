@@ -1,10 +1,12 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import { FormComment, FormString } from "../common/Forms"
+import { FormComment, FormString, FormSubmitButton } from "../common/Forms"
+import LoginRequiredPanel from "../common/LoginRequiredPanel"
 import { Card } from "../common/Card"
 import { submitForm } from "../../actionCreators/common"
 import Alert from "react-bootstrap/Alert"
+import { colors, styles } from "../../commonStyles/commonInlineStyles"
 
 export class NewApplicationForm extends Component {
   constructor(props) {
@@ -38,32 +40,19 @@ export class NewApplicationForm extends Component {
   showSubmitButton() {
     const { name, artifactid, groupid, portoffset } = this.state
 
-    if (
+    const enabled =
       name &&
       artifactid &&
       groupid &&
       portoffset !== undefined &&
       portoffset !== "" &&
       !isNaN(portoffset)
-    ) {
-      return (
-        <div style={{ overflow: "hidden", paddingBottom: "1rem" }}>
-          <button
-            type="submit"
-            className="btn btn-primary pull-right"
-            onClick={this.handleSubmitForm.bind(this, true)}
-          >
-            Submit
-          </button>
-        </div>
-      )
-    }
+
     return (
-      <div style={{ overflow: "hidden", paddingBottom: "1rem" }}>
-        <button type="submit" className="btn btn-primary pull-right disabled">
-          Submit
-        </button>
-      </div>
+      <FormSubmitButton
+        handleChange={this.handleSubmitForm.bind(this, true)}
+        disabled={!enabled}
+      />
     )
   }
 
@@ -105,39 +94,44 @@ export class NewApplicationForm extends Component {
   }
 
   render() {
-    return (
-      <div className="col-md-6">
-        {this.showNewApplicationAlert()}
-        <Card title="New application">
-          <FormString
-            label="name"
-            value={this.state.name}
-            handleChange={this.handleChange.bind(this)}
-          />
-          <FormString
-            label="groupid"
-            value={this.state.groupid}
-            handleChange={this.handleChange.bind(this)}
-          />
-          <FormString
-            label="artifactid"
-            value={this.state.artifactid}
-            handleChange={this.handleChange.bind(this)}
-          />
-          <FormString
-            label="portoffset"
-            value={this.state.portoffset.toString()}
-            handleChange={this.handleChange.bind(this)}
-          />
+    if (!this.props.user.authenticated) {
+      return <LoginRequiredPanel />
+    } else {
+      return (
+        <div className="col-md-6">
+          {this.showNewApplicationAlert()}
+          <div className="col-md-6" style={styles.cardPadding}>
+            <h3>New application</h3>
+            <FormString
+              label="name"
+              value={this.state.name}
+              handleChange={this.handleChange.bind(this)}
+            />
+            <FormString
+              label="groupid"
+              value={this.state.groupid}
+              handleChange={this.handleChange.bind(this)}
+            />
+            <FormString
+              label="artifactid"
+              value={this.state.artifactid}
+              handleChange={this.handleChange.bind(this)}
+            />
+            <FormString
+              label="portoffset"
+              value={this.state.portoffset.toString()}
+              handleChange={this.handleChange.bind(this)}
+            />
 
-          <FormComment
-            value={this.state.comment}
-            handleChange={this.handleChange.bind(this)}
-          />
-          <div className="formPadding">{this.showSubmitButton()}</div>
-        </Card>
-      </div>
-    )
+            <FormComment
+              value={this.state.comment}
+              handleChange={this.handleChange.bind(this)}
+            />
+            <div className="formPadding">{this.showSubmitButton()}</div>
+          </div>
+        </div>
+      )
+    }
   }
 }
 NewApplicationForm.propTypes = {
@@ -149,6 +143,7 @@ const mapStateToProps = (state) => {
     showNewApplicationForm: state.applications.showNewApplicationForm,
     application: state.application_fasit.data,
     mode: state.applications.mode,
+    user: state.user,
   }
 }
 
