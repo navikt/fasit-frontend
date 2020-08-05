@@ -187,7 +187,7 @@ app.delete("/mockapi/v2/resources/:id", (req, res) => {
 })
 
 app.post("/mockapi/v2/resources", (req, res) => {
-  res.sendStatus(200)
+  res.location("/mockapi/v2/resources/69").sendStatus(200)
 })
 
 app.put("/mockapi/v2/resources/:id", (req, res) => {
