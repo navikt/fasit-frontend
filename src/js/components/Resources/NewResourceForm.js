@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { colors, styles } from "../../commonStyles/commonInlineStyles"
+import { styles } from "../../commonStyles/commonInlineStyles"
 import { connect } from "react-redux"
 import {
   FormComment,
@@ -8,7 +8,6 @@ import {
   FormString,
   FormDropDown,
 } from "../common/Forms"
-import { Card } from "../common/Card"
 /*import {
   colors,
   icons,
@@ -266,47 +265,21 @@ class NewResourceForm extends Component {
           )
         }*/
       case "file":
-        return null
-        /*return (
-          <div
-            className="row"
-            key={key}
-            style={{ display: "flex", paddingTop: "10px", marginLeft: "2px" }}
-          >
-            <RaisedButton
-              backgroundColor={colors.avatarBackgroundColor}
-              labelColor={colors.white}
-              containerElement="label"
-              disableTouchRipple={true}
-              label={`Upload ${label}`}
-              icon={icons.fileUpload}
-              onChange={event => this.handleFileUpload(key, event)}
-            >
-              <input type="file" style={{ display: "none" }} multiple={false} />
-            </RaisedButton>
-            {this.displayValidationError(
-              currentFiles[key],
-              property.required
-            ) ? (
-              <div
-                style={styleSet([
-                  styles.marginLeft5,
-                  styles.red,
-                  styles.paddingTop5
-                ])}
-              >
-                Required file
-              </div>
-            ) : null}
+        return (
+          <div style={{ paddingTop: "1rem" }} key={key}>
+            <label htmlFor="fileupload">{`Upload ${label}`}</label>
+            <input
+              type="file"
+              id="fileupload"
+              onChange={(event) => this.handleFileUpload(key, event)}
+              multiple={false}
+            />
+
             {this.state.currentFiles[key] && (
-              <Chip style={styles.marginLeft5}>
-                {icons.fileAvatar}
-                {this.state.currentFiles[key].name}
-              </Chip>
+              <div>{this.state.currentFiles[key].name}</div>
             )}
           </div>
-        )*/
-        break
+        )
       default:
         return <div>Unknown resource type {property.type}</div>
     }
