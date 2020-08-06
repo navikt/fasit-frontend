@@ -8,13 +8,6 @@ import {
   FormString,
   FormDropDown,
 } from "../common/Forms"
-/*import {
-  colors,
-  icons,
-  styles,
-  styleSet
-} from "../../commonStyles/commonInlineStyles"*/
-import { capitalize } from "../../utils"
 import { submitForm } from "../../actionCreators/common"
 import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes"
 import Scope from "./Scope"
@@ -55,14 +48,6 @@ class NewResourceForm extends Component {
         scope,
         files,
         currentSecrets: next.currentSecrets,
-      })
-    } else if (next.mode === "copy") {
-      this.setState({
-        alias,
-        type,
-        properties,
-        scope,
-        files,
       })
     } else {
       this.resetLocalState()
@@ -111,7 +96,6 @@ class NewResourceForm extends Component {
       alias,
       type,
       properties,
-      files,
       comment,
       currentSecrets,
       currentFiles,
@@ -165,44 +149,32 @@ class NewResourceForm extends Component {
     const label = `${property.displayName}${
       property.required === true ? " *" : ""
     }`
-    //const { properties, currentSecrets, currentFiles } = this.state
+    const { properties, currentSecrets, currentFiles } = this.state
+    const currentSecret = currentSecrets[key]
 
-    /*const SecretInput = ({ key, value }) => (
+    const SecretInput = ({ key, value }) => (
       <FormString
         key={key}
         field={key}
-        /*errorText={
-          this.displayValidationError(currentSecrets[key], property.required)
-            ? "Required secret "
-            : null
-        }
         value={value}
         label={label}
-        onChange={(field, newValue) =>
+        handleChange={(field, newValue) =>
           this.handleChange(field, { value: newValue }, "currentSecrets")
         }
       />
-    )*/
+    )
 
-    /* const VaultPathInput = ({ key, value }) => (
+    const VaultPathInput = ({ key, value }) => (
       <FormString
         key={key}
         field={key}
-        errorText={
-          this.displayValidationError(properties[key], property.required)
-            ? "Required property "
-            : null
-        }
         value={value}
-        label={`${label} (Vault Path)`}
-        onChange={(field, newValue) =>
+        label="Vault Path *"
+        handleChange={(field, newValue) =>
           this.handleChange(field, { vaultpath: newValue }, "currentSecrets")
         }
       />
-    )*/
-
-    //const currentSecret = this.state.currentSecrets[key]
-    //console.log("hja", property.type)
+    )
 
     switch (property.type) {
       case "textbox":
@@ -211,7 +183,7 @@ class NewResourceForm extends Component {
             key={key}
             field={key}
             hintText={property.hint}
-            value={this.state.properties[key]}
+            value={properties[key]}
             label={label}
             handleChange={(field, newValue) =>
               this.handleChange(field, newValue, "properties")
@@ -224,7 +196,7 @@ class NewResourceForm extends Component {
           <FormTextArea
             key={key}
             field={key}
-            value={this.state.properties[key]}
+            value={properties[key]}
             label={label}
             handleChange={(field, newValue) =>
               this.handleChange(field, newValue, "properties")
@@ -236,7 +208,7 @@ class NewResourceForm extends Component {
           <FormDropDown
             key={key}
             field={key}
-            value={this.state.properties[key]}
+            value={properties[key]}
             label={label}
             options={property.options}
             handleChange={(field, newValue) =>
@@ -246,8 +218,7 @@ class NewResourceForm extends Component {
         )
       case "secret":
       case "vaultPath":
-        return null
-      /*if (currentSecret == null) {
+        if (currentSecret == null) {
           if (property.type == "vaultPath") {
             return VaultPathInput({ key, value: "" })
           } else {
@@ -263,7 +234,7 @@ class NewResourceForm extends Component {
               Error: Unknown secret format. (Bug in fasit or fasit-frontend)
             </div>
           )
-        }*/
+        }
       case "file":
         return (
           <div style={{ paddingTop: "1rem" }} key={key}>
@@ -274,10 +245,6 @@ class NewResourceForm extends Component {
               onChange={(event) => this.handleFileUpload(key, event)}
               multiple={false}
             />
-
-            {this.state.currentFiles[key] && (
-              <div>{this.state.currentFiles[key].name}</div>
-            )}
           </div>
         )
       default:
@@ -315,7 +282,7 @@ class NewResourceForm extends Component {
   }
 
   render() {
-    const { types, resource, match, user } = this.props
+    const { types, match, user } = this.props
 
     if (!user.initializing && !user.authenticated) {
       return <LoginRequiredPanel />
