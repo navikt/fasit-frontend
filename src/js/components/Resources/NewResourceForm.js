@@ -1,14 +1,8 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { colors, styles } from "../../commonStyles/commonInlineStyles"
-//import { Modal } from "react-bootstrap"
 import { connect } from "react-redux"
-//import RaisedButton from "material-ui/RaisedButton"
-//import FlatButton from "material-ui/FlatButton"
 import {
-  //  MaterialDropDown,
-  //MaterialTextArea,
-  //MaterialTextBox,
   FormComment,
   FormSubmitButton,
   FormString,
@@ -22,9 +16,8 @@ import { Card } from "../common/Card"
   styleSet
 } from "../../commonStyles/commonInlineStyles"*/
 import { capitalize } from "../../utils"
-import { /*displayModal,*/ submitForm } from "../../actionCreators/common"
+import { submitForm } from "../../actionCreators/common"
 import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes"
-//import Chip from "material-ui/Chip"
 import Scope from "./Scope"
 import LoginRequiredPanel from "../common/LoginRequiredPanel"
 
@@ -125,9 +118,6 @@ class NewResourceForm extends Component {
       currentFiles,
     } = this.state
 
-    //if (!this.isValid()) {
-    // this.setState({ validationErrors: true })
-    //} else {
     const scope = this.removeEmpty(this.state.scope)
     const form = {
       alias: alias.trim(),
@@ -170,12 +160,6 @@ class NewResourceForm extends Component {
 
     reader.readAsDataURL(FILE)
   }
-
-  /*displayValidationError(prop, isRequired) {
-    const { validationErrors } = this.state
-
-    return validationErrors && isRequired && (!prop || prop === "")
-  }*/
 
   renderProperty(property) {
     const key = property.name
@@ -227,11 +211,6 @@ class NewResourceForm extends Component {
           <FormString
             key={key}
             field={key}
-            /*errorText={
-              this.displayValidationError(properties[key], property.required)
-                ? "Required property "
-                : null
-            }*/
             hintText={property.hint}
             value={this.state.properties[key]}
             label={label}
@@ -246,11 +225,6 @@ class NewResourceForm extends Component {
           <FormTextArea
             key={key}
             field={key}
-            /*errorText={
-              this.displayValidationError(properties[key], property.required)
-                ? "Required property "
-                : null
-            }*/
             value={this.state.properties[key]}
             label={label}
             handleChange={(field, newValue) =>
@@ -358,11 +332,6 @@ class NewResourceForm extends Component {
           <FormString
             field="alias"
             value={this.state.alias}
-            /*errorText={
-              this.state.validationErrors && !this.state.alias
-                ? "Required property "
-                : null
-            }*/
             label="Alias*"
             handleChange={this.handleChange.bind(this)}
           />
@@ -372,50 +341,15 @@ class NewResourceForm extends Component {
     }
   }
 
-  /*isValid() {
-    function keys(prop) {
-      return Object.keys(prop)
-    }
-
-    if (!this.state.alias) {
-      return false
-    }
-
-    const resourceType = this.getResourceType(this.state.type)
-    const requiredProperties = resourceType.properties
-      .filter(p => p.required)
-      .map(p => p.name)
-    const currentProperties = keys(this.state.properties)
-      .concat(
-        keys(this.state.currentSecrets).concat(keys(this.state.currentFiles))
-      )
-      .filter(
-        prop =>
-          requiredProperties.includes(prop) &&
-          this.state.properties[prop] !== ""
-      )
-
-    return requiredProperties.length === currentProperties.length
-  }*/
-
   render() {
-    if (!this.props.user.authenticated) {
+    const { types, resource, match, user } = this.props
+
+    if (!user.initializing && !user.authenticated) {
       return <LoginRequiredPanel />
     }
 
-    const { types, resource, match } = this.props
     const resourceType = getResourceTypeName(this.state.type)
     const resourceIdToModify = match.params.resource
-
-    if (!this.props.user.authenticated) {
-      return (
-        <div style={{ paddingTop: "1rem" }} className="col-md-6">
-          <Alert transition={false} variant="danger">
-            Please login to use this page
-          </Alert>
-        </div>
-      )
-    }
 
     return (
       <div className="col-md-5" style={styles.cardPadding}>
@@ -428,7 +362,6 @@ class NewResourceForm extends Component {
               label="Type"
               options={types}
               handleChange={this.handleChange.bind(this)}
-              //fullWidth={false}
             />
           </div>
         </div>

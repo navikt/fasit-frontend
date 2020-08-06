@@ -3,10 +3,9 @@ import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import { FormComment, FormString, FormSubmitButton } from "../common/Forms"
 import LoginRequiredPanel from "../common/LoginRequiredPanel"
-import { Card } from "../common/Card"
 import { submitForm } from "../../actionCreators/common"
 import Alert from "react-bootstrap/Alert"
-import { colors, styles } from "../../commonStyles/commonInlineStyles"
+import { styles } from "../../commonStyles/commonInlineStyles"
 
 export class NewApplicationForm extends Component {
   constructor(props) {

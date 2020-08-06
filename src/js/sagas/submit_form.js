@@ -9,9 +9,6 @@ import {
   RESOURCE_FASIT_REQUEST,
   RESOURCE_FASIT_URL_REQUEST,
   REVISIONS_REQUEST,
-  SHOW_NEW_APPLICATION_FORM,
-  SHOW_NEW_NODE_FORM,
-  SHOW_NEW_RESOURCE_FORM,
   SUBMIT_FORM,
   SUBMIT_FORM_FAILED,
   SUBMIT_FORM_SUCCESS,
@@ -28,7 +25,6 @@ export function* submitForm(action) {
       case "newApplication":
         url = `${configuration.fasit_applications}`
         const newApplication = yield postUrl(url, action.form, action.comment)
-        yield put({ type: SHOW_NEW_APPLICATION_FORM, value: false })
         const newApplicationLocation = newApplication.headers.get("Location")
         yield put({
           type: APPLICATION_FASIT_URL_REQUEST,
@@ -39,7 +35,6 @@ export function* submitForm(action) {
       case "newResource":
         url = `${configuration.fasit_resources}`
         const newresource = yield postUrl(url, action.form, action.comment)
-        yield put({ type: SHOW_NEW_RESOURCE_FORM, value: false })
         const newResourceLocation = newresource.headers.get("Location")
         yield put({
           type: RESOURCE_FASIT_URL_REQUEST,
@@ -51,7 +46,6 @@ export function* submitForm(action) {
       case "node":
         url = `${configuration.fasit_nodes}/${action.key}`
         yield putUrl(url, action.form, action.comment)
-        yield put({ type: SHOW_NEW_NODE_FORM, value: false })
         yield browserHistory.push(`/nodes/${action.key}`)
         yield put({ type: NODE_FASIT_REQUEST, hostname: action.key })
         yield put({
@@ -63,7 +57,6 @@ export function* submitForm(action) {
       case "resource":
         url = `${configuration.fasit_resources}/${action.key}`
         yield putUrl(url, action.form, action.comment)
-        yield put({ type: SHOW_NEW_RESOURCE_FORM, value: false })
         yield browserHistory.push(`/resources/${action.key}`)
         yield put({ type: RESOURCE_FASIT_REQUEST, id: action.key })
         yield put({
