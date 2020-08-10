@@ -15,7 +15,6 @@ export const initialState = {
   showEditNodeForm: false,
   showNewNodeForm: false,
   showDeleteNodeForm: false,
-  mode: "new",
 }
 export default (state = initialState, action) => {
   switch (action.type) {

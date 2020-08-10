@@ -80,7 +80,6 @@ export class Application extends Component {
       revisions,
       instances,
     } = this.props
-    const { editMode } = this.state
     const revision = getQueryParam(location.search, "revision")
     let authorized = false
 

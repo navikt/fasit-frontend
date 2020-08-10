@@ -141,7 +141,6 @@ const mapStateToProps = (state) => {
   return {
     showNewApplicationForm: state.applications.showNewApplicationForm,
     application: state.application_fasit.data,
-    mode: state.applications.mode,
     user: state.user,
   }
 }

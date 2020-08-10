@@ -12,7 +12,6 @@ export const initialState = {
   headers: {},
   resourceTypes: [],
   showNewResourceForm: false,
-  mode: "new",
 }
 export default (state = initialState, action) => {
   switch (action.type) {

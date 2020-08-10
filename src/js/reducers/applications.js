@@ -11,7 +11,6 @@ export const initialState = {
   data: [],
   headers: {},
   applicationNames: [],
-  mode: "new",
 }
 export default (state = initialState, action) => {
   switch (action.type) {

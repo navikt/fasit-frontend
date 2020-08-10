@@ -22,7 +22,6 @@ describe("(Component) Application", () => {
   it("sets initial state", () => {
     const wrapper = shallow(<Application {...props} />)
     expect(wrapper.state().displayDeleteForm).to.equal(false)
-    expect(wrapper.state().editMode).to.equal(false)
   })
 
   it('renders "CurrentRevision" with props', () => {
@@ -42,7 +41,6 @@ describe("(Component) Application", () => {
     const wrapper = shallow(<Application {...props} />)
     expect(wrapper.find(ToolButtons)).to.have.length(1)
     expect(wrapper.find(ToolButtons).props().disabled).to.be.falsy
-    expect(wrapper.find(ToolButtons).props().editMode).to.equal(false)
   })
 
   it('renders "Lifecycle" with props', () => {
@@ -103,12 +101,6 @@ describe("(Component) Application", () => {
     const wrapper = shallow(<Application {...props} />)
     wrapper.instance().toggleComponentDisplay("displayDeleteForm")
     expect(wrapper.state().displayDeleteForm).to.equal(true)
-  })
-
-  it('(function) "handleChange" sets new state', () => {
-    const wrapper = shallow(<Application {...props} />)
-    wrapper.instance().handleChange("editMode", true)
-    expect(wrapper.state().editMode).to.equal(true)
   })
 })
 

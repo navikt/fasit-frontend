@@ -14,7 +14,6 @@ export const initialState = {
   environmentClasses: ["u", "t", "q", "p"],
   headers: {},
   environments: [],
-  mode: "new",
 }
 export default (state = initialState, action) => {
   switch (action.type) {

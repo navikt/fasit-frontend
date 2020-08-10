@@ -200,11 +200,6 @@ class Resource extends Component {
     return `${envClass} | ${zone} | ${environment} | ${application}`
   }
 
-  showModal(mode) {
-    const { dispatch } = this.props
-    dispatch(displayModal("resource", true, mode))
-  }
-
   render() {
     const { fasit, match, location, revisions, resource, user } = this.props
     const resourceId = match.params.resource
