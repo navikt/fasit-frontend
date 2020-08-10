@@ -30,11 +30,6 @@ app.get("/config", (req, res) => {
   res.json(config.externalResources)
 })
 
-app.put("/mockapi/v1/lifecycle/:entityTyp/:id", (req, res) => {
-  console.info("lifecycle", req.params)
-  res.sendStatus(201)
-})
-
 app.get("/mockapi/v2/applications/:application", (req, res) => {
   sendJson(res, applicationsMock.getApplication(req.params.application))
 })

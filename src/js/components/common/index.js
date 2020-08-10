@@ -9,16 +9,6 @@ import SubmitForm from "./SubmitForm"
 import SubmitFormStatus from "./SubmitFormStatus"
 import ToolButtons from "./ToolButtons"
 import DeleteElementForm from "./DeleteElementForm"
-/*import {
-  FormComment,
-  FormCreatableList,
-  FormDropDown,
-  FormLink,
-  FormLinkDropDown,
-  FormListBox,
-  FormString,
-  FormTextArea
-} from "./Forms"*/
 
 export {
   CurrentRevision,
@@ -26,15 +16,7 @@ export {
   ElementPaging,
   Spinner,
   ErrorDialog,
-  //FormListBox,
   RevisionsView,
-  // FormLink,
-  // FormDropDown,
-  // FormLinkDropDown,
-  // FormTextArea,
-  // FormComment,
-  // FormCreatableList,
-  //FormString,
   Login,
   NavSearch,
   SubmitFormStatus,

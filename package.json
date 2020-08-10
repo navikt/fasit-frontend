@@ -79,7 +79,8 @@
     ]
   },
   "prettier": {
-    "semi": false
+    "semi": false,
+    "trailingComma": "es5"
   },
   "husky": {
     "hooks": {

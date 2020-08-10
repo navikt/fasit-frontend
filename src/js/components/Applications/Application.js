@@ -82,12 +82,10 @@ export class Application extends Component {
     } = this.props
     const { editMode } = this.state
     const revision = getQueryParam(location.search, "revision")
-    let lifecycle = {}
     let authorized = false
 
     if (Object.keys(application).length > 0) {
       authorized = validAuthorization(user, application.accesscontrol)
-      lifecycle = application.lifecycle
     }
     return isFetching || !application.name ? (
       <Spinner />
