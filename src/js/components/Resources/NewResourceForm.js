@@ -9,9 +9,12 @@ import {
   FormDropDown,
 } from "../common/Forms"
 import { submitForm } from "../../actionCreators/common"
+import { fetchFasitData } from "../../actionCreators/resource"
 import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes"
 import Scope from "./Scope"
 import LoginRequiredPanel from "../common/LoginRequiredPanel"
+import { isEmptyObject } from "../../utils/"
+import Alert from "react-bootstrap/Alert"
 
 class NewResourceForm extends Component {
   constructor(props) {
@@ -37,10 +40,22 @@ class NewResourceForm extends Component {
     }
   }
 
+  componentDidMount() {
+    const { dispatch, match } = this.props
+    if (this.isEditMode()) {
+      dispatch(fetchFasitData(match.params.resource))
+    }
+  }
+
   UNSAFE_componentWillReceiveProps(next) {
-    const { resource } = this.props
+    const { resource, match, dispatch } = this.props
     const { alias, type, properties, scope, files } = resource.data
-    if (next.mode === "edit") {
+
+    if (match.params.resource !== next.match.params.resource) {
+      dispatch(fetchFasitData(next.match.params.resource))
+    }
+
+    if (!isEmptyObject(resource.data) && this.isEditMode()) {
       this.setState({
         alias,
         type,
@@ -49,9 +64,12 @@ class NewResourceForm extends Component {
         files,
         currentSecrets: next.currentSecrets,
       })
-    } else {
-      this.resetLocalState()
     }
+  }
+
+  isEditMode() {
+    const { match } = this.props
+    return match.path.includes("modify")
   }
 
   resetLocalState() {
@@ -91,7 +109,7 @@ class NewResourceForm extends Component {
   }
 
   handleSubmitForm() {
-    const { dispatch, resource, mode } = this.props
+    const { dispatch, resource } = this.props
     const {
       alias,
       type,
@@ -122,13 +140,11 @@ class NewResourceForm extends Component {
         }
       })
     }
-    if (mode === "edit") {
+    if (this.isEditMode()) {
       dispatch(submitForm(resource.data.id, form, comment, "resource"))
     } else {
       dispatch(submitForm(form.alias, form, comment, "newResource"))
-      //this.initialState()
     }
-    // }
   }
 
   handleFileUpload(field, event) {
@@ -153,15 +169,28 @@ class NewResourceForm extends Component {
     const currentSecret = currentSecrets[key]
 
     const SecretInput = ({ key, value }) => (
-      <FormString
-        key={key}
-        field={key}
-        value={value}
-        label={label}
-        handleChange={(field, newValue) =>
-          this.handleChange(field, { value: newValue }, "currentSecrets")
-        }
-      />
+      <React.Fragment key={key}>
+        <FormString
+          key={key}
+          field={key}
+          value={value}
+          label={label}
+          handleChange={(field, newValue) =>
+            this.handleChange(field, { value: newValue }, "currentSecrets")
+          }
+        />
+        {this.isEditMode() ? (
+          <Alert
+            variant="danger"
+            transition={false}
+            style={{ paddingTop: "1rem" }}
+          >
+            Current secret is not viewable. By putting a value in the{" "}
+            {property.displayName.toLowerCase()} field a, new password will be
+            set.{" "}
+          </Alert>
+        ) : null}
+      </React.Fragment>
     )
 
     const VaultPathInput = ({ key, value }) => (
@@ -256,6 +285,7 @@ class NewResourceForm extends Component {
     if (!typeKey) {
       return ""
     }
+
     const key = Object.keys(resourceTypes).filter(
       (resourceType) => resourceType.toLowerCase() === typeKey.toLowerCase()
     )[0]

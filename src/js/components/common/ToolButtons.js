@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-//import Button from "@material-ui/core/Button"
 import Button from "react-bootstrap/Button"
 
 export default class ToolButtons extends Component {
@@ -8,27 +7,28 @@ export default class ToolButtons extends Component {
   }
 
   render() {
-    const {
-      disabled,
-      //onEditClick,
-      onDeleteClick,
-      //onCopyClick,
-      //hideCopyButton,
-      //hideEditButton,
-      hideDeleteButton,
-    } = this.props
+    const { disabled, onEditClick, onDeleteClick, showEditButton } = this.props
     return (
       <div
-        /*className="buttonSpacing"*/ style={{
+        style={{
           paddingBottom: "1rem",
-          //textAlign: "center"
         }}
       >
-        {!hideDeleteButton && (
-          <Button variant="danger" onClick={onDeleteClick} disabled={disabled}>
-            Delete
-          </Button>
-        )}
+        {showEditButton ? (
+          <React.Fragment>
+            <Button
+              variant="primary"
+              onClick={onEditClick}
+              disabled={disabled}
+              style={{ paddingRight: "1rem" }}
+            >
+              Edit
+            </Button>{" "}
+          </React.Fragment>
+        ) : null}
+        <Button variant="danger" onClick={onDeleteClick} disabled={disabled}>
+          Delete
+        </Button>
       </div>
     )
   }

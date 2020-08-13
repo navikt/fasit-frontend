@@ -2,7 +2,8 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import { fetchFasitData } from "../../actionCreators/resource"
-import { displayModal, deleteElement } from "../../actionCreators/common"
+import { deleteElement } from "../../actionCreators/common"
+import browserHistory from "../../utils/browserHistory"
 import { validAuthorization } from "../../utils/"
 import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes"
 import { Card, CardItem } from "../common/Card"
@@ -247,6 +248,10 @@ class Resource extends Component {
               )}
               <ToolButtons
                 disabled={!authorized}
+                showEditButton={true}
+                onEditClick={() =>
+                  browserHistory.push(`/modify/resource/${resourceId}`)
+                }
                 onDeleteClick={() =>
                   this.toggleComponentDisplay("displayDeleteForm")
                 }

@@ -10,7 +10,6 @@ import {
   RESOURCE_FASIT_SECRET_RECEIVED,
   RESOURCE_FASIT_REQUEST_FAILED,
   RESOURCE_FASIT_URL_REQUEST,
-  CLEAR_RESOURCE_SECRET,
   LOGIN_SUCCESS,
 } from "../actionTypes"
 
@@ -21,7 +20,6 @@ export function* fetchFasit(action) {
   yield put({ type: RESOURCE_FASIT_FETCHING })
   try {
     let value = {}
-    yield put({ type: CLEAR_RESOURCE_SECRET })
     if (action.revision) {
       value = yield call(
         fetchUrl,
@@ -31,7 +29,6 @@ export function* fetchFasit(action) {
       value = yield call(fetchUrl, `${resourcesConfig}/${action.id}`)
     }
     yield put({ type: RESOURCE_FASIT_RECEIVED, value })
-    yield put({ type: RESOURCE_FASIT_SECRET_REQUEST })
   } catch (error) {
     yield put({ type: RESOURCE_FASIT_REQUEST_FAILED, error })
   }
@@ -40,11 +37,9 @@ export function* fetchFasit(action) {
 export function* fetchFasitUrl(action) {
   yield put({ type: RESOURCE_FASIT_FETCHING })
   try {
-    yield put({ type: CLEAR_RESOURCE_SECRET })
     const value = yield call(fetchUrl, action.url)
     yield browserHistory.push(`/resources/${value.id}`)
     yield put({ type: RESOURCE_FASIT_RECEIVED, value })
-    yield put({ type: RESOURCE_FASIT_SECRET_REQUEST })
   } catch (error) {
     yield put({ type: RESOURCE_FASIT_REQUEST_FAILED, error })
   }
