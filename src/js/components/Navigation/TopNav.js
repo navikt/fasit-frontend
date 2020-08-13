@@ -61,7 +61,6 @@ class TopNav extends Component {
   }
 
   toolsOverlay() {
-    const { dispatch } = this.props
     return (
       <li>
         <DropdownButton
@@ -83,11 +82,8 @@ class TopNav extends Component {
         <div className="topnav topnav-active">
           <div className="col-sm-1 col-md-2 hidden-xs">
             <div className="topnav-brand-logo-container">
-              <Link to="/">
-                <img
-                  src="/images/aura-ikoner/fasit-white.png"
-                  className="topnav-brand-logo"
-                />
+              <Link to="/" className="topnav-brand-logo">
+                Fasit
               </Link>
             </div>
           </div>
