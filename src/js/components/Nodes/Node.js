@@ -82,11 +82,12 @@ class Node extends Component {
               <CardItem label="Username" value={node.username} />
               <CardItem
                 label="Passord"
-                value="Not visible in GUI, only machines should read this. PLease use a personal user for access to servers."
+                value="Not visible in GUI, only machines should read this. Please use a personal user for access to servers."
               />
+              {this.renderDeploymentManager()}
             </Card>
           </div>
-          {this.renderDeploymentManager()}
+
           <RevisionsView
             id={node.hostname}
             currentRevision={revision}
@@ -104,9 +105,9 @@ class Node extends Component {
 
     if (hasDeploymentManager) {
       return (
-        <CardList>
+        <CardList label="Deployment manager shoutcuts">
           <CardLinkItem
-            label="Deployment manager console"
+            label="Admin console"
             linkTo={`https://${deploymentManager.properties.hostname}:9043/ibm/console`}
           />
           <CardLinkItem
