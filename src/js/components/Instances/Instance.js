@@ -5,14 +5,12 @@ import { Card, CardItem } from "../common/Card"
 import { styles } from "../../commonStyles/commonInlineStyles"
 import Manifest from "./Manifest"
 import { CurrentRevision, RevisionsView } from "../common/"
-import ExpansionPanel from "@material-ui/core/ExpansionPanel"
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import Tabs from "react-bootstrap/Tabs"
+import Tab from "react-bootstrap/Tab"
 import { fetchInstance } from "../../actionCreators/instance"
 import Spinner from "../common/Spinner"
 import { getQueryParam, isEmptyObject } from "../../utils/"
-import CollapsibleResourcePanel from "./CollapsibleResourcePanel"
+import ResourceTable from "./ResourceTable"
 
 class Instance extends Component {
   constructor(props) {
@@ -72,46 +70,7 @@ class Instance extends Component {
                 value={`/environments/${instance.environment}/clusters/${clusterName}`}
                 linkTo={clusterName}
               ></CardItem>
-              <div style={{ paddingTop: "1rem", paddingBottom: "1rem" }}>
-                <ExpansionPanel>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    id="selftests"
-                  >
-                    <b>Selftest urls</b>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <ul style={{ listStyleType: "none" }}>
-                      {instance.selftesturls.map((selftest, idx) => (
-                        <li key={idx}>
-                          <Link to={selftest}>{selftest}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
-
-                <CollapsibleResourcePanel
-                  title={`Used resources (${instance.usedresources.length})`}
-                  resourceList={instance.usedresources}
-                />
-                <CollapsibleResourcePanel
-                  title={`Exposed resources (${instance.exposedresources.length})`}
-                  resourceList={instance.exposedresources}
-                />
-
-                <ExpansionPanel>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    id="appconfig"
-                  >
-                    <b>App-config</b>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <Manifest />
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
-              </div>
+              <div style={{ paddingTop: "1rem", paddingBottom: "1rem" }}></div>
             </Card>
           </div>
           <RevisionsView
@@ -120,6 +79,40 @@ class Instance extends Component {
             component="instance"
             location={location}
           />
+        </div>
+        <div className="row">
+          <div className="col-md-6" style={{ marginLeft: "1rem" }}>
+            <Tabs
+              defaultActiveKey="usedResources"
+              transition={false}
+              id="instance-info"
+            >
+              <Tab eventKey="selftest" title="Selftest urls">
+                <ul style={{ listStyleType: "none" }}>
+                  {instance.selftesturls.map((selftest, idx) => (
+                    <li key={idx}>
+                      <Link to={selftest}>{selftest}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </Tab>
+              <Tab
+                eventKey="usedResources"
+                title={`Used resources (${instance.usedresources.length})`}
+              >
+                <ResourceTable resources={instance.usedresources} />
+              </Tab>
+              <Tab
+                eventKey="exposedResources"
+                title={`Exposed resources (${instance.exposedresources.length})`}
+              >
+                <ResourceTable resources={instance.exposedresources} />
+              </Tab>
+              <Tab eventKey="appconfig" title="App-config">
+                <Manifest />
+              </Tab>
+            </Tabs>
+          </div>
         </div>
       </div>
     )

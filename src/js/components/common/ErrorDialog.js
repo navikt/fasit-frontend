@@ -1,11 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-//import Dialog from 'material-ui/Dialog'
-//import FlatButton from 'material-ui/FlatButton'
-//import {icons} from '../../commonStyles/commonInlineStyles'
 import { clearFormError } from "../../actionCreators/common"
-//import {styles} from '../../commonStyles/commonInlineStyles'
 import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 
