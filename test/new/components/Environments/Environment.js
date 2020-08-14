@@ -3,7 +3,7 @@ import { shallow } from "enzyme"
 import { expect } from "chai"
 import sinon from "sinon"
 import { Environment } from "../../../../src/js/components/Environments/Environment"
-import { Card } from "material-ui/Card"
+//import { Card } from "material-ui/Card"
 import {
   CurrentRevision,
   Lifecycle,
@@ -86,10 +86,10 @@ describe("(Component) Environment", () => {
     expect(wrapper.find(CurrentRevision).props().revisions).to.equal("mus")
   })
 
-  it('renders "Card"', () => {
+  /*it('renders "Card"', () => {
     const wrapper = shallow(<Environment {...props} />)
     expect(wrapper.find(Card)).to.have.length(1)
-  })
+  })*/
 
   it('renders "ToolButtons" with props', () => {
     const wrapper = shallow(<Environment {...props} />)

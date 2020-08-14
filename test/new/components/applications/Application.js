@@ -2,9 +2,9 @@ import React from "react"
 import { shallow } from "enzyme"
 import { expect } from "chai"
 import sinon from "sinon"
-import { Card } from "material-ui/Card"
+//import { Card } from "material-ui/Card"
 import { Application } from "../../../../src/js/components/Applications/Application.js"
-import InstanceCard from "../../../../src/js/components/Instances/InstanceCard"
+//import InstanceCard from "../../../../src/js/components/Instances/InstanceCard"
 import {
   CurrentRevision,
   DeleteElementForm,
@@ -32,10 +32,10 @@ describe("(Component) Application", () => {
     ).to.be.instanceof(Array)
   })
 
-  it('renders "Card"', () => {
+  /* it('renders "Card"', () => {
     const wrapper = shallow(<Application {...props} />)
     expect(wrapper.find(Card)).to.have.length(1)
-  })
+  })*/
 
   it('renders "ToolButtons", not editable or disabled', () => {
     const wrapper = shallow(<Application {...props} />)
@@ -74,13 +74,13 @@ describe("(Component) Application", () => {
     )
   })
 
-  it('renders "InstanceCard" with props', () => {
+  /*it('renders "InstanceCard" with props', () => {
     const wrapper = shallow(<Application {...props} />)
     expect(wrapper.find(InstanceCard)).to.have.length(1)
     expect(wrapper.find(InstanceCard).props().instance.application).to.equal(
       "app1"
     )
-  })
+  })*/
 
   it('(function) "handleSubmitForm" sets new state and dispatches action', () => {
     const dispatch = sinon.spy(() => {})

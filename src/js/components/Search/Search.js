@@ -2,8 +2,10 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import browserHistory from "../../utils/browserHistory"
 import { Card } from "../common/Card"
-import Button from "@material-ui/core/Button"
-import ButtonGroup from "@material-ui/core/ButtonGroup"
+import ButtonToolbar from "react-bootstrap/ButtonToolbar"
+import ButtonGroup from "react-bootstrap/ButtonGroup"
+import Button from "react-bootstrap/Button"
+
 import {
   APPCONFIG,
   CLUSTER,
@@ -88,7 +90,8 @@ class Search extends Component {
     return (
       <Button
         onClick={() => this.filterByType(label)}
-        color={activeFilter === label ? "secondary" : "primary"}
+        variant={activeFilter === label ? "outline-primary" : "primary"}
+        //color={activeFilter === label ? "secondary" : "primary"}
       >
         {label}
       </Button>
@@ -102,16 +105,22 @@ class Search extends Component {
     return (
       <React.Fragment>
         <div style={{ fontWeight: "bold" }}>Filters</div>
-        <ButtonGroup variant="outlined">
-          {this.filterButton("appconfig", activeFilter)}
-          {this.filterButton("application", activeFilter)}
-          {this.filterButton("cluster", activeFilter)}
-          {this.filterButton("environment", activeFilter)}
-          {this.filterButton("instance", activeFilter)}
-          {this.filterButton("node", activeFilter)}
-          {this.filterButton("resource", activeFilter)}
-          <Button onClick={() => this.filterByType()}>Clear</Button>
-        </ButtonGroup>
+        <ButtonToolbar>
+          <ButtonGroup variant="outlined">
+            {this.filterButton("Appconfig", activeFilter)}
+            {this.filterButton("Application", activeFilter)}
+            {this.filterButton("Cluster", activeFilter)}
+            {this.filterButton("Environment", activeFilter)}
+            {this.filterButton("Instance", activeFilter)}
+            {this.filterButton("Node", activeFilter)}
+            {this.filterButton("Resource", activeFilter)}
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button variant="secondary" onClick={() => this.filterByType()}>
+              Clear
+            </Button>
+          </ButtonGroup>
+        </ButtonToolbar>
       </React.Fragment>
     )
   }
