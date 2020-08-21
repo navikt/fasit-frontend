@@ -12,9 +12,6 @@ import TopNav from "../Navigation/TopNav"
 import { SubmitFormStatus, ErrorDialog } from "../common/"
 import "bootswatch/dist/cerulean/bootstrap.min.css"
 import "../../../stylesheets/index.less"
-import buildFontAwesomeLibrary from "../../commonStyles/FontAwesomeIcons"
-
-buildFontAwesomeLibrary()
 
 class App extends Component {
   constructor(props) {

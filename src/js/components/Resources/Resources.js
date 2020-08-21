@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import ResourceCard from "./ResourceCard";
-import ElementPaging from "../common/ElementPaging";
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import ResourceCard from "./ResourceCard"
+import ElementPaging from "../common/ElementPaging"
 
-import Filters from "../Navigation/Filters";
-import Spinner from "../common/Spinner";
-import { fetchRestResourceOfType } from "../../actionCreators/element_lists";
+import Filters from "../Navigation/Filters"
+import Spinner from "../common/Spinner"
+import { fetchRestResourceOfType } from "../../actionCreators/element_lists"
 
 class Resources extends Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchRestResourceOfType("resources"));
+    this.props.dispatch(fetchRestResourceOfType("resources"))
   }
 
   render() {
-    const { resources, totalCount, isFetching, location } = this.props;
+    const { resources, totalCount, isFetching, location } = this.props
     return isFetching ? (
       <Spinner />
     ) : (
@@ -33,7 +33,7 @@ class Resources extends Component {
           </div>
           <div className="row">
             {resources.map((item, index) => {
-              return <ResourceCard resource={item} key={index} />;
+              return <ResourceCard resource={item} key={index} />
             })}
             <div className="col-sm-10">
               <ElementPaging totalCount={totalCount} location={location} />
@@ -41,7 +41,7 @@ class Resources extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -50,7 +50,7 @@ const mapStateToProps = (state) => {
     resources: state.resources.data,
     totalCount: state.resources.headers.total_count,
     isFetching: state.resources.isFetching,
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps)(Resources);
+export default connect(mapStateToProps)(Resources)
