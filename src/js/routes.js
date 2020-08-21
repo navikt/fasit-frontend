@@ -21,7 +21,7 @@ import NotFound from "./components/NotFound"
 export const Routes = () => {
   return (
     <Switch>
-      <Route exact path="/" component={Search} />
+      <Route exact path="/" component={Resources} />
       <Route path="/search/:query?" component={Search} />
       <Route exact path="/nodes/" component={Nodes} />
       <Route exact path="/nodes/:node?" component={Node} />

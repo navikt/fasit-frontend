@@ -91,7 +91,6 @@ class Search extends Component {
       <Button
         onClick={() => this.filterByType(label)}
         variant={activeFilter === label ? "outline-primary" : "primary"}
-        //color={activeFilter === label ? "secondary" : "primary"}
       >
         {label}
       </Button>

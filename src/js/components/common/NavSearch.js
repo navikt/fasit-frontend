@@ -1,129 +1,128 @@
-import React, { Component } from "react";
-import history from "../../utils/browserHistory";
-import { connect } from "react-redux";
-import { submitNavSearch } from "../../actionCreators/common";
-import { destinationUrl } from "../Search/searchResultTypes";
-import { capitalize } from "../../utils/";
+import React, { Component } from "react"
+import history from "../../utils/browserHistory"
+import { connect } from "react-redux"
+import { submitNavSearch } from "../../actionCreators/common"
+import { destinationUrl } from "../Search/searchResultTypes"
+import { capitalize } from "../../utils/"
 import {
   changeFilter,
   submitFilterString,
-} from "../../actionCreators/element_lists";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from "../../actionCreators/element_lists"
 
 class NavSearch extends Component {
   constructor(props) {
-    super(props);
-    this.setWrapperRef = this.setWrapperRef.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
+    super(props)
+    this.setWrapperRef = this.setWrapperRef.bind(this)
+    this.handleClickOutside = this.handleClickOutside.bind(this)
 
     this.state = {
       selectedOption: null,
       visible: false,
-    };
+    }
   }
 
   componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside);
-    this.navSearch.focus();
+    document.addEventListener("mousedown", this.handleClickOutside)
+    this.navSearch.focus()
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside);
+    document.removeEventListener("mousedown", this.handleClickOutside)
   }
 
   handleMouseOver(navItem) {
-    const { navSearch } = this.props;
-    const options = [...new Set(navSearch.data.map((result) => result.id))];
-    const mouseOverItem = options.indexOf(navItem.id);
-    this.setState({ selectedOption: mouseOverItem });
+    const { navSearch } = this.props
+    const options = [...new Set(navSearch.data.map((result) => result.id))]
+    const mouseOverItem = options.indexOf(navItem.id)
+    this.setState({ selectedOption: mouseOverItem })
   }
 
   handleMouseClick(e) {
-    e.preventDefault();
-    this.navigate();
+    e.preventDefault()
+    this.navigate()
   }
 
   handleKeyDown(e) {
-    const { location } = this.props;
+    const { location } = this.props
     switch (e.key) {
       case "ArrowRight":
       case "ArrowLeft":
-        break; // avoid visibility changing when moving sideways
+        break // avoid visibility changing when moving sideways
       case "Escape": // esc
-        e.preventDefault();
-        this.setState({ visible: false });
-        break;
+        e.preventDefault()
+        this.setState({ visible: false })
+        break
       case "ArrowUp": // up
-        e.preventDefault();
-        this.setState({ visible: true });
-        this.changeSelectedOption("prev");
-        break;
+        e.preventDefault()
+        this.setState({ visible: true })
+        this.changeSelectedOption("prev")
+        break
       case "ArrowDown": // down
-        e.preventDefault();
-        this.setState({ visible: true });
-        this.changeSelectedOption("next");
-        break;
+        e.preventDefault()
+        this.setState({ visible: true })
+        this.changeSelectedOption("next")
+        break
       case "Enter": // enter
-        this.navSearch.blur();
-        e.preventDefault();
-        this.navigate();
-        break;
+        this.navSearch.blur()
+        e.preventDefault()
+        this.navigate()
+        break
       default:
         // reset selectedOption and display dropdown if query changes
-        this.setState({ selectedOption: null, visible: true });
+        this.setState({ selectedOption: null, visible: true })
         if (location.pathname === "/") {
-          history.push("/search");
+          history.push("/search")
         }
     }
   }
 
   navigate() {
-    const { dispatch, navSearch, location } = this.props;
-    const navItem = navSearch.data[this.state.selectedOption];
+    const { dispatch, navSearch, location } = this.props
+    const navItem = navSearch.data[this.state.selectedOption]
 
     if (!navItem) {
       if (!(location.pathname === "/search")) {
-        history.push("/search");
+        history.push("/search")
       }
-      history.push(`search/${navSearch.query}`);
-      this.setState({ visible: false });
+      history.push(`search/${navSearch.query}`)
+      this.setState({ visible: false })
     } else if (navItem.type === "Quick navigation") {
-      dispatch(submitNavSearch(""));
-      dispatch(changeFilter("alias", navSearch.query));
-      dispatch(submitFilterString("resources", 0));
-      history.push(`/resources?alias=${navSearch.query}`);
+      dispatch(submitNavSearch(""))
+      dispatch(changeFilter("alias", navSearch.query))
+      dispatch(submitFilterString("resources", 0))
+      history.push(`/resources?alias=${navSearch.query}`)
     } else {
-      dispatch(submitNavSearch(""));
-      history.push(destinationUrl(navItem));
+      dispatch(submitNavSearch(""))
+      history.push(destinationUrl(navItem))
     }
   }
 
   changeSelectedOption(dir) {
-    const { selectedOption } = this.state;
-    const { navSearch } = this.props;
-    const options = [...new Set(navSearch.data.map((result) => result.id))];
+    const { selectedOption } = this.state
+    const { navSearch } = this.props
+    const options = [...new Set(navSearch.data.map((result) => result.id))]
     switch (dir) {
       case "prev":
         if (selectedOption === null || selectedOption === 0) {
-          this.setState({ selectedOption: options.length - 1 });
+          this.setState({ selectedOption: options.length - 1 })
         } else {
-          this.setState({ selectedOption: selectedOption - 1 });
+          this.setState({ selectedOption: selectedOption - 1 })
         }
-        break;
+        break
 
       case "next":
         if (selectedOption === null || selectedOption + 1 === options.length) {
-          this.setState({ selectedOption: 0 });
+          this.setState({ selectedOption: 0 })
         } else {
-          this.setState({ selectedOption: selectedOption + 1 });
+          this.setState({ selectedOption: selectedOption + 1 })
         }
-        break;
+        break
     }
   }
 
   /* Setting wrapper ref to handle mouse click outside component. This is to hide dropdown when clicking outside*/
   setWrapperRef(node) {
-    this.wrapperRef = node;
+    this.wrapperRef = node
   }
 
   /* Setting wrapper ref to handle mouse click outside component. This is to hide dropdown when clicking outside*/
@@ -133,15 +132,15 @@ class NavSearch extends Component {
       this.wrapperRef &&
       !this.wrapperRef.contains(event.target)
     ) {
-      this.setState({ visible: false });
+      this.setState({ visible: false })
     }
   }
 
   render() {
-    const { dispatch, navSearch } = this.props;
-    const { visible, selectedOption } = this.state;
-    const { query, data, isFetching, searchResultTypes } = navSearch;
-    const options = [...new Set(data.map((item) => item.id))];
+    const { dispatch, navSearch } = this.props
+    const { visible, selectedOption } = this.state
+    const { query, data, isFetching, searchResultTypes } = navSearch
+    const options = [...new Set(data.map((item) => item.id))]
 
     return (
       <div
@@ -161,11 +160,11 @@ class NavSearch extends Component {
             type="submit"
             className="navSearchButton"
             onClick={(e) => {
-              e.preventDefault();
-              this.navigate();
+              e.preventDefault()
+              this.navigate()
             }}
           >
-            <FontAwesomeIcon icon="search" />
+            Go
           </button>
         </form>
         {query && visible ? (
@@ -181,27 +180,22 @@ class NavSearch extends Component {
                     // Returnerer en blokk for hver elementtype
                     return (
                       <div key={i}>
-                        <b>
-                          <i>
-                            <small>
-                              {capitalize(type)}
-                              {data.filter(
-                                (itemsByType) => itemsByType.type === type
-                              ).length > 1
-                                ? "s"
-                                : null}
-                              :
-                            </small>
-                          </i>
-                        </b>
-
+                        <small>
+                          {capitalize(type)}
+                          {data.filter(
+                            (itemsByType) => itemsByType.type === type
+                          ).length > 1
+                            ? "s"
+                            : null}
+                          :
+                        </small>
                         <div>
                           {data
                             .filter((itemsByType) => itemsByType.type === type) // filtrerer ut resultater per type
                             .map((navItem, i) => {
                               // returnerer en lenke til resultatet
                               const active =
-                                navItem.id === options[selectedOption];
+                                navItem.id === options[selectedOption]
                               return (
                                 <div
                                   key={i}
@@ -231,25 +225,25 @@ class NavSearch extends Component {
                                     </small>
                                   </div>
                                 </div>
-                              );
+                              )
                             })}
                         </div>
                       </div>
-                    );
+                    )
                   })
                 : "No results found"}
             </div>
           )
         ) : null}
       </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     navSearch: state.navsearch,
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps)(NavSearch);
+export default connect(mapStateToProps)(NavSearch)
