@@ -1,0 +1,54 @@
+name: Build and deploy fasit-frontend
+
+on:
+  push:
+    branches:
+      - minimalFasit
+
+env:
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/fasit-frontend:${{ github.sha }}
+
+jobs:
+  build:
+    name: Checkout code and setup node
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.16.x"
+      - name: Cache NPM dependencies
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-cache-
+      - name: Download dependencies
+        run: npm install
+      - name: Build docker image
+        run: docker build . --tag $IMAGE
+      - name: Login to Github package registry
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GITHUB_TOKEN" | docker login docker.pkg.github.com -u "$GITHUB_REPOSITORY" --password-stdin
+      - name: Push docker image
+        run: docker push $IMAGE
+
+  deploy-dev:
+    name: Deploy to dev-fss
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-fss
+          RESOURCE: .nais/naiserator.yaml
+          VARS: .nais/dev-config.json
+          OWNER: navikt
+          REPOSITORY: fasit-frontend
