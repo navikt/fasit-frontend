@@ -143,13 +143,13 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.15.0",
     "webpack-dev-middleware": "^1.12.2",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-hot-middleware": "^2.25.1"
   },
   "dependencies": {
     "express": "^4.17.1",
     "isomorphic-fetch": "^3.0.0",
     "moment": "^2.24.0",
     "prom-client": "^10.2.2",
-    "request": "^2.84.0"
+    "request": "^2.88.2"
   }
 }
