@@ -109,7 +109,7 @@
     "fetch": "^1.1.0",
     "file-loader": "^0.9.0",
     "jsdom": "^9.11.0",
-    "less": "^3.13.1",
+    "less": "^4.1.2",
     "less-loader": "^5.0.0",
     "less-plugin-clean-css": "^1.5.1",
     "material-ui": "^0.18.7",
