@@ -19,6 +19,7 @@ spec:
     max: 2
   ingresses: 
     - {{ingress}}
+    - {{ingress}}/config
   env:
     - name: FASIT_URL
       value: {{fasit_url}}
