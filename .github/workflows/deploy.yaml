@@ -45,11 +45,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: nais/deploy/actions/deploy@v1
+      - uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-fss
           RESOURCE: .nais/naiserator.yaml
+          VAR: image=$IMAGE
           VARS: .nais/dev-config.json
           OWNER: navikt
           REPOSITORY: fasit-frontend
@@ -59,11 +59,11 @@ jobs:
    runs-on: ubuntu-latest
    steps:
      - uses: actions/checkout@v1
-     - uses: nais/deploy/actions/deploy@v1
+     - uses: nais/deploy/actions/deploy@v2
        env:
-        APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
         CLUSTER: prod-fss
         RESOURCE: .nais/naiserator.yaml
+        VAR: image=$IMAGE
         VARS: .nais/prod-config.json
         OWNER: navikt
         REPOSITORY: nais-deploy
