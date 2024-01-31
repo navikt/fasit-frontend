@@ -6,17 +6,18 @@ on:
       - master
 
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/fasit-frontend:${{ github.sha }}
+  TEAM: team-atom
 
 permissions:
   contents: read
-  packages: write
   id-token: write
 
 jobs:
   build:
     name: Checkout code and setup node
     runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
@@ -35,14 +36,13 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm run test
-      - name: Build docker image
-        run: docker build . --tag $IMAGE 
-      - name: Login to Github package registry
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: echo "$GITHUB_TOKEN" | docker login docker.pkg.github.com -u "$GITHUB_REPOSITORY" --password-stdin
-      - name: Push docker image
-        run: docker push $IMAGE
+      - uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: ${{ env.TEAM }}
+          tag: ${{ github.sha }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
   deploy-dev:
     name: Deploy to dev-fss
@@ -54,13 +54,15 @@ jobs:
         env:
           CLUSTER: dev-fss
           RESOURCE: .nais/naiserator.yaml
-          VAR: image=$IMAGE
+          VAR: image=${{ needs.build.outputs.image }}
           VARS: .nais/dev-config.json
           OWNER: navikt
           REPOSITORY: fasit-frontend
   deploy-prod:
    name: Deploy to prod-fss
-   needs: deploy-dev
+   needs:
+     - build
+     - deploy-dev
    runs-on: ubuntu-latest
    steps:
      - uses: actions/checkout@v1
@@ -68,7 +70,7 @@ jobs:
        env:
         CLUSTER: prod-fss
         RESOURCE: .nais/naiserator.yaml
-        VAR: image=$IMAGE
+        VAR: image=${{ needs.build.outputs.image }}
         VARS: .nais/prod-config.json
         OWNER: navikt
         REPOSITORY: nais-deploy
