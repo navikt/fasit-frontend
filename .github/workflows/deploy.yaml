@@ -8,6 +8,11 @@ on:
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/fasit-frontend:${{ github.sha }}
 
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
 jobs:
   build:
     name: Checkout code and setup node
