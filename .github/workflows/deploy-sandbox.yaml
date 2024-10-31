@@ -1,0 +1,77 @@
+name: Build and deploy fasit-frontend
+
+on: 
+  push:
+    branches: 
+      - sandbox
+
+env:
+  TEAM: team-atom
+
+permissions:
+  contents: "read"
+  checks: "write"
+  id-token: "write"
+  packages: "write"
+
+jobs:
+  build:
+    name: Checkout code and setup node
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set version
+        id: version
+        shell: bash
+        run: |
+          TIME=$(TZ="Europe/Oslo" date +%Y.%m.%d-%H.%M)
+          COMMIT=$(git rev-parse --short=12 HEAD)
+          export VERSION="$TIME-$COMMIT"
+          echo "Building version $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+          echo "::set-output name=yearweek::$(date +'%Y-%W')"
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.16.x'
+      - name: Cache NPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-cache-
+      - name: Download dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test
+      - uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: ${{ env.TEAM }}
+          tag: ${{ env.VERSION }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+
+  deploy-dev:
+    name: Deploy to dev-fss
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set version
+        id: version
+        run: echo "VERSION=${{ needs.build.outputs.version }}" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v4
+      - uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: dev-fss
+          RESOURCE: .nais/naiserator.yaml
+          VAR: image=${{ needs.build.outputs.image }}
+          VARS: .nais/dev-config.json
