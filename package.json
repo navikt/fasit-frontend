@@ -148,7 +148,7 @@
   "dependencies": {
     "express": "^4.21.1",
     "isomorphic-fetch": "^3.0.0",
-    "express-rate-limit": "^7.4.1"
+    "express-rate-limit": "^7.4.1",
     "moment": "^2.30.1",
     "prom-client": "^10.2.3",
     "request": "^2.88.2"
