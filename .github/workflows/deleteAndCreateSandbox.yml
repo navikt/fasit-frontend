@@ -53,4 +53,4 @@ jobs:
       id-token: "write"
       packages: "write"
     secrets: inherit
-    uses: ./.github/workflows/deploy-Sandbox.yml
+    uses: ./.github/workflows/deploy-Sandbox.yaml
