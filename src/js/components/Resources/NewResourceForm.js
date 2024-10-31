@@ -114,7 +114,6 @@ class NewResourceForm extends Component {
       alias,
       type,
       properties,
-      files,
       comment,
       currentSecrets,
       currentFiles

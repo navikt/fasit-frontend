@@ -50,7 +50,7 @@ class EnvironmentCluster extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dispatch, params, query } = this.props
+    const { dispatch, query } = this.props
 
     if (Object.keys(nextProps.cluster).length > 0) {
       this.setState({
@@ -69,7 +69,7 @@ class EnvironmentCluster extends Component {
   }
 
   toggleComponentDisplay(component) {
-    const { dispatch, cluster } = this.props
+    /* const { dispatch, cluster } = this.props */
     this.setState({ [component]: !this.state[component] })
   }
 
@@ -78,11 +78,6 @@ class EnvironmentCluster extends Component {
       cluster,
       isFetching,
       user,
-      params,
-      environments,
-      applicationNames,
-      environmentNodes,
-      revisions,
       query
     } = this.props
 

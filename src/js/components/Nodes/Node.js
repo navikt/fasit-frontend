@@ -101,7 +101,6 @@ class Node extends Component {
   render() {
     const {
       hostname,
-      config,
       user,
       node,
       query,
@@ -110,7 +109,7 @@ class Node extends Component {
       resourceModalVisible
     } = this.props
 
-    const { secretVisible, adgroups, comment } = this.state
+    const { secretVisible } = this.state
     let lifecycle = Object.keys(node).length > 0 ? node.lifecycle : {}
     let authorized =
       Object.keys(node).length > 0 ? validAuthorization(user, node.accesscontrol) : false

@@ -1175,7 +1175,6 @@ const resources = [
       }
     },
     files: {},
-    usedbyapplications: [],
     dodgy: false,
     id: 69,
     revision: 4,

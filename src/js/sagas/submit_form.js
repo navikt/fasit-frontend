@@ -26,7 +26,6 @@ import {
   SUBMIT_FORM_SUCCESS
 } from "../actionTypes"
 import { deleteUrl, postUrl, putUrl } from "../utils"
-import Filters from "../components/Navigation/Filters"
 
 export function* submitForm(action) {
   const configuration = yield select(state => state.configuration)

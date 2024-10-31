@@ -1,6 +1,6 @@
 import React from "react";
 import { CardInfo } from "../common/";
-import { browserHistory, Link } from "react-router";
+import { Link } from "react-router";
 import { Card, CardHeader } from "material-ui/Card";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";
 
