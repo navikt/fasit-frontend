@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react"
+import React from "react"
 import Select, { Creatable } from "react-select"
 import { Tooltip, OverlayTrigger } from "react-bootstrap"
 import { Link } from "react-router"
@@ -6,7 +6,6 @@ import { capitalize } from "../../utils/"
 import SelectField from "material-ui/SelectField"
 import MenuItem from "material-ui/MenuItem"
 import TextField from "material-ui/TextField"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const copyToClipboard = element => {
   let el = document.getElementById(element)

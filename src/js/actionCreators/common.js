@@ -11,7 +11,6 @@ import {
   SUBMIT_FORM,
   SUBMIT_NAV_SEARCH,
   SUBMIT_SEARCH,
-  SET_FILTER_CONTEXT,
   UPDATE_CLUSTER_DRAFT
 } from "../actionTypes"
 
@@ -28,19 +27,14 @@ export const displayModal = (component, value, mode, existingData) => {
   switch (component) {
     case "application":
       return { type: SHOW_NEW_APPLICATION_FORM, value, mode }
-      break
     case "cluster":
       return { type: SHOW_NEW_CLUSTER_FORM, value, mode, existingData }
-      break
     case "environment":
       return { type: SHOW_NEW_ENVIRONMENT_FORM, value, mode }
-      break
     case "node":
       return { type: SHOW_NEW_NODE_FORM, value, mode }
-      break
     case "resource":
       return { type: SHOW_NEW_RESOURCE_FORM, value, mode }
-      break
   }
 }
 export const submitNavSearch = query => {

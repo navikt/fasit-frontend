@@ -5,7 +5,7 @@ import { FormComment, FormString } from "../common/Forms"
 import { capitalize } from "../../utils"
 import { displayModal, submitForm } from "../../actionCreators/common"
 import { Card, CardHeader, CardText } from "material-ui/Card"
-import { icons, styles, colors } from "../../commonStyles/commonInlineStyles"
+import { icons, styles } from "../../commonStyles/commonInlineStyles"
 
 export class NewApplicationForm extends Component {
   constructor(props) {

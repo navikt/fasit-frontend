@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from "react";
+import React from "react";
 import moment from "moment";
 import {Card, CardHeader, CardText} from "material-ui/Card";
 import {styles} from "../../commonStyles/commonInlineStyles";

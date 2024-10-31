@@ -84,13 +84,12 @@ export class Environment extends Component {
   }
 
   render() {
-    const { name, environment, user, query, revisions, dispatch, resourceModalVisible } = this.props
+    const { environment, user, query, revisions, dispatch, resourceModalVisible } = this.props
     const {
       displayClusters,
       displayInstances,
       displayNodes,
       comment,
-      adgroups,
       editMode
     } = this.state
     const envName = environment.name
