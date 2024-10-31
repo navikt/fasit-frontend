@@ -1,6 +1,6 @@
 import { takeLatest } from "redux-saga";
 import { fork, put, select } from "redux-saga/effects";
-import { fetchUrl, sortSearchResults } from "../utils";
+import { fetchUrl } from "../utils";
 import {
     CLEAR_SEARCH_QUERY,
     NAVSEARCH_REQUEST_FAILED,

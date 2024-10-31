@@ -3,7 +3,6 @@ import Select from "react-select"
 import { connect } from "react-redux"
 import {
   changeFilter,
-  clearFilters,
   setFilter,
   submitFilterString
 } from "../../actionCreators/element_lists"

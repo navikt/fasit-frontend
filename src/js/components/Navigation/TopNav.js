@@ -4,7 +4,6 @@ import { Popover, OverlayTrigger } from "react-bootstrap"
 import { connect } from "react-redux"
 import { Login, AuraTools, NavSearch } from "../common/"
 import ContextMenu from "./ContextMenu"
-import GroupWork from "material-ui/svg-icons/action/group-work"
 import {
   logOut,
   getUser,

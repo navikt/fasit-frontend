@@ -362,7 +362,6 @@ const mapStateToProps = state => {
     fasit: state.resource_fasit,
     resource: state.resource_fasit.data,
     currentSecrets: state.resource_fasit.currentSecrets,
-    revisions: state.revisions,
     user: state.user,
     config: state.configuration,
     query: state.routing.locationBeforeTransitions.query,

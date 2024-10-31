@@ -95,7 +95,7 @@ export class Application extends Component {
       instances,
       resourceModalVisible
     } = this.props
-    const { comment, adgroups, editMode } = this.state
+    const { comment, editMode } = this.state
     let lifecycle = {}
     let authorized = false
 

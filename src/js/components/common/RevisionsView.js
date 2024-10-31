@@ -1,10 +1,10 @@
 import React, { Component } from "react"
-import { Link, browserHistory } from "react-router"
+import { browserHistory } from "react-router"
 import moment from "moment"
 import { connect } from "react-redux"
 import { List, ListItem } from "material-ui/List"
 import { fetchRevisions } from "../../actionCreators/common"
-import { styles, icons } from "../../commonStyles/commonInlineStyles"
+import { icons } from "../../commonStyles/commonInlineStyles"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Spinner } from "."
 
