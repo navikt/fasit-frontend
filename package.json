@@ -146,7 +146,7 @@
     "webpack-hot-middleware": "^2.25.1"
   },
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.20.0",
     "isomorphic-fetch": "^3.0.0",
     "moment": "^2.29.2",
     "prom-client": "^10.2.2",
