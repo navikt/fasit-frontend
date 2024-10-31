@@ -150,6 +150,7 @@
     "isomorphic-fetch": "^3.0.0",
     "moment": "^2.29.2",
     "prom-client": "^10.2.2",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "express-rate-limit": "^7.4.1"
   }
 }
