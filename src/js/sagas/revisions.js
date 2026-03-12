@@ -26,7 +26,7 @@ export function* fetchRevisions(action) {
                 url = `${configuration.fasit_environments}/${action.key}/revisions`
                 break
             case "cluster":
-                url = `${configuration.fasit_clusters}/${action.key}/revisions/`
+                url = `${configuration.fasit_clusters}/${action.key}/revisions`
                 break
             default:
                 throw new Error("Revisions Saga has no clue where you want to go, specify which component you're coming from")
