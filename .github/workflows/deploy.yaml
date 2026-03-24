@@ -57,4 +57,4 @@ jobs:
         VAR: image=${{ needs.build.outputs.image }}
         VARS: .nais/prod-config.json
         OWNER: navikt
-        REPOSITORY: nais-deploy
+        REPOSITORY: fasit-frontend
