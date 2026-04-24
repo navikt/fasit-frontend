@@ -1,18 +1,18 @@
-FROM node:12-alpine as frontend-builder
+FROM node:16-alpine as frontend-builder
 
 WORKDIR /home/app
 
 COPY ./package.json ./package-lock.json ./webpack.config.prod.js .babelrc ./
 COPY ./src ./src
-RUN npm ci && npm run build
+RUN npm ci --legacy-peer-deps && npm run build
 
-FROM node:12-alpine as express-server 
+FROM node:16-alpine as express-server 
 WORKDIR /home/app
 
 COPY package.json package-lock.json ./
-RUN npm ci --production 
+RUN npm ci --production --legacy-peer-deps
 
-FROM node:12-alpine 
+FROM node:16-alpine 
 ENV NODE_ENV=production
 EXPOSE 8080
 WORKDIR /home/app

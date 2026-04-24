@@ -24,7 +24,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '12.16.x'
+          node-version: '16.x'
       - name: Cache NPM dependencies
         uses: actions/cache@v4
         with:
@@ -33,7 +33,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-cache-
       - name: Download dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: Run tests
         run: npm run test
       - uses: nais/docker-build-push@v0
