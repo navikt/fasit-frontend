@@ -23,15 +23,9 @@ const webpack = require("webpack")
 const webpackConfig = require("./webpack.config.dev.js")
 
 const serverOptions = {
-  quiet: false,
-  noInfo: false,
-  hot: true,
-  inline: true,
-  lazy: false,
   publicPath: webpackConfig.output.publicPath,
   headers: { "Access-Control-Allow-Origin": "*" },
-  stats: { colors: true },
-  historyApiFallback: true
+  stats: { colors: true }
 }
 
 const compiler = webpack(webpackConfig)

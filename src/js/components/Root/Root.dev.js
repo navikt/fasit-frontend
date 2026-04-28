@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 import {Router} from 'react-router'
 import getRoutes from '../../routes'
 
-module.exports = class Root extends Component {
+export default class Root extends Component {
     render() {
         const {store, history} = this.props
         return (

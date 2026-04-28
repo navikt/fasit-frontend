@@ -23,7 +23,7 @@ const finalCreateStore = composeEnhancers(
     applyMiddleware(...middlewares),
 )(createStore);
 
-module.exports = function configureStore() {
+export default function configureStore() {
     const store = finalCreateStore(rootReducer);
 
     // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)

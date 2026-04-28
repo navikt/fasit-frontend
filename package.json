@@ -25,7 +25,7 @@
       }
     },
     "build": {
-      "command": "webpack --verbose --devtool source-map --colors --display-error-details --progress --config webpack.config.prod.js",
+      "command": "webpack --config webpack.config.prod.js",
       "env": {
         "NODE_ENV": "production"
       }
@@ -92,7 +92,7 @@
     "@babel/preset-react": "^7.27.0",
     "@babel/register": "^7.25.9",
     "babel-core": "7.0.0-bridge.0",
-    "babel-loader": "^6.4.1",
+    "babel-loader": "^8.4.1",
     "better-npm-run": "0.0.11",
     "body-parser": "^1.19.0",
     "bootstrap": "^3.4.1",
@@ -105,10 +105,10 @@
     "es6-promise": "^3.2.1",
     "eventsource-polyfill": "^0.9.6",
     "fetch": "^1.1.0",
-    "file-loader": "^0.9.0",
+    "file-loader": "^6.2.0",
     "jsdom": "^9.11.0",
     "less": "^4.1.2",
-    "less-loader": "^5.0.0",
+    "less-loader": "^7.3.0",
     "less-plugin-clean-css": "^1.5.1",
     "material-ui": "^0.18.7",
     "material-ui-datatables": "^0.18.1",
@@ -137,11 +137,12 @@
     "redux-thunk": "^2.3.0",
     "rimraf": "^2.6.3",
     "sinon": "^4.5.0",
-    "style-loader": "^0.13.2",
-    "url-loader": "^0.5.7",
-    "webpack": "^1.15.0",
-    "webpack-dev-middleware": "^1.12.2",
-    "webpack-hot-middleware": "^2.25.1"
+    "style-loader": "^2.0.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^4.47.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-middleware": "^3.7.3",
+    "webpack-hot-middleware": "^2.25.4"
   },
   "dependencies": {
     "express": "^4.17.1",

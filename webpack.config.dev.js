@@ -2,6 +2,7 @@ const path = require("path")
 const webpack = require("webpack")
 
 module.exports = {
+  mode: "development",
   devtool: "cheap-module-eval-source-map",
   entry: [
     "@babel/polyfill",
@@ -16,30 +17,28 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify("development")
-    })
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js?/,
         exclude: [/node_modules/, /styles/],
-        loaders: ["babel-loader"]
+        use: ["babel-loader"]
       },
       {
         test: /\.less$/,
-        include: [__dirname, "src/stylesheets"],
-        loader: "style!css!less"
+        use: ["style-loader", "css-loader", "less-loader"]
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "url-loader?limit=10000&mimetype=application/font-woff"
+        use: [{
+          loader: "url-loader",
+          options: { limit: 10000, mimetype: "application/font-woff" }
+        }]
       },
       {
         test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "file-loader"
+        use: ["file-loader"]
       }
     ]
   }

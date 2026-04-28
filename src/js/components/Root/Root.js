@@ -6,4 +6,4 @@ if (process.env.NODE_ENV === 'production') {
     loadedModule = require('./Root.dev.js');
 }
 
-export const Root = loadedModule;
+export const Root = loadedModule.default || loadedModule;
