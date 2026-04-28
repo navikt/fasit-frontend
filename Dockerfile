@@ -21,6 +21,4 @@ COPY --from=frontend-builder /home/app/dist ./dist
 COPY --from=express-server /home/app/node_modules ./node_modules
 COPY production_server.js config.js ./
 
-EXPOSE 8080
-
 CMD ["node", "production_server.js"]
