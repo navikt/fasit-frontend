@@ -1,5 +1,4 @@
-import { takeEvery } from "redux-saga"
-import { fork, put, select } from "redux-saga/effects"
+import { put, select , takeEvery} from "redux-saga/effects"
 import { browserHistory } from "react-router"
 import {
   APPLICATION_FASIT_REQUEST,
@@ -213,5 +212,5 @@ export function* submitForm(action) {
 }
 
 export function* watchSubmitForm() {
-  yield fork(takeEvery, SUBMIT_FORM, submitForm)
+  yield takeEvery(SUBMIT_FORM, submitForm)
 }

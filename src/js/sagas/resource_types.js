@@ -1,5 +1,4 @@
-import {takeEvery} from 'redux-saga'
-import {put, fork, select} from 'redux-saga/effects'
+import {put, select, takeEvery} from "redux-saga/effects"
 import {fetchUrl} from '../utils'
 import {
     RESOURCE_TYPES_REQUEST,
@@ -23,5 +22,5 @@ export function* fetchResourceTypes() {
 
 
 export function* watchResourceTypes() {
-    yield fork(takeEvery, RESOURCE_TYPES_REQUEST, fetchResourceTypes)
+    yield takeEvery(RESOURCE_TYPES_REQUEST, fetchResourceTypes)
 }

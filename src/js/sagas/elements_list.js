@@ -1,5 +1,4 @@
-import { takeLatest } from "redux-saga"
-import { fork, put, select } from "redux-saga/effects"
+import { put, select , takeLatest} from "redux-saga/effects"
 import { browserHistory } from "react-router"
 import { fetchPage } from "../utils"
 import {
@@ -140,5 +139,5 @@ const buildFilterString = filters => {
   return `${filterString}`
 }
 export function* watchElementsList() {
-  yield fork(takeLatest, SUBMIT_FILTER_SEARCH, fetchAllLists)
+  yield takeLatest(SUBMIT_FILTER_SEARCH, fetchAllLists)
 }

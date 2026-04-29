@@ -1,5 +1,4 @@
-import {takeEvery} from "redux-saga";
-import {fork, put, select} from "redux-saga/effects";
+import {put, select, takeEvery} from "redux-saga/effects"
 import {fetchUrl} from "../utils";
 import {ENVIRONMENTS_RECEIVED, ENVIRONMENTS_REQUEST} from "../actionTypes";
 
@@ -18,5 +17,5 @@ export function* fetchEnvironments() {
 }
 
 export function* watchEnvironments() {
-    yield fork(takeEvery, ENVIRONMENTS_REQUEST, fetchEnvironments)
+    yield takeEvery(ENVIRONMENTS_REQUEST, fetchEnvironments)
 }

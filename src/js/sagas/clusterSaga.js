@@ -1,5 +1,4 @@
-import { takeEvery } from "redux-saga"
-import { call, fork, put, select } from "redux-saga/effects"
+import { call, put, select , takeEvery} from "redux-saga/effects"
 import { browserHistory } from "react-router"
 import { fetchUrl } from "../utils"
 import {
@@ -23,5 +22,5 @@ export function* fetchFasitCluster(action) {
 }
 
 export function* watchClusterFasit() {
-  yield fork(takeEvery, CLUSTER_FASIT_REQUEST, fetchFasitCluster)
+  yield takeEvery(CLUSTER_FASIT_REQUEST, fetchFasitCluster)
 }

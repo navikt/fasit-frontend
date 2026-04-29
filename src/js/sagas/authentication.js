@@ -1,5 +1,4 @@
-import { takeEvery } from "redux-saga"
-import { put, fork, select, call } from "redux-saga/effects"
+import { put, select, call , takeEvery} from "redux-saga/effects"
 import { postForm, fetchUrl } from "../utils"
 import {
   DISPLAY_LOGIN,
@@ -53,7 +52,7 @@ export function* logOut() {
 }
 
 export function* watchAuthentication() {
-  yield fork(takeEvery, LOGIN, logIn)
-  yield fork(takeEvery, GET_USER, getUser)
-  yield fork(takeEvery, LOGOUT, logOut)
+  yield takeEvery(LOGIN, logIn)
+  yield takeEvery(GET_USER, getUser)
+  yield takeEvery(LOGOUT, logOut)
 }

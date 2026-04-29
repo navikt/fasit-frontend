@@ -1,5 +1,4 @@
-import { takeEvery } from "redux-saga"
-import { select, put, fork, call } from "redux-saga/effects"
+import { select, put, call , takeEvery} from "redux-saga/effects"
 import { browserHistory } from "react-router"
 import { fetchUrl, isEmptyObject, validAuthorization } from "../utils"
 import {
@@ -98,9 +97,9 @@ export function* fetchDeploymentManager() {
 }
 
 export function* watchNodeFasit() {
-  yield fork(takeEvery, NODE_FASIT_URL_REQUEST, fetchFasitUrl)
-  yield fork(takeEvery, NODE_FASIT_REQUEST, fetchFasit)
-  yield fork(takeEvery, DEPLOYMENTMANAGER_FASIT_REQUEST, fetchDeploymentManager)
-  yield fork(takeEvery, NODE_FASIT_PASSWORD_REQUEST, fetchFasitPassword)
-  yield fork(takeEvery, LOGIN_SUCCESS, fetchFasitPassword)
+  yield takeEvery(NODE_FASIT_URL_REQUEST, fetchFasitUrl)
+  yield takeEvery(NODE_FASIT_REQUEST, fetchFasit)
+  yield takeEvery(DEPLOYMENTMANAGER_FASIT_REQUEST, fetchDeploymentManager)
+  yield takeEvery(NODE_FASIT_PASSWORD_REQUEST, fetchFasitPassword)
+  yield takeEvery(LOGIN_SUCCESS, fetchFasitPassword)
 }

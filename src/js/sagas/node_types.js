@@ -1,5 +1,4 @@
-import {takeEvery} from 'redux-saga'
-import {put, fork, select} from 'redux-saga/effects'
+import {put, select, takeEvery} from "redux-saga/effects"
 import {fetchUrl} from '../utils'
 import {
     NODE_TYPES_REQUEST,
@@ -22,5 +21,5 @@ export function* fetchNodeTypes() {
 
 
 export function* watchNodeTypes() {
-    yield fork(takeEvery, NODE_TYPES_REQUEST, fetchNodeTypes)
+    yield takeEvery(NODE_TYPES_REQUEST, fetchNodeTypes)
 }

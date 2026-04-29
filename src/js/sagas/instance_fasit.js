@@ -1,5 +1,4 @@
-import {takeEvery} from "redux-saga";
-import {select, put, fork, call} from "redux-saga/effects";
+import {select, put, call, takeEvery} from "redux-saga/effects"
 import {fetchUrl} from "../utils";
 import {
     INSTANCE_FASIT_REQUEST,
@@ -41,6 +40,6 @@ export function* fetchManifest() {
 }
 
 export function* watchInstanceFasit() {
-    yield fork(takeEvery, INSTANCE_FASIT_REQUEST, fetchInstance)
-    yield fork(takeEvery, INSTANCE_MANIFEST_FASIT_REQUEST, fetchManifest)
+    yield takeEvery(INSTANCE_FASIT_REQUEST, fetchInstance)
+    yield takeEvery(INSTANCE_MANIFEST_FASIT_REQUEST, fetchManifest)
 }

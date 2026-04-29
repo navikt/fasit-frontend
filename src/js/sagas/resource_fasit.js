@@ -1,5 +1,4 @@
-import { takeEvery } from "redux-saga";
-import { select, put, fork, call } from "redux-saga/effects";
+import { select, put, call , takeEvery} from "redux-saga/effects"
 import { browserHistory } from "react-router";
 import { validAuthorization, isEmptyObject, fetchUrl } from "../utils";
 import {
@@ -79,8 +78,8 @@ export function* fetchFasitResourceSecret() {
 }
 
 export function* watchResourceFasit() {
-    yield fork(takeEvery, RESOURCE_FASIT_URL_REQUEST, fetchFasitUrl)
-    yield fork(takeEvery, RESOURCE_FASIT_REQUEST, fetchFasit)
-    yield fork(takeEvery, RESOURCE_FASIT_SECRET_REQUEST, fetchFasitResourceSecret)
-    yield fork(takeEvery, LOGIN_SUCCESS, fetchFasitResourceSecret)
+    yield takeEvery(RESOURCE_FASIT_URL_REQUEST, fetchFasitUrl)
+    yield takeEvery(RESOURCE_FASIT_REQUEST, fetchFasit)
+    yield takeEvery(RESOURCE_FASIT_SECRET_REQUEST, fetchFasitResourceSecret)
+    yield takeEvery(LOGIN_SUCCESS, fetchFasitResourceSecret)
 }
