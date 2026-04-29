@@ -40,7 +40,7 @@ describe("(Component) Application", () => {
   it('renders "ToolButtons", not editable or disabled', () => {
     const wrapper = shallow(<Application {...props} />)
     expect(wrapper.find(ToolButtons)).to.have.length(1)
-    expect(wrapper.find(ToolButtons).props().disabled).to.be.falsy
+    expect(wrapper.find(ToolButtons).props().disabled).to.not.be.ok
     expect(wrapper.find(ToolButtons).props().editMode).to.equal(false)
   })
 
