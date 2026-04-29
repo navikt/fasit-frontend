@@ -1,13 +1,13 @@
 import React from "react";
 import {CardInfo} from "../common/";
 import FlatButton from "material-ui/FlatButton";
-import {browserHistory, Link} from "react-router";
+import {Link, withRouter} from "react-router-dom";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import {Tab, Tabs} from "material-ui/Tabs";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
 
-export default function InstanceCard(props) {
+function InstanceCard(props) {
 
 
     const instance = props.instance
@@ -45,12 +45,12 @@ export default function InstanceCard(props) {
                 <CardActions expandable={true}>
                     <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => browserHistory.push('/instances/' + id)}
+                        onTouchTap={() => props.history.push('/instances/' + id)}
                         label="details"
                         style={styles.flatButton}/>
                     {cluster.name && <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => browserHistory.push(`environments/${environment}/clusters/${cluster.name}`)}
+                        onTouchTap={() => props.history.push(`environments/${environment}/clusters/${cluster.name}`)}
                         label="cluster"
                         style={styles.flatButton}/>}
                 </CardActions>
@@ -59,3 +59,4 @@ export default function InstanceCard(props) {
     )
 }
 
+export default withRouter(InstanceCard)

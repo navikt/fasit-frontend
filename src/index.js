@@ -1,14 +1,13 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import "@babel/polyfill"
-import { browserHistory } from "react-router"
-import { syncHistoryWithStore } from "react-router-redux"
+import { createBrowserHistory } from "history"
 import { Root } from "./js/components/Root/Root"
 import { configureStore } from "./js/store/configureStore"
 import { SET_FILTER_CONTEXT, RECEIVE_CONFIGURATION } from "./js/actionTypes"
 
-const store = configureStore()
-const history = syncHistoryWithStore(browserHistory, store)
+const history = createBrowserHistory()
+const store = configureStore(history)
 
 history.listen(location => {
   store.dispatch({

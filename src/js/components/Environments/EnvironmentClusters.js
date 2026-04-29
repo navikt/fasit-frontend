@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import PropTypes from 'prop-types'
 import {connect} from "react-redux"
-import {Link} from "react-router"
+import {Link} from "react-router-dom"
 import {fetchEnvironmentClusters, clearEnvironmentClusters} from "../../actionCreators/environment"
 import Select from 'react-select'
 import { Spinner } from "../common";

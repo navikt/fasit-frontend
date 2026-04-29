@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
 import { connect } from "react-redux"
-import { browserHistory } from "react-router"
+import { push } from "connected-react-router"
 import Mousetrap from "mousetrap"
 import {
   fetchEnvironments,
@@ -50,23 +50,23 @@ class App extends Component {
     })
     Mousetrap.bind("g e", e => {
       e.preventDefault()
-      browserHistory.push("/environments")
+      dispatch(push("/environments"))
     })
     Mousetrap.bind("g a", e => {
       e.preventDefault()
-      browserHistory.push("/applications")
+      dispatch(push("/applications"))
     })
     Mousetrap.bind("g i", e => {
       e.preventDefault()
-      browserHistory.push("/instances")
+      dispatch(push("/instances"))
     })
     Mousetrap.bind("g r", e => {
       e.preventDefault()
-      browserHistory.push("/resources")
+      dispatch(push("/resources"))
     })
     Mousetrap.bind("g n", e => {
       e.preventDefault()
-      browserHistory.push("/nodes")
+      dispatch(push("/nodes"))
     })
   }
 

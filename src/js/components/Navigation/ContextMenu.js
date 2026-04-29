@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
 import { connect } from "react-redux"
-import { Link } from "react-router"
+import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 class ContexMenu extends Component {
@@ -61,7 +61,7 @@ ContexMenu.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  location: state.routing.locationBeforeTransitions,
+  location: state.router.location,
   nodes: state.nodes.headers,
   resources: state.resources.headers
 })

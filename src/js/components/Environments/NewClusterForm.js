@@ -97,6 +97,7 @@ class NewClusterForm extends Component {
         show={showNewClusterForm}
         animation={false}
         keyboard={true}
+        enforceFocus={false}
         dialogClassName="wideModal"
         onHide={this.closeForm.bind(this)}
       >

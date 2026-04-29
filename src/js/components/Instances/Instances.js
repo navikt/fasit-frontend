@@ -12,17 +12,17 @@ class Instances extends Component {
     }
 
     componentDidMount() {
-        const { dispatch, params } = this.props
-        if(!params.instance) {
+        const { dispatch, match } = this.props
+        if(!match.params.instance) {
             dispatch(submitFilterString("instances", 0))
         }
     }
 
     render() {
-        const { instances, totalCount , params } = this.props
+        const { instances, totalCount, match } = this.props
 
-        if (params.instance)
-            return <Instance id={params.instance} />
+        if (match.params.instance)
+            return <Instance id={match.params.instance} />
         return (
             <div className="main-content-container">
                 <div className="row">

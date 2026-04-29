@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { browserHistory, Link } from "react-router";
+import { Link } from "react-router-dom";
+import { push } from "connected-react-router";
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from "material-ui/Toolbar";
 import RaisedButton from "material-ui/RaisedButton";
@@ -22,24 +23,24 @@ class Search extends Component {
     }
 
     componentDidMount() {
-        const { dispatch, params, location } = this.props
-        if (params.query) {
-            dispatch(setSearchString(params.query))
-            dispatch(submitSearch(params.query, location.query.type))
+        const { dispatch, match, location } = this.props
+        if (match.params.query) {
+            dispatch(setSearchString(match.params.query))
+            dispatch(submitSearch(match.params.query, new URLSearchParams(location.search).get('type')))
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        const { dispatch, params } = this.props
+        const { dispatch, match } = this.props
 
-        if (nextProps.params.query && params.query != nextProps.params.query) {
-            dispatch(submitSearch(nextProps.params.query))
+        if (nextProps.match.params.query && match.params.query != nextProps.match.params.query) {
+            dispatch(submitSearch(nextProps.match.params.query))
         }
     }
 
     // eget card element
     cellContents(key, value) {
-        const { params } = this.props
+        const { match } = this.props
 
         if (Array.isArray(value)) {
             return value.map((v, idx) => (<span key={idx}>{v}<br /></span>))
@@ -47,7 +48,7 @@ class Search extends Component {
 
         switch (key.toLowerCase()) {
             case "appconfig":
-                return <PrettyXml xml={value} filter={params.query} />
+                return <PrettyXml xml={value} filter={match.params.query} />
             case "applicationproperties":
                 return value.split('\n').map((v, idx) => (<span key={idx}>{v}<br /></span>))
             default:
@@ -128,7 +129,7 @@ class Search extends Component {
         const { searchQuery, dispatch } = this.props
         dispatch(submitSearch(searchQuery, type))
         const newPath = type ? `/search/${searchQuery}?type=${type}` : `/search/${searchQuery}`
-        browserHistory.push(newPath)
+        dispatch(push(newPath))
     }
 
     resultTypeFilters() {

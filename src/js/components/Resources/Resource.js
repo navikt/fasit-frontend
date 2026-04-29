@@ -1,7 +1,8 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { parseQuery } from "../../utils/queryParser"
 import { List, ListItem } from "material-ui/List"
-import { Link } from "react-router"
+import { Link } from "react-router-dom"
 import { validAuthorization } from "../../utils"
 import { fetchFasitData } from "../../actionCreators/resource"
 import { displayModal, submitForm } from "../../actionCreators/common"
@@ -365,7 +366,7 @@ const mapStateToProps = state => {
     revisions: state.revisions,
     user: state.user,
     config: state.configuration,
-    query: state.routing.locationBeforeTransitions.query,
+    query: parseQuery(state.router.location.search),
     revisions: state.revisions,
     resourceModalVisible: state.resources.showNewResourceForm
   }

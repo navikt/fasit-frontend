@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
-import { Link } from "react-router"
+import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import { NavSearch } from "./common/"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -62,7 +62,7 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
-    location: state.routing.locationBeforeTransitions,
+    location: state.router.location,
     searchString: state.navsearch.query
   }
 }

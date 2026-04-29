@@ -1,5 +1,5 @@
 import { select, put, call , takeEvery} from "redux-saga/effects"
-import { browserHistory } from "react-router"
+import { push } from "connected-react-router"
 import { fetchUrl, isEmptyObject, validAuthorization } from "../utils"
 import {
   LOGIN_SUCCESS,
@@ -39,7 +39,7 @@ export function* fetchFasitUrl(action) {
   yield put({ type: NODE_FASIT_FETCHING })
   try {
     const value = yield call(fetchUrl, action.url)
-    yield browserHistory.push(`/nodes/${value.hostname}`)
+    yield put(push(`/nodes/${value.hostname}`))
     yield put({ type: NODE_FASIT_RECEIVED, value })
     yield put({ type: NODE_FASIT_PASSWORD_REQUEST })
     yield put({ type: DEPLOYMENTMANAGER_FASIT_REQUEST })

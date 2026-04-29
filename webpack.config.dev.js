@@ -42,5 +42,10 @@ module.exports = {
         use: ["file-loader"]
       }
     ]
+  },
+  resolve: {
+    alias: {
+      "dom-helpers/query/contains": path.resolve(__dirname, "src/patches/dom-helpers-contains.js")
+    }
   }
 }

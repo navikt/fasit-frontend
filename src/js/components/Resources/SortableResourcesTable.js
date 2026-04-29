@@ -1,7 +1,7 @@
 import React from "react";
 import DataTables from "material-ui-datatables";
 import moment from "moment";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { capitalize } from "../../utils/";
 import { styles, icons } from "../../commonStyles/commonInlineStyles";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";

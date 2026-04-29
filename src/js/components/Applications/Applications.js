@@ -12,8 +12,8 @@ export class Applications extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, params } = this.props
-    if (!params.application) {
+    const { dispatch, match } = this.props
+    if (!match.params.application) {
       dispatch(submitFilterString("applications", 0))
     }
   }
@@ -21,8 +21,8 @@ export class Applications extends Component {
   render() {
     const { applications, totalCount, isFetching } = this.props
 
-    if (this.props.params.application) {
-      return <Application name={this.props.params.application} />
+    if (this.props.match.params.application) {
+      return <Application name={this.props.match.params.application} />
     } else {
       return isFetching ? (
         <Spinner />

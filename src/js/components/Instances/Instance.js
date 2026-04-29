@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { parseQuery } from "../../utils/queryParser";
 import { Tab, Tabs } from "material-ui/Tabs";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import Manifest from "./Manifest";
 import { CollapsibleList, CurrentRevision, History, Lifecycle } from "../common/";
 import { Card, CardHeader, CardText } from "material-ui/Card";
@@ -140,7 +141,7 @@ const mapStateToProps = (state) => {
         user: state.user,
         config: state.configuration,
         revisions: state.revisions,
-        query: state.routing.locationBeforeTransitions.query
+        query: parseQuery(state.router.location.search)
     }
 }
 

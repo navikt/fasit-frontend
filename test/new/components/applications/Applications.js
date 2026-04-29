@@ -16,9 +16,9 @@ describe('(Component) Applications', () => {
         const dispatch = sinon.spy(() => {})
         const propsWithoutApplication = {
             ...props,
-            params: {
-                ...props.params,
-                application: null
+            match: {
+                ...props.match,
+                params: { ...props.match.params, application: null }
             }
         }
         const wrapper = shallow(<Applications {...propsWithoutApplication} dispatch={dispatch}/>)
@@ -30,9 +30,9 @@ describe('(Component) Applications', () => {
     it('renders "Application" with loading animation if isFetching', () => {
         const propsWithoutApplication = {
             ...props,
-            params: {
-                ...props.params,
-                application: null
+            match: {
+                ...props.match,
+                params: { ...props.match.params, application: null }
             }
         }
         const wrapper = shallow(<Applications {...propsWithoutApplication} isFetching={true}/>)
@@ -40,7 +40,7 @@ describe('(Component) Applications', () => {
     })
 
     it('renders "Application" and returns list of applications', () => {
-        const wrapper = shallow(<Applications {...props} params={{...props.params, application: ""}}/>)
+        const wrapper = shallow(<Applications {...props} match={{...props.match, params: {...props.match.params, application: ""}}}/>)
         expect(wrapper.find('div.main-content-container')).to.have.length(1)
         expect(wrapper.find(ApplicationCard)).to.have.length(3)
     })
@@ -61,8 +61,10 @@ const props = {
             "searchBase": ""
         }
     },
-    "params": {
-        "application": "a-inntekt"
+    "match": {
+        "params": {
+            "application": "a-inntekt"
+        }
     },
     "route": {
         "path": "/applications(/:application)"

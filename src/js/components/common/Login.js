@@ -17,7 +17,7 @@ class Login extends Component {
       !prevProps.user.showLogin &&
       prevProps.user.showLogin != user.showLogin
     ) {
-      this.logIn.focus()
+      if (this.logIn) this.logIn.focus()
     }
   }
   handleChange(field, value) {
@@ -35,8 +35,9 @@ class Login extends Component {
 
   render() {
     const { user, dispatch } = this.props
+    if (!user.showLogin) return null
     return (
-      <Modal show={user.showLogin} onHide={() => dispatch(displayLogin(false))}>
+      <Modal show={true} onHide={() => dispatch(displayLogin(false))} autoFocus={false} enforceFocus={false}>
         <Modal.Header>
           <Modal.Title>
             Log in

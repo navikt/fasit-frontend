@@ -1,7 +1,7 @@
 import React from "react";
 import {CardInfo} from "../common/";
 import FlatButton from "material-ui/FlatButton";
-import {browserHistory, Link} from "react-router";
+import {Link, withRouter} from "react-router-dom";
 import Subheader from "material-ui/Subheader";
 import Divider from "material-ui/Divider";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
@@ -9,7 +9,7 @@ import {List, ListItem} from "material-ui/List";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import {capitalize} from "../../utils/";
 
-export default function NodeCard(props) {
+function NodeCard(props) {
     const node = props.node
     const avatar = icons.node
     const environment = node.environment
@@ -33,7 +33,7 @@ export default function NodeCard(props) {
                         {node.applications
                             .map(application => <ListItem key={application}
                                                           primaryText={application}
-                                                          onTouchTap={() => browserHistory.push(`/applications/${application}`)}></ListItem>
+                                                          onTouchTap={() => props.history.push(`/applications/${application}`)}></ListItem>
                             )}
                     </List>
 
@@ -41,12 +41,12 @@ export default function NodeCard(props) {
                 <CardActions expandable={true}>
                     <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => browserHistory.push(`/nodes/${node.hostname}`)}
+                        onTouchTap={() => props.history.push(`/nodes/${node.hostname}`)}
                         label="manage"
                         style={styles.flatButton}/>
                     {cluster && <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => browserHistory.push(`environments/${environment}/clusters/${cluster.name}`)}
+                        onTouchTap={() => props.history.push(`environments/${environment}/clusters/${cluster.name}`)}
                         label="cluster"
                         style={styles.flatButton}/>}
                 </CardActions>
@@ -54,3 +54,5 @@ export default function NodeCard(props) {
         </div>
     )
 }
+
+export default withRouter(NodeCard)

@@ -1,10 +1,11 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { parseQuery } from "../../utils/queryParser"
 import { validAuthorization, isEmptyObject } from "../../utils/"
 import { clearNodePassword, fetchFasitData, fetchNodePassword } from "../../actionCreators/node"
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
 import { List, ListItem } from "material-ui/List"
-import { Link } from "react-router"
+import { Link } from "react-router-dom"
 import {
   CollapsibleList,
   CurrentRevision,
@@ -304,7 +305,7 @@ const mapStateToProps = (state, ownProps) => {
     hostname: ownProps.hostname,
     config: state.configuration,
     revisions: state.revisions,
-    query: state.routing.locationBeforeTransitions.query,
+    query: parseQuery(state.router.location.search),
     resourceModalVisible: state.resources.showNewResourceForm,
     deploymentManager: state.node_fasit.deploymentManager,
     deploymentManagerIsFetching: state.node_fasit.deploymentManagerIsFetching,

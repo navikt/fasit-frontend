@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, IndexRoute } from "react-router";
+import { Route, Switch } from "react-router-dom";
 
 // Routes
 import App from "./components/Root/App";
@@ -15,31 +15,21 @@ import NotFound from "./components/NotFound";
 
 export default () => {
   return (
-    <Route path="/" component={App}>
-      <IndexRoute component={Home} />
-      <Route path="/search(/:query)" component={Search}  />
-      <Route path="/nodes(/:node)" component={Nodes} />
-      <Route path="/environments(/:environment)" component={Environments} />
-      <Route
-        path="/environments(/:environment)/clusters"
-        component={Environments}
-      />
-      <Route
-        path="/environments(/:environment)/clusters(/:clusterName)"
-        component={EnvironmentCluster}
-      />
-      <Route
-        path="/environments(/:environment)/nodes"
-        component={Environments}
-      />
-      <Route
-        path="/environments(/:environment)/instances"
-        component={Environments}
-      />
-      <Route path="/applications(/:application)" component={Applications} />
-      <Route path="/resources(/:resource)" component={Resources} />
-      <Route path="/instances(/:instance)" component={Instances} />
-      <Route path="*" component={NotFound} />
-    </Route>
+    <App>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/search/:query?" component={Search} />
+        <Route path="/environments/:environment/clusters/:clusterName" component={EnvironmentCluster} />
+        <Route path="/environments/:environment/clusters" component={Environments} />
+        <Route path="/environments/:environment/nodes" component={Environments} />
+        <Route path="/environments/:environment/instances" component={Environments} />
+        <Route path="/environments/:environment?" component={Environments} />
+        <Route path="/nodes/:node?" component={Nodes} />
+        <Route path="/applications/:application?" component={Applications} />
+        <Route path="/resources/:resource?" component={Resources} />
+        <Route path="/instances/:instance?" component={Instances} />
+        <Route component={NotFound} />
+      </Switch>
+    </App>
   );
 };

@@ -90,7 +90,7 @@ class NewNodeForm extends Component {
     render() {
         const {environmentClasses, showNewNodeForm, nodeTypes, mode} = this.props
         return (
-            <Modal show={showNewNodeForm} onHide={this.closeForm.bind(this)}>
+            <Modal show={showNewNodeForm} enforceFocus={false} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
                     <Modal.Title>New node
                         <button type="reset" className="btn btn-link pull-right"

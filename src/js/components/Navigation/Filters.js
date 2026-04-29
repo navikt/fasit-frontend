@@ -18,9 +18,9 @@ class Filters extends Component {
 
   componentDidMount() {
     const { dispatch, location } = this.props
-
-    if (!isEmptyObject(location.query)) {
-      dispatch(setFilter(location.query))
+    const query = Object.fromEntries(new URLSearchParams(location.search))
+    if (!isEmptyObject(query)) {
+      dispatch(setFilter(query))
     }
   }
 
@@ -227,7 +227,7 @@ const mapStateToProps = state => {
     nodeTypes: state.nodes.nodeTypes,
     zones: state.environments.zones,
     resourceTypes: state.resources.resourceTypes.sort(),
-    location: state.routing.locationBeforeTransitions
+    location: state.router.location
   }
 }
 

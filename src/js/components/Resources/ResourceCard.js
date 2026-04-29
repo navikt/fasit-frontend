@@ -3,12 +3,12 @@ import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
 import {CardInfo, WebsphereManagementConsole} from "../common/";
 import {List, ListItem} from "material-ui/List";
 import FlatButton from "material-ui/FlatButton";
-import {Link, browserHistory} from "react-router";
+import {Link, withRouter} from "react-router-dom";
 import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
 import {styles} from "../../commonStyles/commonInlineStyles";
 import {capitalize} from "../../utils/";
 
-export  default  function ResourceCard(props) {
+function ResourceCard(props) {
     const resource = props.resource
     const avatar = resourceTypeIcon(resource.type)
     const title = `${getResourceTypeName(resource.type)} - ${resource.alias}`
@@ -46,7 +46,7 @@ export  default  function ResourceCard(props) {
                 <CardActions expandable={true}>
                     <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => browserHistory.push(`resources/${resource.id}`)}
+                        onTouchTap={() => props.history.push(`resources/${resource.id}`)}
                         label="manage"
                         style={styles.flatButton}/>
                     {resource.type.toLowerCase() === 'deploymentmanager'
@@ -57,4 +57,4 @@ export  default  function ResourceCard(props) {
     )
 }
 
-
+export default withRouter(ResourceCard)

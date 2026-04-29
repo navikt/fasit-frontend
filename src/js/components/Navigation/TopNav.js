@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Link } from "react-router"
+import { Link } from "react-router-dom"
 import { Popover, OverlayTrigger } from "react-bootstrap"
 import { connect } from "react-redux"
 import { Login, AuraTools, NavSearch } from "../common/"
@@ -257,7 +257,7 @@ class TopNav extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    location: state.routing.locationBeforeTransitions
+    location: state.router.location
   }
 }
 

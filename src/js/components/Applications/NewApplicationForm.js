@@ -137,7 +137,7 @@ export class NewApplicationForm extends Component {
   render() {
     const { showNewApplicationForm, mode, application } = this.props
     return (
-      <Modal show={showNewApplicationForm} onHide={this.closeForm.bind(this)}>
+      <Modal show={showNewApplicationForm} enforceFocus={false} onHide={this.closeForm.bind(this)}>
         <Modal.Header>
           <Modal.Title>
             {icons.application} &emsp;

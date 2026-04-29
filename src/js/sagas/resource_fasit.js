@@ -1,5 +1,5 @@
 import { select, put, call , takeEvery} from "redux-saga/effects"
-import { browserHistory } from "react-router";
+import { push } from "connected-react-router";
 import { validAuthorization, isEmptyObject, fetchUrl } from "../utils";
 import {
     RESOURCE_FASIT_REQUEST,
@@ -37,7 +37,7 @@ export function* fetchFasitUrl(action) {
     try {
         yield put({ type: CLEAR_RESOURCE_SECRET })
         const value = yield call(fetchUrl, action.url)
-        yield browserHistory.push(`/resources/${value.id}`)
+        yield put(push(`/resources/${value.id}`))
         yield put({ type: RESOURCE_FASIT_RECEIVED, value })
         yield put({ type: RESOURCE_FASIT_SECRET_REQUEST })
     } catch (error) {

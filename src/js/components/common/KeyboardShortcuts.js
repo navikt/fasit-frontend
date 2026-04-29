@@ -16,6 +16,7 @@ class KeyboardShortcuts extends Component {
       <Modal
         bsSize="small"
         show={visibility}
+        enforceFocus={false}
         onHide={() => dispatch(toggleHelp())}
       >
         <Modal.Header>

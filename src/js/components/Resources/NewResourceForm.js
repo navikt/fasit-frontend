@@ -415,6 +415,7 @@ class NewResourceForm extends Component {
         show={showNewResourceForm}
         animation={false}
         keyboard={true}
+        enforceFocus={false}
         onHide={this.closeForm.bind(this)}
         dialogClassName="wideModal"
       >

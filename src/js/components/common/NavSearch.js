@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { browserHistory } from "react-router"
+import { push } from "connected-react-router"
 import { connect } from "react-redux"
 import Mousetrap from "mousetrap"
 import { submitNavSearch } from "../../actionCreators/common"
@@ -50,7 +50,7 @@ class NavSearch extends Component {
   }
 
   handleKeyDown(e) {
-    const { location } = this.props
+    const { dispatch, location } = this.props
     switch (e.key) {
       case "ArrowRight": // left
       case "ArrowLeft": // left
@@ -78,7 +78,7 @@ class NavSearch extends Component {
         // reset selectedOption and display dropdown if query changes
         this.setState({ selectedOption: null, visible: true })
         if (location.pathname === "/") {
-          browserHistory.push("/search")
+          dispatch(push("/search"))
         }
     }
   }
@@ -89,18 +89,18 @@ class NavSearch extends Component {
 
     if (!navItem) {
       if (!(location.pathname === "/search")) {
-        browserHistory.push("/search")
+        dispatch(push("/search"))
       }
-      browserHistory.push(`search/${navSearch.query}`)
+      dispatch(push(`search/${navSearch.query}`))
       this.setState({ visible: false })
     } else if (navItem.type === "Quick navigation") {
       dispatch(submitNavSearch(""))
       dispatch(changeFilter("alias", navSearch.query))
       dispatch(submitFilterString("resources", 0))
-      browserHistory.push(`/resources?alias=${navSearch.query}`)
+      dispatch(push(`/resources?alias=${navSearch.query}`))
     } else {
       dispatch(submitNavSearch(""))
-      browserHistory.push(destinationUrl(navItem))
+      dispatch(push(destinationUrl(navItem)))
     }
   }
 
@@ -253,7 +253,7 @@ class NavSearch extends Component {
 
 const mapStateToProps = state => {
   return {
-    location: state.routing.locationBeforeTransitions,
+    location: state.router.location,
     navSearch: state.navsearch
   }
 }

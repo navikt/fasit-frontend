@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import PropTypes from 'prop-types'
 import Select, { Creatable } from "react-select"
 import { Tooltip, OverlayTrigger } from "react-bootstrap"
-import { Link } from "react-router"
+import { Link } from "react-router-dom"
 import { capitalize } from "../../utils/"
 import SelectField from "material-ui/SelectField"
 import MenuItem from "material-ui/MenuItem"

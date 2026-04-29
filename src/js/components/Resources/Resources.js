@@ -12,18 +12,18 @@ class Resources extends Component {
     }
 
     componentDidMount() {
-        const {dispatch, params} = this.props
-        if(!params.resource) {
+        const {dispatch, match} = this.props
+        if(!match.params.resource) {
             dispatch(submitFilterString("resources", 0))
         }
     }
 
 
     render() {
-        const {resources, totalCount, params} = this.props
+        const {resources, totalCount, match} = this.props
 
-        if (params.resource) {
-            return <Resource id={params.resource}/>
+        if (match.params.resource) {
+            return <Resource id={match.params.resource}/>
         }
         return (
             <div className="main-content-container">
@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
         resources: state.resources.data,
         totalCount: state.resources.headers.total_count,
         isFetching: state.resources.isFetching,
-        location: state.routing.locationBeforeTransitions
+        location: state.router.location
     }
 }
 

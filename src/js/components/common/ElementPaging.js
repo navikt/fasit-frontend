@@ -47,7 +47,9 @@ export class ElementPaging extends Component {
 
   render() {
     const { filter } = this.props
-    const total_count = this.props[filter.context].headers.total_count
+    const contextData = this.props[filter.context]
+    if (!contextData || !contextData.headers) return null
+    const total_count = contextData.headers.total_count
     const lastPage = calculateLastPage(total_count)
     return (
       <div className="element-list-paging">

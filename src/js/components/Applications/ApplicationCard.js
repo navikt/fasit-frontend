@@ -1,12 +1,12 @@
 import React from "react";
 import { CardInfo } from "../common/";
 import FlatButton from "material-ui/FlatButton";
-import { browserHistory, Link } from "react-router";
+import { Link, withRouter } from "react-router-dom";
 import { Card, CardActions, CardText, CardHeader } from "material-ui/Card";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";
 
 
-export default function ApplicationCard(props) {
+export function ApplicationCard(props) {
     const application = props.application
     const avatar = icons.application
     const additionalCardInfo = (<CardInfo lastUpdated={application.updated} lifecycle={application.lifecycle}/>)
@@ -30,7 +30,7 @@ export default function ApplicationCard(props) {
                 <CardActions expandable={true}>
                     <FlatButton
                         disableTouchRipple={true}
-                        onTouchTap={() => browserHistory.push('/applications/' + application.name)}
+                        onTouchTap={() => props.history.push('/applications/' + application.name)}
                         label="manage"
                         style={styles.flatButton}/>
                 </CardActions>
@@ -38,3 +38,5 @@ export default function ApplicationCard(props) {
         </div>
     )
 }
+
+export default withRouter(ApplicationCard)

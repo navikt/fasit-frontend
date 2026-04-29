@@ -1,7 +1,8 @@
 import React, { Component } from "react"
-import { Link, browserHistory } from "react-router"
+import { Link } from "react-router-dom"
 import moment from "moment"
 import { connect } from "react-redux"
+import { push } from "connected-react-router"
 import { List, ListItem } from "material-ui/List"
 import { fetchRevisions } from "../../actionCreators/common"
 import { styles, icons } from "../../commonStyles/commonInlineStyles"
@@ -60,7 +61,7 @@ class RevisionsView extends Component {
 
   render() {
     moment.locale("en")
-    const { revisions, routing, currentRevision } = this.props
+    const { dispatch, revisions, routing, currentRevision } = this.props
 
     if (revisions.isFetching) {
       return <Spinner />
@@ -79,7 +80,7 @@ class RevisionsView extends Component {
               <ListItem
                 key={idx}
                 onClick={() =>
-                  browserHistory.push(routing.pathname + revisionQuery)
+                  dispatch(push(routing.pathname + revisionQuery))
                 }
                 style={{ fontSize: "14px" }}
                 leftIcon={
@@ -118,7 +119,7 @@ function renderSecondaryText(revision) {
 
 const mapStateToProps = state => ({
   revisions: state.revisions,
-  routing: state.routing.locationBeforeTransitions
+  routing: state.router.location
 })
 
 export default connect(mapStateToProps)(RevisionsView)

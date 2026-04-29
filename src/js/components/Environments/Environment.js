@@ -1,6 +1,8 @@
 import React, { Component } from "react"
-import { browserHistory, Link } from "react-router"
+import { Link } from "react-router-dom"
 import { connect } from "react-redux"
+import { push } from "connected-react-router"
+import { parseQuery } from "../../utils/queryParser"
 import {
   CurrentRevision,
   DeleteElementForm,
@@ -58,7 +60,7 @@ export class Environment extends Component {
     }
     dispatch(submitForm(id, form, comment, component))
     if (component === "deleteEnvironment") {
-      browserHistory.push("/environments")
+      dispatch(push("/environments"))
     }
   }
 
@@ -202,7 +204,7 @@ const mapStateToProps = state => {
     environment: state.environment_fasit.data,
     environmentClasses: state.environments.environmentClasses,
     revisions: state.revisions,
-    query: state.routing.locationBeforeTransitions.query,
+    query: parseQuery(state.router.location.search),
     resourceModalVisible: state.resources.showNewResourceForm
   }
 }

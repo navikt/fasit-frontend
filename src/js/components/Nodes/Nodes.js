@@ -12,18 +12,18 @@ class Nodes extends Component {
     }
 
     componentDidMount() {
-        const { dispatch, params } = this.props
-        if (!params.node) {
+        const { dispatch, match } = this.props
+        if (!match.params.node) {
             dispatch(submitFilterString("nodes", 0))
         }
     }
 
     render() {
-        const { nodes, totalCount, params } = this.props
+        const { nodes, totalCount, match } = this.props
 
 
-        if (params.node) {
-            return <Node hostname={params.node} />
+        if (match.params.node) {
+            return <Node hostname={match.params.node} />
         }
 
         return (

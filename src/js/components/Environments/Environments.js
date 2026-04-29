@@ -11,17 +11,17 @@ class Environments extends Component {
     }
 
     componentDidMount() {
-        const { dispatch, params } = this.props
-        if(!params.environment) {
+        const { dispatch, match } = this.props
+        if(!match.params.environment) {
             dispatch(submitFilterString("environments", 0))
         }
     }
 
     render() {
-        const { environments, params, totalCount } = this.props
+        const { environments, match, totalCount } = this.props
 
-        if (params.environment) {
-            return <Environment name={params.environment} clusterName={params.cluster}/>
+        if (match.params.environment) {
+            return <Environment name={match.params.environment} clusterName={match.params.cluster}/>
         }
 
         return (

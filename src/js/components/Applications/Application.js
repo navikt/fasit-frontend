@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { parseQuery } from "../../utils/queryParser"
 import { validAuthorization } from "../../utils/"
 import { Card, CardActions, CardHeader } from "material-ui/Card"
 import { List, ListItem } from "material-ui/List"
@@ -160,7 +161,7 @@ const mapStateToProps = state => {
     user: state.user,
     config: state.configuration,
     revisions: state.revisions,
-    query: state.routing.locationBeforeTransitions.query,
+    query: parseQuery(state.router.location.search),
     instances: state.application_instances.data,
     resourceModalVisible: state.resources.showNewResourceForm
   }

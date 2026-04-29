@@ -2,7 +2,8 @@ import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
 import { List, ListItem } from "material-ui/List"
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { Link } from "react-router"
+import { parseQuery } from "../../utils/queryParser"
+import { Link } from "react-router-dom"
 import { fetchEnvironmentNodes } from "../../actionCreators/environment"
 import {
   displayModal,
@@ -34,23 +35,23 @@ class EnvironmentCluster extends Component {
     if (query.revision) {
       dispatch(
         fetchEnvironmentCluster(
-          this.props.params.environment,
-          this.props.params.clusterName,
+          this.props.match.params.environment,
+          this.props.match.params.clusterName,
           query.revision
         )
       )
     } else {
       dispatch(
         fetchEnvironmentCluster(
-          this.props.params.environment,
-          this.props.params.clusterName
+          this.props.match.params.environment,
+          this.props.match.params.clusterName
         )
       )
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dispatch, params, query } = this.props
+    const { dispatch, match, query } = this.props
 
     if (Object.keys(nextProps.cluster).length > 0) {
       this.setState({
@@ -60,8 +61,8 @@ class EnvironmentCluster extends Component {
     if (nextProps.query.revision !== query.revision) {
       dispatch(
         fetchEnvironmentCluster(
-          this.props.params.environment,
-          this.props.params.clusterName,
+          this.props.match.params.environment,
+          this.props.match.params.clusterName,
           nextProps.query.revision
         )
       )
@@ -78,7 +79,7 @@ class EnvironmentCluster extends Component {
       cluster,
       isFetching,
       user,
-      params,
+      match,
       environments,
       applicationNames,
       environmentNodes,
@@ -209,12 +210,12 @@ class EnvironmentCluster extends Component {
   }
 
   deleteCluster(clusterName) {
-    const { dispatch, params } = this.props
+    const { dispatch, match } = this.props
     this.toggleComponentDisplay("displayDeleteForm")
     dispatch(
       submitForm(
         clusterName,
-        { env: params.environment },
+        { env: match.params.environment },
         null,
         "deleteCluster"
       )
@@ -228,7 +229,7 @@ const mapStateToProps = state => {
     isFetching: state.environment_cluster_fasit.isFetching,
     user: state.user,
     revisions: state.revisions,
-    query: state.routing.locationBeforeTransitions.query
+    query: parseQuery(state.router.location.search)
   }
 }
 

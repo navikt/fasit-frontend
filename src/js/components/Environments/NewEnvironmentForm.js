@@ -77,7 +77,7 @@ class NewEnvironmentForm extends Component {
     render() {
         const {environmentClasses, showNewEnvironmentForm, mode, name} = this.props
         return (
-            <Modal show={showNewEnvironmentForm} onHide={this.closeForm.bind(this)}>
+            <Modal show={showNewEnvironmentForm} enforceFocus={false} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
                     <Modal.Title>{mode && `${capitalize(mode)} environment ${mode !== 'new' ? name : ''}` }
                         <button type="reset" className="btn btn-link pull-right"
