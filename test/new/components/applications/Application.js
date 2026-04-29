@@ -84,6 +84,7 @@ describe("(Component) Application", () => {
   it('(function) "handleSubmitForm" sets new state and dispatches action', () => {
     const dispatch = sinon.spy(() => {})
     const wrapper = shallow(<Application {...props} dispatch={dispatch} />)
+    dispatch.resetHistory()
     wrapper.instance().handleSubmitForm("key", "form", "comment", "deleteApplication")
     expect(wrapper.state().displayDeleteForm).to.equal(true)
     expect(dispatch.callCount).to.equal(1)
@@ -249,5 +250,6 @@ const props = {
         revisions: "http://localhost:6969/mockapi/applicationinstances/1684520/revisions"
       }
     }
-  ]
+  ],
+  dispatch: () => {}
 }

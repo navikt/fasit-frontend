@@ -45,6 +45,7 @@ describe("(Component) Environment", () => {
   it('(function) "handleSubmitForm" dispatches correct action', () => {
     const dispatch = sinon.spy()
     const wrapper = shallow(<Environment {...props} dispatch={dispatch} />)
+    dispatch.resetHistory()
     wrapper.instance().handleSubmitForm("mikke", "mus", "was here", "environment")
     expect(dispatch.args[0][0].key).to.equal("mikke")
     expect(dispatch.args[0][0].form).to.equal("mus")
@@ -180,5 +181,6 @@ const props = {
       }
     ]
   },
-  query: {}
+  query: {},
+  dispatch: () => {}
 }

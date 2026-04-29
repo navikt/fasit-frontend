@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from 'prop-types'
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {FormString, FormDropDown, FormComment} from "../common/Forms";

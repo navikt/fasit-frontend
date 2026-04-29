@@ -176,7 +176,8 @@ const props = {
 
     ],
     "totalCount": "3",
-    "isFetching": false
+    "isFetching": false,
+    "dispatch": () => {}
 }
 
 

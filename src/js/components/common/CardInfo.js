@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import PropTypes from 'prop-types'
 import Restore from "material-ui/svg-icons/action/restore"
 import { colors } from "../../commonStyles/commonInlineStyles"
 import Chip from "material-ui/Chip"

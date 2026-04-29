@@ -1,6 +1,7 @@
 import FlatButton from "material-ui/FlatButton"
 import RaisedButton from "material-ui/RaisedButton"
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import PropTypes from 'prop-types'
 import { Modal } from "react-bootstrap"
 import { connect } from "react-redux"
 import {

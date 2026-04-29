@@ -81,14 +81,14 @@ describe('(Component) NewApplicationForm', () => {
 
     it('(function) "showSubmitButton" disables submit button if incomplete form data', () => {
         const wrapper = shallow(<NewApplicationForm {...props}/>)
-        expect(wrapper.find('button').nodes[1].props.className).to.equal('btn btn-primary pull-right disabled')
+        expect(wrapper.find('button').at(1).prop('className')).to.equal('btn btn-primary pull-right disabled')
         wrapper.setState({
             name: "1",
             artifactid: "2",
             groupid: "3",
             portoffset: "4"
         })
-        expect(wrapper.find('button').nodes[1].props.className).to.equal('btn btn-primary pull-right')
+        expect(wrapper.find('button').at(1).prop('className')).to.equal('btn btn-primary pull-right')
     })
 
     it('renders "Modal" if showNewApplicationForm = true', () => {
@@ -147,7 +147,8 @@ const props = {
             "revisions": "https://e34jbsl01655.devillo.no:8443/api/v2/applications/a-inntekt/revisions"
         }
     },
-    "mode": "copy"
+    "mode": "copy",
+    "dispatch": () => {}
 }
 
 

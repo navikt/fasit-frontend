@@ -6,7 +6,6 @@ import { syncHistoryWithStore } from "react-router-redux"
 import { Root } from "./js/components/Root/Root"
 import { configureStore } from "./js/store/configureStore"
 import { SET_FILTER_CONTEXT, RECEIVE_CONFIGURATION } from "./js/actionTypes"
-import injectTapEventPlugin from "react-tap-event-plugin"
 
 const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store)
@@ -17,7 +16,6 @@ history.listen(location => {
     value: location.pathname.replace(/^\//g, "").split("/")[0]
   })
 })
-injectTapEventPlugin()
 
 // /config inneholder alle eksterne APIer, slik at vi slipper å bruke proxy.
 fetch("/config")
