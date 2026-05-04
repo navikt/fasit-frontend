@@ -1,6 +1,6 @@
 import React from 'react'
 import {styles} from '../../commonStyles/commonInlineStyles'
-import FlatButton from 'material-ui/FlatButton'
+import Button from '@material-ui/core/Button'
 
 export default function WebsphereManagementConsole(props) {
     const hostname = props.hostname
@@ -8,11 +8,11 @@ export default function WebsphereManagementConsole(props) {
 
     return (
         <a href={url} target="new">
-            <FlatButton
-                disableTouchRipple={true}
-                label="Admin console"
+            <Button
+                variant="text"
+                disableRipple={true}
                 style={styles.flatButton}
-            />
+            >Admin console</Button>
         </a>
     )
 }

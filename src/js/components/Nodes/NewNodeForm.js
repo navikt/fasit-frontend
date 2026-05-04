@@ -8,10 +8,6 @@ import {displayModal, submitForm} from "../../actionCreators/common";
 class NewNodeForm extends Component {
     constructor(props) {
         super(props)
-        this.initialState()
-    }
-
-    initialState() {
         this.state = {
             hostname: "",
             username: "",
@@ -23,17 +19,31 @@ class NewNodeForm extends Component {
         }
     }
 
-    componentWillReceiveProps(next) {
-        if (next.mode === "edit" || next.mode === "copy") {
-            const {hostname, username, type, environment, environmentclass, zone} = next.node.data
-            const password = next.node.currentPassword
+    resetState() {
+        this.setState({
+            hostname: "",
+            username: "",
+            password: "",
+            type: "",
+            environment: "",
+            environmentclass: "",
+            zone: ""
+        })
+    }
 
-            this.setState({
-                hostname, username, type, environment, environmentclass, zone, password
-            })
-        }
-        else {
-            this.initialState()
+    componentDidUpdate(prevProps) {
+        if (this.props.mode !== prevProps.mode || this.props.node !== prevProps.node) {
+            if (this.props.mode === "edit" || this.props.mode === "copy") {
+                const {hostname, username, type, environment, environmentclass, zone} = this.props.node.data
+                const password = this.props.node.currentPassword
+
+                this.setState({
+                    hostname, username, type, environment, environmentclass, zone, password
+                })
+            }
+            else {
+                this.resetState()
+            }
         }
     }
 
@@ -67,7 +77,7 @@ class NewNodeForm extends Component {
 
     closeForm() {
         const {dispatch} = this.props
-        this.initialState()
+        this.resetState()
         dispatch(displayModal("node", false))
     }
 

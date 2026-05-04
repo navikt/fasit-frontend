@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { parseQuery } from "../../utils/queryParser";
-import { Tab, Tabs } from "material-ui/Tabs";
+import { Tabs, Tab } from "@material-ui/core";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";
 import { Link } from "react-router-dom";
 import Manifest from "./Manifest";
 import { CollapsibleList, CurrentRevision, History, Lifecycle } from "../common/";
-import { Card, CardHeader, CardText } from "material-ui/Card";
-import { List, ListItem } from "material-ui/List";
+import { Card, CardHeader, CardContent, List, ListItem, ListItemText } from "@material-ui/core";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import { fetchInstance } from "../../actionCreators/instance";
 import { validAuthorization } from "../../utils/";
@@ -17,7 +16,8 @@ class Instance extends Component {
         super(props)
 
         this.state = {
-            comment: ""
+            comment: "",
+            tabIndex: 0
         }
     }
 
@@ -26,15 +26,15 @@ class Instance extends Component {
         dispatch(fetchInstance(id, query.revision))
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(prevProps) {
         const {dispatch, id, query} = this.props
         // Fetch data from backend if revision changes
-        if (nextProps.query.revision != query.revision) {
-            dispatch(fetchInstance(id, nextProps.query.revision))
+        if (query.revision != prevProps.query.revision) {
+            dispatch(fetchInstance(id, query.revision))
         }
         // Fetch data from backend if id changes
-        if (nextProps.id != id) {
-            dispatch(fetchInstance(nextProps.id, nextProps.query.revision))
+        if (id != prevProps.id) {
+            dispatch(fetchInstance(id, query.revision))
         }
     }
 
@@ -44,6 +44,10 @@ class Instance extends Component {
 
     handleChange(field, value) {
         this.setState({[field]: value})
+    }
+
+    handleTabChange(event, newValue) {
+        this.setState({tabIndex: newValue})
     }
 
     render() {
@@ -59,6 +63,8 @@ class Instance extends Component {
             lifecycle = instance.lifecycle
         }
 
+        const { tabIndex } = this.state
+
         return (
             <div>
                 <div className="col-md-9">
@@ -66,59 +72,62 @@ class Instance extends Component {
                     <Card style={styles.cardPadding}>
                         <CardHeader
                             avatar={icons.instance}
-                            titleStyle={styles.bold}
+                            titleTypographyProps={{style: styles.bold}}
                             title={<Link to={`/applications/${instance.application}`}>{`${instance.application}`}</Link>}
                             style={styles.paddingBottom0}
-                            subtitle={`${instance.application}:${instance.version}`}
+                            subheader={`${instance.application}:${instance.version}`}
                         />
-                        <CardText>
+                        <CardContent>
                             <div>
                                 <div>
                                     <List>
                                         <ListItem
                                             key='environment'
-                                            disabled={true}
-                                            primaryText={<Link
-                                                to={`/environments/${instance.environment}`}>{instance.environment}</Link>}
-                                            secondaryText="Environment"
-                                        />
+                                        >
+                                            <ListItemText
+                                                primary={<Link
+                                                    to={`/environments/${instance.environment}`}>{instance.environment}</Link>}
+                                                secondary="Environment"
+                                            />
+                                        </ListItem>
                                         <ListItem
                                             key="cluster"
-                                            disabled={true}
-                                            primaryText={<Link
-                                                to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>}
-                                            secondaryText="Cluster"
-                                        />
+                                        >
+                                            <ListItemText
+                                                primary={<Link
+                                                    to={`/environments/${instance.environment}/clusters/${clusterName}`}>{clusterName}</Link>}
+                                                secondary="Cluster"
+                                            />
+                                        </ListItem>
                                     </List>
                                 </div>
                             </div>
-                        </CardText>
+                        </CardContent>
                     </Card>
                     <Lifecycle lifecycle={lifecycle}/>
                     <Card style={styles.cardPadding}>
-                        <CardText>
+                        <CardContent>
                             {instance.usedresources &&
-                            <Tabs tabItemContainerStyle={styles.tabItem} inkBarStyle={styles.inkBar}>
-                                <Tab
-                                    label={`Used resources ${instance.usedresources.length}`}
-                                    disableTouchRipple={true}>
-                                    <SortableResourceTable resources={instance.usedresources} instanceLastChanged={instance.updated}/>
-                                </Tab>
-                                <Tab
-                                    label={`Exposed resources ${instance.exposedresources.length}`}
-                                    disableTouchRipple={true}
-                                    disabled={instance.exposedresources.length === 0}>
-                                    <SortableResourceTable resources={instance.exposedresources}/>
-                                </Tab>
-                                <Tab
-                                    label="Manifest"
-                                    disableTouchRipple={true}>
-                                    <Manifest/>
-                                </Tab>
-                            </Tabs>
+                            <div>
+                                <Tabs value={tabIndex} onChange={this.handleTabChange.bind(this)} style={styles.tabItem} variant="fullWidth">
+                                    <Tab
+                                        label={`Used resources ${instance.usedresources.length}`}
+                                        disableRipple />
+                                    <Tab
+                                        label={`Exposed resources ${instance.exposedresources.length}`}
+                                        disableRipple
+                                        disabled={instance.exposedresources.length === 0} />
+                                    <Tab
+                                        label="Manifest"
+                                        disableRipple />
+                                </Tabs>
+                                {tabIndex === 0 && <SortableResourceTable resources={instance.usedresources} instanceLastChanged={instance.updated}/>}
+                                {tabIndex === 1 && <SortableResourceTable resources={instance.exposedresources}/>}
+                                {tabIndex === 2 && <Manifest/>}
+                            </div>
                             }
 
-                        </CardText>
+                        </CardContent>
                     </Card>
 
                 </div>

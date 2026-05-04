@@ -1,5 +1,4 @@
-import FlatButton from "material-ui/FlatButton"
-import RaisedButton from "material-ui/RaisedButton"
+import Button from "@material-ui/core/Button"
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
 import { Modal } from "react-bootstrap"
@@ -156,20 +155,23 @@ class NewClusterForm extends Component {
         </Modal.Body>
         <Modal.Footer>
           <div className="row col-md-12">
-            <RaisedButton
-              backgroundColor={colors.avatarBackgroundColor}
-              labelColor={colors.white}
-              disableTouchRipple={true}
+            <Button
+              variant="contained"
+              disableRipple
               disabled={!this.enableSubmitButton()}
-              label="submit"
-              onTouchTap={this.handleSubmitForm.bind(this, true)}
-            />
+              onClick={this.handleSubmitForm.bind(this, true)}
+              style={{backgroundColor: colors.avatarBackgroundColor, color: colors.white}}
+            >
+              submit
+            </Button>
 
-            <FlatButton
-              disableTouchRipple={true}
-              label="cancel"
-              onTouchTap={this.closeForm.bind(this)}
-            />
+            <Button
+              variant="text"
+              disableRipple
+              onClick={this.closeForm.bind(this)}
+            >
+              cancel
+            </Button>
           </div>
         </Modal.Footer>
       </Modal>

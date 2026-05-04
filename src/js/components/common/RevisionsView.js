@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import moment from "moment"
 import { connect } from "react-redux"
 import { push } from "connected-react-router"
-import { List, ListItem } from "material-ui/List"
+import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core"
 import { fetchRevisions } from "../../actionCreators/common"
 import { styles, icons } from "../../commonStyles/commonInlineStyles"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -22,10 +22,10 @@ class RevisionsView extends Component {
     dispatch(fetchRevisions(component, id))
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { dispatch, id, component } = nextProps
+  componentDidUpdate(prevProps) {
+    const { dispatch, id, component } = this.props
 
-    if (this.props.id !== nextProps.id) {
+    if (prevProps.id !== id) {
       dispatch(fetchRevisions(component, id))
     }
   }
@@ -79,20 +79,18 @@ class RevisionsView extends Component {
             return (
               <ListItem
                 key={idx}
+                button
                 onClick={() =>
                   dispatch(push(routing.pathname + revisionQuery))
                 }
                 style={{ fontSize: "14px" }}
-                leftIcon={
-                  rev.revision == currentRevision ? icons.rightArrow : null
-                }
-                insetChildren={true}
-                innerDivStyle={{ paddingBottom: "5px", paddingTop: "5px" }}
-                disableTouchRipple={true}
-                primaryText={moment(rev.timestamp).format("DD MMM YYYY HH:mm:ss")}
-                secondaryText={renderSecondaryText(rev)}
-                secondaryTextLines={rev.message ? 2 : 1}
-              />
+              >
+                {rev.revision == currentRevision && <ListItemIcon>{icons.rightArrow}</ListItemIcon>}
+                <ListItemText
+                  primary={moment(rev.timestamp).format("DD MMM YYYY HH:mm:ss")}
+                  secondary={renderSecondaryText(rev)}
+                />
+              </ListItem>
             )
           })}
 
@@ -104,16 +102,16 @@ class RevisionsView extends Component {
 
 function renderSecondaryText(revision) {
   return (
-    <div>
+    <span>
       {revision.author}
       {revision.message && (
-        <div>
+        <span>
           {" "}
           <FontAwesomeIcon icon="angle-double-right" fixedWidth />
           {revision.message}
-        </div>
+        </span>
       )}
-    </div>
+    </span>
   )
 }
 

@@ -1,14 +1,14 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
-import { List, ListItem } from "material-ui/List"
+import { List, ListItem, ListItemText } from "@material-ui/core"
 import { Link } from "react-router-dom"
 import { validAuthorization } from "../../utils"
 import { fetchFasitData } from "../../actionCreators/resource"
 import { displayModal, submitForm } from "../../actionCreators/common"
 import { getResourceTypeName, resourceTypeIcon, resourceTypes } from "../../utils/resourceTypes"
 import { ResourceInstances } from "./ResourceInstances"
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
+import { Card, CardActions, CardContent, CardHeader } from "@material-ui/core"
 import { styles } from "../../commonStyles/commonInlineStyles"
 import NotFound from "../NotFound"
 import WebsphereManagementConsole from "../common/WebsphereManagementConsole"
@@ -51,16 +51,16 @@ class Resource extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { dispatch, id, query } = this.props
 
-    if (nextProps.id != id) {
+    if (id != prevProps.id) {
       this.resetState(initialState)
-      dispatch(fetchFasitData(nextProps.id))
+      dispatch(fetchFasitData(id))
     }
 
-    if (nextProps.query.revision != query.revision) {
-      dispatch(fetchFasitData(id, nextProps.query.revision))
+    if (query.revision != prevProps.query.revision) {
+      dispatch(fetchFasitData(id, query.revision))
     }
   }
 
@@ -135,39 +135,45 @@ class Resource extends Component {
           <ListItem
             key={key}
             style={{ paddingTop: "0px", paddingBottom: "14px" }}
-            disabled={true}
-            primaryText={properties[key]}
-            secondaryText={propertyName}
-          />
+          >
+            <ListItemText
+              primary={properties[key]}
+              secondary={propertyName}
+            />
+          </ListItem>
         )
       case "link":
         return (
           <ListItem
             key={key}
             style={{ paddingTop: "0px", paddingBottom: "14px" }}
-            disabled={true}
-            primaryText={
-              <Link to={properties[key]} target="new">
-                {property.linkTitle || properties[key]}
-              </Link>
-            }
-            secondaryText={propertyName}
-          />
+          >
+            <ListItemText
+              primary={
+                <Link to={properties[key]} target="new">
+                  {property.linkTitle || properties[key]}
+                </Link>
+              }
+              secondary={propertyName}
+            />
+          </ListItem>
         )
       case "textarea":
         return (
           <ListItem
             key={key}
             style={{ paddingTop: "0px", paddingBottom: "14px" }}
-            disabled={true}
             className="text-overflow"
-            primaryText={
-              <pre>
-                <code>{properties[key]}</code>
-              </pre>
-            }
-            secondaryText={propertyName}
-          />
+          >
+            <ListItemText
+              primary={
+                <pre>
+                  <code>{properties[key]}</code>
+                </pre>
+              }
+              secondary={propertyName}
+            />
+          </ListItem>
         )
       case "vaultPath":
       case "secret":
@@ -177,15 +183,17 @@ class Resource extends Component {
             <ListItem
               key={key}
               style={{ paddingTop: "0px", paddingBottom: "14px" }}
-              disabled={true}
               className="text-overflow"
-              primaryText={
-                <span>
-                  <a href={vaultUrl(secret.vaultpath)}>{secret.vaultpath}</a>
-                </span>
-              }
-              secondaryText={`${propertyName} (Vault Path)`}
-            />
+            >
+              <ListItemText
+                primary={
+                  <span>
+                    <a href={vaultUrl(secret.vaultpath)}>{secret.vaultpath}</a>
+                  </span>
+                }
+                secondary={`${propertyName} (Vault Path)`}
+              />
+            </ListItem>
           )
         } else {
           const secretText = this.props.currentSecrets[key]
@@ -196,22 +204,24 @@ class Resource extends Component {
             <ListItem
               key={key}
               style={{ paddingTop: "0px", paddingBottom: "14px" }}
-              disabled={true}
               className="text-overflow"
-              primaryText={
-                <div>
-                  {secretVisible ? secretText : "*********"}
-                  <SecretToggle
-                    user={user}
-                    accesscontrol={resource.accesscontrol}
-                    secretVisible={secretVisible}
-                    toggleHandler={() => this.toggleDisplaySecret()}
-                    dispatch={dispatch}
-                  />
-                </div>
-              }
-              secondaryText={propertyName}
-            />
+            >
+              <ListItemText
+                primary={
+                  <div>
+                    {secretVisible ? secretText : "*********"}
+                    <SecretToggle
+                      user={user}
+                      accesscontrol={resource.accesscontrol}
+                      secretVisible={secretVisible}
+                      toggleHandler={() => this.toggleDisplaySecret()}
+                      dispatch={dispatch}
+                    />
+                  </div>
+                }
+                secondary={propertyName}
+              />
+            </ListItem>
           )
         }
       case "file":
@@ -219,16 +229,18 @@ class Resource extends Component {
           <ListItem
             key={key}
             style={{ paddingTop: "0px", paddingBottom: "14px" }}
-            disabled={true}
             className="text-overflow"
-            primaryText={
-              <Link to={files[key].ref} target="new">
-                <FontAwesomeIcon className="file" fixedWidth />
-                {files[key].filename}
-              </Link>
-            }
-            secondaryText={propertyName}
-          />
+          >
+            <ListItemText
+              primary={
+                <Link to={files[key].ref} target="new">
+                  <FontAwesomeIcon className="file" fixedWidth />
+                  {files[key].filename}
+                </Link>
+              }
+              secondary={propertyName}
+            />
+          </ListItem>
         )
     }
   }
@@ -241,11 +253,13 @@ class Resource extends Component {
         <ListItem
           key={exposedBy.id}
           style={{ paddingTop: "0px", paddingBottom: "14px" }}
-          disabled={true}
           className="text-overflow"
-          primaryText={<Link to={`/instances/${exposedBy.id}`}>{displayString}</Link>}
-          secondaryText="Exposed by"
-        />
+        >
+          <ListItemText
+            primary={<Link to={`/instances/${exposedBy.id}`}>{displayString}</Link>}
+            secondary="Exposed by"
+          />
+        </ListItem>
       )
     }
   }
@@ -306,17 +320,17 @@ class Resource extends Component {
             <Card>
               <CardHeader
                 avatar={resourceTypeIcon(resource.type)}
-                titleStyle={styles.bold}
+                titleTypographyProps={{style: styles.bold}}
                 title={`${getResourceTypeName(resource.type)} ${resource.alias}`}
-                subtitle={this.scopeDisplayString(resource.scope)}
+                subheader={this.scopeDisplayString(resource.scope)}
               />
-              <CardText>
+              <CardContent>
                 {this.renderResourceProperties(resource.properties)}
                 {this.exposedByApplication()}
                 {resource.type.toLowerCase() === "deploymentmanager" && (
                   <WebsphereManagementConsole hostname={resource.properties.hostname} />
                 )}
-              </CardText>
+              </CardContent>
               <CardActions>
                 <ToolButtons
                   disabled={!authorized || resourceModalVisible}

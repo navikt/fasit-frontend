@@ -612,7 +612,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/secrets/771549"
+        ref: "http://localhost:6969/mockapi/v2/secrets/771549"
       }
     },
     files: {},
@@ -673,7 +673,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/secrets/1729516"
+        ref: "http://localhost:6969/mockapi/v2/secrets/1729516"
       }
     },
     files: {},

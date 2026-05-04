@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { Card, CardHeader } from "material-ui/Card"
-import Avatar from "material-ui/Avatar"
-import Restore from "material-ui/svg-icons/action/restore"
+import { Card, CardHeader } from "@material-ui/core"
+import Avatar from "@material-ui/core/Avatar"
+import Restore from "@material-ui/icons/Restore"
 import { colors, styles } from "../../commonStyles/commonInlineStyles"
 
 class Lifecycle extends Component {
@@ -13,7 +13,7 @@ class Lifecycle extends Component {
 
   avatar(iconColor) {
     return (
-      <Avatar backgroundColor={iconColor}>
+      <Avatar style={{backgroundColor: iconColor}}>
         <Restore style={styles.white} />
       </Avatar>
     )
@@ -21,13 +21,11 @@ class Lifecycle extends Component {
 
   card(title, iconColor) {
     return (
-      <Card expandable={false} initiallyExpanded={false} style={styles.cardPadding}>
+      <Card style={styles.cardPadding}>
         <CardHeader
           title={title}
-          titleStyle={styles.bold}
-          actAsExpander={true}
+          titleTypographyProps={{style: styles.bold}}
           avatar={this.avatar(iconColor)}
-          showExpandableButton={false}
         />
       </Card>
     )

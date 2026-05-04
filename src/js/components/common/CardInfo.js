@@ -1,10 +1,10 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
-import Restore from "material-ui/svg-icons/action/restore"
+import Restore from "@material-ui/icons/Restore"
 import { colors } from "../../commonStyles/commonInlineStyles"
-import Chip from "material-ui/Chip"
+import Chip from "@material-ui/core/Chip"
 import { capitalize } from "../../utils/"
-import Avatar from "material-ui/Avatar"
+import Avatar from "@material-ui/core/Avatar"
 import moment from "moment"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
@@ -12,11 +12,11 @@ export function CardInfo(props) {
   const { lastUpdated, lifecycle } = props
   return (
     <div
-      className="pull-right col-md-4"
-      style={{ position: "absolute", top: "10px", right: "10px" }}
-    >
+      className="pull-right"
+      style={{top: "10px", marginRight: "10px", marginLeft: "10px"}}
+    > 
       <div
-        className="col-md-3 text-muted pull-right"
+        className="text-muted pull-right"
         style={{ paddingTop: "6px" }}
       >
         {renderLastUpdated(lastUpdated)}
@@ -31,7 +31,7 @@ function renderLastUpdated(lastUpdated) {
     moment.locale("en")
     const momentTime = moment(lastUpdated)
     return (
-      <div>
+      <div >
         <div>
           <FontAwesomeIcon icon={["far", "calendar"]} fixedWidth />
           {momentTime.format("DD MMM YYYY")}
@@ -64,11 +64,12 @@ function LifecycleChip(props) {
   }
 
   return (
-    <div className="col-md-4 pull-right" style={{ paddingTop: "6px" }}>
-      <Chip backgroundColor={colors.white} labelColor={colors.grey}>
-        <Avatar backgroundColor={color} icon={<Restore />} />
-        {capitalize(lifecycleStatus)}
-      </Chip>
+    <div className="pull-right" style={{ paddingTop: "6px" }}>
+      <Chip
+        style={{backgroundColor: colors.white, color: colors.grey}}
+        avatar={<Avatar style={{backgroundColor: color}}><Restore /></Avatar>}
+        label={capitalize(lifecycleStatus)}
+      />
     </div>
   )
 }

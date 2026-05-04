@@ -3,7 +3,7 @@ import { shallow } from "enzyme"
 import { expect } from "chai"
 import sinon from "sinon"
 import { Environment } from "../../../../src/js/components/Environments/Environment"
-import { Card } from "material-ui/Card"
+import { Card } from "@material-ui/core"
 import { CurrentRevision, Lifecycle, ToolButtons } from "../../../../src/js/components/common/"
 
 describe("(Component) Environment", () => {
@@ -61,14 +61,13 @@ describe("(Component) Environment", () => {
     expect(dispatch.args[0][0].id).to.equal("p")
   })
 
-  it('(function) "componentWillReceiveProps" dispatches correct action', () => {
+  it('(function) "componentDidUpdate" dispatches correct action', () => {
     const dispatch = sinon.spy()
     const wrapper = shallow(<Environment {...props} dispatch={dispatch} />)
-    wrapper
-      .instance()
-      .componentWillReceiveProps({ name: "mikke mus", environment: [], query: { revision: "" } })
+    dispatch.resetHistory()
+    wrapper.setProps({ name: "mikke mus", environment: [], query: { revision: "" } })
     expect(dispatch.args[0][0].type).to.equal("ENVIRONMENT_FASIT_REQUEST")
-    expect(dispatch.args[0][0].id).to.equal("p")
+    expect(dispatch.args[0][0].id).to.equal("mikke mus")
   })
 
   it('renders "CurrentRevision" with props', () => {

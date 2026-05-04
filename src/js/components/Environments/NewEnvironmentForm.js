@@ -14,16 +14,18 @@ class NewEnvironmentForm extends Component {
             environmentclass: ""
         }
     }
-    componentWillReceiveProps(next){
-        const {name, environmentclass} = this.props
-        if (next.mode === "edit"  || next.mode === "copy"){
-            this.setState({
-                name,
-                environmentclass
-            })
-        }
-        else {
-            this.resetLocalState()
+    componentDidUpdate(prevProps){
+        if (this.props.mode !== prevProps.mode || this.props.name !== prevProps.name || this.props.environmentclass !== prevProps.environmentclass) {
+            const {name, environmentclass} = this.props
+            if (this.props.mode === "edit"  || this.props.mode === "copy"){
+                this.setState({
+                    name,
+                    environmentclass
+                })
+            }
+            else {
+                this.resetLocalState()
+            }
         }
     }
 

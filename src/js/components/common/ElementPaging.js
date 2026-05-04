@@ -11,9 +11,9 @@ export class ElementPaging extends Component {
   }
 
   // always reset to page 0 if search or filters have changed
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { filter } = this.props
-    if (filter.filters !== nextProps.filter.filters) {
+    if (prevProps.filter.filters !== filter.filters) {
       this.setState({ page: 0 })
     }
   }

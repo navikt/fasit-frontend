@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from "material-ui/Table";
+import { Table, TableBody, TableHead, TableRow, TableCell } from "@material-ui/core";
 import { sortBy } from "../../utils/";
 
 
@@ -10,22 +10,22 @@ export function ResourceInstances(props) {
         <div>
             <h3>Used by</h3>
             <Table>
-                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                <TableHead>
                     <TableRow>
-                        <TableHeaderColumn>Environment</TableHeaderColumn>
-                        <TableHeaderColumn>Instance</TableHeaderColumn>
+                        <TableCell>Environment</TableCell>
+                        <TableCell>Instance</TableCell>
                     </TableRow>
-                </TableHeader>
-                {props.instances && <TableBody displayRowCheckbox={false}>
+                </TableHead>
+                {props.instances && <TableBody>
                     {props.instances
                         .sort(sortBy("application"))
                         .map(instance => {
                             return (
                                 <TableRow key={instance.id}>
-                                    <TableRowColumn><Link
-                                        to={'/environments/' + instance.environment}>{instance.environment}</Link></TableRowColumn>
-                                    <TableRowColumn><Link
-                                        to={'/instances/' + instance.id}>{instance.application + ":" + instance.version}</Link></TableRowColumn>
+                                    <TableCell><Link
+                                        to={'/environments/' + instance.environment}>{instance.environment}</Link></TableCell>
+                                    <TableCell><Link
+                                        to={'/instances/' + instance.id}>{instance.application + ":" + instance.version}</Link></TableCell>
                                 </TableRow>
                             )
                         })}

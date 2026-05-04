@@ -1,12 +1,7 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { MaterialDropDown } from '../common/Forms'
 
 class Scope extends Component {
-
-    constructor(props) {
-        super(props)
-    }
 
     handleChange(field, newValue) {
         const { scope, handleChange } = this.props
@@ -62,14 +57,4 @@ class Scope extends Component {
     }
 }
 
-
-const mapStateToProps = (state) => {
-    return {
-        environmentClasses: state.environments.environmentClasses,
-        environments: state.environments.environments,
-        applications: state.applications.applicationNames,
-        zones: state.environments.zones
-    }
-}
-
-export default connect(mapStateToProps)(Scope)
+export default Scope

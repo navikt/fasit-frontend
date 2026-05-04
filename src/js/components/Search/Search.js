@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { push } from "connected-react-router";
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from "material-ui/Toolbar";
-import RaisedButton from "material-ui/RaisedButton";
-import { Table, TableBody, TableRow, TableRowColumn } from "material-ui/Table";
+import { Card, CardActions, CardContent, CardHeader, Toolbar, Box, Divider, Typography, Table, TableBody, TableRow, TableCell } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import { APPCONFIG, CLUSTER, destinationUrl, INSTANCE, RESOURCE, SEARCH_RESULT_TYPES } from "../Search/searchResultTypes";
 import { colors, icons, styles } from "../../commonStyles/commonInlineStyles";
 import { CardInfo } from "../common/";
@@ -30,11 +28,11 @@ class Search extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(prevProps) {
         const { dispatch, match } = this.props
 
-        if (nextProps.match.params.query && match.params.query != nextProps.match.params.query) {
-            dispatch(submitSearch(nextProps.match.params.query))
+        if (match.params.query && prevProps.match.params.query != match.params.query) {
+            dispatch(submitSearch(match.params.query))
         }
     }
 
@@ -85,40 +83,38 @@ class Search extends Component {
 
         return (
             <div style={styles.paddingTop5} key={idx}>
-                <Card expandable={hasDetailedInfo} initiallyExpanded={false}>
+                <Card>
                     <CardHeader title={<Link to={destinationUrl(searchResult)}>{title}</Link>}
-                        subtitle={subtitle}
+                        subheader={subtitle}
                         style={{ paddingTop: '7px', paddingBottom: '7px' }}
                         avatar={avatar}
-                        showExpandableButton={false}
-                        actAsExpander={true}
                         children={this.additionalCardInfo(searchResult)} />
 
-                    {hasDetailedInfo && <CardText expandable={true} actAsExpander={true}>
+                    {hasDetailedInfo && <CardContent>
                         <Table>
-                            <TableBody displayRowCheckbox={false}>
+                            <TableBody>
                                 {Object.keys(detailedInfo)
                                     .filter(di => detailedInfo[di] !== null && detailedInfo[di] !== '')
                                     .sort()
                                     .map((di) => {
                                         return (
-                                            <TableRow key={di} selectable={false}>
-                                                <TableRowColumn style={styles.tableCellPadding}
+                                            <TableRow key={di}>
+                                                <TableCell style={styles.tableCellPadding}
                                                     className={"col-sm-2"}>
                                                     {capitalize(di)}
-                                                </TableRowColumn>
-                                                <TableRowColumn style={styles.tableCellPadding}
+                                                </TableCell>
+                                                <TableCell style={styles.tableCellPadding}
                                                     className="text-overflow">
                                                     {this.cellContents(di, detailedInfo[di])}
-                                                </TableRowColumn>
+                                                </TableCell>
                                             </TableRow>)
                                     })}
                             </TableBody>
                         </Table>
-                    </CardText>}
+                    </CardContent>}
                     {searchResult.type === RESOURCE
                         && searchResult.detailedinfo.type.toLowerCase() === 'deploymentmanager'
-                        && <CardActions actAsExpander={true} style={{ paddingTop: '0px' }}>
+                        && <CardActions style={{ paddingTop: '0px' }}>
                             <WebsphereManagementConsole hostname={searchResult.detailedinfo.hostname} />)
                     </CardActions>}
                 </Card>
@@ -139,8 +135,8 @@ class Search extends Component {
 
         return (
             <Toolbar>
-                <ToolbarGroup>
-                    <ToolbarTitle text="Filter" />
+                <Box display="flex" alignItems="center">
+                    <Typography variant="subtitle1">Filter</Typography>
                     {SEARCH_RESULT_TYPES.map((type) => {
                         return (
                             <FilterButton
@@ -151,14 +147,15 @@ class Search extends Component {
                                 onClickHandler={() => this.filterByType(type)} />)
                     })}
 
-                </ToolbarGroup>
-                <ToolbarGroup>
-                    <ToolbarSeparator />
-                    <RaisedButton label='clear' disabled={!searchResults.filter} disableTouchRipple={true}
-                        backgroundColor={colors.toolbarBackground} labelColor={colors.white}
-                        style={styles.raisedButton}
-                        onTouchTap={() => this.filterByType()} />
-                </ToolbarGroup>
+                </Box>
+                <Box display="flex" alignItems="center">
+                    <Divider orientation="vertical" flexItem style={{margin: "0 8px"}} />
+                    <Button variant="contained" disabled={!searchResults.filter} disableRipple
+                        style={{backgroundColor: colors.toolbarBackground, color: colors.white, ...styles.raisedButton}}
+                        onClick={() => this.filterByType()}>
+                        clear
+                    </Button>
+                </Box>
             </Toolbar>)
     }
 
@@ -187,14 +184,15 @@ const mapStateToProps = (state) => {
 
 function FilterButton(props) {
     const { type, onClickHandler, activeFilter, disabled } = props
-    return (<RaisedButton
+    return (<Button
         key={type}
-        label={type}
-        disableTouchRipple={true}
+        variant="contained"
+        disableRipple
         disabled={disabled}
-        backgroundColor={activeFilter === type ? colors.toolbarBackground : colors.white}
-        labelColor={activeFilter === type ? colors.white : colors.black}
-        onTouchTap={onClickHandler} />)
+        style={{backgroundColor: activeFilter === type ? colors.toolbarBackground : colors.white, color: activeFilter === type ? colors.white : colors.black}}
+        onClick={onClickHandler}>
+        {type}
+    </Button>)
 }
 
 export default connect(mapStateToProps)(Search)

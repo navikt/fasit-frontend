@@ -6,7 +6,7 @@ module.exports = {
   devtool: "eval-cheap-module-source-map",
   entry: [
     "@babel/polyfill",
-    "./src/react-compat-shims",
+    "./src/react-bootstrap-shims",
     "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true",
     "./src/stylesheets/index.less",
     "./src/index"

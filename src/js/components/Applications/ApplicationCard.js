@@ -1,39 +1,49 @@
 import React from "react";
 import { CardInfo } from "../common/";
-import FlatButton from "material-ui/FlatButton";
+import Button from "@material-ui/core/Button";
 import { Link, withRouter } from "react-router-dom";
-import { Card, CardActions, CardText, CardHeader } from "material-ui/Card";
+import { Card, Collapse, CardContent, CardHeader } from "@material-ui/core";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";
 
 
 export function ApplicationCard(props) {
     const application = props.application
     const avatar = icons.application
-    const additionalCardInfo = (<CardInfo lastUpdated={application.updated} lifecycle={application.lifecycle}/>)
+    const [checked, setChecked] = React.useState(false);
+    //const additionalCardInfo = (<CardInfo lastUpdated={application.updated} lifecycle={application.lifecycle}/>)
+
+    const handleChange = () => {
+        setChecked((prev) => !prev);
+    };
+
 
     return (
         <div style={styles.cardPadding}>
-            <Card>
-                <CardHeader
-                    title={<Link to={`/applications/${application.name}`}>{application.name}</Link>}
-                    actAsExpander={true}
-                    avatar={avatar}
-                    children={additionalCardInfo}
-                />
-                <CardText expandable={true}>
+            <Card onClick={handleChange} raised={true}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <CardHeader
+                        title={<Link to={`/applications/${application.name}`}>{application.name}</Link>}
+                        avatar={avatar}
+                        style={{ flex: 1 }}
+                    />
+                <CardInfo lastUpdated={application.updated} lifecycle={application.lifecycle}/>
+                </div>
+                <Collapse in={checked} timeout="auto" >
+                <CardContent>
                     <div>
                         {`Group id ${application.groupid}`}<br/>
                         {`Artifact id ${application.artifactid}`}<br/>
                         {`Port offset ${application.portoffset}`}
                     </div>
-                </CardText>
-                <CardActions expandable={true}>
-                    <FlatButton
-                        disableTouchRipple={true}
-                        onTouchTap={() => props.history.push('/applications/' + application.name)}
-                        label="manage"
-                        style={styles.flatButton}/>
-                </CardActions>
+                </CardContent>
+                    <Button
+                        variant="text"
+                        disableRipple
+                        onClick={() => props.history.push('/applications/' + application.name)}
+                        style={styles.flatButton}>
+                        manage
+                    </Button>
+                </Collapse>
             </Card>
         </div>
     )

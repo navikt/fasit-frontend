@@ -15,10 +15,10 @@ class EnvironmentInstances extends Component {
     dispatch(fetchEnvironmentInstances(environment))
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { dispatch, environment } = this.props
-    if (environment != nextProps.environment) {
-      dispatch(fetchEnvironmentInstances(nextProps.environment))
+    if (prevProps.environment != environment) {
+      dispatch(fetchEnvironmentInstances(environment))
     }
   }
 

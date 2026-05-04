@@ -1,4 +1,4 @@
-import { call, fork, put, select , takeEvery} from "redux-saga/effects"
+import { call, put, select, takeEvery } from "redux-saga/effects"
 import { push } from "connected-react-router";
 import { fetchUrl } from "../utils";
 import {
@@ -147,22 +147,10 @@ export function* fetchEnvironmentInstances(action) {
 
 export function* watchEnvironmentFasit() {
   yield takeEvery(CLUSTER_FASIT_URL_REQUEST, fetchFasitClusterUrl);
-  yield fork(
-    takeEvery,
-    ENVIRONMENT_FASIT_URL_REQUEST,
-    fetchFasitEnvironmentUrl
-  );
+  yield takeEvery(ENVIRONMENT_FASIT_URL_REQUEST, fetchFasitEnvironmentUrl);
   yield takeEvery(ENVIRONMENT_FASIT_REQUEST, fetchEnvironment);
-  yield fork(
-    takeEvery,
-    ENVIRONMENT_CLUSTER_FASIT_REQUEST,
-    fetchEnvironmentCluster
-  );
+  yield takeEvery(ENVIRONMENT_CLUSTER_FASIT_REQUEST, fetchEnvironmentCluster);
   yield takeEvery(ENVIRONMENT_CLUSTERS_REQUEST, fetchEnvironmentClusters);
   yield takeEvery(ENVIRONMENT_NODES_FASIT_REQUEST, fetchEnvironmentNodes);
-  yield fork(
-    takeEvery,
-    ENVIRONMENT_INSTANCES_FASIT_REQUEST,
-    fetchEnvironmentInstances
-  );
+  yield takeEvery(ENVIRONMENT_INSTANCES_FASIT_REQUEST, fetchEnvironmentInstances);
 }

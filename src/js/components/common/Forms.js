@@ -4,10 +4,23 @@ import Select, { Creatable } from "react-select"
 import { Tooltip, OverlayTrigger } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { capitalize } from "../../utils/"
-import SelectField from "material-ui/SelectField"
-import MenuItem from "material-ui/MenuItem"
-import TextField from "material-ui/TextField"
+import { FormControl, InputLabel, Select as MuiSelect } from "@material-ui/core"
+import MenuItem from "@material-ui/core/MenuItem"
+import TextField from "@material-ui/core/TextField"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  floatingLabelStyle: { color: "#000000", fontSize: "16px" },
+  selectedDropDownValue: { color: "#000000", fontSize: "16px" },
+}));
 
 const copyToClipboard = element => {
   let el = document.getElementById(element)
@@ -39,63 +52,59 @@ const floatingLabelFocusStyle = { color: "#268bd2", fontSize: "16px" }
 
 export function MaterialDropDown(props) {
   const { label, field, value, options, onChange, fullWidth } = props
+  const classes = useStyles();
 
   return (
-    <SelectField
-      fullWidth={fullWidth === undefined ? true : fullWidth}
-      value={value}
-      floatingLabelStyle={floatingLabelStyle}
-      floatingLabelFixed={true}
-      id={field}
-      onChange={(e, idx, newValue) => onChange(field, newValue)}
-      floatingLabelText={label}
-    >
-      {options.map((option, idx) => (
-        <MenuItem
-          key={idx}
-          value={option}
-          primaryText={option || `All ${field}s`}
-        />
-      ))}
-    </SelectField>
+    <FormControl fullWidth={fullWidth === undefined ? true : fullWidth} className={classes.formControl}>
+      <InputLabel className={classes.floatingLabelStyle}>{label}</InputLabel>
+      <MuiSelect className={classes.selectedDropDownValue}
+        value={value == null ? "" : value}
+        id={field}
+        onChange={(e) => onChange(field, e.target.value || null)}
+      >
+        {options.map((option, idx) => (
+          <MenuItem
+            key={idx}
+            value={option == null ? "" : option}
+          >{option || `All ${field}s`}</MenuItem>
+        ))}
+      </MuiSelect>
+    </FormControl>
   )
 }
 
 export function MaterialTextBox(props) {
-  const { label, field, value, onChange, fullWidth, hintText, ...other } = props
+  const { label, field, value, onChange, fullWidth, hintText, errorText, ...other } = props
 
   return (
     <TextField
       id={field}
-      floatingLabelText={label}
+      label={label}
       fullWidth={fullWidth === undefined ? true : fullWidth}
-      underlineFocusStyle={underlineFocusStyle}
-      floatingLabelFocusStyle={floatingLabelFocusStyle}
-      floatingLabelStyle={floatingLabelStyle}
-      floatingLabelFixed={hintText ? true : false}
-      hintText={hintText || null}
+      placeholder={hintText || undefined}
       value={value || ""}
-      onChange={(event, newValue) => onChange(event.target.id, newValue)}
+      error={!!errorText}
+      helperText={errorText || undefined}
+      onChange={(event) => onChange(event.target.id, event.target.value)}
       {...other}
     />
   )
 }
 
 export function MaterialTextArea(props) {
-  const { label, field, value, onChange, fullWidth, ...other } = props
+  const { label, field, value, onChange, fullWidth, errorText, ...other } = props
 
   return (
     <TextField
       fullWidth={fullWidth === undefined ? true : fullWidth}
-      underlineFocusStyle={underlineFocusStyle}
-      floatingLabelFocusStyle={floatingLabelFocusStyle}
-      floatingLabelStyle={floatingLabelStyle}
       id={field}
-      floatingLabelText={label}
-      multiLine={true}
-      rowsMax={10}
+      label={label}
+      multiline
+      maxRows={10}
       value={value || ""}
-      onChange={(event, newValue) => onChange(event.target.id, newValue)}
+      error={!!errorText}
+      helperText={errorText || undefined}
+      onChange={(event) => onChange(event.target.id, event.target.value)}
       {...other}
     />
   )

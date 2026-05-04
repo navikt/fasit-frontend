@@ -1,8 +1,11 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
+import Button from '@material-ui/core/Button'
 import {icons} from '../../commonStyles/commonInlineStyles'
 import {clearFormError} from "../../actionCreators/common";
 import {styles} from '../../commonStyles/commonInlineStyles'
@@ -19,17 +22,15 @@ class ErrorDialog extends Component {
     }
 
     render() {
-        const actions = [
-            <FlatButton label="ok"  onTouchTap={() => this.handleClose()}  style={styles.flatButton} disableTouchRipple={true}/>
-        ]
         const {errorMessage, formError} = this.props
         return (<Dialog
-            title={<div>{icons.errorAvatar} Error submitting form</div>}
             open={formError}
-            modal={false}
-            actions={actions}
-            onRequestClose={() => this.handleClose()}>
-                {errorMessage}
+            onClose={() => this.handleClose()}>
+                <DialogTitle><div>{icons.errorAvatar} Error submitting form</div></DialogTitle>
+                <DialogContent>{errorMessage}</DialogContent>
+                <DialogActions>
+                    <Button variant="text" onClick={() => this.handleClose()} style={styles.flatButton} disableRipple={true}>ok</Button>
+                </DialogActions>
             </Dialog>)
 
     }

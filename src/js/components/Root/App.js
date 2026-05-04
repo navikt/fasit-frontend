@@ -18,7 +18,12 @@ import NewEnvironmentForm from "../Environments/NewEnvironmentForm"
 import NewClusterForm from "../Environments/NewClusterForm"
 import NewResourceForm from "../Resources/NewResourceForm"
 import { SubmitFormStatus, KeyboardShortcuts, ErrorDialog } from "../common/"
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
+import { ThemeProvider, createTheme } from "@material-ui/core/styles"
+const theme = createTheme({
+  typography: {
+    fontSize: 22,
+  },
+})
 import buildFontAwesomeLibrary from "../../commonStyles/FontAwesomeIcons"
 
 buildFontAwesomeLibrary()
@@ -70,18 +75,18 @@ class App extends Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { user } = this.props
-    if (nextProps.user.authenticated && !user.authenticated) {
+    if (user.authenticated && !prevProps.user.authenticated) {
       this.protectedShortcuts()
-    } else if (!nextProps.user.authenticated && user.authenticated) {
+    } else if (!user.authenticated && prevProps.user.authenticated) {
       this.unbindShortcuts()
     }
   }
 
   render() {
     return (
-      <MuiThemeProvider>
+      <ThemeProvider theme={theme}>
         <div style={{ outline: "none" }}>
           <TopNav />
           <div className="col-lg-11 col-lg-offset-1 col-md-11 col-md-offset-1 col-sm-12">
@@ -97,7 +102,7 @@ class App extends Component {
           <NewResourceForm />
           <KeyboardShortcuts />
         </div>
-      </MuiThemeProvider>
+      </ThemeProvider>
     )
   }
 

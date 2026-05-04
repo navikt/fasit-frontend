@@ -4,8 +4,7 @@ import createReactClass from 'create-react-class'
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-// Temporary shims: react-router@2 and material-ui@0.18 use APIs removed in React 16.
-// Remove when those packages are upgraded (Phases 13 and 14).
+// Shim for react-bootstrap's dependency on React.PropTypes (react-overlays)
 React.PropTypes = PropTypes
 React.createClass = createReactClass
 

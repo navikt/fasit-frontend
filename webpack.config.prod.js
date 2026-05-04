@@ -5,7 +5,7 @@ module.exports = {
     mode: 'production',
     devtool: 'source-map',
     entry: [
-        './src/react-compat-shims',
+        './src/react-bootstrap-shims',
         './src/index',
         './src/stylesheets/index.less'
     ],

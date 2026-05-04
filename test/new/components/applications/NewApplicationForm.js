@@ -24,8 +24,8 @@ describe('(Component) NewApplicationForm', () => {
     })
 
     it('switches mode and updates state if receiving new props', () => {
-        const wrapper = shallow(<NewApplicationForm {...props}/>)
-        wrapper.instance().componentWillReceiveProps({mode: "copy"})
+        const wrapper = shallow(<NewApplicationForm {...props} mode={undefined}/>)
+        wrapper.setProps({mode: "copy"})
         expect(wrapper.state().artifactid).to.equal('a-inntekt-config')
         expect(wrapper.state().groupid).to.equal('no.nav')
         expect(wrapper.state().portoffset).to.equal(0)

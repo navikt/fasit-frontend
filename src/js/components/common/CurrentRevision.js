@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from 'prop-types'
 import moment from "moment";
-import {Card, CardHeader, CardText} from "material-ui/Card";
+import {Card, CardHeader, CardContent} from "@material-ui/core";
 import {styles} from "../../commonStyles/commonInlineStyles";
 
 
@@ -19,8 +19,8 @@ export function CurrentRevision(props) {
             <Card style={styles.cardPadding}>
                 <CardHeader
                     title={`Revision ${currentRevision.revision} - ${currentRevision.revisiontype === 'add' ? 'Created' : 'Modified'}` }
-                    titleStyle={styles.bold}
-                    subtitle={`${moment(currentRevision.timestamp).format('DD.MM YYYY, H:mm:ss')} by ${currentRevision.author} (${currentRevision.authorid})`}/>
-                {currentRevision.message && <CardText>{currentRevision.message}</CardText>}
+                    titleTypographyProps={{style: styles.bold}}
+                    subheader={`${moment(currentRevision.timestamp).format('DD.MM YYYY, H:mm:ss')} by ${currentRevision.author} (${currentRevision.authorid})`}/>
+                {currentRevision.message && <CardContent>{currentRevision.message}</CardContent>}
             </Card>)
 }

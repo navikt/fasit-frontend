@@ -1,5 +1,4 @@
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
-import { List, ListItem } from "material-ui/List"
+import { Card, CardActions, CardContent, CardHeader, List, ListItem, ListItemText } from "@material-ui/core"
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
@@ -50,20 +49,20 @@ class EnvironmentCluster extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { dispatch, match, query } = this.props
+  componentDidUpdate(prevProps) {
+    const { dispatch, match, query, cluster } = this.props
 
-    if (Object.keys(nextProps.cluster).length > 0) {
+    if (cluster !== prevProps.cluster && Object.keys(cluster).length > 0) {
       this.setState({
-        adgroups: nextProps.cluster.accesscontrol.adgroups
+        adgroups: cluster.accesscontrol.adgroups
       })
     }
-    if (nextProps.query.revision !== query.revision) {
+    if (query.revision !== prevProps.query.revision) {
       dispatch(
         fetchEnvironmentCluster(
-          this.props.match.params.environment,
-          this.props.match.params.clusterName,
-          nextProps.query.revision
+          match.params.environment,
+          match.params.clusterName,
+          query.revision
         )
       )
     }
@@ -106,43 +105,43 @@ class EnvironmentCluster extends Component {
             <CardHeader
               avatar={icons.cluster}
               title={`Cluster ${cluster.clustername}`}
-              titleStyle={styles.bold}
-              subtitle={`${cluster.environment} - ${cluster.zone}`}
+              titleTypographyProps={{style: styles.bold}}
+              subheader={`${cluster.environment} - ${cluster.zone}`}
             />
 
-            <CardText>
+            <CardContent>
               <List>
                 {cluster.loadbalancerurl && (
                   <ListItem
                     key="loadbalancerurl"
                     style={styles.tightList}
-                    disabled={true}
-                    primaryText={cluster.loadbalancerurl}
-                    secondaryText="Loadbalancer URL"
-                  />
+                  >
+                    <ListItemText
+                      primary={cluster.loadbalancerurl}
+                      secondary="Loadbalancer URL"
+                    />
+                  </ListItem>
                 )}
                 <ListItem
                   key="applications"
                   style={styles.tightList}
-                  disabled={true}
-                  initiallyOpen={true}
-                  autoGenerateNestedIndicator={false}
-                  primaryText="Applications"
-                  nestedListStyle={styles.tightList}
-                  nestedItems={this.renderApplications()}
-                />
+                >
+                  <ListItemText primary="Applications" />
+                </ListItem>
+                <List style={styles.tightList}>
+                  {this.renderApplications()}
+                </List>
                 <ListItem
                   key="nodes"
                   style={styles.tightList}
-                  disabled={true}
-                  initiallyOpen={true}
-                  autoGenerateNestedIndicator={false}
-                  primaryText="Nodes"
-                  nestedListStyle={styles.tightList}
-                  nestedItems={this.renderNodes()}
-                />
+                >
+                  <ListItemText primary="Nodes" />
+                </ListItem>
+                <List style={styles.tightList}>
+                  {this.renderNodes()}
+                </List>
               </List>
-            </CardText>
+            </CardContent>
             <CardActions>
               <ToolButtons
                 disabled={!authorized}
@@ -185,7 +184,7 @@ class EnvironmentCluster extends Component {
     const { cluster } = this.props
 
     return cluster.applications.map(app => (
-      <ListItem key={app.name} style={styles.tighterList} disabled={true}>
+      <ListItem key={app.name} style={styles.tighterList}>
         <Link to={`/instances/${app.id}`}>{app.name}</Link>
       </ListItem>
     ))
@@ -194,7 +193,7 @@ class EnvironmentCluster extends Component {
   renderNodes() {
     const { cluster } = this.props
     return cluster.nodes.map(node => (
-      <ListItem key={node.name} style={styles.tighterList} disabled={true}>
+      <ListItem key={node.name} style={styles.tighterList}>
         <Link to={`/nodes/${node.name}`}>{node.name}</Link>
       </ListItem>
     ))

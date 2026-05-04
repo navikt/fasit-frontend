@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import {CardInfo} from "../common/";
-import FlatButton from "material-ui/FlatButton";
+import Button from "@material-ui/core/Button";
 import {Link, withRouter} from "react-router-dom";
-import {Card, CardActions, CardHeader, CardText} from "material-ui/Card";
+import {Card, Collapse, CardContent, CardHeader, Tabs, Tab} from "@material-ui/core";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
-import {Tab, Tabs} from "material-ui/Tabs";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
 
 function InstanceCard(props) {
 
+
+    const [selectedTab, setSelectedTab] = useState(0)
+    const [checked, setChecked] = useState(false)
 
     const instance = props.instance
     const avatar = icons.instance
@@ -17,43 +19,54 @@ function InstanceCard(props) {
     const usedResources = instance.usedresources
     const exposedResources = instance.exposedresources
 
-    const hasUsedResources = usedResources.length > 0
     const cluster = instance.cluster
-    const additionalCardInfo = (<CardInfo lastUpdated={instance.updated} lifecycle={instance.lifecycle}/>)
+
+    const handleChange = () => {
+        setChecked((prev) => !prev);
+    };
 
     return (
         <div style={styles.cardPadding}>
-            <Card expandable={hasUsedResources} initiallyExpanded={false}>
+            <Card raised={true}>
+                <div 
+                    style={{ display: "flex", alignItems: "center" }}
+                    onClick={handleChange}
+                >
                 <CardHeader title={<Link to={`/instances/` + id}>{`${instance.application}:${instance.version ? instance.version : 'Not deployed'}`}</Link>}
-                            subtitle={environment}
-                            showExpandableButton={false}
-                            actAsExpander={true}
+                            subheader={environment}
                             avatar={avatar}
-                            children={additionalCardInfo}
+                            style={{ flex: 1 }}
                 />
-                <CardText expandable={true} actAsExpander={false}>
-                    <Tabs tabItemContainerStyle={styles.tabItem} inkBarStyle={styles.inkBar}>
-                        <Tab label={`Used resources ${usedResources.length}`} disableTouchRipple={true}>
-                            <SortableResourceTable resources={usedResources}/>
-                        </Tab>
-                        <Tab label={`Exposed resources ${exposedResources.length}` } disableTouchRipple={true}
-                             disabled={exposedResources.length === 0}>
-                            <SortableResourceTable resources={exposedResources}/>
-                        </Tab>
-                    </Tabs>
-                </CardText>
-                <CardActions expandable={true}>
-                    <FlatButton
-                        disableTouchRipple={true}
-                        onTouchTap={() => props.history.push('/instances/' + id)}
-                        label="details"
-                        style={styles.flatButton}/>
-                    {cluster.name && <FlatButton
-                        disableTouchRipple={true}
-                        onTouchTap={() => props.history.push(`environments/${environment}/clusters/${cluster.name}`)}
-                        label="cluster"
-                        style={styles.flatButton}/>}
-                </CardActions>
+                <CardInfo lastUpdated={instance.updated} lifecycle={instance.lifecycle}/>
+                </div>
+                <Collapse in={checked} timeout="auto">
+                    <CardContent>
+                        <Tabs 
+                            value={selectedTab}
+                            onChange={(e, val) => setSelectedTab(val)}
+                            style={styles.tabItem}>
+                            <Tab label={`Used resources ${usedResources.length}`} disableRipple />
+                            <Tab label={`Exposed resources ${exposedResources.length}`} disableRipple
+                                 disabled={exposedResources.length === 0} />
+                        </Tabs>
+                        {selectedTab === 0 && <SortableResourceTable resources={usedResources}/>}
+                        {selectedTab === 1 && <SortableResourceTable resources={exposedResources}/>}
+                    </CardContent>
+                    <Button
+                        variant="text"
+                        disableRipple
+                        onClick={() => props.history.push('/instances/' + id)}
+                        style={styles.flatButton}>
+                        details
+                    </Button>
+                    {cluster.name && <Button
+                        variant="text"
+                        disableRipple
+                        onClick={() => props.history.push(`environments/${environment}/clusters/${cluster.name}`)}
+                        style={styles.flatButton}>
+                        cluster
+                    </Button>}
+                </Collapse>
             </Card>
         </div>
     )

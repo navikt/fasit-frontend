@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import { FormComment, FormString } from "../common/Forms"
 import { capitalize } from "../../utils"
 import { displayModal, submitForm } from "../../actionCreators/common"
-import { Card, CardHeader, CardText } from "material-ui/Card"
+import { Card, CardHeader, CardContent } from "@material-ui/core"
 import { icons, styles, colors } from "../../commonStyles/commonInlineStyles"
 
 export class NewApplicationForm extends Component {
@@ -20,18 +20,20 @@ export class NewApplicationForm extends Component {
     }
   }
 
-  componentWillReceiveProps(next) {
-    const { application } = this.props
-    const { name, groupid, artifactid, portoffset } = application
-    if (next.mode === "edit" || next.mode === "copy") {
-      this.setState({
-        name,
-        groupid,
-        artifactid,
-        portoffset
-      })
-    } else {
-      this.resetLocalState()
+  componentDidUpdate(prevProps) {
+    if (this.props.mode !== prevProps.mode || this.props.application !== prevProps.application) {
+      const { application } = this.props
+      const { name, groupid, artifactid, portoffset } = application
+      if (this.props.mode === "edit" || this.props.mode === "copy") {
+        this.setState({
+          name,
+          groupid,
+          artifactid,
+          portoffset
+        })
+      } else {
+        this.resetLocalState()
+      }
     }
   }
 
@@ -102,14 +104,14 @@ export class NewApplicationForm extends Component {
 
   showNewApplicationAlert() {
     return (
-      <Card expandable={false} initiallyExpanded={true} style={styles.cardPadding}>
+      <Card style={styles.cardPadding}>
         <CardHeader
           title="Creation of new applications has been disabled"
-          titleStyle={styles.bold}
+          titleTypographyProps={{style: styles.bold}}
           avatar={icons.warning}
         />
 
-        <CardText expandable={false}>
+        <CardContent>
           <p>
             New applications should be build for the{" "}
             <a href="https://nais.io" target="new">
@@ -129,7 +131,7 @@ export class NewApplicationForm extends Component {
             without having to create an application in fasit first.
           </p>
           <p>If you really need to create a new application, please contact us on Slack #aura</p>
-        </CardText>
+        </CardContent>
       </Card>
     )
   }

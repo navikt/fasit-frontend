@@ -1,5 +1,5 @@
-import React from "react";
-import DataTables from "material-ui-datatables";
+import React, { useState } from "react";
+import { Table, TableBody, TableHead, TableRow, TableCell, TableSortLabel } from "@material-ui/core";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { capitalize } from "../../utils/";
@@ -8,6 +8,8 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export default function SortableResourceTable(props) {
   const { resources, instanceLastChanged } = props;
+  const [sortKey, setSortKey] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
 
   const tooltip = (
     <Tooltip id="tooltip">
@@ -16,10 +18,17 @@ export default function SortableResourceTable(props) {
     </Tooltip>
   );
 
-  function onSortOrderChange(key, order) {
-    return resources.sort((a, b) => {
-      let first = a[key];
-      let second = b[key];
+  function handleSortOrderChange(key) {
+    const newOrder = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
+    setSortKey(key);
+    setSortOrder(newOrder);
+  }
+
+  function getSortedResources() {
+    if (!sortKey) return resources;
+    return [...resources].sort((a, b) => {
+      let first = a[sortKey];
+      let second = b[sortKey];
 
       if (typeof first === "string" && typeof second === "string") {
         first = first.toLowerCase();
@@ -31,8 +40,7 @@ export default function SortableResourceTable(props) {
       }
 
       const result = first > second ? 1 : -1;
-      // for inverting search result when order is descending
-      return order === "desc" ? result * -1 : result;
+      return sortOrder === "desc" ? result * -1 : result;
     });
   }
 
@@ -85,6 +93,7 @@ export default function SortableResourceTable(props) {
     {
       key: "lastchange",
       label: "Status",
+      sortable: false,
       style: { width: 100 },
       render: lastchange =>
         moment(lastchange).isAfter(moment(instanceLastChanged)) ? (
@@ -96,17 +105,41 @@ export default function SortableResourceTable(props) {
         )
     }
   ];
+
+  const sortedResources = getSortedResources();
+
   return (
-    <DataTables
-      height="auto"
-      selectable={true}
-      showRowHover={true}
-      columns={columns}
-      tableRowColumnStyle={styles.tableData}
-      tableRowStyle={styles.tableData}
-      data={resources}
-      showFooterToolbar={false}
-      onSortOrderChange={onSortOrderChange}
-    />
+    <Table>
+      <TableHead>
+        <TableRow>
+          {columns.map((col, idx) => (
+            <TableCell key={idx} style={col.style}>
+              {col.sortable ? (
+                <TableSortLabel
+                  active={sortKey === col.key}
+                  direction={sortKey === col.key ? sortOrder : "asc"}
+                  onClick={() => handleSortOrderChange(col.key)}
+                >
+                  {col.label}
+                </TableSortLabel>
+              ) : (
+                col.label
+              )}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {sortedResources.map((resource, rowIdx) => (
+          <TableRow key={rowIdx} hover style={styles.tableData}>
+            {columns.map((col, colIdx) => (
+              <TableCell key={colIdx} style={styles.tableData}>
+                {col.render(resource[col.key], resource)}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }

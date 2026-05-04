@@ -2,8 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
 import { validAuthorization } from "../../utils/"
-import { Card, CardActions, CardHeader } from "material-ui/Card"
-import { List, ListItem } from "material-ui/List"
+import { Card, CardActions, CardHeader, List, ListItem, ListItemText } from "@material-ui/core"
 import { fetchApplicationInstances, fetchFasitData } from "../../actionCreators/application"
 import InstanceCard from "../Instances/InstanceCard"
 import { displayModal, submitForm } from "../../actionCreators/common"
@@ -34,18 +33,21 @@ export class Application extends Component {
     dispatch(fetchApplicationInstances(name))
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { dispatch, name, query } = this.props
-    this.setState({
-      comment: ""
-    })
-    
-    if (nextProps.query.revision != query.revision) {
-      dispatch(fetchFasitData(name, nextProps.query.revision))
-    }
-    if (nextProps.name != name) {
-      dispatch(fetchFasitData(nextProps.name, nextProps.query.revision))
-      dispatch(fetchApplicationInstances(nextProps.name))
+
+    if (name !== prevProps.name || query.revision !== prevProps.query.revision) {
+      this.setState({
+        comment: ""
+      })
+
+      if (query.revision != prevProps.query.revision) {
+        dispatch(fetchFasitData(name, query.revision))
+      }
+      if (name != prevProps.name) {
+        dispatch(fetchFasitData(name, query.revision))
+        dispatch(fetchApplicationInstances(name))
+      }
     }
   }
 
@@ -70,16 +72,18 @@ export class Application extends Component {
   applicationInfo(application) {
     return (
       <List>
-        <ListItem
-          primaryText={`${application.groupid}:${application.artifactid}`}
-          disabled={true}
-          secondaryText="Group id:artifact id"
-        />
-        <ListItem
-          primaryText={application.portoffset.toString()}
-          disabled={true}
-          secondaryText="Port offset"
-        />
+        <ListItem>
+          <ListItemText
+            primary={`${application.groupid}:${application.artifactid}`}
+            secondary="Group id:artifact id"
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText
+            primary={application.portoffset.toString()}
+            secondary="Port offset"
+          />
+        </ListItem>
       </List>
     )
   }
@@ -114,9 +118,9 @@ export class Application extends Component {
                 <CardHeader
                   avatar={icons.application}
                   title={`${name}`}
-                  titleStyle={styles.bold}
+                  titleTypographyProps={{style: styles.bold}}
                   style={styles.paddingBottom0}
-                  subtitle={this.applicationInfo(application)}
+                  subheader={this.applicationInfo(application)}
                 />
                 <CardActions>
                   <ToolButtons

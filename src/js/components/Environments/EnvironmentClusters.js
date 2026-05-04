@@ -22,10 +22,10 @@ class EnvironmentClusters extends Component {
             dispatch(fetchEnvironmentClusters(environment))
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(prevProps) {
         const {dispatch, environment} = this.props
-        if (environment != nextProps.environment && nextProps.environment) {
-            dispatch(fetchEnvironmentClusters(nextProps.environment))
+        if (prevProps.environment != environment && environment) {
+            dispatch(fetchEnvironmentClusters(environment))
         }
     }
     compnentWillUnmount(){

@@ -2,8 +2,7 @@ import React, { Component } from "react"
 import PropTypes from 'prop-types'
 import { Modal } from "react-bootstrap"
 import { connect } from "react-redux"
-import RaisedButton from "material-ui/RaisedButton"
-import FlatButton from "material-ui/FlatButton"
+import Button from "@material-ui/core/Button"
 import {
   MaterialDropDown,
   MaterialTextArea,
@@ -18,16 +17,12 @@ import {
 import { capitalize } from "../../utils"
 import { displayModal, submitForm } from "../../actionCreators/common"
 import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes"
-import Chip from "material-ui/Chip"
+import Chip from "@material-ui/core/Chip"
 import Scope from "./Scope"
 
 class NewResourceForm extends Component {
   constructor(props) {
     super(props)
-    this.initialState()
-  }
-
-  initialState() {
     this.state = {
       alias: "",
       type: "",
@@ -45,31 +40,51 @@ class NewResourceForm extends Component {
     }
   }
 
-  componentWillReceiveProps(next) {
-    const { resource } = this.props
-    const { alias, type, properties, scope, files } = resource.data
-    if (next.mode === "edit") {
-        this.setState({
-            alias,
-            type,
-            properties,
-            scope,
-            files,
-            currentSecrets: next.currentSecrets
-        })
-    }
-    else if (next.mode === "copy") {
-        this.setState({
-            alias,
-            type,
-            properties,
-            scope,
-            files
-        })
-    }
+  resetFormState() {
+    this.setState({
+      alias: "",
+      type: "",
+      properties: {},
+      scope: {
+        environmentclass: "u",
+        environment: null,
+        zone: null,
+        application: null
+      },
+      currentFiles: {},
+      currentSecrets: {},
+      validationErrors: null,
+      comment: ""
+    })
+  }
 
-    else {
-      this.resetLocalState()
+  componentDidUpdate(prevProps) {
+    if (this.props.mode !== prevProps.mode || this.props.resource !== prevProps.resource || this.props.currentSecrets !== prevProps.currentSecrets) {
+      const { resource } = this.props
+      const { alias, type, properties, scope, files } = resource.data
+      if (this.props.mode === "edit") {
+          this.setState({
+              alias,
+              type,
+              properties,
+              scope,
+              files,
+              currentSecrets: this.props.currentSecrets
+          })
+      }
+      else if (this.props.mode === "copy") {
+          this.setState({
+              alias,
+              type,
+              properties,
+              scope,
+              files
+          })
+      }
+
+      else {
+        this.resetLocalState()
+      }
     }
   }
 
@@ -168,7 +183,7 @@ class NewResourceForm extends Component {
   }
 
   closeForm() {
-    this.initialState()
+    this.resetFormState()
     this.props.dispatch(displayModal("resource", false))
   }
 
@@ -294,17 +309,17 @@ class NewResourceForm extends Component {
             key={key}
             style={{ display: "flex", paddingTop: "10px", marginLeft: "2px" }}
           >
-            <RaisedButton
-              backgroundColor={colors.avatarBackgroundColor}
-              labelColor={colors.white}
-              containerElement="label"
-              disableTouchRipple={true}
-              label={`Upload ${label}`}
-              icon={icons.fileUpload}
+            <Button
+              variant="contained"
+              style={{backgroundColor: colors.avatarBackgroundColor, color: colors.white}}
+              component="label"
+              disableRipple
+              startIcon={icons.fileUpload}
               onChange={event => this.handleFileUpload(key, event)}
             >
+              {`Upload ${label}`}
               <input type="file" style={{ display: "none" }} multiple={false} />
-            </RaisedButton>
+            </Button>
             {this.displayValidationError(
               currentFiles[key],
               property.required
@@ -433,7 +448,7 @@ class NewResourceForm extends Component {
           {this.loginWarning(authenticated)}
           <MaterialDropDown
             field="type"
-            value={resourceType}
+            value={this.state.type}
             label="Type"
             options={types}
             onChange={this.handleChange.bind(this)}
@@ -446,6 +461,10 @@ class NewResourceForm extends Component {
             editMode={true}
             scope={this.state.scope}
             handleChange={this.handleChange.bind(this)}
+            environmentClasses={this.props.environmentClasses}
+            environments={this.props.environments}
+            applications={this.props.applications}
+            zones={this.props.zones}
           />
           <MaterialTextBox
             field="comment"
@@ -456,20 +475,23 @@ class NewResourceForm extends Component {
         </Modal.Body>
         <Modal.Footer>
           <div className="row col-md-12">
-            <RaisedButton
-              backgroundColor={colors.avatarBackgroundColor}
-              labelColor={colors.white}
-              disableTouchRipple={true}
+            <Button
+              variant="contained"
+              disableRipple
               disabled={!this.state.type || this.state.type === ""}
-              label="submit"
-              onTouchTap={this.handleSubmitForm.bind(this, true)}
-            />
+              onClick={this.handleSubmitForm.bind(this, true)}
+              style={{backgroundColor: colors.avatarBackgroundColor, color: colors.white}}
+            >
+              submit
+            </Button>
 
-            <FlatButton
-              disableTouchRipple={true}
-              label="cancel"
-              onTouchTap={this.closeForm.bind(this)}
-            />
+            <Button
+              variant="text"
+              disableRipple
+              onClick={this.closeForm.bind(this)}
+            >
+              cancel
+            </Button>
           </div>
         </Modal.Footer>
       </Modal>

@@ -15,10 +15,10 @@ class EnvironmentNodes extends Component {
     dispatch(fetchEnvironmentNodes(environment))
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { dispatch, environment } = this.props
-    if (environment != nextProps.environment) {
-      dispatch(fetchEnvironmentNodes(nextProps.environment))
+    if (prevProps.environment != environment) {
+      dispatch(fetchEnvironmentNodes(environment))
     }
   }
 

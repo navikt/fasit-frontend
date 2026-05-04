@@ -18,7 +18,7 @@ import EnvironmentNodes from "./EnvironmentNodes"
 import EnvironmentInstances from "./EnvironmentInstances"
 import { fetchEnvironment } from "../../actionCreators/environment"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
-import { Card, CardActions, CardHeader, CardTitle } from "material-ui/Card"
+import { Card, CardActions, CardHeader } from "@material-ui/core"
 
 export class Environment extends Component {
   constructor(props) {
@@ -69,19 +69,21 @@ export class Environment extends Component {
     dispatch(fetchEnvironment(name, query.revision))
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { dispatch, name, query } = this.props
-    this.setState({
-      comment: ""
-    })
-    if (Object.keys(nextProps.environment).length > 0) {
-      this.setState({ adgroups: nextProps.environment.accesscontrol.adgroups })
-    }
-    if (nextProps.query.revision != query.revision) {
-      dispatch(fetchEnvironment(name, nextProps.query.revision))
-    }
-    if (nextProps.name != name) {
-      dispatch(fetchEnvironment(nextProps.name, nextProps.query.revision))
+  componentDidUpdate(prevProps) {
+    const { dispatch, name, query, environment } = this.props
+    if (name !== prevProps.name || query.revision !== prevProps.query.revision || environment !== prevProps.environment) {
+      this.setState({
+        comment: ""
+      })
+      if (Object.keys(environment).length > 0) {
+        this.setState({ adgroups: environment.accesscontrol.adgroups })
+      }
+      if (query.revision != prevProps.query.revision) {
+        dispatch(fetchEnvironment(name, query.revision))
+      }
+      if (name != prevProps.name) {
+        dispatch(fetchEnvironment(name, query.revision))
+      }
     }
   }
 
@@ -110,8 +112,8 @@ export class Environment extends Component {
         <div className="col-md-6" style={styles.cardPadding}>
           <CurrentRevision revisionId={query.revision} revisions={revisions} />
           <Card>
-            <CardHeader avatar={icons.environment} title="Environment" titleStyle={styles.bold} />
-            <CardTitle title={`${envName}`} subtitle={`Environment class: ${envClass} `} />
+            <CardHeader avatar={icons.environment} title="Environment" titleTypographyProps={{style: styles.bold}} />
+            <CardHeader title={`${envName}`} subheader={`Environment class: ${envClass} `} />
             <CardActions>
               <ToolButtons
                 disabled={!authorized || resourceModalVisible}

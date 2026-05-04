@@ -1,13 +1,13 @@
 import React from "react"
 import {
-  blueGrey800,
-  deepPurple400,
-  green500,
-  orange400,
-  redA700
-} from "material-ui/styles/colors"
+  blueGrey,
+  deepPurple,
+  green,
+  orange,
+  red
+} from "@material-ui/core/colors"
 import { colors } from "../commonStyles/commonInlineStyles"
-import Avatar from "material-ui/Avatar"
+import Avatar from "@material-ui/core/Avatar"
 import ResourceTypeProperty from "./ResourceTypeProperty"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
@@ -25,8 +25,10 @@ export const resourceTypeIcon = function(type) {
   const resourceType = getResourceType(type)
   return (
     <Avatar
-      backgroundColor={resourceType.backgroundColor || DEFAULT_BACKGROUND_COLOR}
-      color={resourceType.color || DEFAULT_COLOR}
+      style={{
+        backgroundColor: resourceType.backgroundColor || DEFAULT_BACKGROUND_COLOR,
+        color: resourceType.color || DEFAULT_COLOR
+      }}
     >
       {resourceType.texticon ? resourceType.texticon : getIcon(resourceType)}
     </Avatar>
@@ -47,7 +49,7 @@ const getResourceType = function(type) {
 export const resourceTypes = {
   DataSource: {
     icon: "database",
-    backgroundColor: redA700,
+    backgroundColor: red["A700"],
     color: colors.white,
     properties: [
       textbox("url"),
@@ -67,7 +69,7 @@ export const resourceTypes = {
     ]
   },
   DB2DataSource: {
-    backgroundColor: green500,
+    backgroundColor: green[500],
     color: colors.white,
     icon: "database",
     properties: [
@@ -112,8 +114,8 @@ export const resourceTypes = {
     ]
   },
   OpenAM: {
-    backgroundColor: blueGrey800,
-    color: orange400,
+    backgroundColor: blueGrey[800],
+    color: orange[400],
     icon: "sign-in-alt",
     properties: [
       textbox("restUrl", "Rest URL"),
@@ -124,8 +126,8 @@ export const resourceTypes = {
     ]
   },
   OpenIdConnect: {
-    backgroundColor: blueGrey800,
-    color: orange400,
+    backgroundColor: blueGrey[800],
+    color: orange[400],
     icon: "sign-in-alt",
     properties: [
       textbox("agentName", "Agent name"),
@@ -157,7 +159,7 @@ export const resourceTypes = {
     properties: [textarea("groups", "Users/Groups")]
   },
   QueueManager: {
-    backgroundColor: deepPurple400,
+    backgroundColor: deepPurple[400],
     color: colors.white,
     texticon: "QM",
     properties: [textbox("name"), textbox("hostname"), textbox("port")]
@@ -211,7 +213,7 @@ export const resourceTypes = {
     ]
   },
   Datapower: {
-    backgroundColor: deepPurple400,
+    backgroundColor: deepPurple[400],
     color: colors.white,
     icon: "dollar-sign",
     properties: [
@@ -231,7 +233,7 @@ export const resourceTypes = {
     properties: [textbox("host", "Hostname"), textbox("port")]
   },
   Queue: {
-    backgroundColor: deepPurple400,
+    backgroundColor: deepPurple[400],
     color: colors.white,
     texticon: "MQ",
     properties: [
@@ -240,7 +242,7 @@ export const resourceTypes = {
     ]
   },
   DeploymentManager: {
-    backgroundColor: deepPurple400,
+    backgroundColor: deepPurple[400],
     color: colors.white,
     icon: "tachometer-alt",
     properties: [textbox("hostname"), textbox("username"), secret("password")]
@@ -258,7 +260,7 @@ export const resourceTypes = {
     ]
   },
   LoadBalancer: {
-    backgroundColor: redA700,
+    backgroundColor: red["A700"],
     color: colors.white,
     texticon: "f5",
     properties: [
@@ -269,7 +271,7 @@ export const resourceTypes = {
     ]
   },
   LoadBalancerConfig: {
-    backgroundColor: redA700,
+    backgroundColor: red["A700"],
     color: colors.white,
     icon: "balance-scale",
     properties: [
@@ -283,7 +285,7 @@ export const resourceTypes = {
     properties: [textbox("path"), textbox("nodes", "On nodes")]
   },
   Channel: {
-    backgroundColor: deepPurple400,
+    backgroundColor: deepPurple[400],
     color: colors.white,
     icon: "exchange-alt",
     properties: [

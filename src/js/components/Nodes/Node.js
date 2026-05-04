@@ -3,8 +3,7 @@ import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
 import { validAuthorization, isEmptyObject } from "../../utils/"
 import { clearNodePassword, fetchFasitData, fetchNodePassword } from "../../actionCreators/node"
-import { Card, CardActions, CardHeader, CardText } from "material-ui/Card"
-import { List, ListItem } from "material-ui/List"
+import { Card, CardActions, CardContent, CardHeader, List, ListItem, ListItemText } from "@material-ui/core"
 import { Link } from "react-router-dom"
 import {
   CollapsibleList,
@@ -42,19 +41,22 @@ class Node extends Component {
     this.props.dispatch(clearNodePassword())
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { dispatch, hostname, query } = this.props
-    this.setState({
-      comment: ""
-    })
 
-    if (nextProps.query.revision != query.revision) {
-      dispatch(fetchFasitData(hostname, nextProps.query.revision))
-    }
+    if (hostname !== prevProps.hostname || query.revision !== prevProps.query.revision) {
+      this.setState({
+        comment: ""
+      })
 
-    // fetch new data from backend if hostname changes
-    if (nextProps.hostname != hostname) {
-      dispatch(fetchFasitData(nextProps.hostname, nextProps.revision))
+      if (query.revision != prevProps.query.revision) {
+        dispatch(fetchFasitData(hostname, query.revision))
+      }
+
+      // fetch new data from backend if hostname changes
+      if (hostname != prevProps.hostname) {
+        dispatch(fetchFasitData(hostname, query.revision))
+      }
     }
   }
 
@@ -130,82 +132,90 @@ class Node extends Component {
             <CardHeader
               avatar={icons.node}
               title={hostname}
-              titleStyle={styles.bold}
-              subtitle={capitalize(node.type)}
+              titleTypographyProps={{style: styles.bold}}
+              subheader={capitalize(node.type)}
             />
-            <CardText>
+            <CardContent>
               <List>
                 <ListItem
                   key="environmentclass"
                   style={{ paddingTop: "0px", paddingBottom: "14px" }}
-                  disabled={true}
-                  primaryText={node.environmentclass}
-                  secondaryText="Environment class"
-                />
+                >
+                  <ListItemText
+                    primary={node.environmentclass}
+                    secondary="Environment class"
+                  />
+                </ListItem>
                 <ListItem
                   key="environment"
                   style={{ paddingTop: "0px", paddingBottom: "14px" }}
-                  disabled={true}
-                  primaryText={node.environment}
-                  secondaryText="Environment"
-                />
+                >
+                  <ListItemText
+                    primary={node.environment}
+                    secondary="Environment"
+                  />
+                </ListItem>
                 <ListItem
                   key="zone"
                   style={{ paddingTop: "0px", paddingBottom: "14px" }}
-                  disabled={true}
-                  primaryText={node.zone}
-                  secondaryText="Zone"
-                />
+                >
+                  <ListItemText
+                    primary={node.zone}
+                    secondary="Zone"
+                  />
+                </ListItem>
 
                 <ListItem
                   key="cluster"
                   style={styles.tightList}
-                  disabled={true}
-                  initiallyOpen={true}
-                  autoGenerateNestedIndicator={false}
-                  primaryText="Clusters"
-                  nestedListStyle={styles.tightList}
-                  nestedItems={this.renderClusters()}
-                />
+                >
+                  <ListItemText primary="Clusters" />
+                </ListItem>
+                <List style={styles.tightList}>
+                  {this.renderClusters()}
+                </List>
 
                 <ListItem
                   key="applications"
                   style={styles.tightList}
-                  disabled={true}
-                  initiallyOpen={true}
-                  autoGenerateNestedIndicator={false}
-                  primaryText="Applications"
-                  nestedListStyle={styles.tightList}
-                  nestedItems={this.renderApplications()}
-                />
+                >
+                  <ListItemText primary="Applications" />
+                </ListItem>
+                <List style={styles.tightList}>
+                  {this.renderApplications()}
+                </List>
 
                 <ListItem
                   key="username"
                   style={{ paddingTop: "0px", paddingBottom: "14px" }}
-                  disabled={true}
-                  primaryText={node.username}
-                  secondaryText="Username"
-                />
+                >
+                  <ListItemText
+                    primary={node.username}
+                    secondary="Username"
+                  />
+                </ListItem>
                 <ListItem
                   key="password"
                   style={{ paddingTop: "0px", paddingBottom: "14px" }}
-                  disabled={true}
-                  primaryText={
-                    <div>
-                      {secretVisible ? password : "*********"}
-                      <SecretToggle
-                        user={user}
-                        accesscontrol={node.accesscontrol}
-                        secretVisible={secretVisible}
-                        toggleHandler={() => this.toggleDisplaySecret()}
-                        dispatch={dispatch}
-                      />
-                    </div>
-                  }
-                  secondaryText="Password"
-                />
+                >
+                  <ListItemText
+                    primary={
+                      <div>
+                        {secretVisible ? password : "*********"}
+                        <SecretToggle
+                          user={user}
+                          accesscontrol={node.accesscontrol}
+                          secretVisible={secretVisible}
+                          toggleHandler={() => this.toggleDisplaySecret()}
+                          dispatch={dispatch}
+                        />
+                      </div>
+                    }
+                    secondary="Password"
+                  />
+                </ListItem>
               </List>
-            </CardText>
+            </CardContent>
             <CardActions>
               <ToolButtons
                 disabled={!authorized || resourceModalVisible}
@@ -248,26 +258,28 @@ class Node extends Component {
           nestedItems={[
             <ListItem
               key={1}
-              insetChildren={true}
-              disableTouchRipple={true}
-              primaryText={
-                <Link
-                  to={`https://${deploymentManager.properties.hostname}:9043/ibm/console`}
-                  target="new"
-                >
-                  Deployment manager console <FontAwesomeIcon icon="external-link-alt" fixedWidth />
-                </Link>
-              }
-              secondaryText={deploymentManager.properties.hostname}
-            />,
+            >
+              <ListItemText
+                primary={
+                  <Link
+                    to={`https://${deploymentManager.properties.hostname}:9043/ibm/console`}
+                    target="new"
+                  >
+                    Deployment manager console <FontAwesomeIcon icon="external-link-alt" fixedWidth />
+                  </Link>
+                }
+                secondary={deploymentManager.properties.hostname}
+              />
+            </ListItem>,
             <ListItem
               key={2}
-              insetChildren={true}
-              disableTouchRipple={true}
-              primaryText={
-                <Link to={`/resources/${deploymentManager.id}`}>Deployment manager resource</Link>
-              }
-            />
+            >
+              <ListItemText
+                primary={
+                  <Link to={`/resources/${deploymentManager.id}`}>Deployment manager resource</Link>
+                }
+              />
+            </ListItem>
           ]}
         />
       )
@@ -278,7 +290,7 @@ class Node extends Component {
     const { node } = this.props
 
     return node.applications.map(app => (
-      <ListItem key={app} style={styles.tighterList} disabled={true}>
+      <ListItem key={app} style={styles.tighterList}>
         <Link to={`/applications/${app}`}>{app}</Link>
       </ListItem>
     ))
@@ -288,7 +300,7 @@ class Node extends Component {
     const { node } = this.props
 
     return node.cluster.map(c => (
-      <ListItem key={c.name} style={styles.tighterList} disabled={true}>
+      <ListItem key={c.name} style={styles.tighterList}>
         <Link to={`/environments/${node.environment}/clusters/${c.name}`}>{c.name}</Link>
       </ListItem>
     ))
