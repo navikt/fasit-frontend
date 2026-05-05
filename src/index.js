@@ -1,5 +1,5 @@
 import React from "react"
-import ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 import "@babel/polyfill"
 import { createBrowserHistory } from "history"
 import { Root } from "./js/components/Root/Root"
@@ -8,6 +8,8 @@ import { SET_FILTER_CONTEXT, RECEIVE_CONFIGURATION } from "./js/actionTypes"
 
 const history = createBrowserHistory()
 const store = configureStore(history)
+
+const root = createRoot(document.getElementById("content"))
 
 history.listen(location => {
   store.dispatch({
@@ -25,13 +27,12 @@ fetch("/config")
     }
     res.json().then(value => {
       store.dispatch({ type: RECEIVE_CONFIGURATION, value })
-      ReactDOM.render(<Root store={store} history={history} />, document.getElementById("content"))
+      root.render(<Root store={store} history={history} />)
     })
   })
   .catch(err => {
     console.log("error", err)
-    ReactDOM.render(
-      <div>Unable to fetch config - You need to fix your /config response in express, fool.</div>,
-      document.getElementById("content")
+    root.render(
+      <div>Unable to fetch config - You need to fix your /config response in express, fool.</div>
     )
   })

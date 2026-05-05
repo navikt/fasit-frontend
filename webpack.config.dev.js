@@ -45,7 +45,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      "dom-helpers/query/contains": path.resolve(__dirname, "src/patches/dom-helpers-contains.js")
+      "dom-helpers/query/contains": path.resolve(__dirname, "src/patches/dom-helpers-contains.js"),
+      "react-overlays/lib/Portal": path.resolve(__dirname, "src/patches/react-overlays-portal.js")
     }
   }
 }

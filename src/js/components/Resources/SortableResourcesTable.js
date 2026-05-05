@@ -1,22 +1,17 @@
 import React, { useState } from "react";
 import { Table, TableBody, TableHead, TableRow, TableCell, TableSortLabel } from "@material-ui/core";
+import MuiTooltip from "@material-ui/core/Tooltip";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { capitalize } from "../../utils/";
 import { styles, icons } from "../../commonStyles/commonInlineStyles";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export default function SortableResourceTable(props) {
   const { resources, instanceLastChanged } = props;
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
 
-  const tooltip = (
-    <Tooltip id="tooltip">
-      Resource was changed after appinstance was deployed<br />{" "}
-      {moment(instanceLastChanged).format("DD MMM YYYY HH:mm:ss")}
-    </Tooltip>
-  );
+  const tooltipText = `Resource was changed after appinstance was deployed - ${moment(instanceLastChanged).format("DD MMM YYYY HH:mm:ss")}`;
 
   function handleSortOrderChange(key) {
     const newOrder = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
@@ -97,9 +92,9 @@ export default function SortableResourceTable(props) {
       style: { width: 100 },
       render: lastchange =>
         moment(lastchange).isAfter(moment(instanceLastChanged)) ? (
-          <OverlayTrigger placement="left" overlay={tooltip}>
+          <MuiTooltip title={tooltipText} placement="left">
             <div>{icons.warning}</div>
-          </OverlayTrigger>
+          </MuiTooltip>
         ) : (
           ""
         )

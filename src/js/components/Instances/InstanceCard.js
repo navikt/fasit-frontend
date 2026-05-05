@@ -44,7 +44,8 @@ function InstanceCard(props) {
                         <Tabs 
                             value={selectedTab}
                             onChange={(e, val) => setSelectedTab(val)}
-                            style={styles.tabItem}>
+                            style={styles.tabItem}
+                            variant="fullWidth">
                             <Tab label={`Used resources ${usedResources.length}`} disableRipple />
                             <Tab label={`Exposed resources ${exposedResources.length}`} disableRipple
                                  disabled={exposedResources.length === 0} />

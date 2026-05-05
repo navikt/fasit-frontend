@@ -1,7 +1,7 @@
-import React, { Component } from "react"
+import React, { Component, useState } from "react"
 import PropTypes from 'prop-types'
 import Select, { Creatable } from "react-select"
-import { Tooltip, OverlayTrigger } from "react-bootstrap"
+import MuiTooltip from "@material-ui/core/Tooltip"
 import { Link } from "react-router-dom"
 import { capitalize } from "../../utils/"
 import { FormControl, InputLabel, Select as MuiSelect } from "@material-ui/core"
@@ -33,11 +33,33 @@ const copyToClipboard = element => {
   document.execCommand("copy")
 }
 
-const overlayProps = {
-  placement: "right",
-  trigger: "click",
-  rootClose: true,
-  overlay: <Tooltip id="copied">Copied to clipboard</Tooltip>
+function CopyableSpan({ label, value }) {
+  const [open, setOpen] = useState(false)
+
+  const handleClick = () => {
+    copyToClipboard(label)
+    setOpen(true)
+    setTimeout(() => setOpen(false), 1500)
+  }
+
+  return (
+    <MuiTooltip
+      title="Copied to clipboard"
+      open={open}
+      disableHoverListener
+      disableFocusListener
+      placement="right"
+    >
+      <span
+        className="FormValue"
+        id={label}
+        onClick={handleClick}
+        style={{ cursor: "pointer" }}
+      >
+        {value}
+      </span>
+    </MuiTooltip>
+  )
 }
 
 function convertToSelectObject(values) {
@@ -212,15 +234,7 @@ export function FormDropDown(props) {
             onChange={e => handleChange(field || label, e.value, parent)}
           />
         ) : (
-          <OverlayTrigger {...overlayProps}>
-            <span
-              className="FormValue"
-              id={label}
-              onClick={() => copyToClipboard(label)}
-            >
-              {value}
-            </span>
-          </OverlayTrigger>
+          <CopyableSpan label={label} value={value} />
         )}
       </div>
     </div>
@@ -321,15 +335,7 @@ export function FormString(props) {
             onChange={e => handleChange(field || label, e.target.value, parent)}
           />
         ) : (
-          <OverlayTrigger {...overlayProps}>
-            <span
-              className="FormValue"
-              id={label}
-              onClick={() => copyToClipboard(label)}
-            >
-              {value}
-            </span>
-          </OverlayTrigger>
+          <CopyableSpan label={label} value={value} />
         )}
       </div>
     </div>
@@ -360,15 +366,7 @@ export function FormTextArea(props) {
             onChange={e => handleChange(field || label, e.target.value, parent)}
           />
         ) : (
-          <OverlayTrigger {...overlayProps}>
-            <span
-              className="FormValue"
-              id={label}
-              onClick={() => copyToClipboard(label)}
-            >
-              {value}
-            </span>
-          </OverlayTrigger>
+          <CopyableSpan label={label} value={value} />
         )}
       </div>
     </div>
