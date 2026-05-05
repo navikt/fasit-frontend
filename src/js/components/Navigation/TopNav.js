@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import { Popover, OverlayTrigger } from "react-bootstrap"
 import { connect } from "react-redux"
+import MuiPopover from "@material-ui/core/Popover"
 import { Login, AuraTools, NavSearch } from "../common/"
 import ContextMenu from "./ContextMenu"
 import GroupWork from "@material-ui/icons/GroupWork"
@@ -16,50 +16,68 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 class TopNav extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      anchorEl: null,
+      activeOverlay: null
+    }
   }
 
   componentDidMount() {
     this.props.dispatch(getUser())
   }
 
+  openOverlay(name, e) {
+    this.setState({ anchorEl: e.currentTarget, activeOverlay: name })
+  }
+
+  closeOverlay() {
+    this.setState({ anchorEl: null, activeOverlay: null })
+  }
+
   showLogin(root) {
     const { user, dispatch } = this.props
+    const { anchorEl, activeOverlay } = this.state
     return (
       <ul className="nav navbar-nav navbar-right">
         {/* Nytt element*/}
         {user.authenticated ? (
           <li>
-            <OverlayTrigger
-              trigger="focus"
-              placement="bottom"
-              id="toolsOverlay"
-              overlay={this.toolsOverlay()}
+            <button
+              type="button"
+              onClick={(e) => this.openOverlay("tools", e)}
+              className={
+                root
+                  ? "btn btn-sm  btn-link topnav-buttons-inverse"
+                  : "btn btn-sm  btn-link topnav-buttons"
+              }
+              style={{ marginTop: 15, marginRight: 5, marginBottom: 8 }}
             >
-              <button
-                type="button"
-                className={
-                  root
-                    ? "btn btn-sm  btn-link topnav-buttons-inverse"
-                    : "btn btn-sm  btn-link topnav-buttons"
-                }
-                style={{ marginTop: 15, marginRight: 5, marginBottom: 8 }}
-              >
-                <span className="fa-layers fa-fw" style={{ marginRight: 12 }}>
-                  <FontAwesomeIcon
-                    icon="circle"
-                    className="user-icon"
-                    size="2x"
-                  />
-                  <FontAwesomeIcon
-                    icon="plus"
-                    inverse
-                    size="1x"
-                    transform="right-5"
-                  />
-                </span>
-                New
-              </button>
-            </OverlayTrigger>
+              <span className="fa-layers fa-fw" style={{ marginRight: 12 }}>
+                <FontAwesomeIcon
+                  icon="circle"
+                  className="user-icon"
+                  size="2x"
+                />
+                <FontAwesomeIcon
+                  icon="plus"
+                  inverse
+                  size="1x"
+                  transform="right-5"
+                />
+              </span>
+              New
+            </button>
+            <MuiPopover
+              open={activeOverlay === "tools"}
+              anchorEl={anchorEl}
+              onClose={() => this.closeOverlay()}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              transformOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+              <div style={{ padding: 16 }}>
+                {this.toolsContent()}
+              </div>
+            </MuiPopover>
           </li>
         ) : null}
 
@@ -94,61 +112,70 @@ class TopNav extends Component {
           </li>
         ) : (
           <li>
-            <OverlayTrigger
-              trigger="click"
-              id="loginInformationOverlay"
-              rootClose={true}
-              placement="bottom"
-              overlay={this.loginInformationOverlay()}
+            <button
+              type="button"
+              onClick={(e) => this.openOverlay("login", e)}
+              className={
+                root
+                  ? "btn btn-sm  btn-link topnav-buttons-inverse"
+                  : "btn btn-sm  btn-link topnav-buttons"
+              }
+              style={{ marginTop: 15, marginBottom: 8 }}
             >
-              <button
-                type="button"
-                className={
-                  root
-                    ? "btn btn-sm  btn-link topnav-buttons-inverse"
-                    : "btn btn-sm  btn-link topnav-buttons"
-                }
-                style={{ marginTop: 15, marginBottom: 8 }}
-              >
-                <span className="fa-layers fa-fw" style={{ marginRight: 15 }}>
-                  <FontAwesomeIcon
-                    icon="circle"
-                    className="user-icon"
-                    size="2x"
-                  />
-                  <FontAwesomeIcon
-                    icon="user"
-                    inverse
-                    size="1x"
-                    transform="right-5"
-                  />
-                </span>
-                {user.displayname}
-              </button>
-            </OverlayTrigger>
+              <span className="fa-layers fa-fw" style={{ marginRight: 15 }}>
+                <FontAwesomeIcon
+                  icon="circle"
+                  className="user-icon"
+                  size="2x"
+                />
+                <FontAwesomeIcon
+                  icon="user"
+                  inverse
+                  size="1x"
+                  transform="right-5"
+                />
+              </span>
+              {user.displayname}
+            </button>
+            <MuiPopover
+              open={activeOverlay === "login"}
+              anchorEl={anchorEl}
+              onClose={() => this.closeOverlay()}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+              <div style={{ padding: 16 }}>
+                {this.loginContent()}
+              </div>
+            </MuiPopover>
           </li>
         )}
 
         {/* Aurabot */}
         <li>
-          <OverlayTrigger
-            trigger={"click"}
-            rootClose={true}
-            placement="bottom"
-            overlay={AuraTools()}
+          <img
+            src="/images/aura-ikoner/aurabot.png"
+            style={{
+              width: 30,
+              marginTop: 11,
+              marginRight: 30,
+              marginLeft: 12,
+              cursor: "pointer"
+            }}
+            className="topnavIcon"
+            onClick={(e) => this.openOverlay("aura", e)}
+          />
+          <MuiPopover
+            open={activeOverlay === "aura"}
+            anchorEl={anchorEl}
+            onClose={() => this.closeOverlay()}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            transformOrigin={{ vertical: "top", horizontal: "center" }}
           >
-            <img
-              src="/images/aura-ikoner/aurabot.png"
-              style={{
-                width: 30,
-                marginTop: 11,
-                marginRight: 30,
-                marginLeft: 12,
-                cursor: "pointer"
-              }}
-              className="topnavIcon"
-            />
-          </OverlayTrigger>
+            <div style={{ padding: 16 }}>
+              <AuraTools />
+            </div>
+          </MuiPopover>
         </li>
 
         {/* Shortcuts */}
@@ -170,10 +197,10 @@ class TopNav extends Component {
     )
   }
 
-  loginInformationOverlay() {
+  loginContent() {
     const { dispatch, user } = this.props
     return (
-      <Popover id="login">
+      <div>
         <h5>Roles</h5>
         <ul className="topnav-menu">
           {user.roles.map((role, idx) => (
@@ -189,36 +216,34 @@ class TopNav extends Component {
         >
           Log out
         </button>
-      </Popover>
+      </div>
     )
   }
 
-  toolsOverlay() {
+  toolsContent() {
     const { dispatch } = this.props
     return (
-      <Popover id="tools">
-        <ul className="topnav-menu topnav-menu-selector">
-          <li onClick={() => dispatch(displayModal("resource", true))}>
-            <FontAwesomeIcon icon="cogs" fixedWidth /> &nbsp;&nbsp; Create
-            resource
-          </li>
-          <li onClick={() => dispatch(displayModal("application", true))}>
-            <FontAwesomeIcon icon="cube" fixedWidth /> &nbsp;&nbsp; Create
-            application
-          </li>
-          <li onClick={() => dispatch(displayModal("environment", true))}>
-            <FontAwesomeIcon icon="sitemap" fixedWidth /> &nbsp;&nbsp; Create
-            environment
-          </li>
-          <li onClick={() => dispatch(displayModal("node", true))}>
-            <FontAwesomeIcon icon="server" fixedWidth /> &nbsp;&nbsp;Create node
-          </li>
-          <li onClick={() => dispatch(displayModal("cluster", true))}>
-            <FontAwesomeIcon icon="braille" fixedWidth />&nbsp;&nbsp; Create
-            cluster
-          </li>
-        </ul>
-      </Popover>
+      <ul className="topnav-menu topnav-menu-selector">
+        <li onClick={() => { dispatch(displayModal("resource", true)); this.closeOverlay() }}>
+          <FontAwesomeIcon icon="cogs" fixedWidth /> &nbsp;&nbsp; Create
+          resource
+        </li>
+        <li onClick={() => { dispatch(displayModal("application", true)); this.closeOverlay() }}>
+          <FontAwesomeIcon icon="cube" fixedWidth /> &nbsp;&nbsp; Create
+          application
+        </li>
+        <li onClick={() => { dispatch(displayModal("environment", true)); this.closeOverlay() }}>
+          <FontAwesomeIcon icon="sitemap" fixedWidth /> &nbsp;&nbsp; Create
+          environment
+        </li>
+        <li onClick={() => { dispatch(displayModal("node", true)); this.closeOverlay() }}>
+          <FontAwesomeIcon icon="server" fixedWidth /> &nbsp;&nbsp;Create node
+        </li>
+        <li onClick={() => { dispatch(displayModal("cluster", true)); this.closeOverlay() }}>
+          <FontAwesomeIcon icon="braille" fixedWidth />&nbsp;&nbsp; Create
+          cluster
+        </li>
+      </ul>
     )
   }
 

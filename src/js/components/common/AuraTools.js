@@ -1,10 +1,9 @@
-import React, { Component } from "react"
-import PropTypes from 'prop-types'
-import { Popover } from "react-bootstrap"
+import React from "react"
 
 export function AuraTools() {
   return (
-    <Popover title="AURA tools" id="apps">
+    <div>
+      <h5 style={{ marginTop: 0 }}>AURA tools</h5>
       <a href="https://basta.intern.nav.no/" target="Basta">
         <div className="app-container">
           <div className="app-icon">
@@ -21,6 +20,6 @@ export function AuraTools() {
           <div className="app-label">Vera</div>
         </div>
       </a>
-    </Popover>
+    </div>
   )
 }
