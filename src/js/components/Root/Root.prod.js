@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
 import {Provider} from 'react-redux';
-import {ConnectedRouter} from 'connected-react-router'
+import {unstable_HistoryRouter as HistoryRouter} from 'react-router-dom'
+import history from '../../history'
 import getRoutes from '../../routes'
 
 export default class Root extends Component {
     render() {
-        const {store, history} = this.props
+        const {store} = this.props
         return (
             <Provider store={store}>
-                <ConnectedRouter history={history}>
+                <HistoryRouter history={history}>
                     {getRoutes()}
-                </ConnectedRouter>
+                </HistoryRouter>
             </Provider>
         );
     }

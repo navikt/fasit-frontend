@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import {CardInfo} from "../common/";
 import Button from "@material-ui/core/Button";
-import {Link, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
+import {withRouter} from "../../utils/withRouter"
 import {Card, Collapse, CardContent, CardHeader, Tabs, Tab} from "@material-ui/core";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
@@ -63,7 +64,7 @@ function InstanceCard(props) {
                     {cluster.name && <Button
                         variant="text"
                         disableRipple
-                        onClick={() => props.history.push(`environments/${environment}/clusters/${cluster.name}`)}
+                        onClick={() => props.history.push(`/environments/${environment}/clusters/${cluster.name}`)}
                         style={styles.flatButton}>
                         cluster
                     </Button>}

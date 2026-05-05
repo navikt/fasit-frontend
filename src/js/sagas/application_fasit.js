@@ -1,5 +1,5 @@
 import {select, put, call, takeEvery} from "redux-saga/effects"
-import { push } from "connected-react-router";
+import history from "../history"
 import {fetchUrl} from '../utils'
 import {
     APPLICATION_FASIT_FETCHING,
@@ -35,7 +35,7 @@ export function* fetchFasitUrl(action) {
     yield put({type: APPLICATION_FASIT_FETCHING})
     try {
         const value = yield call(fetchUrl, action.url)
-        yield put(push(`/applications/${value.name}`))
+        history.push(`/applications/${value.name}`)
         yield put({type: APPLICATION_FASIT_RECEIVED, value})
     } catch (error) {
         yield put({type: APPLICATION_FASIT_REQUEST_FAILED, error})

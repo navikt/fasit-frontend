@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 // Routes
 import App from "./components/Root/App";
@@ -12,24 +12,31 @@ import EnvironmentCluster from "./components/Environments/EnvironmentCluster";
 import Resources from "./components/Resources/Resources";
 import Instances from "./components/Instances/Instances";
 import NotFound from "./components/NotFound";
+import { WithParams } from "./utils/withRouter";
 
 export default () => {
   return (
     <App>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/search/:query?" component={Search} />
-        <Route path="/environments/:environment/clusters/:clusterName" component={EnvironmentCluster} />
-        <Route path="/environments/:environment/clusters" component={Environments} />
-        <Route path="/environments/:environment/nodes" component={Environments} />
-        <Route path="/environments/:environment/instances" component={Environments} />
-        <Route path="/environments/:environment?" component={Environments} />
-        <Route path="/nodes/:node?" component={Nodes} />
-        <Route path="/applications/:application?" component={Applications} />
-        <Route path="/resources/:resource?" component={Resources} />
-        <Route path="/instances/:instance?" component={Instances} />
-        <Route component={NotFound} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/search/:query" element={<WithParams><Search /></WithParams>} />
+        <Route path="/search" element={<WithParams><Search /></WithParams>} />
+        <Route path="/environments/:environment/clusters/:clusterName" element={<WithParams><EnvironmentCluster /></WithParams>} />
+        <Route path="/environments/:environment/clusters" element={<WithParams><Environments /></WithParams>} />
+        <Route path="/environments/:environment/nodes" element={<WithParams><Environments /></WithParams>} />
+        <Route path="/environments/:environment/instances" element={<WithParams><Environments /></WithParams>} />
+        <Route path="/environments/:environment" element={<WithParams><Environments /></WithParams>} />
+        <Route path="/environments" element={<WithParams><Environments /></WithParams>} />
+        <Route path="/nodes/:node" element={<WithParams><Nodes /></WithParams>} />
+        <Route path="/nodes" element={<WithParams><Nodes /></WithParams>} />
+        <Route path="/applications/:application" element={<WithParams><Applications /></WithParams>} />
+        <Route path="/applications" element={<WithParams><Applications /></WithParams>} />
+        <Route path="/resources/:resource" element={<WithParams><Resources /></WithParams>} />
+        <Route path="/resources" element={<WithParams><Resources /></WithParams>} />
+        <Route path="/instances/:instance" element={<WithParams><Instances /></WithParams>} />
+        <Route path="/instances" element={<WithParams><Instances /></WithParams>} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </App>
   );
 };

@@ -3,7 +3,8 @@ import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
 import {CardInfo, WebsphereManagementConsole} from "../common/";
 import {List, ListItem, ListItemText, Collapse} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import {Link, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
+import {withRouter} from "../../utils/withRouter"
 import {Card, CardContent, CardHeader} from "@material-ui/core";
 import {styles} from "../../commonStyles/commonInlineStyles";
 import {capitalize} from "../../utils/";
@@ -33,7 +34,7 @@ function ResourceCard(props) {
                     style={{ display: "flex", alignItems: "center" }}
                     onClick={handleChange}
                 >
-                <CardHeader title={<Link to={`resources/${resource.id}`}>{title}</Link>}
+                <CardHeader title={<Link to={`/resources/${resource.id}`}>{title}</Link>}
                             subheader={scope}
                             avatar={avatar}
                             style={{paddingBottom: '10px', flex: 1}}
@@ -56,7 +57,7 @@ function ResourceCard(props) {
                     <Button
                         variant="text"
                         disableRipple
-                        onClick={() => props.history.push(`resources/${resource.id}`)}
+                        onClick={() => props.history.push(`/resources/${resource.id}`)}
                         style={styles.flatButton}>
                         manage
                     </Button>

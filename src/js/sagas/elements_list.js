@@ -1,5 +1,5 @@
 import { put, select , takeLatest} from "redux-saga/effects"
-import { push } from "connected-react-router"
+import history from "../history"
 import { fetchPage } from "../utils"
 import {
   APPLICATIONS_LIST_FAILED,
@@ -119,9 +119,9 @@ export function* fetchAllLists(action) {
 
 function* setFilterAsQueryParams(path, filterString) {
   if (filterString !== "") {
-    yield put(push(`/${path}?${filterString}`))
+    history.push(`/${path}?${filterString}`)
   } else {
-    yield put(push(`/${path}`))
+    history.push(`/${path}`)
   }
 }
 

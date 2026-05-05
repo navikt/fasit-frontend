@@ -391,7 +391,7 @@ const resources = [
     },
     secrets: {
       keystorepassword: {
-        ref: "http://localhost:6969/mockapi/secrets/242159"
+        ref: "http://localhost:6969/mockapi/v2/secrets/242159"
       }
     },
     files: {
@@ -488,7 +488,7 @@ const resources = [
     secrets: {
       password: {
         vaultpath: "oracle/data/dev/creds/inst_q8-user/password",
-        ref: "http://localhost:6969/mockapi/secrets/771398"
+        ref: "http://localhost:6969/mockapi/v2/secrets/771398"
       }
     },
     files: {},
@@ -522,7 +522,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/secrets/771397"
+        ref: "http://localhost:6969/mockapi/v2/secrets/771397"
       }
     },
     files: {},
@@ -554,7 +554,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/secrets/242389"
+        ref: "http://localhost:6969/mockapi/v2/secrets/242389"
       }
     },
     files: {},
@@ -856,7 +856,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/secrets/373797"
+        ref: "http://localhost:6969/mockapi/v2/secrets/373797"
       }
     },
     files: {},
@@ -914,7 +914,7 @@ const resources = [
     },
     secrets: {
       keystorepassword: {
-        ref: "http://localhost:6969/mockapi/secrets/3512"
+        ref: "http://localhost:6969/mockapi/v2/secrets/3512"
       }
     },
     files: {
@@ -1074,7 +1074,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/secrets/378545"
+        ref: "http://localhost:6969/mockapi/v2/secrets/378545"
       }
     },
     files: {},
@@ -1171,7 +1171,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/secrets/679729"
+        ref: "http://localhost:6969/mockapi/v2/secrets/679729"
       }
     },
     files: {},

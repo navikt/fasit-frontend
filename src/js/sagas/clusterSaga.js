@@ -1,5 +1,5 @@
 import { call, put, select , takeEvery} from "redux-saga/effects"
-import { push } from "connected-react-router"
+import history from "../history"
 import { fetchUrl } from "../utils"
 import {
   ENVIRONMENT_CLUSTER_FASIT_RECEIVED,
@@ -12,9 +12,9 @@ export function* fetchFasitCluster(action) {
   yield put({ type: ENVIRONMENT_CLUSTER_FASIT_FETCHING })
   try {
     const value = yield call(fetchUrl, `${clusterApi}/${action.key}`)
-    yield put(push(
+    history.push(
       `/environments/${value.environment}/clusters/${value.clustername}`
-    ))
+    )
     yield put({ type: ENVIRONMENT_CLUSTER_FASIT_RECEIVED, value })
   } catch (error) {
     yield put({ type: ENVIRONMENT_CLUSTER_FASIT_REQUEST_FAILED, error })

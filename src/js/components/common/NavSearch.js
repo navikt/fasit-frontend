@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { push } from "connected-react-router"
+import history from "../../history"
 import { connect } from "react-redux"
 import Mousetrap from "mousetrap"
 import { submitNavSearch } from "../../actionCreators/common"
@@ -78,7 +78,7 @@ class NavSearch extends Component {
         // reset selectedOption and display dropdown if query changes
         this.setState({ selectedOption: null, visible: true })
         if (location.pathname === "/") {
-          dispatch(push("/search"))
+          history.push("/search")
         }
     }
   }
@@ -89,18 +89,18 @@ class NavSearch extends Component {
 
     if (!navItem) {
       if (!(location.pathname === "/search")) {
-        dispatch(push("/search"))
+        history.push("/search")
       }
-      dispatch(push(`search/${navSearch.query}`))
+      history.push(`/search/${navSearch.query}`)
       this.setState({ visible: false })
     } else if (navItem.type === "Quick navigation") {
       dispatch(submitNavSearch(""))
       dispatch(changeFilter("alias", navSearch.query))
       dispatch(submitFilterString("resources", 0))
-      dispatch(push(`/resources?alias=${navSearch.query}`))
+      history.push(`/resources?alias=${navSearch.query}`)
     } else {
       dispatch(submitNavSearch(""))
-      dispatch(push(destinationUrl(navItem)))
+      history.push(destinationUrl(navItem))
     }
   }
 

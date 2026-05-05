@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
-import { push } from "connected-react-router"
+import history from "../../history"
 import { parseQuery } from "../../utils/queryParser"
 import {
   CurrentRevision,
@@ -60,7 +60,7 @@ export class Environment extends Component {
     }
     dispatch(submitForm(id, form, comment, component))
     if (component === "deleteEnvironment") {
-      dispatch(push("/environments"))
+      history.push("/environments")
     }
   }
 

@@ -1,7 +1,8 @@
 import React from "react";
 import {CardInfo} from "../common/";
 import Button from "@material-ui/core/Button";
-import {Link, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
+import {withRouter} from "../../utils/withRouter"
 import ListSubheader from "@material-ui/core/ListSubheader";
 import Divider from "@material-ui/core/Divider";
 import {Card, Collapse, CardContent, CardHeader, List, ListItem, ListItemText} from "@material-ui/core";
@@ -56,7 +57,7 @@ function NodeCard(props) {
                     {cluster && <Button
                         variant="text"
                         disableRipple
-                        onClick={() => props.history.push(`environments/${environment}/clusters/${cluster.name}`)}
+                        onClick={() => props.history.push(`/environments/${environment}/clusters/${cluster.name}`)}
                         style={styles.flatButton}>
                         cluster
                     </Button>}

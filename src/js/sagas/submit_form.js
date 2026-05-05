@@ -1,5 +1,5 @@
 import { put, select , takeEvery} from "redux-saga/effects"
-import { push } from "connected-react-router"
+import history from "../history"
 import {
   APPLICATION_FASIT_REQUEST,
   APPLICATION_FASIT_URL_REQUEST,
@@ -91,7 +91,7 @@ export function* submitForm(action) {
           prPage: 10,
           page: filter.activePage
         })
-        yield put(push("/applications"))
+        history.push("/applications")
         break
       case "deleteNode":
         url = `${configuration.fasit_nodes}/${action.key}`
@@ -102,7 +102,7 @@ export function* submitForm(action) {
           prPage: 10,
           page: filter.activePage
         })
-        yield put(push("/nodes"))
+        history.push("/nodes")
         break
       case "deleteEnvironment":
         url = `${configuration.fasit_environments}/${action.key}`
@@ -113,11 +113,11 @@ export function* submitForm(action) {
           prPage: 10,
           page: filter.activePage
         })
-        yield put(push("/environments"))
+        history.push("/environments")
         break
       case "deleteCluster":
         url = `${configuration.fasit_environments}/${action.form.env}/clusters/${action.key}`
-        yield put(push(`/environments/${action.form.env}`))
+        history.push(`/environments/${action.form.env}`)
         yield deleteUrl(url, action.comment)
         break
       case "deleteResource":
@@ -130,7 +130,7 @@ export function* submitForm(action) {
           page: filter.activePage,
           filters: filter.filters
         })
-        yield put(push("/resources"))
+        history.push("/resources")
         break
 
       // / Update
@@ -138,7 +138,7 @@ export function* submitForm(action) {
         url = `${configuration.fasit_nodes}/${action.key}`
         yield putUrl(url, action.form, action.comment)
         yield put({ type: SHOW_NEW_NODE_FORM, value: false })
-        yield put(push(`/nodes/${action.key}`))
+        history.push(`/nodes/${action.key}`)
         yield put({ type: NODE_FASIT_REQUEST, hostname: action.key })
         yield put({
           type: REVISIONS_REQUEST,
@@ -150,7 +150,7 @@ export function* submitForm(action) {
         url = `${configuration.fasit_applications}/${action.key}`
         yield putUrl(url, action.form, action.comment)
         yield put({ type: SHOW_NEW_APPLICATION_FORM, value: false })
-        yield put(push(`/applications/${action.form.name}`))
+        history.push(`/applications/${action.form.name}`)
         yield put({ type: APPLICATION_FASIT_REQUEST, name: action.key })
         yield put({
           type: REVISIONS_REQUEST,
@@ -162,7 +162,7 @@ export function* submitForm(action) {
         url = `${configuration.fasit_environments}/${action.key}`
         yield putUrl(url, action.form, action.comment)
         yield put({ type: SHOW_NEW_ENVIRONMENT_FORM, value: false })
-        yield put(push(`/environments/${action.form.name}`))
+        history.push(`/environments/${action.form.name}`)
         yield put({ type: ENVIRONMENT_FASIT_REQUEST, id: action.form.name })
         yield put({
           type: REVISIONS_REQUEST,
@@ -174,9 +174,9 @@ export function* submitForm(action) {
         url = `${configuration.fasit_clusters}/${action.key}`
         yield putUrl(url, action.form, action.comment)
         yield put({ type: SHOW_NEW_CLUSTER_FORM, value: false })
-        yield put(push(
+        history.push(
           `/environments/${action.form.environment}/clusters/${action.form.clustername}`
-        ))
+        )
         yield put({
           type: CLUSTER_FASIT_REQUEST,
           url: url
@@ -191,7 +191,7 @@ export function* submitForm(action) {
         url = `${configuration.fasit_resources}/${action.key}`
         yield putUrl(url, action.form, action.comment)
         yield put({ type: SHOW_NEW_RESOURCE_FORM, value: false })
-        yield put(push(`/resources/${action.key}`))
+        history.push(`/resources/${action.key}`)
         yield put({ type: RESOURCE_FASIT_REQUEST, id: action.key })
         yield put({
           type: REVISIONS_REQUEST,

@@ -1,19 +1,17 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga'
-import { routerMiddleware } from 'connected-react-router'
 
 import rootSaga from '../sagas'
-import createRootReducer from '../reducers';
+import rootReducer from '../reducers';
 
 
-export default function configureStore(history) {
+export default function configureStore() {
     const sagaMiddleware = createSagaMiddleware()
 
     const middlewares = [
         thunk,
-        sagaMiddleware,
-        routerMiddleware(history)
+        sagaMiddleware
     ]
 
     const composeEnhancers =
@@ -23,14 +21,14 @@ export default function configureStore(history) {
             }) : compose;
 
     const store = createStore(
-        createRootReducer(history),
+        rootReducer,
         composeEnhancers(applyMiddleware(...middlewares))
     );
 
     // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
     if (module.hot) {
         module.hot.accept('../reducers', () =>
-            store.replaceReducer(createRootReducer(history))
+            store.replaceReducer(require('../reducers').default)
         );
     }
     sagaMiddleware.run(rootSaga)

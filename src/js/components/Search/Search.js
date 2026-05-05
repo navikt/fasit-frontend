@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { push } from "connected-react-router";
+import history from "../../history"
 import { Card, CardActions, CardContent, CardHeader, Toolbar, Box, Divider, Typography, Table, TableBody, TableRow, TableCell } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { APPCONFIG, CLUSTER, destinationUrl, INSTANCE, RESOURCE, SEARCH_RESULT_TYPES } from "../Search/searchResultTypes";
@@ -125,7 +125,7 @@ class Search extends Component {
         const { searchQuery, dispatch } = this.props
         dispatch(submitSearch(searchQuery, type))
         const newPath = type ? `/search/${searchQuery}?type=${type}` : `/search/${searchQuery}`
-        dispatch(push(newPath))
+        history.push(newPath)
     }
 
     resultTypeFilters() {

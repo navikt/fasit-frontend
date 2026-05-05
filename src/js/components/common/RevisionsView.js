@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import moment from "moment"
 import { connect } from "react-redux"
-import { push } from "connected-react-router"
+import history from "../../history"
 import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core"
 import { fetchRevisions } from "../../actionCreators/common"
 import { styles, icons } from "../../commonStyles/commonInlineStyles"
@@ -81,7 +81,7 @@ class RevisionsView extends Component {
                 key={idx}
                 button
                 onClick={() =>
-                  dispatch(push(routing.pathname + revisionQuery))
+                  history.push(routing.pathname + revisionQuery)
                 }
                 style={{ fontSize: "14px" }}
               >
