@@ -1,6 +1,6 @@
 import React from 'react'
 import {styles} from '../../commonStyles/commonInlineStyles'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 
 export default function WebsphereManagementConsole(props) {
     const hostname = props.hostname

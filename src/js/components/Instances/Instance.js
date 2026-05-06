@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { parseQuery } from "../../utils/queryParser";
-import { Tabs, Tab } from "@material-ui/core";
+import { Tabs, Tab } from "@mui/material";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";
 import { Link } from "react-router-dom";
 import Manifest from "./Manifest";
 import { CollapsibleList, CurrentRevision, History, Lifecycle } from "../common/";
-import { Card, CardHeader, CardContent, List, ListItem, ListItemText } from "@material-ui/core";
+import { Card, CardHeader, CardContent, List, ListItem, ListItemText } from "@mui/material";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import { fetchInstance } from "../../actionCreators/instance";
 import { validAuthorization } from "../../utils/";

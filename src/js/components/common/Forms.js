@@ -1,26 +1,21 @@
 import React, { Component, useState } from "react"
 import PropTypes from 'prop-types'
 import Select, { Creatable } from "react-select"
-import MuiTooltip from "@material-ui/core/Tooltip"
+import MuiTooltip from "@mui/material/Tooltip"
 import { Link } from "react-router-dom"
 import { capitalize } from "../../utils/"
-import { FormControl, InputLabel, Select as MuiSelect } from "@material-ui/core"
-import MenuItem from "@material-ui/core/MenuItem"
-import TextField from "@material-ui/core/TextField"
+import { FormControl, InputLabel, Select as MuiSelect } from "@mui/material"
+import MenuItem from "@mui/material/MenuItem"
+import TextField from "@mui/material/TextField"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  floatingLabelStyle: { color: "#000000", fontSize: "16px" },
-  selectedDropDownValue: { color: "#000000", fontSize: "16px" },
-}));
+const muiStyles = {
+  formControl: { margin: theme => theme.spacing(1), minWidth: 120, },
+  floatingLabelStyle: { color: "#000000", fontSize: "14px"},
+  selectedDropDownValue: { color: "#000000", fontSize: "14px", marginTop: '3px' },
+  selectEmptyValue: { margintTop: theme => theme.spacing(2) },
+  textField: { margin: theme => theme.spacing(1), marginTop: '3px' },
+  menyItem: { fontSize: "14px" }
+};
 
 const copyToClipboard = element => {
   let el = document.getElementById(element)
@@ -68,18 +63,13 @@ function convertToSelectObject(values) {
   })
 }
 
-const floatingLabelStyle = { color: "#757575", fontSize: "16px" }
-const underlineFocusStyle = { borderBottomColor: "#268bd2" }
-const floatingLabelFocusStyle = { color: "#268bd2", fontSize: "16px" }
-
 export function MaterialDropDown(props) {
   const { label, field, value, options, onChange, fullWidth } = props
-  const classes = useStyles();
 
   return (
-    <FormControl fullWidth={fullWidth === undefined ? true : fullWidth} className={classes.formControl}>
-      <InputLabel className={classes.floatingLabelStyle}>{label}</InputLabel>
-      <MuiSelect className={classes.selectedDropDownValue}
+    <FormControl fullWidth={fullWidth === undefined ? true : fullWidth} sx={muiStyles.formControl}>
+      <InputLabel sx={muiStyles.floatingLabelStyle}>{label}</InputLabel>
+      <MuiSelect sx={muiStyles.selectedDropDownValue}
         value={value == null ? "" : value}
         id={field}
         onChange={(e) => onChange(field, e.target.value || null)}
@@ -88,6 +78,7 @@ export function MaterialDropDown(props) {
           <MenuItem
             key={idx}
             value={option == null ? "" : option}
+            sx={muiStyles.menyItem}
           >{option || `All ${field}s`}</MenuItem>
         ))}
       </MuiSelect>
@@ -108,6 +99,7 @@ export function MaterialTextBox(props) {
       error={!!errorText}
       helperText={errorText || undefined}
       onChange={(event) => onChange(event.target.id, event.target.value)}
+      sx={muiStyles.textField}
       {...other}
     />
   )

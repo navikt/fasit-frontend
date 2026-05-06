@@ -1,9 +1,9 @@
 import React from "react";
 import { CardInfo } from "../common/";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { withRouter } from "../../utils/withRouter"
-import { Card, Collapse, CardContent, CardHeader } from "@material-ui/core";
+import { Card, Collapse, CardContent, CardHeader } from "@mui/material";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";
 
 

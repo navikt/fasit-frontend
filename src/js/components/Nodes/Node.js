@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
 import { validAuthorization, isEmptyObject } from "../../utils/"
 import { clearNodePassword, fetchFasitData, fetchNodePassword } from "../../actionCreators/node"
-import { Card, CardActions, CardContent, CardHeader, List, ListItem, ListItemText } from "@material-ui/core"
+import { Card, CardActions, CardContent, CardHeader, List, ListItem, ListItemText } from "@mui/material"
 import { Link } from "react-router-dom"
 import {
   CollapsibleList,

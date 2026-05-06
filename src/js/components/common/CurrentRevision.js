@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from 'prop-types'
 import moment from "moment";
-import {Card, CardHeader, CardContent} from "@material-ui/core";
+import {Card, CardHeader, CardContent} from "@mui/material";
 import {styles} from "../../commonStyles/commonInlineStyles";
 
 

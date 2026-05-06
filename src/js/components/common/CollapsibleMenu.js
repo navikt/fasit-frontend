@@ -1,8 +1,8 @@
 import React, { useState } from "react"
-import { List, ListItem, ListItemText } from "@material-ui/core"
-import Collapse from "@material-ui/core/Collapse"
-import ExpandLess from "@material-ui/icons/ExpandLess"
-import ExpandMore from "@material-ui/icons/ExpandMore"
+import { List, ListItem, ListItemText } from "@mui/material"
+import Collapse from "@mui/material/Collapse"
+import ExpandLess from "@mui/icons-material/ExpandLess"
+import ExpandMore from "@mui/icons-material/ExpandMore"
 
 export function CollapsibleList(props) {
   let { nestedItems, nestedLevel, primaryText, leftAvatar, initiallyOpen, style, ...rest } = props

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import Snackbar from '@material-ui/core/Snackbar'
+import Snackbar from '@mui/material/Snackbar'
 
 
 class SubmitFormStatus extends Component {

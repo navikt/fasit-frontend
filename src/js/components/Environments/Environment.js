@@ -18,7 +18,7 @@ import EnvironmentNodes from "./EnvironmentNodes"
 import EnvironmentInstances from "./EnvironmentInstances"
 import { fetchEnvironment } from "../../actionCreators/environment"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
-import { Card, CardActions, CardHeader } from "@material-ui/core"
+import { Card, CardActions, CardHeader } from "@mui/material"
 
 export class Environment extends Component {
   constructor(props) {

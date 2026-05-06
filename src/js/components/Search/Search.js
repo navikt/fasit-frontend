@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import history from "../../history"
-import { Card, CardActions, CardContent, CardHeader, Toolbar, Box, Divider, Typography, Table, TableBody, TableRow, TableCell } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import { Card, CardActions, CardContent, CardHeader, Toolbar, Box, Divider, Typography, Table, TableBody, TableRow, TableCell } from "@mui/material";
+import Button from "@mui/material/Button";
 import { APPCONFIG, CLUSTER, destinationUrl, INSTANCE, RESOURCE, SEARCH_RESULT_TYPES } from "../Search/searchResultTypes";
 import { colors, icons, styles } from "../../commonStyles/commonInlineStyles";
 import { CardInfo } from "../common/";

@@ -1,7 +1,7 @@
 import React from "react"
 import { shallow } from "enzyme"
 import { expect } from "chai"
-import { Card } from "@material-ui/core"
+import { Card } from "@mui/material"
 import { ApplicationCard } from "../../../../src/js/components/Applications/ApplicationCard.js"
 import { CardInfo } from "../../../../src/js/components/common/"
 

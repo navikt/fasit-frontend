@@ -5,9 +5,9 @@ import {
   green,
   orange,
   red
-} from "@material-ui/core/colors"
+} from "@mui/material/colors"
 import { colors } from "../commonStyles/commonInlineStyles"
-import Avatar from "@material-ui/core/Avatar"
+import Avatar from "@mui/material/Avatar"
 import ResourceTypeProperty from "./ResourceTypeProperty"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 

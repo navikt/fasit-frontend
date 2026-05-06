@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Table, TableBody, TableHead, TableRow, TableCell, TableSortLabel } from "@material-ui/core";
-import MuiTooltip from "@material-ui/core/Tooltip";
+import { Table, TableBody, TableHead, TableRow, TableCell, TableSortLabel } from "@mui/material";
+import MuiTooltip from "@mui/material/Tooltip";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { capitalize } from "../../utils/";

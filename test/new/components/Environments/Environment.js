@@ -3,7 +3,7 @@ import { shallow } from "enzyme"
 import { expect } from "chai"
 import sinon from "sinon"
 import { Environment } from "../../../../src/js/components/Environments/Environment"
-import { Card } from "@material-ui/core"
+import { Card } from "@mui/material"
 import { CurrentRevision, Lifecycle, ToolButtons } from "../../../../src/js/components/common/"
 
 describe("(Component) Environment", () => {

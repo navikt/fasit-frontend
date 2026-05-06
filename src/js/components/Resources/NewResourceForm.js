@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import PropTypes from 'prop-types'
 import { Modal } from "react-bootstrap"
 import { connect } from "react-redux"
-import Button from "@material-ui/core/Button"
+import Button from "@mui/material/Button"
 import {
   MaterialDropDown,
   MaterialTextArea,
@@ -17,7 +17,7 @@ import {
 import { capitalize } from "../../utils"
 import { displayModal, submitForm } from "../../actionCreators/common"
 import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes"
-import Chip from "@material-ui/core/Chip"
+import Chip from "@mui/material/Chip"
 import Scope from "./Scope"
 
 class NewResourceForm extends Component {

@@ -1,10 +1,10 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
-import MuiPopover from "@material-ui/core/Popover"
+import MuiPopover from "@mui/material/Popover"
 import { Login, AuraTools, NavSearch } from "../common/"
 import ContextMenu from "./ContextMenu"
-import GroupWork from "@material-ui/icons/GroupWork"
+import GroupWork from "@mui/icons-material/GroupWork"
 import {
   logOut,
   getUser,

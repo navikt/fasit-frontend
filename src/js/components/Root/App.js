@@ -18,7 +18,7 @@ import NewEnvironmentForm from "../Environments/NewEnvironmentForm"
 import NewClusterForm from "../Environments/NewClusterForm"
 import NewResourceForm from "../Resources/NewResourceForm"
 import { SubmitFormStatus, KeyboardShortcuts, ErrorDialog } from "../common/"
-import { ThemeProvider, createTheme } from "@material-ui/core/styles"
+import { ThemeProvider, createTheme } from "@mui/material/styles"
 const theme = createTheme({
   typography: {
     fontSize: 22,

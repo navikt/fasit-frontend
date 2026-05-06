@@ -1,11 +1,11 @@
 import React from "react";
 import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
 import {CardInfo, WebsphereManagementConsole} from "../common/";
-import {List, ListItem, ListItemText, Collapse} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import {List, ListItem, ListItemText, Collapse} from "@mui/material";
+import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
 import {withRouter} from "../../utils/withRouter"
-import {Card, CardContent, CardHeader} from "@material-ui/core";
+import {Card, CardContent, CardHeader} from "@mui/material";
 import {styles} from "../../commonStyles/commonInlineStyles";
 import {capitalize} from "../../utils/";
 

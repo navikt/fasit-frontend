@@ -1,11 +1,11 @@
 import React from "react";
 import {CardInfo} from "../common/";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
 import {withRouter} from "../../utils/withRouter"
-import ListSubheader from "@material-ui/core/ListSubheader";
-import Divider from "@material-ui/core/Divider";
-import {Card, Collapse, CardContent, CardHeader, List, ListItem, ListItemText} from "@material-ui/core";
+import ListSubheader from "@mui/material/ListSubheader";
+import Divider from "@mui/material/Divider";
+import {Card, Collapse, CardContent, CardHeader, List, ListItem, ListItemText} from "@mui/material";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
 import {capitalize} from "../../utils/";
 

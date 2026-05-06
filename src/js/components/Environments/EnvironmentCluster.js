@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, CardHeader, List, ListItem, ListItemText } from "@material-ui/core"
+import { Card, CardActions, CardContent, CardHeader, List, ListItem, ListItemText } from "@mui/material"
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"

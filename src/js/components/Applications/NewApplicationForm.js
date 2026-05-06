@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import { FormComment, FormString } from "../common/Forms"
 import { capitalize } from "../../utils"
 import { displayModal, submitForm } from "../../actionCreators/common"
-import { Card, CardHeader, CardContent } from "@material-ui/core"
+import { Card, CardHeader, CardContent } from "@mui/material"
 import { icons, styles, colors } from "../../commonStyles/commonInlineStyles"
 
 export class NewApplicationForm extends Component {

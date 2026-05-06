@@ -1,8 +1,8 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import { validAuthorization } from "../../utils"
-import Chip from "@material-ui/core/Chip"
-import Lock from "@material-ui/icons/Lock"
+import Chip from "@mui/material/Chip"
+import Lock from "@mui/icons-material/Lock"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
 import { displayLogin } from "../../actionCreators/authentication";
 

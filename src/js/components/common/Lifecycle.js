@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import { Card, CardHeader } from "@material-ui/core"
-import Avatar from "@material-ui/core/Avatar"
-import Restore from "@material-ui/icons/Restore"
+import { Card, CardHeader } from "@mui/material"
+import Avatar from "@mui/material/Avatar"
+import Restore from "@mui/icons-material/Restore"
 import { colors, styles } from "../../commonStyles/commonInlineStyles"
 
 class Lifecycle extends Component {

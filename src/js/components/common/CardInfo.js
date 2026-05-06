@@ -1,10 +1,10 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
-import Restore from "@material-ui/icons/Restore"
+import Restore from "@mui/icons-material/Restore"
 import { colors } from "../../commonStyles/commonInlineStyles"
-import Chip from "@material-ui/core/Chip"
+import Chip from "@mui/material/Chip"
 import { capitalize } from "../../utils/"
-import Avatar from "@material-ui/core/Avatar"
+import Avatar from "@mui/material/Avatar"
 import moment from "moment"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
