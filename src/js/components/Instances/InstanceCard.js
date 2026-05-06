@@ -46,10 +46,15 @@ function InstanceCard(props) {
                             value={selectedTab}
                             onChange={(e, val) => setSelectedTab(val)}
                             style={styles.tabItem}
-                            variant="fullWidth">
-                            <Tab label={`Used resources ${usedResources.length}`} disableRipple />
+                            variant="fullWidth"
+                            role="navigation"
+                            sx={{
+                                '.MuiTab-root': { color: 'rgba(255, 255, 255, 0.5)' },
+                                '.MuiTab-root.Mui-selected': { color: '#ffffff' }
+                            }}>
+                            <Tab label={`Used resources ${usedResources.length}`} disableRipple/>
                             <Tab label={`Exposed resources ${exposedResources.length}`} disableRipple
-                                 disabled={exposedResources.length === 0} />
+                                 disabled={exposedResources.length === 0}/>
                         </Tabs>
                         {selectedTab === 0 && <SortableResourceTable resources={usedResources}/>}
                         {selectedTab === 1 && <SortableResourceTable resources={exposedResources}/>}

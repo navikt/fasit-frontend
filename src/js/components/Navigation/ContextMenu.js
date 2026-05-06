@@ -18,7 +18,7 @@ class ContexMenu extends Component {
   render() {
     return (
       <div className="context-menu">
-        <div className="col-lg-11 col-lg-offset-1 col-md-11 col-md-offset-1 col-sm-12">
+        <div className="col-lg-11 offset-lg-1 col-md-11 offset-md-1 col-sm-12">
           <ul className="nav nav-tabs nav-tab-positioning">
             <li className={this.isActive("search")}>
               <Link to="/search">

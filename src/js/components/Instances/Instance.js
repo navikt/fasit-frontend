@@ -66,13 +66,13 @@ class Instance extends Component {
         const { tabIndex } = this.state
 
         return (
-            <div>
+            <div className="row">
                 <div className="col-md-9">
                     <CurrentRevision revisionId={query.revision} revisions={revisions}/>
                     <Card style={styles.cardPadding}>
                         <CardHeader
                             avatar={icons.instance}
-                            titleTypographyProps={{style: styles.bold}}
+                            slotProps={{title: {style: styles.bold}}}
                             title={<Link to={`/applications/${instance.application}`}>{`${instance.application}`}</Link>}
                             style={styles.paddingBottom0}
                             subheader={`${instance.application}:${instance.version}`}
@@ -109,7 +109,16 @@ class Instance extends Component {
                         <CardContent>
                             {instance.usedresources &&
                             <div>
-                                <Tabs value={tabIndex} onChange={this.handleTabChange.bind(this)} style={styles.tabItem} variant="fullWidth">
+                                <Tabs 
+                                    value={tabIndex}
+                                    onChange={this.handleTabChange.bind(this)}
+                                    style={styles.tabItem}
+                                    variant="fullWidth"
+                                    role="navigation"
+                                    sx={{
+                                        '.MuiTab-root': { color: 'rgba(255, 255, 255, 0.5)' },
+                                        '.MuiTab-root.Mui-selected': { color: '#ffffff' }
+                                    }}>
                                     <Tab
                                         label={`Used resources ${instance.usedresources.length}`}
                                         disableRipple />

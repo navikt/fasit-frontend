@@ -320,7 +320,7 @@ class Resource extends Component {
             <Card>
               <CardHeader
                 avatar={resourceTypeIcon(resource.type)}
-                titleTypographyProps={{style: styles.bold}}
+                slotProps={{title: {style: styles.bold}}}
                 title={`${getResourceTypeName(resource.type)} ${resource.alias}`}
                 subheader={this.scopeDisplayString(resource.scope)}
               />

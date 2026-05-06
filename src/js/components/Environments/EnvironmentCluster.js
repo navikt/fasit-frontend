@@ -105,7 +105,7 @@ class EnvironmentCluster extends Component {
             <CardHeader
               avatar={icons.cluster}
               title={`Cluster ${cluster.clustername}`}
-              titleTypographyProps={{style: styles.bold}}
+              slotProps={{title: {style: styles.bold}}}
               subheader={`${cluster.environment} - ${cluster.zone}`}
             />
 

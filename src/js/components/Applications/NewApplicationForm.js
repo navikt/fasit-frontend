@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
-import { Modal } from "react-bootstrap"
+import { Modal } from "../common/Modal"
 import { connect } from "react-redux"
 import { FormComment, FormString } from "../common/Forms"
 import { capitalize } from "../../utils"
@@ -88,7 +88,7 @@ export class NewApplicationForm extends Component {
       return (
         <button
           type="submit"
-          className="btn btn-primary pull-right"
+          className="btn btn-primary float-end"
           onClick={this.handleSubmitForm.bind(this, true)}
         >
           Submit
@@ -96,7 +96,7 @@ export class NewApplicationForm extends Component {
       )
     }
     return (
-      <button type="submit" className="btn btn-primary pull-right disabled">
+      <button type="submit" className="btn btn-primary float-end disabled">
         Submit
       </button>
     )
@@ -107,7 +107,7 @@ export class NewApplicationForm extends Component {
       <Card style={styles.cardPadding}>
         <CardHeader
           title="Creation of new applications has been disabled"
-          titleTypographyProps={{style: styles.bold}}
+          slotProps={{title: {style: styles.bold}}}
           avatar={icons.warning}
         />
 
@@ -147,7 +147,7 @@ export class NewApplicationForm extends Component {
             <button
               id="resetBtn"
               type="reset"
-              className="btn btn-link pull-right"
+              className="btn btn-link float-end"
               onClick={this.closeForm.bind(this)}
             >
               <strong>X</strong>

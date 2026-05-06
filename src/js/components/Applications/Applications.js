@@ -29,7 +29,7 @@ export class Applications extends Component {
       ) : (
         <div className="main-content-container">
           <div className="row col-sm-10">
-            <div className="col-sm-6 col-xs-12">
+            <div className="col-sm-6 col-12">
               <Filters />
             </div>
           </div>

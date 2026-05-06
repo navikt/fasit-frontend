@@ -6,7 +6,6 @@ module.exports = {
   devtool: "eval-cheap-module-source-map",
   entry: [
     "@babel/polyfill",
-    "./src/react-bootstrap-shims",
     "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true",
     "./src/stylesheets/index.less",
     "./src/index"
@@ -44,9 +43,5 @@ module.exports = {
     ]
   },
   resolve: {
-    alias: {
-      "dom-helpers/query/contains": path.resolve(__dirname, "src/patches/dom-helpers-contains.js"),
-      "react-overlays/lib/Portal": path.resolve(__dirname, "src/patches/react-overlays-portal.js")
-    }
   }
 }

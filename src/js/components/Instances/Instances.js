@@ -26,7 +26,7 @@ class Instances extends Component {
         return (
             <div className="main-content-container">
                 <div className="row">
-                    <div className="col-sm-6 col-xs-12">
+                    <div className="col-sm-6 col-12">
                         <Filters />
                     </div>
                 </div>
@@ -34,7 +34,7 @@ class Instances extends Component {
                     <div className="row">
                         <h4>{totalCount} instances</h4>
                         {instances.map((item, index) => <InstanceCard instance={item} key={index} />)}
-                        <div className="col-sm-2 pull-right">
+                        <div className="col-sm-2 ms-auto">
                             <ElementPaging />
                         </div>
                     </div>

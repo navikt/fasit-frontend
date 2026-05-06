@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
-import { Modal } from "react-bootstrap"
+import { Modal } from "./Modal"
 import { connect } from "react-redux"
 import { toggleHelp } from "../../actionCreators/common"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -23,7 +23,7 @@ class KeyboardShortcuts extends Component {
           <Modal.Title>
             Keyboard shortcuts
             <button
-              className="btn btn-xs btn-default pull-right"
+              className="btn btn-xs btn-secondary float-end"
               onClick={() => dispatch(toggleHelp())}
             >
               <FontAwesomeIcon icon="times" />

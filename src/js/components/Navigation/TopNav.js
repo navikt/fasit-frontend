@@ -38,7 +38,7 @@ class TopNav extends Component {
     const { user, dispatch } = this.props
     const { anchorEl, activeOverlay } = this.state
     return (
-      <ul className="nav navbar-nav navbar-right">
+      <ul className="nav d-flex flex-row ms-auto" style={{listStyle: 'none'}}>
         {/* Nytt element*/}
         {user.authenticated ? (
           <li>
@@ -263,7 +263,7 @@ class TopNav extends Component {
             </div>
           </div>
 
-          <div className="col-xs-7 col-sm-6 col-md-6">
+          <div className="col-7 col-sm-6 col-md-6">
             <NavSearch />
           </div>
           {this.showLogin()}

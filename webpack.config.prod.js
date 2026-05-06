@@ -5,7 +5,6 @@ module.exports = {
     mode: 'production',
     devtool: 'source-map',
     entry: [
-        './src/react-bootstrap-shims',
         './src/index',
         './src/stylesheets/index.less'
     ],
@@ -40,9 +39,5 @@ module.exports = {
         ]
     },
     resolve: {
-        alias: {
-            "dom-helpers/query/contains": path.resolve(__dirname, "src/patches/dom-helpers-contains.js"),
-            "react-overlays/lib/Portal": path.resolve(__dirname, "src/patches/react-overlays-portal.js")
-        }
     }
 };

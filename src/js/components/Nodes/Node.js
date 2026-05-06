@@ -132,7 +132,7 @@ class Node extends Component {
             <CardHeader
               avatar={icons.node}
               title={hostname}
-              titleTypographyProps={{style: styles.bold}}
+              slotProps={{title: {style: styles.bold}}}
               subheader={capitalize(node.type)}
             />
             <CardContent>

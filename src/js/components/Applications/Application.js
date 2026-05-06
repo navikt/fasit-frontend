@@ -118,7 +118,7 @@ export class Application extends Component {
                 <CardHeader
                   avatar={icons.application}
                   title={`${name}`}
-                  titleTypographyProps={{style: styles.bold}}
+                  slotProps={{title: {style: styles.bold}}}
                   style={styles.paddingBottom0}
                   subheader={this.applicationInfo(application)}
                 />

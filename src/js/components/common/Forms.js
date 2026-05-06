@@ -8,9 +8,10 @@ import { FormControl, InputLabel, Select as MuiSelect } from "@mui/material"
 import MenuItem from "@mui/material/MenuItem"
 import TextField from "@mui/material/TextField"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faBorderStyle } from "@fortawesome/free-solid-svg-icons"
 const muiStyles = {
   formControl: { margin: theme => theme.spacing(1), minWidth: 120, },
-  floatingLabelStyle: { color: "#000000", fontSize: "14px"},
+  floatingLabelStyle: { color: "#000000", fontSize: "14px", borderStyle: "none" },
   selectedDropDownValue: { color: "#000000", fontSize: "14px", marginTop: '3px' },
   selectEmptyValue: { margintTop: theme => theme.spacing(2) },
   textField: { margin: theme => theme.spacing(1), marginTop: '3px' },
@@ -67,7 +68,10 @@ export function MaterialDropDown(props) {
   const { label, field, value, options, onChange, fullWidth } = props
 
   return (
-    <FormControl fullWidth={fullWidth === undefined ? true : fullWidth} sx={muiStyles.formControl}>
+    <FormControl fullWidth={fullWidth === undefined ? true : fullWidth}
+      sx={muiStyles.formControl}
+      variant="standard"
+      >
       <InputLabel sx={muiStyles.floatingLabelStyle}>{label}</InputLabel>
       <MuiSelect sx={muiStyles.selectedDropDownValue}
         value={value == null ? "" : value}
@@ -100,6 +104,8 @@ export function MaterialTextBox(props) {
       helperText={errorText || undefined}
       onChange={(event) => onChange(event.target.id, event.target.value)}
       sx={muiStyles.textField}
+      type="search"
+      variant="standard"
       {...other}
     />
   )
@@ -372,7 +378,7 @@ export function FormComment(props) {
       <div className="col-md-3 FormLabel text-left">
         <b>Comment</b>
       </div>
-      <div className="col-xs-9">
+      <div className="col-9">
         <textarea
           type="text"
           className="TextAreaInputField FormString-value"

@@ -32,14 +32,14 @@ class Resources extends Component {
                         <Filters />
                     </div>
                 </div>
-                <div className="col-sm-12">
+                <div className="col-sm-10">
                     <div className="row">
                         <h4>{totalCount} resources</h4>
                         {resources.map((item, index)=> {
                                 return <ResourceCard resource={item} key={index}/>
                             })
                         }
-                        <div className="col-sm-2 pull-right">
+                        <div className="col-sm-2 ms-auto">
                             <ElementPaging />
                         </div>
                     </div>

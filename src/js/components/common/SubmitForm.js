@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Modal} from 'react-bootstrap'
+import { Modal } from "./Modal"
 import {connect} from 'react-redux'
 
 
@@ -145,15 +145,15 @@ class SubmitForm extends Component {
             <Modal show={display} onHide={onClose} dialogClassName="submitForm">
                 <Modal.Header>
                     <Modal.Title>Commit changes
-                        <button type="reset" className="btn btn-link pull-right"
+                        <button type="reset" className="btn btn-link float-end"
                                 onClick={onClose}><strong>X</strong>
                         </button>
                     </Modal.Title>
                 </Modal.Header>
                 {this.renderDiffTable(originalValues, newValues)}
                 <Modal.Footer>
-                    <div className="col-xs-2 FormLabel"><b>Comment</b></div>
-                    <div className="col-xs-8">
+                    <div className="col-2 FormLabel"><b>Comment</b></div>
+                    <div className="col-8">
                         <textarea
                             type="text"
                             className="FormInputField FormString-value"
@@ -162,10 +162,10 @@ class SubmitForm extends Component {
                             onChange={(e) => this.handleChange(e.target.value)}
                         />
                     </div>
-                    <div className="col-xs-2 submit-button-placement">
+                    <div className="col-2 submit-button-placement">
                         <div className="btn-block">
                             <button type="submit"
-                                    className={diff.length > 0 ? "btn btn-primary btn-sm pull-right" : "btn btn-primary btn-sm pull-right disabled"}
+                                    className={diff.length > 0 ? "btn btn-primary btn-sm float-end" : "btn btn-primary btn-sm float-end disabled"}
                                     onClick={diff.length > 0 ? this.handleSubmitForm.bind(this) : () => {
                                         }}>Submit
                             </button>

@@ -13,7 +13,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <div className="col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2 hidden-xs text-center">
+        <div className="col-md-6 offset-md-2 col-sm-8 offset-sm-2 hidden-xs text-center">
           <div className="home-brand-logo-container">
             <img
               src="images/aura-ikoner/fasit.png"
@@ -21,11 +21,11 @@ class Home extends Component {
             />
           </div>
         </div>
-        <div className="col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2">
+        <div className="col-md-6 offset-md-2 col-sm-8 offset-sm-2">
           <NavSearch />
           <br />
         </div>
-        <div className="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-2">
+        <div className="col-md-9 offset-md-2 col-sm-8 offset-sm-2">
           <ul className="nav nav-pills search-entity-types">
             <li className="">
               <Link to="/environments">

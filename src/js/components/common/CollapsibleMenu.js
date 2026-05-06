@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { List, ListItem, ListItemText } from "@mui/material"
+import { List, ListItemButton, ListItemText } from "@mui/material"
 import Collapse from "@mui/material/Collapse"
 import ExpandLess from "@mui/icons-material/ExpandLess"
 import ExpandMore from "@mui/icons-material/ExpandMore"
@@ -10,11 +10,11 @@ export function CollapsibleList(props) {
 
   return (
     <List>
-      <ListItem button onClick={() => setOpen(!open)} style={style}>
+      <ListItemButton onClick={() => setOpen(!open)} style={style}>
         {leftAvatar}
         <ListItemText primary={primaryText} />
         {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
+      </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {toArray(nestedItems)}

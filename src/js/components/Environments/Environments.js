@@ -27,7 +27,7 @@ class Environments extends Component {
         return (
             <div className="main-content-container">
                 <div className="row">
-                    <div className="col-sm-6 col-xs-12">
+                    <div className="col-sm-6 col-12">
                         <Filters  />
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from 'prop-types'
-import {Modal} from "react-bootstrap";
+import { Modal } from "../common/Modal"
 import {connect} from "react-redux";
 import {FormString, FormDropDown, FormComment} from "../common/Forms";
 import {displayModal, submitForm} from "../../actionCreators/common";
@@ -87,13 +87,13 @@ class NewNodeForm extends Component {
             if ((zone) || (environmentclass === 'u')) {
                 return (
                     <button type="submit"
-                            className="btn btn-primary pull-right"
+                            className="btn btn-primary float-end"
                             onClick={this.handleSubmitForm.bind(this, true)}>Submit
                     </button>
                 )
             }
         }
-        return <button type="submit" className="btn btn-primary pull-right disabled">Submit</button>
+        return <button type="submit" className="btn btn-primary float-end disabled">Submit</button>
 
     }
 
@@ -103,7 +103,7 @@ class NewNodeForm extends Component {
             <Modal show={showNewNodeForm} enforceFocus={false} onHide={this.closeForm.bind(this)}>
                 <Modal.Header>
                     <Modal.Title>New node
-                        <button type="reset" className="btn btn-link pull-right"
+                        <button type="reset" className="btn btn-link float-end"
                                 onClick={this.closeForm.bind(this)}><strong>X</strong>
                         </button>
                     </Modal.Title>
@@ -143,7 +143,7 @@ class NewNodeForm extends Component {
                     />
                     {this.environmentSelector()}
                     {this.zoneSelector()}
-                    <div className="col-xs-12" style={{height: 15 + 'px'}}></div>
+                    <div className="col-12" style={{height: 15 + 'px'}}></div>
                 </Modal.Body>
                 <Modal.Footer>
                     <FormComment
@@ -152,7 +152,7 @@ class NewNodeForm extends Component {
                     />
                     <br/>
                     <div className="row">
-                        <div className="row col-lg-10 col-lg-offset-2">
+                        <div className="row col-lg-10 offset-lg-2">
                             {this.showSubmitButton()}
                         </div>
                     </div>

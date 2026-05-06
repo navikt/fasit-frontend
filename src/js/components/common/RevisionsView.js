@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import moment from "moment"
 import { connect } from "react-redux"
 import history from "../../history"
-import { List, ListItem, ListItemText, ListItemIcon } from "@mui/material"
+import { List, ListItemButton, ListItemText, ListItemIcon } from "@mui/material"
 import { fetchRevisions } from "../../actionCreators/common"
 import { styles, icons } from "../../commonStyles/commonInlineStyles"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -77,9 +77,8 @@ class RevisionsView extends Component {
           {displayRevisions.map((rev, idx) => {
             const revisionQuery = `?revision=${rev.revision}`
             return (
-              <ListItem
+              <ListItemButton
                 key={idx}
-                button
                 onClick={() =>
                   history.push(routing.pathname + revisionQuery)
                 }
@@ -90,7 +89,7 @@ class RevisionsView extends Component {
                   primary={moment(rev.timestamp).format("DD MMM YYYY HH:mm:ss")}
                   secondary={renderSecondaryText(rev)}
                 />
-              </ListItem>
+              </ListItemButton>
             )
           })}
 

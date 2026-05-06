@@ -2,7 +2,7 @@ import React from "react"
 import { shallow } from "enzyme"
 import { expect } from "chai"
 import sinon from "sinon"
-import { Modal } from "react-bootstrap";
+import { Modal } from "../../../../src/js/components/common/Modal"
 import {FormComment, FormString} from "../../../../src/js/components/common/Forms";
 import { NewApplicationForm } from "../../../../src/js/components/Applications/NewApplicationForm"
 
@@ -81,14 +81,14 @@ describe('(Component) NewApplicationForm', () => {
 
     it('(function) "showSubmitButton" disables submit button if incomplete form data', () => {
         const wrapper = shallow(<NewApplicationForm {...props}/>)
-        expect(wrapper.find('button').at(1).prop('className')).to.equal('btn btn-primary pull-right disabled')
+        expect(wrapper.find('button').at(1).prop('className')).to.equal('btn btn-primary float-end disabled')
         wrapper.setState({
             name: "1",
             artifactid: "2",
             groupid: "3",
             portoffset: "4"
         })
-        expect(wrapper.find('button').at(1).prop('className')).to.equal('btn btn-primary pull-right')
+        expect(wrapper.find('button').at(1).prop('className')).to.equal('btn btn-primary float-end')
     })
 
     it('renders "Modal" if showNewApplicationForm = true', () => {

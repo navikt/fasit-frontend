@@ -135,7 +135,7 @@ class Search extends Component {
 
         return (
             <Toolbar>
-                <Box display="flex" alignItems="center">
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Typography variant="subtitle1">Filter</Typography>
                     {SEARCH_RESULT_TYPES.map((type) => {
                         return (
@@ -148,7 +148,7 @@ class Search extends Component {
                     })}
 
                 </Box>
-                <Box display="flex" alignItems="center">
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Divider orientation="vertical" flexItem style={{margin: "0 8px"}} />
                     <Button variant="contained" disabled={!searchResults.filter} disableRipple
                         style={{backgroundColor: colors.toolbarBackground, color: colors.white, ...styles.raisedButton}}

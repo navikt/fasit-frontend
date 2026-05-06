@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
-import classString from "react-classset"
-import { Modal } from "react-bootstrap"
+import { Modal } from "./Modal"
 import { connect } from "react-redux"
 import { displayLogin, logIn } from "../../actionCreators/authentication"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -26,11 +25,7 @@ class Login extends Component {
 
   signInButtonClasses() {
     const { user } = this.props
-    return classString({
-      btn: true,
-      "btn-info": true,
-      singInButton: user.failedLogin
-    })
+    return `btn btn-info${user.failedLogin ? " singInButton" : ""}`
   }
 
   render() {
@@ -42,7 +37,7 @@ class Login extends Component {
           <Modal.Title>
             Log in
             <button
-              className="btn btn-xs btn-default pull-right"
+              className="btn btn-xs btn-secondary float-end"
               onClick={() => dispatch(displayLogin(false))}
             >
               <FontAwesomeIcon icon="times" />
@@ -69,7 +64,7 @@ class Login extends Component {
                   Adeo-ident
                 </label>
                 <div className="input-group">
-                  <span className="input-group-addon">
+                  <span className="input-group-text">
                     <FontAwesomeIcon icon="user" />
                   </span>
                   <input
@@ -89,7 +84,7 @@ class Login extends Component {
                   Password
                 </label>
                 <div className="input-group">
-                  <span className="input-group-addon">
+                  <span className="input-group-text">
                     <FontAwesomeIcon icon="lock" />
                   </span>
                   <input

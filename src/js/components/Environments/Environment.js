@@ -112,7 +112,7 @@ export class Environment extends Component {
         <div className="col-md-6" style={styles.cardPadding}>
           <CurrentRevision revisionId={query.revision} revisions={revisions} />
           <Card>
-            <CardHeader avatar={icons.environment} title="Environment" titleTypographyProps={{style: styles.bold}} />
+            <CardHeader avatar={icons.environment} title="Environment" slotProps={{title: {style: styles.bold}}} />
             <CardHeader title={`${envName}`} subheader={`Environment class: ${envClass} `} />
             <CardActions>
               <ToolButtons
@@ -134,7 +134,7 @@ export class Environment extends Component {
         </div>
 
         {/*Content view*/}
-        <div className="col-xs-12">
+        <div className="col-12">
           <ul className="nav nav-tabs">
             <li className={displayClusters ? "active" : ""}>
               <Link
@@ -159,8 +159,8 @@ export class Environment extends Component {
             </li>
           </ul>
         </div>
-        <div className="col-xs-12">
-          <div className="col-xs-12" style={{ height: 20 + "px" }}></div>
+        <div className="col-12">
+          <div className="col-12" style={{ height: 20 + "px" }}></div>
           {displayClusters ? <EnvironmentClusters environment={envName} /> : null}
           {displayNodes ? <EnvironmentNodes environment={envName} /> : ""}
           {displayInstances ? <EnvironmentInstances environment={envName} /> : ""}

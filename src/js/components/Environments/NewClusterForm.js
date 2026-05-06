@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button"
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
-import { Modal } from "react-bootstrap"
+import { Modal } from "../common/Modal"
 import { connect } from "react-redux"
 import {
   displayModal,
@@ -97,7 +97,6 @@ class NewClusterForm extends Component {
         animation={false}
         keyboard={true}
         enforceFocus={false}
-        dialogClassName="wideModal"
         onHide={this.closeForm.bind(this)}
       >
         <Modal.Header closeButton={true}>
@@ -154,13 +153,13 @@ class NewClusterForm extends Component {
           />
         </Modal.Body>
         <Modal.Footer>
-          <div className="row col-md-12">
+          <div className="row col-md-12" style={{ display: "flex", paddingLeft: "15px", margin: "8px", justifyContent: "flex-end" }}>
             <Button
               variant="contained"
               disableRipple
               disabled={!this.enableSubmitButton()}
               onClick={this.handleSubmitForm.bind(this, true)}
-              style={{backgroundColor: colors.avatarBackgroundColor, color: colors.white}}
+              style={{backgroundColor: colors.avatarBackgroundColor, color: colors.white, width: "88px"}}
             >
               submit
             </Button>
@@ -169,6 +168,7 @@ class NewClusterForm extends Component {
               variant="text"
               disableRipple
               onClick={this.closeForm.bind(this)}
+              style={{ marginLeft: "8px", width: "88px" }}
             >
               cancel
             </Button>

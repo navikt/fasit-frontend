@@ -21,7 +21,7 @@ import { SubmitFormStatus, KeyboardShortcuts, ErrorDialog } from "../common/"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 const theme = createTheme({
   typography: {
-    fontSize: 22,
+    fontSize: 16,
   },
 })
 import buildFontAwesomeLibrary from "../../commonStyles/FontAwesomeIcons"
@@ -89,7 +89,7 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <div style={{ outline: "none" }}>
           <TopNav />
-          <div className="col-lg-11 col-lg-offset-1 col-md-11 col-md-offset-1 col-sm-12">
+          <div className="col-lg-11 offset-lg-1 col-md-11 offset-md-1 col-sm-12">
             {this.props.children}
           </div>
           {/* Misc. modals*/}

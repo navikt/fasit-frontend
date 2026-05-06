@@ -24,7 +24,7 @@ class Lifecycle extends Component {
       <Card style={styles.cardPadding}>
         <CardHeader
           title={title}
-          titleTypographyProps={{style: styles.bold}}
+          slotProps={{title: {style: styles.bold}}}
           avatar={this.avatar(iconColor)}
         />
       </Card>

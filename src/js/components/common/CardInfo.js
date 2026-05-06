@@ -12,11 +12,11 @@ export function CardInfo(props) {
   const { lastUpdated, lifecycle } = props
   return (
     <div
-      className="pull-right"
+      className="float-end"
       style={{top: "10px", marginRight: "10px", marginLeft: "10px"}}
     > 
       <div
-        className="text-muted pull-right"
+        className="text-muted float-end"
         style={{ paddingTop: "6px" }}
       >
         {renderLastUpdated(lastUpdated)}
@@ -64,7 +64,7 @@ function LifecycleChip(props) {
   }
 
   return (
-    <div className="pull-right" style={{ paddingTop: "6px" }}>
+    <div className="float-end" style={{ paddingTop: "6px" }}>
       <Chip
         style={{backgroundColor: colors.white, color: colors.grey}}
         avatar={<Avatar style={{backgroundColor: color}}><Restore /></Avatar>}

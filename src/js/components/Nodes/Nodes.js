@@ -29,7 +29,7 @@ class Nodes extends Component {
         return (
             <div className="main-content-container">
                 <div className="row">
-                    <div className="col-sm-6 col-xs-12">
+                    <div className="col-sm-6 col-12">
                         <Filters />
                     </div>
                 </div>
@@ -37,7 +37,7 @@ class Nodes extends Component {
                     <div className="row">
                         <h4>{totalCount} nodes</h4>
                         {nodes.map((item, index) => <NodeCard node={item} key={index} />)}
-                        <div className="col-sm-2 pull-right">
+                        <div className="col-sm-2 ms-auto">
                             <ElementPaging />
                         </div>
                     </div>
