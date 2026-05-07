@@ -1,83 +1,43 @@
-import React, { Component } from "react"
+import React, { useEffect, useRef } from "react"
 import Mousetrap from "mousetrap"
 import IconButton from "@mui/material/IconButton"
 import Tooltip from "@mui/material/Tooltip"
 import { styles, icons } from "../../commonStyles/commonInlineStyles"
 
-export default class ToolButtons extends Component {
-  constructor(props) {
-    super(props)
-  }
+export default function ToolButtons({ disabled, onEditClick, onDeleteClick, onCopyClick, hideCopyButton, hideDeleteButton, editMode }) {
+  const prevEditModeRef = useRef(editMode)
 
-  componentDidMount() {
-    const { disabled, onEditClick, onDeleteClick, onCopyClick } = this.props
+  useEffect(() => {
     if (!disabled) {
       Mousetrap.bind("c", onCopyClick)
       Mousetrap.bind("d", onDeleteClick)
       Mousetrap.bind("e", onEditClick)
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { onEditClick, onDeleteClick, onCopyClick, editMode, disabled } = this.props
-    if (!disabled) {
-      Mousetrap.bind("c", onCopyClick)
-      Mousetrap.bind("d", onDeleteClick)
-      Mousetrap.bind("e", onEditClick)
-      if (editMode && editMode != prevProps.editMode) {
+      if (editMode && editMode != prevEditModeRef.current) {
         Mousetrap.bind("esc", onEditClick)
       }
-    } else if (disabled) {
+    } else {
       Mousetrap.unbind(["c", "e", "d", "esc"])
-    } else if (!editMode) {
+    }
+    if (!editMode) {
       Mousetrap.unbind("esc", onEditClick)
     }
-  }
+    prevEditModeRef.current = editMode
 
-  componentWillUnmount() {
-    Mousetrap.unbind(["c", "e", "d", "esc"])
-  }
+    return () => {
+      Mousetrap.unbind(["c", "e", "d", "esc"])
+    }
+  })
 
-  render() {
-    const {
-      disabled,
-      onEditClick,
-      onDeleteClick,
-      onCopyClick,
-      hideCopyButton,
-      hideDeleteButton
-    } = this.props
-    const disabledString = "Log in or make sure you have access"
-    return (
-      <div>
-        {!hideCopyButton && (
-          <Tooltip title={
-            disabled ? (
-              disabledString
-            ) : (
-              <div>
-                <u>C</u>opy
-              </div>
-            )
-          } placement="bottom">
-            <span>
-              <IconButton
-                disabled={disabled}
-                disableRipple={true}
-                onClick={onCopyClick}
-                style={styles.button}
-              >
-                {icons.copy}
-              </IconButton>
-            </span>
-          </Tooltip>
-        )}
+  const disabledString = "Log in or make sure you have access"
+  return (
+    <div>
+      {!hideCopyButton && (
         <Tooltip title={
           disabled ? (
             disabledString
           ) : (
             <div>
-              <u>E</u>dit
+              <u>C</u>opy
             </div>
           )
         } placement="bottom">
@@ -85,36 +45,56 @@ export default class ToolButtons extends Component {
             <IconButton
               disabled={disabled}
               disableRipple={true}
-              onClick={onEditClick}
+              onClick={onCopyClick}
               style={styles.button}
             >
-              {icons.edit}
+              {icons.copy}
             </IconButton>
           </span>
         </Tooltip>
-        {!hideDeleteButton && (
-          <Tooltip title={
-            disabled ? (
-              disabledString
-            ) : (
-              <div>
-                <u>D</u>elete
-              </div>
-            )
-          } placement="bottom">
-            <span>
-              <IconButton
-                disabled={disabled}
-                disableRipple={true}
-                onClick={onDeleteClick}
-                style={styles.button}
-              >
-                {icons.delete}
-              </IconButton>
-            </span>
-          </Tooltip>
-        )}
-      </div>
-    )
-  }
+      )}
+      <Tooltip title={
+        disabled ? (
+          disabledString
+        ) : (
+          <div>
+            <u>E</u>dit
+          </div>
+        )
+      } placement="bottom">
+        <span>
+          <IconButton
+            disabled={disabled}
+            disableRipple={true}
+            onClick={onEditClick}
+            style={styles.button}
+          >
+            {icons.edit}
+          </IconButton>
+        </span>
+      </Tooltip>
+      {!hideDeleteButton && (
+        <Tooltip title={
+          disabled ? (
+            disabledString
+          ) : (
+            <div>
+              <u>D</u>elete
+            </div>
+          )
+        } placement="bottom">
+          <span>
+            <IconButton
+              disabled={disabled}
+              disableRipple={true}
+              onClick={onDeleteClick}
+              style={styles.button}
+            >
+              {icons.delete}
+            </IconButton>
+          </span>
+        </Tooltip>
+      )}
+    </div>
+  )
 }

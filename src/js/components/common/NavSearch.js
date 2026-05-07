@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import history from "../../history"
 import { connect } from "react-redux"
 import Mousetrap from "mousetrap"
@@ -11,88 +11,78 @@ import {
 } from "../../actionCreators/element_lists"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-class NavSearch extends Component {
-  constructor(props) {
-    super(props)
-    this.setWrapperRef = this.setWrapperRef.bind(this)
-    this.handleClickOutside = this.handleClickOutside.bind(this)
+function NavSearch({ dispatch, navSearch, location }) {
+  const [selectedOption, setSelectedOption] = useState(null)
+  const [visible, setVisible] = useState(false)
+  const wrapperRef = useRef(null)
+  const navSearchRef = useRef(null)
 
-    this.state = {
-      selectedOption: null,
-      visible: false
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        visible &&
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target)
+      ) {
+        setVisible(false)
+      }
     }
-  }
 
-  componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside)
-    this.navSearch.focus()
+    document.addEventListener("mousedown", handleClickOutside)
+    if (navSearchRef.current) {
+      navSearchRef.current.focus()
+    }
     Mousetrap.bind("g g", e => {
       e.preventDefault()
-      this.navSearch.focus()
+      if (navSearchRef.current) {
+        navSearchRef.current.focus()
+      }
     })
-  }
 
-  componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside)
-    Mousetrap.unbind("g g")
-  }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+      Mousetrap.unbind("g g")
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  handleMouseOver(navItem) {
-    const { navSearch } = this.props
+  // Update click-outside handler when visible changes
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        visible &&
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target)
+      ) {
+        setVisible(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [visible])
+
+  const handleMouseOver = (navItem) => {
     const options = [...new Set(navSearch.data.map(result => result.id))]
     const mouseOverItem = options.indexOf(navItem.id)
-    this.setState({ selectedOption: mouseOverItem })
+    setSelectedOption(mouseOverItem)
   }
 
-  handleMouseClick(e) {
+  const handleMouseClick = (e) => {
     e.preventDefault()
-    this.navigate()
+    navigate()
   }
 
-  handleKeyDown(e) {
-    const { dispatch, location } = this.props
-    switch (e.key) {
-      case "ArrowRight": // left
-      case "ArrowLeft": // left
-        break // avoid visibility changing when moving sideways
-      case "Escape": // esc
-        e.preventDefault()
-        this.setState({ visible: false })
-        break
-      case "ArrowUp": // up
-        e.preventDefault()
-        this.setState({ visible: true })
-        this.changeSelectedOption("prev")
-        break
-      case "ArrowDown": // down
-        e.preventDefault()
-        this.setState({ visible: true })
-        this.changeSelectedOption("next")
-        break
-      case "Enter": // enter
-        this.navSearch.blur()
-        e.preventDefault()
-        this.navigate()
-        break
-      default:
-        // reset selectedOption and display dropdown if query changes
-        this.setState({ selectedOption: null, visible: true })
-        if (location.pathname === "/") {
-          history.push("/search")
-        }
-    }
-  }
-
-  navigate() {
-    const { dispatch, navSearch, location } = this.props
-    const navItem = navSearch.data[this.state.selectedOption]
+  const navigate = () => {
+    const navItem = navSearch.data[selectedOption]
 
     if (!navItem) {
       if (!(location.pathname === "/search")) {
         history.push("/search")
       }
       history.push(`/search/${navSearch.query}`)
-      this.setState({ visible: false })
+      setVisible(false)
     } else if (navItem.type === "Quick navigation") {
       dispatch(submitNavSearch(""))
       dispatch(changeFilter("alias", navSearch.query))
@@ -104,151 +94,162 @@ class NavSearch extends Component {
     }
   }
 
-  changeSelectedOption(dir) {
-    const { selectedOption } = this.state
-    const { navSearch } = this.props
+  const changeSelectedOption = (dir) => {
     const options = [...new Set(navSearch.data.map(result => result.id))]
     switch (dir) {
       case "prev":
         if (selectedOption === null || selectedOption === 0) {
-          this.setState({ selectedOption: options.length - 1 })
+          setSelectedOption(options.length - 1)
         } else {
-          this.setState({ selectedOption: selectedOption - 1 })
+          setSelectedOption(selectedOption - 1)
         }
         break
 
       case "next":
         if (selectedOption === null || selectedOption + 1 === options.length) {
-          this.setState({ selectedOption: 0 })
+          setSelectedOption(0)
         } else {
-          this.setState({ selectedOption: selectedOption + 1 })
+          setSelectedOption(selectedOption + 1)
         }
         break
     }
   }
 
-  /* Setting wrapper ref to handle mouse click outside component. This is to hide dropdown when clicking outside*/
-  setWrapperRef(node) {
-    this.wrapperRef = node
-  }
-
-  /* Setting wrapper ref to handle mouse click outside component. This is to hide dropdown when clicking outside*/
-  handleClickOutside(event) {
-    if (
-      this.state.visible &&
-      this.wrapperRef &&
-      !this.wrapperRef.contains(event.target)
-    ) {
-      this.setState({ visible: false })
+  const handleKeyDown = (e) => {
+    switch (e.key) {
+      case "ArrowRight":
+      case "ArrowLeft":
+        break
+      case "Escape":
+        e.preventDefault()
+        setVisible(false)
+        break
+      case "ArrowUp":
+        e.preventDefault()
+        setVisible(true)
+        changeSelectedOption("prev")
+        break
+      case "ArrowDown":
+        e.preventDefault()
+        setVisible(true)
+        changeSelectedOption("next")
+        break
+      case "Enter":
+        if (navSearchRef.current) {
+          navSearchRef.current.blur()
+        }
+        e.preventDefault()
+        navigate()
+        break
+      default:
+        setSelectedOption(null)
+        setVisible(true)
+        if (location.pathname === "/") {
+          history.push("/search")
+        }
     }
   }
 
-  render() {
-    const { dispatch, navSearch } = this.props
-    const { visible, selectedOption } = this.state
-    const { query, data, isFetching, searchResultTypes } = navSearch
-    const options = [...new Set(data.map(item => item.id))]
+  const { query, data, isFetching, searchResultTypes } = navSearch
+  const options = [...new Set(data.map(item => item.id))]
 
-    return (
-      <div
-        onKeyDown={e => this.handleKeyDown(e)}
-        className="navSearchContainer"
-      >
-        <form className="navSearchForm">
-          <input
-            type="text"
-            className="navSearchTextInput"
-            ref={input => (this.navSearch = input)}
-            placeholder={"Search"}
-            value={query}
-            onChange={e => dispatch(submitNavSearch(e.target.value))}
+  return (
+    <div
+      onKeyDown={e => handleKeyDown(e)}
+      className="navSearchContainer"
+    >
+      <form className="navSearchForm">
+        <input
+          type="text"
+          className="navSearchTextInput"
+          ref={navSearchRef}
+          placeholder={"Search"}
+          value={query}
+          onChange={e => dispatch(submitNavSearch(e.target.value))}
+        />
+        <button
+          type="submit"
+          className="navSearchButton"
+          onClick={e => {
+            e.preventDefault()
+            navigate()
+          }}
+        >
+          <FontAwesomeIcon icon="search" />
+        </button>
+      </form>
+      {query && visible ? (
+        isFetching ? (
+          <div
+            className="navSearchDropdown loadingDots"
+            ref={wrapperRef}
           />
-          <button
-            type="submit"
-            className="navSearchButton"
-            onClick={e => {
-              e.preventDefault()
-              this.navigate()
-            }}
-          >
-            <FontAwesomeIcon icon="search" />
-          </button>
-        </form>
-        {query && visible ? (
-          isFetching ? (
-            <div
-              className="navSearchDropdown loadingDots"
-              ref={this.setWrapperRef}
-            />
-          ) : (
-            <div className="navSearchDropdown" ref={this.setWrapperRef}>
-              {data.length > 0
-                ? searchResultTypes.map((type, i) => {
-                    // Returnerer en blokk for hver elementtype
-                    return (
-                      <div key={i}>
-                        <b>
-                          <i>
-                            <small>
-                              {capitalize(type)}
-                              {data.filter(
-                                itemsByType => itemsByType.type === type
-                              ).length > 1
-                                ? "s"
-                                : null}:
-                            </small>
-                          </i>
-                        </b>
+        ) : (
+          <div className="navSearchDropdown" ref={wrapperRef}>
+            {data.length > 0
+              ? searchResultTypes.map((type, i) => {
+                  return (
+                    <div key={i}>
+                      <b>
+                        <i>
+                          <small>
+                            {capitalize(type)}
+                            {data.filter(
+                              itemsByType => itemsByType.type === type
+                            ).length > 1
+                              ? "s"
+                              : null}:
+                          </small>
+                        </i>
+                      </b>
 
-                        <div>
-                          {data
-                            .filter(itemsByType => itemsByType.type === type) // filtrerer ut resultater per type
-                            .map((navItem, i) => {
-                              // returnerer en lenke til resultatet
-                              const active =
-                                navItem.id === options[selectedOption]
-                              return (
-                                <div
-                                  key={i}
-                                  onMouseEnter={() =>
-                                    this.handleMouseOver(navItem)
-                                  }
-                                  onClick={e => this.handleMouseClick(e)}
-                                  className={
-                                    active
-                                      ? "navOption selectedNavOption row"
-                                      : "navOption row"
-                                  }
-                                  style={{ marginLeft: -10, marginRight: -20 }}
-                                >
-                                  <div className="col-md-5 text-overflow">
-                                    {navItem.name}
-                                  </div>
-                                  <div className="col-md-6 text-overflow">
-                                    <small
-                                      style={
-                                        active
-                                          ? { color: "#f5f5f5" }
-                                          : { color: "#777" }
-                                      }
-                                    >
-                                      {navItem.info}
-                                    </small>
-                                  </div>
+                      <div>
+                        {data
+                          .filter(itemsByType => itemsByType.type === type)
+                          .map((navItem, i) => {
+                            const active =
+                              navItem.id === options[selectedOption]
+                            return (
+                              <div
+                                key={i}
+                                onMouseEnter={() =>
+                                  handleMouseOver(navItem)
+                                }
+                                onClick={e => handleMouseClick(e)}
+                                className={
+                                  active
+                                    ? "navOption selectedNavOption row"
+                                    : "navOption row"
+                                }
+                                style={{ marginLeft: -10, marginRight: -20 }}
+                              >
+                                <div className="col-md-5 text-overflow">
+                                  {navItem.name}
                                 </div>
-                              )
-                            })}
-                        </div>
+                                <div className="col-md-6 text-overflow">
+                                  <small
+                                    style={
+                                      active
+                                        ? { color: "#f5f5f5" }
+                                        : { color: "#777" }
+                                    }
+                                  >
+                                    {navItem.info}
+                                  </small>
+                                </div>
+                              </div>
+                            )
+                          })}
                       </div>
-                    )
-                  })
-                : "No results found"}
-            </div>
-          )
-        ) : null}
-      </div>
-    )
-  }
+                    </div>
+                  )
+                })
+              : "No results found"}
+          </div>
+        )
+      ) : null}
+    </div>
+  )
 }
 
 const mapStateToProps = state => {

@@ -1,94 +1,88 @@
-import React, { Component } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import PropTypes from 'prop-types'
 import { connect } from "react-redux"
 import { submitFilterString } from "../../actionCreators/element_lists"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-export class ElementPaging extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { page: 0 }
-  }
+export function ElementPaging(props) {
+  const { dispatch, filter } = props
+  const [page, setPage] = useState(0)
+  const prevFiltersRef = useRef(filter.filters)
 
-  // always reset to page 0 if search or filters have changed
-  componentDidUpdate(prevProps) {
-    const { filter } = this.props
-    if (prevProps.filter.filters !== filter.filters) {
-      this.setState({ page: 0 })
+  useEffect(() => {
+    if (prevFiltersRef.current !== filter.filters) {
+      setPage(0)
+      prevFiltersRef.current = filter.filters
     }
-  }
+  })
 
-  changePage(changeTo, lastPage) {
-    const { dispatch, filter } = this.props
-    const page = this.state.page
+  const changePage = (changeTo, lastPage) => {
     switch (changeTo) {
       case "first":
-        this.setState({ page: 0 })
+        setPage(0)
         dispatch(submitFilterString(filter.context, 0))
         break
       case "last":
-        this.setState({ page: lastPage })
+        setPage(lastPage)
         dispatch(submitFilterString(filter.context, lastPage))
         break
       case "next":
         if (page < lastPage) {
-          this.setState({ page: page + 1 })
+          setPage(page + 1)
           dispatch(submitFilterString(filter.context, page + 1))
         }
         break
       case "prev":
         if (page > 0) {
-          this.setState({ page: page - 1 })
+          setPage(page - 1)
           dispatch(submitFilterString(filter.context, page - 1))
         }
         break
     }
   }
 
-  render() {
-    const { filter } = this.props
-    const contextData = this.props[filter.context]
-    if (!contextData || !contextData.headers) return null
-    const total_count = contextData.headers.total_count
-    const lastPage = calculateLastPage(total_count)
-    return (
-      <div className="element-list-paging">
-        <div className="btn-group btn-group-justified">
-          <a
-            className="btn btn-link"
-            id="first"
-            onClick={this.changePage.bind(this, "first", lastPage)}
-          >
-            <FontAwesomeIcon icon="angle-double-left" aria-hidden="true" />
-          </a>
-          <a
-            className="btn btn-link "
-            id="prev"
-            onClick={this.changePage.bind(this, "prev", lastPage)}
-          >
-            <FontAwesomeIcon icon="angle-left" aria-hidden="true" />
-          </a>
-          <div className="element-list-paging-number">
-            {this.state.page + 1} / {lastPage + 1}
-          </div>
-          <a
-            className="btn btn-link"
-            id="next"
-            onClick={this.changePage.bind(this, "next", lastPage)}
-          >
-            <FontAwesomeIcon icon="angle-right" aria-hidden="true" />
-          </a>
-          <a
-            className="btn btn-link "
-            id="last"
-            onClick={this.changePage.bind(this, "last", lastPage)}
-          >
-            <FontAwesomeIcon icon="angle-double-right" aria-hidden="true" />
-          </a>
+  const contextData = props[filter.context]
+  if (!contextData || !contextData.headers) return null
+  const total_count = contextData.headers.total_count
+  const lastPage = calculateLastPage(total_count)
+  return (
+    <div className="element-list-paging">
+      <div className="btn-group btn-group-justified">
+        <a
+          className="btn btn-link"
+          id="first"
+          onClick={() => changePage("first", lastPage)}
+          
+        >
+          <FontAwesomeIcon icon="angle-double-left" aria-hidden="true" />
+        </a>
+        <a
+          className="btn btn-link "
+          id="prev"
+          onClick={() => changePage("prev", lastPage)}
+        >
+          <FontAwesomeIcon icon="angle-left" aria-hidden="true" />
+        </a>
+        <div className="element-list-paging-number">
+          {page + 1} / {lastPage + 1}
         </div>
+        <a
+          className="btn btn-link"
+          id="next"
+          onClick={() => changePage("next", lastPage)}
+        >
+          <FontAwesomeIcon icon="angle-right" aria-hidden="true" />
+        </a>
+        <a
+          className="btn btn-link "
+          id="last"
+          onClick={() => changePage("last", lastPage)}
+        >
+          <FontAwesomeIcon icon="angle-double-right" aria-hidden="true" />
+        </a>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 const calculateLastPage = totalCount => {

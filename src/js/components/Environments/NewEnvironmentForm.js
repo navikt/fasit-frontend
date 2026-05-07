@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import PropTypes from 'prop-types'
 import { Modal } from "../common/Modal"
 import {connect} from "react-redux";
@@ -6,120 +6,115 @@ import {FormComment, FormDropDown, FormString} from "../common/Forms";
 import {capitalize} from "../../utils";
 import {displayModal, submitForm} from "../../actionCreators/common";
 
-class NewEnvironmentForm extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            name: "",
-            environmentclass: ""
-        }
-    }
-    componentDidUpdate(prevProps){
-        if (this.props.mode !== prevProps.mode || this.props.name !== prevProps.name || this.props.environmentclass !== prevProps.environmentclass) {
-            const {name, environmentclass} = this.props
-            if (this.props.mode === "edit"  || this.props.mode === "copy"){
-                this.setState({
-                    name,
-                    environmentclass
-                })
-            }
-            else {
-                this.resetLocalState()
+function NewEnvironmentForm({ dispatch, environmentClasses, showNewEnvironmentForm, mode, name, environmentclass: environmentclassProp }) {
+    const [localName, setLocalName] = useState("")
+    const [localEnvironmentclass, setLocalEnvironmentclass] = useState("")
+    const [comment, setComment] = useState("")
+
+    const prevModeRef = useRef(mode)
+    const prevNameRef = useRef(name)
+    const prevEnvironmentclassRef = useRef(environmentclassProp)
+
+    useEffect(() => {
+        if (mode !== prevModeRef.current || name !== prevNameRef.current || environmentclassProp !== prevEnvironmentclassRef.current) {
+            if (mode === "edit" || mode === "copy") {
+                setLocalName(name)
+                setLocalEnvironmentclass(environmentclassProp)
+            } else {
+                resetLocalState()
             }
         }
+        prevModeRef.current = mode
+        prevNameRef.current = name
+        prevEnvironmentclassRef.current = environmentclassProp
+    })
+
+    const resetLocalState = () => {
+        setLocalName("")
+        setLocalEnvironmentclass("")
+        setComment("")
     }
 
-    resetLocalState() {
-        this.setState({
-            name: "",
-            environmentclass: "",
-            comment: ""
-        })
+    const handleChange = (field, value) => {
+        switch (field) {
+            case "name": setLocalName(value); break
+            case "environmentclass": setLocalEnvironmentclass(value); break
+            case "comment": setComment(value); break
+        }
     }
 
-    handleChange(field, value) {
-        this.setState({[field]: value})
-    }
-
-    handleSubmitForm() {
-        const {dispatch, mode} = this.props
-        const {name, environmentclass, comment} = this.state
+    const handleSubmitForm = () => {
         const form = {
-            name,
-            environmentclass,
+            name: localName,
+            environmentclass: localEnvironmentclass,
         }
 
         if(mode === "edit") {
-            dispatch(submitForm(this.props.name, form, comment, "environment"))
+            dispatch(submitForm(name, form, comment, "environment"))
         }
         else {
             dispatch(submitForm(form.name, form, comment, "newEnvironment"))
         }
     }
 
-    closeForm() {
-        const {dispatch} = this.props
-        this.resetLocalState()
+    const closeForm = () => {
+        resetLocalState()
         dispatch(displayModal("environment", false))
     }
 
-    showSubmitButton() {
-        const {name, environmentclass} = this.state
-        if (name && environmentclass) {
+    const showSubmitButton = () => {
+        if (localName && localEnvironmentclass) {
             return (
                 <button type="submit"
                         className="btn btn-primary float-end"
-                        onClick={this.handleSubmitForm.bind(this, true)}>Submit
+                        onClick={handleSubmitForm}>Submit
                 </button>
             )
         }
         return <button type="submit" className="btn btn-primary float-end disabled">Submit</button>
     }
 
-    render() {
-        const {environmentClasses, showNewEnvironmentForm, mode, name} = this.props
-        return (
-            <Modal show={showNewEnvironmentForm} enforceFocus={false} onHide={this.closeForm.bind(this)}>
-                <Modal.Header>
-                    <Modal.Title>{mode && `${capitalize(mode)} environment ${mode !== 'new' ? name : ''}` }
-                        <button type="reset" className="btn btn-link float-end"
-                                onClick={this.closeForm.bind(this)}><strong>X</strong>
-                        </button>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <FormString
-                        label="name"
-                        editMode={true}
-                        value={this.state.name}
-                        handleChange={this.handleChange.bind(this)}
-                    />
-                    <FormDropDown
-                        label="environmentclass"
-                        editMode={true}
-                        value={this.state.environmentclass}
-                        handleChange={this.handleChange.bind(this)}
-                        options={environmentClasses}
-                    />
-                    <div className="col-12" style={{height: 15}}></div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <FormComment
-                        value={this.state.comment}
-                        handleChange={this.handleChange.bind(this)}
-                    />
-                    <br />
-                    <div className="row">
-                        <div className="row col-lg-10 offset-lg-2">
-                            {this.showSubmitButton()}
-                        </div>
+    return (
+        <Modal show={showNewEnvironmentForm} enforceFocus={false} onHide={closeForm}>
+            <Modal.Header>
+                <Modal.Title>{mode && `${capitalize(mode)} environment ${mode !== 'new' ? name : ''}` }
+                    <button type="reset" className="btn btn-link float-end"
+                            onClick={closeForm}><strong>X</strong>
+                    </button>
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <FormString
+                    label="name"
+                    editMode={true}
+                    value={localName}
+                    handleChange={handleChange}
+                />
+                <FormDropDown
+                    label="environmentclass"
+                    editMode={true}
+                    value={localEnvironmentclass}
+                    handleChange={handleChange}
+                    options={environmentClasses}
+                />
+                <div className="col-12" style={{height: 15}}></div>
+            </Modal.Body>
+            <Modal.Footer>
+                <FormComment
+                    value={comment}
+                    handleChange={handleChange}
+                />
+                <br />
+                <div className="row">
+                    <div className="row col-lg-10 offset-lg-2">
+                        {showSubmitButton()}
                     </div>
-                </Modal.Footer>
-            </Modal>
-
-        )
-    }
+                </div>
+            </Modal.Footer>
+        </Modal>
+    )
 }
+
 NewEnvironmentForm.propTypes = {
     dispatch: PropTypes.func.isRequired
 }

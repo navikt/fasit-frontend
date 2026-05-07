@@ -1,20 +1,15 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import { Modal } from "./Modal"
 import {connect} from 'react-redux'
 
+function SubmitForm({ component, additionalValues, newValues, originalValues, onSubmit, onClose, display }) {
+    const [comment, setComment] = useState("")
 
-class SubmitForm extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {comment: ""}
+    const handleChange = (e) => {
+        setComment(e)
     }
 
-    handleChange(e) {
-        this.setState({comment: e})
-    }
-
-    handleSubmitForm() {
-        const {component, additionalValues, newValues, originalValues, onSubmit} = this.props
+    const handleSubmitForm = () => {
         let form = {}
         let key = ""
         switch (component) {
@@ -45,7 +40,7 @@ class SubmitForm extends Component {
                 }
                 key = originalValues.name
                 break
-            case "cluster":
+            case "cluster": {
                 const applications = newValues.applications.map(a => {
                     return {name: a}
                 })
@@ -63,15 +58,15 @@ class SubmitForm extends Component {
                 }
                 key = originalValues.clustername
                 break
-
+            }
             default:
                 console.error("handleSubmitForm in SubmitForm is missing this component type")
                 return
         }
-        onSubmit(key, form, this.state.comment, component)
+        onSubmit(key, form, comment, component)
     }
 
-    renderDiffTable(originalValues, newValues) {
+    const renderDiffTable = (origValues, newVals) => {
 
         return (
             <Modal.Body>
@@ -85,42 +80,42 @@ class SubmitForm extends Component {
                     </thead>
                     <tbody>
                     {
-                        Object.keys(originalValues).map((key, idx) => {
-                            if (typeof originalValues[key] === "object") {
-                                if (originalValues[key].toString() === newValues[key].toString()) {
+                        Object.keys(origValues).map((key, idx) => {
+                            if (typeof origValues[key] === "object") {
+                                if (origValues[key].toString() === newVals[key].toString()) {
                                     return <tr key={idx}>
                                         <td><b>{key}</b></td>
                                         <td>
-                                            <pre>{originalValues[key].join(`, \n`)}</pre>
+                                            <pre>{origValues[key].join(`, \n`)}</pre>
                                         </td>
                                         <td>
-                                            <pre>{newValues[key].join(`, \n`)}</pre>
+                                            <pre>{newVals[key].join(`, \n`)}</pre>
                                         </td>
                                     </tr>
                                 }
                                 return <tr key={idx}>
                                     <td><b>{key}</b></td>
                                     <td>
-                                        <pre>{originalValues[key].join(`, \n`)}</pre>
+                                        <pre>{origValues[key].join(`, \n`)}</pre>
                                     </td>
                                     <td className="cell-bg">
-                                        <pre>{newValues[key].join(`, \n`)}</pre>
+                                        <pre>{newVals[key].join(`, \n`)}</pre>
                                     </td>
                                 </tr>
-                            } else if (originalValues[key] === newValues[key]) {
+                            } else if (origValues[key] === newVals[key]) {
                                 return (
                                     <tr key={idx}>
                                         <td><b>{key}</b></td>
-                                        <td>{originalValues[key]}</td>
-                                        <td>{newValues[key]}</td>
+                                        <td>{origValues[key]}</td>
+                                        <td>{newVals[key]}</td>
                                     </tr>
                                 )
                             }
                             return (
                                 <tr key={idx}>
                                     <td><b>{key}</b></td>
-                                    <td>{originalValues[key]}</td>
-                                    <td className="cell-bg">{newValues[key]}</td>
+                                    <td>{origValues[key]}</td>
+                                    <td className="cell-bg">{newVals[key]}</td>
                                 </tr>
                             )
                         })
@@ -132,49 +127,46 @@ class SubmitForm extends Component {
 
     }
 
-    render() {
-        const {onClose, display, originalValues, newValues} = this.props
-        const diff = Object.keys(originalValues).filter((key) => {
-            if (typeof originalValues[key] === "object") {
-                return (originalValues[key].toString() !== newValues[key].toString())
-            }
-            return (originalValues[key] != newValues[key])
-        })
+    const diff = Object.keys(originalValues).filter((key) => {
+        if (typeof originalValues[key] === "object") {
+            return (originalValues[key].toString() !== newValues[key].toString())
+        }
+        return (originalValues[key] != newValues[key])
+    })
 
-        return (
-            <Modal show={display} onHide={onClose} dialogClassName="submitForm">
-                <Modal.Header>
-                    <Modal.Title>Commit changes
-                        <button type="reset" className="btn btn-link float-end"
-                                onClick={onClose}><strong>X</strong>
+    return (
+        <Modal show={display} onHide={onClose} dialogClassName="submitForm">
+            <Modal.Header>
+                <Modal.Title>Commit changes
+                    <button type="reset" className="btn btn-link float-end"
+                            onClick={onClose}><strong>X</strong>
+                    </button>
+                </Modal.Title>
+            </Modal.Header>
+            {renderDiffTable(originalValues, newValues)}
+            <Modal.Footer>
+                <div className="col-2 FormLabel"><b>Comment</b></div>
+                <div className="col-8">
+                    <textarea
+                        type="text"
+                        className="FormInputField FormString-value"
+                        style={{"height": 85 + "px"}}
+                        value={comment}
+                        onChange={(e) => handleChange(e.target.value)}
+                    />
+                </div>
+                <div className="col-2 submit-button-placement">
+                    <div className="btn-block">
+                        <button type="submit"
+                                className={diff.length > 0 ? "btn btn-primary btn-sm float-end" : "btn btn-primary btn-sm float-end disabled"}
+                                onClick={diff.length > 0 ? handleSubmitForm : () => {
+                                    }}>Submit
                         </button>
-                    </Modal.Title>
-                </Modal.Header>
-                {this.renderDiffTable(originalValues, newValues)}
-                <Modal.Footer>
-                    <div className="col-2 FormLabel"><b>Comment</b></div>
-                    <div className="col-8">
-                        <textarea
-                            type="text"
-                            className="FormInputField FormString-value"
-                            style={{"height": 85 + "px"}}
-                            value={this.state.comment}
-                            onChange={(e) => this.handleChange(e.target.value)}
-                        />
                     </div>
-                    <div className="col-2 submit-button-placement">
-                        <div className="btn-block">
-                            <button type="submit"
-                                    className={diff.length > 0 ? "btn btn-primary btn-sm float-end" : "btn btn-primary btn-sm float-end disabled"}
-                                    onClick={diff.length > 0 ? this.handleSubmitForm.bind(this) : () => {
-                                        }}>Submit
-                            </button>
-                        </div>
-                    </div>
-                </Modal.Footer>
-            </Modal>
-        )
-    }
+                </div>
+            </Modal.Footer>
+        </Modal>
+    )
 }
 
 const mapStateToProps = (state, ownProps) => {

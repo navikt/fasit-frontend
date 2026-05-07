@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import history from "../../history"
@@ -13,33 +13,22 @@ import { getResourceTypeName, resourceTypeIcon } from "../../utils/resourceTypes
 import { setSearchString, submitSearch } from "../../actionCreators/common";
 import PrettyXml from "../common/PrettyXml";
 
-class Search extends Component {
+function Search({ dispatch, match, location, searchResults, searchQuery }) {
 
-    constructor(props) {
-        super(props)
-        this.state = {}
-    }
-
-    componentDidMount() {
-        const { dispatch, match, location } = this.props
+    useEffect(() => {
         if (match.params.query) {
             dispatch(setSearchString(match.params.query))
             dispatch(submitSearch(match.params.query, new URLSearchParams(location.search).get('type')))
         }
-    }
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    componentDidUpdate(prevProps) {
-        const { dispatch, match } = this.props
-
-        if (match.params.query && prevProps.match.params.query != match.params.query) {
+    useEffect(() => {
+        if (match.params.query) {
             dispatch(submitSearch(match.params.query))
         }
-    }
+    }, [match.params.query]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    // eget card element
-    cellContents(key, value) {
-        const { match } = this.props
-
+    const cellContents = (key, value) => {
         if (Array.isArray(value)) {
             return value.map((v, idx) => (<span key={idx}>{v}<br /></span>))
         }
@@ -54,11 +43,11 @@ class Search extends Component {
         }
     }
 
-    additionalCardInfo(searchResult) {
+    const additionalCardInfo = (searchResult) => {
         return (<CardInfo lastUpdated={searchResult.lastchange} lifecycle={searchResult.lifecycle} />)
     }
 
-    searchResultCard(searchResult, idx) {
+    const searchResultCard = (searchResult, idx) => {
         let title = searchResult.name
         let avatar = icons[searchResult.type]
         let subtitle = capitalize(searchResult.type)
@@ -88,7 +77,7 @@ class Search extends Component {
                         subheader={subtitle}
                         style={{ paddingTop: '7px', paddingBottom: '7px' }}
                         avatar={avatar}
-                        children={this.additionalCardInfo(searchResult)} />
+                        children={additionalCardInfo(searchResult)} />
 
                     {hasDetailedInfo && <CardContent>
                         <Table>
@@ -105,7 +94,7 @@ class Search extends Component {
                                                 </TableCell>
                                                 <TableCell style={styles.tableCellPadding}
                                                     className="text-overflow">
-                                                    {this.cellContents(di, detailedInfo[di])}
+                                                    {cellContents(di, detailedInfo[di])}
                                                 </TableCell>
                                             </TableRow>)
                                     })}
@@ -121,15 +110,13 @@ class Search extends Component {
             </div>)
     }
 
-    filterByType(type) {
-        const { searchQuery, dispatch } = this.props
+    const filterByType = (type) => {
         dispatch(submitSearch(searchQuery, type))
         const newPath = type ? `/search/${searchQuery}?type=${type}` : `/search/${searchQuery}`
         history.push(newPath)
     }
 
-    resultTypeFilters() {
-        const { searchResults } = this.props
+    const resultTypeFilters = () => {
         const filter = searchResults.filter
         const resultTypes = toUniqeSortedArray(searchResults.data.map(result => result.type));
 
@@ -144,7 +131,7 @@ class Search extends Component {
                                 disabled={!resultTypes.includes(type)}
                                 activeFilter={filter}
                                 type={type}
-                                onClickHandler={() => this.filterByType(type)} />)
+                                onClickHandler={() => filterByType(type)} />)
                     })}
 
                 </Box>
@@ -152,23 +139,21 @@ class Search extends Component {
                     <Divider orientation="vertical" flexItem style={{margin: "0 8px"}} />
                     <Button variant="contained" disabled={!searchResults.filter} disableRipple
                         style={{backgroundColor: colors.toolbarBackground, color: colors.white, ...styles.raisedButton}}
-                        onClick={() => this.filterByType()}>
+                        onClick={() => filterByType()}>
                         clear
                     </Button>
                 </Box>
             </Toolbar>)
     }
 
-    render() {
-        return (<div className="main-content-container">
-            {this.resultTypeFilters()}
-            <div className="row">
-                <div className="col-sm-12">
-                    {this.props.searchResults.data.map((sr, idx) => this.searchResultCard(sr, idx))}
-                </div>
+    return (<div className="main-content-container">
+        {resultTypeFilters()}
+        <div className="row">
+            <div className="col-sm-12">
+                {searchResults.data.map((sr, idx) => searchResultCard(sr, idx))}
             </div>
-        </div>)
-    }
+        </div>
+    </div>)
 }
 
 const toUniqeSortedArray = (array) => {

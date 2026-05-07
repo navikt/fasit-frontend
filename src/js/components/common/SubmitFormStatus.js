@@ -1,30 +1,22 @@
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Snackbar from '@mui/material/Snackbar'
 
+function SubmitFormStatus({ form }) {
+    const autoHideDuration = 4000
 
-class SubmitFormStatus extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            autoHideDuration: 4000,
-        }
-    }
-
-    render() {
-        const {form} = this.props
-        return (
-            <Snackbar
-                open={form.displaySnackbar}
-                message="Success"
-                autoHideDuration={this.state.autoHideDuration}
-            />
-        )
-    }
+    return (
+        <Snackbar
+            open={form.displaySnackbar}
+            message="Success"
+            autoHideDuration={autoHideDuration}
+        />
+    )
 }
+
 SubmitFormStatus.propTypes = {
-dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {

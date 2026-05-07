@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
 import { validAuthorization } from "../../utils/"
@@ -16,71 +16,71 @@ import {
   ToolButtons
 } from "../common/"
 
-export class Application extends Component {
-  constructor(props) {
-    super(props)
+export function Application({ name, application, user, dispatch, query, revisions, instances, resourceModalVisible }) {
+  const [displayDeleteForm, setDisplayDeleteForm] = useState(false)
+  const [editMode, setEditMode] = useState(false)
+  const [comment, setComment] = useState("")
 
-    this.state = {
-      displayDeleteForm: false,
-      editMode: false,
-      comment: ""
-    }
-  }
+  const prevNameRef = useRef(name)
+  const prevRevisionRef = useRef(query.revision)
 
-  componentDidMount() {
-    const { dispatch, name, query } = this.props
+  useEffect(() => {
     dispatch(fetchFasitData(name, query.revision))
     dispatch(fetchApplicationInstances(name))
-  }
+  }, [])
 
-  componentDidUpdate(prevProps) {
-    const { dispatch, name, query } = this.props
+  useEffect(() => {
+    const prevName = prevNameRef.current
+    const prevRevision = prevRevisionRef.current
 
-    if (name !== prevProps.name || query.revision !== prevProps.query.revision) {
-      this.setState({
-        comment: ""
-      })
+    if (name !== prevName || query.revision !== prevRevision) {
+      setComment("")
 
-      if (query.revision != prevProps.query.revision) {
+      if (query.revision != prevRevision) {
         dispatch(fetchFasitData(name, query.revision))
       }
-      if (name != prevProps.name) {
+      if (name != prevName) {
         dispatch(fetchFasitData(name, query.revision))
         dispatch(fetchApplicationInstances(name))
       }
     }
-  }
+    prevNameRef.current = name
+    prevRevisionRef.current = query.revision
+  })
 
-  handleSubmitForm(key, form, comment, component) {
-    const { dispatch } = this.props
+  const handleSubmitForm = (key, form, cmnt, component) => {
     if (component === "deleteApplication") {
-      this.toggleComponentDisplay("displayDeleteForm")
-      this.setState({ comment: "" })
+      setDisplayDeleteForm(false)
+      setComment("")
     }
-    dispatch(submitForm(key, form, comment, component))
+    dispatch(submitForm(key, form, cmnt, component))
   }
 
-  toggleComponentDisplay(component) {
-    this.setState({ [component]: !this.state[component] })
-    if (component === "editMode" && this.state.editMode) this.resetLocalState()
+  const toggleComponentDisplay = (component) => {
+    if (component === "displayDeleteForm") {
+      setDisplayDeleteForm(!displayDeleteForm)
+    } else if (component === "editMode") {
+      if (editMode) {
+        setEditMode(false)
+        setComment("")
+      } else {
+        setEditMode(true)
+      }
+    }
   }
 
-  handleChange(field, value) {
-    this.setState({ [field]: value })
-  }
-
-  applicationInfo(application) {
+  const applicationInfo = (app) => {
     return (
       <List>
         <ListItem>
           <ListItemText
-            primary={`${application.groupid}:${application.artifactid}`}
+            primary={`${app.groupid}:${app.artifactid}`}
             secondary="Group id:artifact id"
           />
         </ListItem>
         <ListItem>
           <ListItemText
-            primary={application.portoffset.toString()}
+            primary={app.portoffset.toString()}
             secondary="Port offset"
           />
         </ListItem>
@@ -88,76 +88,62 @@ export class Application extends Component {
     )
   }
 
-  render() {
-    // console.log(this.props)
-    const {
-      name,
-      application,
-      user,
-      dispatch,
-      query,
-      revisions,
-      instances,
-      resourceModalVisible
-    } = this.props
-    const { comment, adgroups, editMode } = this.state
-    let lifecycle = {}
-    let authorized = false
+  let lifecycle = {}
+  let authorized = false
 
-    if (Object.keys(application).length > 0) {
-      authorized = validAuthorization(user, application.accesscontrol)
-      lifecycle = application.lifecycle
-    }
-    return (
-      <div>
-        <div className="row">
-          <div className="col-md-6" style={styles.cardPadding}>
-            {<CurrentRevision revisionId={query.revision} revisions={revisions} />}
-            {Object.keys(application).length > 0 && (
-              <Card>
-                <CardHeader
-                  avatar={icons.application}
-                  title={`${name}`}
-                  slotProps={{title: {style: styles.bold}}}
-                  style={styles.paddingBottom0}
-                  subheader={this.applicationInfo(application)}
-                />
-                <CardActions>
-                  <ToolButtons
-                    disabled={!authorized || resourceModalVisible}
-                    onEditClick={() => dispatch(displayModal("application", true, "edit"))}
-                    onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                    onCopyClick={() => dispatch(displayModal("application", true, "copy"))}
-                    editMode={editMode}
-                  />
-                </CardActions>
-              </Card>
-            )}
-
-            <Lifecycle lifecycle={lifecycle} authorized={authorized} />
-          </div>
-
-          {/*Side menu*/}
-          <div className="col-md-4">
-            <History id={name} currentRevision={query.revision} component="application" />
-            <Security accesscontrol={application.accesscontrol} />
-          </div>
-
-          <DeleteElementForm
-            displayDeleteForm={this.state.displayDeleteForm}
-            onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-            onSubmit={() => this.handleSubmitForm(name, null, comment, "deleteApplication")}
-            id={name}
-          />
-        </div>
-        <div className="row col-md-12">
-          <h3>Application instances</h3>
-          {instances &&
-            instances.map((item, index) => <InstanceCard instance={item} key={index} />)}
-        </div>
-      </div>
-    )
+  if (Object.keys(application).length > 0) {
+    authorized = validAuthorization(user, application.accesscontrol)
+    lifecycle = application.lifecycle
   }
+  return (
+    <div>
+      <div className="row">
+        <div className="col-md-6" style={styles.cardPadding}>
+          {<CurrentRevision revisionId={query.revision} revisions={revisions} />}
+          {Object.keys(application).length > 0 && (
+            <Card>
+              <CardHeader
+                avatar={icons.application}
+                title={`${name}`}
+                slotProps={{title: {style: styles.bold}}}
+                style={styles.paddingBottom0}
+                subheader={applicationInfo(application)}
+              />
+              <CardActions>
+                <ToolButtons
+                  disabled={!authorized || resourceModalVisible}
+                  onEditClick={() => dispatch(displayModal("application", true, "edit"))}
+                  onDeleteClick={() => toggleComponentDisplay("displayDeleteForm")}
+                  onCopyClick={() => dispatch(displayModal("application", true, "copy"))}
+                  editMode={editMode}
+                />
+              </CardActions>
+            </Card>
+          )}
+
+          <Lifecycle lifecycle={lifecycle} authorized={authorized} />
+        </div>
+
+        {/*Side menu*/}
+        <div className="col-md-4">
+          <History id={name} currentRevision={query.revision} component="application" />
+          <Security accesscontrol={application.accesscontrol} />
+        </div>
+
+        <DeleteElementForm
+          displayDeleteForm={displayDeleteForm}
+          onClose={() => toggleComponentDisplay("displayDeleteForm")}
+          onSubmit={() => handleSubmitForm(name, null, comment, "deleteApplication")}
+          id={name}
+        />
+      </div>
+      <div className="row col-md-12">
+        <h3>Application instances</h3>
+        {instances &&
+          instances.map((item, index) => <InstanceCard instance={item} key={index} />)}
+      </div>
+    </div>
+  )
 }
 const mapStateToProps = state => {
   return {

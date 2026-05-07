@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from 'prop-types'
 import { Modal } from "../common/Modal"
 import { connect } from "react-redux"
@@ -8,52 +8,43 @@ import { displayModal, submitForm } from "../../actionCreators/common"
 import { Card, CardHeader, CardContent } from "@mui/material"
 import { icons, styles, colors } from "../../commonStyles/commonInlineStyles"
 
-export class NewApplicationForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      name: "",
-      artifactid: "",
-      groupid: "",
-      portoffset: "0",
-      comment: ""
+export function NewApplicationForm({ dispatch, showNewApplicationForm, application, mode }) {
+  const [name, setName] = useState("")
+  const [artifactid, setArtifactid] = useState("")
+  const [groupid, setGroupid] = useState("")
+  const [portoffset, setPortoffset] = useState("0")
+  const [comment, setComment] = useState("")
+
+  useEffect(() => {
+    if (mode === "edit" || mode === "copy") {
+      setName(application.name)
+      setGroupid(application.groupid)
+      setArtifactid(application.artifactid)
+      setPortoffset(application.portoffset)
+    } else {
+      resetLocalState()
+    }
+  }, [mode, application]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const resetLocalState = () => {
+    setName("")
+    setArtifactid("")
+    setGroupid("")
+    setPortoffset("0")
+    setComment("")
+  }
+
+  const handleChange = (field, value) => {
+    switch (field) {
+      case "name": setName(value); break
+      case "artifactid": setArtifactid(value); break
+      case "groupid": setGroupid(value); break
+      case "portoffset": setPortoffset(value); break
+      case "comment": setComment(value); break
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.mode !== prevProps.mode || this.props.application !== prevProps.application) {
-      const { application } = this.props
-      const { name, groupid, artifactid, portoffset } = application
-      if (this.props.mode === "edit" || this.props.mode === "copy") {
-        this.setState({
-          name,
-          groupid,
-          artifactid,
-          portoffset
-        })
-      } else {
-        this.resetLocalState()
-      }
-    }
-  }
-
-  resetLocalState() {
-    this.setState({
-      name: "",
-      artifactid: "",
-      groupid: "",
-      portoffset: "0",
-      comment: ""
-    })
-  }
-
-  handleChange(field, value) {
-    this.setState({ [field]: value })
-  }
-
-  handleSubmitForm() {
-    const { dispatch, mode } = this.props
-    const { name, artifactid, groupid, portoffset, comment } = this.state
+  const handleSubmitForm = () => {
     const form = {
       name,
       artifactid,
@@ -62,21 +53,18 @@ export class NewApplicationForm extends Component {
     }
 
     if (mode === "edit") {
-      dispatch(submitForm(this.props.application.name, form, comment, "application"))
+      dispatch(submitForm(application.name, form, comment, "application"))
     } else {
       dispatch(submitForm(form.name, form, comment, "newApplication"))
     }
   }
 
-  closeForm() {
-    const { dispatch } = this.props
-    this.resetLocalState()
+  const closeForm = () => {
+    resetLocalState()
     dispatch(displayModal("application", false))
   }
 
-  showSubmitButton() {
-    const { name, artifactid, groupid, portoffset } = this.state
-
+  const showSubmitButton = () => {
     if (
       name &&
       artifactid &&
@@ -89,7 +77,7 @@ export class NewApplicationForm extends Component {
         <button
           type="submit"
           className="btn btn-primary float-end"
-          onClick={this.handleSubmitForm.bind(this, true)}
+          onClick={handleSubmitForm}
         >
           Submit
         </button>
@@ -102,7 +90,7 @@ export class NewApplicationForm extends Component {
     )
   }
 
-  showNewApplicationAlert() {
+  const showNewApplicationAlert = () => {
     return (
       <Card style={styles.cardPadding}>
         <CardHeader
@@ -136,62 +124,59 @@ export class NewApplicationForm extends Component {
     )
   }
 
-  render() {
-    const { showNewApplicationForm, mode, application } = this.props
-    return (
-      <Modal show={showNewApplicationForm} enforceFocus={false} onHide={this.closeForm.bind(this)}>
-        <Modal.Header>
-          <Modal.Title>
-            {icons.application} &emsp;
-            {mode && `${capitalize(mode)} application ${mode !== "new" ? application.name : ""}`}
-            <button
-              id="resetBtn"
-              type="reset"
-              className="btn btn-link float-end"
-              onClick={this.closeForm.bind(this)}
-            >
-              <strong>X</strong>
-            </button>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {this.showNewApplicationAlert()}
-          <FormString
-            label="name"
-            editMode={true}
-            value={this.state.name}
-            handleChange={this.handleChange.bind(this)}
-          />
-          <FormString
-            label="groupid"
-            editMode={true}
-            value={this.state.groupid}
-            handleChange={this.handleChange.bind(this)}
-          />
-          <FormString
-            label="artifactid"
-            editMode={true}
-            value={this.state.artifactid}
-            handleChange={this.handleChange.bind(this)}
-          />
-          <FormString
-            label="portoffset"
-            editMode={true}
-            value={this.state.portoffset.toString()}
-            handleChange={this.handleChange.bind(this)}
-          />
-          <div className="col-xs-12" style={{ height: 15 + "px" }} />
-        </Modal.Body>
-        <Modal.Footer>
-          <FormComment value={this.state.comment} handleChange={this.handleChange.bind(this)} />
-          <br />
-          <div className="row">
-            <div className="row col-lg-10 col-lg-offset-2">{this.showSubmitButton()}</div>
-          </div>
-        </Modal.Footer>
-      </Modal>
-    )
-  }
+  return (
+    <Modal show={showNewApplicationForm} enforceFocus={false} onHide={closeForm}>
+      <Modal.Header>
+        <Modal.Title>
+          {icons.application} &emsp;
+          {mode && `${capitalize(mode)} application ${mode !== "new" ? application.name : ""}`}
+          <button
+            id="resetBtn"
+            type="reset"
+            className="btn btn-link float-end"
+            onClick={closeForm}
+          >
+            <strong>X</strong>
+          </button>
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {showNewApplicationAlert()}
+        <FormString
+          label="name"
+          editMode={true}
+          value={name}
+          handleChange={handleChange}
+        />
+        <FormString
+          label="groupid"
+          editMode={true}
+          value={groupid}
+          handleChange={handleChange}
+        />
+        <FormString
+          label="artifactid"
+          editMode={true}
+          value={artifactid}
+          handleChange={handleChange}
+        />
+        <FormString
+          label="portoffset"
+          editMode={true}
+          value={portoffset.toString()}
+          handleChange={handleChange}
+        />
+        <div className="col-xs-12" style={{ height: 15 + "px" }} />
+      </Modal.Body>
+      <Modal.Footer>
+        <FormComment value={comment} handleChange={handleChange} />
+        <br />
+        <div className="row">
+          <div className="row col-lg-10 col-lg-offset-2">{showSubmitButton()}</div>
+        </div>
+      </Modal.Footer>
+    </Modal>
+  )
 }
 NewApplicationForm.propTypes = {
   dispatch: PropTypes.func.isRequired

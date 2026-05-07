@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import MuiPopover from "@mui/material/Popover"
@@ -18,30 +18,73 @@ import {
   colors
 } from "../../commonStyles/commonInlineStyles"
 
-class TopNav extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      anchorEl: null,
-      activeOverlay: null
-    }
+function TopNav({ dispatch, user, location }) {
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [activeOverlay, setActiveOverlay] = useState(null)
+
+  useEffect(() => {
+    dispatch(getUser())
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const openOverlay = (name, e) => {
+    setAnchorEl(e.currentTarget)
+    setActiveOverlay(name)
   }
 
-  componentDidMount() {
-    this.props.dispatch(getUser())
+  const closeOverlay = () => {
+    setAnchorEl(null)
+    setActiveOverlay(null)
   }
 
-  openOverlay(name, e) {
-    this.setState({ anchorEl: e.currentTarget, activeOverlay: name })
+  const loginContent = () => {
+    return (
+      <div>
+        <h5>Roles</h5>
+        <ul className="topnav-menu">
+          {user.roles.map((role, idx) => (
+            <li key={idx}>{role.split("ROLE_")[1].toLowerCase()}</li>
+          ))}
+        </ul>
+        <hr />
+        <button
+          style={{ outline: "none" }}
+          type="button"
+          className="btn btn-info btn-sm"
+          onClick={() => dispatch(logOut())}
+        >
+          Log out
+        </button>
+      </div>
+    )
   }
 
-  closeOverlay() {
-    this.setState({ anchorEl: null, activeOverlay: null })
+  const toolsContent = () => {
+    return (
+      <ul className="topnav-menu topnav-menu-selector">
+        <li onClick={() => { dispatch(displayModal("resource", true)); closeOverlay() }}>
+          <FontAwesomeIcon icon="cogs" fixedWidth /> &nbsp;&nbsp; Create
+          resource
+        </li>
+        <li onClick={() => { dispatch(displayModal("application", true)); closeOverlay() }}>
+          <FontAwesomeIcon icon="cube" fixedWidth /> &nbsp;&nbsp; Create
+          application
+        </li>
+        <li onClick={() => { dispatch(displayModal("environment", true)); closeOverlay() }}>
+          <FontAwesomeIcon icon="sitemap" fixedWidth /> &nbsp;&nbsp; Create
+          environment
+        </li>
+        <li onClick={() => { dispatch(displayModal("node", true)); closeOverlay() }}>
+          <FontAwesomeIcon icon="server" fixedWidth /> &nbsp;&nbsp;Create node
+        </li>
+        <li onClick={() => { dispatch(displayModal("cluster", true)); closeOverlay() }}>
+          <FontAwesomeIcon icon="braille" fixedWidth />&nbsp;&nbsp; Create
+          cluster
+        </li>
+      </ul>
+    )
   }
 
-  showLogin(root) {
-    const { user, dispatch } = this.props
-    const { anchorEl, activeOverlay } = this.state
+  const showLogin = (root) => {
     return (
       <ul className="nav d-flex flex-row ms-auto" style={{listStyle: 'none'}}>
         {/* Nytt element*/}
@@ -49,7 +92,7 @@ class TopNav extends Component {
           <li>
             <button
               type="button"
-              onClick={(e) => this.openOverlay("tools", e)}
+              onClick={(e) => openOverlay("tools", e)}
               className={
                 root
                   ? "btn btn-sm  btn-link topnav-buttons-inverse"
@@ -63,12 +106,12 @@ class TopNav extends Component {
             <MuiPopover
               open={activeOverlay === "tools"}
               anchorEl={anchorEl}
-              onClose={() => this.closeOverlay()}
+              onClose={() => closeOverlay()}
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
               transformOrigin={{ vertical: "top", horizontal: "center" }}
             >
               <div style={{ padding: 16 }}>
-                {this.toolsContent()}
+                {toolsContent()}
               </div>
             </MuiPopover>
           </li>
@@ -95,7 +138,7 @@ class TopNav extends Component {
           <li>
             <button
               type="button"
-              onClick={(e) => this.openOverlay("login", e)}
+              onClick={(e) => openOverlay("login", e)}
               className={
                 root
                   ? "btn btn-sm  btn-link topnav-buttons-inverse"
@@ -109,12 +152,12 @@ class TopNav extends Component {
             <MuiPopover
               open={activeOverlay === "login"}
               anchorEl={anchorEl}
-              onClose={() => this.closeOverlay()}
+              onClose={() => closeOverlay()}
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               transformOrigin={{ vertical: "top", horizontal: "right" }}
             >
               <div style={{ padding: 16 }}>
-                {this.loginContent()}
+                {loginContent()}
               </div>
             </MuiPopover>
           </li>
@@ -132,12 +175,12 @@ class TopNav extends Component {
               cursor: "pointer"
             }}
             className="topnavIcon"
-            onClick={(e) => this.openOverlay("aura", e)}
+            onClick={(e) => openOverlay("aura", e)}
           />
           <MuiPopover
             open={activeOverlay === "aura"}
             anchorEl={anchorEl}
-            onClose={() => this.closeOverlay()}
+            onClose={() => closeOverlay()}
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             transformOrigin={{ vertical: "top", horizontal: "center" }}
           >
@@ -166,88 +209,36 @@ class TopNav extends Component {
     )
   }
 
-  loginContent() {
-    const { dispatch, user } = this.props
-    return (
-      <div>
-        <h5>Roles</h5>
-        <ul className="topnav-menu">
-          {user.roles.map((role, idx) => (
-            <li key={idx}>{role.split("ROLE_")[1].toLowerCase()}</li>
-          ))}
-        </ul>
-        <hr />
-        <button
-          style={{ outline: "none" }}
-          type="button"
-          className="btn btn-info btn-sm"
-          onClick={() => dispatch(logOut())}
-        >
-          Log out
-        </button>
-      </div>
-    )
-  }
-
-  toolsContent() {
-    const { dispatch } = this.props
-    return (
-      <ul className="topnav-menu topnav-menu-selector">
-        <li onClick={() => { dispatch(displayModal("resource", true)); this.closeOverlay() }}>
-          <FontAwesomeIcon icon="cogs" fixedWidth /> &nbsp;&nbsp; Create
-          resource
-        </li>
-        <li onClick={() => { dispatch(displayModal("application", true)); this.closeOverlay() }}>
-          <FontAwesomeIcon icon="cube" fixedWidth /> &nbsp;&nbsp; Create
-          application
-        </li>
-        <li onClick={() => { dispatch(displayModal("environment", true)); this.closeOverlay() }}>
-          <FontAwesomeIcon icon="sitemap" fixedWidth /> &nbsp;&nbsp; Create
-          environment
-        </li>
-        <li onClick={() => { dispatch(displayModal("node", true)); this.closeOverlay() }}>
-          <FontAwesomeIcon icon="server" fixedWidth /> &nbsp;&nbsp;Create node
-        </li>
-        <li onClick={() => { dispatch(displayModal("cluster", true)); this.closeOverlay() }}>
-          <FontAwesomeIcon icon="braille" fixedWidth />&nbsp;&nbsp; Create
-          cluster
-        </li>
-      </ul>
-    )
-  }
-
-  render() {
-    const { location } = this.props
-    return location.pathname !== "/" ? (
-      <div>
-        <div className="topnav topnav-active">
-          <div className="col-sm-1 col-md-2 hidden-xs">
-            <div className="topnav-brand-logo-container">
-              <Link to="/">
-                <img
-                  src="/images/aura-ikoner/fasit-white.png"
-                  className="topnav-brand-logo"
-                />
-              </Link>
-            </div>
+  return location.pathname !== "/" ? (
+    <div>
+      <div className="topnav topnav-active">
+        <div className="col-sm-1 col-md-2 hidden-xs">
+          <div className="topnav-brand-logo-container">
+            <Link to="/">
+              <img
+                src="/images/aura-ikoner/fasit-white.png"
+                className="topnav-brand-logo"
+              />
+            </Link>
           </div>
-
-          <div className="col-7 col-sm-6 col-md-6">
-            <NavSearch />
-          </div>
-          {this.showLogin()}
-          <Login />
         </div>
-        <ContextMenu />
-      </div>
-    ) : (
-      <div className="topnav">
-        {this.showLogin("root")}
+
+        <div className="col-7 col-sm-6 col-md-6">
+          <NavSearch />
+        </div>
+        {showLogin()}
         <Login />
       </div>
-    )
-  }
+      <ContextMenu />
+    </div>
+  ) : (
+    <div className="topnav">
+      {showLogin("root")}
+      <Login />
+    </div>
+  )
 }
+
 const mapStateToProps = state => {
   return {
     user: state.user,

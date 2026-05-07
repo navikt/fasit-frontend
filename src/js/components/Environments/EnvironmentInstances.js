@@ -1,55 +1,41 @@
-import React, { Component } from "react"
+import React, { useEffect } from "react"
 import PropTypes from 'prop-types'
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import { fetchEnvironmentInstances } from "../../actionCreators/environment"
 import { Spinner } from "../common";
 
-class EnvironmentInstances extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  componentDidMount() {
-    const { dispatch, environment } = this.props
+function EnvironmentInstances({ dispatch, environment, isFetching, instances }) {
+  useEffect(() => {
     dispatch(fetchEnvironmentInstances(environment))
-  }
+  }, [environment])
 
-  componentDidUpdate(prevProps) {
-    const { dispatch, environment } = this.props
-    if (prevProps.environment != environment) {
-      dispatch(fetchEnvironmentInstances(environment))
-    }
-  }
-
-  render() {
-    return this.props.isFetching ? (
-      <Spinner />
-    ) : (
-      <div>
-        <table className="table table-hover">
-          <thead>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.instances.map(instance => {
-              return (
-                <tr key={instance.id}>
-                  <td>
-                    <Link to={`/instances/${instance.id}`}>
-                      {instance.application + ":" + instance.version}
-                    </Link>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-    )
-  }
+  return isFetching ? (
+    <Spinner />
+  ) : (
+    <div>
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {instances.map(instance => {
+            return (
+              <tr key={instance.id}>
+                <td>
+                  <Link to={`/instances/${instance.id}`}>
+                    {instance.application + ":" + instance.version}
+                  </Link>
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
 }
 
 const mapStateToProps = state => {

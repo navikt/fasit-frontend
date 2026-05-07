@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import dayjs from "dayjs"
 import { connect } from "react-redux"
@@ -9,35 +9,20 @@ import { styles, icons } from "../../commonStyles/commonInlineStyles"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Spinner } from "."
 
-class RevisionsView extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      displayAllRevisions: false
-    }
-  }
+function RevisionsView({ dispatch, id, component, revisions, routing, currentRevision }) {
+  const [displayAllRevisions, setDisplayAllRevisions] = useState(false)
 
-  componentDidMount() {
-    const { dispatch, id, component } = this.props
+  useEffect(() => {
     dispatch(fetchRevisions(component, id))
-  }
+  }, [id])
 
-  componentDidUpdate(prevProps) {
-    const { dispatch, id, component } = this.props
-
-    if (prevProps.id !== id) {
-      dispatch(fetchRevisions(component, id))
-    }
-  }
-
-  showRevisionsFooter() {
-    const { revisions } = this.props
-    if (revisions.data.length > 5 && !this.state.displayAllRevisions) {
+  const showRevisionsFooter = () => {
+    if (revisions.data.length > 5 && !displayAllRevisions) {
       return (
         <div className="information-box-footer">
           <a
             className="text-right arrow cursor-pointer"
-            onClick={() => this.setState({ displayAllRevisions: true })}
+            onClick={() => setDisplayAllRevisions(true)}
           >
             Show all ({revisions.data.length}){" "}
             <FontAwesomeIcon icon="angle-double-down" />
@@ -45,12 +30,12 @@ class RevisionsView extends Component {
         </div>
       )
     }
-    if (revisions.data.length > 5 && this.state.displayAllRevisions) {
+    if (revisions.data.length > 5 && displayAllRevisions) {
       return (
         <div className="information-box-footer">
           <a
             className="text-right arrow cursor-pointer"
-            onClick={() => this.setState({ displayAllRevisions: false })}
+            onClick={() => setDisplayAllRevisions(false)}
           >
             Show less <FontAwesomeIcon icon="angle-double-up" />
           </a>
@@ -59,43 +44,39 @@ class RevisionsView extends Component {
     }
   }
 
-  render() {
-    const { dispatch, revisions, routing, currentRevision } = this.props
+  if (revisions.isFetching) {
+    return <Spinner />
+  } else if (revisions.requestFailed)
+    return <div key="1">Unable to fetch revisions</div>
 
-    if (revisions.isFetching) {
-      return <Spinner />
-    } else if (revisions.requestFailed)
-      return <div key="1">Unable to fetch revisions</div>
+  let displayRevisions = revisions.data
 
-    let displayRevisions = revisions.data
+  if (!displayAllRevisions)
+    displayRevisions = revisions.data.slice(0, 5)
+  return (
+      <List style={{ paddingTop: "0px", padding: "0px" }}>
+        {displayRevisions.map((rev, idx) => {
+          const revisionQuery = `?revision=${rev.revision}`
+          return (
+            <ListItemButton
+              key={idx}
+              onClick={() =>
+                history.push(routing.pathname + revisionQuery)
+              }
+              style={{ fontSize: "14px" }}
+            >
+              {rev.revision == currentRevision && <ListItemIcon>{icons.rightArrow}</ListItemIcon>}
+              <ListItemText
+                primary={dayjs(rev.timestamp).format("DD MMM YYYY HH:mm:ss")}
+                secondary={renderSecondaryText(rev)}
+              />
+            </ListItemButton>
+          )
+        })}
 
-    if (!this.state.displayAllRevisions)
-      displayRevisions = revisions.data.slice(0, 5)
-    return (
-        <List style={{ paddingTop: "0px", padding: "0px" }}>
-          {displayRevisions.map((rev, idx) => {
-            const revisionQuery = `?revision=${rev.revision}`
-            return (
-              <ListItemButton
-                key={idx}
-                onClick={() =>
-                  history.push(routing.pathname + revisionQuery)
-                }
-                style={{ fontSize: "14px" }}
-              >
-                {rev.revision == currentRevision && <ListItemIcon>{icons.rightArrow}</ListItemIcon>}
-                <ListItemText
-                  primary={dayjs(rev.timestamp).format("DD MMM YYYY HH:mm:ss")}
-                  secondary={renderSecondaryText(rev)}
-                />
-              </ListItemButton>
-            )
-          })}
-
-          {this.showRevisionsFooter()}
-        </List>
-    )
-  }
+        {showRevisionsFooter()}
+      </List>
+  )
 }
 
 function renderSecondaryText(revision) {

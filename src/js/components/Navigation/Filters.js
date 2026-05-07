@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useEffect } from "react"
 import Select from "react-select"
 import { connect } from "react-redux"
 import {
@@ -11,35 +11,28 @@ import { isEmptyObject } from "../../utils"
 
 const LIFECYCLE_STATUSES = ["stopped", "alerted"]
 
-class Filters extends Component {
-  constructor(props) {
-    super(props)
-  }
+function Filters({ dispatch, filter, environments, applicationNames, environmentClasses, nodeTypes, zones, resourceTypes, location }) {
 
-  componentDidMount() {
-    const { dispatch, location } = this.props
+  useEffect(() => {
     const query = Object.fromEntries(new URLSearchParams(location.search))
     if (!isEmptyObject(query)) {
       dispatch(setFilter(query))
     }
-  }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  handleChangeFilter(filterName, filterValue) {
-    const { dispatch, filter } = this.props
+  const handleChangeFilter = (filterName, filterValue) => {
     dispatch(changeFilter(filterName, filterValue))
     dispatch(submitFilterString(filter.context, 0))
   }
 
-  convertToSelectObject(values) {
+  const convertToSelectObject = (values) => {
     return values.map(value => {
       return { value, label: value }
     })
   }
 
-  environmentFilter() {
-    // if environmentclass is set, display only environments in that environmentclass
-    const { filter } = this.props
-    const filteredEnvironments = this.props.environments.filter(env => {
+  const environmentFilter = () => {
+    const filteredEnvironments = environments.filter(env => {
       if (!filter.filters.environmentclass) {
         return true
       } else {
@@ -47,7 +40,7 @@ class Filters extends Component {
       }
     })
 
-    const options = this.convertToSelectObject(filteredEnvironments.map(env => env.name))
+    const options = convertToSelectObject(filteredEnvironments.map(env => env.name))
     return (
       <div className="form-group Select-environment">
         <Select
@@ -55,30 +48,29 @@ class Filters extends Component {
           placeholder="Env."
           value={options.find(o => o.value === filter.filters.environment) || null}
           options={options}
-          onChange={e => this.handleChangeFilter("environment", e ? e.value : "")}
+          onChange={e => handleChangeFilter("environment", e ? e.value : "")}
         />
       </div>
     )
   }
 
-  applicationFilter() {
-    const options = this.convertToSelectObject(this.props.applicationNames)
+  const applicationFilter = () => {
+    const options = convertToSelectObject(applicationNames)
     return (
       <div className="form-group Select-application">
         <Select
           isClearable
           placeholder="App."
-          value={options.find(o => o.value === this.props.filter.filters.application) || null}
+          value={options.find(o => o.value === filter.filters.application) || null}
           options={options}
-          onChange={e => this.handleChangeFilter("application", e ? e.value : "")}
+          onChange={e => handleChangeFilter("application", e ? e.value : "")}
         />
       </div>
     )
   }
 
-  zoneFilter() {
-    const { filter } = this.props
-    const options = this.convertToSelectObject(this.props.zones)
+  const zoneFilter = () => {
+    const options = convertToSelectObject(zones)
     return (
       <div className="form-group Select-environmentclass">
         <Select
@@ -87,73 +79,73 @@ class Filters extends Component {
           isDisabled={filter.filters.environmentclass === "" && filter.filters.environment === ""}
           value={options.find(o => o.value === filter.filters.zone) || null}
           options={options}
-          onChange={e => this.handleChangeFilter("zone", e ? e.value : "")}
+          onChange={e => handleChangeFilter("zone", e ? e.value : "")}
         />
       </div>
     )
   }
 
-  classFilter() {
-    const options = this.convertToSelectObject(this.props.environmentClasses)
+  const classFilter = () => {
+    const options = convertToSelectObject(environmentClasses)
     return (
       <div className="form-group Select-environmentclass">
         <Select
           isClearable
           placeholder="Class"
-          value={options.find(o => o.value === this.props.filter.filters.environmentclass) || null}
+          value={options.find(o => o.value === filter.filters.environmentclass) || null}
           options={options}
-          onChange={e => this.handleChangeFilter("environmentclass", e ? e.value : "")}
+          onChange={e => handleChangeFilter("environmentclass", e ? e.value : "")}
         />
       </div>
     )
   }
 
-  nodeTypeFilter() {
-    const options = this.convertToSelectObject(this.props.nodeTypes)
+  const nodeTypeFilter = () => {
+    const options = convertToSelectObject(nodeTypes)
     return (
       <div className="form-group Select-nodetype">
         <Select
           isClearable
           placeholder="Type"
-          value={options.find(o => o.value === this.props.filter.filters.type) || null}
+          value={options.find(o => o.value === filter.filters.type) || null}
           options={options}
-          onChange={e => this.handleChangeFilter("type", e ? e.value : "")}
+          onChange={e => handleChangeFilter("type", e ? e.value : "")}
         />
       </div>
     )
   }
 
-  resourceTypeFilter() {
-    const options = this.convertToSelectObject(this.props.resourceTypes)
+  const resourceTypeFilter = () => {
+    const options = convertToSelectObject(resourceTypes)
     return (
       <div className="form-group Select-resourcetype">
         <Select
           isClearable
           placeholder="Type"
-          value={options.find(o => o.value === this.props.filter.filters.type) || null}
+          value={options.find(o => o.value === filter.filters.type) || null}
           options={options}
-          onChange={e => this.handleChangeFilter("type", e ? e.value : "")}
+          onChange={e => handleChangeFilter("type", e ? e.value : "")}
         />
       </div>
     )
   }
 
-  lifecycleFilter() {
-    const options = this.convertToSelectObject(LIFECYCLE_STATUSES)
+  const lifecycleFilter = () => {
+    const options = convertToSelectObject(LIFECYCLE_STATUSES)
     return (
       <div className="form-group Select-resourcetype">
         <Select
           isClearable
           placeholder="Lifecycle status"
-          value={options.find(o => o.value === this.props.filter.filters.status) || null}
+          value={options.find(o => o.value === filter.filters.status) || null}
           options={options}
-          onChange={e => this.handleChangeFilter("status", e ? e.value : "")}
+          onChange={e => handleChangeFilter("status", e ? e.value : "")}
         />
       </div>
     )
   }
 
-  aliasFilter() {
+  const aliasFilter = () => {
     return (
       <div className="form-group Input-alias">
         <input
@@ -161,63 +153,60 @@ class Filters extends Component {
           className="form-control"
           style={{ height: "34px" }}
           type="text"
-          value={this.props.filter.filters.alias}
-          onChange={e => this.handleChangeFilter("alias", e.target.value)}
+          value={filter.filters.alias}
+          onChange={e => handleChangeFilter("alias", e.target.value)}
         />
       </div>
     )
   }
 
-  generateFiltersFromContext() {
-    const { filter } = this.props
-
+  const generateFiltersFromContext = () => {
     switch (filter.context) {
       case "applications":
-        return <div className="form-inline filters">{this.lifecycleFilter()}</div>
+        return <div className="form-inline filters">{lifecycleFilter()}</div>
       case "instances":
         return (
           <div className="form-inline filters">
-            {this.classFilter()}
-            {this.environmentFilter()}
-            {this.applicationFilter()}
-            {this.lifecycleFilter()}
+            {classFilter()}
+            {environmentFilter()}
+            {applicationFilter()}
+            {lifecycleFilter()}
           </div>
         )
       case "nodes":
         return (
           <div className="form-inline filters">
-            {this.classFilter()}
-            {this.environmentFilter()}
-            {this.nodeTypeFilter()}
-            {this.lifecycleFilter()}
+            {classFilter()}
+            {environmentFilter()}
+            {nodeTypeFilter()}
+            {lifecycleFilter()}
           </div>
         )
       case "environments":
         return (
           <div className="form-inline filters">
-            {this.classFilter()}
-            {this.lifecycleFilter()}
+            {classFilter()}
+            {lifecycleFilter()}
           </div>
         )
       case "resources":
         return (
           <form className="form-inline filters">
-            {this.aliasFilter()}
-            {this.classFilter()}
-            {this.environmentFilter()}
-            {this.applicationFilter()}
-            {this.zoneFilter()}
-            {this.resourceTypeFilter()}
-            {this.lifecycleFilter()}
+            {aliasFilter()}
+            {classFilter()}
+            {environmentFilter()}
+            {applicationFilter()}
+            {zoneFilter()}
+            {resourceTypeFilter()}
+            {lifecycleFilter()}
           </form>
         )
     }
   }
 
-  render() {
-    return <div>{this.generateFiltersFromContext()}</div>
-  }
+  return <div>{generateFiltersFromContext()}</div>
 }
+
 const mapStateToProps = state => {
   return {
     filter: state.filter,

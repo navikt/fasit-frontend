@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useEffect, useRef } from "react"
 import PropTypes from 'prop-types'
 import { connect } from "react-redux"
 import history from "../../history"
@@ -28,14 +28,38 @@ import buildFontAwesomeLibrary from "../../commonStyles/FontAwesomeIcons"
 
 buildFontAwesomeLibrary()
 
-class App extends Component {
-  constructor(props) {
-    super(props)
+function App({ dispatch, user, children }) {
+  const prevUserRef = useRef(user)
+
+  const protectedShortcuts = () => {
+    Mousetrap.bind("n r", e => {
+      e.preventDefault()
+      dispatch(displayModal("resource", true))
+    })
+    Mousetrap.bind("n a", e => {
+      e.preventDefault()
+      dispatch(displayModal("application", true))
+    })
+    Mousetrap.bind("n e", e => {
+      e.preventDefault()
+      dispatch(displayModal("environment", true, "new"))
+    })
+    Mousetrap.bind("n c", e => {
+      e.preventDefault()
+      dispatch(displayModal("cluster", true))
+    })
+    Mousetrap.bind("n n", e => {
+      e.preventDefault()
+      dispatch(displayModal("node", true))
+    })
   }
 
-  componentDidMount() {
+  const unbindShortcuts = () => {
+    Mousetrap.unbind(["n r", "n a", "n e", "n c", "n n"])
+  }
+
+  useEffect(() => {
     // pre-load fasit data
-    const { dispatch } = this.props
     dispatch(fetchEnvironments())
     dispatch(fetchApplicationNames())
     dispatch(fetchResourceTypes())
@@ -73,66 +97,37 @@ class App extends Component {
       e.preventDefault()
       history.push("/nodes")
     })
-  }
+  }, [])
 
-  componentDidUpdate(prevProps) {
-    const { user } = this.props
-    if (user.authenticated && !prevProps.user.authenticated) {
-      this.protectedShortcuts()
-    } else if (!user.authenticated && prevProps.user.authenticated) {
-      this.unbindShortcuts()
+  useEffect(() => {
+    const prevUser = prevUserRef.current
+    if (user.authenticated && !prevUser.authenticated) {
+      protectedShortcuts()
+    } else if (!user.authenticated && prevUser.authenticated) {
+      unbindShortcuts()
     }
-  }
+    prevUserRef.current = user
+  })
 
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <div style={{ outline: "none" }}>
-          <TopNav />
-          <div className="col-lg-11 offset-lg-1 col-md-11 offset-md-1 col-sm-12">
-            {this.props.children}
-          </div>
-          {/* Misc. modals*/}
-          <SubmitFormStatus />
-          <NewNodeForm />
-          <NewEnvironmentForm />
-          <ErrorDialog />
-          <NewClusterForm />
-          <NewApplicationForm />
-          <NewResourceForm />
-          <KeyboardShortcuts />
+  return (
+    <ThemeProvider theme={theme}>
+      <div style={{ outline: "none" }}>
+        <TopNav />
+        <div className="col-lg-11 offset-lg-1 col-md-11 offset-md-1 col-sm-12">
+          {children}
         </div>
-      </ThemeProvider>
-    )
-  }
-
-  protectedShortcuts() {
-    const { dispatch } = this.props
-    Mousetrap.bind("n r", e => {
-      e.preventDefault()
-      dispatch(displayModal("resource", true))
-    })
-    Mousetrap.bind("n a", e => {
-      e.preventDefault()
-      dispatch(displayModal("application", true))
-    })
-    Mousetrap.bind("n e", e => {
-      e.preventDefault()
-      dispatch(displayModal("environment", true, "new"))
-    })
-    Mousetrap.bind("n c", e => {
-      e.preventDefault()
-      dispatch(displayModal("cluster", true))
-    })
-    Mousetrap.bind("n n", e => {
-      e.preventDefault()
-      dispatch(displayModal("node", true))
-    })
-  }
-
-  unbindShortcuts() {
-    Mousetrap.unbind(["n r", "n a", "n e", "n c", "n n"])
-  }
+        {/* Misc. modals*/}
+        <SubmitFormStatus />
+        <NewNodeForm />
+        <NewEnvironmentForm />
+        <ErrorDialog />
+        <NewClusterForm />
+        <NewApplicationForm />
+        <NewResourceForm />
+        <KeyboardShortcuts />
+      </div>
+    </ThemeProvider>
+  )
 }
 
 const mapStateToProps = state => {

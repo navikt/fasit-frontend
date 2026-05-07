@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React from "react"
 import PropTypes from 'prop-types'
 import { connect } from "react-redux"
 import { validAuthorization } from "../../utils/"
@@ -6,21 +6,15 @@ import { CollapsibleList } from "../common/"
 import { icons } from "../../commonStyles/commonInlineStyles"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-class Security extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <CollapsibleList
-        primaryText="Security"
-        initiallyOpen={false}
-        leftAvatar={icons.securityAvatar}
-        nestedItems={<SecurityView key="1" {...this.props} />}
-      />
-    )
-  }
+function Security(props) {
+  return (
+    <CollapsibleList
+      primaryText="Security"
+      initiallyOpen={false}
+      leftAvatar={icons.securityAvatar}
+      nestedItems={<SecurityView key="1" {...props} />}
+    />
+  )
 }
 
 function SecurityView(props) {

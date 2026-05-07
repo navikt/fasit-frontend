@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
 import { List, ListItem, ListItemText } from "@mui/material"
@@ -36,97 +36,57 @@ function vaultUrl(vaultPath) {
   return baseUrl + replaced
 }
 
-class Resource extends Component {
-  constructor(props) {
-    super(props)
-    this.state = initialState
-  }
+function Resource({ dispatch, id, fasit, user, query, revisions, resource, currentSecrets, resourceModalVisible }) {
+  const [secretVisible, setSecretVisible] = useState(initialState.secretVisible)
+  const [displayDeleteForm, setDisplayDeleteForm] = useState(initialState.displayDeleteForm)
+  const [comment, setComment] = useState(initialState.comment)
+  const [editMode, setEditMode] = useState(false)
 
-  componentDidMount() {
-    const { dispatch, id, query } = this.props
+  useEffect(() => {
     if (query) {
       dispatch(fetchFasitData(id, query.revision))
     } else {
       dispatch(fetchFasitData(id))
     }
-  }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  componentDidUpdate(prevProps) {
-    const { dispatch, id, query } = this.props
+  useEffect(() => {
+    setSecretVisible(initialState.secretVisible)
+    setDisplayDeleteForm(initialState.displayDeleteForm)
+    setComment(initialState.comment)
+    dispatch(fetchFasitData(id))
+  }, [id]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    if (id != prevProps.id) {
-      this.resetState(initialState)
-      dispatch(fetchFasitData(id))
-    }
+  useEffect(() => {
+    dispatch(fetchFasitData(id, query.revision))
+  }, [query.revision]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    if (query.revision != prevProps.query.revision) {
-      dispatch(fetchFasitData(id, query.revision))
-    }
-  }
-
-  resetState() {
-    this.setState(initialState)
-  }
-
-  buildFormData() {
-    const { resource } = this.props
-    const form = {
-      alias: resource.alias,
-      type: resource.type,
-      properties: resource.properties,
-      scope: resource.scope
-    }
-
-    if (Object.keys(this.props.currentSecrets).length > 0) {
-      form.secrets = {}
-      Object.keys(this.props.currentSecrets).forEach(k => {
-        form.secrets[k] = { value: this.props.currentSecrets[k] }
-      })
-    }
-
-    if (Object.keys(resource.files).length > 0) {
-      form.files = files
-    }
-
-    return form
-  }
-
-  deleteResource(key) {
-    const { dispatch } = this.props
-    this.toggleComponentDisplay("displayDeleteForm")
+  const deleteResource = (key) => {
+    setDisplayDeleteForm(prev => !prev)
     dispatch(submitForm(key, null, null, "deleteResource"))
   }
 
-  toggleComponentDisplay(component) {
-    this.setState({ [component]: !this.state[component] })
-  }
-
-  toggleDisplaySecret() {
-    this.setState({ secretVisible: !this.state.secretVisible })
-  }
-
-  handleChange(field, value, parent) {
-    if (parent) {
-      const parentState = this.state[parent]
-      parentState[field] = value
-      this.setState({ parent: parentState })
-    } else {
-      this.setState({ [field]: value })
+  const toggleComponentDisplay = (component) => {
+    if (component === "displayDeleteForm") {
+      setDisplayDeleteForm(prev => !prev)
     }
   }
 
-  renderResourceProperties() {
-    const { resource } = this.props
-    const type = this.getResourceType(resource.type)
-    return <List>{type.properties.map((p, key) => this.renderProperty(p, resource))}</List>
+  const toggleDisplaySecret = () => {
+    setSecretVisible(prev => !prev)
   }
 
-  renderProperty(property, resource) {
-    const { user, dispatch } = this.props
-    const { secretVisible } = this.state
+  const getResourceType = (typeKey) => {
+    const key = Object.keys(resourceTypes).filter(
+      resourceType => resourceType.toLowerCase() === typeKey.toLowerCase()
+    )[0]
+    return resourceTypes[key]
+  }
+
+  const renderProperty = (property, res) => {
     const propertyName = property.displayName
     const key = property.name
-    const { properties, files } = resource
+    const { properties, files } = res
 
     switch (property.type) {
       case "textbox":
@@ -177,7 +137,7 @@ class Resource extends Component {
         )
       case "vaultPath":
       case "secret":
-        const secret = resource.secrets[key]
+        const secret = res.secrets[key]
         if (secret != null && secret.vaultpath != null) {
           return (
             <ListItem
@@ -196,8 +156,8 @@ class Resource extends Component {
             </ListItem>
           )
         } else {
-          const secretText = this.props.currentSecrets[key]
-            ? this.props.currentSecrets[key].value
+          const secretText = currentSecrets[key]
+            ? currentSecrets[key].value
             : "No secret stored for this revision"
 
           return (
@@ -214,7 +174,7 @@ class Resource extends Component {
                       user={user}
                       accesscontrol={resource.accesscontrol}
                       secretVisible={secretVisible}
-                      toggleHandler={() => this.toggleDisplaySecret()}
+                      toggleHandler={() => toggleDisplaySecret()}
                       dispatch={dispatch}
                     />
                   </div>
@@ -245,8 +205,13 @@ class Resource extends Component {
     }
   }
 
-  exposedByApplication() {
-    const exposedBy = this.props.fasit.data.exposedby
+  const renderResourceProperties = () => {
+    const type = getResourceType(resource.type)
+    return <List>{type.properties.map((p, key) => renderProperty(p, resource))}</List>
+  }
+
+  const exposedByApplication = () => {
+    const exposedBy = fasit.data.exposedby
     if (exposedBy) {
       const displayString = `${exposedBy.application} (${exposedBy.version}) in ${exposedBy.environment}`
       return (
@@ -264,7 +229,7 @@ class Resource extends Component {
     }
   }
 
-  scopeDisplayString(scope) {
+  const scopeDisplayString = (scope) => {
     const envClass = scope.environmentclass || "-"
     const environment = scope.environment || "-"
     const zone = scope.zone || "-"
@@ -273,103 +238,87 @@ class Resource extends Component {
     return `${envClass} | ${zone} | ${environment} | ${application}`
   }
 
-  showModal(mode) {
-    const { dispatch } = this.props
+  const showModal = (mode) => {
     dispatch(displayModal("resource", true, mode))
   }
 
-  render() {
-    // Fikse resource types slik at vi slipper å håndtere casing. For eksempel lage felt for display name
-    // Sortere miljøer riktig i utils
-    // sortere resource types i filter på ressurser
-    // I resources element list hvis ressurstypen med riktig casing
-    // håndtere error i fetch secrets
-    const { id, fasit, user, query, revisions, resource, resourceModalVisible } = this.props
-    let authorized = false
-    let lifecycle = {}
+  let authorized = false
+  let lifecycle = {}
 
-    if (fasit.requestFailed) {
-      if (fasit.requestFailed.startsWith("404")) {
-        return <NotFound />
-      }
-      return (
-        <div>
-          Retrieving resource {id} failed with the following message:
-          <br />
-          <pre>
-            <i>{fasit.requestFailed}</i>
-          </pre>
-        </div>
-      )
+  if (fasit.requestFailed) {
+    if (fasit.requestFailed.startsWith("404")) {
+      return <NotFound />
     }
-
-    if (fasit.isFetching || Object.keys(resource).length === 0) {
-      return <Spinner />
-    }
-
-    if (Object.keys(resource).length > 0) {
-      authorized = validAuthorization(user, fasit.data.accesscontrol)
-      lifecycle = fasit.data.lifecycle
-    }
-
     return (
       <div>
-        <div className="row">
-          <div className="col-md-8" style={styles.cardPadding}>
-            {<CurrentRevision revisionId={query.revision} revisions={revisions} />}
-            <Card>
-              <CardHeader
-                avatar={resourceTypeIcon(resource.type)}
-                slotProps={{title: {style: styles.bold}}}
-                title={`${getResourceTypeName(resource.type)} ${resource.alias}`}
-                subheader={this.scopeDisplayString(resource.scope)}
-              />
-              <CardContent>
-                {this.renderResourceProperties(resource.properties)}
-                {this.exposedByApplication()}
-                {resource.type.toLowerCase() === "deploymentmanager" && (
-                  <WebsphereManagementConsole hostname={resource.properties.hostname} />
-                )}
-              </CardContent>
-              <CardActions>
-                <ToolButtons
-                  disabled={!authorized || resourceModalVisible}
-                  onEditClick={() => this.showModal("edit")}
-                  onDeleteClick={() => this.toggleComponentDisplay("displayDeleteForm")}
-                  onCopyClick={() => this.showModal("copy")}
-                  editMode={this.state.editMode}
-                />
-              </CardActions>
-            </Card>
-            <Lifecycle lifecycle={lifecycle} />
-          </div>
-
-          <div className="col-md-4">
-            <History id={id} currentRevision={query.revision} component="resource" />
-            <Security accesscontrol={fasit.data.accesscontrol} />
-          </div>
-        </div>
-
-        <div className="row col-md-8">
-          <ResourceInstances instances={fasit.data.usedbyapplications} />
-        </div>
-
-        <DeleteElementForm
-          displayDeleteForm={this.state.displayDeleteForm}
-          id={id}
-          onClose={() => this.toggleComponentDisplay("displayDeleteForm")}
-          onSubmit={() => this.deleteResource(id)}
-        />
+        Retrieving resource {id} failed with the following message:
+        <br />
+        <pre>
+          <i>{fasit.requestFailed}</i>
+        </pre>
       </div>
     )
   }
 
-  getResourceType(typeKey) {
-    const key = Object.keys(resourceTypes).filter(
-      resourceType => resourceType.toLowerCase() === typeKey.toLowerCase()
-    )[0]
-    return resourceTypes[key]
+  if (fasit.isFetching || Object.keys(resource).length === 0) {
+    return <Spinner />
   }
+
+  if (Object.keys(resource).length > 0) {
+    authorized = validAuthorization(user, fasit.data.accesscontrol)
+    lifecycle = fasit.data.lifecycle
+  }
+
+  return (
+    <div>
+      <div className="row">
+        <div className="col-md-8" style={styles.cardPadding}>
+          {<CurrentRevision revisionId={query.revision} revisions={revisions} />}
+          <Card>
+            <CardHeader
+              avatar={resourceTypeIcon(resource.type)}
+              slotProps={{title: {style: styles.bold}}}
+              title={`${getResourceTypeName(resource.type)} ${resource.alias}`}
+              subheader={scopeDisplayString(resource.scope)}
+            />
+            <CardContent>
+              {renderResourceProperties()}
+              {exposedByApplication()}
+              {resource.type.toLowerCase() === "deploymentmanager" && (
+                <WebsphereManagementConsole hostname={resource.properties.hostname} />
+              )}
+            </CardContent>
+            <CardActions>
+              <ToolButtons
+                disabled={!authorized || resourceModalVisible}
+                onEditClick={() => showModal("edit")}
+                onDeleteClick={() => toggleComponentDisplay("displayDeleteForm")}
+                onCopyClick={() => showModal("copy")}
+                editMode={editMode}
+              />
+            </CardActions>
+          </Card>
+          <Lifecycle lifecycle={lifecycle} />
+        </div>
+
+        <div className="col-md-4">
+          <History id={id} currentRevision={query.revision} component="resource" />
+          <Security accesscontrol={fasit.data.accesscontrol} />
+        </div>
+      </div>
+
+      <div className="row col-md-8">
+        <ResourceInstances instances={fasit.data.usedbyapplications} />
+      </div>
+
+      <DeleteElementForm
+        displayDeleteForm={displayDeleteForm}
+        id={id}
+        onClose={() => toggleComponentDisplay("displayDeleteForm")}
+        onSubmit={() => deleteResource(id)}
+      />
+    </div>
+  )
 }
 
 const mapStateToProps = state => {
@@ -381,7 +330,6 @@ const mapStateToProps = state => {
     user: state.user,
     config: state.configuration,
     query: parseQuery(state.router.location.search),
-    revisions: state.revisions,
     resourceModalVisible: state.resources.showNewResourceForm
   }
 }

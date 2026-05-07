@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from 'prop-types'
 import { Modal } from "../common/Modal"
 import { connect } from "react-redux"
@@ -20,101 +20,98 @@ import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes"
 import Chip from "@mui/material/Chip"
 import Scope from "./Scope"
 
-class NewResourceForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      alias: "",
-      type: "",
-      properties: {},
-      scope: {
-        environmentclass: "u",
-        environment: null,
-        zone: null,
-        application: null
-      },
-      currentFiles: {},
-      currentSecrets: {},
-      validationErrors: null,
-      comment: ""
-    }
-  }
+function NewResourceForm({ dispatch, showNewResourceForm, environmentClasses, currentSecrets: propCurrentSecrets, applications, types, environments, zones, user, resource, mode }) {
+  const [alias, setAlias] = useState("")
+  const [type, setType] = useState("")
+  const [properties, setProperties] = useState({})
+  const [scope, setScope] = useState({
+    environmentclass: "u",
+    environment: null,
+    zone: null,
+    application: null
+  })
+  const [currentFiles, setCurrentFiles] = useState({})
+  const [currentSecrets, setCurrentSecrets] = useState({})
+  const [validationErrors, setValidationErrors] = useState(null)
+  const [comment, setComment] = useState("")
+  const [files, setFiles] = useState({})
 
-  resetFormState() {
-    this.setState({
-      alias: "",
-      type: "",
-      properties: {},
-      scope: {
-        environmentclass: "u",
-        environment: null,
-        zone: null,
-        application: null
-      },
-      currentFiles: {},
-      currentSecrets: {},
-      validationErrors: null,
-      comment: ""
+  const resetFormState = () => {
+    setAlias("")
+    setType("")
+    setProperties({})
+    setScope({
+      environmentclass: "u",
+      environment: null,
+      zone: null,
+      application: null
     })
+    setCurrentFiles({})
+    setCurrentSecrets({})
+    setValidationErrors(null)
+    setComment("")
+    setFiles({})
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.mode !== prevProps.mode || this.props.resource !== prevProps.resource || this.props.currentSecrets !== prevProps.currentSecrets) {
-      const { resource } = this.props
-      const { alias, type, properties, scope, files } = resource.data
-      if (this.props.mode === "edit") {
-          this.setState({
-              alias,
-              type,
-              properties,
-              scope,
-              files,
-              currentSecrets: this.props.currentSecrets
-          })
-      }
-      else if (this.props.mode === "copy") {
-          this.setState({
-              alias,
-              type,
-              properties,
-              scope,
-              files
-          })
-      }
+  const resetLocalState = () => {
+    setAlias("")
+    setProperties({})
+    setFiles({})
+    setCurrentSecrets({})
+    setCurrentFiles({})
+    setComment("")
+    setValidationErrors(null)
+  }
 
-      else {
-        this.resetLocalState()
-      }
+  useEffect(() => {
+    const { data } = resource
+    const { alias: rAlias, type: rType, properties: rProps, scope: rScope, files: rFiles } = data
+    if (mode === "edit") {
+      setAlias(rAlias)
+      setType(rType)
+      setProperties(rProps)
+      setScope(rScope)
+      setFiles(rFiles)
+      setCurrentSecrets(propCurrentSecrets)
+    } else if (mode === "copy") {
+      setAlias(rAlias)
+      setType(rType)
+      setProperties(rProps)
+      setScope(rScope)
+      setFiles(rFiles)
+    } else {
+      resetLocalState()
     }
-  }
+  }, [mode, resource, propCurrentSecrets]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  resetLocalState() {
-    this.setState({
-      alias: "",
-      properties: {},
-      files: {},
-      currentSecrets: {},
-      currentFiles: {},
-      comment: "",
-      validationErrors: null
-    })
-  }
-
-  handleChange(field, newValue, parent) {
-    if (field === "type" && this.state.type !== newValue) {
-      this.resetLocalState()
+  const handleChange = (field, newValue, parent) => {
+    if (field === "type" && type !== newValue) {
+      resetLocalState()
     }
 
     if (parent) {
-      const parentState = this.state[parent]
-      parentState[field] = newValue
-      this.setState({ parent: parentState })
+      switch (parent) {
+        case "properties":
+          setProperties(prev => ({ ...prev, [field]: newValue }))
+          break
+        case "currentSecrets":
+          setCurrentSecrets(prev => ({ ...prev, [field]: newValue }))
+          break
+        case "scope":
+          setScope(prev => ({ ...prev, [field]: newValue }))
+          break
+      }
     } else {
-      this.setState({ [field]: newValue })
+      switch (field) {
+        case "alias": setAlias(newValue); break
+        case "type": setType(newValue); break
+        case "comment": setComment(newValue); break
+        case "scope": setScope(newValue); break
+      }
     }
   }
 
-  removeEmpty(obj) {
+  const removeEmpty = (obj) => {
     const cleanObj = { ...obj }
     Object.keys(cleanObj).forEach(key => {
       if (!cleanObj[key]) {
@@ -124,27 +121,53 @@ class NewResourceForm extends Component {
     return cleanObj
   }
 
-  handleSubmitForm() {
-    const { dispatch, resource, mode } = this.props
-    const {
-      alias,
-      type,
-      properties,
-      files,
-      comment,
-      currentSecrets,
-      currentFiles
-    } = this.state
+  const getResourceType = (typeKey) => {
+    if (!typeKey) {
+      return ""
+    }
+    const key = Object.keys(resourceTypes).filter(
+      resourceType => resourceType.toLowerCase() === typeKey.toLowerCase()
+    )[0]
 
-    if (!this.isValid()) {
-      this.setState({ validationErrors: true })
+    return resourceTypes[key]
+  }
+
+  const isValid = () => {
+    function keys(prop) {
+      return Object.keys(prop)
+    }
+
+    if (!alias) {
+      return false
+    }
+
+    const resourceType = getResourceType(type)
+    const requiredProperties = resourceType.properties
+      .filter(p => p.required)
+      .map(p => p.name)
+    const currentProperties = keys(properties)
+      .concat(
+        keys(currentSecrets).concat(keys(currentFiles))
+      )
+      .filter(
+        prop =>
+          requiredProperties.includes(prop) &&
+          properties[prop] !== ""
+      )
+
+    return requiredProperties.length === currentProperties.length
+  }
+
+  const handleSubmitForm = () => {
+    if (!isValid()) {
+      setValidationErrors(true)
     } else {
-      const scope = this.removeEmpty(this.state.scope)
+      const cleanScope = removeEmpty(scope)
       const form = {
         alias: alias.trim(),
         type,
         properties,
-        scope
+        scope: cleanScope
       }
 
       if (Object.keys(currentSecrets).length > 0) {
@@ -164,49 +187,45 @@ class NewResourceForm extends Component {
         dispatch(submitForm(resource.data.id, form, comment, "resource"))
       } else {
         dispatch(submitForm(form.alias, form, comment, "newResource"))
-        //this.initialState()
       }
     }
   }
 
-  handleFileUpload(field, event) {
+  const handleFileUpload = (field, event) => {
     const FILE = event.target.files[0]
     const reader = new FileReader()
     reader.onload = upload => {
       const base64 = upload.target.result
-      const files = {}
-      files[field] = { name: FILE.name, data: base64 }
-      this.setState({ currentFiles: files })
+      const newFiles = {}
+      newFiles[field] = { name: FILE.name, data: base64 }
+      setCurrentFiles(newFiles)
     }
 
     reader.readAsDataURL(FILE)
   }
 
-  closeForm() {
-    this.resetFormState()
-    this.props.dispatch(displayModal("resource", false))
+  const closeForm = () => {
+    resetFormState()
+    dispatch(displayModal("resource", false))
   }
 
-  displayValidationError(prop, isRequired) {
-    const { validationErrors } = this.state
-
+  const displayValidationError = (prop, isRequired) => {
     return validationErrors && isRequired && (!prop || prop === "")
   }
 
-  renderProperty(property) {
+  const renderProperty = (property) => {
     const key = property.name
     const label = `${property.displayName}${
       property.required === true ? " *" : ""
     }`
-    const { properties, currentSecrets, currentFiles } = this.state
 
-    const SecretInput = ({ key, value }) =>
+    const SecretInput = ({ key: k, value }) =>
       <MaterialTextBox
-          key={key}
-          field={key}
+          key={k}
+          field={k}
           errorText={
-            this.displayValidationError(
-                currentSecrets[key],
+            displayValidationError(
+                currentSecrets[k],
                 property.required
             )
                 ? "Required secret "
@@ -215,27 +234,27 @@ class NewResourceForm extends Component {
           value={value}
           label={label}
           onChange={(field, newValue) =>
-              this.handleChange(field, { value: newValue }, "currentSecrets")
+              handleChange(field, { value: newValue }, "currentSecrets")
           }
       />
 
-    const VaultPathInput = ({ key, value }) =>
+    const VaultPathInput = ({ key: k, value }) =>
       <MaterialTextArea
-          key={key}
-          field={key}
+          key={k}
+          field={k}
           errorText={
-            this.displayValidationError(properties[key], property.required)
+            displayValidationError(properties[k], property.required)
                 ? "Required property "
                 : null
           }
           value={value}
           label={`${label} (Vault Path)`}
           onChange={(field, newValue) =>
-              this.handleChange(field, { vaultpath: newValue }, "currentSecrets")
+              handleChange(field, { vaultpath: newValue }, "currentSecrets")
           }
       />
 
-    const currentSecret = this.state.currentSecrets[key]
+    const currentSecret = currentSecrets[key]
 
     switch (property.type) {
       case "textbox":
@@ -244,15 +263,15 @@ class NewResourceForm extends Component {
             key={key}
             field={key}
             errorText={
-              this.displayValidationError(properties[key], property.required)
+              displayValidationError(properties[key], property.required)
                 ? "Required property "
                 : null
             }
             hintText={property.hint}
-            value={this.state.properties[key]}
+            value={properties[key]}
             label={label}
             onChange={(field, newValue) =>
-              this.handleChange(field, newValue, "properties")
+              handleChange(field, newValue, "properties")
             }
           />
         )
@@ -263,14 +282,14 @@ class NewResourceForm extends Component {
             key={key}
             field={key}
             errorText={
-              this.displayValidationError(properties[key], property.required)
+              displayValidationError(properties[key], property.required)
                 ? "Required property "
                 : null
             }
-            value={this.state.properties[key]}
+            value={properties[key]}
             label={label}
             onChange={(field, newValue) =>
-              this.handleChange(field, newValue, "properties")
+              handleChange(field, newValue, "properties")
             }
           />
         )
@@ -279,11 +298,11 @@ class NewResourceForm extends Component {
           <MaterialDropDown
             key={key}
             field={key}
-            value={this.state.properties[key]}
+            value={properties[key]}
             label={label}
             options={property.options}
             onChange={(field, newValue) =>
-              this.handleChange(field, newValue, "properties")
+              handleChange(field, newValue, "properties")
             }
           />
         )
@@ -315,12 +334,12 @@ class NewResourceForm extends Component {
               component="label"
               disableRipple
               startIcon={icons.fileUpload}
-              onChange={event => this.handleFileUpload(key, event)}
+              onChange={event => handleFileUpload(key, event)}
             >
               {`Upload ${label}`}
               <input type="file" style={{ display: "none" }} multiple={false} />
             </Button>
-            {this.displayValidationError(
+            {displayValidationError(
               currentFiles[key],
               property.required
             ) ? (
@@ -334,10 +353,10 @@ class NewResourceForm extends Component {
                 Required file
               </div>
             ) : null}
-            {this.state.currentFiles[key] && (
+            {currentFiles[key] && (
               <Chip style={styles.marginLeft5}>
                 {icons.fileAvatar}
-                {this.state.currentFiles[key].name}
+                {currentFiles[key].name}
               </Chip>
             )}
           </div>
@@ -350,67 +369,30 @@ class NewResourceForm extends Component {
     }
   }
 
-  getResourceType(typeKey) {
-    if (!typeKey) {
-      return ""
-    }
-    const key = Object.keys(resourceTypes).filter(
-      resourceType => resourceType.toLowerCase() === typeKey.toLowerCase()
-    )[0]
-
-    return resourceTypes[key]
-  }
-
-  renderProperties() {
-    const resourceType = this.getResourceType(this.state.type)
+  const renderProperties = () => {
+    const resourceType = getResourceType(type)
     if (resourceType !== "") {
-      const properties = resourceType.properties
+      const props = resourceType.properties
       return (
         <div>
           <MaterialTextBox
             field="alias"
-            value={this.state.alias}
+            value={alias}
             errorText={
-              this.state.validationErrors && !this.state.alias
+              validationErrors && !alias
                 ? "Required property "
                 : null
             }
             label="Alias*"
-            onChange={this.handleChange.bind(this)}
+            onChange={handleChange}
           />
-          {properties.map(property => this.renderProperty(property))}
+          {props.map(property => renderProperty(property))}
         </div>
       )
     }
   }
 
-  isValid() {
-    function keys(prop) {
-      return Object.keys(prop)
-    }
-
-    if (!this.state.alias) {
-      return false
-    }
-
-    const resourceType = this.getResourceType(this.state.type)
-    const requiredProperties = resourceType.properties
-      .filter(p => p.required)
-      .map(p => p.name)
-    const currentProperties = keys(this.state.properties)
-      .concat(
-        keys(this.state.currentSecrets).concat(keys(this.state.currentFiles))
-      )
-      .filter(
-        prop =>
-          requiredProperties.includes(prop) &&
-          this.state.properties[prop] !== ""
-      )
-
-    return requiredProperties.length === currentProperties.length
-  }
-
-  loginWarning(authenticated) {
+  const loginWarning = (authenticated) => {
     if (!authenticated) {
       return (
         <div className="alert alert-info">
@@ -420,84 +402,82 @@ class NewResourceForm extends Component {
     }
   }
 
-  render() {
-    const { showNewResourceForm, types, user, mode, resource } = this.props
-    let authenticated = user.authenticated
-    const resourceType = getResourceTypeName(this.state.type)
+  let authenticated = user.authenticated
+  const resourceType = getResourceTypeName(type)
 
-    return (
-      <Modal
-        show={showNewResourceForm}
-        animation={false}
-        keyboard={true}
-        enforceFocus={false}
-        onHide={this.closeForm.bind(this)}
-      >
-        <Modal.Header closeButton={true}>
-          <Modal.Title>
-            <div>
-              {icons.resourceAvator} &emsp;{mode &&
-                `${capitalize(mode)} resource ${
-                  mode !== "new" ? resource.data.id : ""
-                }`}
-            </div>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {this.loginWarning(authenticated)}
-          <MaterialDropDown
-            field="type"
-            value={this.state.type}
-            label="Type"
-            options={types}
-            onChange={this.handleChange.bind(this)}
-            fullWidth={false}
-          />
-
-          {this.renderProperties()}
-          <br />
-          <Scope
-            editMode={true}
-            scope={this.state.scope}
-            handleChange={this.handleChange.bind(this)}
-            environmentClasses={this.props.environmentClasses}
-            environments={this.props.environments}
-            applications={this.props.applications}
-            zones={this.props.zones}
-          />
-          <MaterialTextBox
-            field="comment"
-            value={this.state.comment}
-            label={"Comment"}
-            onChange={this.handleChange.bind(this)}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <div className="row col-md-12" style={{ display: "flex", paddingLeft: "15px", margin: "8px", justifyContent: "flex-end" }}>
-            <Button
-              variant="contained"
-              disableRipple
-              disabled={!this.state.type || this.state.type === ""}
-              onClick={this.handleSubmitForm.bind(this, true)}
-              style={{backgroundColor: colors.avatarBackgroundColor, color: colors.white, width: "88px"}}
-            >
-              submit
-            </Button>
-
-            <Button
-              variant="text"
-              disableRipple
-              onClick={this.closeForm.bind(this)}
-              style={{ marginLeft: "8px", width: "88px" }}
-            >
-              cancel
-            </Button>
+  return (
+    <Modal
+      show={showNewResourceForm}
+      animation={false}
+      keyboard={true}
+      enforceFocus={false}
+      onHide={closeForm}
+    >
+      <Modal.Header closeButton={true}>
+        <Modal.Title>
+          <div>
+            {icons.resourceAvator} &emsp;{mode &&
+              `${capitalize(mode)} resource ${
+                mode !== "new" ? resource.data.id : ""
+              }`}
           </div>
-        </Modal.Footer>
-      </Modal>
-    )
-  }
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {loginWarning(authenticated)}
+        <MaterialDropDown
+          field="type"
+          value={type}
+          label="Type"
+          options={types}
+          onChange={handleChange}
+          fullWidth={false}
+        />
+
+        {renderProperties()}
+        <br />
+        <Scope
+          editMode={true}
+          scope={scope}
+          handleChange={handleChange}
+          environmentClasses={environmentClasses}
+          environments={environments}
+          applications={applications}
+          zones={zones}
+        />
+        <MaterialTextBox
+          field="comment"
+          value={comment}
+          label={"Comment"}
+          onChange={handleChange}
+        />
+      </Modal.Body>
+      <Modal.Footer>
+        <div className="row col-md-12" style={{ display: "flex", paddingLeft: "15px", margin: "8px", justifyContent: "flex-end" }}>
+          <Button
+            variant="contained"
+            disableRipple
+            disabled={!type || type === ""}
+            onClick={handleSubmitForm}
+            style={{backgroundColor: colors.avatarBackgroundColor, color: colors.white, width: "88px"}}
+          >
+            submit
+          </Button>
+
+          <Button
+            variant="text"
+            disableRipple
+            onClick={closeForm}
+            style={{ marginLeft: "8px", width: "88px" }}
+          >
+            cancel
+          </Button>
+        </div>
+      </Modal.Footer>
+    </Modal>
+  )
 }
+
 NewResourceForm.propTypes = {
   dispatch: PropTypes.func.isRequired
 }
