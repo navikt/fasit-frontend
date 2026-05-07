@@ -1,9 +1,1 @@
-let loadedModule = null;
-
-if (process.env.NODE_ENV === 'production') {
-    loadedModule = require('./Root.prod.js');
-} else {
-    loadedModule = require('./Root.dev.js');
-}
-
-export const Root = loadedModule.default || loadedModule;
+export { default as Root } from './Root.prod.js';

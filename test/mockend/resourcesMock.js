@@ -189,7 +189,7 @@ const resources = [
       environment: "u69",
       version: "2.10.3",
       id: 404,
-      ref: "http://localhost:6969/mockapi/applicationinstances/404"
+      ref: "http://localhost:4242/mockapi/applicationinstances/404"
     },
     secrets: {},
     files: {},
@@ -204,8 +204,8 @@ const resources = [
     },
     usedbyapplications: [],
     links: {
-      self: "http://localhost:6969/resources/4",
-      revisions: "http://localhost:6969/resources/4/revisions"
+      self: "http://localhost:4242/resources/4",
+      revisions: "http://localhost:4242/resources/4/revisions"
     }
   },
   {
@@ -391,7 +391,7 @@ const resources = [
     },
     secrets: {
       keystorepassword: {
-        ref: "http://localhost:6969/mockapi/v2/secrets/242159"
+        ref: "http://localhost:4242/mockapi/v2/secrets/242159"
       }
     },
     files: {
@@ -488,7 +488,7 @@ const resources = [
     secrets: {
       password: {
         vaultpath: "oracle/data/dev/creds/inst_q8-user/password",
-        ref: "http://localhost:6969/mockapi/v2/secrets/771398"
+        ref: "http://localhost:4242/mockapi/v2/secrets/771398"
       }
     },
     files: {},
@@ -522,7 +522,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/v2/secrets/771397"
+        ref: "http://localhost:4242/mockapi/v2/secrets/771397"
       }
     },
     files: {},
@@ -554,7 +554,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/v2/secrets/242389"
+        ref: "http://localhost:4242/mockapi/v2/secrets/242389"
       }
     },
     files: {},
@@ -612,7 +612,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/v2/secrets/771549"
+        ref: "http://localhost:4242/mockapi/v2/secrets/771549"
       }
     },
     files: {},
@@ -673,7 +673,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/v2/secrets/1729516"
+        ref: "http://localhost:4242/mockapi/v2/secrets/1729516"
       }
     },
     files: {},
@@ -856,7 +856,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/v2/secrets/373797"
+        ref: "http://localhost:4242/mockapi/v2/secrets/373797"
       }
     },
     files: {},
@@ -914,7 +914,7 @@ const resources = [
     },
     secrets: {
       keystorepassword: {
-        ref: "http://localhost:6969/mockapi/v2/secrets/3512"
+        ref: "http://localhost:4242/mockapi/v2/secrets/3512"
       }
     },
     files: {
@@ -1074,7 +1074,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/v2/secrets/378545"
+        ref: "http://localhost:4242/mockapi/v2/secrets/378545"
       }
     },
     files: {},
@@ -1171,7 +1171,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "http://localhost:6969/mockapi/v2/secrets/679729"
+        ref: "http://localhost:4242/mockapi/v2/secrets/679729"
       }
     },
     files: {},
@@ -1194,21 +1194,21 @@ const resources = [
         environment: "u69",
         id: 200,
         version: "10.2.1",
-        ref: "http://localhost:6969/mockapi/applicationinstances/404"
+        ref: "http://localhost:4242/mockapi/applicationinstances/404"
       },
       {
         application: "ruting",
         environment: "u70",
         id: 201,
         version: "6.0.14",
-        ref: "http://localhost:6969/mockapi/applicationinstances/404"
+        ref: "http://localhost:4242/mockapi/applicationinstances/404"
       },
       {
         application: "gosys",
         id: 202,
         environment: "u96",
         version: "9.4.2",
-        ref: "http://localhost:6969/mockapi/applicationinstances/404"
+        ref: "http://localhost:4242/mockapi/applicationinstances/404"
       }
     ],
     links: {

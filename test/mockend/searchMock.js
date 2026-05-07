@@ -7,7 +7,7 @@ const search = [
     {
         "id": 1212211,
         "name": "suchabadbutcoolhostname.com",
-        "link": "http://localhost:6969/mockapi/nodes/suchabadbutcoolhostname.com",
+        "link": "http://localhost:4242/mockapi/nodes/suchabadbutcoolhostname.com",
         "type": "node",
         "info": "WAS",
         "lastchange": 1402912329491,
@@ -21,7 +21,7 @@ const search = [
     {
         "id": 868933,
         "name": "jauKløsterJa",
-        "link": "http://localhost:6969/mockapi/environments/p/clusters/jauKløsterJa",
+        "link": "http://localhost:4242/mockapi/environments/p/clusters/jauKløsterJa",
         "type": "cluster",
         "info": "u1",
         "lastchange": 1433246644739,
@@ -54,7 +54,7 @@ const search = [
     {
         "id": 103403,
         "name": "u2",
-        "link": "http://localhost:6969/mockapi/environments/esso-u2",
+        "link": "http://localhost:4242/mockapi/environments/esso-u2",
         "type": "environment",
         "lastchange": 1492583778425,
         "info": "",
@@ -64,7 +64,7 @@ const search = [
     {
         "id": 407242,
         "name": "someapp",
-        "link": "http://localhost:6969/mockapi/applications/bisys",
+        "link": "http://localhost:4242/mockapi/applications/bisys",
         "type": "application",
         "info": "",
         "lastchange": 1491558188020,
@@ -78,7 +78,7 @@ const search = [
     {
         "id": 279177,
         "name": "wasDmgr",
-        "link": "http://localhost:6969/mockapi/resources/279177",
+        "link": "http://localhost:4242/mockapi/resources/279177",
         "type": "resource",
         "info": "DeploymentManager | u/FSS/u2/-",
         "lastchange": 1386574313728,
@@ -93,7 +93,7 @@ const search = [
     {
         "id": 826420,
         "name": "anapp:3.25.4.build_257",
-        "link": "http//localhost:6969/mockapi/applicationinstances/826420",
+        "link": "http//localhost:4242/mockapi/applicationinstances/826420",
         "type": "instance",
         "info": "anapp:3.25.4.build_257",
         "lastchange": 1484561429096,
@@ -108,7 +108,7 @@ const search = [
     {
         "id": 1536733,
         "name": "THIS_IS_A_QUEUE",
-        "link": "http://localhost:6969/mockapi/resources/1536733",
+        "link": "http://localhost:4242/mockapi/resources/1536733",
         "type": "resource",
         "info": "Queue | p/FSS/p/oppdrag",
         "lastchange": 1494493054426,
@@ -123,7 +123,7 @@ const search = [
     {
         "id": 506390,
         "name": "apppropz",
-        "link": "http://localhost:6969/mockapi/resources/506390",
+        "link": "http://localhost:4242/mockapi/resources/506390",
         "type": "resource",
         "info": "ApplicationProperties | t/FSS/-/-",
         "lastchange": 1494493044426,
@@ -137,7 +137,7 @@ const search = [
     {
         "id": 830929,
         "name": "BidragDataSource",
-        "link": "http://localhost:6969/mockapi/resources/830929",
+        "link": "http://localhost:4242/mockapi/resources/830929",
         "type": "resource",
         "info": "DB2DataSource | q/FSS/o1/-",
         "lastchange": 1464790636282,
@@ -155,7 +155,7 @@ const search = [
     {
         "id": 103358,
         "name": "t1",
-        "link": "http://localhost:6969/mockapi/environments/t1",
+        "link": "http://localhost:4242/mockapi/environments/t1",
         "type": "environment",
         "info": "",
         "lifecycle": {},
@@ -164,7 +164,7 @@ const search = [
     {
         "id": 1435966,
         "name": "anotherapp:0.1.491",
-        "link": "http://localhost:6969/mockapi/applicationinstances/1435966",
+        "link": "http://localhost:4242/mockapi/applicationinstances/1435966",
         "type": "appconfig",
         "info": "anotherapp:0.1.491",
         "lastchange": 1498803889101,

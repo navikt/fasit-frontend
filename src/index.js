@@ -1,3 +1,4 @@
+import "./stylesheets/index.less"
 import React from "react"
 import { createRoot } from "react-dom/client"
 import history from "./js/history"

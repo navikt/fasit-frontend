@@ -1,10 +1,10 @@
 import React from 'react'
-import {pd} from 'pretty-data'
+import xmlFormat from 'xml-formatter'
 
 
 export default function PrettyXml(props) {
     const xml = String(props.xml).replace(/ns2:/g, '') // remove namespace noise
-    const prettyXml = pd.xml(xml)
+    const prettyXml = xmlFormat(xml, { indentation: '  ', collapseContent: true, lineSeparator: '\n' })
     const printable = props.filter ? prettyXml
         .split('\n')
         .filter(line => line.toLowerCase().includes(props.filter.toLowerCase()))

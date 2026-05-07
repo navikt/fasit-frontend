@@ -1,4 +1,3 @@
-const path = require("path")
 const express = require("express")
 
 const environmentsMock = require("./test/mockend/environmentsMock")
@@ -19,20 +18,16 @@ console.log("ext", config.externalResources)
 
 const app = new express()
 
-const webpack = require("webpack")
-const webpackConfig = require("./webpack.config.dev.js")
-
-const serverOptions = {
-  publicPath: webpackConfig.output.publicPath,
-  headers: { "Access-Control-Allow-Origin": "*" },
-  stats: { colors: true }
-}
-
-const compiler = webpack(webpackConfig)
-
-app.use(require("webpack-dev-middleware")(compiler, serverOptions))
-app.use(require("webpack-hot-middleware")(compiler))
-app.use(express.static(__dirname + "/dist"))
+// Enable CORS for dev mode (Vite dev server on different port)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200)
+  }
+  next()
+})
 
 /* Useful for making mock function sleep when simulating slow apis
  * sleep(5000).then(() => {sendJson(res, resourcesMock.getResource(req.params.id))})*/
@@ -223,9 +218,7 @@ if (process.env["NODE_ENV"] === "standalone") {
   })
 }
 
-app.get("*path", (req, res) => {
-  res.sendFile(path.join(__dirname, "./dist/index.html"))
-})
+
 
 function sendJson(res, json) {
   if (!json) {
@@ -243,7 +236,7 @@ app.listen(config.server.port, config.server.host, err => {
     return
   }
   console.info(
-    "----\n==> ✅  Webpack Development server is running on %s:%s.",
+    "----\n==> ✅  Mock API server is running on %s:%s.",
     config.server.host,
     config.server.port
   )

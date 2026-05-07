@@ -42,7 +42,7 @@ const nodes = [
     type: "jboss",
     username: "deployer",
     password: {
-      ref: "http://localhost:6969/mockapi/v2/secrets/1584992"
+      ref: "http://localhost:4242/mockapi/v2/secrets/1584992"
     },
     cluster: [
       {
@@ -74,7 +74,7 @@ const nodes = [
     zone: "fss",
     username: "deployer",
     password: {
-      ref: "http://localhost:6969/mockapi/v2/secrets/1595986"
+      ref: "http://localhost:4242/mockapi/v2/secrets/1595986"
     },
     cluster: [
       {
@@ -106,7 +106,7 @@ const nodes = [
     type: "jboss",
     username: "deployer",
     password: {
-      ref: "http://localhost:6969/mockapi/v2/secrets/428317"
+      ref: "http://localhost:4242/mockapi/v2/secrets/428317"
     },
     cluster: [
       {
@@ -147,7 +147,7 @@ const nodes = [
     type: "was",
     username: "deployer",
     password: {
-      ref: "http://localhost:6969/mockapi/v2/secrets/280131"
+      ref: "http://localhost:4242/mockapi/v2/secrets/280131"
     },
     cluster: [
       {
@@ -179,7 +179,7 @@ const nodes = [
     type: "jboss",
     username: "deployer",
     password: {
-      ref: "http://localhost:6969/mockapi/v2/secrets/876747"
+      ref: "http://localhost:4242/mockapi/v2/secrets/876747"
     },
     cluster: [
       {

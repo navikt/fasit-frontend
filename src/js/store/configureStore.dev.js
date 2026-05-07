@@ -25,11 +25,13 @@ export default function configureStore() {
         composeEnhancers(applyMiddleware(...middlewares))
     );
 
-    // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
-    if (module.hot) {
-        module.hot.accept('../reducers', () =>
-            store.replaceReducer(require('../reducers').default)
-        );
+    // Hot reload reducers (Vite HMR)
+    if (import.meta.hot) {
+        import.meta.hot.accept('../reducers', (newModule) => {
+            if (newModule) {
+                store.replaceReducer(newModule.default)
+            }
+        });
     }
     sagaMiddleware.run(rootSaga)
     return store;

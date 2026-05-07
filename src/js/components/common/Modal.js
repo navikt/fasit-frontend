@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogActions from "@mui/material/DialogActions"
 
 // Drop-in replacement for react-bootstrap Modal using MUI Dialog
-function Modal({ show, onHide, children, bsSize, dialogClassName, autoFocus, enforceFocus, ...props }) {
+function Modal({ show, onHide, children, bsSize, dialogClassName, autoFocus, enforceFocus, animation, keyboard, ...props }) {
   const maxWidth = bsSize === "small" ? "xs" : bsSize === "large" ? "lg" : "sm"
   return (
     <Dialog
