@@ -1,23 +1,16 @@
-import React, {Component} from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {
     fetchManifest
 } from "../../actionCreators/instance"
 import PrettyXml from '../common/PrettyXml'
 
-class Manifest extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount() {
-        const {dispatch} = this.props
+function Manifest({ dispatch, manifest }) {
+    useEffect(() => {
         dispatch(fetchManifest())
-    }
+    }, [])
 
-    render() {
-        return (<PrettyXml xml={this.props.manifest}/>)
-    }
+    return (<PrettyXml xml={manifest}/>)
 }
 
 

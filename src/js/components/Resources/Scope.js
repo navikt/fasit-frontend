@@ -1,10 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { MaterialDropDown } from '../common/Forms'
 
-class Scope extends Component {
-
-    handleChange(field, newValue) {
-        const { scope, handleChange } = this.props
+function Scope({ scope, handleChange, environmentClasses, environments, applications, zones }) {
+    const onFieldChange = (field, newValue) => {
         const newScope = { ...scope }
         newScope[field] = newValue
 
@@ -15,46 +13,42 @@ class Scope extends Component {
         handleChange("scope", newScope)
     }
 
-    render() {
-        const { scope, environmentClasses, environments, applications, zones } = this.props
-
-        if (!scope) {
-            return null
-        }
-
-        return (
-            <div className="scope-well">
-                <div><b>Scope</b></div>
-                <MaterialDropDown
-                    field="environmentclass"
-                    value={scope.environmentclass}
-                    label="Environment class"
-                    options={environmentClasses}
-                    onChange={this.handleChange.bind(this)}
-                    fullWidth={false} />
-                <MaterialDropDown
-                    field="environment"
-                    value={scope.environment}
-                    label="Environment"
-                    options={[null].concat(environments.filter(e => scope.environmentclass === e.environmentclass).map(e => e.name))}
-                    onChange={this.handleChange.bind(this)} fullWidth={false} /><br />
-                <MaterialDropDown
-                    field="zone"
-                    value={scope.zone}
-                    label="Zone"
-                    options={[null].concat(zones)}
-                    onChange={this.handleChange.bind(this)}
-                    fullWidth={false} />
-                <MaterialDropDown
-                    field="application"
-                    value={scope.application}
-                    label="Application"
-                    options={[null].concat(applications)}
-                    onChange={this.handleChange.bind(this)}
-                    fullWidth={false} />
-            </div>
-        )
+    if (!scope) {
+        return null
     }
+
+    return (
+        <div className="scope-well">
+            <div><b>Scope</b></div>
+            <MaterialDropDown
+                field="environmentclass"
+                value={scope.environmentclass}
+                label="Environment class"
+                options={environmentClasses}
+                onChange={onFieldChange}
+                fullWidth={false} />
+            <MaterialDropDown
+                field="environment"
+                value={scope.environment}
+                label="Environment"
+                options={[null].concat(environments.filter(e => scope.environmentclass === e.environmentclass).map(e => e.name))}
+                onChange={onFieldChange} fullWidth={false} /><br />
+            <MaterialDropDown
+                field="zone"
+                value={scope.zone}
+                label="Zone"
+                options={[null].concat(zones)}
+                onChange={onFieldChange}
+                fullWidth={false} />
+            <MaterialDropDown
+                field="application"
+                value={scope.application}
+                label="Application"
+                options={[null].concat(applications)}
+                onChange={onFieldChange}
+                fullWidth={false} />
+        </div>
+    )
 }
 
 export default Scope

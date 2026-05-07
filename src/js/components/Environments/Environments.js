@@ -1,47 +1,38 @@
-import React, {Component} from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import EnvironmentCard from "./EnvironmentCard";
 import Filters from "../Navigation/Filters";
 import Environment from "./Environment";
 import {submitFilterString} from "../../actionCreators/element_lists";
 
-class Environments extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount() {
-        const { dispatch, match } = this.props
+function Environments({ dispatch, environments, match, totalCount }) {
+    useEffect(() => {
         if(!match.params.environment) {
             dispatch(submitFilterString("environments", 0))
         }
+    }, [])
+
+    if (match.params.environment) {
+        return <Environment name={match.params.environment} clusterName={match.params.cluster}/>
     }
 
-    render() {
-        const { environments, match, totalCount } = this.props
-
-        if (match.params.environment) {
-            return <Environment name={match.params.environment} clusterName={match.params.cluster}/>
-        }
-
-        return (
-            <div className="main-content-container">
-                <div className="row">
-                    <div className="col-sm-6 col-12">
-                        <Filters  />
-                    </div>
-                </div>
-                <div className="col-sm-10">
-                    <div className="row">
-                        <h4>{totalCount} environments</h4>
-                        {environments.map((item, index) => {
-                            return <EnvironmentCard environment={item} key={index} />
-                        })}
-                    </div>
+    return (
+        <div className="main-content-container">
+            <div className="row">
+                <div className="col-sm-6 col-12">
+                    <Filters  />
                 </div>
             </div>
-        )
-    }
+            <div className="col-sm-10">
+                <div className="row">
+                    <h4>{totalCount} environments</h4>
+                    {environments.map((item, index) => {
+                        return <EnvironmentCard environment={item} key={index} />
+                    })}
+                </div>
+            </div>
+        </div>
+    )
 }
 
 const mapStateToProps = (state) => {

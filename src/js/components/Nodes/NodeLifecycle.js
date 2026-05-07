@@ -1,26 +1,19 @@
-import React, { Component } from "react"
+import React from "react"
 import PropTypes from 'prop-types'
 import { connect } from "react-redux"
 
-class NodeLifecycle extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    const { lifecycle } = this.props
-    switch (lifecycle.status) {
-      case "stopped":
-        return <div className="alert alert-danger col-md-8">This element was stopped.</div>
-      case "alerted":
-        return (
-          <div className="alert alert-danger col-md-8">
-            This element is a candidate for deletion.
-          </div>
-        )
-      default:
-        return <div />
-    }
+function NodeLifecycle({ lifecycle }) {
+  switch (lifecycle.status) {
+    case "stopped":
+      return <div className="alert alert-danger col-md-8">This element was stopped.</div>
+    case "alerted":
+      return (
+        <div className="alert alert-danger col-md-8">
+          This element is a candidate for deletion.
+        </div>
+      )
+    default:
+      return <div />
   }
 }
 

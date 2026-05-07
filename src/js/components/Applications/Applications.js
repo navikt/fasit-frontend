@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import Filters from "../Navigation/Filters"
 import Application from "./Application"
@@ -6,44 +6,35 @@ import ApplicationCard from "./ApplicationCard"
 import { submitFilterString } from "../../actionCreators/element_lists"
 import Spinner from "../common/Spinner"
 
-export class Applications extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  componentDidMount() {
-    const { dispatch, match } = this.props
+export function Applications({ dispatch, applications, totalCount, isFetching, match }) {
+  useEffect(() => {
     if (!match.params.application) {
       dispatch(submitFilterString("applications", 0))
     }
-  }
+  }, [])
 
-  render() {
-    const { applications, totalCount, isFetching } = this.props
-
-    if (this.props.match.params.application) {
-      return <Application name={this.props.match.params.application} />
-    } else {
-      return isFetching ? (
-        <Spinner />
-      ) : (
-        <div className="main-content-container">
-          <div className="row col-sm-10">
-            <div className="col-sm-6 col-12">
-              <Filters />
-            </div>
-          </div>
-          <div className="col-sm-10">
-            <div className="row">
-              <h4>{totalCount} applications</h4>
-              {applications.map((item, index) => {
-                return <ApplicationCard application={item} key={index} />
-              })}
-            </div>
+  if (match.params.application) {
+    return <Application name={match.params.application} />
+  } else {
+    return isFetching ? (
+      <Spinner />
+    ) : (
+      <div className="main-content-container">
+        <div className="row col-sm-10">
+          <div className="col-sm-6 col-12">
+            <Filters />
           </div>
         </div>
-      )
-    }
+        <div className="col-sm-10">
+          <div className="row">
+            <h4>{totalCount} applications</h4>
+            {applications.map((item, index) => {
+              return <ApplicationCard application={item} key={index} />
+            })}
+          </div>
+        </div>
+      </div>
+    )
   }
 }
 

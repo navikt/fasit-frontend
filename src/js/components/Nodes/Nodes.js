@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import NodeCard from "./NodesCard";
 import ElementPaging from "../common/ElementPaging";
@@ -6,45 +6,35 @@ import Filters from "../Navigation/Filters";
 import Node from "./Node";
 import { submitFilterString } from "../../actionCreators/element_lists";
 
-class Nodes extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount() {
-        const { dispatch, match } = this.props
+function Nodes({ dispatch, nodes, totalCount, match }) {
+    useEffect(() => {
         if (!match.params.node) {
             dispatch(submitFilterString("nodes", 0))
         }
+    }, [])
+
+    if (match.params.node) {
+        return <Node hostname={match.params.node} />
     }
 
-    render() {
-        const { nodes, totalCount, match } = this.props
-
-
-        if (match.params.node) {
-            return <Node hostname={match.params.node} />
-        }
-
-        return (
-            <div className="main-content-container">
-                <div className="row">
-                    <div className="col-sm-6 col-12">
-                        <Filters />
-                    </div>
+    return (
+        <div className="main-content-container">
+            <div className="row">
+                <div className="col-sm-6 col-12">
+                    <Filters />
                 </div>
-                <div className="col-sm-10">
-                    <div className="row">
-                        <h4>{totalCount} nodes</h4>
-                        {nodes.map((item, index) => <NodeCard node={item} key={index} />)}
-                        <div className="col-sm-2 ms-auto">
-                            <ElementPaging />
-                        </div>
+            </div>
+            <div className="col-sm-10">
+                <div className="row">
+                    <h4>{totalCount} nodes</h4>
+                    {nodes.map((item, index) => <NodeCard node={item} key={index} />)}
+                    <div className="col-sm-2 ms-auto">
+                        <ElementPaging />
                     </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 
