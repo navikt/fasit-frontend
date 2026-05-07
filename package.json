@@ -5,71 +5,17 @@
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-    "start": "better-npm-run start",
-    "clean": "better-npm-run clean",
-    "prebuild": "better-npm-run prebuild",
-    "premocked": "better-npm-run prebuild",
-    "predev": "better-npm-run prebuild",
-    "dev": "better-npm-run dev",
-    "build": "better-npm-run build",
-    "mockserver": "better-npm-run mockserver",
-    "mocked": "better-npm-run mocked",
-    "test": "better-npm-run test",
+    "start": "cross-env NODE_ENV=production node production_server.js",
+    "clean": "node -e \"const fs=require('fs'); fs.rmSync('dist', {recursive:true, force:true})\"",
+    "prebuild": "npm run clean && node -e \"const fs=require('fs'); fs.mkdirSync('dist',{recursive:true}); fs.cpSync('src/images','dist/images',{recursive:true}); fs.cpSync('src/index.html','dist/index.html')\"",
+    "premocked": "npm run prebuild",
+    "predev": "npm run prebuild",
+    "dev": "cross-env NODE_PATH=./src NODE_ENV=development PORT=4242 node ./server.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
+    "mocked": "cross-env NODE_ENV=standalone NODE_PATH=./src PORT=6969 FASIT_URL=http://localhost:6969/mockapi node ./server.js",
+    "test": "cross-env NODE_ENV=production NODE_PATH=./src mocha --require @babel/register --require ./test/setup.js --recursive ./test/new",
     "test:watch": "npm test -- --watch",
     "precommit": "pretty-quick --staged"
-  },
-  "betterScripts": {
-    "start": {
-      "command": "node production_server.js",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "build": {
-      "command": "webpack --config webpack.config.prod.js",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "dev": {
-      "command": "node ./server.js",
-      "env": {
-        "NODE_PATH": "./src",
-        "NODE_ENV": "development",
-        "PORT": 4242
-      }
-    },
-    "mocked": {
-      "command": "node ./server.js",
-      "env": {
-        "NODE_ENV": "standalone",
-        "NODE_PATH": "./src",
-        "PORT": 6969,
-        "FASIT_URL": "http://localhost:6969/mockapi"
-      }
-    },
-    "test": {
-      "command": "mocha --require @babel/register --require ./test/setup.js --recursive ./test/new",
-      "env": {
-        "NODE_ENV": "production",
-        "NODE_PATH": "./src"
-      }
-    },
-    "clean": {
-      "command": "rimraf dist/*"
-    },
-    "mkdir": {
-      "command": "mkdirp dist"
-    },
-    "copy-html": {
-      "command": "ncp src/index.html dist/index.html"
-    },
-    "copy-images": {
-      "command": "ncp src/images dist/images/"
-    },
-    "prebuild": {
-      "command": "better-npm-run clean && better-npm-run mkdir && better-npm-run copy-images &&  better-npm-run copy-html"
-    }
   },
   "keywords": [
     "node",
@@ -86,48 +32,39 @@
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-react": "^7.27.0",
     "@babel/register": "^7.25.9",
-    "@fortawesome/fontawesome-free": "^5.9.0",
-    "@fortawesome/fontawesome-free-brands": "^5.1.0-3",
-    "@fortawesome/fontawesome-free-regular": "^5.1.0-3",
-    "@fortawesome/fontawesome-svg-core": "^1.2.19",
-    "@fortawesome/free-solid-svg-icons": "^5.9.0",
-    "@fortawesome/react-fontawesome": "0.1.0-11",
-    "babel-core": "7.0.0-bridge.0",
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-brands-svg-icons": "^7.2.0",
+    "@fortawesome/free-regular-svg-icons": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/react-fontawesome": "^3.3.1",
     "babel-loader": "^9.2.1",
-    "better-npm-run": "0.0.11",
     "body-parser": "^1.19.0",
     "chai": "^4.5.0",
     "chai-spies": "^1.1.0",
     "cors": "^2.8.5",
+    "cross-env": "^10.1.0",
     "css-loader": "^6.11.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.8",
-    "es6-promise": "^3.2.1",
-    "eventsource-polyfill": "^0.9.6",
-    "fetch": "^1.1.0",
     "file-loader": "^6.2.0",
     "jsdom": "^9.11.0",
     "less": "^4.1.2",
     "less-loader": "^12.3.2",
     "less-plugin-clean-css": "^1.5.1",
-    "mkdirp": "^0.5.1",
     "mocha": "^10.8.2",
     "mousetrap": "^1.6.3",
-    "ncp": "^2.0.0",
-    "postcss-loader": "^0.13.0",
-    "prettier": "^1.18.2",
+    "prettier": "^3.8.3",
     "pretty-data": "^0.40.0",
-    "pretty-quick": "^1.11.1",
+    "pretty-quick": "^3.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",
-    "react-select": "^1.3.0",
+    "react-select": "^5.10.2",
     "redux": "^5.0.1",
-    "redux-logger": "^2.10.2",
+    "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.5",
     "redux-saga": "^1.3.0",
     "redux-thunk": "^2.4.2",
-    "rimraf": "^2.6.3",
     "sinon": "^11.1.2",
     "style-loader": "^3.3.4",
     "url-loader": "^4.1.1",
@@ -143,14 +80,12 @@
     "@mui/material": "^9.0.0",
     "bootstrap": "^5.3.8",
     "bootswatch": "^5.3.8",
-    "express": "^4.17.1",
+    "dayjs": "^1.11.20",
+    "express": "^5.2.1",
     "history": "^5.3.0",
-    "isomorphic-fetch": "^3.0.0",
-    "moment": "^2.29.2",
-    "prom-client": "^10.2.2",
+    "prom-client": "^15.1.3",
     "prop-types": "^15.8.1",
-    "react-router-dom": "^6.28.0",
-    "request": "^2.88.2"
+    "react-router-dom": "^6.28.0"
   },
   "overrides": {
     "cheerio": "1.0.0-rc.12"

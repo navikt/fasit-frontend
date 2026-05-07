@@ -1,6 +1,7 @@
 import React, { Component, useState } from "react"
 import PropTypes from 'prop-types'
-import Select, { Creatable } from "react-select"
+import Select from "react-select"
+import Creatable from "react-select/creatable"
 import MuiTooltip from "@mui/material/Tooltip"
 import { Link } from "react-router-dom"
 import { capitalize } from "../../utils/"
@@ -140,14 +141,13 @@ export function FormCreatableList(props) {
       <div className="col-md-9">
         {editMode ? (
           <Creatable
-            clearable={true}
-            type="text"
-            multi={true}
+            isClearable={true}
+            isMulti={true}
             className="text-left"
             placeholder="Start typing..."
             value={convertToSelectObject(value)}
             onChange={e =>
-              handleChange(label, e.map(item => item.value), parent)
+              handleChange(label, (e || []).map(item => item.value), parent)
             }
           />
         ) : (
@@ -175,15 +175,13 @@ export function FormListBox(props) {
       <div className="col-md-9">
         {editMode ? (
           <Select
-            backspaceRemoves={false}
-            clearable={true}
-            type="text"
-            name="node-type"
-            multi={true}
+            backspaceRemovesValue={false}
+            isClearable={true}
+            isMulti={true}
             value={convertToSelectObject(value)}
             options={convertToSelectObject(options)}
             onChange={e =>
-              handleChange(field || label, e.map(item => item.value), parent)
+              handleChange(field || label, (e || []).map(item => item.value), parent)
             }
           />
         ) : value.length > 0 ? (
@@ -214,6 +212,7 @@ export function FormDropDown(props) {
     field,
     parent
   } = props
+  const selectOptions = convertToSelectObject(options)
   return (
     <div className="row">
       <div className="col-md-3 FormLabel">
@@ -222,14 +221,12 @@ export function FormDropDown(props) {
       <div className="col-md-9 FormDropDown">
         {editMode ? (
           <Select
-            backspaceRemoves={false}
-            clearable={false}
-            type="text"
-            name="node-type"
-            disabled={disabled}
-            value={value}
-            options={convertToSelectObject(options)}
-            onChange={e => handleChange(field || label, e.value, parent)}
+            backspaceRemovesValue={false}
+            isClearable={false}
+            isDisabled={disabled}
+            value={selectOptions.find(o => o.value === value) || null}
+            options={selectOptions}
+            onChange={e => handleChange(field || label, e ? e.value : null, parent)}
           />
         ) : (
           <CopyableSpan label={label} value={value} />
@@ -251,6 +248,7 @@ export function FormLinkDropDown(props) {
     parent,
     linkTo
   } = props
+  const selectOptions = convertToSelectObject(options)
   return (
     <div className="row">
       <div className="col-md-3 FormLabel">
@@ -259,14 +257,12 @@ export function FormLinkDropDown(props) {
       <div className="col-md-9 FormDropDown">
         {editMode ? (
           <Select
-            backspaceRemoves={false}
-            clearable={false}
-            type="text"
-            name="node-type"
-            disabled={disabled}
-            value={value}
-            options={convertToSelectObject(options)}
-            onChange={e => handleChange(field || label, e.value, parent)}
+            backspaceRemovesValue={false}
+            isClearable={false}
+            isDisabled={disabled}
+            value={selectOptions.find(o => o.value === value) || null}
+            options={selectOptions}
+            onChange={e => handleChange(field || label, e ? e.value : null, parent)}
           />
         ) : (
           <Link to={props.linkTo}>{value}</Link>

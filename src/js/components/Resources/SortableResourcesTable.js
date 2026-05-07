@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Table, TableBody, TableHead, TableRow, TableCell, TableSortLabel } from "@mui/material";
 import MuiTooltip from "@mui/material/Tooltip";
-import moment from "moment";
+import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { capitalize } from "../../utils/";
 import { styles, icons } from "../../commonStyles/commonInlineStyles";
@@ -11,7 +11,7 @@ export default function SortableResourceTable(props) {
   const [sortKey, setSortKey] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
 
-  const tooltipText = `Resource was changed after appinstance was deployed - ${moment(instanceLastChanged).format("DD MMM YYYY HH:mm:ss")}`;
+  const tooltipText = `Resource was changed after appinstance was deployed - ${dayjs(instanceLastChanged).format("DD MMM YYYY HH:mm:ss")}`;
 
   function handleSortOrderChange(key) {
     const newOrder = sortKey === key && sortOrder === "asc" ? "desc" : "asc";
@@ -41,9 +41,7 @@ export default function SortableResourceTable(props) {
 
   function renderLastChanged(lastchange) {
     if (lastchange) {
-      moment.locale("en");
-      const momentTime = moment(lastchange);
-      return momentTime.format("DD MMM YYYY HH:mm:ss");
+      return dayjs(lastchange).format("DD MMM YYYY HH:mm:ss");
     }
     return "N/A";
   }
@@ -91,7 +89,7 @@ export default function SortableResourceTable(props) {
       sortable: false,
       style: { width: 100 },
       render: lastchange =>
-        moment(lastchange).isAfter(moment(instanceLastChanged)) ? (
+        dayjs(lastchange).isAfter(dayjs(instanceLastChanged)) ? (
           <MuiTooltip title={tooltipText} placement="left">
             <div>{icons.warning}</div>
           </MuiTooltip>

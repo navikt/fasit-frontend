@@ -49,32 +49,29 @@ class EnvironmentClusters extends Component {
                 <div>
                     <div style={{width: 350, display: "inline-block"}}>
                         <Select
-                            resetValue=""
+                            isClearable
                             placeholder="Cluster"
-                            name="form-field-name"
-                            value={cluster}
+                            value={cluster ? {value: cluster, label: cluster} : null}
                             options={this.convertToSelectObject(clusterNames)}
-                            onChange={(e) => this.handleChange("cluster", e.value)}
+                            onChange={(e) => this.handleChange("cluster", e ? e.value : "")}
                         />
                     </div>
                     <div style={{width: 250, display: "inline-block", paddingLeft: 20}}>
                         <Select
-                            resetValue=""
+                            isClearable
                             placeholder="Application"
-                            name="form-field-name"
-                            value={application}
+                            value={application ? {value: application, label: application} : null}
                             options={this.convertToSelectObject(applicationNames)}
-                            onChange={(e) => this.handleChange("application", e.value)}
+                            onChange={(e) => this.handleChange("application", e ? e.value : "")}
                         />
                     </div>
                     <div style={{width: 250, display: "inline-block", paddingLeft: 20}}>
                         <Select
-                            resetValue=""
+                            isClearable
                             placeholder="Node"
-                            name="form-field-name"
-                            value={node}
+                            value={node ? {value: node, label: node} : null}
                             options={this.convertToSelectObject(nodeNames)}
-                            onChange={(e) => this.handleChange("node", e.value)}
+                            onChange={(e) => this.handleChange("node", e ? e.value : "")}
                         />
                     </div>
                     <table className="table table-hover">

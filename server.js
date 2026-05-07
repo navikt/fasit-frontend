@@ -207,7 +207,7 @@ app.get("/mockapi/v2/nodes", (req, res) => {
   sendJson(res, nodesMock.getNodes())
 })
 
-app.get("/mockapi/v2/secrets/*", (req, res) => {
+app.get("/mockapi/v2/secrets/*path", (req, res) => {
   res.send("th151s4M0ck53cr3t")
 })
 
@@ -223,7 +223,7 @@ if (process.env["NODE_ENV"] === "standalone") {
   })
 }
 
-app.get("*", (req, res) => {
+app.get("*path", (req, res) => {
   res.sendFile(path.join(__dirname, "./dist/index.html"))
 })
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import moment from "moment"
+import dayjs from "dayjs"
 import { connect } from "react-redux"
 import history from "../../history"
 import { List, ListItemButton, ListItemText, ListItemIcon } from "@mui/material"
@@ -60,7 +60,6 @@ class RevisionsView extends Component {
   }
 
   render() {
-    moment.locale("en")
     const { dispatch, revisions, routing, currentRevision } = this.props
 
     if (revisions.isFetching) {
@@ -86,7 +85,7 @@ class RevisionsView extends Component {
               >
                 {rev.revision == currentRevision && <ListItemIcon>{icons.rightArrow}</ListItemIcon>}
                 <ListItemText
-                  primary={moment(rev.timestamp).format("DD MMM YYYY HH:mm:ss")}
+                  primary={dayjs(rev.timestamp).format("DD MMM YYYY HH:mm:ss")}
                   secondary={renderSecondaryText(rev)}
                 />
               </ListItemButton>

@@ -16,12 +16,12 @@ app.get('/isalive', (req, res) => {
     res.sendStatus(200)
 })
 
-app.get('/metrics', (req, res) => {
+app.get('/metrics', async (req, res) => {
     res.set('Content-Type', prometheus.register.contentType);
-    res.end(prometheus.register.metrics());
+    res.end(await prometheus.register.metrics());
 });
 
-app.get('*', (req, res) => {
+app.get('*path', (req, res) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
 })
 

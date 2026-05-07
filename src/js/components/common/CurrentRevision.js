@@ -1,12 +1,11 @@
 import React, {Component} from "react";
 import PropTypes from 'prop-types'
-import moment from "moment";
+import dayjs from "dayjs";
 import {Card, CardHeader, CardContent} from "@mui/material";
 import {styles} from "../../commonStyles/commonInlineStyles";
 
 
 export function CurrentRevision(props) {
-    moment.locale("en")
     const {revisions, revisionId} = props
     const rev = revisions.data.filter(r => r.revision == revisionId)
 
@@ -20,7 +19,7 @@ export function CurrentRevision(props) {
                 <CardHeader
                     title={`Revision ${currentRevision.revision} - ${currentRevision.revisiontype === 'add' ? 'Created' : 'Modified'}` }
                     slotProps={{title: {style: styles.bold}}}
-                    subheader={`${moment(currentRevision.timestamp).format('DD.MM YYYY, H:mm:ss')} by ${currentRevision.author} (${currentRevision.authorid})`}/>
+                    subheader={`${dayjs(currentRevision.timestamp).format('DD.MM YYYY, H:mm:ss')} by ${currentRevision.author} (${currentRevision.authorid})`}/>
                 {currentRevision.message && <CardContent>{currentRevision.message}</CardContent>}
             </Card>)
 }

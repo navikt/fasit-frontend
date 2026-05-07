@@ -5,7 +5,7 @@ import { colors } from "../../commonStyles/commonInlineStyles"
 import Chip from "@mui/material/Chip"
 import { capitalize } from "../../utils/"
 import Avatar from "@mui/material/Avatar"
-import moment from "moment"
+import dayjs from "dayjs"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export function CardInfo(props) {
@@ -28,17 +28,16 @@ export function CardInfo(props) {
 
 function renderLastUpdated(lastUpdated) {
   if (lastUpdated) {
-    moment.locale("en")
-    const momentTime = moment(lastUpdated)
+    const d = dayjs(lastUpdated)
     return (
       <div >
         <div>
           <FontAwesomeIcon icon={["far", "calendar"]} fixedWidth />
-          {momentTime.format("DD MMM YYYY")}
+          {d.format("DD MMM YYYY")}
         </div>
         <div>
           <FontAwesomeIcon icon={["far", "clock"]} fixedWidth />
-          {momentTime.format("HH:mm:ss")}
+          {d.format("HH:mm:ss")}
         </div>
       </div>
     )

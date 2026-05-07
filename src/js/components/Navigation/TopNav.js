@@ -2,9 +2,11 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import MuiPopover from "@mui/material/Popover"
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import KeyboardIcon from '@mui/icons-material/Keyboard';
 import { Login, AuraTools, NavSearch } from "../common/"
 import ContextMenu from "./ContextMenu"
-import GroupWork from "@mui/icons-material/GroupWork"
 import {
   logOut,
   getUser,
@@ -12,6 +14,9 @@ import {
 } from "../../actionCreators/authentication"
 import { toggleHelp, displayModal } from "../../actionCreators/common"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  colors
+} from "../../commonStyles/commonInlineStyles"
 
 class TopNav extends Component {
   constructor(props) {
@@ -52,19 +57,7 @@ class TopNav extends Component {
               }
               style={{ marginTop: 15, marginRight: 5, marginBottom: 8 }}
             >
-              <span className="fa-layers fa-fw" style={{ marginRight: 12 }}>
-                <FontAwesomeIcon
-                  icon="circle"
-                  className="user-icon"
-                  size="2x"
-                />
-                <FontAwesomeIcon
-                  icon="plus"
-                  inverse
-                  size="1x"
-                  transform="right-5"
-                />
-              </span>
+              <AddCircleIcon style={{ color: colors.pink }} />
               New
             </button>
             <MuiPopover
@@ -94,19 +87,7 @@ class TopNav extends Component {
               onClick={() => dispatch(displayLogin(true))}
               style={{ marginTop: 15, marginRight: 5, marginBottom: 8 }}
             >
-              <span className="fa-layers fa-fw" style={{ marginRight: 12 }}>
-                <FontAwesomeIcon
-                  icon="circle"
-                  className="user-icon"
-                  size="2x"
-                />
-                <FontAwesomeIcon
-                  icon="user"
-                  inverse
-                  size="1x"
-                  transform="right-5"
-                />
-              </span>
+              <AccountCircleIcon style={{ color: colors.pink }} />
               Log in
             </button>
           </li>
@@ -122,19 +103,7 @@ class TopNav extends Component {
               }
               style={{ marginTop: 15, marginBottom: 8 }}
             >
-              <span className="fa-layers fa-fw" style={{ marginRight: 15 }}>
-                <FontAwesomeIcon
-                  icon="circle"
-                  className="user-icon"
-                  size="2x"
-                />
-                <FontAwesomeIcon
-                  icon="user"
-                  inverse
-                  size="1x"
-                  transform="right-5"
-                />
-              </span>
+              <AccountCircleIcon style={{ color: colors.pink }} />
               {user.displayname}
             </button>
             <MuiPopover
@@ -190,7 +159,7 @@ class TopNav extends Component {
             onClick={() => dispatch(toggleHelp())}
             style={{ marginTop: 8 }}
           >
-            <FontAwesomeIcon icon="keyboard" size="2x" />
+            <KeyboardIcon fontSize="medium" />
           </button>
         </li>
       </ul>
