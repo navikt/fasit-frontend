@@ -3,6 +3,7 @@
   "version": "297.0.0",
   "description": "Fasit frontend",
   "type": "commonjs",
+  "packageManager": "pnpm@10.33.0",
   "main": "server.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node production_server.js",

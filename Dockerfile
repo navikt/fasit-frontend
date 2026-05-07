@@ -1,16 +1,18 @@
-FROM node:22-alpine as frontend-builder
+FROM node:22-alpine AS frontend-builder
 
+RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /home/app
 
-COPY ./package.json ./package-lock.json ./webpack.config.prod.js .babelrc ./
+COPY ./package.json ./pnpm-lock.yaml ./.npmrc ./webpack.config.prod.js .babelrc ./
 COPY ./src ./src
-RUN npm ci --legacy-peer-deps && npm run build
+RUN pnpm install --frozen-lockfile && pnpm run build
 
-FROM node:22-alpine as express-server 
+FROM node:22-alpine AS express-server 
+RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /home/app
 
-COPY package.json package-lock.json ./
-RUN npm ci --production --legacy-peer-deps
+COPY package.json pnpm-lock.yaml .npmrc ./
+RUN pnpm install --frozen-lockfile --prod
 
 FROM node:22-alpine 
 ENV NODE_ENV=production
