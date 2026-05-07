@@ -12,8 +12,8 @@
     "mocked": "concurrently \"cross-env NODE_ENV=standalone FASIT_URL=/mockapi PORT=6969 node ./server.js\" \"vite\"",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "cross-env NODE_ENV=test NODE_PATH=./src mocha --require @babel/register --require ./test/setup.js --recursive ./test/new",
-    "test:watch": "npm test -- --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "precommit": "pretty-quick --staged"
   },
   "keywords": [
@@ -26,10 +26,7 @@
   "author": "Frode Sundby",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.28.0",
-    "@babel/preset-env": "^7.29.5",
-    "@babel/preset-react": "^7.27.0",
-    "@babel/register": "^7.29.3",
+    "@babel/preset-react": "^7.28.5",
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@fortawesome/free-brands-svg-icons": "^7.2.0",
     "@fortawesome/free-regular-svg-icons": "^7.2.0",
@@ -38,13 +35,10 @@
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
     "@vitejs/plugin-react": "^4.7.0",
-    "chai": "^4.5.0",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
-    "global-jsdom": "^29.0.0",
     "jsdom": "^29.1.1",
     "less": "^4.6.4",
-    "mocha": "^11.7.5",
     "mousetrap": "^1.6.5",
     "prettier": "^3.8.3",
     "pretty-quick": "^4.2.2",
@@ -57,7 +51,8 @@
     "redux-saga": "^1.4.2",
     "redux-thunk": "^3.1.0",
     "sinon": "^19.0.5",
-    "vite": "^6.4.2"
+    "vite": "^6.4.2",
+    "vitest": "^4.1.5"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

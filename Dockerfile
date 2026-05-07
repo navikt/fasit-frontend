@@ -3,7 +3,7 @@ FROM node:22-alpine AS frontend-builder
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /home/app
 
-COPY ./package.json ./pnpm-lock.yaml ./vite.config.mjs ./index.html .babelrc ./
+COPY ./package.json ./pnpm-lock.yaml ./vite.config.mjs ./index.html ./
 COPY ./src ./src
 COPY ./public ./public
 RUN pnpm install --frozen-lockfile && pnpm run build

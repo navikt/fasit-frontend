@@ -1,6 +1,6 @@
 import React from "react"
 import { screen } from "@testing-library/react"
-import { expect } from "chai"
+import { expect, describe, it } from "vitest"
 import sinon from "sinon"
 import { Applications } from "../../../../src/js/components/Applications/Applications"
 import { renderWithProviders } from "../../testHelper"

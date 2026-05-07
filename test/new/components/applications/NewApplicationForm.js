@@ -1,6 +1,6 @@
 import React from "react"
 import { screen, fireEvent } from "@testing-library/react"
-import { expect } from "chai"
+import { expect, describe, it } from "vitest"
 import sinon from "sinon"
 import { NewApplicationForm } from "../../../../src/js/components/Applications/NewApplicationForm"
 import { renderWithProviders } from "../../testHelper"

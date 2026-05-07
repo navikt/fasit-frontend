@@ -10,6 +10,12 @@ export default defineConfig({
       },
     }),
   ],
+  test: {
+    environment: "jsdom",
+    include: ["test/new/components/**/*.js"],
+    exclude: ["test/**/testHelper.js"],
+    setupFiles: ["./test/vitest-setup.js"],
+  },
   root: ".",
   optimizeDeps: {
     esbuildOptions: {
