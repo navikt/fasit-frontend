@@ -1,6 +1,5 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
-import "@babel/polyfill"
 import history from "./js/history"
 import { Root } from "./js/components/Root/Root"
 import { configureStore } from "./js/store/configureStore"

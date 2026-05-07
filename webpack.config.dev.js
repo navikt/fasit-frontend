@@ -5,7 +5,6 @@ module.exports = {
   mode: "development",
   devtool: "eval-cheap-module-source-map",
   entry: [
-    "@babel/polyfill",
     "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true",
     "./src/stylesheets/index.less",
     "./src/index"
