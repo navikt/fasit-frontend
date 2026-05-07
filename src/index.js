@@ -1,23 +1,13 @@
 import "./stylesheets/index.less"
 import React from "react"
 import { createRoot } from "react-dom/client"
-import history from "./js/history"
 import { Root } from "./js/components/Root/Root"
 import { configureStore } from "./js/store/configureStore"
-import { SET_FILTER_CONTEXT, RECEIVE_CONFIGURATION } from "./js/actionTypes"
-import { locationChange } from "./js/reducers/router"
+import { RECEIVE_CONFIGURATION } from "./js/actionTypes"
 
 const store = configureStore()
 
 const root = createRoot(document.getElementById("content"))
-
-history.listen(({ location, action }) => {
-  store.dispatch(locationChange(location, action))
-  store.dispatch({
-    type: SET_FILTER_CONTEXT,
-    value: location.pathname.replace(/^\//g, "").split("/")[0]
-  })
-})
 
 // /config inneholder alle eksterne APIer, slik at vi slipper å bruke proxy.
 fetch("/config")

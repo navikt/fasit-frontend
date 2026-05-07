@@ -1,9 +1,9 @@
-import history from '../history'
-
 const LOCATION_CHANGE = '@@router/LOCATION_CHANGE'
 
 const initialState = {
-  location: history.location,
+  location: typeof window !== "undefined"
+    ? { pathname: window.location.pathname, search: window.location.search, hash: window.location.hash }
+    : { pathname: "/", search: "", hash: "" },
   action: 'POP'
 }
 
