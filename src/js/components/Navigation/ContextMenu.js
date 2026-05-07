@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from 'prop-types'
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -49,10 +48,6 @@ function ContexMenu({ location }) {
     </div>
   )
 }
-ContexMenu.propTypes = {
-  dispatch: PropTypes.func.isRequired
-}
-
 const mapStateToProps = state => ({
   location: state.router.location,
   nodes: state.nodes.headers,

@@ -16,12 +16,13 @@ import {
   ToolButtons,
   Spinner
 } from "../common/"
+import NotFound from "../NotFound"
 import { displayModal, submitForm } from "../../actionCreators/common"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
 import { capitalize } from "../../utils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-function Node({ dispatch, hostname, query, node, user, config, isFetching, revisions, currentPassword, resourceModalVisible, deploymentManager }) {
+function Node({ dispatch, hostname, query, node, user, config, isFetching, revisions, currentPassword, resourceModalVisible, deploymentManager, requestFailed }) {
   const [secretVisible, setSecretVisible] = useState(false)
   const [displayDeleteForm, setDisplayDeleteForm] = useState(false)
   const [comment, setComment] = useState("")
@@ -128,6 +129,19 @@ function Node({ dispatch, hostname, query, node, user, config, isFetching, revis
   const password = currentPassword
     ? currentPassword
     : "No secret stored for this revision"
+
+  if (requestFailed) {
+    if (requestFailed.startsWith("404")) {
+      return <NotFound />
+    }
+    return (
+      <div>
+        Retrieving node {hostname} failed with the following message:
+        <br />
+        <pre><i>{requestFailed}</i></pre>
+      </div>
+    )
+  }
 
   return isFetching || !node.hostname ? (
     <Spinner />
@@ -255,6 +269,7 @@ function Node({ dispatch, hostname, query, node, user, config, isFetching, revis
 const mapStateToProps = (state, ownProps) => {
   return {
     node: state.node_fasit.data,
+    requestFailed: state.node_fasit.requestFailed,
     currentPassword: state.node_fasit.currentPassword,
     isFetching: state.node_fasit.isFetching,
     user: state.user,

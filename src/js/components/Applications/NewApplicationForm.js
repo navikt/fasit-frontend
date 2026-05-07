@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import PropTypes from 'prop-types'
 import { Modal } from "../common/Modal"
 import { connect } from "react-redux"
 import { FormComment, FormString } from "../common/Forms"
@@ -178,10 +177,6 @@ export function NewApplicationForm({ dispatch, showNewApplicationForm, applicati
     </Modal>
   )
 }
-NewApplicationForm.propTypes = {
-  dispatch: PropTypes.func.isRequired
-}
-
 const mapStateToProps = state => {
   return {
     showNewApplicationForm: state.applications.showNewApplicationForm,

@@ -19,8 +19,9 @@ import EnvironmentInstances from "./EnvironmentInstances"
 import { fetchEnvironment } from "../../actionCreators/environment"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
 import { Card, CardActions, CardHeader } from "@mui/material"
+import NotFound from "../NotFound"
 
-export function Environment({ name, environment, user, query, revisions, dispatch, resourceModalVisible }) {
+export function Environment({ name, environment, user, query, revisions, dispatch, resourceModalVisible, requestFailed }) {
   const [displayClusters, setDisplayClusters] = useState(true)
   const [displayNodes, setDisplayNodes] = useState(false)
   const [displayInstances, setDisplayInstances] = useState(false)
@@ -76,6 +77,20 @@ export function Environment({ name, environment, user, query, revisions, dispatc
   let lifecycle = {}
 
   let authorized = false
+
+  if (requestFailed) {
+    if (requestFailed.startsWith("404")) {
+      return <NotFound />
+    }
+    return (
+      <div>
+        Retrieving environment {name} failed with the following message:
+        <br />
+        <pre><i>{requestFailed}</i></pre>
+      </div>
+    )
+  }
+
   if (Object.keys(environment).length > 0) {
     authorized = validAuthorization(user, environment.accesscontrol)
     lifecycle = environment.lifecycle
@@ -153,6 +168,7 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     environment: state.environment_fasit.data,
+    requestFailed: state.environment_fasit.requestFailed,
     environmentClasses: state.environments.environmentClasses,
     revisions: state.revisions,
     query: parseQuery(state.router.location.search),

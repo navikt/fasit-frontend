@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import PropTypes from 'prop-types'
 import { Modal } from "../common/Modal"
 import { connect } from "react-redux"
 import Button from "@mui/material/Button"
@@ -476,10 +475,6 @@ function NewResourceForm({ dispatch, showNewResourceForm, environmentClasses, cu
       </Modal.Footer>
     </Modal>
   )
-}
-
-NewResourceForm.propTypes = {
-  dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {

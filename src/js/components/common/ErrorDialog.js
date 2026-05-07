@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -26,11 +25,6 @@ function ErrorDialog({ dispatch, errorMessage, formError }) {
             </DialogActions>
         </Dialog>)
 }
-
-ErrorDialog.propTypes = {
-    dispatch: PropTypes.func.isRequired
-}
-
 
 const mapStateToProps = (state) => {
     return {

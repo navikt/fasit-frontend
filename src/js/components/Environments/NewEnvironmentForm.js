@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useRef} from "react";
-import PropTypes from 'prop-types'
 import { Modal } from "../common/Modal"
 import {connect} from "react-redux";
 import {FormComment, FormDropDown, FormString} from "../common/Forms";
@@ -113,10 +112,6 @@ function NewEnvironmentForm({ dispatch, environmentClasses, showNewEnvironmentFo
             </Modal.Footer>
         </Modal>
     )
-}
-
-NewEnvironmentForm.propTypes = {
-    dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {

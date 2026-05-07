@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Snackbar from '@mui/material/Snackbar'
 
@@ -13,10 +12,6 @@ function SubmitFormStatus({ form }) {
             autoHideDuration={autoHideDuration}
         />
     )
-}
-
-SubmitFormStatus.propTypes = {
-    dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {

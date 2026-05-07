@@ -15,8 +15,9 @@ import {
   Security,
   ToolButtons
 } from "../common/"
+import NotFound from "../NotFound"
 
-export function Application({ name, application, user, dispatch, query, revisions, instances, resourceModalVisible }) {
+export function Application({ name, application, user, dispatch, query, revisions, instances, resourceModalVisible, requestFailed }) {
   const [displayDeleteForm, setDisplayDeleteForm] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [comment, setComment] = useState("")
@@ -91,6 +92,19 @@ export function Application({ name, application, user, dispatch, query, revision
   let lifecycle = {}
   let authorized = false
 
+  if (requestFailed) {
+    if (requestFailed.startsWith("404")) {
+      return <NotFound />
+    }
+    return (
+      <div>
+        Retrieving application {name} failed with the following message:
+        <br />
+        <pre><i>{requestFailed}</i></pre>
+      </div>
+    )
+  }
+
   if (Object.keys(application).length > 0) {
     authorized = validAuthorization(user, application.accesscontrol)
     lifecycle = application.lifecycle
@@ -148,6 +162,7 @@ export function Application({ name, application, user, dispatch, query, revision
 const mapStateToProps = state => {
   return {
     application: state.application_fasit.data,
+    requestFailed: state.application_fasit.requestFailed,
     user: state.user,
     config: state.configuration,
     revisions: state.revisions,

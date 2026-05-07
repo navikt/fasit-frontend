@@ -6,12 +6,13 @@ import { icons, styles } from "../../commonStyles/commonInlineStyles";
 import { Link } from "react-router-dom";
 import Manifest from "./Manifest";
 import { CollapsibleList, CurrentRevision, History, Lifecycle } from "../common/";
+import NotFound from "../NotFound";
 import { Card, CardHeader, CardContent, List, ListItem, ListItemText } from "@mui/material";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import { fetchInstance } from "../../actionCreators/instance";
 import { validAuthorization } from "../../utils/";
 
-function Instance({ instance, revisions, query, id, user, dispatch }) {
+function Instance({ instance, revisions, query, id, user, dispatch, requestFailed }) {
     const [tabIndex, setTabIndex] = useState(0)
 
     useEffect(() => {
@@ -29,6 +30,19 @@ function Instance({ instance, revisions, query, id, user, dispatch }) {
     const clusterName = instance.cluster ? instance.cluster.name : ""
     let lifecycle = {}
     let authorized = false
+
+    if (requestFailed) {
+        if (requestFailed.startsWith("404")) {
+            return <NotFound />
+        }
+        return (
+            <div>
+                Retrieving instance {id} failed with the following message:
+                <br />
+                <pre><i>{requestFailed}</i></pre>
+            </div>
+        )
+    }
 
     if (Object.keys(instance).length > 0) {
         let accesscontrol = instance.accesscontrol.adgroups
@@ -127,6 +141,7 @@ function Instance({ instance, revisions, query, id, user, dispatch }) {
 const mapStateToProps = (state) => {
     return {
         instance: state.instance_fasit.data,
+        requestFailed: state.instance_fasit.requestFailed,
         user: state.user,
         config: state.configuration,
         revisions: state.revisions,

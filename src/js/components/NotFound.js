@@ -8,10 +8,10 @@ export default function NotFound() {
             <h2>404</h2>
             <br />
             <br />
-            <img src="/images/404.jpeg" alt="404"/> <br /> <br />
+            <img src="/images/old-man-yells-at-fasit.png" alt="404" width="404"/> <br /> <br />
 
             <div className="col-md-4 offset-md-4">
-                <h3>Somethin' be not quite alstarboard up thar, matey</h3>
+            <h3>Resource not found</h3>
 
             </div>
         </div>

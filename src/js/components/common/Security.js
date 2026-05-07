@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from 'prop-types'
 import { connect } from "react-redux"
 import { validAuthorization } from "../../utils/"
 import { CollapsibleList } from "../common/"
@@ -61,10 +60,6 @@ const mapStateToProps = state => {
   return {
     user: state.user
   }
-}
-
-Security.propTypes = {
-  dispatch: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps)(Security)

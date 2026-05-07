@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react"
-import PropTypes from 'prop-types'
 import { Modal } from "./Modal"
 import { connect } from "react-redux"
 import { displayLogin, logIn } from "../../actionCreators/authentication"
@@ -126,10 +125,6 @@ function Login({ user, dispatch }) {
       )}
     </Modal>
   )
-}
-
-Login.propTypes = {
-  dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {

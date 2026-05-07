@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from 'prop-types'
 import { Modal } from "./Modal"
 import { connect } from "react-redux"
 import { toggleHelp } from "../../actionCreators/common"
@@ -51,10 +50,6 @@ function KeyboardShortcuts({ dispatch, visibility }) {
     </Modal>
   )
 }
-KeyboardShortcuts.propTypes = {
-  dispatch: PropTypes.func.isRequired
-}
-
 const mapStateToProps = state => {
   return {
     visibility: state.hotkeys.displayShortcuts

@@ -1,6 +1,5 @@
 import Button from "@mui/material/Button"
 import React from "react"
-import PropTypes from 'prop-types'
 import { Modal } from "../common/Modal"
 import { connect } from "react-redux"
 import {
@@ -190,10 +189,6 @@ function NewClusterForm({ dispatch, showNewClusterForm, mode, environments, envi
       </Modal.Footer>
     </Modal>
   )
-}
-
-NewClusterForm.propTypes = {
-  dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
