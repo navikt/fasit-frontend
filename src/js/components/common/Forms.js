@@ -1,5 +1,4 @@
 import React, { Component, useState } from "react"
-import PropTypes from 'prop-types'
 import Select from "react-select"
 import Creatable from "react-select/creatable"
 import MuiTooltip from "@mui/material/Tooltip"
@@ -8,8 +7,6 @@ import { capitalize } from "../../utils/"
 import { FormControl, InputLabel, Select as MuiSelect } from "@mui/material"
 import MenuItem from "@mui/material/MenuItem"
 import TextField from "@mui/material/TextField"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBorderStyle } from "@fortawesome/free-solid-svg-icons"
 const muiStyles = {
   formControl: { margin: theme => theme.spacing(1), minWidth: 120, },
   floatingLabelStyle: { color: "#000000", fontSize: "14px", borderStyle: "none" },

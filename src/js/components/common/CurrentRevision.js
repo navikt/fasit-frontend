@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import PropTypes from 'prop-types'
 import dayjs from "dayjs";
 import {Card, CardHeader, CardContent} from "@mui/material";
 import {styles} from "../../commonStyles/commonInlineStyles";

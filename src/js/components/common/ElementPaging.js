@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react"
-import PropTypes from 'prop-types'
 import { connect } from "react-redux"
 import { submitFilterString } from "../../actionCreators/element_lists"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"

@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import PropTypes from 'prop-types'
 import Restore from "@mui/icons-material/Restore"
 import { colors } from "../../commonStyles/commonInlineStyles"
 import Chip from "@mui/material/Chip"

@@ -6,7 +6,7 @@ import { FormComment, FormString } from "../common/Forms"
 import { capitalize } from "../../utils"
 import { displayModal, submitForm } from "../../actionCreators/common"
 import { Card, CardHeader, CardContent } from "@mui/material"
-import { icons, styles, colors } from "../../commonStyles/commonInlineStyles"
+import { icons, styles } from "../../commonStyles/commonInlineStyles"
 
 export function NewApplicationForm({ dispatch, showNewApplicationForm, application, mode }) {
   const [name, setName] = useState("")

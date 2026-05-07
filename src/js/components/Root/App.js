@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react"
-import PropTypes from 'prop-types'
 import { connect } from "react-redux"
 import history from "../../history"
 import Mousetrap from "mousetrap"
