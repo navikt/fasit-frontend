@@ -7,7 +7,7 @@ import getRoutes from '../../routes'
 export default function Root({ store }) {
     return (
         <Provider store={store}>
-            <HistoryRouter history={history}>
+            <HistoryRouter history={history} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
                 {getRoutes()}
             </HistoryRouter>
         </Provider>
