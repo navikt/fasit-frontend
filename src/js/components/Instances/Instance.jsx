@@ -154,7 +154,7 @@ function SelfTestLinks(props) {
         {props.links.sort()
             .map(link =>
                 <li key={link}>
-                    <a href={link} className="revisionListItem" target="_blank">{link.split("/")[2]}</a>
+                    <a href={link} className="revisionListItem" target="_blank" rel="noopener noreferrer">{link.split("/")[2]}</a>
                 </li>)}
     </ul>)
 }
