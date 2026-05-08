@@ -17,7 +17,10 @@ export function CurrentRevision(props) {
             <Card style={styles.cardPadding}>
                 <CardHeader
                     title={`Revision ${currentRevision.revision} - ${currentRevision.revisiontype === 'add' ? 'Created' : 'Modified'}` }
-                    slotProps={{title: {style: styles.bold}}}
+                    slotProps={{
+                        title: {sx: {...styles.bold, fontSize: "1rem"}},
+                        subheader: {sx: {fontSize: "0.85rem"}}
+                    }}
                     subheader={`${dayjs(currentRevision.timestamp).format('DD.MM YYYY, H:mm:ss')} by ${currentRevision.author} (${currentRevision.authorid})`}/>
                 {currentRevision.message && <CardContent>{currentRevision.message}</CardContent>}
             </Card>)
