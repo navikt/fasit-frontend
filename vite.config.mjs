@@ -2,31 +2,17 @@ import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
 
 export default defineConfig({
-  plugins: [
-    react({
-      include: /\.[jt]sx?$/,
-      babel: {
-        presets: ["@babel/preset-react"],
-      },
-    }),
-  ],
+  plugins: [react()],
   test: {
     environment: "jsdom",
-    include: ["test/new/components/**/*.js"],
-    exclude: ["test/**/testHelper.js"],
+    include: ["test/new/components/**/*.{js,jsx}"],
+    exclude: ["test/**/testHelper.{js,jsx}"],
     setupFiles: ["./test/vitest-setup.js"],
   },
   root: ".",
-  optimizeDeps: {
-    esbuildOptions: {
-      loader: {
-        ".js": "jsx",
-      },
-    },
-  },
   build: {
     outDir: "dist",
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         entryFileNames: "assets/fasit.js",
       },

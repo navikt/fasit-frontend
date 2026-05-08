@@ -2,7 +2,7 @@ import React from "react"
 import { screen } from "@testing-library/react"
 import { expect, describe, it } from "vitest"
 import sinon from "sinon"
-import { Application } from "../../../../src/js/components/Applications/Application.js"
+import { Application } from "../../../../src/js/components/Applications/Application.jsx"
 import { renderWithProviders } from "../../testHelper"
 
 function renderApplication(overrideProps = {}) {

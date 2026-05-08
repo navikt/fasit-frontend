@@ -2,7 +2,7 @@ import React from "react"
 import { render, screen } from "@testing-library/react"
 import { expect, describe, it } from "vitest"
 import { MemoryRouter } from "react-router-dom"
-import { ApplicationCard } from "../../../../src/js/components/Applications/ApplicationCard.js"
+import { ApplicationCard } from "../../../../src/js/components/Applications/ApplicationCard.jsx"
 
 function renderCard(overrideProps = {}) {
   return render(
