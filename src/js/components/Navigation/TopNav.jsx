@@ -147,7 +147,7 @@ function TopNav({ dispatch, user, location }) {
               style={{ marginTop: 15, marginBottom: 8 }}
             >
               <AccountCircleIcon style={{ color: colors.pink }} />
-              {user.displayname}
+              {user.displayName}
             </button>
             <MuiPopover
               open={activeOverlay === "login"}
@@ -170,7 +170,7 @@ function TopNav({ dispatch, user, location }) {
             style={{
               width: 30,
               marginTop: 11,
-              marginRight: 30,
+              marginRight: 15,
               marginLeft: 12,
               cursor: "pointer"
             }}
