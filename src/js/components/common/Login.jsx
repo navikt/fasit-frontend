@@ -76,7 +76,7 @@ function Login({ user, dispatch }) {
             </div>
 
             <div className="form-group">
-              <label form="password" className="control-label">
+              <label htmlFor="password" className="control-label">
                 Password
               </label>
               <div className="input-group">
