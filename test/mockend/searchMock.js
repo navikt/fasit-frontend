@@ -93,7 +93,7 @@ const search = [
     {
         "id": 826420,
         "name": "anapp:3.25.4.build_257",
-        "link": "http//localhost:4242/mockapi/v2/applicationinstances/826420",
+        "link": "http://localhost:4242/mockapi/v2/applicationinstances/826420",
         "type": "instance",
         "info": "anapp:3.25.4.build_257",
         "lastchange": 1484561429096,
