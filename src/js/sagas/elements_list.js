@@ -119,9 +119,9 @@ export function* fetchAllLists(action) {
 
 function* setFilterAsQueryParams(path, filterString) {
   if (filterString !== "") {
-    history.push(`/${path}?${filterString}`)
+    history.replace(`/${path}?${filterString}`)
   } else {
-    history.push(`/${path}`)
+    history.replace(`/${path}`)
   }
 }
 

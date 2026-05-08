@@ -11,7 +11,7 @@ function Resources({ dispatch, resources, totalCount, match }) {
         if(!match.params.resource) {
             dispatch(submitFilterString("resources", 0))
         }
-    }, [])
+    }, [match.params.resource])
 
     if (match.params.resource) {
         return <Resource id={match.params.resource}/>

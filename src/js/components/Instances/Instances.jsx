@@ -11,7 +11,7 @@ function Instances({ dispatch, instances, totalCount, match }) {
         if(!match.params.instance) {
             dispatch(submitFilterString("instances", 0))
         }
-    }, [])
+    }, [match.params.instance])
 
     if (match.params.instance)
         return <Instance id={match.params.instance} />

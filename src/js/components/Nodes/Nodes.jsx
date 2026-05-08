@@ -11,7 +11,7 @@ function Nodes({ dispatch, nodes, totalCount, match }) {
         if (!match.params.node) {
             dispatch(submitFilterString("nodes", 0))
         }
-    }, [])
+    }, [match.params.node])
 
     if (match.params.node) {
         return <Node hostname={match.params.node} />

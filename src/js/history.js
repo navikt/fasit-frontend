@@ -1,8 +1,8 @@
-import { createBrowserHistory, createMemoryHistory } from "history"
+import { createMemoryHistory } from "history"
 
-// Use memory history in test environments (no DOM), browser history otherwise
-const history = typeof document !== "undefined"
-  ? createBrowserHistory()
-  : createMemoryHistory()
+// Memory-only history used as an event bus for sagas/components
+// to signal navigation intent. NavigationSync forwards these
+// to React Router which owns the real browser history.
+const history = createMemoryHistory()
 
 export default history

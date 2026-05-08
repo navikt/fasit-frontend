@@ -10,7 +10,7 @@ function Environments({ dispatch, environments, match, totalCount }) {
         if(!match.params.environment) {
             dispatch(submitFilterString("environments", 0))
         }
-    }, [])
+    }, [match.params.environment])
 
     if (match.params.environment) {
         return <Environment name={match.params.environment} clusterName={match.params.cluster}/>

@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import history from "../../history"
@@ -11,19 +11,25 @@ export default function NavigationSync() {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
+  const navigateRef = useRef(navigate)
 
-  // Sync external history → React Router
+  // Keep ref current without re-subscribing to history
+  useEffect(() => {
+    navigateRef.current = navigate
+  })
+
+  // Sync external history → React Router (subscribe once)
   useEffect(() => {
     const unlisten = history.listen(({ location, action }) => {
       const path = location.pathname + location.search + location.hash
       if (action === "PUSH") {
-        navigate(path)
+        navigateRef.current(path)
       } else if (action === "REPLACE") {
-        navigate(path, { replace: true })
+        navigateRef.current(path, { replace: true })
       }
     })
     return unlisten
-  }, [navigate])
+  }, [])
 
   // Sync React Router location → Redux
   useEffect(() => {

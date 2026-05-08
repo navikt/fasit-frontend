@@ -11,7 +11,7 @@ export function Applications({ dispatch, applications, totalCount, isFetching, m
     if (!match.params.application) {
       dispatch(submitFilterString("applications", 0))
     }
-  }, [])
+  }, [match.params.application])
 
   if (match.params.application) {
     return <Application name={match.params.application} />
