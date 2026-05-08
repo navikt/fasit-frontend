@@ -56,7 +56,7 @@ function Login({ user, dispatch }) {
             }}
           >
             <div className="form-group">
-              <label form="name" className="control-label">
+              <label htmlFor="name" className="control-label">
                 Adeo-ident
               </label>
               <div className="input-group">
