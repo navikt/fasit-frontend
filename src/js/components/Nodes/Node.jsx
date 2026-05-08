@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
-import { validAuthorization, isEmptyObject } from "../../utils/"
+import { validAuthorization, isEmptyObject } from "../../utils/index"
 import { clearNodePassword, fetchFasitData, fetchNodePassword } from "../../actionCreators/node"
 import { Card, CardActions, CardContent, CardHeader, List, ListItem, ListItemText } from "@mui/material"
 import { Link } from "react-router-dom"
@@ -15,7 +15,7 @@ import {
   Security,
   ToolButtons,
   Spinner
-} from "../common/"
+} from "../common/index"
 import NotFound from "../NotFound"
 import { displayModal, submitForm } from "../../actionCreators/common"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"

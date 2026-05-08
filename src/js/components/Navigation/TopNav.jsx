@@ -5,7 +5,7 @@ import MuiPopover from "@mui/material/Popover"
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
-import { Login, AuraTools, NavSearch } from "../common/"
+import { Login, AuraTools, NavSearch } from "../common/index"
 import ContextMenu from "./ContextMenu"
 import {
   logOut,

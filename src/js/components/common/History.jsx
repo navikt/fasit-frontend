@@ -1,5 +1,5 @@
 import React from "react";
-import {CollapsibleList, RevisionsView} from "../common/";
+import {CollapsibleList, RevisionsView} from "../common/index";
 import {icons} from "../../commonStyles/commonInlineStyles";
 
 export function History(props) {

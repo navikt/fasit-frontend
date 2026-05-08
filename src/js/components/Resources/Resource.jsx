@@ -21,7 +21,7 @@ import {
   Security,
   ToolButtons,
   Spinner
-} from "../common/"
+} from "../common/index"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const initialState = {

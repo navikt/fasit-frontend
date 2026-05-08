@@ -1,13 +1,13 @@
 import React from "react";
 import {getResourceTypeName, resourceTypeIcon} from "../../utils/resourceTypes";
-import {CardInfo, WebsphereManagementConsole} from "../common/";
+import {CardInfo, WebsphereManagementConsole} from "../common/index";
 import {List, ListItem, ListItemText, Collapse} from "@mui/material";
 import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
 import {withRouter} from "../../utils/withRouter"
 import {Card, CardContent, CardHeader} from "@mui/material";
 import {styles} from "../../commonStyles/commonInlineStyles";
-import {capitalize} from "../../utils/";
+import {capitalize} from "../../utils/index";
 
 function ResourceCard(props) {
     const resource = props.resource

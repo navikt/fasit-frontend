@@ -16,7 +16,7 @@ import NewApplicationForm from "../Applications/NewApplicationForm"
 import NewEnvironmentForm from "../Environments/NewEnvironmentForm"
 import NewClusterForm from "../Environments/NewClusterForm"
 import NewResourceForm from "../Resources/NewResourceForm"
-import { SubmitFormStatus, KeyboardShortcuts, ErrorDialog } from "../common/"
+import { SubmitFormStatus, KeyboardShortcuts, ErrorDialog } from "../common/index"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 const theme = createTheme({
   typography: {

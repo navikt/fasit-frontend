@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
-import { validAuthorization } from "../../utils/"
+import { validAuthorization } from "../../utils/index"
 import { Card, CardActions, CardHeader, List, ListItem, ListItemText } from "@mui/material"
 import { fetchApplicationInstances, fetchFasitData } from "../../actionCreators/application"
 import InstanceCard from "../Instances/InstanceCard"
@@ -14,7 +14,7 @@ import {
   Lifecycle,
   Security,
   ToolButtons
-} from "../common/"
+} from "../common/index"
 import NotFound from "../NotFound"
 
 export function Application({ name, application, user, dispatch, query, revisions, instances, resourceModalVisible, requestFailed }) {

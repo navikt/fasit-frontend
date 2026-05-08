@@ -1,7 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
-import { validAuthorization } from "../../utils/"
-import { CollapsibleList } from "../common/"
+import { validAuthorization } from "../../utils/index"
+import { CollapsibleList } from "../common/index"
 import { icons } from "../../commonStyles/commonInlineStyles"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 

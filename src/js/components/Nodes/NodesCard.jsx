@@ -1,5 +1,5 @@
 import React from "react";
-import {CardInfo} from "../common/";
+import {CardInfo} from "../common/index";
 import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
 import {withRouter} from "../../utils/withRouter"
@@ -7,7 +7,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import Divider from "@mui/material/Divider";
 import {Card, Collapse, CardContent, CardHeader, List, ListItem, ListItemText} from "@mui/material";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
-import {capitalize} from "../../utils/";
+import {capitalize} from "../../utils/index";
 
 function NodeCard(props) {
     const node = props.node

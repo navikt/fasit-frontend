@@ -1,5 +1,5 @@
 import React from "react";
-import { CardInfo } from "../common/";
+import { CardInfo } from "../common/index";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { withRouter } from "../../utils/withRouter"

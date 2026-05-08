@@ -1,5 +1,5 @@
 import React from "react";
-import { CardInfo } from "../common/";
+import { CardInfo } from "../common/index";
 import { Link } from "react-router-dom";
 import { Card, CardHeader } from "@mui/material";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Table, TableBody, TableHead, TableRow, TableCell } from "@mui/material";
-import { sortBy } from "../../utils/";
+import { sortBy } from "../../utils/index";
 
 
 export function ResourceInstances(props) {

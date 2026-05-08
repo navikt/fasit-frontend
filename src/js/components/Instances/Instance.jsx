@@ -5,12 +5,12 @@ import { Tabs, Tab } from "@mui/material";
 import { icons, styles } from "../../commonStyles/commonInlineStyles";
 import { Link } from "react-router-dom";
 import Manifest from "./Manifest";
-import { CollapsibleList, CurrentRevision, History, Lifecycle } from "../common/";
+import { CollapsibleList, CurrentRevision, History, Lifecycle } from "../common/index";
 import NotFound from "../NotFound";
 import { Card, CardHeader, CardContent, List, ListItem, ListItemText } from "@mui/material";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import { fetchInstance } from "../../actionCreators/instance";
-import { validAuthorization } from "../../utils/";
+import { validAuthorization } from "../../utils/index";
 
 function Instance({ instance, revisions, query, id, user, dispatch, requestFailed }) {
     const [tabIndex, setTabIndex] = useState(0)

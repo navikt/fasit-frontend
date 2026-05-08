@@ -10,9 +10,9 @@ import {
   Lifecycle,
   Security,
   ToolButtons
-} from "../common/"
+} from "../common/index"
 import { displayModal, submitForm } from "../../actionCreators/common"
-import { validAuthorization } from "../../utils/"
+import { validAuthorization } from "../../utils/index"
 import EnvironmentClusters from "./EnvironmentClusters"
 import EnvironmentNodes from "./EnvironmentNodes"
 import EnvironmentInstances from "./EnvironmentInstances"
