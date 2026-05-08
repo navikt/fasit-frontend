@@ -1,4 +1,4 @@
-export const validAuthorization = (user, accesscontrol) => {
+export function validAuthorization(user, accesscontrol) {
     let group = true, role = false
 
     if (user.authenticated && typeof accesscontrol !== "undefined") {
@@ -24,19 +24,19 @@ export const validAuthorization = (user, accesscontrol) => {
     return (group && role)
 }
 
-const hasGroup = (user, groups) => {
+function hasGroup(user, groups) {
     if (user.roles.indexOf("ROLE_SUPERUSER" > -1)) return true
     for (let i = 0; i < user.groups.length; i++) {
         if (groups.indexOf(user.groups[i]) !== -1) return true
     }
 }
-const hasRole = (user, roles) => {
+function hasRole(user, roles) {
     for (let i = 0; i < user.roles.length; i++) {
         if (roles.indexOf(user.roles[i]) !== -1) return true
     }
 }
 
-export const isEmptyObject = (obj) => {
+export function isEmptyObject(obj) {
     return !obj || Object.keys(obj).length === 0
 }
 
@@ -76,7 +76,7 @@ export function sortEnvironmentsNaturally(first, second) {
     return 0
 }
 
-export const fetchUrl = (url, noCredentials) => {
+export function fetchUrl(url, noCredentials) {
     let headers = {}
     if (!noCredentials) headers = {
         credentials: 'include',
@@ -97,7 +97,7 @@ export const fetchUrl = (url, noCredentials) => {
         })
 }
 
-export const fetchPage = (url) => {
+export function fetchPage(url) {
     return fetch(url)
         .then(res => {
             if (res.status >= 400) {
@@ -118,7 +118,7 @@ export const fetchPage = (url) => {
         })
 }
 
-export const putUrl = (url, content, comment) => {
+export function putUrl(url, content, comment) {
     let headers = { "Content-Type": "application/json" }
     if (comment && comment.length > 0) {
         headers = Object.assign({}, headers, { "X-Comment": comment })
@@ -142,7 +142,7 @@ export const putUrl = (url, content, comment) => {
         })
 }
 
-export const postUrl = (url, form, comment) => {
+export function postUrl(url, form, comment) {
     let headers = { "Content-Type": "application/json" }
     if (comment && comment.length > 0) {
         headers = Object.assign({}, headers, { "X-Comment": comment })
@@ -167,7 +167,7 @@ export const postUrl = (url, form, comment) => {
         })
 }
 
-export const sortBy = (property) => {
+export function sortBy(property) {
     return function (a, b) {
         if (a[property] === b[property]) {
             return 0
@@ -176,7 +176,7 @@ export const sortBy = (property) => {
     }
 }
 
-export const postForm = (url, body) => {
+export function postForm(url, body) {
     return fetch(url, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         credentials: 'include',
@@ -191,7 +191,7 @@ export const postForm = (url, body) => {
             return res.text()
         })
 }
-export const deleteUrl = (url, comment) => {
+export function deleteUrl(url, comment) {
     let headers = { "Content-Type": "application/json" }
     if (comment && comment.length > 0) {
         headers = Object.assign({}, headers, { "X-Comment": comment })
@@ -213,7 +213,7 @@ export const deleteUrl = (url, comment) => {
             return text
         })
 }
-export const sortSearchResults = (results) => {
+export function sortSearchResults(results) {
     return results.sort((a, b) => {
         if (a.type < b.type) {
             return -1
