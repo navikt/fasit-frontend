@@ -59,10 +59,10 @@ const environments = [
       adgroups: []
     },
     links: {
-      nodes: "https://fasit.adeo.no/api/v2/nodes?environment=u15",
-      self: "https://fasit.adeo.no/api/v2/environments/u15",
-      revisions: "https://fasit.adeo.no/api/v2/environments/u15/revisions",
-      clusters: "https://fasit.adeo.no/api/v2/environments/u15/clusters"
+      nodes: "http://localhost:4242/mockapi/v2/nodes?environment=u15",
+      self: "http://localhost:4242/mockapi/v2/environments/u15",
+      revisions: "http://localhost:4242/mockapi/v2/environments/u15/revisions",
+      clusters: "http://localhost:4242/mockapi/v2/environments/u15/clusters"
     }
   },
   {
@@ -77,10 +77,10 @@ const environments = [
       adgroups: []
     },
     links: {
-      nodes: "https://fasit.adeo.no/api/v2/nodes?environment=u99",
-      self: "https://fasit.adeo.no/api/v2/environments/u99",
-      revisions: "https://fasit.adeo.no/api/v2/environments/u99/revisions",
-      clusters: "https://fasit.adeo.no/api/v2/environments/u99/clusters"
+      nodes: "http://localhost:4242/mockapi/v2/nodes?environment=u99",
+      self: "http://localhost:4242/mockapi/v2/environments/u99",
+      revisions: "http://localhost:4242/mockapi/v2/environments/u99/revisions",
+      clusters: "http://localhost:4242/mockapi/v2/environments/u99/clusters"
     }
   },
   {
@@ -95,10 +95,10 @@ const environments = [
       adgroups: []
     },
     links: {
-      nodes: "https://fasit.adeo.no/api/v2/nodes?environment=q6",
-      self: "https://fasit.adeo.no/api/v2/environments/q6",
-      revisions: "https://fasit.adeo.no/api/v2/environments/q6/revisions",
-      clusters: "https://fasit.adeo.no/api/v2/environments/q6/clusters"
+      nodes: "http://localhost:4242/mockapi/v2/nodes?environment=q6",
+      self: "http://localhost:4242/mockapi/v2/environments/q6",
+      revisions: "http://localhost:4242/mockapi/v2/environments/q6/revisions",
+      clusters: "http://localhost:4242/mockapi/v2/environments/q6/clusters"
     }
   },
   {
@@ -113,10 +113,10 @@ const environments = [
       adgroups: []
     },
     links: {
-      nodes: "https://fasit.adeo.no/api/v2/nodes?environment=q6",
-      self: "https://fasit.adeo.no/api/v2/environments/q6",
-      revisions: "https://fasit.adeo.no/api/v2/environments/q6/revisions",
-      clusters: "https://fasit.adeo.no/api/v2/environments/q6/clusters"
+      nodes: "http://localhost:4242/mockapi/v2/nodes?environment=q6",
+      self: "http://localhost:4242/mockapi/v2/environments/q6",
+      revisions: "http://localhost:4242/mockapi/v2/environments/q6/revisions",
+      clusters: "http://localhost:4242/mockapi/v2/environments/q6/clusters"
     }
   },
   {
@@ -131,10 +131,10 @@ const environments = [
       adgroups: []
     },
     links: {
-      nodes: "https://fasit.adeo.no/api/v2/nodes?environment=cd-u1",
-      self: "https://fasit.adeo.no/api/v2/environments/u99",
-      revisions: "https://fasit.adeo.no/api/v2/environments/u99/revisions",
-      clusters: "https://fasit.adeo.no/api/v2/environments/u99/clusters"
+      nodes: "http://localhost:4242/mockapi/v2/nodes?environment=cd-u1",
+      self: "http://localhost:4242/mockapi/v2/environments/u99",
+      revisions: "http://localhost:4242/mockapi/v2/environments/u99/revisions",
+      clusters: "http://localhost:4242/mockapi/v2/environments/u99/clusters"
     }
   },
   {
@@ -151,10 +151,10 @@ const environments = [
       adgroups: []
     },
     links: {
-      nodes: "https://fasit.adeo.no/api/v2/nodes?environment=d4",
-      self: "https://fasit.adeo.no/api/v2/environments/d4",
-      revisions: "https://fasit.adeo.no/api/v2/environments/d4/revisions",
-      clusters: "https://fasit.adeo.no/api/v2/environments/d4/clusters"
+      nodes: "http://localhost:4242/mockapi/v2/nodes?environment=d4",
+      self: "http://localhost:4242/mockapi/v2/environments/d4",
+      revisions: "http://localhost:4242/mockapi/v2/environments/d4/revisions",
+      clusters: "http://localhost:4242/mockapi/v2/environments/d4/clusters"
     }
   },
   {
@@ -169,10 +169,10 @@ const environments = [
       adgroups: []
     },
     links: {
-      nodes: "https://fasit.adeo.no/api/v2/nodes?environment=d4",
-      self: "https://fasit.adeo.no/api/v2/environments/d4",
-      revisions: "https://fasit.adeo.no/api/v2/environments/d4/revisions",
-      clusters: "https://fasit.adeo.no/api/v2/environments/d4/clusters"
+      nodes: "http://localhost:4242/mockapi/v2/nodes?environment=d4",
+      self: "http://localhost:4242/mockapi/v2/environments/d4",
+      revisions: "http://localhost:4242/mockapi/v2/environments/d4/revisions",
+      clusters: "http://localhost:4242/mockapi/v2/environments/d4/clusters"
     }
   },
   {
@@ -189,10 +189,10 @@ const environments = [
       adgroups: []
     },
     links: {
-      nodes: "https://fasit.adeo.no/api/v2/nodes?environment=d4",
-      self: "https://fasit.adeo.no/api/v2/environments/d4",
-      revisions: "https://fasit.adeo.no/api/v2/environments/d4/revisions",
-      clusters: "https://fasit.adeo.no/api/v2/environments/d4/clusters"
+      nodes: "http://localhost:4242/mockapi/v2/nodes?environment=d4",
+      self: "http://localhost:4242/mockapi/v2/environments/d4",
+      revisions: "http://localhost:4242/mockapi/v2/environments/d4/revisions",
+      clusters: "http://localhost:4242/mockapi/v2/environments/d4/clusters"
     }
   }
 ]
@@ -410,7 +410,7 @@ const clusterRevisions = [
     revisiontype: "add",
     links: {
       entity:
-        "https://fasit.adeo.no/api/v2/environments/p/clusters/applikasjonsgruppe:esbCluster/revisions/571606"
+        "http://localhost:4242/mockapi/v2/environments/p/clusters/applikasjonsgruppe:esbCluster/revisions/571606"
     }
   }
 ]
@@ -423,19 +423,19 @@ const clusterRevision = {
   nodes: [
     {
       name: "node1.server.com",
-      ref: "https://fasit.adeo.no/api/v2/nodes/node1.server.com"
+      ref: "http://localhost:4242/mockapi/v2/nodes/node1.server.com"
     }
   ],
   applications: [
     {
       name: "app1",
       id: "571602",
-      ref: "https://fasit.adeo.no/api/v2/applicationinstances/571602"
+      ref: "http://localhost:4242/mockapi/v2/applicationinstances/571602"
     },
     {
       name: "app2",
       id: "571603",
-      ref: "https://fasit.adeo.no/api/v2/applicationinstances/571603"
+      ref: "http://localhost:4242/mockapi/v2/applicationinstances/571603"
     }
   ],
   id: 571598,
@@ -446,7 +446,7 @@ const clusterRevision = {
     adgroups: []
   },
   links: {
-    self: "https://fasit.adeo.no/api/v2/environments/p/clusters/bpm",
-    revisions: "https://fasit.adeo.no/api/v2/environments/p/clusters/bpm"
+    self: "http://localhost:4242/mockapi/v2/environments/p/clusters/bpm",
+    revisions: "http://localhost:4242/mockapi/v2/environments/p/clusters/bpm"
   }
 }

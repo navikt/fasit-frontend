@@ -15,7 +15,7 @@ const applicationInstanceRevisions =
         "message": "Prodcluster for fasit",
         "revisiontype": "add",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/530663"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/530663"
         }
     },
     {
@@ -26,7 +26,7 @@ const applicationInstanceRevisions =
         "message": "Application fasit:4.6.0 deployed in p",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/702308"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/702308"
         }
     },
     {
@@ -37,7 +37,7 @@ const applicationInstanceRevisions =
         "message": "Application fasit:4.6.1 deployed in p",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/725786"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/725786"
         }
     },
     {
@@ -48,7 +48,7 @@ const applicationInstanceRevisions =
         "message": "Application fasit:4.7.1 deployed in p",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/760840"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/760840"
         }
     },
     {
@@ -59,7 +59,7 @@ const applicationInstanceRevisions =
         "message": "Application fasit:4.8.1 deployed in p",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/798101"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/798101"
         }
     },
     {
@@ -70,7 +70,7 @@ const applicationInstanceRevisions =
         "message": "Application fasit:4.8.2 deployed in p",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/804791"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/804791"
         }
     },
     {
@@ -81,7 +81,7 @@ const applicationInstanceRevisions =
         "message": "Application fasit:4.8.3 deployed in p",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/821372"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/821372"
         }
     },
     {
@@ -92,7 +92,7 @@ const applicationInstanceRevisions =
         "message": "Application fasit:4.8.4 deployed in p",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/821665"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/821665"
         }
     },
     {
@@ -103,7 +103,7 @@ const applicationInstanceRevisions =
         "message": "Application fasit:4.8.6 deployed in p",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/824106"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/824106"
         }
     },
     {
@@ -113,7 +113,7 @@ const applicationInstanceRevisions =
         "authorid": "S138206",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/828200"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/828200"
         }
     },
     {
@@ -123,7 +123,7 @@ const applicationInstanceRevisions =
         "authorid": "D113507",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/830748"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/830748"
         }
     },
     {
@@ -133,7 +133,7 @@ const applicationInstanceRevisions =
         "authorid": "D113507",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/833507"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/833507"
         }
     },
     {
@@ -143,7 +143,7 @@ const applicationInstanceRevisions =
         "authorid": "D113507",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/835243"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/835243"
         }
     },
     {
@@ -153,6 +153,6 @@ const applicationInstanceRevisions =
         "authorid": "D113507",
         "revisiontype": "mod",
         "links": {
-            "entity": "https://fasit.adeo.no/api/v2/applicationinstances/530662/revisions/836993"
+            "entity": "http://localhost:4242/mockapi/v2/applicationinstances/530662/revisions/836993"
         }
     }]
