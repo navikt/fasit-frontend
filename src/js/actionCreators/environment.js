@@ -7,9 +7,9 @@ import {
     ENVIRONMENT_INSTANCES_FASIT_REQUEST
 } from '../actionTypes'
 
-export const fetchEnvironment = (id ,revision) => {return {type: ENVIRONMENT_FASIT_REQUEST, id, revision}}
-export const fetchEnvironmentCluster = (environment, cluster, revision) => {return {type: ENVIRONMENT_CLUSTER_FASIT_REQUEST, environment, cluster, revision}}
-export const fetchEnvironmentClusters = (environment) => {return {type: ENVIRONMENT_CLUSTERS_REQUEST, environment}}
-export const clearEnvironmentClusters = () => {return {type: CLEAR_ENVIRONMENT_CLUSTERS}}
-export const fetchEnvironmentNodes = (environment) => {return {type: ENVIRONMENT_NODES_FASIT_REQUEST, environment}}
-export const fetchEnvironmentInstances = (environment) => {return {type: ENVIRONMENT_INSTANCES_FASIT_REQUEST, environment}}
+export function fetchEnvironment(id, revision) { return {type: ENVIRONMENT_FASIT_REQUEST, id, revision} }
+export function fetchEnvironmentCluster(environment, cluster, revision) { return {type: ENVIRONMENT_CLUSTER_FASIT_REQUEST, environment, cluster, revision} }
+export function fetchEnvironmentClusters(environment) { return {type: ENVIRONMENT_CLUSTERS_REQUEST, environment} }
+export function clearEnvironmentClusters() { return {type: CLEAR_ENVIRONMENT_CLUSTERS} }
+export function fetchEnvironmentNodes(environment) { return {type: ENVIRONMENT_NODES_FASIT_REQUEST, environment} }
+export function fetchEnvironmentInstances(environment) { return {type: ENVIRONMENT_INSTANCES_FASIT_REQUEST, environment} }

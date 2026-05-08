@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { thunk } from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga'
 
 import rootSaga from '../sagas'
@@ -9,11 +8,6 @@ import rootReducer from '../reducers';
 export default function configureStore() {
     const sagaMiddleware = createSagaMiddleware()
 
-    const middlewares = [
-        thunk,
-        sagaMiddleware
-    ]
-
     const composeEnhancers =
         typeof window === 'object' &&
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
@@ -22,7 +16,7 @@ export default function configureStore() {
 
     const store = createStore(
         rootReducer,
-        composeEnhancers(applyMiddleware(...middlewares))
+        composeEnhancers(applyMiddleware(sagaMiddleware))
     );
 
     // Hot reload reducers (Vite HMR)

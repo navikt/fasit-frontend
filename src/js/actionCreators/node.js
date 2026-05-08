@@ -5,17 +5,17 @@ import {
   NODE_FASIT_PASSWORD_REQUEST
 } from "../actionTypes"
 
-export const clearNodePassword = () => {
+export function clearNodePassword() {
   return { type: CLEAR_NODE_PASSWORD }
 }
 
-export const fetchFasitData = (hostname, revision) => {
+export function fetchFasitData(hostname, revision) {
   return { type: NODE_FASIT_REQUEST, hostname, revision }
 }
-export const fetchDeploymentManagerResource = node => {
+export function fetchDeploymentManagerResource(node) {
   return { type: DEPLOYMENTMANAGER_FASIT_REQUEST, node }
 }
-export const fetchNodePassword = () => {
+export function fetchNodePassword() {
   return { type: NODE_FASIT_PASSWORD_REQUEST }
 }
 

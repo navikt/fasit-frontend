@@ -3,5 +3,5 @@ import {
     INSTANCE_MANIFEST_FASIT_REQUEST
 } from '../actionTypes'
 
-export const fetchInstance = (id, revision) => {return {type: INSTANCE_FASIT_REQUEST, id, revision}}
-export const fetchManifest = () => {return {type: INSTANCE_MANIFEST_FASIT_REQUEST}}
+export function fetchInstance(id, revision) { return {type: INSTANCE_FASIT_REQUEST, id, revision} }
+export function fetchManifest() { return {type: INSTANCE_MANIFEST_FASIT_REQUEST} }
