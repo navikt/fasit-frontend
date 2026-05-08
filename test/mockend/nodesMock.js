@@ -48,7 +48,7 @@ const nodes = [
       {
         name: "pensjon-patchstatusCluster",
         ref:
-          "https://fasit.adeo.no/api/v2/environments/t1/clusters/pensjon-patchstatusCluster"
+          "https://fasit.adeo.no/mockapi/v2/environments/t1/clusters/pensjon-patchstatusCluster"
       }
     ],
     applications: ["app1", "superawesomeapp"],
@@ -62,8 +62,8 @@ const nodes = [
       adgroups: ["Group1"]
     },
     links: {
-      self: "https://fasit.adeo.no/api/v2/nodes/host1.test.local",
-      revisions: "https://fasit.adeo.no/api/v2/nodes/host1.test.local/revisions"
+      self: "https://fasit.adeo.no/mockapi/v2/nodes/host1.test.local",
+      revisions: "https://fasit.adeo.no/mockapi/v2/nodes/host1.test.local/revisions"
     }
   },
   {
@@ -80,7 +80,7 @@ const nodes = [
       {
         name: "mininnboksCluster",
         ref:
-          "https://fasit.adeo.no/api/v2/environments/q4/clusters/mininnboksCluster"
+          "https://fasit.adeo.no/mockapi/v2/environments/q4/clusters/mininnboksCluster"
       }
     ],
     applications: [],
@@ -93,9 +93,9 @@ const nodes = [
       adgroups: ["Group2"]
     },
     links: {
-      self: "https://fasit.adeo.no/api/v2/nodes/host2.preprod.local",
+      self: "https://fasit.adeo.no/mockapi/v2/nodes/host2.preprod.local",
       revisions:
-        "https://fasit.adeo.no/api/v2/nodes/host2.preprod.local/revisions"
+        "https://fasit.adeo.no/mockapi/v2/nodes/host2.preprod.local/revisions"
     }
   },
   {
@@ -112,17 +112,17 @@ const nodes = [
       {
         name: "ereg-solrCluster",
         ref:
-          "https://fasit.adeo.no/api/v2/environments/t2/clusters/ereg-solrCluster"
+          "https://fasit.adeo.no/mockapi/v2/environments/t2/clusters/ereg-solrCluster"
       },
       {
         name: "anotherCluster",
         ref:
-          "https://fasit.adeo.no/api/v2/environments/t2/clusters/ereg-solrCluster"
+          "https://fasit.adeo.no/mockapi/v2/environments/t2/clusters/ereg-solrCluster"
       },
       {
         name: "cluster69",
         ref:
-          "https://fasit.adeo.no/api/v2/environments/t2/clusters/ereg-solrCluster"
+          "https://fasit.adeo.no/mockapi/v2/environments/t2/clusters/ereg-solrCluster"
       }
     ],
     applications: ["app3"],
@@ -135,8 +135,8 @@ const nodes = [
       adgroups: ["NonExistantGroup"]
     },
     links: {
-      self: "https://fasit.adeo.no/api/v2/nodes/host3.devillo.no",
-      revisions: "https://fasit.adeo.no/api/v2/nodes/host3.devillo.no/revisions"
+      self: "https://fasit.adeo.no/mockapi/v2/nodes/host3.devillo.no",
+      revisions: "https://fasit.adeo.no/mockapi/v2/nodes/host3.devillo.no/revisions"
     }
   },
   {
@@ -153,7 +153,7 @@ const nodes = [
       {
         name: "aareg-coreCluster",
         ref:
-          "https://fasit.adeo.no/api/v2/environments/t0/clusters/aareg-coreCluster"
+          "https://fasit.adeo.no/mockapi/v2/environments/t0/clusters/aareg-coreCluster"
       }
     ],
     applications: ["app1"],
@@ -166,9 +166,9 @@ const nodes = [
       adgroups: []
     },
     links: {
-      self: "https://fasit.adeo.no/api/v2/nodes/d26jbsl00312.test.local",
+      self: "https://fasit.adeo.no/mockapi/v2/nodes/d26jbsl00312.test.local",
       revisions:
-        "https://fasit.adeo.no/api/v2/nodes/d26jbsl00312.test.local/revisions"
+        "https://fasit.adeo.no/mockapi/v2/nodes/d26jbsl00312.test.local/revisions"
     }
   },
   {
@@ -185,7 +185,7 @@ const nodes = [
       {
         name: "digital-kontaktinformasjonCluster",
         ref:
-          "https://fasit.adeo.no/api/v2/environments/t8/clusters/digital-kontaktinformasjonCluster"
+          "https://fasit.adeo.no/mockapi/v2/environments/t8/clusters/digital-kontaktinformasjonCluster"
       }
     ],
     applications: ["app4"],
@@ -198,9 +198,48 @@ const nodes = [
       adgroups: []
     },
     links: {
-      self: "https://fasit.adeo.no/api/v2/nodes/d26jbsl00713.test.local",
+      self: "https://fasit.adeo.no/mockapi/v2/nodes/d26jbsl00713.test.local",
       revisions:
-        "https://fasit.adeo.no/api/v2/nodes/d26jbsl00713.test.local/revisions"
+        "https://fasit.adeo.no/mockapi/v2/nodes/d26jbsl00713.test.local/revisions"
     }
+  },
+  {
+    "id": 2254,
+    "revision": 2257,
+    "created": "2016-10-25T13:17:59.364",
+    "updated": "2016-10-25T13:17:59.364",
+    "lifecycle": {
+        "status": null
+    },
+    "links": {
+        "self": "http://localhost:4242/mockapi/v2/nodes/fakenode.devillo.no",
+        "revisions": "http://localhost:4242/mockapi/v2/nodes/fakenode.devillo.no/revisions"
+    },
+    "hostname": "fakenode.devillo.no",
+    "environment": "cd-u1",
+    "type": "was9",
+    "username": "deployer",
+    "password": {
+        "value": null,
+        "vaultpath": null,
+        "ref": "http://localhost:4242/mockapi/v2/secrets/2255"
+    },
+    "zone": "fss",
+    "cluster": [
+        {
+            "name": "app1Cluster",
+            "id": null,
+            "ref": "http://localhost:4242/mockapi/v2/environments/cd-u1/clusters/app1Cluster"
+        }
+    ],
+    "applications": [
+        "app1"
+    ],
+    "updatedby": null,
+    "accesscontrol": {
+        "environmentclass": "u",
+        "adgroups": []
+    },
+    "environmentclass": "u"
   }
 ]

@@ -138,8 +138,8 @@ const resources = [
       adgroups: []
     },
     links: {
-      self: "https://fasit.adeo.no/api/v2/resources/358659",
-      revisions: "https://fasit.adeo.no/api/v2/resources/358659/revisions"
+      self: "https://fasit.adeo.no/mockapi/v2/resources/358659",
+      revisions: "https://fasit.adeo.no/mockapi/v2/resources/358659/revisions"
     }
   },
   {
@@ -397,7 +397,7 @@ const resources = [
     files: {
       keystore: {
         filename: "keystore",
-        ref: "https://fasit.adeo.no/api/v2/resources/242157/file/keystore"
+        ref: "https://fasit.adeo.no/mockapi/v2/resources/242157/file/keystore"
       }
     },
     dodgy: false,
@@ -823,7 +823,7 @@ const resources = [
     },
     secrets: {
       clientSecret: {
-        ref: "https://fasit.adeo.no/api/v2/secrets/5244747"
+        ref: "https://fasit.adeo.no/mockapi/v2/secrets/5244747"
       }
     },
     files: {},
@@ -839,8 +839,8 @@ const resources = [
       adgroups: []
     },
     links: {
-      self: "https://fasit.adeo.no/api/v2/resources/5244746",
-      revisions: "https://fasit.adeo.no/api/v2/resources/5244746/revisions"
+      self: "https://fasit.adeo.no/mockapi/v2/resources/5244746",
+      revisions: "https://fasit.adeo.no/mockapi/v2/resources/5244746/revisions"
     }
   },
   {
@@ -920,7 +920,7 @@ const resources = [
     files: {
       keystore: {
         filename: "keystore",
-        ref: "https://fasit.adeo.no/api/v2/resources/3510/file/keystore"
+        ref: "https://fasit.adeo.no/mockapi/v2/resources/3510/file/keystore"
       }
     },
     dodgy: false,
@@ -1231,7 +1231,7 @@ const resources = [
     },
     secrets: {
       password: {
-        ref: "https://e34jbsl01655.devillo.no:8443/api/v2/secrets/3580"
+        ref: "https://e34jbsl01655.devillo.no:8443/mockapi/v2/secrets/3580"
       }
     },
     files: {},
@@ -1252,5 +1252,47 @@ const resources = [
       self: "http://localhost:9696/resources/69",
       revisions: "http://localhost:9696/resources/69/revisions"
     }
+  },
+  {
+    "id": 2225,
+    "revision": 2227,
+    "created": "2016-10-21T10:31:06.254",
+    "updated": "2016-10-21T10:31:06.254",
+    "lifecycle": {
+        "status": null
+    },
+    "links": {
+        "self": "http://localhost:4242/mockapi/v2/resources/2225",
+        "revisions": "http://localhost:4242/mockapi/v2/resources/2225/revisions"
+    },
+    "type": "deploymentmanager",
+    "alias": "was9Dmgr",
+    "scope": {
+        "environmentclass": "u",
+        "zone": "fss",
+        "environment": "cd-u1",
+        "application": null
+    },
+    "properties": {
+        "hostname": "deploymentManager.devillo.no",
+        "username": "deployer"
+    },
+    "secrets": {
+        "password": {
+            "value": null,
+            "vaultpath": null,
+            "ref": "http://localhost:4242/mockapi/v2/secrets/2226"
+        }
+    },
+    "files": {},
+    "dodgy": false,
+    "updatedby": null,
+    "accesscontrol": {
+        "environmentclass": "u",
+        "adgroups": []
+    },
+    "lifecyclestatus": null,
+    "exposedby": null,
+    "usedbyapplications": []
   }
 ]
