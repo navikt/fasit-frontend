@@ -39,7 +39,7 @@ function Instances({ dispatch, instances, totalCount, match }) {
 const mapStateToProps = (state) => {
     return {
         instances: state.instances.data,
-        totalCount: state.instances.headers.toal_count,
+        totalCount: state.instances.headers.total_count,
         isFetching: state.instances.isFetching
     }
 }
