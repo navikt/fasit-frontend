@@ -124,6 +124,10 @@ app.get("/mockapi/v2/environments/:name", (req, res) => {
   sendJson(res, environmentsMock.getEnvironment(req.params.name))
 })
 
+app.get("/mockapi/v2/environments/:name/revisions", (req, res) => {
+  sendJson(res, environmentsMock.getEnvironmentRevisions())
+})
+
 app.delete("/mockapi/v2/environments/:name", (req, res) => {
   sendJson(res, environmentsMock.deleteEnvironment(req.params.name))
 })

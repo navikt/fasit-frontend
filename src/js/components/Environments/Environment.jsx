@@ -98,7 +98,8 @@ export function Environment({ name, environment, user, query, revisions, dispatc
 
   return (
     <div className="row">
-      <div className="col-md-6" style={styles.cardPadding}>
+      <div className="col-md-8">
+      <div style={styles.cardPadding}>
         <CurrentRevision revisionId={query.revision} revisions={revisions} />
         <Card>
           <CardHeader avatar={icons.environment} title="Environment" slotProps={{title: {style: styles.bold}}} />
@@ -117,13 +118,8 @@ export function Environment({ name, environment, user, query, revisions, dispatc
         <Lifecycle lifecycle={lifecycle} authorized={authorized} />
       </div>
 
-      <div className="col-md-4">
-        <History id={name} currentRevision={query.revision} component="environment" />
-        <Security accesscontrol={environment.accesscontrol} />
-      </div>
-
       {/*Content view*/}
-      <div className="col-12">
+      <div>
         <ul className="nav nav-tabs">
           <li className={displayClusters ? "active" : ""}>
             <Link
@@ -148,8 +144,10 @@ export function Environment({ name, environment, user, query, revisions, dispatc
           </li>
         </ul>
       </div>
-      <div className="col-12">
-        <div className="col-12" style={{ height: 20 + "px" }}></div>
+      
+
+      <div>
+        <div style={{ height: 20 + "px" }}></div>
         {displayClusters ? <EnvironmentClusters environment={envName} /> : null}
         {displayNodes ? <EnvironmentNodes environment={envName} /> : ""}
         {displayInstances ? <EnvironmentInstances environment={envName} /> : ""}
@@ -160,6 +158,11 @@ export function Environment({ name, environment, user, query, revisions, dispatc
         onSubmit={() => handleSubmitForm(envName, null, comment, "deleteEnvironment")}
         id={envName}
       />
+      </div>
+      <div className="col-md-4">
+        <History id={name} currentRevision={query.revision} component="environment" />
+        <Security accesscontrol={environment.accesscontrol} />
+      </div>
     </div>
   )
 }
