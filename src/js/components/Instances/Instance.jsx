@@ -103,7 +103,8 @@ function Instance({ instance, revisions, query, id, user, dispatch, requestFaile
                                 role="navigation"
                                 sx={{
                                     '.MuiTab-root': { color: 'rgba(255, 255, 255, 0.5)' },
-                                    '.MuiTab-root.Mui-selected': { color: '#ffffff' }
+                                    '.MuiTab-root.Mui-selected': { color: '#ffffff' },
+                                    '.MuiTab-root.Mui-disabled': { color: 'rgba(255, 255, 255, 0.3)' }
                                 }}>
                                 <Tab
                                     label={`Used resources ${instance.usedresources.length}`}
