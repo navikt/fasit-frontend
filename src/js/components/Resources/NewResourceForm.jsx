@@ -67,14 +67,14 @@ function NewResourceForm({ dispatch, showNewResourceForm, environmentClasses, cu
     const { alias: rAlias, type: rType, properties: rProps, scope: rScope, files: rFiles } = data
     if (mode === "edit") {
       setAlias(rAlias)
-      setType(rType)
+      setType(getResourceTypeName(rType))
       setProperties(rProps)
       setScope(rScope)
       setFiles(rFiles)
       setCurrentSecrets(propCurrentSecrets)
     } else if (mode === "copy") {
       setAlias(rAlias)
-      setType(rType)
+      setType(getResourceTypeName(rType))
       setProperties(rProps)
       setScope(rScope)
       setFiles(rFiles)
