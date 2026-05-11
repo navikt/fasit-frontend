@@ -19,6 +19,11 @@ module.exports = {
   getEnvironment: function(name) {
     return environments.filter(e => e.name == name)[0]
   },
+
+  getEnvironmentRevisions: function() {
+    return environmentRevisions
+  },
+
   deleteEnvironment: environment =>
     environments.splice(environments.findIndex(e => e.name === environment), 1),
 
@@ -195,6 +200,261 @@ const environments = [
       clusters: "http://localhost:4242/mockapi/v2/environments/d4/clusters"
     }
   }
+]
+
+const environmentRevisions = [
+    {
+        "revision": 12,
+        "timestamp": "2016-02-23T09:32:40.839",
+        "author": "Fetter Anton",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/12"
+        },
+        "onbehalfof": null,
+        "authorid": "a123456",
+        "revisiontype": "add"
+    },
+    {
+        "revision": 19,
+        "timestamp": "2016-02-23T09:36:01.428",
+        "author": "Fetter Anton",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/19"
+        },
+        "onbehalfof": null,
+        "authorid": "a123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 22,
+        "timestamp": "2016-02-23T09:36:55.692",
+        "author": "Fetter Anton",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/22"
+        },
+        "onbehalfof": null,
+        "authorid": "a123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 25,
+        "timestamp": "2016-02-23T09:37:39.569",
+        "author": "Fetter Anton",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/25"
+        },
+        "onbehalfof": null,
+        "authorid": "a123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 28,
+        "timestamp": "2016-02-23T09:38:02.584",
+        "author": "Fetter Anton",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/28"
+        },
+        "onbehalfof": null,
+        "authorid": "a123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2230,
+        "timestamp": "2016-10-21T14:15:41.563",
+        "author": "Sten Ivar Røkke",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2230"
+        },
+        "onbehalfof": null,
+        "authorid": "R137915",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2233,
+        "timestamp": "2016-10-21T14:16:01.926",
+        "author": "Sten Ivar Røkke",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2233"
+        },
+        "onbehalfof": null,
+        "authorid": "R137915",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2245,
+        "timestamp": "2016-10-25T15:16:48.688",
+        "author": "Donald Duck",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2245"
+        },
+        "onbehalfof": null,
+        "authorid": "d123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2248,
+        "timestamp": "2016-10-25T15:17:13.042",
+        "author": "Donald Duck",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2248"
+        },
+        "onbehalfof": null,
+        "authorid": "d123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2249,
+        "timestamp": "2016-10-25T15:17:19.033",
+        "author": "Donald Duck",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2249"
+        },
+        "onbehalfof": null,
+        "authorid": "d123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2250,
+        "timestamp": "2016-10-25T15:17:21.955",
+        "author": "Donald Duck",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2250"
+        },
+        "onbehalfof": null,
+        "authorid": "d123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2253,
+        "timestamp": "2016-10-25T15:17:34.397",
+        "author": "Donald Duck",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2253"
+        },
+        "onbehalfof": null,
+        "authorid": "d123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2256,
+        "timestamp": "2016-10-25T15:17:59.424",
+        "author": "Donald Duck",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2256"
+        },
+        "onbehalfof": null,
+        "authorid": "d123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2260,
+        "timestamp": "2016-10-25T15:18:48.607",
+        "author": "Donald Duck",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2260"
+        },
+        "onbehalfof": null,
+        "authorid": "d123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2263,
+        "timestamp": "2016-10-25T15:19:06.681",
+        "author": "Donald Duck",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2263"
+        },
+        "onbehalfof": null,
+        "authorid": "d123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2839,
+        "timestamp": "2016-12-19T10:23:16.994",
+        "author": "Onkel Skrue",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2839"
+        },
+        "onbehalfof": null,
+        "authorid": "s123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2843,
+        "timestamp": "2016-12-19T10:24:58.876",
+        "author": "Onkel Skrue",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2843"
+        },
+        "onbehalfof": null,
+        "authorid": "s123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2847,
+        "timestamp": "2016-12-19T13:37:24.432",
+        "author": "Onkel Skrue",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2847"
+        },
+        "onbehalfof": null,
+        "authorid": "s123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2981,
+        "timestamp": "2017-01-13T14:34:11.843",
+        "author": "Donald Duck",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2981"
+        },
+        "onbehalfof": null,
+        "authorid": "d123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 2985,
+        "timestamp": "2017-01-13T14:35:49.911",
+        "author": "Donald Duck",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/2985"
+        },
+        "onbehalfof": null,
+        "authorid": "d123456",
+        "revisiontype": "mod"
+    },
+    {
+        "revision": 11865,
+        "timestamp": "2025-07-11T16:16:49.735",
+        "author": "Kari Nordmann",
+        "message": null,
+        "links": {
+            "entity": "https://fasit.dev.intern.nav.no/api/v2/environments/cd-u1/revisions/11865"
+        },
+        "onbehalfof": null,
+        "authorid": "n123456",
+        "revisiontype": "mod"
+    }
 ]
 
 const clusters = [
@@ -398,7 +658,294 @@ const clusters = [
         }
       }
     ]
-  }
+  },
+  {env: "p",
+   clusters: [
+    {
+        "id": 2978,
+        "revision": null,
+        "created": "2017-01-13T13:34:11.680",
+        "updated": "2017-01-13T13:34:11.680",
+        "lifecycle": {
+            "status": null
+        },
+        "links": {
+            "self": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/auraCluster",
+            "revisions": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/auraCluster/revisions"
+        },
+        "zone": "fss",
+        "environment": "p",
+        "nodes": [
+            {
+                "name": "e34apvl00160.devillo.no",
+                "id": null,
+                "ref": "https://fasit.dev.intern.nav.no/api/v2/nodes/e34apvl00160.devillo.no"
+            },
+            {
+                "name": "e34apvl00161.devillo.no",
+                "id": null,
+                "ref": "https://fasit.dev.intern.nav.no/api/v2/nodes/e34apvl00161.devillo.no"
+            }
+        ],
+        "applications": [],
+        "updatedby": null,
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "clustername": "auraCluster",
+        "environmentclass": "u",
+        "loadbalancerurl": null
+    },
+    {
+        "id": 2984,
+        "revision": null,
+        "created": "2017-01-13T13:35:49.890",
+        "updated": "2017-01-13T13:35:49.890",
+        "lifecycle": {
+            "status": null
+        },
+        "links": {
+            "self": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/auraCluster_0.8869005389912195",
+            "revisions": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/auraCluster_0.8869005389912195/revisions"
+        },
+        "zone": "fss",
+        "environment": "p",
+        "nodes": [],
+        "applications": [],
+        "updatedby": null,
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "clustername": "auraCluster_0.8869005389912195",
+        "environmentclass": "u",
+        "loadbalancerurl": null
+    },
+    {
+        "id": 2836,
+        "revision": null,
+        "created": "2016-12-19T09:23:16.743",
+        "updated": "2016-12-19T09:23:16.743",
+        "lifecycle": {
+            "status": null
+        },
+        "links": {
+            "self": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/cluster4",
+            "revisions": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/cluster4/revisions"
+        },
+        "zone": "fss",
+        "environment": "p",
+        "nodes": [
+            {
+                "name": "tullenode2000.devillo.no",
+                "id": null,
+                "ref": "https://fasit.dev.intern.nav.no/api/v2/nodes/tullenode2000.devillo.no"
+            }
+        ],
+        "applications": [],
+        "updatedby": null,
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "clustername": "cluster4",
+        "environmentclass": "u",
+        "loadbalancerurl": null
+    },
+    {
+        "id": 2840,
+        "revision": null,
+        "created": "2016-12-19T09:24:58.837",
+        "updated": "2016-12-19T09:24:58.837",
+        "lifecycle": {
+            "status": null
+        },
+        "links": {
+            "self": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/cluster5",
+            "revisions": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/cluster5/revisions"
+        },
+        "zone": "fss",
+        "environment": "p",
+        "nodes": [
+            {
+                "name": "tullenode2001.devillo.no",
+                "id": null,
+                "ref": "https://fasit.dev.intern.nav.no/api/v2/nodes/tullenode2001.devillo.no"
+            }
+        ],
+        "applications": [],
+        "updatedby": null,
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "clustername": "cluster5",
+        "environmentclass": "u",
+        "loadbalancerurl": null
+    },
+    {
+        "id": 2844,
+        "revision": null,
+        "created": "2016-12-19T12:37:24.408",
+        "updated": "2016-12-19T12:37:24.408",
+        "lifecycle": {
+            "status": null
+        },
+        "links": {
+            "self": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/cluster6",
+            "revisions": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/cluster6/revisions"
+        },
+        "zone": "fss",
+        "environment": "p",
+        "nodes": [
+            {
+                "name": "tullenode2002.devillo.no",
+                "id": null,
+                "ref": "https://fasit.dev.intern.nav.no/api/v2/nodes/tullenode2002.devillo.no"
+            }
+        ],
+        "applications": [],
+        "updatedby": null,
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "clustername": "cluster6",
+        "environmentclass": "u",
+        "loadbalancerurl": null
+    },
+    {
+        "id": 2258,
+        "revision": null,
+        "created": "2016-10-25T13:18:48.565",
+        "updated": "2016-10-25T13:18:48.565",
+        "lifecycle": {
+            "status": null
+        },
+        "links": {
+            "self": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/docker-testappCluster",
+            "revisions": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/docker-testappCluster/revisions"
+        },
+        "zone": "fss",
+        "environment": "p",
+        "nodes": [],
+        "applications": [
+            {
+                "name": "docker-testapp",
+                "id": "2259",
+                "ref": "https://fasit.dev.intern.nav.no/applicationinstances/2259"
+            }
+        ],
+        "updatedby": null,
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "clustername": "docker-testappCluster",
+        "environmentclass": "u",
+        "loadbalancerurl": null
+    },
+    {
+        "id": 2246,
+        "revision": null,
+        "created": "2016-10-25T13:17:12.917",
+        "updated": "2016-10-25T13:17:12.917",
+        "lifecycle": {
+            "status": null
+        },
+        "links": {
+            "self": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/jboss-testappCluster",
+            "revisions": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/jboss-testappCluster/revisions"
+        },
+        "zone": "fss",
+        "environment": "p",
+        "nodes": [
+            {
+                "name": "e34jbsl01658.devillo.no",
+                "id": null,
+                "ref": "https://fasit.dev.intern.nav.no/api/v2/nodes/e34jbsl01658.devillo.no"
+            }
+        ],
+        "applications": [
+            {
+                "name": "jboss-testapp",
+                "id": "2247",
+                "ref": "https://fasit.dev.intern.nav.no/applicationinstances/2247"
+            }
+        ],
+        "updatedby": null,
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "clustername": "jboss-testappCluster",
+        "environmentclass": "u",
+        "loadbalancerurl": null
+    },
+    {
+        "id": 11864,
+        "revision": null,
+        "created": "2025-07-11T14:16:49.691",
+        "updated": "2025-07-11T14:16:49.691",
+        "lifecycle": {
+            "status": null
+        },
+        "links": {
+            "self": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/testclustert",
+            "revisions": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/testclustert/revisions"
+        },
+        "zone": "fss",
+        "environment": "p",
+        "nodes": [],
+        "applications": [],
+        "updatedby": null,
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "clustername": "testclustert",
+        "environmentclass": "u",
+        "loadbalancerurl": null
+    },
+    {
+        "id": 2251,
+        "revision": null,
+        "created": "2016-10-25T13:17:34.360",
+        "updated": "2016-10-25T13:17:34.360",
+        "lifecycle": {
+            "status": null
+        },
+        "links": {
+            "self": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/was-testappCluster",
+            "revisions": "https://fasit.dev.intern.nav.no/api/v2/environments/p/clusters/was-testappCluster/revisions"
+        },
+        "zone": "fss",
+        "environment": "p",
+        "nodes": [
+            {
+                "name": "e34wasl00385.devillo.no",
+                "id": null,
+                "ref": "https://fasit.dev.intern.nav.no/api/v2/nodes/e34wasl00385.devillo.no"
+            }
+        ],
+        "applications": [
+            {
+                "name": "was-testapp",
+                "id": "2252",
+                "ref": "https://fasit.dev.intern.nav.no/applicationinstances/2252"
+            }
+        ],
+        "updatedby": null,
+        "accesscontrol": {
+            "environmentclass": "u",
+            "adgroups": []
+        },
+        "clustername": "was-testappCluster",
+        "environmentclass": "u",
+        "loadbalancerurl": null
+    }
+]}
 ]
 
 const clusterRevisions = [
