@@ -1,0 +1,3 @@
+paths-ignore:
+  - src/js/store/configureStore.dev.js
+  - src/js/store/configureStore.js
