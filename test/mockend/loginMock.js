@@ -9,7 +9,7 @@ module.exports = {
                 "ROLE_USER"
             ],
             "authenticated": true,
-            "displayname": "Mock User",
+            "displayName": "Mock User",
             "groups": [
                 "Group1",
                 "Group2",

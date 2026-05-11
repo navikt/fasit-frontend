@@ -1,7 +1,6 @@
-import { takeLatest } from "redux-saga"
-import { fork, put, select } from "redux-saga/effects"
-import { browserHistory } from "react-router"
-import { fetchPage } from "../utils"
+import { put, select , takeLatest} from "redux-saga/effects"
+import history from "../history"
+import { fetchPage } from "../utils/http"
 import {
   APPLICATIONS_LIST_FAILED,
   APPLICATIONS_LIST_RECEIVED,
@@ -81,7 +80,7 @@ export function* fetchAllLists(action) {
       yield fetchNodesList(
         `${configuration.fasit_nodes}?page=${action.page}&pr_page=${action.prPage}&${filterString}`
       )
-      setFilterAsQueryParams("nodes", filterString)
+      yield* setFilterAsQueryParams("nodes", filterString)
       return
     case "resources":
       filterString = buildFilterString(filter.filters)
@@ -90,21 +89,21 @@ export function* fetchAllLists(action) {
           action.prPage
         }&${filterString}`
       )
-      setFilterAsQueryParams("resources", filterString)
+      yield* setFilterAsQueryParams("resources", filterString)
       break
     case "environments":
       filterString = buildFilterString(filter.filters)
       yield fetchEnvironmentsList(
         `${configuration.fasit_environments}?pr_page=1000&${filterString}`
       )
-      setFilterAsQueryParams("environments", filterString)
+      yield* setFilterAsQueryParams("environments", filterString)
       break
     case "applications":
       filterString = buildFilterString(filter.filters)
       yield fetchApplicationsList(
         `${configuration.fasit_applications}?pr_page=1000&${filterString}`
       )
-      setFilterAsQueryParams("applications", filterString)
+      yield* setFilterAsQueryParams("applications", filterString)
       break
     case "instances":
       filterString = buildFilterString(filter.filters)
@@ -113,16 +112,16 @@ export function* fetchAllLists(action) {
           action.prPage
         }&${filterString}`
       )
-      setFilterAsQueryParams("instances", filterString)
+      yield* setFilterAsQueryParams("instances", filterString)
       break
   }
 }
 
-function setFilterAsQueryParams(path, filterString) {
+function* setFilterAsQueryParams(path, filterString) {
   if (filterString !== "") {
-    browserHistory.push(`/${path}?${filterString}`)
+    history.replace(`/${path}?${filterString}`)
   } else {
-    browserHistory.push(`/${path}`)
+    history.replace(`/${path}`)
   }
 }
 
@@ -140,5 +139,5 @@ const buildFilterString = filters => {
   return `${filterString}`
 }
 export function* watchElementsList() {
-  yield fork(takeLatest, SUBMIT_FILTER_SEARCH, fetchAllLists)
+  yield takeLatest(SUBMIT_FILTER_SEARCH, fetchAllLists)
 }

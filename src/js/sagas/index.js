@@ -1,4 +1,4 @@
-import {call} from "redux-saga/effects";
+import {all, call} from "redux-saga/effects";
 import {watchAuthentication} from "./authentication";
 import {watchElementsList} from "./elements_list";
 import {watchNavSearchQueries} from "./nav_search";
@@ -23,7 +23,7 @@ import {watchRevisions} from "./revisions";
 
 
 export default function*() {
-    yield [
+    yield all([
         // Common
         call(watchAuthentication),
         call(watchElementsList),
@@ -50,5 +50,5 @@ export default function*() {
         // Resources
         call(watchResourceTypes),
         call(watchResourceFasit)
-    ]
+    ])
 }

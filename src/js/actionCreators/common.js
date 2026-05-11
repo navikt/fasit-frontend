@@ -15,48 +15,43 @@ import {
   UPDATE_CLUSTER_DRAFT
 } from "../actionTypes"
 
-export const submitForm = (key, form, comment, component) => {
+export function submitForm(key, form, comment, component) {
   return { type: SUBMIT_FORM, key, form, comment, component }
 }
-export const clearFormError = () => {
+export function clearFormError() {
   return { type: CLEAR_FORM_ERROR }
 }
-export const fetchRevisions = (component, key) => {
+export function fetchRevisions(component, key) {
   return { type: REVISIONS_REQUEST, component, key }
 }
-export const displayModal = (component, value, mode, existingData) => {
+export function displayModal(component, value, mode, existingData) {
   switch (component) {
     case "application":
       return { type: SHOW_NEW_APPLICATION_FORM, value, mode }
-      break
     case "cluster":
       return { type: SHOW_NEW_CLUSTER_FORM, value, mode, existingData }
-      break
     case "environment":
       return { type: SHOW_NEW_ENVIRONMENT_FORM, value, mode }
-      break
     case "node":
       return { type: SHOW_NEW_NODE_FORM, value, mode }
-      break
     case "resource":
       return { type: SHOW_NEW_RESOURCE_FORM, value, mode }
-      break
   }
 }
-export const submitNavSearch = query => {
+export function submitNavSearch(query) {
   return { type: SUBMIT_NAV_SEARCH, query }
 }
 
-export const updateClusterDraft = (field, value) => {
+export function updateClusterDraft(field, value) {
   return { type: UPDATE_CLUSTER_DRAFT, field, value }
 }
 
-export const setSearchString = query => {
+export function setSearchString(query) {
   return { type: SET_NAVSEARCH_QUERY, value: query }
 }
-export const submitSearch = (query, typeFilter) => {
+export function submitSearch(query, typeFilter) {
   return { type: SUBMIT_SEARCH, query, typeFilter }
 }
-export const toggleHelp = () => {
+export function toggleHelp() {
   return { type: SHOW_KEYBOARD_SHORTCUTS }
 }

@@ -2,73 +2,19 @@
   "name": "fasit-frontend",
   "version": "297.0.0",
   "description": "Fasit frontend",
+  "type": "commonjs",
+  "packageManager": "pnpm@11.0.8",
   "main": "server.js",
   "scripts": {
-    "start": "better-npm-run start",
-    "clean": "better-npm-run clean",
-    "prebuild": "better-npm-run prebuild",
-    "premocked": "better-npm-run prebuild",
-    "predev": "better-npm-run prebuild",
-    "dev": "better-npm-run dev",
-    "build": "better-npm-run build",
-    "mockserver": "better-npm-run mockserver",
-    "mocked": "better-npm-run mocked",
-    "test": "better-npm-run test",
-    "test:watch": "npm test -- --watch",
+    "start": "cross-env NODE_ENV=production node production_server.js",
+    "clean": "node -e \"const fs=require('fs'); fs.rmSync('dist', {recursive:true, force:true})\"",
+    "dev": "vite",
+    "mocked": "concurrently \"cross-env NODE_ENV=standalone FASIT_URL=/mockapi PORT=6969 node ./server.js\" \"vite\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "precommit": "pretty-quick --staged"
-  },
-  "betterScripts": {
-    "start": {
-      "command": "node production_server.js",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "build": {
-      "command": "webpack --verbose --devtool source-map --colors --display-error-details --progress --config webpack.config.prod.js",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "dev": {
-      "command": "node ./server.js",
-      "env": {
-        "NODE_PATH": "./src",
-        "NODE_ENV": "development",
-        "PORT": 4242
-      }
-    },
-    "mocked": {
-      "command": "node ./server.js",
-      "env": {
-        "NODE_ENV": "standalone",
-        "NODE_PATH": "./src",
-        "PORT": 6969,
-        "FASIT_URL": "http://localhost:6969/mockapi"
-      }
-    },
-    "test": {
-      "command": "mocha --compilers js:babel-register --recursive ./test/new",
-      "env": {
-        "NODE_ENV": "production",
-        "NODE_PATH": "./src"
-      }
-    },
-    "clean": {
-      "command": "rimraf dist/*"
-    },
-    "mkdir": {
-      "command": "mkdirp dist"
-    },
-    "copy-html": {
-      "command": "ncp src/index.html dist/index.html"
-    },
-    "copy-images": {
-      "command": "ncp src/images dist/images/"
-    },
-    "prebuild": {
-      "command": "better-npm-run clean && better-npm-run mkdir && better-npm-run copy-images &&  better-npm-run copy-html"
-    }
   },
   "keywords": [
     "node",
@@ -80,76 +26,45 @@
   "author": "Frode Sundby",
   "license": "ISC",
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.9.0",
-    "@fortawesome/fontawesome-free-brands": "^5.1.0-3",
-    "@fortawesome/fontawesome-free-regular": "^5.1.0-3",
-    "@fortawesome/fontawesome-svg-core": "^1.2.19",
-    "@fortawesome/free-solid-svg-icons": "^5.9.0",
-    "@fortawesome/react-fontawesome": "0.1.0-11",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^6.4.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-es2015": "^6.14.0",
-    "babel-preset-react": "^6.11.1",
-    "babel-preset-react-hmre": "^1.1.1",
-    "babel-register": "^6.14.0",
-    "babelify": "^7.3.0",
-    "better-npm-run": "0.0.11",
-    "body-parser": "^1.19.0",
-    "bootstrap": "^3.4.1",
-    "bootswatch": "^3.4.1",
-    "chai": "^3.5.0",
-    "chai-spies": "^0.7.1",
-    "cors": "^2.8.5",
-    "css-loader": "^3.6.0",
-    "enzyme": "^2.9.1",
-    "es6-promise": "^3.2.1",
-    "eventsource-polyfill": "^0.9.6",
-    "fetch": "^1.1.0",
-    "file-loader": "^0.9.0",
-    "jsdom": "^9.11.0",
-    "less": "^4.1.2",
-    "less-loader": "^5.0.0",
-    "less-plugin-clean-css": "^1.5.1",
-    "material-ui": "^0.18.7",
-    "material-ui-datatables": "^0.18.1",
-    "mkdirp": "^0.5.1",
-    "mocha": "^5.2.0",
-    "mousetrap": "^1.6.3",
-    "ncp": "^2.0.0",
-    "postcss-loader": "^0.13.0",
-    "prettier": "^1.18.2",
-    "pretty-data": "^0.40.0",
-    "pretty-quick": "^1.11.1",
-    "react": "^15.6.2",
-    "react-addons-test-utils": "^15.6.2",
-    "react-bootstrap": "^0.30.10",
-    "react-classset": "0.0.2",
-    "react-dom": "^15.6.2",
-    "react-redux": "^4.4.10",
-    "react-router": "^2.8.1",
-    "react-router-redux": "^4.0.8",
-    "react-select": "^1.3.0",
-    "react-tap-event-plugin": "^2.0.1",
-    "redux": "^3.7.2",
-    "redux-logger": "^2.10.2",
-    "redux-mock-store": "^1.5.3",
-    "redux-saga": "^0.11.1",
-    "redux-thunk": "^2.3.0",
-    "rimraf": "^2.6.3",
-    "sinon": "^4.5.0",
-    "style-loader": "^0.13.2",
-    "url-loader": "^0.5.7",
-    "webpack": "^1.15.0",
-    "webpack-dev-middleware": "^1.12.2",
-    "webpack-hot-middleware": "^2.25.1"
+    "@babel/preset-react": "^7.28.5",
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-brands-svg-icons": "^7.2.0",
+    "@fortawesome/free-regular-svg-icons": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/react-fontawesome": "^3.3.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "jsdom": "^29.1.1",
+    "less": "^4.6.4",
+    "mousetrap": "^1.6.5",
+    "prettier": "^3.8.3",
+    "pretty-quick": "^4.2.2",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-redux": "^9.2.0",
+    "react-select": "^5.10.2",
+    "redux": "^5.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^1.4.2",
+    "sinon": "^22.0.0",
+    "vite": "^8.0.11",
+    "vitest": "^4.1.5"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "isomorphic-fetch": "^3.0.0",
-    "moment": "^2.29.2",
-    "prom-client": "^10.2.2",
-    "request": "^2.88.2"
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.0.1",
+    "@mui/material": "^9.0.1",
+    "bootstrap": "^5.3.8",
+    "bootswatch": "^5.3.8",
+    "dayjs": "^1.11.20",
+    "express": "^5.2.1",
+    "history": "^5.3.0",
+    "prom-client": "^15.1.3",
+    "react-router-dom": "^7.15.0",
+    "xml-formatter": "^3.7.0"
   }
 }

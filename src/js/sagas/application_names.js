@@ -1,6 +1,5 @@
-import {takeEvery} from "redux-saga";
-import {fork, put, select} from "redux-saga/effects";
-import {fetchUrl} from "../utils";
+import {put, select, takeEvery} from "redux-saga/effects"
+import { fetchUrl } from "../utils/http"
 import {APPLICATION_NAMES_RECEIVED, APPLICATION_NAMES_REQUEST} from "../actionTypes";
 
 export function* fetchApplicationNames() {
@@ -25,5 +24,5 @@ const sortLowerCase = (first, second) => {
 }
 
 export function* watchApplicationNames() {
-    yield fork(takeEvery, APPLICATION_NAMES_REQUEST, fetchApplicationNames)
+    yield takeEvery(APPLICATION_NAMES_REQUEST, fetchApplicationNames)
 }

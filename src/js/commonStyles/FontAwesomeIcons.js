@@ -1,4 +1,6 @@
 import { library } from "@fortawesome/fontawesome-svg-core"
+import { config } from "@fortawesome/fontawesome-svg-core"
+config.autoAddCss = false
 
 import {
   faLink,
@@ -49,9 +51,9 @@ import {
   faMicrochip,
   faSignInAlt,
   faExternalLinkAlt
-} from "@fortawesome/free-solid-svg-icons/"
-import { faClock, faCalendar } from "@fortawesome/fontawesome-free-regular"
-import { faMicrosoft } from "@fortawesome/fontawesome-free-brands"
+} from "@fortawesome/free-solid-svg-icons"
+import { faClock, faCalendar } from "@fortawesome/free-regular-svg-icons"
+import { faMicrosoft } from "@fortawesome/free-brands-svg-icons"
 
 export default function buildFontAwesomeLibrary() {
   library.add(

@@ -1,6 +1,5 @@
-import {takeLatest} from 'redux-saga'
-import {put, fork, select} from 'redux-saga/effects'
-import {fetchUrl} from '../utils'
+import {put, select, takeLatest} from "redux-saga/effects"
+import { fetchUrl } from "../utils/http"
 import {
     SUBMIT_SEARCH,
     SEARCH_RESULTS_RECEIVED,
@@ -31,5 +30,5 @@ export function* submitSearch(action) {
 }
 
 export function* watchSearchQueries() {
-    yield fork(takeLatest, SUBMIT_SEARCH, submitSearch)
+    yield takeLatest(SUBMIT_SEARCH, submitSearch)
 }

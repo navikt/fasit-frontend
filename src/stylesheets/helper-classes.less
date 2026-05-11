@@ -7,3 +7,36 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+// BS3 compat: btn-xs removed in BS5
+.btn-xs {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+// BS3 compat: nav-tabs with li > a pattern (BS5 expects .nav-item > .nav-link)
+.nav-tabs > li {
+  display: inline-block;
+}
+.nav-tabs > li > a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid transparent;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.nav-tabs > li.active > a {
+  border-color: #dee2e6 #dee2e6 #fff;
+  background-color: #fff;
+}
+
+// BS3 compat: form-inline removed in BS5
+.form-inline {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
