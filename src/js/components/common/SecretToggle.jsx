@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '@mui/material/Button'
-import { validAuthorization } from "../../utils"
+import { validAuthorization } from "../../utils/auth"
 import Chip from "@mui/material/Chip"
 import Lock from "@mui/icons-material/Lock"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"

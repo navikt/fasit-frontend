@@ -24,7 +24,7 @@ import {
   SUBMIT_FORM_FAILED,
   SUBMIT_FORM_SUCCESS
 } from "../actionTypes"
-import { deleteUrl, postUrl, putUrl } from "../utils"
+import { deleteUrl, postUrl, putUrl } from "../utils/http"
 
 export function* submitForm(action) {
   const configuration = yield select(state => state.configuration)

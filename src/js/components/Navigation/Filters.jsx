@@ -7,7 +7,7 @@ import {
   setFilter,
   submitFilterString
 } from "../../actionCreators/element_lists"
-import { isEmptyObject } from "../../utils"
+import { isEmptyObject } from "../../utils/stringUtils"
 
 const LIFECYCLE_STATUSES = ["stopped", "alerted"]
 

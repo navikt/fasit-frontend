@@ -1,5 +1,5 @@
 import {call, put, select, takeEvery} from "redux-saga/effects"
-import {fetchUrl} from "../utils";
+import { fetchUrl } from "../utils/http"
 import {REVISIONS_REQUEST, REVISIONS_FETCHING, REVISIONS_RECEIVED, REVISIONS_REQUEST_FAILED} from "../actionTypes";
 
 

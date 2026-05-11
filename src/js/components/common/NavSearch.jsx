@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import Mousetrap from "mousetrap"
 import { submitNavSearch } from "../../actionCreators/common"
 import { destinationUrl } from "../Search/searchResultTypes"
-import { capitalize } from "../../utils/index"
+import { capitalize } from "../../utils/stringUtils"
 import {
   changeFilter,
   submitFilterString

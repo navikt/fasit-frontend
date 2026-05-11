@@ -1,5 +1,5 @@
 import { put, select , takeLatest} from "redux-saga/effects"
-import { fetchUrl } from "../utils";
+import { fetchUrl } from "../utils/http"
 import {
     CLEAR_SEARCH_QUERY,
     NAVSEARCH_REQUEST_FAILED,

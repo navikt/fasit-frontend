@@ -3,7 +3,7 @@ import { Table, TableBody, TableHead, TableRow, TableCell, TableSortLabel } from
 import MuiTooltip from "@mui/material/Tooltip";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import { capitalize } from "../../utils/index";
+import { capitalize } from "../../utils/stringUtils";
 import { styles, icons } from "../../commonStyles/commonInlineStyles";
 
 export default function SortableResourceTable(props) {

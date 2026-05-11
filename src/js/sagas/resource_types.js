@@ -1,5 +1,5 @@
 import {put, select, takeEvery} from "redux-saga/effects"
-import {fetchUrl} from '../utils'
+import { fetchUrl } from "../utils/http"
 import {
     RESOURCE_TYPES_REQUEST,
     RESOURCE_TYPES_RECEIVED

@@ -12,7 +12,7 @@ import {
   ToolButtons
 } from "../common/index"
 import { displayModal, submitForm } from "../../actionCreators/common"
-import { validAuthorization } from "../../utils/index"
+import { validAuthorization } from "../../utils/auth"
 import EnvironmentClusters from "./EnvironmentClusters"
 import EnvironmentNodes from "./EnvironmentNodes"
 import EnvironmentInstances from "./EnvironmentInstances"

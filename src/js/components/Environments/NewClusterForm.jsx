@@ -9,7 +9,7 @@ import {
 } from "../../actionCreators/common"
 import { fetchEnvironmentNodes } from "../../actionCreators/environment"
 import { colors, icons } from "../../commonStyles/commonInlineStyles"
-import { capitalize } from "../../utils"
+import { capitalize } from "../../utils/stringUtils"
 import {
   FormDropDown,
   FormListBox,

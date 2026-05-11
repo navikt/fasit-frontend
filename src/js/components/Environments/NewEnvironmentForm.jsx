@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from "react";
 import { Modal } from "../common/Modal"
 import {connect} from "react-redux";
 import {FormComment, FormDropDown, FormString} from "../common/Forms";
-import {capitalize} from "../../utils";
+import {capitalize} from "../../utils/stringUtils";
 import {displayModal, submitForm} from "../../actionCreators/common";
 
 function NewEnvironmentForm({ dispatch, environmentClasses, showNewEnvironmentForm, mode, name, environmentclass: environmentclassProp }) {

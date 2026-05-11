@@ -1,6 +1,6 @@
 import {select, put, call, takeEvery} from "redux-saga/effects"
 import history from "../history"
-import {fetchUrl} from '../utils'
+import { fetchUrl } from "../utils/http"
 import {
     APPLICATION_FASIT_FETCHING,
     APPLICATION_FASIT_RECEIVED,

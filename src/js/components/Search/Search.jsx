@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { APPCONFIG, CLUSTER, destinationUrl, INSTANCE, RESOURCE, SEARCH_RESULT_TYPES } from "../Search/searchResultTypes";
 import { colors, icons, styles } from "../../commonStyles/commonInlineStyles";
 import { CardInfo } from "../common/index";
-import { capitalize } from "../../utils/index";
+import { capitalize } from "../../utils/stringUtils";
 import { WebsphereManagementConsole } from "../common";
 import { getResourceTypeName, resourceTypeIcon } from "../../utils/resourceTypes";
 import { setSearchString, submitSearch } from "../../actionCreators/common";

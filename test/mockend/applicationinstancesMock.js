@@ -43,20 +43,9 @@ const applicationinstances = [
             "ref": "http://localhost:4242/mockapi/v2/environments/p/clusters/app1Cluster"
         },
         "appconfig": {
-            "ref": "http://localhost:4242/mockapi/v2/applicationinstances/1/revisions/69/appconfig"
+            "ref": "http://localhost:4242/mockapi/v2/applicationinstances/1/appconfig"
         },
         "exposedresources": [
-            {
-                "id": 1732091,
-                "revison": 1873524,
-                "alias": "app1Service",
-                "type": "baseurl",
-                "scope": {
-                    "environmentclass": "p",
-                    "environment": "p"
-                },
-                "ref": "http://localhost:4242/mockapi/v2/resources/1732091"
-            }
         ],
         "usedresources": [
             {
@@ -96,8 +85,8 @@ const applicationinstances = [
         "lifecycle": {},
         "accesscontrol": {},
         "links": {
-            "self": "http://localhost:4242/mockapi/v2/applicationinstances/1684520",
-            "revisions": "http://localhost:4242/mockapi/v2/applicationinstances/1684520/revisions"
+            "self": "http://localhost:4242/mockapi/v2/applicationinstances/1",
+            "revisions": "http://localhost:4242/mockapi/v2/applicationinstances/1/revisions"
         }
     },
     {

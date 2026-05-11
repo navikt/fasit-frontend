@@ -1,5 +1,5 @@
 import { put, select, call , takeEvery} from "redux-saga/effects"
-import { postForm, fetchUrl } from "../utils"
+import { postForm, fetchUrl } from "../utils/http"
 import {
   DISPLAY_LOGIN,
   GET_USER,

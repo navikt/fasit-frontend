@@ -1,6 +1,6 @@
 import { call, put, select , takeEvery} from "redux-saga/effects"
 import history from "../history"
-import { fetchUrl } from "../utils"
+import { fetchUrl } from "../utils/http"
 import {
   ENVIRONMENT_CLUSTER_FASIT_RECEIVED,
   CLUSTER_FASIT_REQUEST,

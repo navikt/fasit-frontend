@@ -5,7 +5,7 @@ import {
   ENVIRONMENTS_RECEIVED,
   SHOW_NEW_ENVIRONMENT_FORM
 } from "../actionTypes"
-import { sortEnvironmentsNaturally } from "../utils"
+import { sortEnvironmentsNaturally } from "../utils/stringUtils"
 
 export const initialState = {
   isFetching: false,

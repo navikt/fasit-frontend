@@ -1,5 +1,5 @@
 import {select, put, call, takeEvery} from "redux-saga/effects"
-import {fetchUrl} from "../utils";
+import { fetchUrl } from "../utils/http"
 import {
     INSTANCE_FASIT_REQUEST,
     INSTANCE_FASIT_FETCHING,

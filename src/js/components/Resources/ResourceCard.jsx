@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import {withRouter} from "../../utils/withRouter"
 import {Card, CardContent, CardHeader} from "@mui/material";
 import {styles} from "../../commonStyles/commonInlineStyles";
-import {capitalize} from "../../utils/index";
+import {capitalize} from "../../utils/stringUtils";
 
 function ResourceCard(props) {
     const resource = props.resource

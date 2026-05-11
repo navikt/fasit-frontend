@@ -1,6 +1,6 @@
 import { put, select , takeLatest} from "redux-saga/effects"
 import history from "../history"
-import { fetchPage } from "../utils"
+import { fetchPage } from "../utils/http"
 import {
   APPLICATIONS_LIST_FAILED,
   APPLICATIONS_LIST_RECEIVED,

@@ -13,7 +13,7 @@ import {
   styles,
   styleSet
 } from "../../commonStyles/commonInlineStyles"
-import { capitalize } from "../../utils"
+import { capitalize } from "../../utils/stringUtils"
 import { displayModal, submitForm } from "../../actionCreators/common"
 import { getResourceTypeName, resourceTypes } from "../../utils/resourceTypes"
 import Chip from "@mui/material/Chip"

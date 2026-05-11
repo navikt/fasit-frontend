@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
-import { validAuthorization } from "../../utils/index"
+import { validAuthorization } from "../../utils/auth"
 import { Card, CardActions, CardHeader, List, ListItem, ListItemText } from "@mui/material"
 import { fetchApplicationInstances, fetchFasitData } from "../../actionCreators/application"
 import InstanceCard from "../Instances/InstanceCard"

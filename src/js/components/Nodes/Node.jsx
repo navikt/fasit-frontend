@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import { parseQuery } from "../../utils/queryParser"
-import { validAuthorization, isEmptyObject } from "../../utils/index"
+import { validAuthorization } from "../../utils/auth"
+import { isEmptyObject } from "../../utils/stringUtils"
 import { clearNodePassword, fetchFasitData, fetchNodePassword } from "../../actionCreators/node"
 import { Card, CardActions, CardContent, CardHeader, List, ListItem, ListItemText } from "@mui/material"
 import { Link } from "react-router-dom"
@@ -19,7 +20,7 @@ import {
 import NotFound from "../NotFound"
 import { displayModal, submitForm } from "../../actionCreators/common"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
-import { capitalize } from "../../utils"
+import { capitalize } from "../../utils/stringUtils"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 function Node({ dispatch, hostname, query, node, user, config, isFetching, revisions, currentPassword, resourceModalVisible, deploymentManager, requestFailed }) {

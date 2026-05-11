@@ -10,7 +10,7 @@ import {
 } from "../../actionCreators/common"
 import { fetchEnvironmentCluster } from "../../actionCreators/environment"
 import { icons, styles } from "../../commonStyles/commonInlineStyles"
-import { validAuthorization } from "../../utils/index"
+import { validAuthorization } from "../../utils/auth"
 import {
   CurrentRevision,
   DeleteElementForm,

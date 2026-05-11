@@ -1,5 +1,5 @@
 import {put, select, takeLatest} from "redux-saga/effects"
-import {fetchUrl} from '../utils'
+import { fetchUrl } from "../utils/http"
 import {
     SUBMIT_SEARCH,
     SEARCH_RESULTS_RECEIVED,

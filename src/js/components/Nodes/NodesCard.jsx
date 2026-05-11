@@ -7,7 +7,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import Divider from "@mui/material/Divider";
 import {Card, Collapse, CardContent, CardHeader, List, ListItem, ListItemText} from "@mui/material";
 import {icons, styles} from "../../commonStyles/commonInlineStyles";
-import {capitalize} from "../../utils/index";
+import {capitalize} from "../../utils/stringUtils";
 
 function NodeCard(props) {
     const node = props.node

@@ -10,7 +10,7 @@ import NotFound from "../NotFound";
 import { Card, CardHeader, CardContent, List, ListItem, ListItemText } from "@mui/material";
 import SortableResourceTable from "../Resources/SortableResourcesTable";
 import { fetchInstance } from "../../actionCreators/instance";
-import { validAuthorization } from "../../utils/index";
+import { validAuthorization } from "../../utils/auth";
 
 function Instance({ instance, revisions, query, id, user, dispatch, requestFailed }) {
     const [tabIndex, setTabIndex] = useState(0)
