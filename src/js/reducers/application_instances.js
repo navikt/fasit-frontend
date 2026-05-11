@@ -4,7 +4,7 @@ import {
     APPLICATION_INSTANCES_REQUEST_FAILED
 } from "../actionTypes";
 
-import {sortEnvironmentsNaturally} from "../utils";
+import { sortEnvironmentsNaturally } from "../utils/stringUtils";
 
 export default (state = {
     isFetching: true,

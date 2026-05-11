@@ -1,0 +1,126 @@
+export function fetchUrl(url, noCredentials) {
+    let headers = {}
+    if (!noCredentials) headers = {
+        credentials: 'include',
+        mode: 'cors'
+    }
+    return fetch(url, headers)
+        .then(res => {
+            const contentType = res.headers.get("content-type")
+            if (res.status >= 400) {
+                const errorMessage = `${res.status}:${res.statusText}`
+                throw new Error(errorMessage)
+            }
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                return res.json()
+            }
+            return res.text()
+        })
+}
+
+export function fetchPage(url) {
+    return fetch(url)
+        .then(res => {
+            if (res.status >= 400) {
+                const errorMessage = `${res.status}:${res.statusText}`
+                throw new Error(errorMessage)
+            }
+            const headers = {}
+            for (let header of res.headers.entries()) {
+                headers[header[0]] = header[1]
+            }
+
+            return res.json().then((data) => {
+                return ({
+                    data,
+                    headers
+                })
+            })
+        })
+}
+
+export function putUrl(url, content, comment) {
+    let headers = { "Content-Type": "application/json" }
+    if (comment && comment.length > 0) {
+        headers = Object.assign({}, headers, { "X-Comment": comment })
+    }
+    return fetch(url, {
+        headers,
+        credentials: 'include',
+        method: 'PUT',
+        mode: 'cors',
+        body: JSON.stringify(content)
+    })
+        .then(res => {
+            let text = res.text()
+            if (res.status >= 400) {
+                return text.then(err => {
+                    const errorMessage = `${res.status}:${res.statusText}\n${err}`
+                    throw new Error(errorMessage)
+                })
+            }
+            return text
+        })
+}
+
+export function postUrl(url, form, comment) {
+    let headers = { "Content-Type": "application/json" }
+    if (comment && comment.length > 0) {
+        headers = Object.assign({}, headers, { "X-Comment": comment })
+    }
+    return fetch(url, {
+        headers,
+        credentials: 'include',
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify(form)
+    })
+        .then(res => {
+            let text = res.text()
+            if (res.status >= 400) {
+                return text.then(err => {
+                    const errorMessage = `${res.status}:${res.statusText}\n${err}`
+                    throw new Error(errorMessage)
+                })
+            }
+            return res
+        })
+}
+
+export function postForm(url, body) {
+    return fetch(url, {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        credentials: 'include',
+        method: 'POST',
+        body
+    })
+        .then(res => {
+            if (res.status >= 400) {
+                const errorMessage = `${res.status}:${res.statusText}`
+                throw new Error(errorMessage)
+            }
+            return res.text()
+        })
+}
+
+export function deleteUrl(url, comment) {
+    let headers = { "Content-Type": "application/json" }
+    if (comment && comment.length > 0) {
+        headers = Object.assign({}, headers, { "X-Comment": comment })
+    }
+    return fetch(url, {
+        headers,
+        credentials: 'include',
+        method: 'DELETE'
+    })
+        .then(res => {
+            let text = res.text()
+            if (res.status >= 400) {
+                return text.then(err => {
+                    const errorMessage = `${res.status}:${res.statusText}\n${err}`
+                    throw new Error(errorMessage)
+                })
+            }
+            return text
+        })
+}

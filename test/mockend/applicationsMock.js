@@ -21,9 +21,9 @@ const applications = [
             "adgroups": []
         },
         "links": {
-            "instances": "http://localhost:6969/mockapi/applicationinstances?application=app1",
-            "self": "http://localhost:6969/mockapi/applications/app1",
-            "revisions": "http://localhost:6969/mockapi/applications/app1/revisions"
+            "instances": "http://localhost:4242/mockapi/v2/applicationinstances?application=app1",
+            "self": "http://localhost:4242/mockapi/v2/applications/app1",
+            "revisions": "http://localhost:4242/mockapi/v2/applications/app1/revisions"
         }
     },
     {
@@ -40,9 +40,9 @@ const applications = [
             "adgroups": []
         },
         "links": {
-            "instances": "http://localhost:6969/mockapi/applicationinstances?application=app5",
-            "self": "http://localhost:6969/mockapi/applications/app5",
-            "revisions": "http://localhost:6969/mockapi/applications/app5/revisions"
+            "instances": "http://localhost:4242/mockapi/v2/applicationinstances?application=app5",
+            "self": "http://localhost:4242/mockapi/v2/applications/app5",
+            "revisions": "http://localhost:4242/mockapi/v2/applications/app5/revisions"
         }
     },
     {
@@ -59,9 +59,9 @@ const applications = [
             "adgroups": []
         },
         "links": {
-            "instances": "http://localhost:6969/mockapi/applicationinstances?application=app3",
-            "self": "http://localhost:6969/mockapi/applications/app3",
-            "revisions": "http://localhost:6969/mockapi/applications/app3/revisions"
+            "instances": "http://localhost:4242/mockapi/v2/applicationinstances?application=app3",
+            "self": "http://localhost:4242/mockapi/v2/applications/app3",
+            "revisions": "http://localhost:4242/mockapi/v2/applications/app3/revisions"
         }
     },
     {
@@ -78,9 +78,9 @@ const applications = [
             "adgroups": []
         },
         "links": {
-            "instances": "http://localhost:6969/mockapi/applicationinstances?application=app2",
-            "self": "http://localhost:6969/mockapi/applications/app2",
-            "revisions": "http://localhost:6969/mockapi/applications/app2/revisions"
+            "instances": "http://localhost:4242/mockapi/v2/applicationinstances?application=app2",
+            "self": "http://localhost:4242/mockapi/v2/applications/app2",
+            "revisions": "http://localhost:4242/mockapi/v2/applications/app2/revisions"
         }
     },
     {
@@ -96,9 +96,9 @@ const applications = [
             "adgroups": []
         },
         "links": {
-            "instances": "http://localhost:6969/mockapi/applicationinstances?application=app4",
-            "self": "http://localhost:6969/mockapi/applications/app4",
-            "revisions": "http://localhost:6969/mockapi/applications/app4/revisions"
+            "instances": "http://localhost:4242/mockapi/v2/applicationinstances?application=app4",
+            "self": "http://localhost:4242/mockapi/v2/applications/app4",
+            "revisions": "http://localhost:4242/mockapi/v2/applications/app4/revisions"
         }
     }
 ]

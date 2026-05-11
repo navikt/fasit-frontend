@@ -1,7 +1,8 @@
-import { takeEvery } from "redux-saga";
-import { select, put, fork, call } from "redux-saga/effects";
-import { browserHistory } from "react-router";
-import { validAuthorization, isEmptyObject, fetchUrl } from "../utils";
+import { select, put, call , takeEvery} from "redux-saga/effects"
+import history from "../history"
+import { fetchUrl } from "../utils/http";
+import { isEmptyObject } from "../utils/stringUtils";
+import { validAuthorization } from "../utils/auth";
 import {
     RESOURCE_FASIT_REQUEST,
     RESOURCE_FASIT_FETCHING,
@@ -38,7 +39,7 @@ export function* fetchFasitUrl(action) {
     try {
         yield put({ type: CLEAR_RESOURCE_SECRET })
         const value = yield call(fetchUrl, action.url)
-        yield browserHistory.push(`/resources/${value.id}`)
+        history.push(`/resources/${value.id}`)
         yield put({ type: RESOURCE_FASIT_RECEIVED, value })
         yield put({ type: RESOURCE_FASIT_SECRET_REQUEST })
     } catch (error) {
@@ -79,8 +80,8 @@ export function* fetchFasitResourceSecret() {
 }
 
 export function* watchResourceFasit() {
-    yield fork(takeEvery, RESOURCE_FASIT_URL_REQUEST, fetchFasitUrl)
-    yield fork(takeEvery, RESOURCE_FASIT_REQUEST, fetchFasit)
-    yield fork(takeEvery, RESOURCE_FASIT_SECRET_REQUEST, fetchFasitResourceSecret)
-    yield fork(takeEvery, LOGIN_SUCCESS, fetchFasitResourceSecret)
+    yield takeEvery(RESOURCE_FASIT_URL_REQUEST, fetchFasitUrl)
+    yield takeEvery(RESOURCE_FASIT_REQUEST, fetchFasit)
+    yield takeEvery(RESOURCE_FASIT_SECRET_REQUEST, fetchFasitResourceSecret)
+    yield takeEvery(LOGIN_SUCCESS, fetchFasitResourceSecret)
 }

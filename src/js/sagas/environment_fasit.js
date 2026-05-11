@@ -1,7 +1,6 @@
-import { takeEvery } from "redux-saga";
-import { call, fork, put, select } from "redux-saga/effects";
-import { browserHistory } from "react-router";
-import { fetchUrl } from "../utils";
+import { call, put, select, takeEvery } from "redux-saga/effects"
+import history from "../history"
+import { fetchUrl } from "../utils/http"
 import {
   CLUSTER_FASIT_URL_REQUEST,
   ENVIRONMENT_CLUSTER_FASIT_FETCHING,
@@ -53,7 +52,7 @@ export function* fetchFasitEnvironmentUrl(action) {
   yield put({ type: ENVIRONMENT_FASIT_FETCHING });
   try {
     const value = yield call(fetchUrl, action.url);
-    yield browserHistory.push(`/environments/${value.name}`);
+    history.push(`/environments/${value.name}`);
     yield put({ type: ENVIRONMENT_FASIT_RECEIVED, value });
   } catch (error) {
     yield put({ type: ENVIRONMENT_FASIT_REQUEST_FAILED, error });
@@ -64,7 +63,7 @@ export function* fetchFasitClusterUrl(action) {
   yield put({ type: ENVIRONMENT_CLUSTER_FASIT_FETCHING });
   try {
     const value = yield call(fetchUrl, action.url);
-    yield browserHistory.push(
+    history.push(
       `/environments/${value.environment}/clusters/${value.clustername}`
     );
     yield put({ type: ENVIRONMENT_CLUSTER_FASIT_RECEIVED, value });
@@ -147,23 +146,11 @@ export function* fetchEnvironmentInstances(action) {
 }
 
 export function* watchEnvironmentFasit() {
-  yield fork(takeEvery, CLUSTER_FASIT_URL_REQUEST, fetchFasitClusterUrl);
-  yield fork(
-    takeEvery,
-    ENVIRONMENT_FASIT_URL_REQUEST,
-    fetchFasitEnvironmentUrl
-  );
-  yield fork(takeEvery, ENVIRONMENT_FASIT_REQUEST, fetchEnvironment);
-  yield fork(
-    takeEvery,
-    ENVIRONMENT_CLUSTER_FASIT_REQUEST,
-    fetchEnvironmentCluster
-  );
-  yield fork(takeEvery, ENVIRONMENT_CLUSTERS_REQUEST, fetchEnvironmentClusters);
-  yield fork(takeEvery, ENVIRONMENT_NODES_FASIT_REQUEST, fetchEnvironmentNodes);
-  yield fork(
-    takeEvery,
-    ENVIRONMENT_INSTANCES_FASIT_REQUEST,
-    fetchEnvironmentInstances
-  );
+  yield takeEvery(CLUSTER_FASIT_URL_REQUEST, fetchFasitClusterUrl);
+  yield takeEvery(ENVIRONMENT_FASIT_URL_REQUEST, fetchFasitEnvironmentUrl);
+  yield takeEvery(ENVIRONMENT_FASIT_REQUEST, fetchEnvironment);
+  yield takeEvery(ENVIRONMENT_CLUSTER_FASIT_REQUEST, fetchEnvironmentCluster);
+  yield takeEvery(ENVIRONMENT_CLUSTERS_REQUEST, fetchEnvironmentClusters);
+  yield takeEvery(ENVIRONMENT_NODES_FASIT_REQUEST, fetchEnvironmentNodes);
+  yield takeEvery(ENVIRONMENT_INSTANCES_FASIT_REQUEST, fetchEnvironmentInstances);
 }

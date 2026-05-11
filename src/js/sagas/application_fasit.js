@@ -1,7 +1,6 @@
-import {takeEvery} from 'redux-saga'
-import {select, put, fork, call} from 'redux-saga/effects'
-import {browserHistory} from "react-router";
-import {fetchUrl} from '../utils'
+import {select, put, call, takeEvery} from "redux-saga/effects"
+import history from "../history"
+import { fetchUrl } from "../utils/http"
 import {
     APPLICATION_FASIT_FETCHING,
     APPLICATION_FASIT_RECEIVED,
@@ -36,7 +35,7 @@ export function* fetchFasitUrl(action) {
     yield put({type: APPLICATION_FASIT_FETCHING})
     try {
         const value = yield call(fetchUrl, action.url)
-        yield browserHistory.push(`/applications/${value.name}`)
+        history.push(`/applications/${value.name}`)
         yield put({type: APPLICATION_FASIT_RECEIVED, value})
     } catch (error) {
         yield put({type: APPLICATION_FASIT_REQUEST_FAILED, error})
@@ -55,7 +54,7 @@ export function* fetchApplicationInstances(action) {
 }
 
 export function* watchApplicationFasit() {
-    yield fork(takeEvery, APPLICATION_FASIT_URL_REQUEST, fetchFasitUrl)
-    yield fork(takeEvery, APPLICATION_FASIT_REQUEST, fetchFasit)
-    yield fork(takeEvery, APPLICATION_INSTANCES_REQUEST, fetchApplicationInstances)
+    yield takeEvery(APPLICATION_FASIT_URL_REQUEST, fetchFasitUrl)
+    yield takeEvery(APPLICATION_FASIT_REQUEST, fetchFasit)
+    yield takeEvery(APPLICATION_INSTANCES_REQUEST, fetchApplicationInstances)
 }

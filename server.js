@@ -1,4 +1,3 @@
-const path = require("path")
 const express = require("express")
 
 const environmentsMock = require("./test/mockend/environmentsMock")
@@ -19,26 +18,16 @@ console.log("ext", config.externalResources)
 
 const app = new express()
 
-const webpack = require("webpack")
-const webpackConfig = require("./webpack.config.dev.js")
-
-const serverOptions = {
-  quiet: false,
-  noInfo: false,
-  hot: true,
-  inline: true,
-  lazy: false,
-  publicPath: webpackConfig.output.publicPath,
-  headers: { "Access-Control-Allow-Origin": "*" },
-  stats: { colors: true },
-  historyApiFallback: true
-}
-
-const compiler = webpack(webpackConfig)
-
-app.use(require("webpack-dev-middleware")(compiler, serverOptions))
-app.use(require("webpack-hot-middleware")(compiler))
-app.use(express.static(__dirname + "/dist"))
+// Enable CORS for dev mode (Vite dev server on different port)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200)
+  }
+  next()
+})
 
 /* Useful for making mock function sleep when simulating slow apis
  * sleep(5000).then(() => {sendJson(res, resourcesMock.getResource(req.params.id))})*/
@@ -213,7 +202,7 @@ app.get("/mockapi/v2/nodes", (req, res) => {
   sendJson(res, nodesMock.getNodes())
 })
 
-app.get("/mockapi/v2/secrets/*", (req, res) => {
+app.get("/mockapi/v2/secrets/*path", (req, res) => {
   res.send("th151s4M0ck53cr3t")
 })
 
@@ -229,9 +218,7 @@ if (process.env["NODE_ENV"] === "standalone") {
   })
 }
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./dist/index.html"))
-})
+
 
 function sendJson(res, json) {
   if (!json) {
@@ -249,7 +236,7 @@ app.listen(config.server.port, config.server.host, err => {
     return
   }
   console.info(
-    "----\n==> ✅  Webpack Development server is running on %s:%s.",
+    "----\n==> ✅  Mock API server is running on %s:%s.",
     config.server.host,
     config.server.port
   )

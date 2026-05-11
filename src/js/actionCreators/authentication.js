@@ -6,11 +6,11 @@ import {
     LOGOUT
 } from '../actionTypes/'
 
-export const displayLogin = (value) => (dispatch) => dispatch({type: DISPLAY_LOGIN, value})
-export const getUser = () => (dispatch) => dispatch({type: GET_USER})
-export const logOut = () => {return {type: LOGOUT}}
-export const logIn = (auth) => (dispatch) => {
+export function displayLogin(value) { return {type: DISPLAY_LOGIN, value} }
+export function getUser() { return {type: GET_USER} }
+export function logOut() { return {type: LOGOUT} }
+export function logIn(auth) {
     const form = Object.keys(auth).map(key => key + "=" + encodeURIComponent(auth[key])).join("&")
-    dispatch({type: LOGIN, form})
+    return {type: LOGIN, form}
 }
 

@@ -1,6 +1,5 @@
-import { takeLatest } from "redux-saga";
-import { fork, put, select } from "redux-saga/effects";
-import { fetchUrl, sortSearchResults } from "../utils";
+import { put, select , takeLatest} from "redux-saga/effects"
+import { fetchUrl } from "../utils/http"
 import {
     CLEAR_SEARCH_QUERY,
     NAVSEARCH_REQUEST_FAILED,
@@ -27,6 +26,6 @@ export function* clearSearchQuery() {
 }
 
 export function* watchNavSearchQueries() {
-    yield fork(takeLatest, SUBMIT_NAV_SEARCH, submitNavSearch)
-    yield fork(takeLatest, CLEAR_SEARCH_QUERY, clearSearchQuery)
+    yield takeLatest(SUBMIT_NAV_SEARCH, submitNavSearch)
+    yield takeLatest(CLEAR_SEARCH_QUERY, clearSearchQuery)
 }

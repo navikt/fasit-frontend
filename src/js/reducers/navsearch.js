@@ -4,7 +4,7 @@ import {
     NAVSEARCH_RESULTS_RECEIVED,
     SET_NAVSEARCH_QUERY,
 } from '../actionTypes'
-import {sortSearchResults} from "../utils"
+import { sortSearchResults } from "../utils/stringUtils"
 
 export const initialState = {
     data: [],

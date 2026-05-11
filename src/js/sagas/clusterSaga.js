@@ -1,7 +1,6 @@
-import { takeEvery } from "redux-saga"
-import { call, fork, put, select } from "redux-saga/effects"
-import { browserHistory } from "react-router"
-import { fetchUrl } from "../utils"
+import { call, put, select , takeEvery} from "redux-saga/effects"
+import history from "../history"
+import { fetchUrl } from "../utils/http"
 import {
   ENVIRONMENT_CLUSTER_FASIT_RECEIVED,
   CLUSTER_FASIT_REQUEST,
@@ -13,7 +12,7 @@ export function* fetchFasitCluster(action) {
   yield put({ type: ENVIRONMENT_CLUSTER_FASIT_FETCHING })
   try {
     const value = yield call(fetchUrl, `${clusterApi}/${action.key}`)
-    yield browserHistory.push(
+    history.push(
       `/environments/${value.environment}/clusters/${value.clustername}`
     )
     yield put({ type: ENVIRONMENT_CLUSTER_FASIT_RECEIVED, value })
@@ -23,5 +22,5 @@ export function* fetchFasitCluster(action) {
 }
 
 export function* watchClusterFasit() {
-  yield fork(takeEvery, CLUSTER_FASIT_REQUEST, fetchFasitCluster)
+  yield takeEvery(CLUSTER_FASIT_REQUEST, fetchFasitCluster)
 }
