@@ -193,5 +193,22 @@ const search = [
             "ports": [],
             "version": "0.1.491"
         }
-    }
+    },
+    {
+        "id": 3486090,
+        "name": "deploymentManager",
+        "link": "http://localhost:4242/mockapi/v2/resources/3486090",
+        "type": "resource",
+        "info": "DeploymentManager | q/FSS/q1/-",
+        "lastChange": 1583224086057,
+        "lifecycle": {
+            "status": null
+        },
+        "detailedInfo": {
+            "hostname": "deploymentmanager.example.com",
+            "scope": "q/FSS/q1/-",
+            "type": "deploymentmanager",
+            "username": "deployer"
+        }
+    },
 ]
