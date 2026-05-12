@@ -52,13 +52,13 @@ function Search({ dispatch, match, location, searchResults, searchQuery }) {
         let avatar = icons[searchResult.type]
         let subtitle = capitalize(searchResult.type)
 
-        const detailedInfo = searchResult.detailedinfo
+        const detailedInfo = searchResult.detailedinfo || searchResult.detailedInfo || {}
         const hasDetailedInfo = Object.keys(detailedInfo).length > 0
 
         switch (searchResult.type) {
             case RESOURCE:
                 title = `${getResourceTypeName(detailedInfo.type)} ${searchResult.name}`
-                subtitle = `${subtitle} ${searchResult.detailedinfo.scope}`
+                subtitle = `${subtitle} ${detailedInfo.scope}`
                 avatar = resourceTypeIcon(detailedInfo.type)
                 break
             case CLUSTER:
@@ -66,7 +66,7 @@ function Search({ dispatch, match, location, searchResults, searchQuery }) {
                 break
             case INSTANCE:
             case APPCONFIG:
-                subtitle = capitalize(searchResult.detailedinfo.environment)
+                subtitle = capitalize(detailedInfo.environment || searchResult.type)
                 break
         }
 
@@ -102,9 +102,9 @@ function Search({ dispatch, match, location, searchResults, searchQuery }) {
                         </Table>
                     </CardContent>}
                     {searchResult.type === RESOURCE
-                        && searchResult.detailedinfo.type.toLowerCase() === 'deploymentmanager'
+                        && detailedInfo.type && detailedInfo.type.toLowerCase() === 'deploymentmanager'
                         && <CardActions style={{ paddingTop: '0px' }}>
-                            <WebsphereManagementConsole hostname={searchResult.detailedinfo.hostname} />)
+                            <WebsphereManagementConsole hostname={detailedInfo.hostname} />)
                     </CardActions>}
                 </Card>
             </div>)
