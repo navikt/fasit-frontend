@@ -1294,5 +1294,40 @@ const resources = [
     "lifecyclestatus": null,
     "exposedby": null,
     "usedbyapplications": []
-  }
+  },
+  {
+    "id": 3574836,
+    "revision": null,
+    "created": "2017-11-16T10:45:28.744",
+    "updated": "2017-11-16T10:45:28.744",
+    "lifecycle": {
+        "status": null
+    },
+    "links": {
+        "self": "http://localhost:4242/mockapi/v2/resources/3574836",
+        "revisions": "http://localhost:4242/mockapi/v2/resources/3574836/revisions"
+    },
+    "type": "applicationproperties",
+    "alias": "coolproperties.properties",
+    "scope": {
+        "environmentclass": "q",
+        "zone": null,
+        "environment": null,
+        "application": "myCoolAppWithLotsOfProperties"
+    },
+    "properties": {
+        "applicationProperties": "fileList=[file1.properties, file2.properties, file3.properties]"
+    },
+    "secrets": {},
+    "files": {},
+    "dodgy": false,
+    "updatedby": null,
+    "accesscontrol": {
+        "environmentclass": "q",
+        "adgroups": []
+    },
+    "lifecyclestatus": null,
+    "exposedby": null,
+    "usedbyapplications": null
+},
 ]

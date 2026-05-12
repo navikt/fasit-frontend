@@ -134,7 +134,7 @@ const search = [
             "type": "applicationproperties"
         }
     },
-        {
+    {
         "id": 1791124,
         "name": "coolproperties.properties",
         "link": "https://fasit.adeo.no/api/v2/resources/1791124",
@@ -174,6 +174,7 @@ const search = [
         "link": "http://localhost:4242/mockapi/v2/environments/t1",
         "type": "environment",
         "info": "",
+        "lastchange": 1464790636282,
         "lifecycle": {},
         "detailedinfo": {}
     },
@@ -193,5 +194,22 @@ const search = [
             "ports": [],
             "version": "0.1.491"
         }
-    }
+    },
+    {
+        "id": 3486090,
+        "name": "deploymentManager",
+        "link": "http://localhost:4242/mockapi/v2/resources/3486090",
+        "type": "resource",
+        "info": "DeploymentManager | q/FSS/q1/-",
+        "lastChange": 1583224086057,
+        "lifecycle": {
+            "status": null
+        },
+        "detailedInfo": {
+            "hostname": "deploymentmanager.example.com",
+            "scope": "q/FSS/q1/-",
+            "type": "deploymentmanager",
+            "username": "deployer"
+        }
+    },
 ]
