@@ -16,6 +16,7 @@ function SearchResultCard(props) {
 
     const detailedInfo = searchResult.detailedinfo || searchResult.detailedInfo || {}
     const hasDetailedInfo = Object.keys(detailedInfo).length > 0
+    const lastChange = searchResult.lastchange || searchResult.lastChange
 
     let title = searchResult.name
     let avatar = icons[searchResult.type]
@@ -64,7 +65,7 @@ function SearchResultCard(props) {
                         style={{ paddingTop: '10px', paddingBottom: '10px', flex: 1 }}
                         avatar={avatar}
                     />
-                    <CardInfo lastUpdated={searchResult.lastchange} lifecycle={searchResult.lifecycle} />
+                    <CardInfo lastUpdated={lastChange} lifecycle={searchResult.lifecycle} />
                 </div>
 
                 <Collapse in={expanded} timeout="auto">
