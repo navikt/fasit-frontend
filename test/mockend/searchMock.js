@@ -134,7 +134,7 @@ const search = [
             "type": "applicationproperties"
         }
     },
-        {
+    {
         "id": 1791124,
         "name": "coolproperties.properties",
         "link": "https://fasit.adeo.no/api/v2/resources/1791124",
@@ -174,6 +174,7 @@ const search = [
         "link": "http://localhost:4242/mockapi/v2/environments/t1",
         "type": "environment",
         "info": "",
+        "lastchange": 1464790636282,
         "lifecycle": {},
         "detailedinfo": {}
     },
