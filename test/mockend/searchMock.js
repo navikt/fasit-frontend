@@ -134,6 +134,22 @@ const search = [
             "type": "applicationproperties"
         }
     },
+        {
+        "id": 1791124,
+        "name": "coolproperties.properties",
+        "link": "https://fasit.adeo.no/api/v2/resources/1791124",
+        "type": "resource",
+        "info": "ApplicationProperties | p/SBS/-/-",
+        "lastChange": 1474521832237,
+        "lifecycle": {
+            "status": null
+        },
+        "detailedInfo": {
+            "scope": "p/SBS/-/-",
+            "applicationProperties": "fileList=[file1.properties, file2.properties, file3.properties]",
+            "type": "applicationproperties"
+        }
+    },
     {
         "id": 830929,
         "name": "BidragDataSource",
