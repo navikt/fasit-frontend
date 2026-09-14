@@ -1,6 +1,6 @@
 FROM node:24-alpine AS frontend-builder
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@11.25.0 --activate
 WORKDIR /home/app
 
 COPY ./package.json ./pnpm-lock.yaml ./vite.config.mjs ./index.html ./
