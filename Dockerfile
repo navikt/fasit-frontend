@@ -1,6 +1,7 @@
 ARG PNPM_VERSION=11.25.0
 
 FROM node:24-alpine AS frontend-builder
+ARG PNPM_VERSION
 
 RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 WORKDIR /home/app
@@ -10,7 +11,8 @@ COPY ./src ./src
 COPY ./public ./public
 RUN pnpm install --frozen-lockfile && pnpm run build
 
-FROM node:24-alpine AS express-server 
+FROM node:24-alpine AS express-server
+ARG PNPM_VERSION
 RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 WORKDIR /home/app
 
@@ -18,6 +20,8 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod
 
 FROM node:24-alpine 
+ARG PNPM_VERSION
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 ENV NODE_ENV=production
 EXPOSE 8080
 WORKDIR /home/app
