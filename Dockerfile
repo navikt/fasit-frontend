@@ -1,6 +1,9 @@
-FROM node:22-alpine AS frontend-builder
+ARG PNPM_VERSION=11.25.0
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+FROM node:24-alpine AS frontend-builder
+ARG PNPM_VERSION
+
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 WORKDIR /home/app
 
 COPY ./package.json ./pnpm-lock.yaml ./vite.config.mjs ./index.html ./
@@ -8,14 +11,17 @@ COPY ./src ./src
 COPY ./public ./public
 RUN pnpm install --frozen-lockfile && pnpm run build
 
-FROM node:22-alpine AS express-server 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+FROM node:24-alpine AS express-server
+ARG PNPM_VERSION
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 WORKDIR /home/app
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod
 
-FROM node:22-alpine 
+FROM node:24-alpine 
+ARG PNPM_VERSION
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 ENV NODE_ENV=production
 EXPOSE 8080
 WORKDIR /home/app
