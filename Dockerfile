@@ -1,34 +1,31 @@
-ARG PNPM_VERSION=11.25.0
+ARG NODE_DEV_IMAGE=europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:26-dev
+ARG NODE_RUNTIME_IMAGE=europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:26-slim
+ARG PNPM_VERSION=12.15.0
 
-FROM node:24-alpine AS base
-RUN apk upgrade --no-cache
+FROM ${NODE_DEV_IMAGE} AS base
+ARG PNPM_VERSION
+USER root
+RUN npm install --global pnpm@${PNPM_VERSION}
+USER 65532
+WORKDIR /app
 
 FROM base AS frontend-builder
-RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
-ARG PNPM_VERSION
-
-WORKDIR /home/app
-
-COPY ./package.json ./pnpm-lock.yaml ./vite.config.mjs ./index.html ./
-COPY ./src ./src
-COPY ./public ./public
+COPY --chown=65532:65532 package.json pnpm-lock.yaml pnpm-workspace.yaml vite.config.mjs index.html ./
+COPY --chown=65532:65532 src ./src
+COPY --chown=65532:65532 public ./public
 RUN pnpm install --frozen-lockfile && pnpm run build
 
 FROM base AS express-server
-ARG PNPM_VERSION
-RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
-WORKDIR /home/app
-
-COPY package.json pnpm-lock.yaml ./
+COPY --chown=65532:65532 package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile --prod
 
-FROM base
+FROM ${NODE_RUNTIME_IMAGE}
 ENV NODE_ENV=production
 EXPOSE 8080
-WORKDIR /home/app
+WORKDIR /app
 
-COPY --from=frontend-builder /home/app/dist ./dist
-COPY --from=express-server /home/app/node_modules ./node_modules
+COPY --from=frontend-builder /app/dist ./dist
+COPY --from=express-server /app/node_modules ./node_modules
 COPY production_server.js config.js ./
 
-CMD ["node", "production_server.js"]
+CMD ["production_server.js"]
