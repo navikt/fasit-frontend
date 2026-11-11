@@ -41,9 +41,12 @@ function TopNav({ dispatch, user, location }) {
       <div>
         <h5>Roles</h5>
         <ul className="topnav-menu">
-          {user.roles.map((role, idx) => (
-            <li key={idx}>{role.split("ROLE_")[1].toLowerCase()}</li>
-          ))}
+          {user.roles
+            .filter(role => role.startsWith("ROLE_"))
+            .map(role => role.substring(5).toLowerCase())
+            .map((role, idx) => (
+              <li key={idx}>{role}</li>
+            ))}
         </ul>
         <hr />
         <button
