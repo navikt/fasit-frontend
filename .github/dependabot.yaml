@@ -1,0 +1,37 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "main"
+    groups:
+      fortawesome-dependencies:
+        patterns:
+          - "@fortawesome/*"
+      emotion-dependencies:
+        patterns:
+          - "@emotion/*"
+      react-dependencies:
+        patterns:
+          - "react"
+          - "react-dom"
+      mui-dependencies:
+        patterns:
+          - "@mui/*"
+    labels:
+      - "npm"
+      - "dependencies"
