@@ -25,6 +25,13 @@ updates:
       emotion-dependencies:
         patterns:
           - "@emotion/*"
+      react-dependencies:
+        patterns:
+          - "react"
+          - "react-dom"
+      mui-dependencies:
+        patterns:
+          - "@mui/*"
     labels:
       - "npm"
       - "dependencies"

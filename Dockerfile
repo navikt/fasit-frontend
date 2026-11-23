@@ -1,6 +1,6 @@
 ARG NODE_DEV_IMAGE=europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:26-dev
 ARG NODE_RUNTIME_IMAGE=europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:26-slim
-ARG PNPM_VERSION=12.15.0
+ARG PNPM_VERSION=12.23.0
 
 FROM ${NODE_DEV_IMAGE} AS base
 ARG PNPM_VERSION
